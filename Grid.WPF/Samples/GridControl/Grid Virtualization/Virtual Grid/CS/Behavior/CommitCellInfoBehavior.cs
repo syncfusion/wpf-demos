@@ -1,0 +1,36 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Interactivity;
+using Syncfusion.Windows.Controls.Grid;
+using Syncfusion.Windows.Controls.Cells;
+
+namespace VirtualGrid.Behavior
+{
+    /// <summary>
+    /// Save back cell value into dictionary
+    /// </summary>
+    public class CommitCellInfoBehavior :  Behavior<GridControl>
+    {
+        protected override void OnAttached()
+        {
+            this.AssociatedObject.Model.CommittedCellInfo += Model_CommittedCellInfo;
+        }
+
+        void Model_CommittedCellInfo(object sender, GridCommitCellInfoEventArgs e)
+        {
+            Dictionary<RowColumnIndex, object> committedValues = this.AssociatedObject.DataContext as Dictionary<RowColumnIndex, object>;
+            if (committedValues != null && e.Style.HasCellValue)
+            {
+                committedValues[e.Cell] = e.Style.CellValue;
+                e.Handled = true;
+            }
+        }
+
+        protected override void OnDetaching()
+        {
+            this.AssociatedObject.Model.CommittedCellInfo -= Model_CommittedCellInfo;
+        }
+    }
+}

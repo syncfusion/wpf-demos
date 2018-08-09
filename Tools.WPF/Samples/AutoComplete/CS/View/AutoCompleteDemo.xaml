@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="SfAutoCompleteDemo.AutoCompleteDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
+             xmlns:local="clr-namespace:SfAutoCompleteDemo"
+            xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="brush">DarkRed</SolidColorBrush>
+        <Style TargetType="Syncfusion:SfTextBoxExt">
+            <Setter Property="Width" Value="380"/>
+        </Style>
+        <DataTemplate x:Key="WatermarkTemplate">
+            <TextBlock Text="{Binding}" Opacity="0.5"/>
+        </DataTemplate>
+        <DataTemplate x:Key="SearchItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Image Grid.RowSpan="2" Source="{Binding Image}" Margin="3"
+                                   Width="32" Stretch="Uniform"/>
+                <TextBlock Text="{Binding Name}" Margin="3" FontWeight="SemiBold"
+                                       Grid.Column="1" VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding Email}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Top"
+                                       Margin="3 0" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <local:ViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <sblayout:SampleLayoutControl EventLogHeight="0"  EnableThemeSwitching="False"  Header="SfAutoComplete" x:Name="Sblayout"  DefaultVisualStyle="Metro"
+                                          Description="This extended text box adds several capabilities to the framework version, such as auto-complete and watermarking.">
+            <sblayout:SampleLayoutControl.PropertyViewContent>
+                <Grid>
+                    <sblayout:GroupBoxAdv Header="Properties">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="AutoComplete Mode" Margin="10" Grid.Row="0"/>
+                            <ComboBox Grid.Row="1" Margin="10 5"  x:Name="autoCompleteMode" Loaded="autoCompleteMode_Loaded_1"
+                          SelectedItem="{Binding AutoCompleteMode, Mode=TwoWay}"/>                            
+                        </Grid>
+                    </sblayout:GroupBoxAdv>
+                </Grid>
+            </sblayout:SampleLayoutControl.PropertyViewContent>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0"/>
+                <Grid HorizontalAlignment="Left" Grid.Column="1"
+                                         VerticalAlignment="Center" >
+                <Grid.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="16"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="10" Text="Enter the control name"/>
+                <Syncfusion:SfTextBoxExt Grid.Row="1" Margin="10 5" x:Name="types"
+                             Watermark="Type here or select from dropdown"
+                            AutoCompleteMode="{Binding SelectedItem,ElementName=autoCompleteMode}" SearchItemPath="Name"
+                             SuggestionMode="StartsWith"
+                             WatermarkTemplate="{StaticResource WatermarkTemplate}"
+                             TextChanged="Types_OnTextChanged">
+                    <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Icon}"/>
+                                <TextBlock Text="{Binding Name}" Margin="3 0 0 0"
+                                       Loaded="FrameworkElement_OnLoaded1"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                </Syncfusion:SfTextBoxExt>
+
+                <TextBlock Text="Enter the field name" Margin="10" Grid.Row="2"/>
+                <Syncfusion:SfTextBoxExt Grid.Row="3" Margin="10 5" x:Name="fields" 
+                              Watermark="Type here or select from dropdown"
+                             AutoCompleteMode="{Binding SelectedItem,ElementName=autoCompleteMode}"
+                             SuggestionMode="StartsWith" SearchItemPath="Name"
+                             WatermarkTemplate="{StaticResource WatermarkTemplate}">
+                    <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding Icon}"/>
+                                <TextBlock Text="{Binding Name}" Margin="3 0 0 0"
+                                       Loaded="FrameworkElement_OnLoaded"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                </Syncfusion:SfTextBoxExt>                
+
+                <TextBlock Margin="10" Grid.Row="5" Text="Performance demo (Loaded with 1 lakh items)"/>
+                <Syncfusion:SfTextBoxExt Grid.Row="6" Margin="10 5" x:Name="performance"
+                                     Watermark="Enter 'I' to start"
+                             AutoCompleteMode="{Binding SelectedItem,ElementName=autoCompleteMode}"
+                                     WatermarkTemplate="{StaticResource WatermarkTemplate}"
+                                   >
+                </Syncfusion:SfTextBoxExt>                
+
+                <TextBlock Margin="10" Grid.Row="8" Text="Enter text seperated by comma"/>
+                <Syncfusion:SfTextBoxExt Grid.Row="9" Margin="10 5" x:Name="muliple"
+                                     Watermark="Enter 'C' to start" SearchItemPath="Name"
+                                     AutoCompleteSource="{Binding Images}"
+                                    AutoCompleteMode="{Binding SelectedItem,ElementName=autoCompleteMode}" Delimeter=","
+                                     WatermarkTemplate="{StaticResource WatermarkTemplate}"
+                                   >
+                </Syncfusion:SfTextBoxExt>
+                    </Grid>
+            </Grid>
+        </sblayout:SampleLayoutControl>
+    </Grid>
+</UserControl>

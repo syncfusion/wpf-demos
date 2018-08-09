@@ -1,0 +1,186 @@
+﻿<syncfusion:ChromelessWindow x:Class="ExcelLikeFilteringDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:ExcelLikeFilteringDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             xmlns:system="clr-namespace:System;assembly=mscorlib"
+                             Title="Advanced Filtering Demo"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:EmployeeInfoViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <ObjectDataProvider x:Key="FilterMode"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:FilterMode" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style x:Key="advancedfilterstyleforOrderID" TargetType="syncfusion:AdvancedFilterControl">
+            <Setter Property="CanGenerateUniqueItems" Value="False" />
+        </Style>
+        <Style x:Key="popupstyleforOrderID" TargetType="syncfusion:GridFilterControl">
+            <Setter Property="FilterMode" Value="Both" />
+            <Setter Property="AdvancedFilterStyle" Value="{StaticResource advancedfilterstyleforOrderID}" />
+
+        </Style>
+        <Style x:Key="popupstyleforCustomerID" TargetType="syncfusion:GridFilterControl">
+            <Setter Property="FilterMode" Value="CheckboxFilter" />
+
+        </Style>
+        <Style x:Key="popupstyleforShipPostalCode" TargetType="syncfusion:GridFilterControl">
+            <Setter Property="FilterMode" Value="{Binding SelectedValue, ElementName=FilterModeforShipPostalCode}" />
+        </Style>
+        <Style x:Key="popupstyleforShippedDate" TargetType="syncfusion:GridFilterControl">
+            <Setter Property="FilterMode" Value="{Binding SelectedValue, ElementName=FilterModeforShippedDate}" />
+        </Style>
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases Advanced Filtering in SfDataGrid."
+                                  HeaderText="Advanced Filtering"
+                                  LayoutMode="Metro">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid x:Name="syncgrid"
+                                       AllowFiltering="{Binding IsChecked,
+                                                                ElementName=ckbAllowFilters}"
+                                       AutoGenerateColumns="False"
+                                       ColumnSizer="Star"
+                                       ItemsSource="{Binding EmployeeDetails}"
+                                       LiveDataUpdateMode="AllowDataShaping"
+                                       NavigationMode="Row">
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersOrderID},
+                                                                               Mode=TwoWay,
+                                                                               Path=IsChecked}"
+                                                   AllowFiltering="{Binding Source={x:Reference ckbAllowFilterOrderID},
+                                                                            Mode=TwoWay,
+                                                                            Path=IsChecked}"
+                                                   FilterPopupStyle="{StaticResource popupstyleforOrderID}"
+                                                   ImmediateUpdateColumnFilter="{Binding Path=IsChecked,
+                                                                                         Mode=TwoWay,
+                                                   Source={x:Reference ckbImmediateUpdateColumnFilterOrderID}}"
+                                                   MappingName="OrderID"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn FilterPopupStyle="{StaticResource popupstyleforCustomerID}" MappingName="CustomerID" />
+                        <syncfusion:GridTextColumn AllowBlankFilters="{Binding  
+                                                   Source={x:Reference ckbAllowBlankFiltersShipPostalCode},                                                                                                                                              
+                                                                               Mode=TwoWay,
+                                                                               Path=IsChecked}"
+                                                   AllowFiltering="{Binding 
+                                                   Source={x:Reference ckbAllowFilterShipPostalCode},                             
+                                                                            Mode=TwoWay,
+                                                                            Path=IsChecked}"
+                                                   FilterPopupStyle="{StaticResource popupstyleforShipPostalCode}"
+                                                   HeaderText="Ship PostalCode"
+                                                   ImmediateUpdateColumnFilter="{Binding IsChecked,
+                                                                                         Mode=TwoWay,
+                                                   Source={x:Reference ckbImmediateUpdateColumnFilterShipPostalCode}}"
+                                                   MappingName="ShipPostalCode" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=OrderDate,
+                                                                            StringFormat=d}"
+                                                   HeaderText="Order Date"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn AllowBlankFilters="{Binding 
+                                                   Source={x:Reference ckbAllowBlankFiltersShippedDate},
+                                                                               Mode=TwoWay,
+                                                                               Path=IsChecked}"
+                                                   AllowFiltering="{Binding 
+                                                   Source={x:Reference ckbAllowFilterShippedDate},
+                                                                            Mode=TwoWay,
+                                                                            Path=IsChecked}"
+                                                   DisplayBinding="{Binding Path=ShippedDate,
+                                                                            StringFormat=d}"
+                                                   FilterPopupStyle="{StaticResource popupstyleforShippedDate}"
+                                                   HeaderText="Shipped Date"
+                                                   ImmediateUpdateColumnFilter="{Binding IsChecked,
+                                                                                         Mode=TwoWay,
+                                                   Source={x:Reference ckbImmediateUpdateColumnFilterShippedDate}}"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=Freight, StringFormat='{}{0:c}'}" TextAlignment="Right" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+            <syncfusion:LayoutControl.UserOptionsView>
+                <syncfusion:UserOptions HeaderText="Enable or Disable Filters for Grid">
+                    <StackPanel Margin="5">
+                        <CheckBox x:Name="ckbAllowFilters"
+                                  Content="Allow Filters"
+                                  IsChecked="True" />
+                    </StackPanel>
+                </syncfusion:UserOptions>
+                <syncfusion:UserOptions HeaderText="Column Options">
+                    <StackPanel>
+                        <StackPanel Margin="5">
+                            <TextBlock FontWeight="Bold" Text="Options for OrderID Column" />
+                            <CheckBox x:Name="ckbAllowFilterOrderID"
+                                      Margin="0 5"
+                                      Content="Allow Filter"
+                                      IsChecked="True" />
+                            <CheckBox x:Name="ckbImmediateUpdateColumnFilterOrderID"
+                                      Margin="0 5"
+                                      Content="Immediately Update Column Filter"
+                                      IsChecked="True" />
+                            <CheckBox x:Name="ckbAllowBlankFiltersOrderID"
+                                      Margin="0 5"
+                                      Content="Allow Blank Filter" />
+
+
+                        </StackPanel>
+                        <StackPanel Margin="5">
+                            <TextBlock FontWeight="Bold" Text="Options for ShipPostalCode Column" />
+                            <CheckBox x:Name="ckbAllowFilterShipPostalCode"
+                                      Margin="0 5"
+                                      Content="Allow Filter"
+                                      IsChecked="True" />
+                            <CheckBox x:Name="ckbImmediateUpdateColumnFilterShipPostalCode"
+                                      Margin="0 5"
+                                      Content="Immediately Update Column Filter" />
+                            <CheckBox x:Name="ckbAllowBlankFiltersShipPostalCode"
+                                      Margin="0 5"
+                                      Content="Allow Blank Filter"
+                                      IsChecked="True" />
+                            <TextBlock Text="Filter Mode" />
+                            <ComboBox x:Name="FilterModeforShipPostalCode"
+                                      Width="120"
+                                      Margin="0 5"
+                                      HorizontalAlignment="Left"
+                                      ItemsSource="{Binding Source={StaticResource FilterMode}}"
+                                      SelectedIndex="1" />
+                        </StackPanel>
+                        <StackPanel Margin="5">
+                            <TextBlock FontWeight="Bold" Text="Options for ShippedDate Column" />
+                            <CheckBox x:Name="ckbAllowFilterShippedDate"
+                                      Margin="0 5"
+                                      Content="Allow Filter"
+                                      IsChecked="True" />
+                            <CheckBox x:Name="ckbImmediateUpdateColumnFilterShippedDate"
+                                      Margin="0 5"
+                                      Content="Immediately Update Column Filter" />
+                            <CheckBox x:Name="ckbAllowBlankFiltersShippedDate"
+                                      Margin="0 5"
+                                      Content="Allow Blank Filter"
+                                      IsChecked="True" />
+                            <TextBlock Text="Filter Mode" />
+                            <ComboBox x:Name="FilterModeforShippedDate"
+                                      Width="120"
+                                      Margin="0 5"
+                                      HorizontalAlignment="Left"
+                                      ItemsSource="{Binding Source={StaticResource FilterMode}}"
+                                      SelectedIndex="0" />
+
+                        </StackPanel>
+                    </StackPanel>
+                </syncfusion:UserOptions>
+            </syncfusion:LayoutControl.UserOptionsView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

@@ -1,0 +1,92 @@
+﻿<layout:SampleLayoutWindow x:Class="Animation.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Animation"
+        xmlns:sunburst="clr-namespace:Syncfusion.UI.Xaml.SunburstChart;assembly=Syncfusion.SfSunburstChart.WPF"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        UserOptionsVisibility="Visible" 
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="Animation">
+    <layout:SampleLayoutWindow.DataContext>
+        <local:ViewModel />
+    </layout:SampleLayoutWindow.DataContext>
+    
+    <Grid x:Name="Grid">
+        <Grid.Resources>
+            <local:ToolTipConverter x:Key="Conv"/>
+
+            <DataTemplate x:Key="toolTipTemplate">
+                <Border Background="Black" BorderBrush="Wheat" BorderThickness="1" CornerRadius="2" Padding="7">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Category" Foreground="White" FontSize="12" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text=" : " Foreground="White" FontSize="12" Margin="0,-1,0,0" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Category}" Foreground="White" FontSize="12" Margin="3,0,0,0" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Value" Foreground="White" FontSize="12" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text=" : " Foreground="White" FontSize="12" Margin="0,-1,0,0" />
+                        <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Value,Converter={StaticResource Conv}}" Margin="3,0,0,0" Foreground="White" FontSize="12" />
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </Grid.Resources>
+        
+        <sunburst:SfSunburstChart x:Name="Sunburst" ItemsSource="{Binding Population_Data}" ValueMemberPath="Population" Palette="LightCandy"
+                                  EnableAnimation="True" AnimationType="{Binding SelectedItem,ElementName=animationTypeCombo,Mode=TwoWay}">
+            <sunburst:SfSunburstChart.Header>
+                <TextBlock Text="Population Details" FontFamily="Cambria" FontSize="20" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </sunburst:SfSunburstChart.Header>
+
+            <sunburst:SfSunburstChart.Levels>
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="Continent"/>
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="Country"/>
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="State"/>
+            </sunburst:SfSunburstChart.Levels>
+
+            <sunburst:SfSunburstChart.Behaviors>
+                <sunburst:SunburstToolTipBehavior x:Name="tooltipBehavior" ToolTipTemplate="{StaticResource toolTipTemplate}" />
+            </sunburst:SfSunburstChart.Behaviors>
+
+            <sunburst:SfSunburstChart.DataLabelInfo>
+                <sunburst:SunburstDataLabelInfo FontFamily="Cambria" />
+            </sunburst:SfSunburstChart.DataLabelInfo>
+        </sunburst:SfSunburstChart>
+    </Grid>
+    
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <ContentControl Margin="10,0,10,0">
+            <StackPanel Width="280">
+                <Grid Margin="5,10,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Animation Type" Margin="2,5,3,3" FontSize="13" />
+                    <ComboBox x:Name="animationTypeCombo" FontSize="13" HorizontalAlignment="Left" Height="35" Width="122"
+                              Grid.Column="1" ItemsSource="{Binding AnimationType}" IsEditable="False" SelectedIndex="1" />
+                </Grid>
+
+                <Grid Margin="5,10,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width=".8*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Animation Duration" Margin="2,5,3,3" FontSize="13"  />
+                    <Slider x:Name="chartAnimeDuration" FontSize="13" Minimum="500" Maximum="5000" HorizontalAlignment="Left" 
+                            Grid.Column="1" Width="122" Value="{Binding ElementName=Sunburst,Mode=TwoWay,Path=AnimationDuration}" />
+                </Grid>
+            </StackPanel>
+        </ContentControl>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+</layout:SampleLayoutWindow>

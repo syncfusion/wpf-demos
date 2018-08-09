@@ -1,0 +1,104 @@
+﻿<shared:ChromelessWindow x:Class="CustomEditorDemo.MainWindow" Icon="App.ico"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" UseNativeChrome="True"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowStartupLocation="CenterScreen"
+        xmlns:local="clr-namespace:CustomEditorDemo" xmlns:shared="http://schemas.syncfusion.com/wpf"
+        xmlns:syncfusion="clr-namespace:Syncfusion.Windows.PropertyGrid;assembly=Syncfusion.PropertyGrid.Wpf"
+        Title="Custom Editor Demo"   xmlns:str="clr-namespace:System.Windows;assembly=PresentationCore" 
+        xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF" 
+        Width="900"  Height="725" FontFamily="Calibri" FontSize="13" >
+
+    <shared:ChromelessWindow.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="/Syncfusion.Shared.WPF;component/SkinManager/MetroThemeBrushes.xaml"/>
+            <ResourceDictionary Source="/Syncfusion.Shared.WPF;component/SkinManager/MetroStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="local:BrushComboBox" BasedOn="{StaticResource MetroComboBoxStyle}">
+            </Style>
+
+            <local:ObjectToVisibilityConverter x:Key="objconverter"/>
+            <local:ElementTotypeConverter x:Key="TypeConverter"/>
+            <local:NameToStringConverter x:Key="StringConverter"/>
+            <local:ElementToImageConverter x:Key="ImageConverter"/>
+            <local:PersonToVisibilityConverter x:Key="PersonConverter"/>
+            <local:ObjectConverter x:Key="objconv"/>
+            <local:VisibilityToHeightConverter x:Key="HeightConverter"/>
+            <DataTemplate x:Key="BrushCombo">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Height="15" Width="30" Fill="{Binding}" Stroke="Black" StrokeThickness="1"/>
+
+                    <TextBlock Text="{Binding}" Margin="3 0"/>
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </shared:ChromelessWindow.Resources>
+    <sblayout:SampleLayoutControl  Header="CustomEditor Demo" x:Name="Sblayout" HideEventsLog="True" DefaultVisualStyle="Metro" EnableThemeSwitching="False" 
+                                   Description="The PropertyGrid control supports several built-in editors, to give a good look and feel for the application (similar to Expression Blend). Using CustomEditors or CategoryEditors. CustomEditor support enables you to set custom value editors for particular properties, instead of default editors.">
+        <sblayout:SampleLayoutControl.PropertyViewContent>
+            <sblayout:GroupBoxAdv Header="User Options">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="90" ></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Margin="3" Text ="Button Panel Visibility" Grid.Row="0" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="0" Grid.Column="1"  SelectedIndex="0" VerticalAlignment="Center" Margin="3" Name="button" >
+                        <str:Visibility>Visible</str:Visibility>
+                        <str:Visibility>Collapsed</str:Visibility>
+                    </ComboBox>
+
+
+                    <TextBlock Margin="3" Text ="Search Box Visibility"  Grid.Row="1" />
+                    <ComboBox Grid.Row="1" Grid.Column="1"  SelectedIndex="0" Margin="3" Name="search"  >
+                        <str:Visibility>Visible</str:Visibility>
+                        <str:Visibility>Collapsed</str:Visibility>
+                    </ComboBox>
+
+                    <TextBlock Margin="3" Text ="Description Panel Visibility"  Grid.Row="2"  Grid.Column="0"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1"  SelectedIndex="0" Margin="3" Name="description"   >
+                        <str:Visibility>Visible</str:Visibility>
+                        <str:Visibility>Collapsed</str:Visibility>
+                    </ComboBox>
+                    
+                    <TextBlock Margin="3" Text ="Selected Object"  Grid.Row="3" FontWeight="Bold"  Grid.Column="0"/>
+                    <shared:ButtonAdv HorizontalAlignment="Center" MaxHeight="500" x:Name="btn" SmallIcon="Properties.png" Grid.Row="4" Label="ButtonAdv"
+                                      Height="25" Width="100"  Margin="3" MinHeight="25" MinWidth="100"
+                                      BorderBrush="Black" Foreground="Black"></shared:ButtonAdv>
+
+
+                </Grid>
+            </sblayout:GroupBoxAdv>
+        </sblayout:SampleLayoutControl.PropertyViewContent>
+
+
+        <ScrollViewer  Grid.Row="1" VerticalScrollBarVisibility="Auto" >
+            <Border Margin="0" >
+                <Grid>
+                    <syncfusion:PropertyGrid x:Name="pgrid"
+                                                     HorizontalAlignment="Stretch"
+                                                     ButtonPanelVisibility="{Binding ElementName=button, Path=SelectedItem}"  
+                                                     VerticalAlignment="Stretch"  SearchBoxVisibility="{Binding ElementName=search, Path=SelectedItem}"
+                                                     SelectedObject="{Binding ElementName=btn}"
+                                                     DefaultPropertyPath="Content"  
+                                                     DescriptionPanelHeight="{Binding ElementName=description,Path=SelectedItem,Converter ={StaticResource HeightConverter}}"
+                                                     DescriptionPanelVisibility="{Binding ElementName=description, Path=SelectedItem}"  
+                                                     BorderThickness="0" Background="White">
+
+
+                    </syncfusion:PropertyGrid>
+                </Grid>
+            </Border>
+        </ScrollViewer>
+    </sblayout:SampleLayoutControl>
+</shared:ChromelessWindow>

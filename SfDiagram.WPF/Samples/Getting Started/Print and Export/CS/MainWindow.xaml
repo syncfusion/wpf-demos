@@ -1,0 +1,365 @@
+﻿<shared:ChromelessWindow x:Class="Printing.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:Printing="clr-namespace:Syncfusion.Windows.Shared.Printing;assembly=Syncfusion.Shared.Wpf"
+        xmlns:local="clr-namespace:Printing"
+        xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+        xmlns:localControls="clr-namespace:Syncfusion.UI.Xaml.Diagram.Controls;assembly=Syncfusion.SfDiagram.Wpf"
+        Icon="App.ico"
+        Title="Print and Export" WindowState="Maximized"
+        Template="{StaticResource ChromelessWindowTemplate}"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <DataTemplate x:Key="PrintHeaderTemplate">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <TextBlock.Text>
+                    <Binding Path="PageIndex"
+                             RelativeSource="{RelativeSource Mode=FindAncestor,
+                                                              AncestorType={x:Type Printing:PrintPageControl}}"
+                             StringFormat="Page : {0}" />
+                </TextBlock.Text>
+
+            </TextBlock>
+        </DataTemplate>
+
+        <!--ViewTemplate of Annotation-->
+        <DataTemplate x:Key="EditTemplate">
+            <TextBox TextWrapping="Wrap" Foreground="{Binding Path=Content.Foreground,Mode=TwoWay}" AcceptsReturn="True" Text="{Binding Path=Content.Text, Mode=TwoWay}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="ViewTemplate">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Foreground="{Binding Path=Content.Foreground,Mode=TwoWay}" TextWrapping="Wrap" >
+                    <Run Text="{Binding Path=Content.Text, Mode=TwoWay}"></Run>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Initialize Diagram-->
+        <syncfusion:SfDiagram Background="White" x:Name="printdiagram" Grid.Column="0" Tool="None" DefaultConnectorType="Line">
+
+            <!--PageSettings-->
+            <syncfusion:SfDiagram.PageSettings>
+                <syncfusion:PageSettings PageWidth="793.5" PageHeight="1122.5" ShowPageBreaks="True"
+                                              MultiplePage="True" PageOrientation="Portrait" PrintMargin="94.5,94.5,94.5,94.5">
+                    <syncfusion:PageSettings.Unit>
+                        <syncfusion:LengthUnit Unit="Pixels"/>
+                    </syncfusion:PageSettings.Unit>
+                </syncfusion:PageSettings>
+            </syncfusion:SfDiagram.PageSettings>
+
+            <syncfusion:SfDiagram.ExportSettings>
+                <syncfusion:ExportSettings ImageStretch="Fill" ExportMode="PageSettings"/>
+            </syncfusion:SfDiagram.ExportSettings>
+            
+            <syncfusion:SfDiagram.ScrollSettings>
+                <syncfusion:ScrollSettings ScrollLimit="Diagram"/>
+            </syncfusion:SfDiagram.ScrollSettings>
+
+            <!--Create Node and Connection for FlowChart-->
+            <syncfusion:SfDiagram.Nodes>
+                <syncfusion:DiagramCollection>
+                    <syncfusion:Node x:Name="Source" UnitWidth="100" UnitHeight="50" OffsetX="295" OffsetY="220" 
+                                         Shape="M0,0 L0,1 1,1 1,0z" ShapeStyle="{StaticResource nodeshapestyle}">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Source Document"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="dec1" UnitWidth="100" UnitHeight="75" OffsetX="295" OffsetY="345" 
+                                         Shape="M 0,20 L 30 0 L 60,20 L 30,40 Z" ShapeStyle="{StaticResource nodeshapestyle1}">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Census Record"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="dec2" UnitWidth="100" UnitHeight="75" OffsetX="295" OffsetY="470" 
+                                         Shape="M 0,20 L 30 0 L 60,20 L 30,40 Z" ShapeStyle="{StaticResource nodeshapestyle1}">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Books and Magazine" WrapText="Wrap"
+                                                 ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="n" UnitWidth="125" UnitHeight="50" OffsetX="495" OffsetY="345" 
+                                         Shape="M0,0 L0,1 1,1 1,0z" ShapeStyle="{StaticResource nodeshapestyle}">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Record Template"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="n1" UnitWidth="125" UnitHeight="50" OffsetX="495" OffsetY="470" 
+                                         Shape="M0,0 L0,1 1,1 1,0z" ShapeStyle="{StaticResource nodeshapestyle}">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Traditional Template"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="n2" UnitWidth="135" UnitHeight="50" OffsetX="295" OffsetY="570" 
+                                         Shape="M0,0 L0,1 1,1 1,0z" ShapeStyle="{StaticResource nodeshapestyle}">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Nontraditional"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+
+                    <!--Create Node and Connection for RadialTree Layout-->
+
+                    <syncfusion:Node x:Name="Radial1" UnitWidth="125" UnitHeight="50" OffsetX="1012" OffsetY="423" 
+                                         ShapeStyle="{StaticResource nodeshapestyle2}" Shape="M305.772,123.75C305.772,191.819095416645,237.434535075173,247,153.136,247C68.837464924827,247,0.5,191.819095416645,0.5,123.75C0.5,55.6809045833547,68.837464924827,0.5,153.136,0.5C237.434535075173,0.5,305.772,55.6809045833547,305.772,123.75z">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Health Fitness"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="Radial2" UnitWidth="125" UnitHeight="75" OffsetX="1012" OffsetY="298" 
+                                         ShapeStyle="{StaticResource nodeshapestyle3}" Shape="M305.772,123.75C305.772,191.819095416645,237.434535075173,247,153.136,247C68.837464924827,247,0.5,191.819095416645,0.5,123.75C0.5,55.6809045833547,68.837464924827,0.5,153.136,0.5C237.434535075173,0.5,305.772,55.6809045833547,305.772,123.75z">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Diet"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="Radial3" UnitWidth="125" UnitHeight="75" OffsetX="1152" OffsetY="373" 
+                                         ShapeStyle="{StaticResource nodeshapestyle3}" Shape="M305.772,123.75C305.772,191.819095416645,237.434535075173,247,153.136,247C68.837464924827,247,0.5,191.819095416645,0.5,123.75C0.5,55.6809045833547,68.837464924827,0.5,153.136,0.5C237.434535075173,0.5,305.772,55.6809045833547,305.772,123.75z">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Flexibility"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+
+                    <syncfusion:Node x:Name="Radial4" UnitWidth="125" UnitHeight="75" OffsetX="1145" OffsetY="548" 
+                                         ShapeStyle="{StaticResource nodeshapestyle3}" Shape="M305.772,123.75C305.772,191.819095416645,237.434535075173,247,153.136,247C68.837464924827,247,0.5,191.819095416645,0.5,123.75C0.5,55.6809045833547,68.837464924827,0.5,153.136,0.5C237.434535075173,0.5,305.772,55.6809045833547,305.772,123.75z">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Muscular Endurance"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="Radial5" UnitWidth="125" UnitHeight="75" OffsetX="865" OffsetY="380" 
+                                         ShapeStyle="{StaticResource nodeshapestyle3}" Shape="M305.772,123.75C305.772,191.819095416645,237.434535075173,247,153.136,247C68.837464924827,247,0.5,191.819095416645,0.5,123.75C0.5,55.6809045833547,68.837464924827,0.5,153.136,0.5C237.434535075173,0.5,305.772,55.6809045833547,305.772,123.75z">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Cardiovascular Strength"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                    <syncfusion:Node x:Name="Radial6" UnitWidth="125" UnitHeight="75" OffsetX="912" OffsetY="548" 
+                                         ShapeStyle="{StaticResource nodeshapestyle3}" Shape="M305.772,123.75C305.772,191.819095416645,237.434535075173,247,153.136,247C68.837464924827,247,0.5,191.819095416645,0.5,123.75C0.5,55.6809045833547,68.837464924827,0.5,153.136,0.5C237.434535075173,0.5,305.772,55.6809045833547,305.772,123.75z">
+                        <syncfusion:Node.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel Content="Muscular Strength"
+                                                                          ViewTemplate="{StaticResource nodeviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Node.Annotations>
+                    </syncfusion:Node>
+
+                 </syncfusion:DiagramCollection>
+            </syncfusion:SfDiagram.Nodes>
+
+            <syncfusion:SfDiagram.Connectors>
+                <syncfusion:DiagramCollection>
+                    <syncfusion:Connector SourceNode="{Binding ElementName=Source}" TargetNode="{Binding ElementName=dec1}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}"/>
+
+
+                    <syncfusion:Connector SourceNode="{Binding ElementName=dec1}" TargetNode="{Binding ElementName=dec2}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}">
+                        <syncfusion:Connector.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="No" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection> 
+                        </syncfusion:Connector.Annotations>
+                    </syncfusion:Connector>
+
+                    <syncfusion:Connector SourceNode="{Binding ElementName=dec1}" TargetNode="{Binding ElementName=n}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}">
+                        <syncfusion:Connector.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="Yes" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Connector.Annotations>
+                    </syncfusion:Connector>
+
+                    <syncfusion:Connector SourceNode="{Binding ElementName=dec2}" TargetNode="{Binding ElementName=n1}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}">
+                        <syncfusion:Connector.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="No" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Connector.Annotations>
+                    </syncfusion:Connector>
+
+                    <syncfusion:Connector SourceNode="{Binding ElementName=dec2}" TargetNode="{Binding ElementName=n2}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}">
+                        <syncfusion:Connector.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="Yes" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Connector.Annotations>
+                    </syncfusion:Connector>
+
+
+                    <!--RadialTree Layout-->
+                    <syncfusion:Connector SourceNode="{Binding ElementName=Radial1}" TargetNode="{Binding ElementName=Radial2}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}"/>
+
+
+                    <syncfusion:Connector SourceNode="{Binding ElementName=Radial1}" TargetNode="{Binding ElementName=Radial3}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}">
+                        <syncfusion:Connector.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="No" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Connector.Annotations>
+                    </syncfusion:Connector>
+
+                    <syncfusion:Connector SourceNode="{Binding ElementName=Radial1}" TargetNode="{Binding ElementName=Radial4}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}">
+                        <syncfusion:Connector.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="Yes" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Connector.Annotations>
+                    </syncfusion:Connector>
+
+                    <syncfusion:Connector SourceNode="{Binding ElementName=Radial1}" TargetNode="{Binding ElementName=Radial5}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}">
+                        <syncfusion:Connector.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="No" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5,0,0,0"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Connector.Annotations>
+                    </syncfusion:Connector>
+
+                    <syncfusion:Connector SourceNode="{Binding ElementName=Radial1}" TargetNode="{Binding ElementName=Radial6}" 
+                                              ConnectorGeometryStyle="{StaticResource connectorstyle}" 
+                                              TargetDecoratorStyle="{StaticResource targetstyle}">
+                        <syncfusion:Connector.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="Yes" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:Connector.Annotations>
+                    </syncfusion:Connector>
+
+                    
+                </syncfusion:DiagramCollection>
+            </syncfusion:SfDiagram.Connectors>
+        </syncfusion:SfDiagram>
+
+        <Border Margin="3,0,0,0" Background="White" Grid.Column="1">
+            <Grid >
+                <Grid Margin="10" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <!--To Represent ShowPageBreaks,FileFormat,Print,Export-->
+                    <TextBlock Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Print" FontSize="24" Margin="15,5,5,5" Foreground="#1196cd" FontFamily="Segoe UI"></TextBlock>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Name="ShowPageBreaks" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5" 
+                       Text="ShowPageBreaks" Foreground="#191919" FontSize="15" FontFamily="Segoe UI"></TextBlock>
+                    <CheckBox Grid.Row="1" Foreground="#303030" Name="ShowPageBreak" Margin="5" Unchecked="MultiplePage_OnChecked" Checked="MultiplePage_OnChecked" IsChecked="True"
+                      Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="15" FontFamily="Segoe UI"></CheckBox>
+
+
+                    <Button Grid.Row="2" Grid.Column="0" Margin="15,5,5,5" Width="110" Click="Reg_Click" FontWeight="Normal" HorizontalAlignment="Left" VerticalAlignment="Center" Content="Print" FontFamily="Segoe UI" FontSize="18" Foreground="#4d4d4d" BorderThickness="1" Background="#d3d3d3" BorderBrush="#666666"></Button>
+                    <Line  X1="10" Y1="60" Margin="0,10,0,10"
+     X2="150" Y2="60" Grid.Row="3" Grid.ColumnSpan="2" StrokeThickness="1" Visibility="Visible" StrokeDashArray="2, 2" Stroke="#686868" Stretch="Fill"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Export" FontSize="24" Margin="15,5,5,5" Foreground="#1196cd" FontFamily="Segoe UI"></TextBlock>
+
+
+                    <!--<TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="15,5,5,5"
+                       Text="MultiplePage" Foreground="#191919" FontSize="15" FontFamily="Segoe UI"></TextBlock>
+                    <CheckBox Grid.Row="5" Foreground="#303030" Margin="5" Name="MultiplePage" Checked="MultiplePage_OnChecked"-->
+                    <!--<Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="15" FontFamily="Segoe UI"></CheckBox>-->
+
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="15,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Center" Text="File Format" Foreground="#191919" FontSize="15" FontFamily="Segoe UI"></TextBlock>
+                    <ComboBox HorizontalAlignment="Left" x:Name="fileformat" SelectedIndex="0" SelectionChanged="selection_SelectionChanged" Margin="-10,5,5,5" Width="70" Foreground="#4d4d4d" VerticalAlignment="Center"
+                      Grid.Row="5" Grid.Column="1">
+                        <ComboBoxItem>PNG</ComboBoxItem>
+                        <ComboBoxItem>JPEG</ComboBoxItem>
+                        <ComboBoxItem>TIFF</ComboBoxItem>
+                        <ComboBoxItem>GIF</ComboBoxItem>
+                        <ComboBoxItem>BITMAP</ComboBoxItem>
+                        <ComboBoxItem>WDP</ComboBoxItem>
+                        <ComboBoxItem>XPS</ComboBoxItem>
+                        
+                    </ComboBox>
+                    <Button Margin="15,5,5,5" Grid.Row="6" Width="110" Grid.Column="0" Content="Export" Click="b_Click" FontWeight="Normal" HorizontalAlignment="Left" 
+                    VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="18" Foreground="#4d4d4d" BorderThickness="1" Background="#d3d3d3" BorderBrush="#666666">
+
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</shared:ChromelessWindow>

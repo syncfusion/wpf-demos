@@ -1,0 +1,156 @@
+﻿<syncfusion:ChromelessWindow x:Class="DetailsViewColumnTypes.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             xmlns:local="clr-namespace:DetailsViewColumnTypes"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title="MainWindow"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <local:OrderInfoRepository x:Key="orderInfoRepository" />
+        <local:StringToImageConverter x:Key="stringToImageConverter" />
+        <local:ViewModel x:Key="viewmodel" />
+
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid>
+
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases the different ColumnTypes in DetailsView"
+                                  HeaderText="Column Types "
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid x:Name="dataGrid"
+                                       AllowEditing="True"
+                                       AllowGrouping="True"
+                                       AutoGenerateColumns="False"
+                                       HideEmptyGridViewDefinition="True"
+                                       ItemsSource="{Binding Path=OrdersDetails}"
+                                       ShowGroupDropArea="True">
+                    <interactivity:Interaction.Behaviors>
+                        <local:SfDataGridBehavior />
+                    </interactivity:Interaction.Behaviors>
+                    <syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </syncfusion:SfDataGrid.Resources>
+                    <syncfusion:SfDataGrid.DetailsViewDefinition>
+                        <syncfusion:GridViewDefinition RelationalColumn="OrderDetails">
+                            <syncfusion:GridViewDefinition.DataGrid>
+                                <syncfusion:SfDataGrid x:Name="FirstDetailsViewGrid" AllowEditing="True">
+
+                                    <syncfusion:SfDataGrid.Columns>
+                                        <syncfusion:GridTextColumn HeaderText="Order ID" MappingName="OrderID" />
+                                        <syncfusion:GridTextColumn HeaderText="Customer ID" MappingName="CustomerID" />
+
+                                        <syncfusion:GridComboBoxColumn HeaderText="Customer Area"
+                                                                       ItemsSource="{Binding Path=ComboBoxItemsSource,
+                                                                                             Source={StaticResource orderInfoRepository},
+                                                                                             Mode=TwoWay}"
+                                                                       MappingName="CustomerCity" />
+                                        <syncfusion:GridMaskColumn HeaderText="Product ID"
+                                                                   MappingName="ProductID"
+                                                                   Mask="(99)-9999"
+                                                                   TextAlignment="Right" />
+
+                                        <syncfusion:GridHyperlinkColumn HeaderText="City Description" MappingName="HyperLinkShipAddress" />
+
+                                        <syncfusion:GridDateTimeColumn HeaderText="Order Date"
+                                                                       MappingName="OrderDate"
+                                                                       TextAlignment="Right" />
+                                        <syncfusion:GridMultiColumnDropDownList Width="175"
+                                                                                AutoGenerateColumns="False"
+                                                                                DisplayMember="SupplierName"
+                                                                                HeaderText="Supplier Name"
+                                                                                ItemsSource="{Binding Suppliers,
+                                                                                                      Source={StaticResource viewmodel}}"
+                                                                                MappingName="SupplierID"
+                                                                                TextAlignment="Left"
+                                                                                ValueMember="SupplierID">
+                                            <syncfusion:GridMultiColumnDropDownList.Columns>
+                                                <syncfusion:Columns>
+                                                    <syncfusion:GridTextColumn MappingName="SupplierID" />
+                                                    <syncfusion:GridTextColumn MappingName="SupplierName" />
+                                                    <syncfusion:GridTextColumn MappingName="SupplierCity" />
+                                                </syncfusion:Columns>
+                                            </syncfusion:GridMultiColumnDropDownList.Columns>
+                                        </syncfusion:GridMultiColumnDropDownList>
+
+                                        <syncfusion:GridTemplateColumn MappingName="Quantity" TextAlignment="Center">
+                                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock VerticalAlignment="Center"
+                                                               FontStyle="Italic"
+                                                               FontWeight="Bold"
+                                                               Text="{Binding Quantity}"
+                                                               TextAlignment="Center" />
+                                                </DataTemplate>
+                                            </syncfusion:GridTemplateColumn.CellTemplate>
+                                            <syncfusion:GridTemplateColumn.EditTemplate>
+                                                <DataTemplate>
+                                                    <TextBox VerticalAlignment="Center"
+                                                             FontStyle="Italic"
+                                                             FontWeight="Bold"
+                                                             Text="{Binding Quantity}"
+                                                             TextAlignment="Center"
+                                                             syncfusion:FocusManagerHelper.FocusedElement="True" />
+                                                </DataTemplate>
+                                            </syncfusion:GridTemplateColumn.EditTemplate>
+                                        </syncfusion:GridTemplateColumn>
+                                        <syncfusion:GridCurrencyColumn CurrencySymbol="$"
+                                                                       HeaderText="Unit Price"
+                                                                       MappingName="UnitPrice" />
+                                        <syncfusion:GridUnBoundColumn Expression="UnitPrice * Quantity"
+                                                                      HeaderText="Grand Total"
+                                                                      MappingName="QuantitiesPrice"
+                                                                      TextAlignment="Right" />
+                                        <syncfusion:GridPercentColumn MappingName="Discount" />
+                                        <syncfusion:GridTimeSpanColumn HeaderText="Delivery Time" MappingName="DeliveryDelay" />
+                                        <syncfusion:GridImageColumn HeaderText="Country"
+                                                                    MappingName="ImageLink"
+                                                                    Padding="2,2,2,2"
+                                                                    TextAlignment="Center"
+                                                                    ValueBinding="{Binding Path=ImageLink,
+                                                                                           Converter={StaticResource stringToImageConverter}}" />
+
+                                    </syncfusion:SfDataGrid.Columns>
+                                </syncfusion:SfDataGrid>
+                            </syncfusion:GridViewDefinition.DataGrid>
+                        </syncfusion:GridViewDefinition>
+                    </syncfusion:SfDataGrid.DetailsViewDefinition>
+
+
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn Width="150"
+                                                   HeaderText="Order ID"
+                                                   MappingName="OrderID" />
+                        <syncfusion:GridTextColumn Width="150"
+                                                   HeaderText="Customer ID"
+                                                   MappingName="CustomerID" />
+                        <syncfusion:GridTextColumn Width="150"
+                                                   HeaderText="Ship City"
+                                                   MappingName="ShipCity" />
+                        <syncfusion:GridTextColumn Width="150"
+                                                   HeaderText="Ship Country"
+                                                   MappingName="ShipCountry" />
+                        <syncfusion:GridDateTimeColumn Width="200"
+                                                       HeaderText="Shipping Date"
+                                                       MappingName="ShippingDate"
+                                                       TextAlignment="Right" />
+
+                        <syncfusion:GridCurrencyColumn CurrencySymbol="$"
+                                                       HeaderText="Freight"
+                                                       MappingName="Freight" />
+                        <syncfusion:GridCheckBoxColumn HeaderText="Closed" MappingName="IsClosed" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

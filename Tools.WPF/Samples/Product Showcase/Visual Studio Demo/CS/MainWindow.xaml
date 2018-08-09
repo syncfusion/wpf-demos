@@ -1,0 +1,683 @@
+﻿<Window x:Class="VS2010DockingManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:shared="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=Syncfusion.Shared.Wpf" syncfusion:SkinStorage.VisualStyle="VS2010"
+        xmlns:grid="clr-namespace:Syncfusion.Windows.Controls.Grid;assembly=Syncfusion.Grid.Wpf"
+        xmlns:propertygrid="clr-namespace:Syncfusion.Windows.PropertyGrid;assembly=Syncfusion.PropertyGrid.Wpf" xmlns:utilsOuter="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+        Title="Visual Studio Demo"  Icon="App.ico" WindowState="Maximized" xmlns:local="clr-namespace:VS2010DockingManager">     
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.Resources>            
+            <SolidColorBrush x:Key="DockPreviewShadeColor" Color="#7F5FAFFF"/>
+            <Style x:Key="AdornerStyle" TargetType="syncfusion:HostAdornerVS2005">
+                <Setter Property="Background" Value="{StaticResource DockPreviewShadeColor}"/>
+                <Setter Property="BorderBrush" Value="LightGray"/>
+                <Setter Property="BorderThickness" Value="4"/>
+            </Style>
+            <!-- Solution Explorer dock window content -->
+            <Grid x:Key="SolutionExplorerTree">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <shared:ToolBarTrayAdv Grid.Row="0" Margin="-5,-2,-2,-2" Background="#FFBCC7D8">
+                <shared:ToolBarAdv   GripperVisibility="Collapsed" HorizontalAlignment="Left" Background="Transparent" BorderBrush="Transparent">
+                    <Button Width="20" Height="20" ToolTip="Properties" >
+                        <Button.Content>
+                            <Image Source="Images/Properties.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="20" Height="20" ToolTip="View Code">
+                        <Button.Content>
+                            <Image Source="Images/ViewCode.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="20" Height="20" ToolTip="View Designer">
+                        <Button.Content>
+                            <Image Source="Images/ViewDesigner.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="20" Height="20" ToolTip="View ClassDiagram">
+                        <Button.Content>
+                            <Image Source="Images/ViewClsDgm.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Width="20" Height="20" ToolTip="Refresh">
+                        <Button.Content>
+                            <Image Source="Images/Refresh.png"/>
+                        </Button.Content>
+                    </Button>
+                </shared:ToolBarAdv>
+                </shared:ToolBarTrayAdv>
+                <syncfusion:TreeViewAdv Grid.Row="1"
+						  ShowRootLines="False"
+						  LineBrush="Black"
+						  SelectedValuePath="Header" 
+                          AnimationType="None">
+                <syncfusion:TreeViewItemAdv IsExpanded="True" Header="Solution 'DockingDemo' (3 projects)" LeftImageSource="pack://application:,,,/Images/Solution.png" >
+
+                    <syncfusion:TreeViewItemAdv Header="DockingStudioDemo" LeftImageSource="pack://application:,,,/Images/Project.png" IsExpanded="True">
+                        <syncfusion:TreeViewItemAdv Header="Properties"
+								  ExpandedImageSource="pack://application:,,,/Images/References_Expanded.png"
+								  CollapsedImageSource="pack://application:,,,/Images/Properties_Collapsed.png" IsExpanded="True">
+                            <syncfusion:TreeViewItemAdv Header="AssemblyInfo.cs" LeftImageSource="pack://application:,,,/Images/CSharp.png" />
+                            <syncfusion:TreeViewItemAdv Header="Resources.resx" LeftImageSource="pack://application:,,,/Images/Resources.png" >
+                                <syncfusion:TreeViewItemAdv Header="Resources.cs" LeftImageSource="pack://application:,,,/Images/Linked.png" />
+                            </syncfusion:TreeViewItemAdv>
+                            <syncfusion:TreeViewItemAdv Header="Settings.settings" LeftImageSource="pack://application:,,,/Images/Settings.png" >
+                                <syncfusion:TreeViewItemAdv Header="Settings.cs" LeftImageSource="pack://application:,,,/Images/Linked.png" />
+                            </syncfusion:TreeViewItemAdv>
+                        </syncfusion:TreeViewItemAdv>
+                        <syncfusion:TreeViewItemAdv Header="References" 
+								  ExpandedImageSource="pack://application:,,,/Images/References_Expanded.png"
+								  CollapsedImageSource="pack://application:,,,/Images/References_Collapsed.png" >
+                            <syncfusion:TreeViewItemAdv Header="Syncfusion.Shared.WPF" LeftImageSource="pack://application:,,,/Images/Project.png" />
+                            <syncfusion:TreeViewItemAdv Header="Syncfusion.Tools.WPF" LeftImageSource="pack://application:,,,/Images/Project.png" />
+                            <syncfusion:TreeViewItemAdv Header="PresentationCore" LeftImageSource="pack://application:,,,/Images/Reference.png" />
+                            <syncfusion:TreeViewItemAdv Header="PresentationFramework" LeftImageSource="pack://application:,,,/Images/Reference.png" />
+                            <syncfusion:TreeViewItemAdv Header="ReachFramework" LeftImageSource="pack://application:,,,/Images/Reference.png" />
+                            <syncfusion:TreeViewItemAdv Header="System" LeftImageSource="pack://application:,,,/Images/Reference.png" />
+                            <syncfusion:TreeViewItemAdv Header="System.Data" LeftImageSource="pack://application:,,,/Images/Reference.png" />
+                            <syncfusion:TreeViewItemAdv Header="System.Xml" LeftImageSource="pack://application:,,,/Images/Reference.png" />
+                        </syncfusion:TreeViewItemAdv>
+                        <syncfusion:TreeViewItemAdv Header="Images" 
+								  ExpandedImageSource="pack://application:,,,/Images/Folder_Expanded.png"
+								  CollapsedImageSource="pack://application:,,,/Images/Folder_Collapsed.png" >
+                            <syncfusion:TreeViewItemAdv Header="Solution.png" LeftImageSource="pack://application:,,,/Images/Image.png" />
+                            <syncfusion:TreeViewItemAdv Header="Prjoject.png" LeftImageSource="pack://application:,,,/Images/Image.png" />
+                            <syncfusion:TreeViewItemAdv Header="Reference.png" LeftImageSource="pack://application:,,,/Images/Image.png" />
+                        </syncfusion:TreeViewItemAdv >
+                        <syncfusion:TreeViewItemAdv  Header="App.xaml" LeftImageSource="pack://application:,,,/Images/Xaml.png" IsExpanded="True">
+                            <syncfusion:TreeViewItemAdv Header="App.xaml.cs" LeftImageSource="pack://application:,,,/Images/CSharp.png" />
+                        </syncfusion:TreeViewItemAdv>
+                        <syncfusion:TreeViewItemAdv Header="Window1.xaml" LeftImageSource="pack://application:,,,/Images/Xaml.png" IsExpanded="True">
+                            <syncfusion:TreeViewItemAdv Header="Window1.xaml.cs" LeftImageSource="pack://application:,,,/Images/CSharp.png" />
+                        </syncfusion:TreeViewItemAdv>
+                    </syncfusion:TreeViewItemAdv>
+                </syncfusion:TreeViewItemAdv>
+            </syncfusion:TreeViewAdv>
+            </Grid>
+
+            <!-- ToolBox dock window content -->
+
+            <syncfusion:GroupBar x:Key="ToolboxGroups" 
+						 VisualMode="MultipleExpansion" 
+						 HorizontalAlignment="Stretch" 
+						 VerticalAlignment="Stretch">
+                <syncfusion:GroupBarItem HeaderText="General" IsSelected="True">
+                    <TextBlock Text="There are no usable controls in this group." TextAlignment="Center"  TextWrapping="Wrap"/>
+                </syncfusion:GroupBarItem>
+                <syncfusion:GroupBarItem HeaderText="Containers" IsExpanded="True">
+                    <syncfusion:GroupView>
+                        <syncfusion:GroupViewItem Text="Pointer" ImageSource="images\pointer.png" />
+                        <syncfusion:GroupViewItem Text="Canvas" ImageSource="images\Canvas.png" />
+                        <syncfusion:GroupViewItem Text="DockPanel" ImageSource="images\DockPanel.png" />
+                        <syncfusion:GroupViewItem Text="StackPanel" ImageSource="images\StackPanel.png" />
+                        <syncfusion:GroupViewItem Text="WrapPanel" ImageSource="images\WrapPanel.png" />
+                        <syncfusion:GroupViewItem Text="Grid" ImageSource="images\Grid.png" />
+                    </syncfusion:GroupView>
+                </syncfusion:GroupBarItem>
+                <syncfusion:GroupBarItem HeaderText="Controls" IsExpanded="True">
+                    <syncfusion:GroupView>
+                        <syncfusion:GroupViewItem Text="Pointer" ImageSource="images\pointer.png" />
+                        <syncfusion:GroupViewItem Text="Border" ImageSource="images\Border.png" />
+                        <syncfusion:GroupViewItem Text="Button" ImageSource="images\Button.png" />
+                        <syncfusion:GroupViewItem Text="CheckBox" ImageSource="images\CheckBox.png" />
+                        <syncfusion:GroupViewItem Text="Combobox" ImageSource="images\Combobox.png" />
+                        <syncfusion:GroupViewItem Text="ContentControl" ImageSource="images\ContentControl.png" />
+                        <syncfusion:GroupViewItem Text="DocumentViewer" ImageSource="images\DocumentViewer.png" />
+                        <syncfusion:GroupViewItem Text="Ellipse" ImageSource="images\Ellipse.png" />
+                        <syncfusion:GroupViewItem Text="Expander" ImageSource="images\Expander.png" />
+                        <syncfusion:GroupViewItem Text="Frame" ImageSource="images\Frame.png" />
+                        <syncfusion:GroupViewItem Text="GridSplitter" ImageSource="images\GridSplitter.png" />
+                        <syncfusion:GroupViewItem Text="GroupBox" ImageSource="images\GroupBox.png" />
+                        <syncfusion:GroupViewItem Text="Label" ImageSource="images\Label.png" />
+                        <syncfusion:GroupViewItem Text="Listbox" ImageSource="images\Listbox.png" />
+                        <syncfusion:GroupViewItem Text="Listview" ImageSource="images\Listview.png" />
+                        <syncfusion:GroupViewItem Text="MediaElement" ImageSource="images\MediaElement.png" />
+                        <syncfusion:GroupViewItem Text="Menu" ImageSource="images\Menu.png" />
+                        <syncfusion:GroupViewItem Text="PasswordBox" ImageSource="images\PasswordBox.png" />
+                        <syncfusion:GroupViewItem Text="ProgressBar" ImageSource="images\ProgressBar.png" />
+                        <syncfusion:GroupViewItem Text="RadioButton" ImageSource="images\RadioButton.png" />
+                        <syncfusion:GroupViewItem Text="Rectangle" ImageSource="images\Rectangle.png" />
+                        <syncfusion:GroupViewItem Text="RichTextBox" ImageSource="images\RichTextBox.png" />
+                        <syncfusion:GroupViewItem Text="ScrollBar" ImageSource="images\ScrollBar.png" />
+                        <syncfusion:GroupViewItem Text="ScrollViewer" ImageSource="images\ScrollViewer.png" />
+                        <syncfusion:GroupViewItem Text="Separator" ImageSource="images\Separator.png" />
+                        <syncfusion:GroupViewItem Text="Slider" ImageSource="images\Slider.png" />
+                        <syncfusion:GroupViewItem Text="StatusBar" ImageSource="images\StatusBar.png" />
+                        <syncfusion:GroupViewItem Text="TabControl" ImageSource="images\TabControl.png" />
+                        <syncfusion:GroupViewItem Text="TextBox" ImageSource="images\TextBox.png" />
+                        <syncfusion:GroupViewItem Text="TextBlock" ImageSource="images\TextBlock.png" />
+                        <syncfusion:GroupViewItem Text="ToolBar" ImageSource="images\ToolBar.png" />
+                        <syncfusion:GroupViewItem Text="TreeView" ImageSource="images\TreeView.png" />
+                        <syncfusion:GroupViewItem Text="UniformGrid" ImageSource="images\UniformGrid.png" />
+                        <syncfusion:GroupViewItem Text="ViewBox" ImageSource="images\ViewBox.png" />
+                        <syncfusion:GroupViewItem Text="WindowsFormsHost" ImageSource="images\WindowsFormsHost.png" />
+                    </syncfusion:GroupView>
+                </syncfusion:GroupBarItem>
+            </syncfusion:GroupBar>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Background="#FF9CAAC1">
+            <syncfusion:MenuAdv HorizontalAlignment="Stretch">
+                <syncfusion:MenuItemAdv Header="File">
+                    <syncfusion:MenuItemAdv Header="New">
+                        <syncfusion:MenuItemAdv Header="Project"/>
+                        <syncfusion:MenuItemAdv Header="File"/>
+                        <syncfusion:MenuItemAdv Header="Team Project"/>
+                        <syncfusion:MenuItemAdv Header="Website"/>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Open">
+                        <syncfusion:MenuItemAdv Header="Project"/>
+                        <syncfusion:MenuItemAdv Header="File"/>
+                        <syncfusion:MenuItemAdv Header="Team Project"/>
+                        <syncfusion:MenuItemAdv Header="Website"/>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Add">
+                        <syncfusion:MenuItemAdv Header="New Project"/>
+                        <syncfusion:MenuItemAdv Header="New Website"/>
+                        <syncfusion:MenuItemAdv Header="Existing Project"/>
+                        <syncfusion:MenuItemAdv Header="Existing Website"/>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Close"/>
+                    <syncfusion:MenuItemAdv Header="Close Solution"/>
+                    <syncfusion:MenuItemAdv Header="Exit"/>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Edit">
+                    <syncfusion:MenuItemAdv Header="Undo">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Edit_UndoHS.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Redo">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Edit_RedoHS.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Cut">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Cut.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Copy">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Copy.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Paste">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Paste.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Delete">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Delete.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="View">
+                    <syncfusion:MenuItemAdv Header="MainWindow.xaml.cs" Tag="MainWindowxamlcs" Click="OnActivateWindow">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/ViewCode.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Window1.xaml*" Tag="Window1xaml"  Click="OnActivateWindow">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/ViewDesigner.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Class View" Tag="ClassView" Click="OnActivateWindow">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/ClassView.png"  Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Solution Explorer" Tag="SolutionExplorer" Click="OnActivateWindow">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Solution.png" Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Error List" Tag="ErrorList" Click="OnActivateWindow">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/ErrorList.png" Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="Properties Window" Tag="Properties" Click="OnActivateWindow">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Properties.png" Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Project">
+                    <syncfusion:MenuItemAdv Header="Add Class"/>
+                    <syncfusion:MenuItemAdv Header="Add ResourceDictionary"/>
+                    <syncfusion:MenuItemAdv Header="Add UserControl"/>
+                    <syncfusion:MenuItemAdv Header="Add New Item"/>
+                    <syncfusion:MenuItemAdv Header="Add Existing Item"/>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Build">
+                    <syncfusion:MenuItemAdv Header="Build Solution"/>
+                    <syncfusion:MenuItemAdv Header="Rebuild Solution"/>
+                    <syncfusion:MenuItemAdv Header="Clean Solution"/>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Debug">
+                    <syncfusion:MenuItemAdv Header="Start Debugging"/>
+                    <syncfusion:MenuItemAdv Header="Start Without Debugging"/>
+                    <syncfusion:MenuItemAdv Header="Exceptions"/>
+                    <syncfusion:MenuItemAdv Header="Step Into"/>
+                    <syncfusion:MenuItemAdv Header="Step Over"/>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Data">
+                    <syncfusion:MenuItemAdv Header="Show Data Sources"/>
+                    <syncfusion:MenuItemAdv Header="Add New DataSource"/>
+                    <syncfusion:MenuItemAdv Header="Schema View"/>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Tools">
+                    <syncfusion:MenuItemAdv Header="Attach To Process"/>
+                    <syncfusion:MenuItemAdv Header="Connect to Database"/>
+                    <syncfusion:MenuItemAdv Header="Connect To Server"/>
+                    <syncfusion:MenuItemSeparator/>
+                    <syncfusion:MenuItemAdv Header="Customize"/>
+                    <syncfusion:MenuItemAdv Header="Options"/>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Test">
+                    <syncfusion:MenuItemAdv Header="New Test"/>
+                    <syncfusion:MenuItemAdv Header="Load MetaData File"/>
+                    <syncfusion:MenuItemAdv Header="Create New Test List"/>
+                    <syncfusion:MenuItemAdv Header="Run"/>
+                    <syncfusion:MenuItemAdv Header="Debug"/>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Window">
+                    <syncfusion:MenuItemAdv Header="Split"/>
+                    <syncfusion:MenuItemAdv Header="Float"/>
+                    <syncfusion:MenuItemAdv Header="Dock"/>
+                    <syncfusion:MenuItemAdv Header="Dock as Tabbed Document"/>
+                    <syncfusion:MenuItemAdv Header="Close All Documents"/>
+                    <syncfusion:MenuItemAdv Header="Reset Window Layout"/>
+                </syncfusion:MenuItemAdv>
+                <syncfusion:MenuItemAdv Header="Help">
+                    <syncfusion:MenuItemAdv Header="View Help">
+                        <syncfusion:MenuItemAdv.Icon>
+                            <Image Source="Images/Help.png" Width="16" Height="16"/>
+                        </syncfusion:MenuItemAdv.Icon>
+                    </syncfusion:MenuItemAdv>
+                    <syncfusion:MenuItemAdv Header="MSDN Forums"/>
+                    <syncfusion:MenuItemAdv Header="Feedback"/>
+                    <syncfusion:MenuItemAdv Header="About Visual Studio"/>
+                </syncfusion:MenuItemAdv>
+                </syncfusion:MenuAdv>
+            <shared:ToolBarAdv HorizontalAlignment="Left" syncfusion:SkinStorage.VisualStyle="VS2010">                   
+                    <Button Width="20" Height="20">
+                        <Button.Content>
+                        <Image Source="Images/saveHS.png" Width="16" Height="16"/>
+                        </Button.Content>
+                    </Button>
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/SaveAllHS.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/openfolderHS.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+                <Separator/>
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/PlayHS.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+                <ComboBox Width="100" SelectedIndex="0">
+                    <ComboBoxItem>Debug</ComboBoxItem>
+                    <ComboBoxItem>Debug-XML</ComboBoxItem>
+                </ComboBox>
+                <ComboBox Width="100" SelectedIndex="0">
+                    <ComboBoxItem>Any CPU</ComboBoxItem>
+                    <ComboBoxItem>Mixed Platforms</ComboBoxItem>
+                </ComboBox>
+                <Separator/>
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/Solution.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/Properties.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/FindResults.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/Toolbox.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+            </shared:ToolBarAdv>
+            <shared:ToolBarAdv HorizontalAlignment="Left">
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/Edit_RedoHS.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+                <Button Width="20" Height="20">
+                    <Button.Content>
+                        <Image Source="Images/Edit_UndoHS.png" Width="16" Height="16"/>
+                    </Button.Content>
+                </Button>
+
+            </shared:ToolBarAdv>
+        </StackPanel>
+        <syncfusion:DockingManager Grid.Row="1" Name="dockingManager" UseNativeFloatWindow="True"  UseDocumentContainer="True" IsVS2010DraggingEnabled="True" syncfusion:DockingManager.DocumentCloseButtonType="IndividualOnMouseOver" >
+            <!-- FindResults dock window -->
+            <ContentControl Name="ErrorList" syncfusion:DockingManager.CanFloatMaximize="True"
+						   syncfusion:DockingManager.Header="Error List"
+						   syncfusion:DockingManager.SideInDockedMode="Bottom" syncfusion:DockingManager.DesiredHeightInDockedMode="200">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images/ErrorList.png"/>
+                </syncfusion:DockingManager.Icon>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <shared:ToolBarTrayAdv Grid.Row="0" Margin="-5,-2,-2,-2" Background="#FFBCC7D8">
+                        <shared:ToolBarAdv    GripperVisibility="Collapsed" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Left">
+                            <ToggleButton Height="25" ToolTip="0 Errors" Margin="2">
+                                <ToggleButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Images/Error.png" Width="16" Height="16"/>
+                                        <TextBlock Text="0 Errors" Margin="2,1,0,0"/>
+                                    </StackPanel>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                            <Separator/>
+                            <ToggleButton Height="25" ToolTip="0 Warnings" Margin="1,0,0,0">
+                                <ToggleButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Images/Warning.png"/>
+                                        <TextBlock Text="0 Warnings" Margin="2,1,0,0"/>
+                                    </StackPanel>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                            <Separator/>
+                            <ToggleButton Height="25" ToolTip="0 Messages" Margin="1,0,0,0">
+                                <ToggleButton.Content>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="Images/Message.png"/>
+                                        <TextBlock Text="0 Messages" Margin="2,1,0,0"/>
+                                    </StackPanel>
+                                </ToggleButton.Content>
+                            </ToggleButton>
+                        </shared:ToolBarAdv>
+                    </shared:ToolBarTrayAdv>
+                    <grid:GridDataControl x:Name="grid" AutoPopulateColumns="False" ColumnSizer="AutoOnLoadWithLastColumnFill"  HorizontalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding Items}">
+                    <grid:GridDataControl.StyleManager>
+                        <grid:GridDataStyleManager>
+                            <grid:GridDataStyleManager.RowAppearence>
+                                <grid:RowAppearence HighlightSelectionBackground="#FF3399FF" HighlightSelectionForeground="White" CurrentCellSelectionBackground="#FF3399FF" CurrentCellSelectionForeground="White"></grid:RowAppearence>
+                            </grid:GridDataStyleManager.RowAppearence>
+                        </grid:GridDataStyleManager>
+                    </grid:GridDataControl.StyleManager>
+                        <grid:GridDataControl.VisibleColumns>                           
+                            <grid:GridDataVisibleColumn MappingName="Number" HeaderText=""/>
+                            <grid:GridDataVisibleColumn MappingName="Description" Width="1000"/>
+                            <grid:GridDataVisibleColumn MappingName="File"/>
+                            <grid:GridDataVisibleColumn MappingName="Line"/>
+                            <grid:GridDataVisibleColumn MappingName="Column"/>
+                            <grid:GridDataVisibleColumn MappingName="Project"/>
+                        </grid:GridDataControl.VisibleColumns>
+                    </grid:GridDataControl>
+                </Grid>
+                <!--<TextBlock >Find Results 0 , Not Found.</TextBlock>-->
+            </ContentControl>
+            <!-- ErrorList dock window -->
+            <ContentControl Name="FindResults" syncfusion:DockingManager.CanFloatMaximize="True"
+						   syncfusion:DockingManager.Header="Find Results"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="ErrorList" >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images/FindResults.png"/>
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <!-- Output dock window -->
+            <ContentControl Name="Output" syncfusion:DockingManager.CanFloatMaximize="True"
+						   syncfusion:DockingManager.Header="Output"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="ErrorList" >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images/Output.png"/>
+                </syncfusion:DockingManager.Icon>
+                <ScrollViewer VerticalScrollBarVisibility ="Auto" Name ="Scroll">
+                    <TextBlock Name="Log" >  
+                    </TextBlock>
+                </ScrollViewer>
+            </ContentControl>
+            <!-- FindSymbolResults dock window -->
+            <ContentControl Name="FindSymbolResults" syncfusion:DockingManager.CanFloatMaximize="True"
+						   syncfusion:DockingManager.Header="Find Symbol Results"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="ErrorList" >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images/FindSymbolResults.png"/>
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <!-- SolutionExplorer dock window -->
+            <ContentControl Name="SolutionExplorer"  syncfusion:DockingManager.CanFloatMaximize="True"
+					  syncfusion:DockingManager.Header="Solution Explorer"
+					  syncfusion:DockingManager.SideInDockedMode="Right"
+					  syncfusion:DockingManager.DesiredWidthInDockedMode="300"
+                      Content="{StaticResource SolutionExplorerTree}"
+					  >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images/Solution.png"/>
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <!-- ClassView dock window -->
+            <ContentControl Name="ClassView" syncfusion:DockingManager.CanFloatMaximize="True"
+						   syncfusion:DockingManager.Header="Class View"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images/ClassView.png"/>
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <ContentControl Name="Properties" syncfusion:DockingManager.CanFloatMaximize="True"
+						   syncfusion:DockingManager.Header="Properties"
+						   syncfusion:DockingManager.SideInDockedMode="Bottom"
+						   syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images/Properties.png"/>
+                </syncfusion:DockingManager.Icon>
+                <Border BorderThickness="0"  BorderBrush="#FF35496A" CornerRadius="0" 
+                                Background="#FFC2CCDB" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <propertygrid:PropertyGrid HorizontalAlignment="Stretch" 
+                                 Margin="0"
+                                 VerticalAlignment="Stretch" x:Name="prop"                                
+                                 DefaultPropertyPath="Content" Grid.Row="2" EnableGrouping="True"
+                                 BorderThickness="0" Background="White" DescriptionPanelVisibility="Collapsed">
+                            <propertygrid:PropertyGrid.SelectedObject>
+                                <local:Person/>
+                            </propertygrid:PropertyGrid.SelectedObject>
+
+                        </propertygrid:PropertyGrid>
+
+                        <StackPanel Orientation="Horizontal" Background="#FFC2CCDB">
+                            <TextBlock Text="Person" Margin="3 5" FontWeight="Bold"/>
+                            <!--<TextBlock Text="" Margin="5"/>-->
+                        </StackPanel>
+                        <Border Grid.RowSpan="2" HorizontalAlignment="Right" BorderThickness="1" 
+                                    BorderBrush="Black" Margin="3" Padding="3" Background="White"
+                        Width="50" Height="50" CornerRadius="3">
+                            <Grid>
+                                <Image Source="Capture.png" />                             
+                            </Grid>
+                        </Border>
+                        <Border Grid.Row="1" VerticalAlignment="Bottom" BorderThickness="0,1,0,0" Height="1" BorderBrush="#FF35496A" />
+                        <Border Grid.Row="1" BorderThickness="0 1 1 0" Margin="0 5 0 0" BorderBrush="#FF35496A" 
+                        Width="90" HorizontalAlignment="Left" CornerRadius="3 3 0 0">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFCED4DF" Offset="1"/>
+                                    <GradientStop Color="#FFF2F3F6"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <StackPanel Orientation="Horizontal" Margin="1">
+                                <Image Source="Properties.png" Margin="2" Width="16" Height="16"/>
+                                <TextBlock Text="Properties" Margin="2" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>                            
+            </ContentControl>
+            <!-- Toolbox dock window -->
+            <ContentControl Name="Toolbox" syncfusion:DockingManager.CanFloatMaximize="True"
+					  syncfusion:DockingManager.Header="Toolbox" syncfusion:DockingManager.DesiredWidthInDockedMode="250"  
+					 Content="{StaticResource ToolboxGroups}" >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images/Toolbox.png"/>
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+           
+            <Grid syncfusion:DockingManager.Header="App.xaml.cs" syncfusion:DockingManager.State="Document">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <shared:ComboBoxAdv Grid.Column="0" SelectedIndex="0">
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/classimg.png" Width="13" Height="13"/>
+                                <TextBlock Text=" Sample.App"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                    </shared:ComboBoxAdv>
+                    <shared:ComboBoxAdv SelectedIndex="0" Grid.Column="1">
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/eventimg.png" Width="13" Height="13"/>
+                                <TextBlock Text="contentloaded()"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/propimg.png" Width="13" Height="13"/>
+                                <TextBlock Text=" InitializeComponent()"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/propimg.png" Width="13" Height="13"/>
+                                <TextBlock Text="Main()"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                    </shared:ComboBoxAdv>
+                </Grid>
+                <syncfusion:EditControl Name="appcodetxt" Foreground="Black" DocumentLanguage="CSharp" FontFamily="Consolas" Grid.Row="1" DocumentSource="AppSample.cs"/>
+            </Grid>
+
+            <syncfusion:TabSplitter Name="Window1xaml" syncfusion:DockingManager.State="Document"    syncfusion:DockingManager.Header="Window1.xaml*">
+                        <syncfusion:TabSplitterItem  Name="TabSplitterItem1">
+                            <syncfusion:TabSplitterItem.TopPanelItems>
+                                <syncfusion:SplitterPage HorizontalContentAlignment="Left" Name="SplitterPage1" Header="XAML"  >
+                            <syncfusion:EditControl Name="txt"  DocumentLanguage="XAML" FontFamily="Consolas" DocumentSource="Sample.xaml"/>                           
+                                </syncfusion:SplitterPage>
+                            </syncfusion:TabSplitterItem.TopPanelItems>
+
+                            <syncfusion:TabSplitterItem.BottomPanelItems>
+                                <syncfusion:SplitterPage Name="SplitterPage2" Header="Design" >
+                            <Image Source="TabSplitter.png" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center"/>                            
+                        </syncfusion:SplitterPage>
+                            </syncfusion:TabSplitterItem.BottomPanelItems>
+                        </syncfusion:TabSplitterItem >                        
+                    </syncfusion:TabSplitter>
+            <syncfusion:TabSplitter Name="TabSplitter2" syncfusion:DockingManager.State="Document"  Style="{StaticResource Style1}" syncfusion:DockingManager.Header="App.xaml"
+                         >              
+                <syncfusion:TabSplitterItem Name="TabSplitterItem2" Header="App.xaml" >
+                    <syncfusion:TabSplitterItem.TopPanelItems>
+                        <syncfusion:SplitterPage Name="SplitterPage3" Header="XAML" >
+                            <syncfusion:EditControl Name="txt1" DocumentLanguage="XAML" FontFamily="Consolas" DocumentSource="SampleApp.xaml"/>
+                        </syncfusion:SplitterPage>
+                    </syncfusion:TabSplitterItem.TopPanelItems>
+                    <syncfusion:TabSplitterItem.BottomPanelItems>
+                        <syncfusion:SplitterPage Name="SplitterPage4" Header="Design" >
+                            <Image Height="200" Source="TabSplitter-1.png" Stretch="None"/>
+                        </syncfusion:SplitterPage>
+                    </syncfusion:TabSplitterItem.BottomPanelItems>
+                </syncfusion:TabSplitterItem>
+            </syncfusion:TabSplitter>
+
+            <Grid syncfusion:DockingManager.State="Document" Name="MainWindowxamlcs" syncfusion:DockingManager.Header="MainWindow.xaml.cs">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <shared:ComboBoxAdv SelectedIndex="0" Grid.Column="0">
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/classimg.png" Width="13" Height="13"/>
+                                <TextBlock Text="DockingDemo.MainWindow()"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/classimg.png" Width="13" Height="13"/>
+                                <TextBlock Text="DockingDemo.Collection()"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/classimg.png" Width="13" Height="13"/>
+                                <TextBlock Text="DockingDemo.Data()"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                    </shared:ComboBoxAdv>
+                    <shared:ComboBoxAdv SelectedIndex="0" Grid.Column="1">
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/propimg.png" Width="13" Height="13"/>
+                                <TextBlock Text="MainWindow()"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                        <shared:ComboBoxItemAdv>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="Images/eventimg.png" Width="13" Height="13"/>
+                                <TextBlock Text="TabSplitter_Loaded(object sender,RoutedEventArgs e)"/>
+                            </StackPanel>
+                        </shared:ComboBoxItemAdv>
+                    </shared:ComboBoxAdv>
+                </Grid>
+                <syncfusion:EditControl Name="codetxt" Foreground="Black" DocumentLanguage="CSharp" FontFamily="Consolas" Grid.Row="1" DocumentSource="Sample.cs"/>
+            </Grid>
+        </syncfusion:DockingManager>
+        
+    </Grid>
+</Window>

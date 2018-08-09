@@ -1,0 +1,101 @@
+﻿<syncfusion:ChromelessWindow x:Class="ElectionResultDemo.MainWindow" 
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:local="clr-namespace:ElectionResultDemo" 
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                           syncfusion:SkinStorage.VisualStyle="Metro"
+                           WindowStartupLocation="CenterScreen" Icon="App.ico"
+                           ResizeMode="CanResizeWithGrip" UseNativeChrome="True">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Background="#1196CD" Padding="20,3,0,0">
+            <TextBlock Text="Election Results" Foreground="White" FontSize="20"/>
+        </Border>
+        <Grid Grid.Row="1" Margin="10">
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0.95*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0.38*"/>
+            </Grid.ColumnDefinitions>
+
+            <syncfusion:SfMap Grid.RowSpan="2"  Grid.ColumnSpan="2" x:Name="map" EnableZoom="False" EnablePan="False">
+                <syncfusion:SfMap.Layers>
+                    <syncfusion:ShapeFileLayer x:Name="shapeLayer" Background="White" EnableSelection="True"
+                                           Uri="ElectionResultDemo.ShapeFiles.usa_state.shp"
+                                           ItemsSource="{Binding ElectionResults}" MapItemsVisibility="Visible" 
+                                           ShapeIDPath="State" ShapeIDTableField="STATE_NAME"
+                                           SelectionRectStroke="#226DC6" SelectionRectStrokeThickness="4"
+                                           ShapesSelected="shapeLayer_ShapesSelected" ShapesUnSelected="shapeLayer_ShapesUnSelected">
+                        <syncfusion:ShapeFileLayer.ItemsTemplate>
+                            <DataTemplate>
+                                <TextBlock Foreground="White" Opacity="1" FontSize="12" IsHitTestVisible="False"
+                                       FontWeight="Light" FontFamily="Segoe UI" Text="{Binding DbfData[STATE_ABBR]}"/>
+                            </DataTemplate>
+                        </syncfusion:ShapeFileLayer.ItemsTemplate>
+                        <syncfusion:ShapeFileLayer.ShapeSettings>
+                            <syncfusion:ShapeSetting ShapeFill="#E5E5E5" ShapeValuePath="Electors" ShapeColorValuePath="Candidate"
+                                                 ShapeStroke="#876732" ShapeStrokeThickness="1" SelectedShapeColor="#FFCE00">
+                                <syncfusion:ShapeSetting.FillSetting>
+                                    <syncfusion:ShapeFillSetting AutoFillColors="False">
+                                        <syncfusion:ShapeFillSetting.ColorMappings>
+                                            <syncfusion:EqualsColorMapping Value="Romney" Color="#D9602B"/>
+                                            <syncfusion:EqualsColorMapping Value="Obama" Color="#E9A132"/>
+                                        </syncfusion:ShapeFillSetting.ColorMappings>
+                                    </syncfusion:ShapeFillSetting>
+                                </syncfusion:ShapeSetting.FillSetting>
+                            </syncfusion:ShapeSetting>
+                        </syncfusion:ShapeFileLayer.ShapeSettings>
+                    </syncfusion:ShapeFileLayer>
+                </syncfusion:SfMap.Layers>
+            </syncfusion:SfMap>
+
+            <StackPanel Margin="40 20 0 0"  Grid.Row="1"  Grid.Column="1"  Height="150" Width="220">
+                <StackPanel Orientation="Horizontal" Margin="3 0 0 20">
+                    <Grid  Height="20" Width="220">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" >
+                            <Rectangle Height="15" Width="15" Fill="#D9602B" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,10,0"/>
+                            <TextBlock Text="Romney" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Rectangle Height="15" Width="15" Fill="#E9A132" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock Text="Obama" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+                <Border  BorderThickness="2" BorderBrush="#D9DEDD"  x:Name="Properties_Panel"  Height="100" Width="220" Visibility="Collapsed">
+                    <StackPanel Margin="10 10,0,10"  >
+                        <StackPanel Orientation="Horizontal" Margin="3 0">
+                            <TextBlock Text="Winner" Width="95"/>
+                            <TextBlock Text=":" Width="10"/>
+                            <TextBlock x:Name="txt_Winner"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3 10">
+                            <TextBlock Text="State" Width="95"/>
+                            <TextBlock Text=":" Width="10"/>
+                            <TextBlock x:Name="txt_State"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="3 0">
+                            <TextBlock Text="Electoral Votes" Width="95"/>
+                            <TextBlock Text=":" Width="10"/>
+                            <TextBlock x:Name="txt_Electors"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</syncfusion:ChromelessWindow>

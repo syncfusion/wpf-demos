@@ -1,0 +1,81 @@
+<syncfusion:ChromelessWindow xmlns:syncfusion="http://schemas.syncfusion.com/wpf"  x:Class="TileViewConfigurationDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" UseNativeChrome="True"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Icon="App.ico"
+    xmlns:local="clr-namespace:TileViewConfigurationDemo" 
+    xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF" 
+    Title="Getting Started"  WindowStartupLocation="CenterScreen" Width="1060" Height="730">
+    <syncfusion:ChromelessWindow.DataContext>   
+        <local:ViewModel/>      
+    </syncfusion:ChromelessWindow.DataContext>   
+    <syncfusion:ChromelessWindow.Resources>
+        <local:StyleConverter x:Key="StyleConverter"/>
+        <local:ImageConverter x:Key="imageconv"/>
+        <DataTemplate x:Key="bookTemplate">
+            <TextBlock Text="{Binding BookName}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="maximizedContentTemplate">
+            <Grid>
+                <Image Source="{Binding Path=BookID, Converter={StaticResource imageconv}}" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="NormalTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Path=BookID, Converter={StaticResource imageconv}}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5"/>
+                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" TextTrimming="WordEllipsis" Margin="5" FontSize="11" Grid.Column="1"/>
+            </Grid>
+        </DataTemplate>
+        <Style TargetType="syncfusion:TileViewItem" x:Key="tileViewItemStyle">
+            <!--<Setter Property="Margin" Value="5"/>-->
+            <Setter Property="CloseButtonVisibility" Value="{Binding CloseButtonVisibility}"/>
+            <Setter Property="CloseMode" Value="{Binding CloseMode}"></Setter>
+            <Setter Property="HeaderVisibility" Value="{Binding HeaderVisibility}"/>
+            <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+            <Setter Property="MinMaxButtonVisibility" Value="{Binding MinMaxButtonVisibility}"/>
+        </Style>
+
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid>
+        <sblayout:SampleLayoutControl  x:Name="tileViewControl" Header="TileView Control" EventLogs="{Binding EventLog}" Description="The Getting Started sample shows how to configure the basic properties available in TileView.">
+            <syncfusion:TileViewControl  x:Name="TileView"                                 
+                    ItemsSource="{Binding BookModelItems}"
+                    AllowItemRepositioning="{Binding AllowItemRepositioning}"                                           
+                    ClickHeaderToMaximize="{Binding ClickHeaderToMaximize}"
+                    RowCount="{Binding RowCount}"
+                    ColumnCount="{Binding ColumnCount}" EnableAnimation="{Binding EnableTileAnimation}"
+                    MinimizedItemsPercentage="55" AnimationDuration="{Binding AnimationDuration}"
+                    SelectedIndex="0"
+                    IsMinMaxButtonOnMouseOverOnly="{Binding IsMinMaxButtonOnMouseOverOnly}"
+                    MinimizedItemsOrientation="{Binding MinimizedItemsOrientation}"              
+                    SplitterColor="{Binding SplitterColor, Mode=TwoWay}"               
+                    ItemTemplate="{StaticResource NormalTemplate}"
+                    MaximizedItemTemplate="{StaticResource maximizedContentTemplate}"
+                    MinimizedItemTemplate="{StaticResource NormalTemplate}"
+                    HeaderTemplate="{StaticResource bookTemplate}"
+                    SplitterThickness="{Binding SplitterThickness}"
+                    SplitterVisibility="{Binding SplitterVisibility}" 
+                    ItemContainerStyle="{Binding ElementName=tileViewControl, Path=CurrentVisualStyle, Converter={StaticResource StyleConverter}}"
+                    syncfusion:TileViewControlSelectionChangedPropertyChangedCommand.Command="{Binding SelectionChanged}"
+                    syncfusion:TileViewControlSelectionChangedPropertyChangedCommand.CommandParameter="{Binding Path=SelectedItem.BookName,RelativeSource={RelativeSource Self}}">
+            </syncfusion:TileViewControl>
+            <sblayout:SampleLayoutControl.PropertyViewContent>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <sblayout:GroupBoxAdv Header="User Options" x:Name="options">
+                        <local:PropertyView Margin="5" Tag="{Binding ElementName=TileView, Path=SelectedItem}"/>
+                    </sblayout:GroupBoxAdv>
+                    <!--<sblayout:GroupBoxAdv Grid.Row="1" Header="Events">
+                        <local:EventsView Margin="5" x:Name="events"/>
+                    </sblayout:GroupBoxAdv>-->
+                </Grid>
+            </sblayout:SampleLayoutControl.PropertyViewContent>
+
+        </sblayout:SampleLayoutControl>
+    </Grid>      
+</syncfusion:ChromelessWindow>
