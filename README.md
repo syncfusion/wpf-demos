@@ -1,6 +1,6 @@
 # Syncfusion WPF samples
 
-This repository contains the demos of [Syncfusion WPF UI controls](https://www.syncfusion.com/products/wpf). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing out [click once samples](http://silverlight.syncfusion.com/samples/WPF/Samples.html), in which you can browse the demo for all the controls.
+This repository contains the demos of [Syncfusion WPF UI controls](https://www.syncfusion.com/products/wpf?utm_source=github&utm_medium=listing). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing out [click once samples](http://silverlight.syncfusion.com/samples/WPF/Samples.html?utm_source=github&utm_medium=listing), in which you can browse the demo for all the controls.
 
 This section guides you to use the Syncfusion WPF samples in your applications.
 
@@ -17,7 +17,7 @@ The samples requires Visual Studio 2010 or higher to build, test and deploy.
 
 ## <a name="documentation"></a>Documentation ##
 
-All controls documentation for the Syncfusion WPF controls can be found on [Syncfusion Help](https://help.syncfusion.com/wpf/welcome-to-syncfusion-essential-wpf). All API documentation can be found at the [API Reference](https://help.syncfusion.com/cr/wpf).
+All controls documentation for the Syncfusion WPF controls can be found on [Syncfusion Help](https://help.syncfusion.com/wpf/welcome-to-syncfusion-essential-wpf?utm_source=github&utm_medium=listing). All API documentation can be found at the [API Reference](https://help.syncfusion.com/cr/wpf?utm_source=github&utm_medium=listing).
 
 ## <a name="license"></a>License ##
 
@@ -33,7 +33,7 @@ The easiest way to use these samples without using Git is to download the zip fi
    * Before you unzip the archive, right-click it, select **Properties**, and then select **Unblock**.
    * Be sure to unzip the entire archive, and not just individual samples. The samples all depend on the SharedContent folder in the archive.  
 
-**To use the Syncfusion WPF samples, Syncfusion license key should be registered in SyncfusionLicense.txt file. Refer [this](https://www.syncfusion.com/kb/9002) link for more information.**
+**To use the Syncfusion WPF samples, Syncfusion license key should be registered in SyncfusionLicense.txt file. Refer [this](https://www.syncfusion.com/kb/9002?utm_source=github&utm_medium=listing) link for more information.**
 
 
 
@@ -434,7 +434,7 @@ The easiest way to use these samples without using Git is to download the zip fi
 
 ## <a name="support-and-feedback"></a>Support and Feedback ##
 
-* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident) or post the queries through the [community forums](https://www.syncfusion.com/forums).
+* For any other queries, reach our [Syncfusion support team](https://www.syncfusion.com/support/directtrac/incidents/newincident?utm_source=github&utm_medium=listing) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing).
 
-* To renew the subscription, click [here](https://www.syncfusion.com/sales/products) or contact our sales team at <salessupport@syncfusion.com>.
+* To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing) or contact our sales team at <salessupport@syncfusion.com>.
   
