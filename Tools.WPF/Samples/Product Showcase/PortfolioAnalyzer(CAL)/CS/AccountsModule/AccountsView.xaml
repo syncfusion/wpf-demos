@@ -1,0 +1,100 @@
+﻿<ContentControl x:Class="PortfolioAnalyzer.AccountsModule.AccountsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Commands="clr-namespace:Microsoft.Practices.Composite.Presentation.Commands;assembly=Microsoft.Practices.Composite.Presentation"
+    xmlns:local="clr-namespace:PortfolioAnalyzer.Infrastructure;assembly=PortfolioAnalyzer.Infrastructure"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:cal="http://www.codeplex.com/CompositeWPF"
+    Name="Accounts" FontFamily="Verdana"
+    syncfusion:DockingManager.Header="Accounts Module"
+    syncfusion:DockingManager.State="Dock"
+    syncfusion:DockingManager.DesiredWidthInDockedMode="180"
+    syncfusion:DockingManager.SideInDockedMode="Left">
+    <ContentControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PortfolioAnalyzer.Infrastructure;component/Brushes.xaml"/>
+                <ResourceDictionary Source="/PortfolioAnalyzer.Infrastructure;component/CustomTemplates.xaml" />
+                <!--<ResourceDictionary Source="/Syncfusion.Shared.WPF;component/SkinManager/SkinManager.xaml"/>-->
+            </ResourceDictionary.MergedDictionaries>
+            
+            <local:ImageConverter x:Key="imageConverter" />
+            <!--Template for the ListBoxItem-->
+            <DataTemplate x:Key="ListItem">
+               
+                    <Grid ShowGridLines="False"  Name="outergrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!--Images-->
+                    <Border Grid.Row="1" x:Name="OuterImageBorder" 
+                                    Margin="10,-15,0,0" HorizontalAlignment="Left"   Width="60" Height="72">
+                        <Border  Width="50" Height="62"  >
+                            <Image Source="{Binding Image, Converter={StaticResource imageConverter}}"   Stretch="Uniform"  />
+                        </Border>
+                    </Border>
+
+                    <!--Account Names-->
+                    <Border Margin="5,5,0,0" MinWidth="60" VerticalAlignment="Top" HorizontalAlignment="Left"  Grid.Column="0" Grid.ColumnSpan="2">
+                        <TextBlock  TextTrimming="CharacterEllipsis"  x:Name="label"  Text="{Binding AccountName}" FontSize="14" FontWeight="Normal"  TextWrapping="Wrap"/>
+                     </Border>
+                    <!--Gauage Control-->
+                    <Border Grid.RowSpan="2" Padding="0" VerticalAlignment="Center"  Margin="-70,0,0,0"  HorizontalAlignment="Left"  Width="255" Height="140" Grid.Column="1" >
+                        <syncfusion:CircularGauge  Name="halfCircleFrame" SizeToContainer="True" HalfCircleInnerRadius="0" FirstFrameThickness="3" SecondFrameThickness="3" FrameType="HalfCircle">
+                            <!--Hosting State indicator-->
+                            <syncfusion:CircularGauge.StateIndicators>
+                                <syncfusion:StateIndicator  IndicatorHeight="7" IndicatorStyle="CircularLED" IndicatorWidth="8" Location="50,70" Text="Off" />
+                            </syncfusion:CircularGauge.StateIndicators>
+                            <!--Circular scale for Gauge control-->
+                            <syncfusion:CircularGauge.Scales>
+                                <!--Circular scale, radius value as 110-->
+                                <syncfusion:CircularScale BorderWidth="1" GapSweepAngle="180" StartAngle="180" Location="50,85" MajorIntervalValue="1000000" Maximum="10000000" Minimum="00000" MinorIntervalValue="500000" Radius="95"  ScaleBarSize="0" ShadowOffset="0" >
+                                    <!--Hosting circular pointer(Needle)-->
+                                    <syncfusion:CircularScale.Pointers>
+                                        <syncfusion:CircularPointer  Value="{Binding OpenBalance}"   PointerLength="115" PointerPlacement="Inside" PointerWidth="3.5" PointerNeedleType="Needle"/>
+                                    </syncfusion:CircularScale.Pointers>
+                                    <!--Hosting Pointer Cap for Needle-->
+                                    <syncfusion:CircularScale.PointerCap>
+                                        <syncfusion:PointerCap BackgroundBrush="Green" CapOnTop="True" PointerCapRadius="5"  PointerCapType="Default" Width="10" Height="10" />
+                                    </syncfusion:CircularScale.PointerCap>
+                                    <syncfusion:CircularScale.Ticks>
+                                        <!--Minor Tick for Circular Scale-->
+                                        <syncfusion:CircularMarkTick  TickHeight="4" DistanceFromScale="0" TickStyle="MajorTick" TickPlacement="Cross" TickShape="Rectangle" TickWidth="1" />
+                                        <syncfusion:CircularLabelTick IsCalculateFormulaEnabled="True" CalculateFormula="x/1000000"  RangedBrushStartValue="0" RangedBrushEndValue="10000000" DistanceFromScale="5" FontSize="7" FontFamily="Verdana" TickPlacement="Inside" TickStyle="MajorTick" />
+                                    </syncfusion:CircularScale.Ticks>
+                                    <!--Range for Circular gauge with start and end value-->
+                                    <syncfusion:CircularScale.Ranges>
+                                        <syncfusion:CircularRange  BorderWidth="0" DistanceFromScale="0"  EndValue="10000000"  EndWidth="5" RangePosition="Inside" StartValue="0" StartWidth="5" />
+                                    </syncfusion:CircularScale.Ranges>
+                                </syncfusion:CircularScale>
+                            </syncfusion:CircularGauge.Scales>
+                            <syncfusion:CircularGauge.CustomLabels>
+                                <syncfusion:CircularCustomLabel FontFamily="Callibri" 
+                                                         FontSize="7" 
+                                                        Location="50,60" LabelValue="In Millions"/>
+                            </syncfusion:CircularGauge.CustomLabels>
+                        </syncfusion:CircularGauge>
+                    </Border>
+                </Grid>
+             
+            </DataTemplate>
+
+            <!--Style for the ListBoxItem-->
+            <!--<Style TargetType="{x:Type ListBoxItem}" x:Key="Itemcontainerstyle" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                <Setter Property="Height" Value="110"/>
+                <Setter Property="ContentTemplate" Value="{DynamicResource ListItem}"/>
+            </Style>-->
+        </ResourceDictionary>
+    </ContentControl.Resources>
+    
+    <Grid Name="grid">
+        <!--ListBox for displaying the accounts-->
+        <ListBox ItemTemplate="{StaticResource ListItem}" x:Name="list" ItemsSource="{Binding Accounts}"  SelectedItem="{Binding Path=SelectedAccount, Mode=TwoWay}" SelectedIndex="1"/>
+    </Grid>
+</ContentControl>

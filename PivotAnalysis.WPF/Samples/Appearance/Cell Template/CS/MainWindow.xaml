@@ -1,0 +1,173 @@
+﻿<Window x:Class="CellTemplate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:localConverter="clr-namespace:CellTemplate.Converter"
+        xmlns:viewModel="clr-namespace:CellTemplate.ViewModel"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF" 
+        sfshared:SkinStorage.VisualStyle="Metro"
+        Title="Cell Template" Height="600" Width="1000" Icon="App.ico"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+
+    <Grid>
+        <Grid.DataContext>
+            <viewModel:ViewModel />
+        </Grid.DataContext>
+
+        <Grid.Resources>
+            <localConverter:ExpanderVisiblityConverter x:Key="expanderVisiblityConverter"/>
+
+            <LinearGradientBrush x:Key="RowHeaderBackgroundBrush" StartPoint="0.495298,0" EndPoint="1.4953,0">
+                <LinearGradientBrush.RelativeTransform>
+                    <TransformGroup>
+                        <SkewTransform CenterX="0.495298" CenterY="0" AngleX="-0.823281" AngleY="0"/>
+                        <RotateTransform CenterX="0.495298" CenterY="0" Angle="90.1791"/>
+                    </TransformGroup>
+                </LinearGradientBrush.RelativeTransform>
+                <LinearGradientBrush.GradientStops>
+                    <GradientStop Color="#FFF7FAFC" Offset="0"/>
+                    <GradientStop Color="#FFD4DDE9" Offset="1"/>
+                </LinearGradientBrush.GradientStops>
+            </LinearGradientBrush>
+
+            <Style x:Key="rowStyle" TargetType="{x:Type syncfusion:PivotGridTemplateCell}">
+                <Setter Property="MinHeight" Value="25"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type syncfusion:PivotGridTemplateCell}">
+                            <StackPanel  Orientation="Horizontal" Background="#FF119EDA">
+                                <!--Expander control style, to enable expand/collapse control name should be "PART_Expander" -->
+                                <Expander Margin="1" x:Name="PART_Expander"
+                                          IsExpanded="{Binding IsExpanded,RelativeSource={RelativeSource TemplatedParent}}" 
+                                          Visibility="{Binding Converter={StaticResource expanderVisiblityConverter}}"/>
+
+                                <!--Image block-->
+                                <Image Margin="2,4,1,0" VerticalAlignment="Top" HorizontalAlignment="Center">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" Value="Car">
+                                                    <Setter Property="Source" Value="{StaticResource Car}"/>
+                                                    <Setter Property="Width" Value="32"/>
+                                                    <Setter Property="Height" Value="32"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" Value="Bike">
+                                                    <Setter Property="Source" Value="{StaticResource Bike}"/>
+                                                    <Setter Property="Width" Value="32"/>
+                                                    <Setter Property="Height" Value="32"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+
+                                <TextBlock Margin="3,4,2,0" TextWrapping="Wrap"
+                                           Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" 
+                                           VerticalAlignment="Top" FontFamily="Segoe UI" FontSize="12"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="colStyle" TargetType="{x:Type syncfusion:PivotGridTemplateCell}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type syncfusion:PivotGridTemplateCell}">
+                            <StackPanel Orientation="Horizontal" Background="#FF119EDA">
+                                <!--Expander control style, to enable expand/collapse control name should be "PART_Expander" -->
+                                <Expander Margin="1" x:Name="PART_Expander"
+                                          IsExpanded="{Binding IsExpanded,RelativeSource={RelativeSource TemplatedParent}}" 
+                                          Visibility="{Binding Converter={StaticResource expanderVisiblityConverter}}"/>
+                                <!--Image block-->
+                                <Image Margin="-9,4,1,0" VerticalAlignment="Top" HorizontalAlignment="Center">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" Value="United States">
+                                                    <Setter Property="Source" Value="{StaticResource UnitedStates}"/>
+                                                    <Setter Property="Width" Value="32"/>
+                                                    <Setter Property="Height" Value="28"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" Value="United Kingdom">
+                                                    <Setter Property="Source" Value="{StaticResource UnitedKingdom}"/>
+                                                    <Setter Property="Width" Value="32"/>
+                                                    <Setter Property="Height" Value="28"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" Value="Canada">
+                                                    <Setter Property="Source" Value="{StaticResource Canada}"/>
+                                                    <Setter Property="Width" Value="32"/>
+                                                    <Setter Property="Height" Value="28"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" Value="France">
+                                                    <Setter Property="Source" Value="{StaticResource France}"/>
+                                                    <Setter Property="Width" Value="32"/>
+                                                    <Setter Property="Height" Value="28"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" Value="Germany">
+                                                    <Setter Property="Source" Value="{StaticResource Germany}"/>
+                                                    <Setter Property="Width" Value="32"/>
+                                                    <Setter Property="Height" Value="28"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+
+                                <TextBlock Margin="-4,4,2,0"
+                                           Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}}" 
+                                           TextWrapping="Wrap" HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" FontFamily="Segoe UI" FontSize="12"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Sample Header-->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="PivotGrid control with template applied to header cells." 
+                       VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+            <!--PivotGrid control-->
+            <syncfusion:PivotGridControl x:Name="pivotGrid1" Margin="5" ShowGroupingBar="False" 
+                                         ItemSource="{Binding ProductSalesData}">
+                <syncfusion:PivotGridControl.PivotRows>
+                    <syncfusion:PivotItem FieldMappingName="Product" FieldHeader="Product" TotalHeader="Total"/>
+                    <syncfusion:PivotItem FieldMappingName="Date" FieldHeader="Date" TotalHeader="Total"/>
+                </syncfusion:PivotGridControl.PivotRows>
+                <syncfusion:PivotGridControl.PivotColumns>
+                    <syncfusion:PivotItem FieldMappingName="Country" FieldHeader="Country" TotalHeader="Total"/>
+                </syncfusion:PivotGridControl.PivotColumns>
+                <syncfusion:PivotGridControl.PivotCalculations>
+                    <syncfusion:PivotComputationInfo CalculationName = "Total" Description = "Summation of values" FieldName = "Amount" Format = "C" SummaryType="DoubleTotalSum"/>
+                </syncfusion:PivotGridControl.PivotCalculations>
+
+                <syncfusion:PivotGridControl.RowHeaderCellStyle>
+                    <syncfusion:PivotGridCellStyle Style="{StaticResource rowStyle}"/>
+                </syncfusion:PivotGridControl.RowHeaderCellStyle>
+
+                <syncfusion:PivotGridControl.ColumnHeaderCellStyle>
+                    <syncfusion:PivotGridCellStyle Style="{StaticResource colStyle}"/>
+                </syncfusion:PivotGridControl.ColumnHeaderCellStyle>
+            </syncfusion:PivotGridControl>
+
+            <GridSplitter Grid.Column="0" Width="1" Margin="0 5" Background="#FF119EDA" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+
+            <syncfusion:PivotSchemaDesigner Name="SchemaDesigner" Grid.Column="1" Margin="5" VisualStyle="Metro"
+                                            PivotControl="{Binding ElementName=pivotGrid1}"/>
+        </Grid>
+    </Grid>
+</Window>

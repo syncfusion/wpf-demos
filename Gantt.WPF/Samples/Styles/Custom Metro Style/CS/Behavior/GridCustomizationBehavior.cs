@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Interactivity;
+using Syncfusion.Windows.Controls.Gantt;
+using System.Windows;
+using Syncfusion.Windows.Controls.Grid;
+using System.Windows.Media;
+
+namespace CustomMetroStyle
+{
+    class GridCustomizationBehavior : Behavior<GanttControl>
+    {
+        /// <summary>
+        /// Called when [attached].
+        /// </summary>
+        protected override void OnAttached()
+        {
+            AssociatedObject.Loaded += new RoutedEventHandler(AssociatedObject_Loaded);
+        }
+
+        /// <summary>
+        /// Handles the Loaded event of the AssociatedObject control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.RoutedEventArgs"/> instance containing the event data.</param>
+        void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            Brush highlightBrush = (Brush)new BrushConverter().ConvertFromString("#FF8CBE21");
+            this.AssociatedObject.GanttGrid.Model.Options.HighlightSelectionBackground = highlightBrush;
+            this.AssociatedObject.GanttGrid.Model.Options.ShowCurrentCell = false;
+            this.AssociatedObject.GanttGrid.ReadOnly = true;
+
+            /// To avoid showing color on mouse hover
+            this.AssociatedObject.GanttGrid.StyleManager = new GridTreeStyleManager
+            {
+                HeaderAppearance = new TreeHeaderAppearance { HeaderHoverBackgroundBrush = new SolidColorBrush(Colors.Transparent) }
+            };
+        }
+
+        /// <summary>
+        /// Called when [detaching].
+        /// </summary>
+        protected override void OnDetaching()
+        {
+            AssociatedObject.Loaded -= new RoutedEventHandler(AssociatedObject_Loaded);
+        }
+    }
+}

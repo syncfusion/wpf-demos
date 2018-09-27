@@ -1,0 +1,47 @@
+﻿<syncfusion:ChromelessWindow x:Class="LevelStylingDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:LevelStylingDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Icon="App.ico">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <local:StyleConverter x:Key="StyleConverter" />
+        <Style TargetType="syncfusion:TreeGridRowControl">
+            <Setter Property="Background" Value="{Binding Path=DataRow.Node, RelativeSource={RelativeSource Self}, Converter={StaticResource StyleConverter}}" />
+        </Style>
+
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases the styling of rows based on node level in SfTreeGrid"
+                                  HeaderText="Level Styling Demo"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfTreeGrid Name="treeGrid"
+                                       AllowDraggingColumns="True"
+                                       AutoExpandMode="AllNodesExpanded"
+                                       AutoGenerateColumns="False"
+                                       ChildPropertyName="Children"
+                                       ColumnSizer="Star"
+                                       ItemsSource="{Binding PersonDetails}">
+                    <syncfusion:SfTreeGrid.Columns>
+                        <syncfusion:TreeGridTextColumn HeaderText="First Name" MappingName="FirstName" />
+                        <syncfusion:TreeGridTextColumn HeaderText="Last Name" MappingName="LastName" />
+                        <syncfusion:TreeGridTextColumn HeaderText="ID"
+                                                       MappingName="Id"
+                                                       TextAlignment="Left" />
+                        <syncfusion:TreeGridCheckBoxColumn HeaderText="Availability" MappingName="LikesCake" />
+                        <syncfusion:TreeGridDateTimeColumn MappingName="DOB" />
+                        <syncfusion:TreeGridCurrencyColumn CurrencyGroupSizes="3" MappingName="Salary" />
+                    </syncfusion:SfTreeGrid.Columns>
+                </syncfusion:SfTreeGrid>
+            </syncfusion:LayoutControl.GridView>
+
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

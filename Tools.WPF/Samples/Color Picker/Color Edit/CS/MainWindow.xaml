@@ -1,0 +1,129 @@
+﻿<syncfusion:ChromelessWindow x:Class="ColorEditDemo_2010.MainWindow" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:syncfusion="http://schemas.syncfusion.com/wpf"   xmlns:local="clr-namespace:ColorEditDemo_2010" 
+ WindowStartupLocation="CenterScreen" xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF"  xmlns:sync="clr-namespace:Syncfusion.Windows.Tools;assembly=Syncfusion.Shared.Wpf"
+    Title="ColorEdit Demo" Width="710" Icon="App.Ico"
+    Height="620" FontFamily="Calibri" FontSize="13" >
+    <syncfusion:ChromelessWindow.Resources>
+        <local:VisibilityConverter x:Key="visibiltyConverter"/>
+    </syncfusion:ChromelessWindow.Resources>
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+   
+        <Grid >
+
+        <sblayout:SampleLayoutControl  Header="ColorEdit" x:Name="Sblayout" EventLogs="{Binding EventLog}" 
+                                          Description="The ColorEdit control provides you with a set of visual controls allowing you to make WYSIWYG color selection. Use the sliders for easy alteration of the color values, including transparency.">
+                <sblayout:SampleLayoutControl.PropertyViewContent>
+                    <sblayout:GroupBoxAdv Header="User Options">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+
+
+                            <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="0" Text="Brush Mode" Margin="3"  VerticalAlignment="Center" />
+                        <ComboBox Name="cmboBrushMode" Grid.Row="0" SelectedIndex="0" 
+                                      Margin="3" 
+                                      VerticalAlignment="Center" Grid.Column="1">
+                            <sync:BrushModes>Solid</sync:BrushModes>
+                            <sync:BrushModes>Gradient</sync:BrushModes>
+                        </ComboBox>
+
+                            <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="1" Text="Color Selection Mode" Margin="3"  VerticalAlignment="Center" />
+                        <ComboBox Name="cmbovisualizationstyle" Grid.Row="1" SelectedIndex="0" 
+                                      Margin="3" 
+                                      VerticalAlignment="Center" Grid.Column="1">
+                            <sync:ColorSelectionMode>RGB</sync:ColorSelectionMode>
+                            <sync:ColorSelectionMode>HSV</sync:ColorSelectionMode>
+                            <sync:ColorSelectionMode>ClassicRGB</sync:ColorSelectionMode>
+                            <sync:ColorSelectionMode>ClassicHSV</sync:ColorSelectionMode>
+                        </ComboBox>
+
+                        <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="2" Text="Show Alpha" Margin="3" Visibility="{Binding Path=SelectedItem, ElementName=cmbovisualizationstyle, Converter={StaticResource visibiltyConverter}}" VerticalAlignment="Center" />
+                            <CheckBox  Name="chkalphavisible" Grid.Row="2" 
+                                        Margin="3" Visibility="{Binding Path=SelectedItem, ElementName=cmbovisualizationstyle, Converter={StaticResource visibiltyConverter}}"
+                                        VerticalAlignment="Center" Grid.Column="1"/>
+
+                            
+                            <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="3" Text="Use ScRG Color" Margin="3"  VerticalAlignment="Center" />
+                            <CheckBox  Name="chkuse_scrgcolor" Grid.Row="3"  
+                                      Margin="3" 
+                                      VerticalAlignment="Center" Grid.Column="1"/>
+
+
+                            <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="4" Text="Enable Gradient" Margin="3"  VerticalAlignment="Center" />
+                            <CheckBox  Name="chkgradenable" Grid.Row="4" IsChecked="True" 
+                                      Margin="3" 
+                                      VerticalAlignment="Center" Grid.Column="1"/>
+
+
+                            <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="5" Text="Enable Solid To Gradient Switch" Margin="3"  VerticalAlignment="Center" />
+                            <CheckBox  Name="chksolidtograd" Grid.Row="5" 
+                                      Margin="3" 
+                                      VerticalAlignment="Center" Grid.Column="1"/>
+
+
+                            <Label  Grid.Column="0" FontWeight="Normal" Grid.Row="6" Content ="Open Gradient Editor" 
+                                    IsEnabled="{Binding ElementName=chkgradenable,Path=IsChecked,Mode=TwoWay}"  Margin="-2,0,0,0"  />
+                            <CheckBox  Name="chkopengradeditor" Grid.Row="6"  IsEnabled="{Binding ElementName=chkgradenable,Path=IsChecked,Mode=TwoWay}"
+                                      Margin="3" 
+                                      VerticalAlignment="Center" Grid.Column="1"/>
+
+                            <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="7" Text="Gradient Editor Mode" Margin="3"  VerticalAlignment="Center" />
+                        <ComboBox Name="cmbgradienteditormode" Grid.Row="7" SelectedIndex="0" 
+                                      Margin="3" 
+                                      VerticalAlignment="Center" Grid.Column="1">
+                            <sync:GradientPropertyEditorMode>Popup</sync:GradientPropertyEditorMode>
+                            <sync:GradientPropertyEditorMode>Extended</sync:GradientPropertyEditorMode>
+                        </ComboBox>
+
+
+                    </Grid>
+                    </sblayout:GroupBoxAdv>
+                </sblayout:SampleLayoutControl.PropertyViewContent>
+
+
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                   
+                    <syncfusion:ColorEdit   x:Name="ColorEdit1" HorizontalAlignment="Center" VerticalAlignment="Center"  
+                                            Width="280" Brush="Black" 
+                                            EnableToolTip="False" 
+                                            BrushMode="{Binding SelectedItem,ElementName=cmboBrushMode}"
+                                            IsScRGBColor="{Binding ElementName=chkuse_scrgcolor,Path=IsChecked,Mode=TwoWay}"
+                                            IsAlphaVisible="{Binding Path=IsChecked,ElementName=chkalphavisible,Mode=TwoWay}"
+                                            VisualizationStyle="{Binding ElementName=cmbovisualizationstyle,Path=SelectedItem}"
+                                            EnableGradientToSolidSwitch="{Binding ElementName=chksolidtograd,Path=IsChecked,Mode=TwoWay}"
+                                            IsGradientPropertyEnabled="{Binding ElementName=chkgradenable,Path=IsChecked,Mode=TwoWay}"
+                                            GradientPropertyEditorMode="{Binding ElementName=cmbgradienteditormode,Path=SelectedItem}"
+                                            IsOpenGradientPropertyEditor="{Binding ElementName=chkopengradeditor,Path=IsChecked,Mode=TwoWay}"
+                                            syncfusion:ColorEditColorChangedCommand.Command="{Binding ColorChanged}" 
+                                            syncfusion:ColorEditColorChangedCommand.CommandParameter="{Binding Path=Color,RelativeSource={RelativeSource Self}}">
+                    </syncfusion:ColorEdit>
+                    
+                  
+                    
+                </Grid>
+
+            </sblayout:SampleLayoutControl>
+        </Grid>
+
+ 
+</syncfusion:ChromelessWindow>

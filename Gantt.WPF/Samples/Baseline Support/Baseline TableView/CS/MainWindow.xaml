@@ -1,0 +1,89 @@
+﻿<syncfusion:ChromelessWindow x:Class="BaselineTableView.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:gantt="http://schemas.syncfusion.com/wpf"
+                             xmlns:local="clr-namespace:BaselineTableView"
+                             xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title="Baseline TableView"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Width="1300"
+                             Height="720"
+                             Icon="App.ico"
+                             WindowStartupLocation="CenterScreen">
+    
+    <!--Window DataContext information-->
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    
+    <!--Window Resource Information-->
+    <syncfusion:ChromelessWindow.Resources>
+        <LinearGradientBrush x:Key="gridViewbackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.08" Color="#FF119EDA" />
+            <GradientStop Offset="0.479" Color="#FF2C9ECE" />
+            <GradientStop Offset="0.973" Color="#FF119EDA" />
+        </LinearGradientBrush>
+    </syncfusion:ChromelessWindow.Resources>
+    
+    <syncfusion:LayoutControl GridViewBackground="{StaticResource gridViewbackground}"
+                              HeaderDescriptionText="This sample shows the variances between the current progress and the baseline of the project"
+                              HeaderText="Baseline TableView"
+                              UserGuideUri="http://help.syncfusion.com/UG/User%20Interface/WPF/Gantt/default.htm#!documents/431baselinetableview.htm"
+                              LayoutMode="Metro">
+        <syncfusion:LayoutControl.GridView>
+            
+            <!--Gantt control Information-->
+            <gantt:GanttControl x:Name="Gantt"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                ItemsSource="{Binding TaskDetails}"
+                                UseAutoUpdateHierarchy="False"
+                                VisualStyle="Metro"
+                                ShowBaseline="True">
+                <gantt:GanttControl.TaskAttributeMapping>
+                    <gantt:TaskAttributeMapping TaskIdMapping="Id"
+                                                TaskNameMapping="Name"
+                                                DurationMapping="Duration"
+                                                StartDateMapping="StDate"
+                                                FinishDateMapping="EndDate"
+                                                ChildMapping="ChildTask"
+                                                ProgressMapping="Complete"
+                                                PredecessorMapping="Predecessor"
+                                                ResourceInfoMapping="Resource"
+                                                CostMapping="Cost"
+                                                BaselineCostMapping="BaselineCost"
+                                                BaselineFinishMapping="BaselineEnd"
+                                                BaselineStartMapping="BaselineStart"/>
+                </gantt:GanttControl.TaskAttributeMapping>
+            </gantt:GanttControl>
+        </syncfusion:LayoutControl.GridView>
+        
+        <syncfusion:LayoutControl.UserOptionsView>
+            <syncfusion:UserOptions HeaderBackground="{StaticResource gridViewbackground}" HeaderText="Table Views ">
+                    <StackPanel Orientation="Vertical">
+                        <Button Width="100"
+                                Height="25"
+                                Margin="10"
+                                HorizontalAlignment="Center"
+                                Command="local:BaselineCommands.LoadVarianceView"
+                                CommandTarget="{Binding GridView,
+                                                    RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                   AncestorType={x:Type syncfusion:LayoutControl}}}"
+                                Content="Variance View"
+                                Padding="3" />
+                        <Button Width="100"
+                                Height="25"
+                                Margin="10"
+                                HorizontalAlignment="Center"
+                                Command="local:BaselineCommands.LoadDefaultView"
+                                CommandTarget="{Binding GridView,
+                                                    RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                   AncestorType={x:Type syncfusion:LayoutControl}}}"
+                                Content="Default View"
+                                Padding="3" />
+                    </StackPanel>
+            </syncfusion:UserOptions>
+        </syncfusion:LayoutControl.UserOptionsView>
+    </syncfusion:LayoutControl>
+</syncfusion:ChromelessWindow>

@@ -1,0 +1,89 @@
+﻿<shared:ChromelessWindow x:Class="Localization.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+        xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+        xmlns:local="clr-namespace:Localization"
+        Icon="App.ico"
+        Title="Localization" Width="800" Height="700"
+        Template="{StaticResource ChromelessWindowTemplate}"
+        WindowStartupLocation="CenterScreen" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BindingStyle.xaml" />
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BasicShapes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="syncfusion:Node" BasedOn="{StaticResource NodeBindingStyle}">             
+            </Style>
+            <Style TargetType="syncfusion:Connector" BasedOn="{StaticResource ConnectorBindingStyle}">               
+            </Style>
+            <Style TargetType="syncfusion:AnnotationEditor" BasedOn="{StaticResource AnnotationEditorBindingStyle}"/>
+            <Style TargetType="Path" x:Key="nodestyle">
+                <Setter Property="Fill" Value="#71AF17"/>
+                <Setter Property="Stretch" Value="Fill"/>
+                <Setter Property="Stroke" Value="Black"/>
+            </Style>
+            <Style TargetType="Path" x:Key="nodestyle1">
+                <Setter Property="Fill" Value="#822B86"/>
+                <Setter Property="Stretch" Value="Fill"/>
+                <Setter Property="Stroke" Value="Black"/>
+            </Style>
+            <!--Style for Connector-->
+            <Style TargetType="Path" x:Key="connectorstyle">
+                <Setter Property="Stroke" Value="Black"></Setter>
+                <Setter Property="StrokeThickness" Value="2"></Setter>
+            </Style>
+           
+            <!--ViewTemplate of Annotation-->
+            <DataTemplate x:Key="viewtemplate">
+                <Border Background="White">
+                    <TextBlock Text="{Binding Path=Content, Mode=OneWay}"  FontSize="12" FontFamily="Times New Roman">
+                    </TextBlock>
+                </Border>
+            </DataTemplate>
+
+            <!--EditTemplate of Annotation-->
+            <DataTemplate x:Key="edittemplate">
+                <Border Background="White">
+                    <TextBox Text="{Binding Path=Content, Mode=OneWay}"  FontSize="12" FontFamily="Times New Roman">
+                    </TextBox>
+                </Border>
+            </DataTemplate>
+
+            <!--Style for Decorator-->
+            <Style x:Key="decoratorstyle" TargetType="Path">
+                <Setter Property="Fill" Value="Black" />
+                <Setter Property="Stroke" Value="Black" />
+                <Setter Property="StrokeThickness" Value="2" />
+                <Setter Property="Width" Value="10" />
+                <Setter Property="Height" Value="10" />
+                <Setter Property="Stretch" Value="Fill" />
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Initialize Diagram-->
+        <syncfusion:SfDiagram  x:Name="diagramcontrol" Grid.Column="1" DefaultConnectorType="Line">
+
+            <!--Initialize Nodes-->
+            <syncfusion:SfDiagram.Nodes>
+                <syncfusion:NodeCollection></syncfusion:NodeCollection>
+            </syncfusion:SfDiagram.Nodes>
+
+            <!--Initialize Connectors-->
+            <syncfusion:SfDiagram.Connectors>
+                <local:ConnectorVmCollection></local:ConnectorVmCollection>
+            </syncfusion:SfDiagram.Connectors>
+        </syncfusion:SfDiagram>
+    </Grid>
+
+</shared:ChromelessWindow>

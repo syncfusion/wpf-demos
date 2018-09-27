@@ -1,0 +1,184 @@
+﻿<syncfusion:ChromelessWindow x:Class="DateTimeEditDemo.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:DateTimeEditDemo" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+     xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF" UseNativeChrome="True"
+    Title="DateTimeEdit Demo" Width="750"  Icon="App.ico" WindowStartupLocation="CenterScreen" 
+    Height="640" FontFamily="Calibri" FontSize="13" MinHeight="430" >
+    <syncfusion:ChromelessWindow.Resources>
+        <sblayout:StringToCultureConverter x:Key="cultureconverter"/>        
+    </syncfusion:ChromelessWindow.Resources>
+   
+    <Grid>
+        <Grid >
+            <Grid.DataContext>
+                <local:ViewModel />
+            </Grid.DataContext>
+
+            <sblayout:SampleLayoutControl  Header="DateTimeEdit Demo" x:Name="Sblayout" EventLogs="{Binding EventLogsCollection}"
+                                          Description="DateTimeEdit is a control that allows you to select and edit the date with support for data binding, Null Value, Watermark, maximum and minimum value, and culture.">
+                <sblayout:SampleLayoutControl.PropertyViewContent>
+                    <sblayout:GroupBoxAdv Header="User Options">
+                        <ScrollViewer>
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Validation-->
+                                <TextBlock Grid.ColumnSpan="2" Margin="3" Text="Validation" FontWeight="Bold"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="0" Margin="3" FontWeight="Normal"  Grid.Row="1" Text="Min DateTime"   VerticalAlignment="Center" HorizontalAlignment="Left" />
+                                <syncfusion:DateTimeEdit   HorizontalAlignment="Left" Width="120"   Grid.Column="1" Grid.Row="1" CultureInfo ="{Binding ElementName=MyComboBox, Path=SelectedItem, Converter={StaticResource cultureconverter}}"
+                                                       DateTime="{Binding MinimumValue,Mode=TwoWay}" TextAlignment="Left"  Margin="3"  FontSize="12"  VerticalAlignment="Center"  x:Name="mindatetime" />
+                                <TextBlock Text="Max DateTime" Margin="3" FontWeight="Normal" Grid.Column="0"  Grid.Row="2"  VerticalAlignment="Center" />
+                                <syncfusion:DateTimeEdit  HorizontalAlignment="Left" Width="120"   DateTime="{Binding MaximumValue,Mode=TwoWay}" Grid.Column="1" CultureInfo ="{Binding ElementName=MyComboBox, Path=SelectedItem, Converter={StaticResource cultureconverter}}"  Grid.Row="2"  FontSize="12" Margin="3"  
+                                                      VerticalAlignment="Center" x:Name="maxdatetime"/>
+
+                                <!-- Pattern-->
+                                <TextBlock Grid.ColumnSpan="2" Grid.Row="3" Margin="3" Text="Pattern" FontWeight="Bold"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="4" Text="Pattern" Margin="3" 
+                                       VerticalAlignment="Center"/>
+                                <ComboBox Width="120"  Name="cmbopattern" Grid.Row="4"  Margin="3" SelectedItem ="{Binding Pattern,Mode=TwoWay}"
+                                      SelectedIndex="2"  HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Column="1">
+
+                                    <syncfusion:DateTimePattern >FullDateTime</syncfusion:DateTimePattern>
+                                    <syncfusion:DateTimePattern >ShortDate</syncfusion:DateTimePattern>
+                                    <syncfusion:DateTimePattern >LongDate</syncfusion:DateTimePattern>
+                                    <syncfusion:DateTimePattern >ShortTime</syncfusion:DateTimePattern>
+                                    <syncfusion:DateTimePattern >LongTime</syncfusion:DateTimePattern>
+                                    <syncfusion:DateTimePattern >MonthDay</syncfusion:DateTimePattern>
+                                    <syncfusion:DateTimePattern >RFC1123</syncfusion:DateTimePattern>
+                                    <syncfusion:DateTimePattern >YearMonth</syncfusion:DateTimePattern>
+                                    <syncfusion:DateTimePattern >SortableDateTime</syncfusion:DateTimePattern>
+                                </ComboBox>
+                                <TextBlock Grid.Column="0" FontWeight="Normal" Grid.Row="5" Text="Culture" Margin="3"   VerticalAlignment="Center"/>
+                                <ComboBox Width="120"  Name="MyComboBox" Grid.Row="5" Margin="3"  HorizontalAlignment="Left"    VerticalAlignment="Center" Grid.Column="1">
+                                    <ComboBoxItem Tag="0" Content="uk-UA" />
+                                    <ComboBoxItem Tag="1" Content="vi-VN"/>
+                                    <ComboBoxItem Tag="2" Content="sq-AL"/>
+                                    <ComboBoxItem Tag="3" Content="en-US" IsSelected="True"/>
+                                    <ComboBoxItem Tag="4" Content="mn-MN"/>
+                                    <ComboBoxItem Tag="5" Content="is-IS"/>
+                                    <ComboBoxItem Tag="6" Content="ar-SA"/>
+                                    <ComboBoxItem Tag="7" Content="he-IL"/>
+                                </ComboBox>
+
+
+                                <!-- Others-->
+                                <TextBlock Grid.ColumnSpan="2" Grid.Row="6" Margin="3" Text="Others" FontWeight="Bold"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="7" Margin="3" FontWeight="Normal" Grid.Column="0" Text="None Date Text"   VerticalAlignment="Center"></TextBlock>
+                                <syncfusion:MaskedTextBox  Width="120"  WatermarkText="Select date here.."  HorizontalAlignment="Left"  Grid.Row="7"  Margin="3" Grid.Column="1" 
+                                      x:Name="TxtNoneDate"  VerticalAlignment="Center"/>
+                                
+                                <TextBlock Grid.Column="0" Grid.Row="8" FontWeight="Normal" Text="Scrolling On Circle" Margin="3"/>
+                                <CheckBox Name="chkscrolling" Grid.Row="8" IsChecked="True" 
+                                      Margin="3"   HorizontalAlignment="Left"   Grid.Column="1" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="9" FontWeight="Normal" Text="Show DropDownButton" Margin="3"/>
+                                <CheckBox Name="chkpopup" Grid.Row="9" IsChecked="True" 
+                                      Margin="3"   HorizontalAlignment="Left"   Grid.Column="1" VerticalAlignment="Center"/>
+                                
+                                <TextBlock Grid.Column="0" Grid.Row="10" FontWeight="Normal" Text="Can Edit" Margin="3"/>
+                                <CheckBox Name="canEdit" Grid.Row="10"
+                                      Margin="3"   HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Center"/>
+                             
+                                <TextBlock Grid.Column="0" Grid.Row="11" FontWeight="Normal" Text="Show Calendar" Margin="3"/>
+                                <CheckBox Name="chkcalendarenable" Grid.Row="11" IsChecked="True" 
+                                      Margin="3"   HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="12" FontWeight="Normal" Text="Show Repeat Buttons" Margin="3"/>
+                                <CheckBox Name="chkrepeatbtnvisible" Grid.Row="12" IsChecked="False"  
+                                      Margin="3"  HorizontalAlignment="Left"   Grid.Column="1" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="13" FontWeight="Normal" Text="Enable Classic Style" Margin="3"/>
+                                <CheckBox Name="chkenableclassiccstyle" Grid.Row="13" IsChecked="False"  
+                                      Margin="3"  HorizontalAlignment="Left"   Grid.Column="1" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="14" FontWeight="Normal" Text="Enable  EmptyDate " Margin="3"/>
+                                <CheckBox Name="chkemptydate" Grid.Row="14" IsChecked="True" 
+                                      Margin="3"   HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="15" FontWeight="Normal" Text="Disable DateSelection" Margin="3"/>
+                                <CheckBox Name="chkdateselection" Grid.Row="15"
+                                      Margin="3"   HorizontalAlignment="Left"  Grid.Column="1" VerticalAlignment="Center"/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="16" FontWeight="Normal" Text="Show Clock" Margin="3"/>
+                                <CheckBox Name="chkwatchenable" Grid.Row="16" IsChecked="True" 
+                                      Margin="3"  HorizontalAlignment="Left"   Grid.Column="1" VerticalAlignment="Center"/>
+
+                            </Grid>
+                        </ScrollViewer>
+                    </sblayout:GroupBoxAdv>
+                </sblayout:SampleLayoutControl.PropertyViewContent>
+
+
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <syncfusion:DateTimeEdit   Grid.Row="0" Width="250" Height="23" Margin="0,-40,0,0" Name="myDateTimeEdit" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                              IsButtonPopUpEnabled="{Binding ElementName=chkpopup,Path=IsChecked,Mode=TwoWay}"
+                                              Pattern="{Binding Pattern}" 
+                                              CanEdit="{Binding ElementName=canEdit,Path=IsChecked}"
+                                              NoneDateText="{Binding ElementName=TxtNoneDate,Path=Text}"
+                                              IsWatchEnabled="{Binding ElementName=chkwatchenable,Path=IsChecked,Mode=TwoWay}"  
+                                              CultureInfo ="{Binding ElementName=MyComboBox, Path=SelectedItem, Converter={StaticResource cultureconverter}}"
+                                              IsScrollingOnCircle="{Binding ElementName=chkscrolling,Path=IsChecked,Mode=TwoWay}"
+                                                      DateTime="{Binding Value,Mode=TwoWay}"
+                                              MinDateTime="{Binding MinimumValue}" 
+                                              MaxDateTime="{Binding MaximumValue}"
+                                              IsReadOnly="{Binding ElementName=readonly, Path=IsChecked}" 
+                                               IsVisibleRepeatButton="{Binding ElementName=chkrepeatbtnvisible,Path=IsChecked,Mode=TwoWay}"
+                                              IsCalendarEnabled="{Binding ElementName=chkcalendarenable,Path=IsChecked,Mode=TwoWay}"
+                                              EnableClassicStyle="{Binding ElementName=chkenableclassiccstyle,Path=IsChecked,Mode=TwoWay}"
+                                              IsEmptyDateEnabled="{Binding ElementName=chkemptydate,Path=IsChecked,Mode=TwoWay}" 
+                                              DisableDateSelection="{Binding ElementName=chkdateselection,Path=IsChecked,Mode=TwoWay}"
+                                              syncfusion:DateTimeBaseIsDropDownOpenChangedCommand.Command="{Binding IsDropDownOpenChangedCommand}"
+                                               syncfusion:DateTimeBaseIsDropDownOpenChangedCommand.CommandParameter="{Binding Path=IsPopupEnabled,RelativeSource={RelativeSource Self}}"
+                                              syncfusion:DateTimeEditClockPopupOpenedEventCommand.Command="{Binding IsClockPopupOpenedCommand}"
+                                              syncfusion:DateTimeEditCalendarPopupOpenedCommand.Command="{Binding IsCalendarPopupOpenedCommand}"
+                                              syncfusion:DateTimeEditDateTimeChangedCommand.Command="{Binding DateTimeChangedCommand}"
+                                                syncfusion:DateTimeEditMinDateTimeChangedCommand.Command="{Binding MinValueChangedCommand}"
+                                                syncfusion:DateTimeEditMaxDateTimeChangedCommand.Command="{Binding MaxValueChangedCommand}"                                                 syncfusion:DateTimeBasePatternChangedCommand.Command="{Binding PatternChangedCommand}"
+                                               
+                                      
+                                             
+                                              
+                                              
+                                              
+                                            >                                         
+                    </syncfusion:DateTimeEdit>
+
+                    <ToggleButton Grid.Column="1" Height="20" Width="20" Margin="0,-40,0,0" Style="{StaticResource ToggleButtonStyle1}"
+                                  ToolTip="Read only" x:Name="readonly">
+
+                    </ToggleButton>
+
+                </Grid>
+
+            </sblayout:SampleLayoutControl>
+        </Grid>
+
+    </Grid>
+</syncfusion:ChromelessWindow>

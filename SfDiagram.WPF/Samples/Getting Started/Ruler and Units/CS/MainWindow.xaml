@@ -1,0 +1,229 @@
+﻿<shared:ChromelessWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:RulerAndUnits"
+        xmlns:sf="http://schemas.syncfusion.com/wpf"
+        xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Class="RulerAndUnits.MainWindow"
+        xmlns:controls="clr-namespace:Syncfusion.UI.Xaml.Diagram.Controls;assembly=Syncfusion.SfDiagram.Wpf"
+        Icon="App.ico"
+        Title="Ruler and Units"
+        Height="700"
+        Width="1000"
+        Template="{StaticResource ChromelessWindowTemplate}"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Initialize Diagram-->
+        <syncfusion:SfDiagram x:Name="diagramcontrol" Background="White" Grid.Column="0" DefaultConnectorType="Line">
+
+            <!--To Represent HorizontalRuler,VerticalRuler-->
+            <syncfusion:SfDiagram.HorizontalRuler>
+                <controls:Ruler x:Name="_hruler" Orientation="Horizontal" Scale="{Binding ElementName=diagramcontrol,Path=ScrollInfo.CurrentZoom}"
+                               Offset="{Binding ElementName=diagramcontrol,Path=ScrollInfo.HorizontalOffset}"
+                               Thickness="25">
+                </controls:Ruler>
+            </syncfusion:SfDiagram.HorizontalRuler>
+
+            <syncfusion:SfDiagram.VerticalRuler>
+                <controls:Ruler x:Name="_vruler" Orientation="Vertical" Scale="{Binding ElementName=diagramcontrol,Path=ScrollInfo.CurrentZoom}"
+                               Offset="{Binding ElementName=diagramcontrol,Path=ScrollInfo.VerticalOffset}"
+                               Thickness="25">
+                </controls:Ruler>
+            </syncfusion:SfDiagram.VerticalRuler>
+
+            <!--SnapConstraints used to control the Visibilty of Gridlines and enable/disable Snapping.-->
+            <syncfusion:SfDiagram.SnapSettings>
+                <syncfusion:SnapSettings SnapConstraints="All" SnapToObject="All"/>
+            </syncfusion:SfDiagram.SnapSettings>
+
+            <!--PageSettings used to enable the Appearance of Diagram Page.-->
+            <syncfusion:SfDiagram.PageSettings>
+                <syncfusion:PageSettings PageBackground="White" PageBorderBrush="White"/>
+            </syncfusion:SfDiagram.PageSettings>
+
+            <syncfusion:SfDiagram.ScrollSettings>
+                <syncfusion:ScrollSettings ScrollLimit="Diagram"/>
+            </syncfusion:SfDiagram.ScrollSettings>
+
+            <!--Initialize Node-->
+            <syncfusion:SfDiagram.Nodes>
+                <local:NodeVmCollection>
+                    <local:NodeVm ID="NewIdea" x:Name="NewIdea" UnitWidth="150" UnitHeight="60" OffsetX="300" OffsetY="60" ShapeStyle="{StaticResource nodeshapestyle}"
+                                         Shape="{StaticResource Ellipse}">
+                        <local:NodeVm.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel TextHorizontalAlignment="Center" 
+                                                                      TextVerticalAlignment="Center" 
+                                                                      WrapText="Wrap" UnitWidth="75" 
+                                                                       Content="New idea identified" 
+                                                                      ViewTemplate="{StaticResource viewtemplate1}"/>
+                            </local:AnnotationCollection>
+                        </local:NodeVm.Annotations>
+                    </local:NodeVm>
+
+                    <local:NodeVm x:Name="Meeting" ID="Meeting" UnitWidth="150" UnitHeight="60" OffsetX="300" OffsetY="160" ShapeStyle="{StaticResource nodeshapestyle}"
+                                         Shape="{StaticResource Process}">
+                        <local:NodeVm.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel TextHorizontalAlignment="Center"
+                                                                      TextVerticalAlignment="Center" WrapText="Wrap"
+                                                                      UnitWidth="100" 
+                                                                      Content="Meeting with board" 
+                                                                      ViewTemplate="{StaticResource viewtemplate1}"/>
+                            </local:AnnotationCollection>
+                        </local:NodeVm.Annotations>
+                    </local:NodeVm>
+
+                    <local:NodeVm x:Name="BoardDecision" IsMultiline="True" ID="BoardDecision" UnitWidth="150" UnitHeight="100" OffsetX="300" OffsetY="270" 
+                                  ShapeStyle="{StaticResource nodeshapestyle}"
+                                         Shape="{StaticResource Decision}">
+                        <local:NodeVm.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel TextHorizontalAlignment="Center"
+                                                                      TextVerticalAlignment="Center" 
+                                                                      WrapText="Wrap" UnitWidth="75"                                                                     
+                                                                      Content="Board decides whether to proceed"
+                                                                      ViewTemplate="{StaticResource viewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </local:NodeVm.Annotations>
+                    </local:NodeVm>
+
+                    <local:NodeVm x:Name="Project" IsMultiline="True" ID="Project" UnitWidth="150" UnitHeight="100" OffsetX="300" OffsetY="410" ShapeStyle="{StaticResource nodeshapestyle}"
+                                         Shape="{StaticResource Decision}">
+                        <local:NodeVm.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel TextHorizontalAlignment="Center" 
+                                                                      TextVerticalAlignment="Center" 
+                                                                      WrapText="Wrap" UnitWidth="75"                                                                      
+                                                                      Content="Find Project Manager, write specification" 
+                                                                      ViewTemplate="{StaticResource viewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </local:NodeVm.Annotations>
+                    </local:NodeVm>
+
+                    <local:NodeVm x:Name="End" ID="End" UnitWidth="120" IsMultiline="True" UnitHeight="60" OffsetX="300" OffsetY="530" ShapeStyle="{StaticResource nodeshapestyle}"
+                                         Shape="{StaticResource Process}">
+                        <local:NodeVm.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel TextHorizontalAlignment="Center"
+                                                                      TextVerticalAlignment="Center"
+                                                                      WrapText="Wrap" UnitWidth="75" 
+                                                                      Content="Implement and deliver"
+                                                                      ViewTemplate="{StaticResource viewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </local:NodeVm.Annotations>
+                    </local:NodeVm>
+
+                    <local:NodeVm x:Name="Decision" IsCustomStyle="True" ID="Decision" IsMultiline="True" UnitWidth="200" UnitHeight="60" OffsetX="540" OffsetY="70" ShapeStyle="{StaticResource nodeshapestyle1}"
+                                         Shape="{StaticResource Card}">
+                        <local:NodeVm.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="Wrap"
+                                                                      UnitWidth="75" 
+                                                                      Content="Decision process for new software ideas"
+                                                                      ViewTemplate="{StaticResource viewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </local:NodeVm.Annotations>
+                    </local:NodeVm>
+
+                    <local:NodeVm x:Name="Reject" ID="Reject" UnitWidth="200" UnitHeight="60" OffsetX="540" OffsetY="270" ShapeStyle="{StaticResource nodeshapestyle}"
+                                         Shape="{StaticResource Process}">
+                        <local:NodeVm.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel TextHorizontalAlignment="Center"
+                                                                      TextVerticalAlignment="Center"
+                                                                      WrapText="Wrap" UnitWidth="100" 
+                                                                                                                                          Content="Reject and report the reasons" 
+                                                                      ViewTemplate="{StaticResource viewtemplate1}"/>
+                            </local:AnnotationCollection>
+                        </local:NodeVm.Annotations>
+                    </local:NodeVm>
+
+
+                    <local:NodeVm x:Name="New_Resources" ID="New_Resources" UnitWidth="200" UnitHeight="60" OffsetX="540" OffsetY="410" ShapeStyle="{StaticResource nodeshapestyle}"
+                                         Shape="{StaticResource Process}">
+                        <local:NodeVm.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel TextHorizontalAlignment="Center" 
+                                                                      TextVerticalAlignment="Center" 
+                                                                      WrapText="Wrap" UnitWidth="75" 
+                                                                      Content="Hire new resources" 
+                                                                      ViewTemplate="{StaticResource viewtemplate1}"/>
+                            </local:AnnotationCollection>
+                        </local:NodeVm.Annotations>
+                    </local:NodeVm>
+                </local:NodeVmCollection>
+            </syncfusion:SfDiagram.Nodes>
+
+            <!--Initialize Connector-->
+            <syncfusion:SfDiagram.Connectors>
+                <syncfusion:ConnectorCollection>
+                    <syncfusion:ConnectorViewModel SourceNodeID="NewIdea" TargetNodeID="Meeting"/>
+                    <syncfusion:ConnectorViewModel SourceNodeID="Meeting" TargetNodeID="BoardDecision"/>
+                    <syncfusion:ConnectorViewModel SourceNodeID="BoardDecision" TargetNodeID="Reject">
+                        <syncfusion:ConnectorViewModel.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="No" 
+                                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:ConnectorViewModel.Annotations>
+                    </syncfusion:ConnectorViewModel>
+                    <syncfusion:ConnectorViewModel SourceNodeID="BoardDecision" TargetNodeID="Project">
+                        <syncfusion:ConnectorViewModel.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page"
+                                                                      Content="Yes" HorizontalAlignment="Center" 
+                                                                      VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:ConnectorViewModel.Annotations>
+                    </syncfusion:ConnectorViewModel>
+                    <syncfusion:ConnectorViewModel SourceNodeID="Project" TargetNodeID="New_Resources">
+                        <syncfusion:ConnectorViewModel.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="No"
+                                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:ConnectorViewModel.Annotations>
+                    </syncfusion:ConnectorViewModel>
+                    <syncfusion:ConnectorViewModel SourceNodeID="Project" TargetNodeID="End">
+                        <syncfusion:ConnectorViewModel.Annotations>
+                            <local:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel WrapText="NoWrap" RotationReference="Page" Content="Yes" 
+                                                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                                                      ViewTemplate="{StaticResource connectorviewtemplate}"/>
+                            </local:AnnotationCollection>
+                        </syncfusion:ConnectorViewModel.Annotations>
+                    </syncfusion:ConnectorViewModel>
+                </syncfusion:ConnectorCollection>
+            </syncfusion:SfDiagram.Connectors>
+
+        </syncfusion:SfDiagram>
+
+        <Border Margin="3,0,0,0" Background="White" Grid.Column="1">
+            <Grid>
+                <!--To Represent Units-->
+                <StackPanel Margin="50,50,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+                    <TextBlock Margin="15,5,5,5" HorizontalAlignment="Left" VerticalAlignment="Center" Text="Units" Foreground="#191919" FontSize="15" FontFamily="Segoe UI"></TextBlock>
+                    <ComboBox HorizontalAlignment="Left" SelectedIndex="0" SelectionChanged="UnitsBox_OnSelectionChanged" Width="100" Foreground="#4d4d4d" Margin="15,5,5,5" VerticalAlignment="Center">
+                        <ComboBoxItem>Pixels</ComboBoxItem>
+                        <ComboBoxItem>Inches</ComboBoxItem>
+                        <ComboBoxItem>Feets</ComboBoxItem>
+                        <ComboBoxItem>Yards</ComboBoxItem>
+                        <ComboBoxItem>Millimeters</ComboBoxItem>
+                        <ComboBoxItem>Centimeters</ComboBoxItem>
+                        <ComboBoxItem>Meters</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</shared:ChromelessWindow>
