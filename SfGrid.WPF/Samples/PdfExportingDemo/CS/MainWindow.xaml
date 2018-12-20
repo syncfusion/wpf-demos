@@ -1,0 +1,218 @@
+﻿<syncfusion:ChromelessWindow x:Class="PdfExportingDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:PdfExportingDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <local:PdfOptionsConverter x:Key="pdfOptionsConverter" />
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="95" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--  Header Panel Implementation  -->
+            <Border Background="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Name="border1"
+                            Width="26"
+                            Height="45"
+                            Margin="0,6,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Background="#FF119EDA"
+                            BorderBrush="#FF119EDA"
+                            BorderThickness="1" />
+
+                    <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Margin="10,10,0,0"
+                                   HorizontalAlignment="Left"
+                                   FontFamily="Segoe WP"
+                                   FontSize="35"
+                                   Foreground="#FF119EDA"
+                                   Text="PDF Exporting" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="10,0,0,7"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   FontFamily="Segoe WP"
+                                   FontSize="16"
+                                   Text="This sample showcases how to export the Grid content to PDF."
+                                   TextWrapping="Wrap" />
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="1" Margin="35,0,35,35">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="78*" />
+                    <ColumnDefinition Width="22*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  GridView  -->
+                <Border Grid.Column="0">
+                    <syncfusion:SfDataGrid x:Name="dataGrid"
+                                           AutoExpandGroups="True"
+                                           AutoGenerateColumns="False"
+                                           ItemsSource="{Binding OrderInfo}"
+                                           NavigationMode="Row"
+                                           SelectionMode="Multiple"
+                                           ShowGroupDropArea="True">
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridTextColumn HeaderText="Order ID"
+                                                       MappingName="OrderID"
+                                                       TextAlignment="Right" />
+                            <syncfusion:GridTextColumn HeaderText="Customer ID" MappingName="CustomerID" />
+                            <syncfusion:GridTextColumn HeaderText="Employee ID"
+                                                       MappingName="EmployeeID"
+                                                       TextAlignment="Right" />
+                            <syncfusion:GridTextColumn HeaderText="Employee Name" MappingName="Employees.FirstName" />
+                            <syncfusion:GridTextColumn HeaderText="Ship Name" MappingName="ShipName" />
+                            <syncfusion:GridTextColumn HeaderText="Ship City" MappingName="ShipCity" />
+                            <syncfusion:GridTextColumn HeaderText="Ship Country" MappingName="ShipCountry" />
+                            <syncfusion:GridTextColumn HeaderText="Ship PostalCode" MappingName="ShipPostalCode" />
+                            <syncfusion:GridDateTimeColumn HeaderText="Order Date"
+                                                           MappingName="OrderDate"
+                                                           TextAlignment="Right" />
+                            <syncfusion:GridCurrencyColumn HeaderText="Freight" MappingName="Freight" />
+                        </syncfusion:SfDataGrid.Columns>
+
+                        <syncfusion:SfDataGrid.GroupColumnDescriptions>
+                            <syncfusion:GroupColumnDescription ColumnName="ShipCountry" />
+                        </syncfusion:SfDataGrid.GroupColumnDescriptions>
+
+                        <syncfusion:SfDataGrid.GroupSummaryRows>
+                            <syncfusion:GridSummaryRow Title="Total Cost : {Total}" ShowSummaryInRow="True">
+                                <syncfusion:GridSummaryRow.SummaryColumns>
+                                    <syncfusion:GridSummaryColumn Name="Total"
+                                                                  Format="'{Sum:c}'"
+                                                                  MappingName="Freight"
+                                                                  SummaryType="DoubleAggregate" />
+                                </syncfusion:GridSummaryRow.SummaryColumns>
+                            </syncfusion:GridSummaryRow>
+                        </syncfusion:SfDataGrid.GroupSummaryRows>
+
+                        <syncfusion:SfDataGrid.TableSummaryRows>
+                            <syncfusion:GridSummaryRow Title="Total Cost : {Total}" ShowSummaryInRow="True">
+                                <syncfusion:GridSummaryRow.SummaryColumns>
+                                    <syncfusion:GridSummaryColumn Name="Total"
+                                                                  Format="'{Sum:c}'"
+                                                                  MappingName="Freight"
+                                                                  SummaryType="DoubleAggregate" />
+                                </syncfusion:GridSummaryRow.SummaryColumns>
+                            </syncfusion:GridSummaryRow>
+                        </syncfusion:SfDataGrid.TableSummaryRows>
+
+                    </syncfusion:SfDataGrid>
+                </Border>
+
+                <!--  UserOptions  -->
+                <Border Grid.Column="1">
+                    <ItemsControl IsTabStop="False">
+                        <syncfusion:UserOptions Grid.Column="1" HeaderText="Options">
+                            <StackPanel Margin="5">
+
+                                <TextBlock Margin="4"
+                                           FontSize="12"
+                                           FontWeight="Bold"
+                                           Text="PDF Exporting Options" />
+
+                                <CheckBox x:Name="ColumnWidth"
+                                          Margin="6"
+                                          Content="Auto Column Width"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="RowHeight"
+                                          Margin="6"
+                                          Content="Auto Row Height"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="ExportGroup"
+                                          Margin="6"
+                                          Content="Export Groups"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="ExportGroupSummary"
+                                          Margin="6"
+                                          Content="Export Group Summaries"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="ExportTableSummary"
+                                          Margin="6"
+                                          Content="Export Table Summaries"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="RepeatHeader"
+                                          Margin="6"
+                                          Content="Repeat Headers"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="FitAllColumns"
+                                          Margin="6"
+                                          Content="Fit All Columns in One Page"
+                                          IsChecked="False" />
+
+                                <Button Margin="5,15,5,5"
+                                        Command="local:Commands.ExportToPdf"
+                                        CommandTarget="{Binding ElementName=dataGrid}"
+                                        Content="Export All to PDF">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource pdfOptionsConverter}"
+                                                      Mode="OneWay"
+                                                      UpdateSourceTrigger="PropertyChanged">
+                                            <Binding ElementName="ColumnWidth" Path="IsChecked" />
+                                            <Binding ElementName="RowHeight" Path="IsChecked" />
+                                            <Binding ElementName="ExportGroup" Path="IsChecked" />
+                                            <Binding ElementName="ExportGroupSummary" Path="IsChecked" />
+                                            <Binding ElementName="ExportTableSummary" Path="IsChecked" />
+                                            <Binding ElementName="RepeatHeader" Path="IsChecked" />
+                                            <Binding ElementName="FitAllColumns" Path="IsChecked" />
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
+
+                                <Button Margin="5,15,5,5"
+                                        Command="local:ExportSelectedCommmand.ExportToPdf"
+                                        CommandTarget="{Binding ElementName=dataGrid}"
+                                        Content="Export Selected Items to PDF">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource pdfOptionsConverter}"
+                                                      Mode="OneWay"
+                                                      UpdateSourceTrigger="PropertyChanged">
+                                            <Binding ElementName="ColumnWidth" Path="IsChecked" />
+                                            <Binding ElementName="RowHeight" Path="IsChecked" />
+                                            <Binding ElementName="ExportGroup" Path="IsChecked" />
+                                            <Binding ElementName="ExportGroupSummary" Path="IsChecked" />
+                                            <Binding ElementName="ExportTableSummary" Path="IsChecked" />
+                                            <Binding ElementName="RepeatHeader" Path="IsChecked" />
+                                            <Binding ElementName="FitAllColumns" Path="IsChecked" />
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
+
+
+                            </StackPanel>
+                        </syncfusion:UserOptions>
+                    </ItemsControl>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</syncfusion:ChromelessWindow>

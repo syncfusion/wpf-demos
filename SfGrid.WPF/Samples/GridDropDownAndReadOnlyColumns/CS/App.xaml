@@ -1,0 +1,86 @@
+﻿<Application x:Class="GridDropDownAndReadOnlyColumns.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style TargetType="syncfusion:AddNewRowControl">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Foreground" Value="#FF808080" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="syncfusion:AddNewRowControl">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="AddNewRowStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Edit">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="HasError">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_InValidBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="NoError">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_AddNewRowTextBorder" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border Background="{TemplateBinding RowSelectionBrush}"
+                                    Clip="{TemplateBinding SelectionBorderClipRect}"
+                                    Visibility="{TemplateBinding SelectionBorderVisiblity}" />
+                            <Border x:Name="PART_InValidBorder"
+                                    Margin="0,0,1,1"
+                                    Background="Transparent"
+                                    BorderBrush="Red"
+                                    BorderThickness="1"
+                                    Visibility="Collapsed" />
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter />
+                            </Border>
+                            <Border x:Name="PART_AddNewRowTextBorder"
+                                    Background="#FFE5E5E5"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0,0,1,1"
+                                    Clip="{TemplateBinding TextBorderClip}"
+                                    IsHitTestVisible="False">
+                                <ContentPresenter Margin="{TemplateBinding TextMargin}"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding AddNewRowText}" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>

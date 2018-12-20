@@ -1,0 +1,272 @@
+﻿<!--Window for applying custom skins-->
+<Window
+    x:Class="DockingSampleCustomButton.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Icon="App.ico" Style="{StaticResource windowStyle}"
+	xmlns:syncfusion="http://schemas.syncfusion.com/wpf" MinHeight="500" MinWidth="760"
+    Title="Custom Button Demo" x:Name="window1" Width="980" syncfusion:SkinStorage.VisualStyle="Metro"
+	WindowStartupLocation="CenterScreen">
+	
+   
+    
+    <!--Defining Root Grid's resources-->
+    <Border  BorderThickness="1">
+        <Grid>
+           <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="145*" />
+            <ColumnDefinition Width="131*" />                
+            </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition ToolTip="Headers" Height="Auto"/>
+          <RowDefinition ToolTip="properties" Height="*"/>            
+        </Grid.RowDefinitions>    
+			<!-- SkinPicker for changing the skin of window -->
+			<!--<syncfusion:SkinPicker Name="skinPicker" Height="60" Skin="Office2007Blue" Grid.ColumnSpan="2" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" />-->
+			<!--Docking Window Area-->
+            <syncfusion:DockingManager Grid.Row="1" UseDocumentContainer="True" IsVS2010DraggingEnabled="True"
+                                       syncfusion:DockingManager.AnimationDelay="00:00:00.3"  
+                                       x:Name="DockingManager" PersistState="false" 
+                                       Grid.ColumnSpan="3">
+            
+            <!-- Customized Header Template-->
+                <syncfusion:DockingManager.HeaderTemplate>
+                    <DataTemplate>
+                        <DockPanel LastChildFill="True" >
+                            <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </syncfusion:DockingManager.HeaderTemplate>
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="icon.PNG"/>
+                </syncfusion:DockingManager.Icon>
+                
+                <!-- Template For Close Button-->
+                <syncfusion:DockingManager.CloseButtonTemplate>
+                    <ControlTemplate>
+                        <Border x:Name="brdBack" Height="16" Width="20" 
+                                Margin="0" BorderThickness="1" 
+					  BorderBrush="Transparent" >
+                            <Image  Name="pathButton" Source="Close.png" Width="20" Height="16"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="pathButton" Property="Source" Value="close_hover.png" />
+                                <Setter TargetName="brdBack" Property="BitmapEffect">
+                                    <Setter.Value>
+                                        <OuterGlowBitmapEffect GlowColor="Red" GlowSize="2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding Path=IsKeyboardFocusWithin,
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorType={x:Type syncfusion:DockedElementTabbedHost}}}"
+							    Value="True">
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsMouseOver, 
+                                        RelativeSource={RelativeSource Self}}" Value="True"/>
+                                    <Condition Binding="{Binding Path=IsKeyboardFocusWithin,
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                        AncestorType={x:Type syncfusion:DockedElementTabbedHost}}}"
+                                        Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="pathButton" Property="Source" Value="close_hover.png"/>
+                                <Setter TargetName="brdBack" Property="BitmapEffect">
+                                    <Setter.Value>
+                                        <OuterGlowBitmapEffect GlowColor="Red" GlowSize="2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="pathButton" Property="Opacity" Value="0.4" />
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsKeyboardFocusWithin, 
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                        AncestorType={x:Type syncfusion:DockedElementTabbedHost}}}"
+											Value="True" />
+                                    <Condition Binding="{Binding Path=IsEnabled, 
+                                        RelativeSource={RelativeSource Self}}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="pathButton" Property="Opacity" Value="0.5"/>
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </syncfusion:DockingManager.CloseButtonTemplate>
+
+                <!-- Template For MenuButton-->
+                <syncfusion:DockingManager.MenuButtonTemplate>
+                    <ControlTemplate>
+                        <Border x:Name="brdBack" Height="14" Width="20" Margin="0,2.5,0,0" 
+                                BorderThickness="1" 
+					  BorderBrush="Transparent" >
+                            <Image  Name="pathButton" Source="context.png" Width="20" 
+                                    Height="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="brdBack" Property="BitmapEffect">
+                                    <Setter.Value>
+                                        <OuterGlowBitmapEffect GlowColor="Gray" GlowSize="2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding Path=IsKeyboardFocusWithin,
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorType={x:Type syncfusion:DockedElementTabbedHost}}}"
+									   Value="True" >                               
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsMouseOver, 
+                                        RelativeSource={RelativeSource Self}}"
+											Value="True"/>
+                                    <Condition Binding="{Binding Path=IsKeyboardFocusWithin, 
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                        AncestorType={x:Type syncfusion:DockedElementTabbedHost}}}"
+											Value="True" />
+                                </MultiDataTrigger.Conditions>
+
+                                <Setter TargetName="brdBack" Property="BitmapEffect">
+                                    <Setter.Value>
+                                        <OuterGlowBitmapEffect GlowColor="Gray" GlowSize="2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="pathButton" Property="Opacity" Value="0.4" />
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsKeyboardFocusWithin, 
+                                        RelativeSource={RelativeSource FindAncestor,
+                                        AncestorType={x:Type syncfusion:DockedElementTabbedHost}}}"
+											Value="True" />
+                                    <Condition Binding="{Binding Path=IsEnabled, 
+                                        RelativeSource={RelativeSource Self}}" 
+                                               Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="pathButton" Property="Opacity" 
+                                        Value="0.5" />
+                            </MultiDataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </syncfusion:DockingManager.MenuButtonTemplate>
+
+                <!--AutoHidwButton Template  -->
+                <syncfusion:DockingManager.AwlButtonTemplate>
+                    <ControlTemplate>
+                        <Border x:Name="brdBack" Height="15" Width="15" Margin="2" 
+                                BorderThickness="1" 
+					  BorderBrush="Transparent" >
+                            <Image  Name="CloseBtnImg" Source="autohide.png" Width="15" Height="15" 
+                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="brdBack" Property="BitmapEffect">
+                                    <Setter.Value>
+                                        <OuterGlowBitmapEffect GlowColor="WhiteSmoke" GlowSize="3" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <DataTrigger Binding="{Binding IsTemplateParenKeyboardFocusWithin,
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorType={x:Type syncfusion:DockHeaderPresenter}}}"
+								Value="True">
+
+                            </DataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=IsMouseOver, 
+                                        RelativeSource={RelativeSource Self}}"
+								        Value="True"/>
+                                    <Condition Binding="{Binding IsTemplateParenKeyboardFocusWithin	, 
+                                        RelativeSource={RelativeSource FindAncestor,
+                                        AncestorType={x:Type syncfusion:DockHeaderPresenter}}}"
+								        Value="True" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="brdBack" Property="BitmapEffect">
+                                    <Setter.Value>
+                                        <OuterGlowBitmapEffect GlowColor="WhiteSmoke" GlowSize="3" />
+                                    </Setter.Value>
+                                </Setter>
+                            </MultiDataTrigger>
+                            <Trigger Property="IsEnabled" Value="False" >
+                                <Setter TargetName="CloseBtnImg" Property="Opacity" Value="0.7" />
+                            </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsTemplateParenKeyboardFocusWithin, 
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                        AncestorType={x:Type syncfusion:DockHeaderPresenter}}}" 
+                                        Value="True" />
+                                    <Condition Binding="{Binding Path=IsEnabled, 
+                                        RelativeSource={RelativeSource Self}}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter TargetName="CloseBtnImg" Property="Opacity" Value="0.6" />
+
+                            </MultiDataTrigger>
+                            <DataTrigger Binding="{Binding Path=(syncfusion:DockingManager.AutoHideVisibility), 
+                                RelativeSource={RelativeSource 
+                                AncestorType={x:Type syncfusion:DockingManager}}}"
+					            Value="False">
+                                <Setter TargetName="CloseBtnImg" Property="Visibility" Value="Collapsed" />
+                                <Setter TargetName="brdBack" Property="Margin" Value="0" />
+                                <Setter TargetName="brdBack" Property="BorderThickness" Value="0" />
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </syncfusion:DockingManager.AwlButtonTemplate>
+                
+                <!-- Dock Window-->
+                <StackPanel Name="B0"  
+                            syncfusion:DockingManager.Header="Stack Panel One" 
+                            syncfusion:DockingManager.SideInDockedMode="Left" 
+                            syncfusion:DockingManager.DesiredWidthInDockedMode="175"/>			
+			<!--Document Area-->
+                <Border  syncfusion:DockingManager.Header="Docking Manager" Name="bor" 
+                         syncfusion:DockingManager.State="Document">
+                    <FlowDocumentScrollViewer HorizontalScrollBarVisibility="Auto" 
+                                              VerticalScrollBarVisibility="Auto" >
+                        <FlowDocument  FontFamily="Calibri" FontSize="14.5" 
+                                       TextAlignment="Left">
+                            <Paragraph FontSize="24" FontFamily="Cambria"  
+                                       FontWeight="Bold" >
+                                WPF Docking Manager
+                            </Paragraph>
+                            <Paragraph FontSize="15" FontFamily="Calibri">
+                                The Docking Manager application is designed to highlight 
+                                the features of the WPF Docking Manager library for Windows 
+                                Presentation Foundation (WPF). Executable and  full source 
+                                code are provided to  view the integration of the library into 
+                                your applications. This document contains features and other 
+                                controls to demonstrate most window and layout features. View 
+                                features of Docking Manager using the properties window. 
+                                The Docking Manager follows an architecture that allows controls 
+                                to be docked to any part of the window. It has been broadly designed 
+                                based on  docking features present in Visual Studio 2005. The Docking 
+                                Manager works on top of all the controls placed inside its tree. It 
+                                handles the window layout for the user automatically and places controls. 
+                                Like the DockPanel control , It also uses attached properties to set the 
+                                controls as docked controls or docked windows. The docked windows can be 
+                                placed as a group of logically related docked controls. The templates 
+                                AwlButtonTemplate, MenuButtonTemplate and CloseButtonTemplate are the 
+                                custom templates applied to the buttons. The HeaderTemplate is applied 
+                                to the header of the dockingmanager.
+                            </Paragraph>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>
+                </Border>
+                <!-- Dock Window-->
+                <DockPanel Name="B1" 
+					syncfusion:DockingManager.Header="Dock Window One" 
+					syncfusion:DockingManager.SideInDockedMode="Right" 
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="175" />
+            </syncfusion:DockingManager>
+        </Grid>
+    </Border>
+</Window>

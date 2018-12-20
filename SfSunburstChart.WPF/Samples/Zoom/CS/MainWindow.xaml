@@ -1,0 +1,53 @@
+﻿<layout:SampleLayoutWindow x:Class="ZoomableSunburst.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:ZoomableSunburst"
+        xmlns:sunburst="clr-namespace:Syncfusion.UI.Xaml.SunburstChart;assembly=Syncfusion.SfSunburstChart.WPF"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        UserOptionsVisibility="Collapsed"
+        ResizeMode="CanResizeWithGrip"
+        WindowStartupLocation="CenterScreen"
+        Title="Zoom">
+    <layout:SampleLayoutWindow.DataContext>
+        <local:ViewModel/>
+    </layout:SampleLayoutWindow.DataContext>
+    
+    <Grid>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>     
+
+        <sunburst:SfSunburstChart x:Name="Sunburst" ItemsSource="{Binding Data}"  Radius="0.95" ValueMemberPath="EmployeesCount">
+            <sunburst:SfSunburstChart.Header>
+                <TextBlock Margin="50,10,10,10" Text="Employees Count" FontFamily="Cambria" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </sunburst:SfSunburstChart.Header>
+
+            <sunburst:SfSunburstChart.Legend>
+                <sunburst:SunburstLegend HorizontalAlignment="Right" Margin="50,0,0,0" ClickAction="None" />
+            </sunburst:SfSunburstChart.Legend>
+
+            <sunburst:SfSunburstChart.Levels>
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="Country"/>
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="JobDescription"/>
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="JobGroup"/>
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="JobRole"/>
+            </sunburst:SfSunburstChart.Levels>
+
+            <sunburst:SfSunburstChart.DataLabelInfo>
+                <sunburst:SunburstDataLabelInfo x:Name="sbDataLabel" FontFamily="Cambria" />
+            </sunburst:SfSunburstChart.DataLabelInfo>
+
+            <sunburst:SfSunburstChart.Behaviors>
+                <sunburst:SunburstZoomingBehavior />
+            </sunburst:SfSunburstChart.Behaviors>
+        </sunburst:SfSunburstChart>
+
+            <TextBlock Margin="10,8,10,0" Text="Double tap/click over the segment to perform zooming function." 
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       TextWrapping="WrapWithOverflow" Grid.Row="1" />
+
+    </Grid>
+</layout:SampleLayoutWindow>

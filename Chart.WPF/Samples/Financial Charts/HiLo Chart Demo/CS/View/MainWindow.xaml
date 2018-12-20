@@ -1,0 +1,157 @@
+﻿<layout:SampleLayoutWindow x:Class="HiLoChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:HiLoChart"
+        xmlns:frame="clr-namespace:System.Windows;assembly=PresentationFramework"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="HiLo Chart Demo">
+    <layout:SampleLayoutWindow.Resources>
+        <ObjectDataProvider x:Key="symbol" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:Symbol"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="horizontalAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:HorizontalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="verticalAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:VerticalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="chartStyles" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartStyles"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="chartColorPalette" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartColorPalette"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="adornmentsPosition" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:AdornmentsPosition"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </layout:SampleLayoutWindow.Resources>
+        <Grid>
+            <Grid.DataContext>
+                <local:HiLoChartViewModel/>
+            </Grid.DataContext>
+            <syncfusion:Chart  Name="Chart1" >
+                <!--Chart area to present chart segments-->
+                <syncfusion:ChartArea >
+                    <syncfusion:ChartArea.GridHeader>
+                        <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI" Margin="0,0,0,20">Blood Pressure Level Details</TextBlock>
+                    </syncfusion:ChartArea.GridHeader>
+                    <syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="Metro"/>
+                    </syncfusion:ChartArea.ColorModel>
+                    <!--Primary Axis(X)-->
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <!--X axis declaration with required property settings-->
+                        <syncfusion:ChartAxis Header="BP Level" RangePadding="Additional" LabelRotateAngle="90" Interval="1" RangeCalculationMode="AdjustAcrossChartTypes">
+                            <syncfusion:ChartArea.ShowGridLines>False</syncfusion:ChartArea.ShowGridLines>
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <!--Secondary Axis(Y)-->
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <!--Y axis declaration with required property settings-->
+                    <syncfusion:ChartAxis Header="Pressure in mm Hg" RangePadding="Additional" IsAutoSetRange="False" Range="25,220" >
+                            <syncfusion:ChartArea.ShowGridLines>False</syncfusion:ChartArea.ShowGridLines>
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <syncfusion:ChartSeries x:Name="series" Label="BP Readings Range" BindingPathX="Level" BindingPathsY="High,Low" DataSource="{Binding BPDetails}" Type="HiLo" StrokeThickness="3">
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                            <syncfusion:ChartAdornmentInfo x:Name="Adornments_BP" AdornmentsPosition="TopAndBottom" Visible="True" HorizontalAlignment="Center" VerticalAlignment="Top" >
+                                <syncfusion:ChartAdornmentInfo.SymbolTemplate>
+                                    <DataTemplate>
+                                        <Path Stretch="Fill" StrokeThickness="0" Fill="#FF1BA1E2" Height="15" Width="15"  Data="F1 M 156.37,93.7292L 134.634,71.8159L 112.906,49.9025L 91.1711,71.8159L 69.4364,93.7292L 70.1524,93.7292L 91.8844,115.644L 113.623,137.556L 135.362,115.644L 157.09,93.7292L 156.37,93.7292 Z "  />
+                                    </DataTemplate>
+                                </syncfusion:ChartAdornmentInfo.SymbolTemplate>
+                                <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,-7.5,0,-7.5" >
+                                            <Rectangle Width="25" Stroke="#FF1BA1E2" Fill="#FF1BA1E2" RadiusY="5" RadiusX="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                
+                                            </Rectangle>
+                                            <TextBlock TextWrapping="Wrap" Text="{Binding}" FontSize="12" Foreground="White" FontFamily="Segoe UI"   FontWeight="Regular" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </syncfusion:ChartAdornmentInfo.LabelTemplate>
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+                </syncfusion:ChartArea>
+            </syncfusion:Chart>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <!--Other Controls to provide dynamic property settings for chart control-->
+        <Grid>
+            <Grid.DataContext>
+                <local:HiLoChartViewModel/>
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="DataLabels" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+
+            <Grid Margin="0,10,0,20" Grid.Row="3" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="ShowDataLabels"/>
+                <CheckBox Grid.Row="0" Grid.Column="1" x:Name="chk_visible" IsChecked="{Binding ShowDataLabels, ElementName=series, Mode=TwoWay}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="AdornmentsPosition"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Source={StaticResource adornmentsPosition}}" SelectedItem="{Binding AdornmentsPosition, ElementName=Adornments_BP, Mode=TwoWay}" IsEnabled="{Binding IsChecked, ElementName=chk_visible, Mode=TwoWay}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="HorizontalAlignment"/>
+                <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Source={StaticResource horizontalAlignment}}" SelectedItem="{Binding HorizontalAlignment, ElementName=Adornments_BP, Mode=TwoWay}" IsEnabled="{Binding IsChecked, ElementName=chk_visible, Mode=TwoWay}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="VerticalAlignment"/>
+                <ComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Source={StaticResource verticalAlignment}}" SelectedItem="{Binding VerticalAlignment, ElementName=Adornments_BP, Mode=TwoWay}" IsEnabled="{Binding IsChecked, ElementName=chk_visible, Mode=TwoWay}"/>
+
+            </Grid>
+
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Palette" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+            <Grid Margin="0,10,0,20" Grid.Row="1" Grid.ColumnSpan="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Palette"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding PaletteCollection}" SelectedItem="{Binding Palette, ElementName=AreaColorModel, Mode=TwoWay}"/>
+            </Grid>
+
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+</layout:SampleLayoutWindow>

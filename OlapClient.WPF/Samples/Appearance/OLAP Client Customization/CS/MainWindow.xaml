@@ -1,0 +1,176 @@
+﻿<sfutils:SampleWindow x:Class="OLAPClientCustomization.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+                      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                      xmlns:behavior="clr-namespace:OLAPClientCustomization.Behavior"
+                      xmlns:viewModel="clr-namespace:OLAPClientCustomization.ViewModel"
+                      xmlns:converter="clr-namespace:OLAPClientCustomization.Converter"
+                      xmlns:action="clr-namespace:OLAPClientCustomization.Action"
+                      xmlns:client="clr-namespace:Syncfusion.Windows.Client.Olap;assembly=Syncfusion.OlapClient.WPF"
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils" 
+                      sfshared:SkinStorage.VisualStyle="Metro"
+                      WindowStartupLocation="CenterScreen" WindowState="Maximized"
+                      Title="OlapClient Customization" Icon="App.ico" Width="900" Height="700" MinWidth="500" MinHeight="500">
+
+    <Grid>
+        <Grid.Resources>
+            <converter:BooleanToVisibilityConverter x:Key="bool2visible" />
+        </Grid.Resources>
+
+        <Grid.DataContext>
+            <viewModel:ViewModel />
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="This sample contains OlapClient with different layout options to be applied in the OlapGrid and OlapChart." 
+                       Margin="5 0" Foreground="White" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Name="chartgrpBox" Grid.Column="0" Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="OlapClient" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <client:OlapClient Name="olapClient1" Margin="5" OlapDataManager="{Binding ClientDataManager}">
+                    <i:Interaction.Behaviors>
+                        <behavior:ClientLoadedBehavior />
+                    </i:Interaction.Behaviors>
+                </client:OlapClient>
+            </GroupBox>
+
+            <GridSplitter Name="spliterVertical" Grid.Column="0" Width="1" Margin="0 10 0 5" Background="#FF119EDA" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Grid.Row="0" Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Client Properties" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+
+                    <CheckBox Name="btn_showAllMember" Margin="10" Content="Show All Member" ToolTip="Show All Member" 
+                              Command="{Binding ShowAllMemberCommand}" />
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Margin="5" BorderThickness="1" BorderBrush="DarkGray"
+                          IsEnabled="{Binding ElementName=olapClient1, Path=OlapChartTab.IsSelected}">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Chart Properties" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock  Grid.Row="0" Text="Chart Appearance" Width="140" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold"/>
+
+                        <CheckBox Name="chk_Legend" Grid.Row="1" Width="110" Height="25" Content="Show Legend" ToolTip="Show Legend" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                  IsChecked="{Binding ElementName=olapClient1, Path=OlapChart.Legend.Visibility, Converter={StaticResource bool2visible}}" ToolTipService.ShowOnDisabled="True" />
+
+                        <TextBlock  Grid.Row="2" Text="Export to Word Document" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold"/>
+
+                        <Button Name="btn_newDocument" Grid.Row="3" Width="150" Height="25" Content="New Document" ToolTip="Export the Chart to a new Word Document" 
+                                HorizontalAlignment="Center" VerticalAlignment="Center" ToolTipService.ShowOnDisabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <action:ChartExportAction TargetName="olapClient1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+                        <Button Name="btn_newTemplate" Grid.Row="4" Width="150" Height="25" Content="Default Marker" ToolTip="Export the Chart to a new Template Document with Default Marker" 
+                                HorizontalAlignment="Center" VerticalAlignment="Center" ToolTipService.ShowOnDisabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <action:ChartExportAction TargetName="olapClient1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+                        <Button Name="btn_markerTemplate" Grid.Row="5" Width="150" Height="25" Content="Custom Marker" ToolTip="Export the Chart to a new Template Document with custom marker" 
+                                HorizontalAlignment="Center" VerticalAlignment="Center" ToolTipService.ShowOnDisabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <action:ChartExportAction TargetName="olapClient1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+
+                        <TextBlock  Grid.Row="6" Text="Export to Pdf Document" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="12" FontWeight="SemiBold"/>
+
+                        <Button Name="btn_ExportPdf" Grid.Row="7" Width="150" Height="25" Content="New Pdf Document" ToolTip="Export the Chart to a new Pdf Document" 
+                                HorizontalAlignment="Center" VerticalAlignment="Center" ToolTipService.ShowOnDisabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <action:ChartExportAction TargetName="olapClient1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </Grid>
+                </GroupBox>
+
+                <GroupBox Grid.Row="2" Margin="5" BorderThickness="1" BorderBrush="DarkGray"
+                          IsEnabled="{Binding ElementName=olapClient1, Path=OlapGridTab.IsSelected}">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="Grid Properties" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <CheckBox Name="chk_GrandTotal" Grid.Row="0" Width="160" Height="20" ToolTip="Show Grand Total" Content="Show Grand Total" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Center" ToolTipService.ShowOnDisabled="True">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <action:GrandTotalVisibilityAction TargetName="olapClient1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
+
+                        <CheckBox Name="chk_HeaderTooltip" Grid.Row="1" Width="160" Height="20" ToolTip="Show Header cell Tooltip" Content="Show Header Tooltip" HorizontalAlignment="Left" VerticalAlignment="Center" 
+								  IsChecked="{Binding Path=OlapGrid.ShowHeaderCellsToolTip,ElementName=olapClient1,Mode=TwoWay}" ToolTipService.ShowOnDisabled="True" />
+
+                        <CheckBox Name="chk_ValueCellTooltip" Grid.Row="2" Width="160" Height="20" ToolTip="Show Value cell Tooltip"  Content="Show ValueCell tooltip" HorizontalAlignment="Left" VerticalAlignment="Center" 
+								  IsChecked="{Binding Path=OlapGrid.ShowValueCellToolTip,ElementName=olapClient1,Mode=TwoWay}" ToolTipService.ShowOnDisabled="True"/>
+
+                        <CheckBox Name="chk_FreezeHeaders" Grid.Row="3" Width="160" Height="20" ToolTip="Freeze Headers" Content="Freeze Headers" HorizontalAlignment="Left" VerticalAlignment="Center" 
+								  IsChecked="{Binding Path=OlapGrid.FreezeHeaders,ElementName=olapClient1,Mode=TwoWay}" ToolTipService.ShowOnDisabled="True"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </Grid>
+</sfutils:SampleWindow>

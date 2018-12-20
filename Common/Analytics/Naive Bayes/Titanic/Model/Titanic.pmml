@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="NaiveBayes Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-06 17:31:32</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="6">
+  <DataField name="Survived" optype="categorical" dataType="string">
+   <Value value="died"/>
+   <Value value="survived"/>
+  </DataField>
+  <DataField name="Class" optype="categorical" dataType="string">
+   <Value value="1st"/>
+   <Value value="2nd"/>
+   <Value value="3rd"/>
+  </DataField>
+  <DataField name="Sex" optype="categorical" dataType="string">
+   <Value value="female"/>
+   <Value value="male"/>
+  </DataField>
+  <DataField name="Age" optype="continuous" dataType="double"/>
+  <DataField name="Siblings" optype="continuous" dataType="double"/>
+  <DataField name="Children" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <NaiveBayesModel modelName="naiveBayes_Model" functionName="classification" threshold="0">
+  <MiningSchema>
+   <MiningField name="Survived" usageType="predicted"/>
+   <MiningField name="Class" usageType="active"/>
+   <MiningField name="Sex" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Siblings" usageType="active"/>
+   <MiningField name="Children" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Survived" feature="predictedValue"/>
+   <OutputField name="Probability_died" optype="continuous" dataType="double" feature="probability" value="died"/>
+   <OutputField name="Probability_survived" optype="continuous" dataType="double" feature="probability" value="survived"/>
+  </Output>
+  <BayesInputs>
+   <BayesInput fieldName="Class">
+    <PairCounts value="1st">
+     <TargetValueCounts>
+      <TargetValueCount value="died" count="77"/>
+      <TargetValueCount value="survived" count="150"/>
+     </TargetValueCounts>
+    </PairCounts>
+    <PairCounts value="2nd">
+     <TargetValueCounts>
+      <TargetValueCount value="died" count="116"/>
+      <TargetValueCount value="survived" count="89"/>
+     </TargetValueCounts>
+    </PairCounts>
+    <PairCounts value="3rd">
+     <TargetValueCounts>
+      <TargetValueCount value="died" count="297"/>
+      <TargetValueCount value="survived" count="107"/>
+     </TargetValueCounts>
+    </PairCounts>
+   </BayesInput>
+   <BayesInput fieldName="Sex">
+    <PairCounts value="female">
+     <TargetValueCounts>
+      <TargetValueCount value="died" count="83"/>
+      <TargetValueCount value="survived" count="237"/>
+     </TargetValueCounts>
+    </PairCounts>
+    <PairCounts value="male">
+     <TargetValueCounts>
+      <TargetValueCount value="died" count="407"/>
+      <TargetValueCount value="survived" count="109"/>
+     </TargetValueCounts>
+    </PairCounts>
+   </BayesInput>
+   <BayesInput fieldName="Age">
+    <TargetValueStats>
+     <TargetValueStat value="died">
+      <GaussianDistribution mean="30.3501699999878" variance="198.464912607544"/>
+     </TargetValueStat>
+     <TargetValueStat value="survived">
+      <GaussianDistribution mean="28.5443161850058" variance="211.61541076774"/>
+     </TargetValueStat>
+    </TargetValueStats>
+   </BayesInput>
+   <BayesInput fieldName="Siblings">
+    <TargetValueStats>
+     <TargetValueStat value="died">
+      <GaussianDistribution mean="0.544897959183673" variance="1.16873669713284"/>
+     </TargetValueStat>
+     <TargetValueStat value="survived">
+      <GaussianDistribution mean="0.5" variance="0.523188405797101"/>
+     </TargetValueStat>
+    </TargetValueStats>
+   </BayesInput>
+   <BayesInput fieldName="Children">
+    <TargetValueStats>
+     <TargetValueStat value="died">
+      <GaussianDistribution mean="0.361224489795918" variance="0.783360460748717"/>
+     </TargetValueStat>
+     <TargetValueStat value="survived">
+      <GaussianDistribution mean="0.520231213872832" variance="0.632922844935913"/>
+     </TargetValueStat>
+    </TargetValueStats>
+   </BayesInput>
+  </BayesInputs>
+  <BayesOutput fieldName="Survived">
+   <TargetValueCounts>
+    <TargetValueCount value="died" count="490"/>
+    <TargetValueCount value="survived" count="346"/>
+   </TargetValueCounts>
+  </BayesOutput>
+ </NaiveBayesModel>
+</PMML>

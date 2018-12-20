@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="Generalized Linear Regression Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-07 17:05:31</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="7">
+  <DataField name="Tip_Amount" optype="continuous" dataType="double"/>
+  <DataField name="Total_Bill" optype="continuous" dataType="double"/>
+  <DataField name="Sex" optype="categorical" dataType="string">
+   <Value value="Female"/>
+   <Value value="Male"/>
+  </DataField>
+  <DataField name="Smoker" optype="categorical" dataType="string">
+   <Value value="No"/>
+   <Value value="Yes"/>
+  </DataField>
+  <DataField name="Day" optype="categorical" dataType="string">
+   <Value value="Fri"/>
+   <Value value="Sat"/>
+   <Value value="Sun"/>
+   <Value value="Thur"/>
+  </DataField>
+  <DataField name="Time" optype="categorical" dataType="string">
+   <Value value="Dinner"/>
+   <Value value="Lunch"/>
+  </DataField>
+  <DataField name="Size" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <GeneralRegressionModel modelName="General_Regression_Model" modelType="generalizedLinear" functionName="regression" algorithmName="glm" distribution="normal" linkFunction="power" linkParameter="-1">
+  <MiningSchema>
+   <MiningField name="Tip_Amount" usageType="predicted"/>
+   <MiningField name="Total_Bill" usageType="active"/>
+   <MiningField name="Sex" usageType="active"/>
+   <MiningField name="Smoker" usageType="active"/>
+   <MiningField name="Day" usageType="active"/>
+   <MiningField name="Time" usageType="active"/>
+   <MiningField name="Size" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Tip_Amount" feature="predictedValue"/>
+  </Output>
+  <ParameterList>
+   <Parameter name="p0" label="(Intercept)"/>
+   <Parameter name="p1" label="Total_Bill"/>
+   <Parameter name="p2" label="SexMale"/>
+   <Parameter name="p3" label="SmokerYes"/>
+   <Parameter name="p4" label="DaySat"/>
+   <Parameter name="p5" label="DaySun"/>
+   <Parameter name="p6" label="DayThur"/>
+   <Parameter name="p7" label="TimeLunch"/>
+   <Parameter name="p8" label="Size"/>
+  </ParameterList>
+  <FactorList>
+   <Predictor name="Sex"/>
+   <Predictor name="Smoker"/>
+   <Predictor name="Day"/>
+   <Predictor name="Time"/>
+  </FactorList>
+  <CovariateList>
+   <Predictor name="Total_Bill"/>
+   <Predictor name="Size"/>
+  </CovariateList>
+  <PPMatrix>
+   <PPCell value="1" predictorName="Total_Bill" parameterName="p1"/>
+   <PPCell value="Male" predictorName="Sex" parameterName="p2"/>
+   <PPCell value="Yes" predictorName="Smoker" parameterName="p3"/>
+   <PPCell value="Sat" predictorName="Day" parameterName="p4"/>
+   <PPCell value="Sun" predictorName="Day" parameterName="p5"/>
+   <PPCell value="Thur" predictorName="Day" parameterName="p6"/>
+   <PPCell value="Lunch" predictorName="Time" parameterName="p7"/>
+   <PPCell value="1" predictorName="Size" parameterName="p8"/>
+  </PPMatrix>
+  <ParamMatrix>
+   <PCell parameterName="p0" df="1" beta="0.511815827053877"/>
+   <PCell parameterName="p1" df="1" beta="-0.00721740198561251"/>
+   <PCell parameterName="p2" df="1" beta="-0.0127528680691887"/>
+   <PCell parameterName="p3" df="1" beta="0.0206207675534935"/>
+   <PCell parameterName="p4" df="1" beta="-0.00715397356154263"/>
+   <PCell parameterName="p5" df="1" beta="0.00793282422169329"/>
+   <PCell parameterName="p6" df="1" beta="-0.0194880867118954"/>
+   <PCell parameterName="p7" df="1" beta="-0.00308744044215263"/>
+   <PCell parameterName="p8" df="1" beta="-0.00502724623751774"/>
+  </ParamMatrix>
+ </GeneralRegressionModel>
+</PMML>

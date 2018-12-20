@@ -1,0 +1,92 @@
+﻿<Window x:Class="ObservableCollectionBindingDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:library="clr-namespace:System;assembly=mscorlib"  
+    xmlns:local="clr-namespace:ObservableCollectionBindingDemo"
+    xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"    
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" WindowStartupLocation="CenterScreen"
+    xmlns:toolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+   Title="ObservableCollection Binding Demo" Icon="App.ico"  Height="720" Width="1024" MinHeight="573" MinWidth="745">
+    <Window.Resources>
+        <DataTemplate x:Key="adornment">
+            <Grid>
+                <Rectangle Stroke="#FFAEAEAE" RadiusY="5" RadiusX="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFDADADA" Offset="1"/>
+                            <GradientStop Color="White"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock  Margin="7.5,3,7.5,3" TextWrapping="Wrap" Text="{Binding}" FontSize="12" Foreground="#FF585858" FontFamily="Segoe UI Symbol" FontWeight="Regular" VerticalAlignment="Center" HorizontalAlignment="Center">
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid >  
+        <Grid.DataContext>
+            <local:SportsViewModel/>
+        </Grid.DataContext>
+        <layout:LayoutControl>
+            <layout:LayoutControl.ChartView>
+                <syncfusion:Chart Grid.Row="1" Name="SyncUIChart">
+                    <syncfusion:Chart.Header>
+                        <TextBlock FontSize="20" FontFamily="Segoe UI">Sports Event Students Participation</TextBlock>
+                    </syncfusion:Chart.Header>
+                    <syncfusion:ChartArea>
+                        <syncfusion:ChartArea.PrimaryAxis>
+                            <syncfusion:ChartAxis IntersectAction="MultipleRows" Interval="1" RangePadding="Normal">
+                                <syncfusion:ChartAxis.Header>
+                                    <TextBlock Text="Sports Name"/>
+                                </syncfusion:ChartAxis.Header>
+                            </syncfusion:ChartAxis>
+                        </syncfusion:ChartArea.PrimaryAxis>
+                        <syncfusion:ChartArea.SecondaryAxis>
+                            <syncfusion:ChartAxis RangePadding="Normal">
+                                <syncfusion:ChartAxis.Header>
+                                    <TextBlock Text="Preferred Number of Candiadtes"/>
+                                </syncfusion:ChartAxis.Header>
+                            </syncfusion:ChartAxis>
+                        </syncfusion:ChartArea.SecondaryAxis>
+                        <syncfusion:ChartSeries Label="Sports Interest" Interior="#FF1BA1E2" StrokeThickness="0" DataSource="{Binding Sports}" BindingPathX="SportName" BindingPathsY="CandidatesCount">
+                            <syncfusion:ChartSeries.AdornmentsInfo>
+                                <syncfusion:ChartAdornmentInfo x:Name="Adornments_pot" Visible="True" AdornmentsPosition="Top" HorizontalAlignment="Center" VerticalAlignment="Bottom" >
+                                    <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <TextBlock Text="{Binding}" FontSize="20" Foreground="White" FontFamily="Segoe UI" FontWeight="Regular" >
+                                                </TextBlock>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                </syncfusion:ChartAdornmentInfo>
+                            </syncfusion:ChartSeries.AdornmentsInfo>
+                        </syncfusion:ChartSeries>
+                    </syncfusion:ChartArea>
+                </syncfusion:Chart>
+            </layout:LayoutControl.ChartView>
+            <layout:LayoutControl.UserOptions>
+                <Grid Grid.Row="1" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>        
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>                   
+                    <toolkit:DataGrid Grid.Row="1" HeadersVisibility="Column" Grid.Column="0" Grid.ColumnSpan="3" Name="DataItems" SelectedItem="{Binding Selecteditem, Mode=TwoWay}" ItemsSource="{Binding Sports}">
+                    </toolkit:DataGrid>
+                    <TextBlock Margin="5" Grid.Row="2" Grid.Column="0"  Grid.ColumnSpan="3" HorizontalAlignment="Left" FontSize="14" FontFamily="Times New Roman" FontStyle="Italic" Text="Please make use of DataGrid to Add and Edit records"/>
+                    <Button Grid.Row="3" Grid.Column="0"  Grid.ColumnSpan="3" HorizontalAlignment="Center" Content="Remove" Name="Removebutton" Command="{Binding RemoveCommand}"  />
+                </Grid>
+            </layout:LayoutControl.UserOptions>
+        </layout:LayoutControl>
+    </Grid>
+</Window>
+
+    

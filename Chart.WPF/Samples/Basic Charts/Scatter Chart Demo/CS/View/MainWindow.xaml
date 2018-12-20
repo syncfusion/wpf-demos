@@ -1,0 +1,96 @@
+﻿<layout:SampleLayoutWindow x:Class="ScatterChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:frame="clr-namespace:System.Windows;assembly=PresentationFramework"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:ScatterChart" UserOptionsVisibility="Collapsed"
+        Title="Scatter Chart Demo">
+    <layout:SampleLayoutWindow.Resources>
+        <ObjectDataProvider x:Key="horizontalAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:HorizontalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="verticalAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:VerticalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="chartStyles" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartStyles"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="chartColorPalette" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartColorPalette"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="symbol" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:Symbol"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </layout:SampleLayoutWindow.Resources>
+
+        <Grid>
+            <Grid.DataContext>
+                <local:ScatterChartViewModel/>
+            </Grid.DataContext>
+                    <!--Hosting Chart control in second Row of the Grid-->
+                    <syncfusion:Chart Name="Chart1" Grid.Row="1" FontFamily="Tahoma" FontSize="11" >
+                       
+                        <!--Chart area to present chart segments-->
+                        <syncfusion:ChartArea IsContextMenuEnabled="False"  BorderThickness="0" >
+                    <syncfusion:ChartArea.GridHeader>
+                        <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI" Margin="0,0,0,20">World Top Most Expensive Cars Details</TextBlock>
+                    </syncfusion:ChartArea.GridHeader>
+                    
+
+                    <!--Primary Axis(X)-->
+                            <syncfusion:ChartArea.PrimaryAxis>
+                                <!--X axis declaration with required property settings-->
+                                <syncfusion:ChartAxis RangePadding="Additional" Header="Car" RangeCalculationMode="AdjustAcrossChartTypes" LabelFontFamily="Segoe UI" LabelFontSize="11" LabelFontWeight="Regular">
+                                </syncfusion:ChartAxis>
+                            </syncfusion:ChartArea.PrimaryAxis>
+                            <!--Secondary Axis(Y)-->
+                            <syncfusion:ChartArea.SecondaryAxis>
+                                <!--Y axis declaration with required property settings-->
+                                <syncfusion:ChartAxis Header="Price in Million $" IsAutoSetRange="False" Range="0,3" LabelFontFamily="Segoe UI" LabelFontSize="11" LabelFontWeight="Regular">
+                                </syncfusion:ChartAxis>
+                            </syncfusion:ChartArea.SecondaryAxis>
+                            <!--Chart 1st series declaration-->
+                            <syncfusion:ChartSeries Name="Series1" Label="Car Price" Type="Scatter" DataSource="{Binding ExpensiveCarDetails}" BindingPathX="CarName" BindingPathsY="Price" ColorEach="True" 
+                                                syncfusion:ChartScatterType.ScatterHeight="60" 
+                                                syncfusion:ChartScatterType.ScatterWidth="60">
+                                <syncfusion:ChartSeries.AdornmentsInfo>
+                                    <syncfusion:ChartAdornmentInfo x:Name="Adornments_CarPrice" Visible="True" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Border Padding="80,0,10,120" >
+                                                        <Grid>
+                                                            <Ellipse Fill="#FFF4F4F5" Stroke="#EE5A5A5A" Height="40" Width="40" >
+                                                                <Ellipse.Effect>
+                                                                    <DropShadowEffect BlurRadius="6" ShadowDepth="1" Opacity="0.585" Color="#FF8D8D8D"/>
+                                                                </Ellipse.Effect>
+                                                            </Ellipse>
+                                                            <TextBlock TextWrapping="Wrap" Text="{Binding}" FontSize="12" Foreground="#FF585858" FontFamily="Segoeui" FontWeight="Regular" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                        </Grid>
+
+                                                    </Border>
+                                                    <Line X1="82" Y1="55" X2="91" Y2="37" Stroke="#EE5A5A5A" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                    </syncfusion:ChartAdornmentInfo>
+                                </syncfusion:ChartSeries.AdornmentsInfo>
+                            </syncfusion:ChartSeries>
+                        </syncfusion:ChartArea>
+                    </syncfusion:Chart>
+               
+        </Grid>
+    
+</layout:SampleLayoutWindow>

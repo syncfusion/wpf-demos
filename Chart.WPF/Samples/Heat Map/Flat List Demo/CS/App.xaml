@@ -1,0 +1,103 @@
+﻿<Application x:Class="BindingToFlatList.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:FlatList"
+  StartupUri="FlatList.xaml" xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+    <Application.Resources>
+       
+      <local:FormatConverter x:Key="FormattingConverter"/>
+
+            <!-- ToolTip template which showing SalesDetails when user over a Mouse on HeatMapItem -->
+            <Style TargetType="ToolTip" x:Key="MyToolTip" BasedOn="{StaticResource {x:Type ToolTip}}" >
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToolTip" >
+                            <Border BorderBrush="Black" BorderThickness="1" Background="White" CornerRadius="4">
+                                <StackPanel Background="White" Margin="5">
+                                    <TextBlock Text="Sales Details" FontSize="11" FontWeight="Bold" />
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="Sales : $" />
+                                    <TextBlock Text="{Binding Path=Sales}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Expense : $" />
+                                   <TextBlock Text="{Binding Path=Expense}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Country : " />
+                                    <TextBlock Text="{Binding Path=Name}" />
+                                </StackPanel>
+                            </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate x:Key="itemDataTemplate">
+                <Border BorderThickness="1" BorderBrush="Blue">
+                    <TextBlock Text="{Binding Path=Name}" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            </DataTemplate>
+
+
+            <ToolTip x:Key="MyTool" Style="{StaticResource MyToolTip}"/>
+
+
+            <Style TargetType="{x:Type syncfusion:HeatMapItem}">
+                <Setter Property="BorderThickness" Value="{Binding ElementName=sliderBorder, Path=Value}" />
+                <Setter Property="ToolTip" Value="{StaticResource MyTool}" >
+
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="BorderBrush" Value="White" />
+                        <Setter Property="BorderThickness" Value="2" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+      
+  <!--Style for window-->
+        <Style TargetType="Window" x:Key="windowStyle">
+            <Style.Triggers>
+                <!--Window Background if Visual Style is Default-->
+                <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Default">
+                    <Setter Property="Background" Value="WhiteSmoke" ></Setter>
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                </Trigger>
+
+                <!--Window Background if Visual Style is Blend-->
+                <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Blend">
+                    <Setter Property="Foreground" Value="#FFFFFFFF"></Setter>
+                    <Setter Property="Background" Value="#FF333333"></Setter>
+
+                </Trigger>
+
+                <!--Window Background if Visual Style is Office2007Silver-->
+                <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Office2007Silver">
+                    <Setter Property="Background" Value="#FFE8EAEC"></Setter>
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                </Trigger>
+
+                <!--Window Background if Visual Style is Office2007Blue-->
+                <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Office2007Blue">
+                    <Setter Property="Background" Value="#FFEAF2FB"></Setter>
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                </Trigger>
+
+                <!--Window Background if Visual Style is Office2003-->
+                <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Office2003">
+                    <Setter Property="Background" Value="#FFEAF2FB"></Setter>
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                </Trigger>
+
+                <!--Window Background if Visual Style is Office2007Black-->
+                <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Office2007Black">
+                    <Setter Property="Background" Value="#FFCED3DA"/>
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    
+    </Application.Resources>
+</Application>
