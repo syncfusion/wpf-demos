@@ -1,0 +1,153 @@
+﻿<UserControl
+    x:Class="FloorPlanner.FloorPlanAppBarView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:FloorPlanner"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        
+        <local:VisibilityInverse x:Key="visibiliyInv"></local:VisibilityInverse>
+
+        <Style x:Key="AddPropAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource PathAppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="SelectAllAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Add Prop"/>
+        </Style>
+        
+        <local:EnableCheckedState x:Key="EnableCheckedState"></local:EnableCheckedState>
+
+        <Style x:Key="AddShapeAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource PathAppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="SelectAllAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Add Shape"/>
+        </Style>
+
+
+        <Style x:Key="AddTextAppBarButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource AppBarToggleButtonStyle}" >
+            <Setter Property="AutomationProperties.AutomationId" Value="SelectAllAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Add Text"/>
+        </Style>
+
+
+        <Style x:Key="AddWallAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource PathAppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="SelectAllAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Add Wall"/>
+        </Style>
+
+        <Style x:Key="SelectAllAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="SelectAllAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Select All"/>
+            <Setter Property="Content" Value="&#xE14E;"/>
+        </Style>
+
+        <Style x:Key="ImportAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="ImportAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Import"/>
+            <Setter Property="Content" Value="&#xE150;"/>
+        </Style>
+
+        <Style x:Key="DeleteAppBarButtonStyle1" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="DeleteAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Delete"/>
+            <Setter Property="Content" Value="&#xE0D9;"/>
+        </Style>
+
+        <Style x:Key="ExportAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="ImportAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Export"/>
+            <Setter Property="Content" Value="&#xE1AD;"/>
+        </Style>
+
+        <Style x:Key="ClearSelectionAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="ClearSelectionAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Clear Selection"/>
+            <Setter Property="Content" Value="&#xE1C5;"/>
+        </Style>
+
+        <Style x:Key="RenameAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="RenameAppBarButton"/>
+            <Setter Property="AutomationProperties.Name" Value="Rename"/>
+            <Setter Property="Content" Value="&#xE13E;"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="Transparent">
+        <Grid Visibility="{Binding DiagramVisibility, Converter={StaticResource visibiliyInv}}">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <!--<Button Background="Transparent"
+                        Command="{Binding ImportFiles}"
+                         Visibility="{Binding CanExportImport}"
+                        Style="{StaticResource ImportAppBarButtonStyle}" />
+                <Button Background="Transparent"
+                        Command="{Binding ExportFiles}"
+                        CommandParameter="{Binding SelectedItemsCount}"
+                         Visibility="{Binding CanExportImport}"
+                        Style="{StaticResource ExportAppBarButtonStyle}" />-->
+                <!--<Button Background="Transparent"
+                        Command="{Binding RenameFile}"
+                        CommandParameter="{Binding SelectedItemsCount}"
+                         Visibility="{Binding CanExportImport}"
+                        Style="{StaticResource RenameAppBarButtonStyle}" />-->
+                <Button Background="Transparent"
+                        Command="{Binding SelectAll}"
+                        Style="{StaticResource SelectAllAppBarButtonStyle}" />
+                <Button Background="Transparent"
+                        Command="{Binding ClearSelection}"
+                        Style="{StaticResource ClearSelectionAppBarButtonStyle}" />
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Background="Transparent"
+                        Command="{Binding DeleteFiles}"
+                        Style="{StaticResource DeleteAppBarButtonStyle1}"
+                        Visibility="{Binding CanExportImport}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Visibility="{Binding DiagramVisibility}">
+
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <Button Background="Transparent" local:DeleteButtonCommand.Command="{Binding Delete}" Style="{StaticResource DeleteAppBarButtonStyle1}"></Button>
+            </StackPanel>
+
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+
+                <Button Background="Transparent" Command="{Binding AddWall}" Style="{StaticResource AddWallAppBarButtonStyle}">
+                    <Viewbox Width="20" Height="20" Stretch="Fill">
+                        <Grid >
+                            <Path Data="F1M10.976,3.251L3.252,10.976 0,7.724 7.724,-0.001z" Fill="#000000" Margin="2.915,0,6.109,12.023" UseLayoutRounding="False"/>
+                            <Path Data="F1M5.199,3.252L1.947,0 0,5.335z" Fill="#000000" Margin="0,8.693,14.801,8.972" UseLayoutRounding="False"/>
+                            <Path Data="F1M10,7L10,0 9,0 8,0 0,0 0,2 8,2 8,9 9,9 10,9 20,9 20,7z" Fill="#000000" Margin="0,14.814,0,-0.814" UseLayoutRounding="False"/>
+                        </Grid>
+                    </Viewbox>
+                </Button>
+                    
+                <ToggleButton Background="Transparent" IsChecked="{Binding IsTextAdd,Mode=TwoWay}" Command="{Binding  AddText}" Style="{StaticResource AddTextAppBarButtonStyle}" >
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="A" FontSize="24" FontWeight="ExtraBold"></TextBlock>
+                    <!--<Viewbox Width="20" Height="20" Stretch="Fill">
+                        <Grid >
+                            <Path Data="F1M12.594,12.766L5.422,12.766 4.156,15.688C3.844,16.407 3.687,16.953 3.687,17.297 3.687,17.578 3.812,17.828 4.094,18.047 4.359,18.266 4.937,18.407 5.844,18.469L5.844,18.969 0,18.969 0,18.469C0.765,18.328 1.265,18.141 1.5,17.922 1.969,17.485 2.484,16.61 3.047,15.266L9.578,0 10.047,0 16.5,15.422C17.015,16.672 17.484,17.469 17.906,17.844 18.328,18.219 18.922,18.422 19.687,18.469L19.687,18.969 12.375,18.969 12.375,18.469C13.109,18.438 13.609,18.313 13.875,18.094 14.125,17.891 14.265,17.641 14.265,17.328 14.265,16.922 14.078,16.297 13.719,15.422L12.594,12.766 M12.203,11.75L9.062,4.25 5.844,11.75 12.203,11.75" Fill="#FFD8D8D8" Height="18.969" Canvas.Left="0" Canvas.Top="0" Width="19.688"/>
+                        </Grid>
+                    </Viewbox>-->
+                </ToggleButton>
+                
+                <Button Background="Transparent" Command="{Binding AddShape}" Style="{StaticResource AddShapeAppBarButtonStyle}">
+                    <Viewbox Width="20" Height="20" Stretch="Fill">
+                        <Grid >
+                            <Path Data="M19.711,14.098L1,14.098 1,1 19.711,1z" Stroke="#000000" StrokeThickness="2" UseLayoutRounding="False"/>
+                        </Grid>
+                    </Viewbox>
+                </Button>
+                    
+                <Button Background="Transparent" Command="{Binding AddProp}" Style="{StaticResource AddPropAppBarButtonStyle}">
+                    <Viewbox Width="20" Height="20" Stretch="Fill">
+                        <Grid >
+                            <Path Data="F1M3,21L1,21 2,13 2,11 0,0 2,0 4,11 4,13z" Fill="#000000" Margin="0,0,13,0" UseLayoutRounding="False"/>
+                            <Path Data="F1M2,10L0,10 0,0 2,0z" Fill="#000000" Margin="15,11,0,0" UseLayoutRounding="False"/>
+                            <Path Data="F1M15,2L0,2 0,0 15,0z" Fill="#000000" Margin="2,11,0,8" UseLayoutRounding="False"/>
+                        </Grid>
+                    </Viewbox>
+                </Button>             </StackPanel>
+          
+        </Grid>
+
+    </Grid>
+</UserControl>

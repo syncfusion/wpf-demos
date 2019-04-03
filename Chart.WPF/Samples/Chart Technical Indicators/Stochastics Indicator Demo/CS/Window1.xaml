@@ -1,0 +1,99 @@
+﻿<Window x:Class="StochasticsIndicator.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:StochasticsIndicator"
+    xmlns:sync="http://schemas.syncfusion.com/wpf" Icon="App.ico"        
+    Title="Stochastics Technical Indicator Demo" Height="720" Width="1024" WindowStartupLocation="CenterScreen" >
+    <Window.Resources>        
+        <LinearGradientBrush x:Key="gradient1" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="Gray" Offset="0.014"/>
+        </LinearGradientBrush>        
+        <Pen x:Key="pen1" Brush="Gray" Thickness=".2"/>       
+        <SolidColorBrush x:Key="transparentBackground" Color="Transparent">            
+        </SolidColorBrush>
+        <Pen x:Key="gridstroke" Brush="Gray" Thickness=".2"/>
+        <Pen x:Key="linestroke" Brush="Gray" Thickness="2"/>
+        <local:DateAxisConverter x:Key="dateaxisconverter" />
+        <local:DateAxisFontsizeConverter x:Key="dateaxisfontsizeconverter" />
+        <local:YAxisConverter x:Key="yaxisconverter" />
+        <local:YAxisWidthConverter x:Key="yaxiswidthconverter" />
+        <DataTemplate x:Key="EmptyAxistemplate">
+            <TextBlock Text="" TextTrimming="None" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="Axistemplate">
+            <TextBlock FontSize="{Binding Converter={StaticResource dateaxisfontsizeconverter}}" Text="{Binding Converter={StaticResource dateaxisconverter}}" TextTrimming="None" />
+        </DataTemplate>
+        <DataTemplate x:Key="YAxistemplate">
+            <TextBlock FontSize="{Binding Converter={StaticResource dateaxisfontsizeconverter}}" Text="{Binding Converter={StaticResource yaxisconverter}}" TextTrimming="None" 
+               Width="{Binding Converter={StaticResource yaxiswidthconverter}}"          />
+        </DataTemplate>
+        <DataTemplate x:Key="AnnotationTemplate">
+            <Grid>
+                <TextBlock Visibility="Hidden" Text="{Binding Header}" />
+                <Path Margin="10, 10, 0, 0" x:Name="arrow" Stroke="#666" StrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" SnapsToDevicePixels="false" Data="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                <Ellipse Margin="10, 10, 0, 0" Height="12" Width="12" Name="ellipse" Stroke="Gray"  Fill="Transparent" MouseEnter="Ellipse_MouseEnter" MouseLeave="Ellipse_MouseLeave"  >
+                </Ellipse>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="AnnotationTemplateText">
+            <Grid>
+                <TextBlock Name="note" Margin="5,10,0,0"  Text="{Binding Header}" Foreground="{Binding Stroke}" FontWeight="Bold"></TextBlock>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Margin="20,0,20,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  >
+                <CheckBox x:Name="indicator" Content="Stochastics Indicator" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="0,5,0,5" >                    
+                </CheckBox>             
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1" Margin="20,0,20,0">
+            <sync:Chart x:Name="chart1" Background="#fff8f8f8">
+                <sync:SyncChartAreas x:Name="syncChart1" ElementMargin="20,0,20,0" >
+                    <sync:SyncChartAreas.PrimaryAxis>
+                        <sync:ChartAxis x:Name="xaxis" Header="Date">
+                            <sync:ChartArea.GridLineStroke>
+                                <Pen Brush="Gray" Thickness="1"/>
+                            </sync:ChartArea.GridLineStroke>                           
+                            <sync:ChartAxis.LineStroke>
+                                <Pen Brush="Gray" Thickness="2"/>
+                            </sync:ChartAxis.LineStroke>  
+                        </sync:ChartAxis>
+                    </sync:SyncChartAreas.PrimaryAxis>
+                    <sync:SyncChartAreas.Areas>
+                        <sync:ChartArea x:Name="Area1" SplitterPosition="2" >
+                            <sync:ChartArea.SecondaryAxis >
+                                <sync:ChartAxis x:Name="yaxis" OpposedPosition="True" Interval="50" Header="Prices" >
+                                    <sync:ChartArea.GridLineStroke>
+                                        <Pen Brush="Gray" Thickness="1"/>
+                                    </sync:ChartArea.GridLineStroke>                                  
+                                    <sync:ChartAxis.LineStroke>
+                                        <Pen Brush="Gray" Thickness="2"/>
+                                    </sync:ChartAxis.LineStroke>
+                                </sync:ChartAxis>
+                            </sync:ChartArea.SecondaryAxis>
+                            <sync:ChartSeries x:Name="ser1" IsSortData="True" Type="HiLoOpenClose"  ShowToolTip="False" BindingPathsY="High,Low,Open,Last,volume" > 
+                                
+                                <sync:ChartSeries.Indicators>
+                                    <sync:IndicatorCollection>
+                                        <sync:IndicatorCollection.Items>
+                                        </sync:IndicatorCollection.Items>
+                                    </sync:IndicatorCollection>
+                                </sync:ChartSeries.Indicators>
+                            </sync:ChartSeries>
+                        </sync:ChartArea>
+                    </sync:SyncChartAreas.Areas>
+                </sync:SyncChartAreas>
+            </sync:Chart>   
+            
+        </Grid>
+        
+    </Grid>
+</Window>

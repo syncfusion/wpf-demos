@@ -1,0 +1,105 @@
+﻿<syncfusion:ChromelessWindow x:Class="GridDropDownAndReadOnlyColumns.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             xmlns:local="clr-namespace:GridDropDownAndReadOnlyColumns"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.Resources>
+        <local:ViewModel x:Key="viewmodel" />
+        <local:StringToImageConverter x:Key="stringToImageConverter" />
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid DataContext="{StaticResource viewmodel}">
+        <syncfusion:LayoutControl HeaderDescriptionText="The sample showcases Drop Down and Read only columns."
+                                  HeaderText="Dropdown and ReadOnly Columns"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                    <Style TargetType="syncfusion:GridStackedHeaderCellControl">
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontWeight" Value="ExtraBold" />
+                        <Setter Property="BorderBrush" Value="#FF53C3D5" />
+                    </Style>
+                </ResourceDictionary>
+            </syncfusion:LayoutControl.Resources>
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid AllowEditing="True"
+                                       AutoGenerateColumns="False"
+                                       ColumnSizer="Star"
+                                       ItemsSource="{Binding OrderList}"
+                                       ShowRowHeader="True">
+                    <interactivity:Interaction.Behaviors>
+                        <local:SfDataGridBehavior />
+                    </interactivity:Interaction.Behaviors>
+                    <syncfusion:SfDataGrid.Columns>
+
+                        <syncfusion:GridMultiColumnDropDownList Width="175"
+                                                                AllowAutoComplete="True"
+                                                                AutoGenerateColumns="False"
+                                                                DisplayMember="SupplierName"
+                                                                HeaderText="Supplier Name"
+                                                                ItemsSource="{Binding Suppliers,
+                                                                                      Source={StaticResource viewmodel}}"
+                                                                MappingName="SupplierID"
+                                                                
+                                                                ValueMember="SupplierID">
+                            <syncfusion:GridMultiColumnDropDownList.Columns>
+                                <syncfusion:Columns>
+                                    <syncfusion:GridTextColumn Width="100" MappingName="SupplierID" />
+                                    <syncfusion:GridTextColumn MappingName="SupplierName" />
+                                    <syncfusion:GridTextColumn MappingName="SupplierCity" />
+                                </syncfusion:Columns>
+                            </syncfusion:GridMultiColumnDropDownList.Columns>
+                        </syncfusion:GridMultiColumnDropDownList>
+
+                        <syncfusion:GridDateTimeColumn HeaderText="Order Date"
+                                                       MappingName="OrderDate"
+                                                       TextAlignment="Right" />
+
+                        <syncfusion:GridComboBoxColumn HeaderText="Product Name"
+                                                       ItemsSource="{Binding Path=ComboBoxItemsSource,
+                                                                             Source={StaticResource viewmodel}}"
+                                                       MappingName="ProductName" />
+                        <syncfusion:GridTemplateColumn HeaderText="No. of Orders" MappingName="NoOfOrders">
+                            <syncfusion:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontStyle="Italic"
+                                               FontWeight="Bold"
+                                               Padding="0,0,3,0"
+                                               Text="{Binding NoOfOrders}"
+                                               TextAlignment="Right" />
+                                </DataTemplate>
+                            </syncfusion:GridTemplateColumn.CellTemplate>
+                        </syncfusion:GridTemplateColumn>
+
+                        <syncfusion:GridHyperlinkColumn HeaderText="City Description" MappingName="CountryDescription" />
+
+                        <syncfusion:GridImageColumn HeaderText="Country"
+                                                    MappingName="ImageLink"
+                                                    Padding="2,2,2,2"
+                                                    TextAlignment="Center"
+                                                    ValueBinding="{Binding Path=ImageLink,
+                                                                           Converter={StaticResource stringToImageConverter}}" />
+                    </syncfusion:SfDataGrid.Columns>
+
+                    <syncfusion:SfDataGrid.StackedHeaderRows>
+                        <syncfusion:StackedHeaderRow>
+                            <syncfusion:StackedHeaderRow.StackedColumns>
+                                <syncfusion:StackedColumn ChildColumns="SupplierID,OrderDate,ProductName" HeaderText="Dropdown Columns" />
+                                <syncfusion:StackedColumn ChildColumns="NoOfOrders,CountryDescription,ImageLink" HeaderText="Read Only Columns" />
+                            </syncfusion:StackedHeaderRow.StackedColumns>
+                        </syncfusion:StackedHeaderRow>
+                    </syncfusion:SfDataGrid.StackedHeaderRows>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

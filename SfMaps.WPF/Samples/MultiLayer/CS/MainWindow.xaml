@@ -1,0 +1,122 @@
+﻿<syncfusion:ChromelessWindow x:Class="MultiLayer.MainWindow" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:MultiLayer"   ResizeMode="CanResizeWithGrip"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"   WindowStartupLocation="CenterScreen"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        syncfusion:SkinStorage.VisualStyle="Metro" Icon="App.ico"
+        >
+    <syncfusion:ChromelessWindow.Resources>
+        <local:MapViewModel x:Key="model"/>
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid  DataContext="{Binding Source={StaticResource model}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Background="#1196CD" Padding="20,3,0,0">
+            <TextBlock Text="Multi Layer" Foreground="White" FontSize="20"/>
+        </Border>
+        <syncfusion:SfMap Grid.Row="1" Margin="10">
+            
+            <syncfusion:SfMap.Layers>
+                <syncfusion:ShapeFileLayer Background="White" x:Name="shapelayer" ItemsSource="{Binding MuliLayerList}" ShapeIDPath="NAME"  ShapeIDTableField="Continent"  EnableSelection="True" Uri="MultiLayer.ShapeFiles.continent.shp">
+                    <syncfusion:ShapeFileLayer.BubbleMarkerSetting>
+                        <syncfusion:BubbleMarkerSetting AutoFillColor="False" MaxSize="40" MinSize="0" StrokeThickness="0" ValuePath="Weather" ColorValuePath="Weather">
+                            <syncfusion:BubbleMarkerSetting.ColorMappings>
+                                <syncfusion:RangeColorMapping Color="#8C5FD3" To="30" From="0"/>
+                                <syncfusion:RangeColorMapping Color="#EF6AB3" To="55" From="45"/>
+                                <syncfusion:RangeColorMapping Color="#8AC63C" To="40" From="30"/>
+                                <syncfusion:RangeColorMapping Color="#8AC63C" To="45" From="40"/>
+                            </syncfusion:BubbleMarkerSetting.ColorMappings>
+                        </syncfusion:BubbleMarkerSetting>
+                    </syncfusion:ShapeFileLayer.BubbleMarkerSetting>
+                    <syncfusion:ShapeFileLayer.Annotations>
+                        <syncfusion:MapAnnotations AnnotationLabelFontSize="14" AnnotationLabelFontFamily="Segoe UI" AnnotationLabelForeground="#8C1313" AnnotationLabel="North America"  Latitude="40.4230" Longitude="-112.7372" />
+                        <syncfusion:MapAnnotations AnnotationLabelFontSize="14" AnnotationLabelFontFamily="Segoe UI" AnnotationLabelForeground="#8C1313" AnnotationLabel="Africa" Latitude="9.1021" Longitude="18.2812" />
+                        <syncfusion:MapAnnotations AnnotationLabelFontSize="14" AnnotationLabelFontFamily="Segoe UI" AnnotationLabelForeground="#8C1313" AnnotationLabel="Europe" Latitude="53.0000" Longitude="9.0000" />
+                        <syncfusion:MapAnnotations AnnotationLabelFontSize="14" AnnotationLabelFontFamily="Segoe UI" AnnotationLabelForeground="#8C1313" AnnotationLabel="South America" Latitude="-19.6048" Longitude="-73.0625" />
+                        <syncfusion:MapAnnotations AnnotationLabelFontSize="14" AnnotationLabelFontFamily="Segoe UI" AnnotationLabelForeground="#8C1313" AnnotationLabel="Asia" Latitude="49.8380" Longitude="105.8203" />
+                        <syncfusion:MapAnnotations AnnotationLabelFontSize="14" AnnotationLabelFontFamily="Segoe UI" AnnotationLabelForeground="#8C1313" AnnotationLabel="Oceania" Latitude="-25.3456" Longitude="125.4346" />
+
+                    </syncfusion:ShapeFileLayer.Annotations>
+                    <syncfusion:ShapeFileLayer.ItemsTemplate>
+                        <DataTemplate>
+                            <Border Visibility="{Binding Data.ItemsVisibility}" Background="Transparent">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe UI" Foreground="#FF333333" FontSize="12"  Text="{Binding Data.Weather}"/>
+                                    <TextBlock FontFamily="Segoe UI" Foreground="#FF333333" FontSize="12"  Text="°C"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </syncfusion:ShapeFileLayer.ItemsTemplate>
+                    <syncfusion:ShapeFileLayer.ShapeSettings>
+                        <syncfusion:ShapeSetting ShapeStroke="#C1C1C1" ShapeStrokeThickness="0.5" ShapeValuePath="Weather" ShapeFill="#E5E5E5"/>
+                    </syncfusion:ShapeFileLayer.ShapeSettings>
+                    <syncfusion:ShapeFileLayer.SubShapeFileLayers>
+                        <syncfusion:SubShapeFileLayer ShapeIDPath="NAME" ItemsSource="{Binding AfricaList}"  ShapeIDTableField="Country"   Uri="MultiLayer.ShapeFiles.Africa.shp">
+                            <syncfusion:SubShapeFileLayer.BubbleMarkerSetting>
+                                <syncfusion:BubbleMarkerSetting AutoFillColor="False" MaxSize="40" MinSize="20" StrokeThickness="0" ValuePath="Weather" ColorValuePath="Weather">
+                                    <syncfusion:BubbleMarkerSetting.ColorMappings>
+                                        <syncfusion:RangeColorMapping Color="#8C5FD3" To="30" From="0"/>
+                                        <syncfusion:RangeColorMapping Color="#EF6AB3" To="35" From="30"/>
+                                        <syncfusion:RangeColorMapping Color="#8AC63C" To="40" From="35"/>
+                                        <syncfusion:RangeColorMapping Color="#F79E46" To="47" From="40"/>
+                                    </syncfusion:BubbleMarkerSetting.ColorMappings>
+                                </syncfusion:BubbleMarkerSetting>
+                            </syncfusion:SubShapeFileLayer.BubbleMarkerSetting>
+                            <syncfusion:SubShapeFileLayer.ItemsTemplate>
+                                <DataTemplate>
+                                    <Border  Background="Transparent">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontFamily="Segoe UI" Foreground="#FF333333" FontSize="12"  Text="{Binding Data.Weather}"/>
+                                            <TextBlock FontFamily="Segoe UI" Foreground="#FF333333" FontSize="12"  Text="°C"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </syncfusion:SubShapeFileLayer.ItemsTemplate>
+                            <syncfusion:SubShapeFileLayer.ShapeSettings>
+                                <syncfusion:ShapeSetting ShapeStroke="#2F8CEA" ShapeValuePath="Weather" ShapeFill="#8DCEFF">
+                                    <syncfusion:ShapeSetting.FillSetting>
+                                        <syncfusion:ShapeFillSetting />
+                                    </syncfusion:ShapeSetting.FillSetting>
+                                </syncfusion:ShapeSetting>
+                            </syncfusion:SubShapeFileLayer.ShapeSettings>
+                        </syncfusion:SubShapeFileLayer>
+
+                        <syncfusion:SubShapeFileLayer ShapeIDPath="NAME" ShapeIDTableField="ADMIN_NAME" ItemsSource="{Binding OceaniaList}" Uri="MultiLayer.ShapeFiles.australia.shp">
+                            <syncfusion:SubShapeFileLayer.ShapeSettings>
+                                <syncfusion:ShapeSetting ShapeStroke="#2F8CEA" ShapeValuePath="Weather" ShapeFill="#8DCEFF">
+                                    <syncfusion:ShapeSetting.FillSetting>
+                                        <syncfusion:ShapeFillSetting AutoFillColors="False"/>
+                                    </syncfusion:ShapeSetting.FillSetting>
+                                </syncfusion:ShapeSetting>
+                            </syncfusion:SubShapeFileLayer.ShapeSettings>
+                            <syncfusion:SubShapeFileLayer.BubbleMarkerSetting>
+                                <syncfusion:BubbleMarkerSetting AutoFillColor="False" MaxSize="40" MinSize="20" StrokeThickness="0" ValuePath="Weather">
+                                    <syncfusion:BubbleMarkerSetting.ColorMappings>
+                                        <syncfusion:RangeColorMapping Color="#8C5FD3" To="20" From="0"/>
+                                        <syncfusion:RangeColorMapping Color="#EF6AB3" To="25" From="20"/>
+                                        <syncfusion:RangeColorMapping Color="#407715" To="30" From="25"/>
+                                        <syncfusion:RangeColorMapping Color="#63A028" To="35" From="30"/>
+
+                                    </syncfusion:BubbleMarkerSetting.ColorMappings>
+                                </syncfusion:BubbleMarkerSetting>
+                            </syncfusion:SubShapeFileLayer.BubbleMarkerSetting>
+                            <syncfusion:SubShapeFileLayer.ItemsTemplate>
+                                <DataTemplate>
+                                    <Border Background="Transparent">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock FontFamily="Segoe UI" Foreground="#FF333333" FontSize="12"  Text="{Binding Data.Weather}"/>
+                                            <TextBlock FontFamily="Segoe UI" Foreground="#FF333333" FontSize="12"  Text="°C"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </syncfusion:SubShapeFileLayer.ItemsTemplate>
+                        </syncfusion:SubShapeFileLayer>
+                    </syncfusion:ShapeFileLayer.SubShapeFileLayers>
+                </syncfusion:ShapeFileLayer>
+
+            </syncfusion:SfMap.Layers>
+        </syncfusion:SfMap>
+    </Grid>
+</syncfusion:ChromelessWindow>

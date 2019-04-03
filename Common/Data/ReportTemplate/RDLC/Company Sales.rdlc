@@ -1,0 +1,1173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <Description>Adventure Works sales by quarter and product category. This report illustrates the use of a matrix data region that provides drilldown from summary data into detail data by showing and hiding rows. This report also illustrates the use of background images.</Description>
+  <DataSources>
+    <DataSource Name="AdventureWorks">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=Localhost;Initial Catalog=AdventureWorks</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:DataSourceID>25d3314c-0d4f-49cc-9c22-10194e825490</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Sales">
+      <Fields>
+        <Field Name="ProdCat">
+          <DataField>ProdCat</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SubCat">
+          <DataField>SubCat</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="OrderYear">
+          <DataField>OrderYear</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="OrderQtr">
+          <DataField>OrderQtr</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Sales">
+          <DataField>Sales</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>AdventureWorks</DataSourceName>
+        <CommandText>SET DATEFORMAT mdy
+SELECT      PC.Name AS ProdCat, PS.Name AS SubCat, DATEPART(yy, SOH.OrderDate) AS OrderYear, 'Q' + DATENAME(qq, SOH.OrderDate) AS OrderQtr, 
+            SUM(SOD.UnitPrice * SOD.OrderQty) AS Sales
+FROM        Production.ProductSubcategory PS INNER JOIN
+            Sales.SalesOrderHeader SOH INNER JOIN
+            Sales.SalesOrderDetail SOD ON SOH.SalesOrderID = SOD.SalesOrderID INNER JOIN
+            Production.Product P ON SOD.ProductID = P.ProductID ON PS.ProductSubcategoryID = P.ProductSubcategoryID INNER JOIN
+            Production.ProductCategory PC ON PS.ProductCategoryID = PC.ProductCategoryID
+WHERE       (SOH.OrderDate BETWEEN '1/1/2002' AND '12/31/2003')
+GROUP BY    DATEPART(yy, SOH.OrderDate), PC.Name, PS.Name, 'Q' + DATENAME(qq, SOH.OrderDate), PS.ProductSubcategoryID</CommandText>
+        <Timeout>30</Timeout>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Textbox Name="Title">
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Adventure Works 2002 - 2003 Sales</Value>
+                <Style>
+                  <FontFamily>Tahoma</FontFamily>
+                  <FontSize>18pt</FontSize>
+                  <FontWeight>ExtraBold</FontWeight>
+                  <Color>DarkSlateBlue</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>0.29167in</Top>
+        <Left>1.36458in</Left>
+        <Height>0.48958in</Height>
+        <Width>4.80208in</Width>
+        <Style />
+      </Textbox>
+      <Tablix Name="Tablix1">
+        <TablixCorner>
+          <TablixCornerRows>
+            <TablixCornerRow>
+              <TablixCornerCell>
+                <CellContents>
+                  <Textbox Name="Textbox11">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value />
+                            <Style />
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Textbox11</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>Gray</Color>
+                        <Style>None</Style>
+                      </Border>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                  <ColSpan>2</ColSpan>
+                  <RowSpan>2</RowSpan>
+                </CellContents>
+              </TablixCornerCell>
+              <TablixCornerCell />
+            </TablixCornerRow>
+            <TablixCornerRow>
+              <TablixCornerCell />
+              <TablixCornerCell />
+            </TablixCornerRow>
+          </TablixCornerRows>
+        </TablixCorner>
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+                  <Width>1.12638in</Width>
+            </TablixColumn>
+            <TablixColumn>
+                  <Width>1.05694in</Width>
+            </TablixColumn>
+            <TablixColumn>
+                  <Width>0.93194in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+                  <Height>0.26736in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Sales</Value>
+                              <Style>
+                                <FontFamily>Segoe UI Semibold</FontFamily>
+                                <FontWeight>Light</FontWeight>
+                                <Color>White</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>#ff9900</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox44">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox44</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox45">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox45</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+                  <Height>0.22569in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Sales">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Sales</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Sales2">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Sales2</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Sales6">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Sales6</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+                  <Height>0.24132in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Sales1">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Sales1</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Sales3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Sales3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox41">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox41</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+                  <Height>0.24132in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Sales4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Sales4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Sales5">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Sales5</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox42">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Sum(Fields!Sales.Value)</Value>
+                              <Style>
+                                <FontFamily>Segoe UI</FontFamily>
+                                <Format>C</Format>
+                                <Color>DimGray</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style>
+                            <TextAlign>Right</TextAlign>
+                          </Style>
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox42</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>Gray</Color>
+                          <Style>Solid</Style>
+                        </Border>
+                        <BackgroundColor>Gainsboro</BackgroundColor>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="OrderYear">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!OrderYear.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!OrderYear.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                        <Size>0.24132in</Size>
+                    <CellContents>
+                      <Textbox Name="OrderYear">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!OrderYear.Value</Value>
+                                <Style>
+                                  <FontFamily>Segoe UI Semibold</FontFamily>
+                                  <FontWeight>Light</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style>
+                              <TextAlign>Left</TextAlign>
+                            </Style>
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>OrderYear</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>Gray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#5566aa</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="OrderQtr">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!OrderQtr.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!OrderQtr.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixMembers>
+                        <TablixMember>
+                          <TablixHeader>
+                                <Size>0.24132in</Size>
+                            <CellContents>
+                              <Textbox Name="OrderQtr">
+                                <CanGrow>true</CanGrow>
+                                <KeepTogether>true</KeepTogether>
+                                <Paragraphs>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value>=Fields!OrderQtr.Value</Value>
+                                        <Style>
+                                          <FontFamily>Segoe UI Semibold</FontFamily>
+                                          <FontWeight>Light</FontWeight>
+                                          <Color>White</Color>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style />
+                                  </Paragraph>
+                                </Paragraphs>
+                                <rd:DefaultName>OrderQtr</rd:DefaultName>
+                                <Style>
+                                  <Border>
+                                    <Color>Gray</Color>
+                                    <Style>Solid</Style>
+                                  </Border>
+                                  <BackgroundColor>#5566aa</BackgroundColor>
+                                  <PaddingLeft>2pt</PaddingLeft>
+                                  <PaddingRight>2pt</PaddingRight>
+                                  <PaddingTop>2pt</PaddingTop>
+                                  <PaddingBottom>2pt</PaddingBottom>
+                                </Style>
+                              </Textbox>
+                            </CellContents>
+                          </TablixHeader>
+                          <TablixMembers>
+                            <TablixMember />
+                          </TablixMembers>
+                        </TablixMember>
+                      </TablixMembers>
+                    </TablixMember>
+                    <TablixMember>
+                      <TablixHeader>
+                            <Size>0.24132in</Size>
+                        <CellContents>
+                          <Textbox Name="Textbox12">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>=Fields!OrderYear.Value &amp; " Sales"</Value>
+                                    <Style>
+                                      <FontFamily>Segoe UI Semibold</FontFamily>
+                                      <FontWeight>Bold</FontWeight>
+                                      <Color>DimGray</Color>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style />
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>Textbox12</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>Gray</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <BackgroundColor>Gainsboro</BackgroundColor>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
+            <TablixMember>
+              <TablixHeader>
+                    <Size>0.24132in</Size>
+                <CellContents>
+                  <Textbox Name="Textbox37">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>Total Sales</Value>
+                            <Style>
+                              <FontFamily>Segoe UI Semibold</FontFamily>
+                              <FontWeight>Bold</FontWeight>
+                              <Color>DimGray</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Textbox37</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>Gray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>Gainsboro</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                        <Size>0.24132in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox38">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <Color>DimGray</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox38</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>Gray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gainsboro</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <TablixHeader>
+                    <Size>1.21319in</Size>
+                <CellContents>
+                  <Textbox Name="Textbox7">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>Product Category</Value>
+                            <Style>
+                              <FontFamily>Segoe UI Semibold</FontFamily>
+                              <FontWeight>Light</FontWeight>
+                              <Color>White</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Textbox7</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>Gray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>#ff9900</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                        <Size>1.37277in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox9">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Prodcut Sub category</Value>
+                                <Style>
+                                  <FontFamily>Segoe UI Semibold</FontFamily>
+                                  <FontWeight>Light</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox9</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>Gray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#ff9900</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="ProdCat">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!ProdCat.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <SortExpressions>
+                <SortExpression>
+                  <Value>=Fields!ProdCat.Value</Value>
+                </SortExpression>
+              </SortExpressions>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                        <Size>1.21319in</Size>
+                    <CellContents>
+                      <Textbox Name="ProdCat">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!ProdCat.Value</Value>
+                                <Style>
+                                  <FontFamily>Segoe UI Semibold</FontFamily>
+                                  <FontWeight>Light</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>ProdCat</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>Gray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>#5566aa</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="SubCat">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!SubCat.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!SubCat.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixMembers>
+                        <TablixMember>
+                          <TablixHeader>
+                                <Size>1.37277in</Size>
+                            <CellContents>
+                              <Textbox Name="SubCat">
+                                <CanGrow>true</CanGrow>
+                                <KeepTogether>true</KeepTogether>
+                                <Paragraphs>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value>=Fields!SubCat.Value</Value>
+                                        <Style>
+                                          <FontFamily>Segoe UI Semibold</FontFamily>
+                                          <FontWeight>Light</FontWeight>
+                                          <Color>White</Color>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style />
+                                  </Paragraph>
+                                </Paragraphs>
+                                <rd:DefaultName>SubCat</rd:DefaultName>
+                                <Style>
+                                  <Border>
+                                    <Color>Gray</Color>
+                                    <Style>Solid</Style>
+                                  </Border>
+                                  <BackgroundColor>#5566aa</BackgroundColor>
+                                  <PaddingLeft>2pt</PaddingLeft>
+                                  <PaddingRight>2pt</PaddingRight>
+                                  <PaddingTop>2pt</PaddingTop>
+                                  <PaddingBottom>2pt</PaddingBottom>
+                                </Style>
+                              </Textbox>
+                            </CellContents>
+                          </TablixHeader>
+                          <TablixMembers>
+                            <TablixMember />
+                          </TablixMembers>
+                        </TablixMember>
+                      </TablixMembers>
+                    </TablixMember>
+                    <TablixMember>
+                      <TablixHeader>
+                            <Size>1.37277in</Size>
+                        <CellContents>
+                          <Textbox Name="Textbox23">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>Total</Value>
+                                    <Style>
+                                      <FontFamily>Segoe UI Semibold</FontFamily>
+                                      <FontWeight>Bold</FontWeight>
+                                      <Color>DimGray</Color>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style />
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>Textbox23</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>Gray</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <BackgroundColor>Gainsboro</BackgroundColor>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <KeepWithGroup>Before</KeepWithGroup>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixMember>
+            <TablixMember>
+              <TablixHeader>
+                    <Size>1.21319in</Size>
+                <CellContents>
+                  <Textbox Name="Textbox33">
+                    <CanGrow>true</CanGrow>
+                    <KeepTogether>true</KeepTogether>
+                    <Paragraphs>
+                      <Paragraph>
+                        <TextRuns>
+                          <TextRun>
+                            <Value>Total</Value>
+                            <Style>
+                              <FontFamily>Segoe UI Semibold</FontFamily>
+                              <FontWeight>Bold</FontWeight>
+                              <Color>DimGray</Color>
+                            </Style>
+                          </TextRun>
+                        </TextRuns>
+                        <Style />
+                      </Paragraph>
+                    </Paragraphs>
+                    <rd:DefaultName>Textbox33</rd:DefaultName>
+                    <Style>
+                      <Border>
+                        <Color>Gray</Color>
+                        <Style>Solid</Style>
+                      </Border>
+                      <BackgroundColor>Gainsboro</BackgroundColor>
+                      <PaddingLeft>2pt</PaddingLeft>
+                      <PaddingRight>2pt</PaddingRight>
+                      <PaddingTop>2pt</PaddingTop>
+                      <PaddingBottom>2pt</PaddingBottom>
+                    </Style>
+                  </Textbox>
+                </CellContents>
+              </TablixHeader>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                        <Size>1.37277in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox43">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value />
+                                <Style>
+                                  <Color>DimGray</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox43</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>Gray</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>Gainsboro</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                </TablixMember>
+              </TablixMembers>
+              <KeepWithGroup>Before</KeepWithGroup>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>Sales</DataSetName>
+        <Top>1.2675in</Top>
+        <Left>0.46542in</Left>
+            <Height>1.45833in</Height>
+            <Width>5.70124in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <FontFamily>Segoe UI</FontFamily>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>3.40291in</Height>
+    <Style />
+  </Body>
+  <Width>7.70833in</Width>
+  <Page>
+    <PageWidth>10.8in</PageWidth>
+    <LeftMargin>0.5in</LeftMargin>
+    <RightMargin>0.5in</RightMargin>
+    <TopMargin>0.5in</TopMargin>
+    <BottomMargin>0.5in</BottomMargin>
+    <Style />
+  </Page>
+  <EmbeddedImages>
+    <EmbeddedImage Name="logoback">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCADCAbYDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoo
+ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAEJxWHdazJ5pWAKFHGSMk1tsNykeoxXIzwvBM0bggg/nQBtadqjTyiGYAMfukd61s1y1hbvPPkZCqCWI+lRC5nQ/LM4x/tGgDrqK5Qahdr0nf8TUo1a8H/LTP1FAHTUVzq61cggsEYfTFb8MnmwpJjG4ZxQA+iiigAoqGW5jicKx5PtUqkMoIOQaLALRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAVDNFC6lpUVgBnLDpU1ZOs3eyMW6Hl+Wx6UAQ2+qM12sSRIIWbaFUYP1qw2hwMxO9xk+1V9FtMk3LDpwv9TW5QBz95YWlmvzTSFyOFGKzURpHCopLHoBW5q1i8xE8fJAwV9azbG9Nm5PlhgepPUUAX7PSUiAluiCeoXsPrWl9qgXjeOPSoYYRcKJZJPMB5AB4qwIIh0jX8qegCxzJLnYwOKfTVREJ2qBn0pJJBEhdug6UgM28x9pb8Kv2oItkz6VQjRrmck9Cck1pM6RJliABVydlYErklJVCXUgOI1z7mq5nupz8u78BWXMi1TfU18gdxSb1/vCsn7LdN1B/FqabO4X+D8qXMyvZx7myCKXNYJ82I87l/SpY76ZOp3D0NHP3B0n0NjilqpBeRykA/Kx7GrY6VSdzNprcKKKKYgooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiijNABRRRQAUUUUAFFGaM0AFFFFABRRR
+QAUUUZoAKKM0ZoAKgmuFiO0Dc56KKfPJ5UTOBkjpUVvDtHmPy7cnPahARSed5TSSyeWijJC9awFWS8ugucs54J9K6p0WRCjDKkYIqvbafBayM8anJ4ye1FwGRxz2kaqmHjXtjmrMMyzLleo6j0qTtVW4jMTCePgj7w9RT3AsOQqlj0AzWLcac1yj3MYAck/KO4rUncNaMy9GFSQDECY9KOgHO2V9JZSbWBMefmU9q6KGZJoxJGwKmqWo6aLgGSIYlH/j1V9It7mKZ/MVljxyD3NIDTluo4uCcn0FU2WW5O+Q7Ix60skgSZ1ihLPnljR9lmm+a4k2j0o5uxSj1YNdpEvlwLuPqe9MW1nuG3SEge9Tq9vbnES739uaUi6m6YjWlyt6sfOl8I5LW3g5bGfUmpBcQDgOoqEafnlpCTTX0/j5HP0NUoxIbb3LqurDKsCPY0tY7LJA/dWHcVo2kzTREt1HBPrTcbATMisMEZFUp7BWy0R2n0q/SVDSY1JrYxPs0wcAIc5raQEIAeuKXFLSUbFSm5bhRRRVEBRRRQAUUUUAFFFFABRRRQAUGig0AQ3Evkx5AyxOAPU1FDNK05jkVRhd2RTLxz50SqpbB3ECltn3maZhjtj6VDepdtBHuZQ0hRUKJwSTzUrzlbeOQLy2OPrVXB+xAdGmfn8TVi6A2wr28wflRcHYlMpM4jAzgZY+npUPnzvJIIlQqpxknvToP9W87fxnP4dqitFnADfJscljnOadwsSzzvDbh2A38cDpSmY7oVUDMnJ+lRXY8yaOPtgsabaHzJlPaOMD8TSvqFtLkt1PLCAVVSvv604SyLbu8qgMATgHrTLn57iCPtu3H8Kden9wIx1dgtMQee2IPlG6Q8j0FEs8gn8qJVJ27jmmgbr4DtGn6mq7ySh55oyoXO059vSlcaWpaS4LWrTMAMA/jSRSXL7WKIEPXnnFRzr5dkkScFiFFWLcTAHzNmO22ncTSsTdqhmlKSRqoGWP
+6VNVG8fbPGR94K2B7ngU27CirsebvidgOEOB9afNM0USfKDIxxj3qnAmZRFnOH3E59B/jVmb576JOygsam5TSTHQTSvK8cgUFQOVpj3Mu6QoqFEPUmltmGJpj3Y4+gqqvmeUobAjlcZx96i7Gki7JOVtkcD5mxgH3pUmLzMigFF4J9/SoLsM8sUceNwy3Pan2RPkurAZViMjvTuKytcSS5k/eFEUpGcEsetWYn3xK5GCRkiqOHhwjojJI/r6mtADgYpoUkOormp9Su1uJFWYhQ5AGB61e0i6nuZZRLIWAAIpkmvTWAZSD3FOHSkJwCaAKcI32skf90kVNavut19RwaZZjKO395jTWzazFwCYn647GqYFykpFcOoKkEU6pAilSQj90wU9yRUItCxzLKze1W6KLsCNIkjHyqBUgoooAKKKKAGSRpIMOoIoRFjGFXAp9FABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAVRG/2qSQrxtAX3pghkWwZAuZGByM46/wD1quUUrDuUoopXki3psSPpznNSXcTyqgQfxcn0FWqSiwcxBMjfZmSNcnGAKZbGdQqNEFQDGcirfakosFyssTG6eRl+XaFWksoGhRtwwSf0q1iiiwX6Ffy3N6ZGX5AuAfem3SSl4njTeEycZx9KtUUWC5WhjkXzJHUB35wD6VH9nk+yrHtyWfL89s1doosHMVLlZfMiMabgmScnH0qaFpWUmRNp9M5ptxdQ2y7pXxnoO5rOfXVBIjgJHqzYoSC5sdqqSwNJeq5HyKvB96pJrqE4kgIHqrZ/Tirn9o25tzMhLqv3go5H4UNXBOw61gaOSV2GCzcfSo5EuFuXdEDBhgHPSov7ctf+ec35D/GrVreRXis0eRtPIbrRyhzaiGF0sTEg3NjHX1o8lvMgAHyRg5Oe/ap5HWNGdyAqjJqlDq0E8qxIkpZjjoP8aLBzE4jf7XJIV4CgLz1piwutgyY/eEHP1NSz
+3UNsm6VgvoB1NZ0muqD+7gLD1Zsf0osFy1FFM0kW+MIsee+c1erHj11C2JICB6q2f8K0be6huV3ROGx1HQihKwN3OYuf+Pqb/fb+daWg/wCum/3RWbc/8fUv++f51paD/r5v90UxG7SEBgQehpskiRIXkYKo6k1mS65ChxFG0nuTtFAGmiLGoVRgClIDDBGQaxl145+a349n/wDrVettSt7k7VYq/wDdbjNADjbNG26CTb/snpVpc4Geveis1tWiW9MTD92ON/v/AIUAadFIrAgEEEGloAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACmSOERnPRRk0+muodWU9CMGgDk7id7idpHPJP5Vf03TUuY/OmJ25wFBxms+5t3tpmjcdOh9RV7TdTW2j8mUHZ1BHOKANCXR7V0IRWQ9iGJ/Q0yx0v7O8jSkOT8q46Yp0ms2qj5Czn0Ax/Om6fqRu52jdAD1XHTHpQBkX1qbS4KfwHlD7UWdybS5Vx93ow9RW/f2n2q2IH+sXlD71zBBBIIII4waANbV74SBYImyuAzEHr6CptKtRb27XMg+Yrkf7tZ2n2n2u5AI/dry3+H410rIGjKEfKRjA9KAOTuJ3uJmlc8k8D0rQ0zTUuIzNMTszgKO9ULm3e2naOTqOh9R61d03U1to/JlB2dQRzigDQk0e0dMIrIfUEn9Dmm6fpptZXkkYM3RcdhSyazaqPkLOfQDH86bYakbuZo3QA9Vx6UAYlz/x9S/75/nWloP8Arpv90fzrNuf+Pqb/AH2/nWloP+um/wB0fzoAg1a5aa7aPOEjOAPeqsHkeaPPD7PROtW9WtWhuml/gkOQfQ+lVIDCJQJwxTvt6igDVR9IkXbtC/UEH86eNGRbpHVz5Q6qev0zTEOjxoG4J/2gxNL/AG0huVATEPQsev1oAtald/ZbU7T87/Kv+Nc0
+eeT9at3k7X158oJBO1B7VoTaMrWyiI4lA5z0agClYak9q2x8tF6d1+ldFFKk0QkRgynuK449a3NCZzDMD90MMfXv/SgDYooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAIZ7aK5XbKm4dvUVnSaFGT8kzL/vDNa9FAGRHoMYP7yZ2+gx/jWhBaw2y7YkC+p7mp6KAEzj2rlr50nvXMS8EgDHc1vagtw9uY7dCzPwTkDAqlpumyRT+bcJtK/dXIPPrQBesbT7JbhP4jyx96t0g6UtAEM9tFcLtlQMO3qKzpNCjJ+SZl/wB4ZrXooAyI9BjB/eTO30GP8a0ILaK2XbEgX37mp6KAM19Ft5HZ2eXLEk8j/Cp7TT4rNmaNnO4YO4j/AAq3RQAx0EilWUFT1B5rOl0SBzmNnj9uorUooAxl0FQfmuCR7Jj+tWl0m3SJkXeCwwXz82P6VfooAoW2lwWswlTcWHA3YwP0q1NCJ4mjYsobuOCKlooAx/7BTdxO23028/n/APWrTggS3iEca4UVLRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFF
+FABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAH/2Q==</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportID>312657d4-5053-4f4c-b4fa-c580a92fd43b</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>

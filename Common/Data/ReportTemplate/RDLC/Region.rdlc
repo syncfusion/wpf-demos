@@ -1,0 +1,466 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <Description>Purpose: Map report. For each state, displays sales totals for individuals, sales totals for reseller stores, and store locations. Includes the US map from the map gallery, analytical data from a dataset, polygon layer (one for each state), polygon fill for no sales, polygon color rules based on individual sales, markers for stores, marker colors based on store sales, marker drillthrough action, multiple map titles and legends, and use of Lookup function.</Description>
+  <Author>Mary Lingel MSFT</Author>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="AdventureWorks2008R2">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=localhost;Initial Catalog=AdventureWorks2008R2</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:SecurityType>Integrated</rd:SecurityType>
+      <rd:DataSourceID>21b92c36-6b7e-46e2-a8ec-989544230ba2</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="StoreSales">
+      <Query>
+        <DataSourceName>AdventureWorks2008R2</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@StateProvinceCode">
+            <Value>=Parameters!StateProvinceCode.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT soh.SalesOrderID, soh.TotalDue, soh.OrderDate, c.CustomerID, 
+   st.Name AS Store, 
+   sp.StateProvinceCode, 
+   ad.City, ad.PostalCode, ad.SpatialLocation
+FROM Sales.SalesOrderHeader AS soh INNER JOIN
+  Sales.Customer AS c ON soh.CustomerID = c.CustomerID INNER JOIN
+  Person.BusinessEntity AS b ON b.BusinessEntityID = c.StoreID INNER JOIN
+  Sales.Store AS st ON st.BusinessEntityID 
+     = b.BusinessEntityID INNER JOIN
+  Person.BusinessEntityAddress AS a 
+     ON a.BusinessEntityID = b.BusinessEntityID INNER JOIN
+  Person.Address AS ad ON ad.AddressID = a.AddressID INNER JOIN
+  Person.AddressType AS at ON at.AddressTypeID = a.AddressTypeID
+     INNER JOIN Person.StateProvince AS sp 
+     ON sp.StateProvinceID = ad.StateProvinceID
+WHERE (c.StoreID IS NOT NULL) 
+   AND (at.Name = N'Main Office') 
+   AND (sp.CountryRegionCode = N'US') AND sp.StateProvinceCode = @StateProvinceCode</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="SalesOrderID">
+          <DataField>SalesOrderID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="TotalDue">
+          <DataField>TotalDue</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="CustomerID">
+          <DataField>CustomerID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Store">
+          <DataField>Store</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="StateProvinceCode">
+          <DataField>StateProvinceCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="tblxMatrix_StoresbyState">
+            <TablixCorner>
+              <TablixCornerRows>
+                <TablixCornerRow>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox21">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>State Province Code</Value>
+                                <Style>
+                                  <FontFamily>Segoe UI</FontFamily>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox21</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>LightSteelBlue</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                  <TablixCornerCell>
+                    <CellContents>
+                      <Textbox Name="Textbox22">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Store</Value>
+                                <Style>
+                                  <FontFamily>Segoe UI</FontFamily>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox22</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>LightSteelBlue</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixCornerCell>
+                </TablixCornerRow>
+              </TablixCornerRows>
+            </TablixCorner>
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>1.6632in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="TotalDue1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Sum(Fields!TotalDue.Value)</Value>
+                                  <Style>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <Format>'$'#,0.00;('$'#,0.00)</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>TotalDue1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                            <rd:FormatSymbolCulture>en-US</rd:FormatSymbolCulture>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="ColumnGroup1">
+                    <GroupExpressions>
+                      <GroupExpression />
+                    </GroupExpressions>
+                  </Group>
+                  <TablixHeader>
+                    <Size>0.25in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox19">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Total Due</Value>
+                                <Style>
+                                  <FontFamily>Segoe UI</FontFamily>
+                                  <FontWeight>Bold</FontWeight>
+                                  <Color>White</Color>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox19</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>LightSteelBlue</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                </TablixMember>
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="StateProvinceCode1">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!StateProvinceCode.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!StateProvinceCode.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>2.12154in</Size>
+                    <CellContents>
+                      <Textbox Name="StateProvinceCode1">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!StateProvinceCode.Value</Value>
+                                <Style>
+                                  <FontFamily>Segoe UI</FontFamily>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>StateProvinceCode1</rd:DefaultName>
+                        <Bookmark>=TRIM(Fields!StateProvinceCode.Value)</Bookmark>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="Store">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!Store.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!Store.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixHeader>
+                        <Size>2.23612in</Size>
+                        <CellContents>
+                          <Textbox Name="Store">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>=Fields!Store.Value</Value>
+                                    <Style>
+                                      <FontFamily>Segoe UI</FontFamily>
+                                      <TextDecoration>None</TextDecoration>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style />
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>Store</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>LightGrey</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <NoRowsMessage>No Data Available for this Resgion</NoRowsMessage>
+            <DataSetName>StoreSales</DataSetName>
+            <Filters>
+              <Filter>
+                <FilterExpression>=Fields!StateProvinceCode.Value</FilterExpression>
+                <Operator>Equal</Operator>
+                <FilterValues>
+                  <FilterValue>=Parameters!StateProvinceCode.Value</FilterValue>
+                </FilterValues>
+              </Filter>
+            </Filters>
+            <Top>0.2459in</Top>
+            <Left>0.63542in</Left>
+            <Height>0.5in</Height>
+            <Width>6.02086in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <Color>Red</Color>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>1.16541in</Height>
+        <Style />
+      </Body>
+      <Width>6.8in</Width>
+      <Page>
+        <PageHeader>
+          <Height>0.52083in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="TextBox8">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value> Store sales in the region </Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>18pt</FontSize>
+                        <FontWeight>ExtraBold</FontWeight>
+                        <Color>#4b88ba</Color>
+                      </Style>
+                    </TextRun>
+                    <TextRun>
+                      <Value>=Parameters!StateProvinceCode.Value</Value>
+                      <Style>
+                        <FontStyle>Normal</FontStyle>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>18pt</FontSize>
+                        <FontWeight>ExtraBold</FontWeight>
+                        <Color>#4b88ba</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.0486in</Top>
+              <Left>0.63542in</Left>
+              <Height>0.44792in</Height>
+              <Width>5.81928in</Width>
+              <Style>
+                <Border />
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageWidth>7.9375in</PageWidth>
+        <LeftMargin>0.5in</LeftMargin>
+        <RightMargin>0.5in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="StateProvinceCode">
+      <DataType>String</DataType>
+      <Prompt>StateProvinceCode</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <EmbeddedImages>
+    <EmbeddedImage Name="AdventureWorksLogo">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>602b0e43-347c-4a5b-8326-d0c562c9ddcb</rd:ReportID>
+</Report>

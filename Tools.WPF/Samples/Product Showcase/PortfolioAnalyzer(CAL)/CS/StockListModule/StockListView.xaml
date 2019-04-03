@@ -1,0 +1,137 @@
+﻿<ContentControl x:Class="PortfolioAnalyzer.StockListModule.StockListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:PortfolioAnalyzer.StockListModule"
+    xmlns:cal="clr-namespace:Microsoft.Practices.Composite.Presentation.Commands;assembly=Microsoft.Practices.Composite.Presentation"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    syncfusion:DockingManager.Header="StockList Module" Name="Stock"
+    syncfusion:DockingManager.SideInDockedMode="Right"
+    syncfusion:DockingManager.State="Dock" FontFamily="Verdana"
+    syncfusion:DockingManager.TargetNameInDockedMode="Accounts"
+    syncfusion:DockingManager.DesiredWidthInDockedMode="600"
+    >
+    <!--<ContentControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.Shared.WPF;component/SkinManager/SkinManager.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentControl.Resources>-->    
+            <Grid>                   
+                <syncfusion:GridDataControl Name="stockGrid"  ItemsSource="{Binding StockList}" SelectedItem="{Binding Path=SelectedStock, Mode=TwoWay}" 
+                                 ShowAddNewRow="False" ShowFilters="False" AllowDragColumns="True"
+                                 AllowEdit="False" ShowCurrentCell="False" AutoPopulateColumns="False">
+
+                    <syncfusion:GridDataControl.ConditionalFormats>
+                        <syncfusion:GridDataConditionalFormat ApplyStyleToColumn="Change">
+                            <syncfusion:GridDataConditionalFormat.Style>
+                                <syncfusion:GridDataStyleInfo Foreground="Red" ImageContentAlignment="Left" ImageHeight=".85*" ImageWidth=".15*">
+                                    <syncfusion:GridDataStyleInfo.ImageMargins>
+                                        <syncfusion:CellMarginsInfo Left="10" Top="1" Bottom="1"/>
+                                    </syncfusion:GridDataStyleInfo.ImageMargins>
+                                    <syncfusion:GridDataStyleInfo.Image>
+                                        <Image Source="{StaticResource PriceDown}"></Image>
+                                    </syncfusion:GridDataStyleInfo.Image>
+                                </syncfusion:GridDataStyleInfo>
+                            </syncfusion:GridDataConditionalFormat.Style>
+                            <syncfusion:GridDataConditionalFormat.Conditions>
+                                <syncfusion:GridDataCondition ColumnName="Change" ConditionType="LessThan" Value="0"/>
+                            </syncfusion:GridDataConditionalFormat.Conditions>
+                        </syncfusion:GridDataConditionalFormat>
+
+                        <syncfusion:GridDataConditionalFormat ApplyStyleToColumn="Change">
+                            <syncfusion:GridDataConditionalFormat.Style>
+                                <syncfusion:GridDataStyleInfo Foreground="Green" ImageContentAlignment="Left" ImageHeight=".85*" ImageWidth=".15*">
+                                    <syncfusion:GridDataStyleInfo.Image>
+                                        <Image Source="{StaticResource PriceUp}"></Image>
+                                    </syncfusion:GridDataStyleInfo.Image>
+                                    <syncfusion:GridDataStyleInfo.ImageMargins>
+                                        <syncfusion:CellMarginsInfo Left="10" Top="1" Bottom="1"/>
+                                    </syncfusion:GridDataStyleInfo.ImageMargins>
+                                </syncfusion:GridDataStyleInfo>
+                            </syncfusion:GridDataConditionalFormat.Style>
+                            <syncfusion:GridDataConditionalFormat.Conditions>
+                                <syncfusion:GridDataCondition ColumnName="Change" ConditionType="GreaterThanOrEqual" Value="0"/>
+                            </syncfusion:GridDataConditionalFormat.Conditions>
+                        </syncfusion:GridDataConditionalFormat>
+
+                        <syncfusion:GridDataConditionalFormat ApplyStyleToColumn="PercentChange">
+                            <syncfusion:GridDataConditionalFormat.Style>
+                                <syncfusion:GridDataStyleInfo Foreground="Red" ImageHeight=".85*" ImageWidth=".15*">
+                                    <syncfusion:GridDataStyleInfo.Image>
+                                        <Image Source="{StaticResource PriceDown}"></Image>
+                                    </syncfusion:GridDataStyleInfo.Image>
+                                    <syncfusion:GridDataStyleInfo.ImageMargins>
+                                        <syncfusion:CellMarginsInfo Left="10" Top="1" Bottom="1"/>
+                                    </syncfusion:GridDataStyleInfo.ImageMargins>
+                                </syncfusion:GridDataStyleInfo>
+                            </syncfusion:GridDataConditionalFormat.Style>
+                            <syncfusion:GridDataConditionalFormat.Conditions>
+                                <syncfusion:GridDataCondition ColumnName="Change" ConditionType="LessThan" Value="0"/>
+                            </syncfusion:GridDataConditionalFormat.Conditions>
+                        </syncfusion:GridDataConditionalFormat>
+
+                        <syncfusion:GridDataConditionalFormat ApplyStyleToColumn="PercentChange">
+                            <syncfusion:GridDataConditionalFormat.Style>
+                                <syncfusion:GridDataStyleInfo Foreground="Green" ImageHeight=".85*" ImageWidth=".15*">
+                                    <syncfusion:GridDataStyleInfo.Image>
+                                        <Image  Source="{StaticResource PriceUp}"></Image>
+                                    </syncfusion:GridDataStyleInfo.Image>
+                                    <syncfusion:GridDataStyleInfo.ImageMargins>
+                                        <syncfusion:CellMarginsInfo Left="10" Top="1" Bottom="1"/>
+                                    </syncfusion:GridDataStyleInfo.ImageMargins>
+                                </syncfusion:GridDataStyleInfo>
+                            </syncfusion:GridDataConditionalFormat.Style>
+                            <syncfusion:GridDataConditionalFormat.Conditions>
+                                <syncfusion:GridDataCondition ColumnName="PercentChange" ConditionType="GreaterThanOrEqual" Value="0"/>
+                            </syncfusion:GridDataConditionalFormat.Conditions>
+                        </syncfusion:GridDataConditionalFormat>
+                    </syncfusion:GridDataControl.ConditionalFormats>
+
+                    <syncfusion:GridDataControl.VisibleColumns>
+                        <syncfusion:GridDataVisibleColumn MappingName="Symbol" AllowFilter="False" Width="80" ShowColumnOptions="True" AutoFit="False"/>
+                        <syncfusion:GridDataVisibleColumn MappingName="CompanyName" AllowFilter="False" Width="200" ShowColumnOptions="True" AutoFit="False"/>
+                        <syncfusion:GridDataVisibleColumn MappingName="Quantity" AllowFilter="False" Width="80" ShowColumnOptions="True" AutoFit="False">
+                            <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"/>
+                            </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                        </syncfusion:GridDataVisibleColumn>
+                        <syncfusion:GridDataVisibleColumn MappingName="Price" AllowFilter="False" HeaderText="PricePaid" Width="90" ShowColumnOptions="True" AutoFit="False">
+                            <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                <syncfusion:GridDataColumnStyle HorizontalAlignment="Right" Format="##.##"></syncfusion:GridDataColumnStyle>
+                            </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                        </syncfusion:GridDataVisibleColumn>
+                        <syncfusion:GridDataVisibleColumn MappingName="Change" AllowFilter="False" Width="90">
+                            <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Format="##.##"></syncfusion:GridDataColumnStyle>
+                            </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                        </syncfusion:GridDataVisibleColumn>
+                        <syncfusion:GridDataVisibleColumn MappingName="PercentChange" HeaderText="% Change" AllowFilter="False" Width="90">
+                            <!--<syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                <syncfusion:GridDataColumnStyle Format="c" HorizontalAlignment="Center" />
+                            </syncfusion:GridDataVisibleColumn.ColumnStyle>-->
+                            <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                <syncfusion:GridDataColumnStyle CellType="PercentEdit" Format="##.##" HorizontalAlignment="Right"/>
+                            </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                        </syncfusion:GridDataVisibleColumn>
+                        <syncfusion:GridDataVisibleColumn AllowFilter="True" MappingName="IndustryName" Width="200"/>
+                        <syncfusion:GridDataVisibleColumn AllowFilter="True" MappingName="SectorName" Width="120"/>
+                        <syncfusion:GridDataVisibleColumn AllowFilter="True" MappingName="StockExchangeName" Width="200"/>
+                        <syncfusion:GridDataVisibleColumn MappingName="PurchaseDate" AllowFilter="False" HeaderText="PurchaseDate" Width="120">
+                            <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                <syncfusion:GridDataColumnStyle CellType="DateTimeEdit">
+                                    <syncfusion:GridDataColumnStyle.DateTimeEdit>
+                                        <syncfusion:GridDateTimeEditStyleInfo DateTimePattern="ShortDate" >
+                                        </syncfusion:GridDateTimeEditStyleInfo>
+                                    </syncfusion:GridDataColumnStyle.DateTimeEdit>
+                                </syncfusion:GridDataColumnStyle>
+                            </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                        </syncfusion:GridDataVisibleColumn>
+
+                    </syncfusion:GridDataControl.VisibleColumns>
+
+                </syncfusion:GridDataControl>
+                        
+    </Grid>
+            
+</ContentControl>

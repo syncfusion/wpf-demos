@@ -1,0 +1,85 @@
+﻿<layout:SampleLayoutWindow  x:Class="ChartExport.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+                            xmlns:inter="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    Title="Exporting Chart Demo" 
+    x:Name="window1" xmlns:local="clr-namespace:ChartExport">
+
+    <inter:Interaction.Behaviors>
+        <local:ChartExportDemoBehavior/>
+    </inter:Interaction.Behaviors>
+
+        <!--Root layout, splitting into two rows and two columns-->
+        <Grid >
+            <Grid.DataContext>
+                <local:Products />
+            </Grid.DataContext>
+            <!--Hosting Chart control in second Row of the Grid-->
+                    <syncfusion:Chart Name="Chart1">
+                        <syncfusion:Chart.Header>
+                            <TextBlock Text="Stock vs Order Comparison" FontWeight="Regular" FontFamily="Segoe UI" FontSize="20"/>
+                        </syncfusion:Chart.Header>
+                        <!--Chart Legend declaration-->
+                        <syncfusion:Chart.Legends>
+                            <syncfusion:ChartLegend CheckBoxVisibility="Visible"  >
+                            </syncfusion:ChartLegend>
+                        </syncfusion:Chart.Legends>
+                        <!--Chart area to present chart segments-->
+                        <syncfusion:ChartArea IsContextMenuEnabled="True">
+
+                            <!--Primary Axis(X)-->
+                            <syncfusion:ChartArea.PrimaryAxis>
+                                <!--X axis declaration with required property settings-->
+                                <syncfusion:ChartAxis RangePadding="Normal" Header="Month" EdgeLabelsDrawingMode="Fit" LabelTemplate="{StaticResource LabelsTemplate}" syncfusion:ChartArea.ShowGridLines="True">
+                                </syncfusion:ChartAxis>
+                            </syncfusion:ChartArea.PrimaryAxis>
+                            <!--Secondary Axis(Y)-->
+                            <syncfusion:ChartArea.SecondaryAxis>
+                                <!--Y axis declaration with required property settings-->
+                                <syncfusion:ChartAxis Header="Stock / Order in Millions (USD)" LabelTemplate="{StaticResource LabelsTemplate}" >
+                                </syncfusion:ChartAxis>
+                            </syncfusion:ChartArea.SecondaryAxis>
+                            <!--Chart 1st series declaration-->
+                            <syncfusion:ChartSeries Label="Stock" 
+                 Type="Column" 
+                 StrokeThickness="0.5"
+                  DataSource="{Binding}"  BindingPathX="X" BindingPathsY="Y1" />
+                            <!--Chart 2nd series declaration-->
+                            <syncfusion:ChartSeries Label="Order" 
+                 Type="Column" 
+                 StrokeThickness="0.5"  DataSource="{Binding}"  BindingPathX="X" BindingPathsY="Y2"/>
+
+                        </syncfusion:ChartArea>
+                    </syncfusion:Chart>
+                
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid Grid.Column="1" Grid.Row="1">
+
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"  />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+
+                <TextBlock Canvas.Left="30" Canvas.Top="-145" Text="Chart Export Properties" FontWeight="Bold"/>
+
+                <!--Button when clicked Copies the CommandTarget to clipboard-->
+                <Button Grid.Row="1" Name="Copytoclip" Content="Copy To Clipboard" />
+                <!--Button when clicked will copy the CommandTarget opens the SaveAs Dialog box-->
+                <Button Grid.Row="1" Name="Savebtn" Grid.Column="1" Content="Save"  />
+            </Grid>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+    
+    </layout:SampleLayoutWindow>

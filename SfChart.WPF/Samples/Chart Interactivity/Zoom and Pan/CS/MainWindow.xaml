@@ -1,0 +1,82 @@
+﻿<layout:SampleLayoutWindow x:Class="ZoomPanBehavior.MainWindow"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chart="http://schemas.syncfusion.com/wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:ZoomPanBehavior" 
+        ResizeMode="CanResizeWithGrip" 
+        WindowStartupLocation="CenterScreen"
+        UserOptionsVisibility="Collapsed"
+        Title="Zoom and Pan" >
+
+    <Grid>
+        
+        <Grid.Resources>
+            
+            <!-- Template for Axis Labels -->
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Text="{Binding LabelContent}" Foreground="Black" FontSize="12" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="postfixLabelTemplate">
+                <TextBlock Text="%" />
+            </DataTemplate>
+            
+            <Style TargetType="Line" x:Key="axisStyle">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+            
+        </Grid.Resources>
+
+        <Grid.DataContext>
+            <local:LoadDetailViewModel></local:LoadDetailViewModel>
+        </Grid.DataContext>
+
+        <chart:SfChart  Margin="20,10,20,10" IsManipulationEnabled="True" AreaBorderThickness="0,1,1,1">
+
+            <chart:SfChart.Header>
+                <TextBlock  FontSize="20" FontFamily="Seoge UI" 
+                            Margin="0,0,0,20" Text="Server CPU Load"/>
+            </chart:SfChart.Header>
+
+            <chart:SfChart.Behaviors>
+                <chart:ChartZoomPanBehavior EnablePinchZooming="True" EnableZoomingToolBar="True" ToolBarItemHeight="30"
+                                            EnableSelectionZooming="True" HorizontalPosition="Right" ToolBarItemWidth="30"
+                                            EnableMouseWheelZooming="True" EnablePanning="True"  ToolBarItemMargin="5"
+                                            ZoomMode="XY" ResetOnDoubleTap="True"/>
+            </chart:SfChart.Behaviors>
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:DateTimeAxis FontSize="13"  
+                                    LabelTemplate="{StaticResource labelTemplate}" 
+                                    Foreground="Black" 
+                                    AxisLineStyle="{StaticResource axisStyle}" 
+                                    MajorTickLineStyle="{StaticResource axisStyle}"
+                                    LabelFormat="MMM, yyyy">
+                    <chart:DateTimeAxis.Header>
+                        <TextBlock  Text="Date" FontSize="13" HorizontalAlignment="Left" />
+                    </chart:DateTimeAxis.Header> 
+                </chart:DateTimeAxis>
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis >
+                <chart:NumericalAxis  FontSize="13"
+                                      AxisLineStyle="{StaticResource axisStyle}"
+                                      MajorTickLineStyle="{StaticResource axisStyle}" 
+                                      PostfixLabelTemplate="{StaticResource postfixLabelTemplate}"
+                                      >
+                    <chart:NumericalAxis.Header>
+                        <TextBlock  Text="CPU Load" FontSize="13" VerticalAlignment="top" />
+                    </chart:NumericalAxis.Header>
+                </chart:NumericalAxis>
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:FastLineSeries ItemsSource="{Binding LoadDetails}" StrokeLineJoin="Round"
+                                  EnableAnimation="True"  XBindingPath="Date" 
+                                  YBindingPath="Load" />
+            
+        </chart:SfChart>
+
+    </Grid>
+    </layout:SampleLayoutWindow>

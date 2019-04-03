@@ -1,0 +1,84 @@
+﻿<syncfusion:ChromelessWindow x:Class="ClockDemo.Window1" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+        Icon="App.ico" 
+        xmlns:local="clr-namespace:ClockDemo"
+        xmlns:System="clr-namespace:System;assembly=mscorlib" 
+    x:Name="window1" WindowStartupLocation="CenterScreen" xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF" 
+    Title="Clock Demo" Width="710" 
+    Height="510" FontFamily="Calibri" FontSize="13" >
+    <Window.DataContext>
+        <local:EventViewModel/>
+    </Window.DataContext>
+        <Grid >
+
+        <sblayout:SampleLayoutControl  Header="Clock" x:Name="Sblayout" EventLogs="{Binding EventLogs}"
+                                          Description="The Clock control supports both an analog and a digital mode for displaying time. Different visual skins, including Office 2007's Blue, Black, Silver, and Blend theme, can be applied. The appearance of the clock can also be completely customized using the various appearance properties available.">
+            <sblayout:SampleLayoutControl.PropertyViewContent>
+                    <sblayout:GroupBoxAdv Header="User Options">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition Width="100"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Grid.Row="0" FontWeight="Normal" Text="Show DigitalAMPM Selector" Margin="3"/>
+                        <CheckBox Name="chkdigampmvisble" Grid.Row="0" IsChecked="True" 
+                                      Margin="3"   Grid.Column="1" VerticalAlignment="Center"/>
+                    
+                        <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Normal" Text="Show InsideAMPM Selector" Margin="3"/>
+                        <CheckBox Name="chkinsideampmvisible" Grid.Row="1"
+                                      Margin="3"   Grid.Column="1" VerticalAlignment="Center"/>
+                  
+
+                        <Label Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left"  FontWeight="Normal" IsEnabled="{Binding ElementName=chkinsideampmvisible,Path=IsChecked}" Content ="AMPM Selector Position" Margin="-1,0,0,0"/>
+                        <ComboBox  Name="cmboAmPmPosition" Grid.Row="2" SelectedIndex="0" IsEnabled="{Binding ElementName=chkinsideampmvisible,Path=IsChecked}"
+                                      Margin="3"   Grid.Column="1" VerticalAlignment="Center">
+
+                            <System:String >Left</System:String>
+                            <System:String >Right</System:String>
+                            <System:String >Top</System:String>
+                            <System:String >Bottom</System:String>
+                        </ComboBox>
+                        <TextBlock Grid.Column="0" Grid.Row="3" FontWeight="Normal" Text="Flow Direction" Margin="3"/>
+                        <ComboBox  Name="cmboflowdirection" Grid.Row="3" SelectedIndex="0"
+                                      Margin="3"   Grid.Column="1" VerticalAlignment="Center">
+                            <FlowDirection>LeftToRight</FlowDirection>
+                            <FlowDirection >RightToLeft</FlowDirection>
+
+                        </ComboBox >
+                    </Grid>
+                    </sblayout:GroupBoxAdv>
+                </sblayout:SampleLayoutControl.PropertyViewContent>
+
+
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                <syncfusion:Clock     Name="Clock1"   HorizontalAlignment="Center" VerticalAlignment="Center" FrameBackground="Transparent" FrameBorderBrush="Transparent" FrameInnerBorderBrush="Transparent" 
+                                      FlowDirection="{Binding ElementName=cmboflowdirection,Path=SelectedItem,Mode=TwoWay}"
+                                      IsDigitalAmPmVisible="{Binding ElementName=chkdigampmvisble,Path=IsChecked,Mode=TwoWay}"
+                                      IsInsideAmPmVisible="{Binding ElementName=chkinsideampmvisible,Path=IsChecked,Mode=TwoWay}"
+                                      AMPMSelectorPosition="{Binding ElementName=cmboAmPmPosition,Path=SelectedItem,Mode=TwoWay}"
+                                      DateTime="{Binding SelectedDate,Mode=TwoWay}"
+                                      syncfusion:ClockDateTimeChangedCommand.Command="{Binding DateTimeChangedCommand}"                                      
+                                      
+                                
+                                      >
+                    
+                </syncfusion:Clock>
+
+                </Grid>
+
+
+            </sblayout:SampleLayoutControl>
+        </Grid>
+
+   
+</syncfusion:ChromelessWindow>

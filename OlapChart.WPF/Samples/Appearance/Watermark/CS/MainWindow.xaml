@@ -1,0 +1,159 @@
+﻿<sfutils:SampleWindow x:Class="ChartWaterMark.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:library="clr-namespace:System;assembly=mscorlib"
+                      xmlns:syn="http://schemas.syncfusion.com/wpf"
+                      xmlns:vm="clr-namespace:ChartWaterMark.ViewModel"
+                      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                      xmlns:action="clr-namespace:ChartWaterMark.Action"
+                      xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils" 
+                      sfshared:SkinStorage.VisualStyle="Metro"
+                      Title="Watermark" Icon="App.ico" Height="600" Width="950" MinHeight="545" MinWidth="775"
+                      WindowState="Maximized" WindowStartupLocation="CenterScreen">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <action:WaterMarkCustomization TargetName="olapchart1"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.DataContext>
+            <vm:ViewModel/>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="This sample illustrates text and image watermarks of OlapChart in its background." 
+                       VerticalAlignment="Center" Foreground="White" Margin="5 0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Header="OlapChart" Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                
+                <!--Adding Chart-->
+                <syn:OlapChart Name="olapchart1" Margin="5" ChartType="Line" SeriesStrokeThickness="0"
+                               OlapDataManager="{Binding DataManager}" Background="Transparent" ColorPalette="Metro">
+                    <syn:OlapChart.PrimaryAxis>
+                        <syn:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes"/>
+                    </syn:OlapChart.PrimaryAxis>
+                    <syn:OlapChart.SecondaryAxis>
+                        <syn:ChartAxis LabelFormat="C"/>
+                    </syn:OlapChart.SecondaryAxis>
+                    <syn:OlapChart.GridBackground>
+                        <VisualBrush AlignmentX="Center" AlignmentY="Center" Stretch="None"
+                                     Opacity="{Binding ElementName=slider_transprancy,Path=Value}">
+                            <VisualBrush.Visual>
+                                <Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Image Name="img" Width="350" Height="150"
+                                           Visibility="{Binding ElementName=rd_imagewatermark,Path=IsChecked}"/>
+                                    <TextBlock Name="txt1" Text="Syncfusion" FontSize="80" 
+                                               TextAlignment="Justify" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                               FontFamily="{Binding ElementName=combo_Fonts, Path=SelectedItem}">
+                                        <TextBlock.Foreground>
+                                            <SolidColorBrush Color="{Binding ElementName=combo_interiorcolor,Path=SelectedItem}"/>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
+                                </Canvas>
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </syn:OlapChart.GridBackground>
+                    <syn:OlapChart.Legend>
+                        <syn:ChartLegend Visibility="Visible" Background="Transparent" RowsCount="3" ColumnsCount="2"/>
+                    </syn:OlapChart.Legend>
+                </syn:OlapChart>
+            </GroupBox>
+
+            <GridSplitter Grid.Column="0" Width="1" Margin="0 10 0 5" Background="#FF119EDA" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+
+            <GroupBox Grid.Column="1" Margin="5" Header="Properties" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                
+                <StackPanel Margin="5">
+                    <TextBlock Margin="0 10" Text="Horizontal Alignment"/>
+                    <ComboBox Name="combo_hralign" Height="25" Margin="0 10" SelectedIndex="1">
+                        <library:String>Left</library:String>
+                        <library:String>Center</library:String>
+                        <library:String>Right</library:String>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <action:WaterMarkCustomization TargetName="olapchart1"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+
+                    <TextBlock Name="textBlock2" Margin="0 10" Text="Vertical Alignment"/>
+                    <ComboBox Name="combo_vralign" Height="25" Margin="0 10" SelectedIndex="1">
+                        <library:String>Top</library:String>
+                        <library:String>Center</library:String>
+                        <library:String>Bottom</library:String>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <action:WaterMarkCustomization TargetName="olapchart1"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+
+                    <RadioButton Name="rd_textwatermark" GroupName="WatermarkType" Margin="0 10" Content="Text Watermark" IsChecked="True">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <action:WaterMarkCustomization TargetName="olapchart1"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </RadioButton>
+
+                    <RadioButton Name="rd_imagewatermark" GroupName="WatermarkType" Margin="0 10" Content="Image Watermark">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <action:WaterMarkCustomization TargetName="olapchart1"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </RadioButton>
+
+                    <TextBlock Name="textBlock5" Margin="0 10" Text="Font Style" 
+                               IsEnabled="{Binding ElementName=rd_textwatermark, Path=IsChecked}"/>
+                    <ComboBox Name="combo_Fonts" Margin="0 10"
+                              ItemsSource="{x:Static Fonts.SystemFontFamilies}" SelectedIndex="52"
+                              IsEnabled="{Binding ElementName=rd_textwatermark, Path=IsChecked}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontFamily="{Binding}" Height="23" Width="150"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Margin="0 10" Text="Interior Color" 
+                               IsEnabled="{Binding ElementName=rd_textwatermark, Path=IsChecked}"/>
+                    <ComboBox Name="combo_interiorcolor" Margin="0 10"
+                              ItemsSource="{Binding ColorCollection}" SelectedValue="Black"
+                              IsEnabled="{Binding ElementName=rd_textwatermark, Path=IsChecked}">
+                    </ComboBox>
+
+                    <TextBlock Margin="0 10" Text="Opacity"
+                               IsEnabled="{Binding ElementName=rd_textwatermark, Path=IsChecked}"/>
+                    <Slider Name="slider_transprancy" Margin="0 10" Value="0.3" Minimum="0" Maximum="1" 
+                            TickPlacement="BottomRight" TickFrequency="0.1" AutoToolTipPrecision="1" IsSnapToTickEnabled="True" AutoToolTipPlacement="BottomRight"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</sfutils:SampleWindow>

@@ -1,0 +1,143 @@
+﻿<layout:SampleLayoutWindow x:Class="SplineAreaChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:SplineAreaChart"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"  UserOptionsVisibility="Collapsed"
+        xmlns:frame="clr-namespace:System.Windows;assembly=PresentationFramework"
+        Title="SplineArea Chart Demo" x:Name="window1">
+    <layout:SampleLayoutWindow.Resources>
+        <ObjectDataProvider x:Key="horizontalAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:HorizontalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="verticalAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:VerticalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="symbol" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:Symbol"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <DataTemplate x:Key="adornment">
+            <Grid>
+                <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding}" FontSize="10" Foreground="#FF585858" FontFamily="Segoe UI" FontWeight="Bold">
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+    </layout:SampleLayoutWindow.Resources>
+        <Grid >
+            <Grid.DataContext>
+                <local:SplineAreaChartViewModel/>
+            </Grid.DataContext>
+
+            <!--Chart Legend declaration-->
+            <syncfusion:Chart Name="Chart1">
+               
+
+                <!--Chart area to present chart segments-->
+                <syncfusion:ChartArea ShowLegend="True" IsContextMenuEnabled="False">
+                    <syncfusion:ChartArea.GridHeader>
+                        <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI" Margin="0,0,0,20">Server Load Analysis</TextBlock>
+                    </syncfusion:ChartArea.GridHeader>
+                    <syncfusion:ChartArea.Legend>
+                        <syncfusion:ChartLegend syncfusion:Chart.Dock="Bottom"/>
+                    </syncfusion:ChartArea.Legend>
+
+                    <syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="Metro"/>
+                    </syncfusion:ChartArea.ColorModel>
+                    <!--Primary Axis(X)-->
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <!--X axis declaration with required property settings-->
+                        <syncfusion:ChartAxis Header="Time (hr)" RangePadding="Normal" LabelFontSize="11"  EdgeLabelsDrawingMode="Fit"   ValueType="DateTime" IsAutoSetRange="True" DateTimeInterval="1" LabelDateTimeFormat="hh"  />
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <!--Secondary Axis(Y)-->
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <!--Y axis declaration with required property settings-->
+                        <syncfusion:ChartAxis Header="CPU Usage (%)" Interval="10" RangePadding="Normal" IsAutoSetRange="True"  LabelFontSize="11"  />
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <!--Chart 1st series declaration-->
+                    <syncfusion:ChartSeries Label="Production Server" Stroke="{Binding Interior, ElementName=servers, Mode=TwoWay}" x:Name="servers" BindingPathX="Time" BindingPathsY="server" DataSource="{Binding Load}" Type="SplineArea" >
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                            <syncfusion:ChartAdornmentInfo HorizontalAlignment="Center" 
+                                                               VerticalAlignment="Center" 
+                                                               Visible="True" 
+                                                               x:Name="server">
+                                <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Ellipse Stroke="#FF1BA1E2" StrokeThickness="3" Fill="White" Height="30" Width="30" HorizontalAlignment="Left" VerticalAlignment="Top"></Ellipse>
+                                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding}" FontSize="10" Foreground="#FF585858" FontFamily="Segoe UI" FontWeight="Bold" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </syncfusion:ChartAdornmentInfo.LabelTemplate>
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+                    <syncfusion:ChartSeries Label="Portal Server" x:Name="Portal" Stroke="{Binding Interior, ElementName=Portal, Mode=TwoWay}" BindingPathX="Time" BindingPathsY="server1" DataSource="{Binding Load}" Type="SplineArea" >
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                            <syncfusion:ChartAdornmentInfo HorizontalAlignment="Center" 
+                                                               VerticalAlignment="Center" 
+                                                               Visible="True" 
+                                                               x:Name="server1" >
+                                <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Ellipse Stroke="#FFE51400" StrokeThickness="3" Fill="White" Height="30" Width="30" HorizontalAlignment="Left" VerticalAlignment="Top"></Ellipse>
+                                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding}" FontSize="10" Foreground="#FF585858" FontFamily="Segoe UI" FontWeight="Bold" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </syncfusion:ChartAdornmentInfo.LabelTemplate>
+
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+                    <syncfusion:ChartSeries Label="Build Server" x:Name="Build" Stroke="{Binding Interior, ElementName=Build, Mode=TwoWay}" BindingPathX="Time" BindingPathsY="server2" DataSource="{Binding Load}" Type="SplineArea" >
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                            <syncfusion:ChartAdornmentInfo HorizontalAlignment="Center" 
+                                                               VerticalAlignment="Center" 
+                                                               Visible="True" 
+                                                               x:Name="server2" >
+                                <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Ellipse Stroke="#FFA2C139" StrokeThickness="3" Fill="White" Height="30" Width="30" HorizontalAlignment="Left" VerticalAlignment="Top"></Ellipse>
+                                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding}" FontSize="10" Foreground="#FF585858" FontFamily="Segoe UI" FontWeight="Bold" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </syncfusion:ChartAdornmentInfo.LabelTemplate>
+
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+                    <syncfusion:ChartSeries Label="Mail Server" x:Name="Mail" Stroke="{Binding Interior, ElementName=Mail, Mode=TwoWay}" BindingPathX="Time" BindingPathsY="server3" DataSource="{Binding Load}" Type="SplineArea" >
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                            <syncfusion:ChartAdornmentInfo HorizontalAlignment="Center" 
+                                                               VerticalAlignment="Center" 
+                                                               Visible="True" 
+                                                               x:Name="server3" >
+                                <syncfusion:ChartAdornmentInfo.LabelTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Ellipse Stroke="#FFD80073" StrokeThickness="3" Fill="White" Height="30" Width="30" HorizontalAlignment="Left" VerticalAlignment="Top"></Ellipse>
+                                            <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding}" FontSize="10" Foreground="#FF585858" FontFamily="Segoe UI" FontWeight="Bold" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </syncfusion:ChartAdornmentInfo.LabelTemplate>
+
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+
+                </syncfusion:ChartArea>
+            </syncfusion:Chart>
+        </Grid>
+    
+
+</layout:SampleLayoutWindow>
+
