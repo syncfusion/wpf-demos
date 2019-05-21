@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="USInternetTrafficDemo.TrafficSourceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sync="http://schemas.syncfusion.com/wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate x:Key="labelTemplate">
+            <TextBlock FontSize="12" Text="{Binding}" FontFamily="Segoe UI" FontWeight="Regular" Foreground="Black" Width="63" TextWrapping="Wrap" Margin="10,0,0,0" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <sync:Chart FontWeight="Bold">
+            <sync:ChartArea  FontFamily="Times New Roman" FontWeight="Bold">
+                <sync:ChartArea.PrimaryAxis>
+                    <sync:ChartAxis Header="Month" AxisVisibility="Visible" RangePadding="Additional"></sync:ChartAxis>
+                </sync:ChartArea.PrimaryAxis>
+                <sync:ChartArea.SecondaryAxis>
+                    <sync:ChartAxis AxisVisibility="Visible" RangePadding="Additional"/>
+                </sync:ChartArea.SecondaryAxis>
+                <sync:ChartArea.ColorModel>
+                    <sync:ChartStyleModel Palette="Metro" />
+                </sync:ChartArea.ColorModel>
+                <sync:ChartSeries StrokeThickness="0" sync:ChartPieType.ExplodedAll="False" Type="Pie" Label="PageVisits" DataSource="{Binding TrafficSourceModel}" BindingPathX="Others" BindingPathsY="Percentage">
+                    <sync:ChartSeries.AdornmentsInfo>
+                        <sync:ChartAdornmentInfo x:Name="PieChartAdorments" LabelContentPath="DataPoint.Tag.Others" Visible="True" LabelTemplate="{StaticResource labelTemplate}" IsSegmentAlignment="False" SegmentShowLine="True" ></sync:ChartAdornmentInfo>
+                    </sync:ChartSeries.AdornmentsInfo>
+                </sync:ChartSeries>
+            </sync:ChartArea>
+        </sync:Chart>
+    </Grid>
+</UserControl>

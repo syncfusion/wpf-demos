@@ -1,0 +1,699 @@
+﻿<UserControl
+    x:Class="UMLDiagramDesigner.Diagram"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UMLDiagramDesigner"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:diagram="clr-namespace:Syncfusion.UI.Xaml.Diagram;assembly=Syncfusion.SfDiagram.Wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+   xmlns:panels="clr-namespace:Syncfusion.UI.Xaml.Diagram.Panels;assembly=Syncfusion.SfDiagram.Wpf"
+      xmlns:stencil="clr-namespace:Syncfusion.UI.Xaml.Diagram.Stencil;assembly=Syncfusion.SfDiagram.Wpf"
+      xmlns:localControls="clr-namespace:Syncfusion.UI.Xaml.Diagram.Controls;assembly=Syncfusion.SfDiagram.Wpf"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BlueSelectionBrush" Color="#FF565656"/>
+        <Style x:Key="NullThumb" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template" Value="{x:Null}"/>
+        </Style>
+
+        <!--<Style TargetType="{x:Type diagram:Node}">
+            <Setter Property="ContentTemplateSelector">
+                <Setter.Value>
+                    <local:NodeDataTemplateSelector/>
+                </Setter.Value>
+            </Setter>          
+        </Style>-->
+
+        <Style x:Key="LeftResizer" TargetType="localControls:DiagramThumb">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle HorizontalAlignment="Left" VerticalAlignment="Stretch" Fill="{StaticResource BlueSelectionBrush}" Width="3" Margin="-3,-3,0,-3"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+
+
+        <Style x:Key="TopResizer" TargetType="localControls:DiagramThumb">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Top" Fill="{StaticResource BlueSelectionBrush}" Height="3" Margin="-3,-3,-3,0"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+
+
+        <Style x:Key="RightResizer" TargetType="localControls:DiagramThumb">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle HorizontalAlignment="Right" VerticalAlignment="Stretch" Fill="{StaticResource BlueSelectionBrush}" Width="3" Margin="0,-3,-3,-3"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+
+
+        <Style x:Key="BottomResizer" TargetType="localControls:DiagramThumb">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Fill="{StaticResource BlueSelectionBrush}" Height="3" Margin="-3,0,-3,-3"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+        
+        
+        <Style x:Key="SourceThumb" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Ellipse Margin="-10,0,-5,0" Fill="{StaticResource BlueSelectionBrush}" Height="10"  Width="10"  />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TargetThumb" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Ellipse Margin="-10,0,-5,0"   Fill="{StaticResource BlueSelectionBrush}" Height="10" Width="10" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LineStyle" TargetType="diagram:Connector">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate/>
+                </Setter.Value>
+            </Setter>
+            <!--<Setter Property="LabelFontStyle" Value="Normal"/>
+            <Setter Property="LabelFontWeight" Value="Thin"/>
+            <Setter Property="NodeStyle" Value="{StaticResource NullThumb}"/>
+            <Setter Property="DecoratorAdornerStyle">
+                <Setter.Value>
+                    <Style TargetType="Thumb">
+                        <Style.Setters>
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Ellipse Fill="{StaticResource BlueSelectionBrush}" Width="7" Height="7"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style.Setters>
+                    </Style>
+                </Setter.Value>
+            </Setter>-->
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+
+        <Style TargetType="diagram:Selector">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>                      
+                            <panels:SelectorPanel x:Name="PART_SelectorPanel">
+                                <panels:SelectorPanel.Resources>
+                                    <Style x:Key="pathStyle" TargetType="Shape">
+                                        <Setter Property="StrokeThickness" Value="2"/>
+                                        <Setter Property="Stroke" Value="DarkGray"/>
+                                    </Style>
+                                </panels:SelectorPanel.Resources>
+                                <Rectangle Style="{StaticResource pathStyle}" Stretch="Fill" ></Rectangle>
+                                <Line X1="0" X2="0" Y1="0" Y2="0" />
+                                <localControls:DiagramThumb Style="{StaticResource NullThumb}" x:Name="PART_TopLeft" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                <localControls:DiagramThumb HorizontalAlignment="Stretch" Style="{StaticResource TopResizer}" x:Name="PART_Top"  VerticalAlignment="Top"/>
+                                <localControls:DiagramThumb Style="{StaticResource NullThumb}" x:Name="PART_TopRight" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                <localControls:DiagramThumb Style="{StaticResource LeftResizer}" x:Name="PART_Left" HorizontalAlignment="Left" VerticalAlignment="Stretch"/>
+                                <localControls:DiagramThumb Style="{StaticResource RightResizer}" x:Name="PART_Right" HorizontalAlignment="Right" VerticalAlignment="Stretch"/>
+                                <localControls:DiagramThumb Style="{StaticResource NullThumb}" x:Name="PART_BottomLeft" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                                <localControls:DiagramThumb Style="{StaticResource BottomResizer}" x:Name="PART_Bottom" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+                                <localControls:DiagramThumb Style="{StaticResource NullThumb}" x:Name="PART_BottomRight" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                                <localControls:DiagramThumb  Style="{StaticResource NullThumb}" x:Name="PART_Pivot"/>
+                                <localControls:DiagramThumb Style="{StaticResource NullThumb}" x:Name="PART_Rotator"/>
+                            <localControls:DiagramThumb Style="{StaticResource SourceThumb}" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="PART_SourceThumb"/>
+                            <localControls:DiagramThumb Style="{StaticResource TargetThumb}" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" x:Name="PART_TargetThumb"/>
+                            </panels:SelectorPanel>                      
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        
+        <Style TargetType="diagram:Connector">
+            <Setter Property="ConnectorGeometryStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="Black"></Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="SourceDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="Black"></Setter>
+                        <Setter Property="Stroke" Value="Black"></Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TargetDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="Black"></Setter>
+                        <Setter Property="Stroke" Value="Black"></Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="OnOffToggleStyle" TargetType="ToggleButton">
+            <Setter Property="Width" Value="80"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontFamily="Segoe UI Symbol" Margin="-10,0,0,0"  FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" Text="&#xE1A3;" Grid.Column="0"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="On"/>
+                            </Grid>
+                            
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock FontFamily="Segoe UI Symbol" Margin="-10,0,0,0"  FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" Text="&#xE1A3;" Grid.Column="0"></TextBlock>
+                                    <TextBlock Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Off"/>
+                                </Grid>
+
+                            </Setter.Value>
+                        </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="OnOffToggleStyle1" TargetType="ToggleButton">
+            <Setter Property="Width" Value="80"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontFamily="Segoe UI Symbol" Margin="-10,0,0,0"  FontSize="18" HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" Text="&#xE1E3;" Grid.Column="0"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="On"/>
+                            </Grid>
+
+                        </Setter.Value>
+                        </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontFamily="Segoe UI Symbol" Margin="-10,0,0,0"  FontSize="18" HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" Text="&#xE1E3;" Grid.Column="0"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Off"/>
+                            </Grid>
+
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="OnOffToggleStyle2" TargetType="ToggleButton">
+            <Setter Property="Width" Value="80"></Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontFamily="Segoe UI Symbol" Margin="-10,0,0,0"  FontSize="18" HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" Text="&#xE104;" Grid.Column="0"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="On"/>
+                            </Grid>
+
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontFamily="Segoe UI Symbol" Margin="-10,0,0,0"  FontSize="18" HorizontalAlignment="Left"
+                                           VerticalAlignment="Center" Text="&#xE104;" Grid.Column="0"></TextBlock>
+                                <TextBlock Grid.Column="1" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="Off"/>
+                            </Grid>
+
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="#f2f2f2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="320"/>
+        </Grid.ColumnDefinitions>
+        <!--<ScrollViewer>-->
+        <local:SfDiagram1 Background="White" Foreground="Black" x:Name="diagramControl1">
+                <!--IsPanEnabled="True" IsZoomInEnabled="True" IsZoomOutEnabled="True" PortVisibility="AlwaysHidden"-->
+        </local:SfDiagram1>
+        <!--</ScrollViewer>-->
+        <Grid Grid.Column="1" Background="#f2f2f2" >
+            <StackPanel Background="#f2f2f2">
+                <TextBlock Margin="40,10,10,20" Text="Options" FontFamily="Segoe UI" Foreground="#0075C0" FontWeight="Bold" FontSize="13pt" />
+                <Grid Margin="10,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="10" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!--<TextBlock  Text="Zoom" Height="40" Width="100" Grid.Row="0" Grid.Column="0" Foreground="#333333" FontWeight="Regular" FontSize="12pt" FontFamily="Segoe UI" />
+                    <ToggleButton  Height="30"  IsChecked="True" Style="{StaticResource OnOffToggleStyle}" Grid.Row="0" Grid.Column="1" AutomationProperties.Name="Zooming" Command="{Binding ZoomEnabled}" CommandParameter="{Binding SelectedObject}" />
+                    
+                    <TextBlock  Text="Pan" Height="40" Width="100" Grid.Row="2" Grid.Column="0" Foreground="#333333" FontWeight="Regular" FontSize="12pt" FontFamily="Segoe UI" />
+                    <ToggleButton  Height="30" IsChecked="True" Style="{StaticResource OnOffToggleStyle1}" Grid.Row="2" Grid.Column="1" AutomationProperties.Name="Panning" Command="{Binding PanEnabled}" CommandParameter="{Binding SelectedObject}" />
+                    
+                    <TextBlock  Text="PageEditing" Height="40" Width="100" Grid.Row="4" Grid.Column="0" Foreground="#333333" FontWeight="Regular" FontSize="12pt" FontFamily="Segoe UI" />
+                    <ToggleButton   Height="30" IsChecked="True" Style="{StaticResource OnOffToggleStyle2}" Grid.Row="4" Grid.Column="1" AutomationProperties.Name="Page Editing" Command="{Binding PageEditing}" CommandParameter="{Binding SelectedObject}"/>-->
+
+                    <Button Margin="35,0,20,0" ToolTip="Delete" Background="#e6e7e8" BorderBrush="#a7a9ac" Height="60" Width="60" Grid.Row="0" Grid.Column="0" Command="{Binding Delete}" CommandParameter="{Binding SelectedObject}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Row="0" Width="20" Height="20" Stretch="Uniform">
+                                <Grid >
+                                    <Path Data="M51.527958,0L64,12.4741 44.47221,32.001027 64,51.52871 51.528,64.000001 32.000016,44.472668 12.471823,64.000001 0.0010004044,51.528802 19.528015,32.001088 0,12.473726 12.472,0.0010004044 31.999884,19.528773z" 
+                                            Fill="#000000" StrokeThickness="1"   RenderTransformOrigin="0.5,0.5"></Path>
+                                    <!--<TextBlock Margin="5" FontSize="89" FontFamily="Segoe UI Symbol" HorizontalAlignment="Right" VerticalAlignment="Center" Text="&#xE0D9;" Foreground="#231f20"></TextBlock>-->
+                                </Grid>
+                            </Viewbox>
+                            <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Delete" Foreground="#231f20" Grid.Row="1"></TextBlock>
+                        </Grid>
+                    </Button>
+                    <Button Margin="10,5,5,5" ToolTip="Clear" Background="#e6e7e8" BorderBrush="#a7a9ac" Grid.Row="0" Width="60" Height="60" Grid.Column="1" Command="{Binding Clear}" CommandParameter="{Binding SelectedObject}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Row="0" Width="20" Height="20" Stretch="Uniform">
+                                <Grid >
+                                    <Path Data="M41.66254,22.659482L25.770635,39.857334C25.770635,39.857334,36.811951,56.565493,38.182119,59.965517L42.612736,57.395483C42.612736,57.395483 39.402367,51.256006 37.602091,49.706369 37.602091,49.706369 35.921824,47.406813 38.862259,48.246567 38.862259,48.246567 45.593092,53.775755 46.483221,54.386042L50.953758,50.386473C50.953758,50.386473,50.353706,49.00625,49.433546,47.856472L44.162857,41.927423C44.162857,41.927423 43.222797,40.027239 45.313028,40.687323 45.313028,40.687323 50.933735,45.19709 54.564199,46.326853L58.024721,41.617399C58.024721,41.617399 51.56382,35.417871 51.073769,34.248075 51.073769,34.248075 49.943619,33.218402 51.56382,33.027993 51.56382,33.027993 58.164633,37.597813 60.645048,37.377621 60.645048,37.377621 62.745291,33.487905 62.615271,33.168115 62.615271,33.168115 44.783054,24.789135 41.66254,22.659482z M41.102533,17.700056C47.203281,23.049088 63.63542,29.438537 63.63542,29.438537 68.235975,30.528262 66.245733,34.297876 66.245733,34.297876 58.344709,53.076124 39.5623,63.374819 39.5623,63.374819 36.231921,65.69488 34.641754,60.675402 34.641754,60.675402 30.821201,53.056108 21.11001,39.747482 21.11001,39.747482z M3.8394279,0.001115799C4.1157207,-0.011383057,4.3957653,0.081111908,4.615799,0.28110123L22.788616,16.840264C22.978645,17.010256,23.068659,17.230245,23.108666,17.460233L27.129289,13.050456C30.509813,11.170551,33.400261,12.760471,33.400261,12.76047L38.10099,16.170298 18.818001,37.149237 15.457479,32.539471C13.427165,28.299685,15.78753,25.479827,15.787531,25.479827L19.158054,21.780015C18.928017,21.760015,18.707983,21.690019,18.517954,21.520028L0.35513878,4.960865C-0.08493042,4.5608854,-0.12493706,3.8709202,0.28512764,3.4309425L3.0855618,0.35109901C3.2905941,0.13110924,3.5631351,0.013616562,3.8394279,0.001115799z" 
+                                          Stretch="Uniform" Fill="#000000" Width="20" Height="20"/>
+                                </Grid>
+                            </Viewbox>
+                            <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Clear" Foreground="#231f20" Grid.Row="1"></TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+            </StackPanel>
+            <Grid Background="#f2f2f2" x:Name="PropertyEditor" Visibility="Collapsed" 
+              HorizontalAlignment="Right" VerticalAlignment="Stretch">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform></ScaleTransform>
+                        <TranslateTransform></TranslateTransform>
+                        <RotateTransform></RotateTransform>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Grid.Resources>
+                    <Storyboard x:Key="PropertyEditor_Storyboard_Visible">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="PropertyEditor">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="350"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PropertyEditor">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <!--<DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="PropertyEditor">
+                        <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                            <EasingDoubleKeyFrame.EasingFunction>
+                                <CircleEase/>
+                            </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>-->
+                    </Storyboard>
+                    <Storyboard x:Key="PropertyEditor_Storyboard_Collapse">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)" Storyboard.TargetName="PropertyEditor">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="350">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CubicEase/>
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="PropertyEditor">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                            <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+                <local:PropertyEditor/>
+            </Grid>
+        </Grid>
+  
+        
+        <Grid MouseLeftButtonUp="Back_Clicked" x:Name="backbutton" Background="#A5FFFFFF" Margin="15,15,35,35" HorizontalAlignment="Left" VerticalAlignment="Top" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Viewbox>
+                <Grid >
+                    <Grid Name="backgroundGrid" Width="128" Height="128" Visibility="Visible">
+                        <Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" Stretch="Fill" Fill="#FF565656" Visibility="Visible" />
+                    </Grid>
+                    <Path Data="F1M-800.86,-1379.55L-781.99,-1360.68 -782.125,-1360.54 -792.356,-1360.54 -809.825,-1378.01 -815.075,-1383.26 -792.494,-1405.84 -781.99,-1405.84 -800.86,-1386.97 -751.074,-1386.97 -751.074,-1379.55 -800.86,-1379.55z"
+                          Stretch="Uniform" Fill="#FF000000" Width="68" Height="68">
+                    </Path>
+                </Grid>
+            </Viewbox>
+            <TextBlock Text="{Binding CurrentlyLoaded}" Opacity="0.5" FontSize="30" Grid.Column="1" VerticalAlignment="Center" Margin="20"/>
+        </Grid>
+        <syncfusion:SfRadialMenu FocusVisualStyle="{x:Null}"  RadiusX="110" RadiusY="110" x:Name="radialMenu" 
+                               HorizontalAlignment="Left" VerticalAlignment="Top"
+                               Background="#FFF2F3F2" BorderBrush="#d1d3d4" Visibility="Collapsed">
+            <!--<syncfusion:RadialMenuItem Click="Clear_pressed">
+                        <syncfusion:RadialMenuItem.Header>
+                            <Viewbox Width="50" Height="50" Stretch="Fill">
+                                <Grid Background="Transparent">
+                                    <Grid  Width="128" Height="128" Visibility="Visible">
+                                        <Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" 
+                                              Stretch="Fill" Fill="Black" Visibility="Visible" />
+                                    </Grid>
+                                    <Path Data="M41.66254,22.659482L25.770635,39.857334C25.770635,39.857334,36.811951,56.565493,38.182119,59.965517L42.612736,57.395483C42.612736,57.395483 39.402367,51.256006 37.602091,49.706369 37.602091,49.706369 35.921824,47.406813 38.862259,48.246567 38.862259,48.246567 45.593092,53.775755 46.483221,54.386042L50.953758,50.386473C50.953758,50.386473,50.353706,49.00625,49.433546,47.856472L44.162857,41.927423C44.162857,41.927423 43.222797,40.027239 45.313028,40.687323 45.313028,40.687323 50.933735,45.19709 54.564199,46.326853L58.024721,41.617399C58.024721,41.617399 51.56382,35.417871 51.073769,34.248075 51.073769,34.248075 49.943619,33.218402 51.56382,33.027993 51.56382,33.027993 58.164633,37.597813 60.645048,37.377621 60.645048,37.377621 62.745291,33.487905 62.615271,33.168115 62.615271,33.168115 44.783054,24.789135 41.66254,22.659482z M41.102533,17.700056C47.203281,23.049088 63.63542,29.438537 63.63542,29.438537 68.235975,30.528262 66.245733,34.297876 66.245733,34.297876 58.344709,53.076124 39.5623,63.374819 39.5623,63.374819 36.231921,65.69488 34.641754,60.675402 34.641754,60.675402 30.821201,53.056108 21.11001,39.747482 21.11001,39.747482z M3.8394279,0.001115799C4.1157207,-0.011383057,4.3957653,0.081111908,4.615799,0.28110123L22.788616,16.840264C22.978645,17.010256,23.068659,17.230245,23.108666,17.460233L27.129289,13.050456C30.509813,11.170551,33.400261,12.760471,33.400261,12.76047L38.10099,16.170298 18.818001,37.149237 15.457479,32.539471C13.427165,28.299685,15.78753,25.479827,15.787531,25.479827L19.158054,21.780015C18.928017,21.760015,18.707983,21.690019,18.517954,21.520028L0.35513878,4.960865C-0.08493042,4.5608854,-0.12493706,3.8709202,0.28512764,3.4309425L3.0855618,0.35109901C3.2905941,0.13110924,3.5631351,0.013616562,3.8394279,0.001115799z" 
+                                          Stretch="Uniform" Fill="Black" Width="68" Height="68" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <TransformGroup.Children>
+                                                    <RotateTransform Angle="2" />
+                                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                </TransformGroup.Children>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Grid>
+                            </Viewbox>
+                        </syncfusion:RadialMenuItem.Header>
+                    </syncfusion:RadialMenuItem>-->
+            <syncfusion:SfRadialMenuItem Click="NewNoteNode_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Grid Background="Transparent">
+                        <Viewbox Stretch="Fill" Width="50" Height="50">
+                            <Grid Background="Transparent">
+                                <Path Stretch="Fill" Fill="#FFA3B249" Data="F1 M 366.682,180.202C 366.441,202.161 348.447,219.759 326.493,219.517C 304.54,219.275 286.936,201.284 287.178,179.327C 287.421,157.374 305.417,139.772 327.371,140.014C 349.324,140.257 366.926,158.25 366.682,180.202 Z " Margin="2.667,2.667,1.824,2.825"/>
+                                <Path Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 366.682,180.202L 364.016,180.173C 363.794,200.518 347.229,216.853 326.941,216.852C 326.807,216.853 326.661,216.85 326.505,216.85L 326.553,216.85L 326.522,216.85C 306.182,216.628 289.84,200.066 289.842,179.773C 289.842,179.629 289.842,179.495 289.845,179.374L 289.845,179.355C 290.066,159.016 306.634,142.676 326.923,142.678C 327.068,142.678 327.202,142.678 327.324,142.681L 327.35,142.681L 327.341,142.681C 347.681,142.902 364.02,159.466 364.017,179.751C 364.017,179.889 364.017,180.033 364.016,180.185L 364.016,180.173L 366.682,180.202L 369.349,180.219C 369.35,180.068 369.35,179.913 369.35,179.751C 369.349,156.543 350.667,137.607 327.4,137.348L 327.418,137.348C 327.241,137.345 327.076,137.345 326.923,137.345C 303.711,137.346 284.771,156.03 284.512,179.297L 284.512,179.28C 284.509,179.456 284.509,179.621 284.509,179.773C 284.51,202.99 303.197,221.924 326.464,222.184L 326.482,222.184C 326.622,222.184 326.776,222.185 326.941,222.185C 350.152,222.184 369.091,203.504 369.349,180.23L 369.349,180.219L 366.682,180.202 Z " Margin="0,0,-0.841,0.16"/>
+                                <Path Height="39.22" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 319.051,160.211L 317.684,160.197L 310.283,167.525L 310.275,168.247L 309.935,199.048L 343.497,199.417L 343.927,160.484L 319.051,160.211 Z M 341.405,192.706L 319.426,192.462L 319.447,190.72L 341.423,190.962L 341.405,192.706 Z M 341.458,187.805L 319.479,187.561L 319.499,185.818L 341.478,186.061L 341.458,187.805 Z " Margin="25.426,22.852,24.582,0" VerticalAlignment="Top"/>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="Redo_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Viewbox Width="50" Height="50" Stretch="Fill">
+                        <Grid Background="Transparent">
+                            <Path Stretch="Fill" StrokeThickness="5.33333" StrokeMiterLimit="2.75" Stroke="#FFFFFFFF" Fill="#FFC9C9C9" Data="F1 M 604.248,362.561C 604.007,384.519 621.606,402.51 643.562,402.752C 665.514,402.994 683.51,385.394 683.752,363.438C 683.993,341.484 666.39,323.49 644.437,323.248C 622.482,323.006 604.49,340.608 604.248,362.561 Z " Height="84.842" Margin="0,0,0,0.158" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="84.842"/>
+                            <Path Data="F1M-198.67,4280.19C-197.609,4277.78 -197.035,4275.17 -197.035,4272.46 -197.035,4267.33 -199.032,4262.51 -202.665,4258.88 -206.286,4255.25 -211.107,4253.26 -216.235,4253.26 -221.365,4253.26 -226.186,4255.25 -229.811,4258.88 -232.498,4261.57 -234.282,4264.92 -235.032,4268.56L-225.835,4278.86 -252.503,4278.86 -250.373,4251.38 -241.577,4261.22C-240.214,4258.14 -238.303,4255.3 -235.844,4252.85 -230.61,4247.61 -223.644,4244.72 -216.235,4244.72 -208.822,4244.72 -201.861,4247.61 -196.627,4252.85 -191.39,4258.08 -188.503,4265.05 -188.503,4272.46 -188.503,4275.11 -188.894,4277.71 -189.617,4280.19L-198.67,4280.19z" Stretch="Uniform" Fill="#FFFFFFFF" Height="44.666" Margin="19.375,0,0,32.106" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="44.666">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleY="1" ScaleX="-1"/>
+                                        <SkewTransform AngleY="0" AngleX="0"/>
+                                        <RotateTransform Angle="0"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </Viewbox>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="UndoClicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Viewbox Width="50" Height="50" Stretch="Fill">
+                        <Grid Background="Transparent">
+                            <Path Stretch="Fill" StrokeThickness="5.33333" StrokeMiterLimit="2.75" Stroke="#FFFFFFFF" Fill="#FFC9C9C9" Data="F1 M 604.248,362.561C 604.007,384.519 621.606,402.51 643.562,402.752C 665.514,402.994 683.51,385.394 683.752,363.438C 683.993,341.484 666.39,323.49 644.437,323.248C 622.482,323.006 604.49,340.608 604.248,362.561 Z " Height="84.842" Margin="0,0,0,0.158" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="84.842"/>
+                            <Path Data="F1M-198.67,4280.19C-197.609,4277.78 -197.035,4275.17 -197.035,4272.46 -197.035,4267.33 -199.032,4262.51 -202.665,4258.88 -206.286,4255.25 -211.107,4253.26 -216.235,4253.26 -221.365,4253.26 -226.186,4255.25 -229.811,4258.88 -232.498,4261.57 -234.282,4264.92 -235.032,4268.56L-225.835,4278.86 -252.503,4278.86 -250.373,4251.38 -241.577,4261.22C-240.214,4258.14 -238.303,4255.3 -235.844,4252.85 -230.61,4247.61 -223.644,4244.72 -216.235,4244.72 -208.822,4244.72 -201.861,4247.61 -196.627,4252.85 -191.39,4258.08 -188.503,4265.05 -188.503,4272.46 -188.503,4275.11 -188.894,4277.71 -189.617,4280.19L-198.67,4280.19z" Stretch="Uniform" Fill="#FFFFFFFF" Height="44.666" Margin="19.375,0,0,32.106" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="44.666">
+                            </Path>
+                        </Grid>
+                    </Viewbox>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="NewInterfaceNode_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Grid Background="Transparent">
+                        <Viewbox Stretch="Fill" Width="50" Height="50">
+                            <Grid Background="Transparent">
+                                <Path Width="79.508" Stretch="Fill" Fill="#FF6BC0DB" Data="F1 M 129.868,184.236C 129.438,206.191 111.29,223.63 89.3398,223.199C 67.3867,222.766 49.944,204.622 50.3763,182.667C 50.8086,160.719 68.957,143.273 90.9049,143.706C 112.859,144.138 130.301,162.285 129.868,184.236 Z " HorizontalAlignment="Left" Margin="2.666,2.358,0,2.082"/>
+                                <Path Width="84.841" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 129.868,184.236L 127.202,184.184C 126.807,204.417 110.276,220.54 90.1354,220.539C 89.888,220.539 89.6367,220.538 89.3854,220.533L 89.3919,220.533C 69.1615,220.135 53.0325,203.608 53.0339,183.465C 53.0339,183.215 53.0365,182.969 53.0417,182.728L 53.043,182.719C 53.4375,162.493 69.97,146.362 90.1068,146.363C 90.3568,146.363 90.6016,146.366 90.8424,146.371L 90.8529,146.371C 111.085,146.767 127.211,163.298 127.21,183.436C 127.21,183.682 127.207,183.934 127.202,184.19L 127.202,184.184L 129.868,184.236L 132.535,184.281C 132.539,184.003 132.543,183.721 132.543,183.436C 132.54,160.395 114.1,141.497 90.957,141.039L 90.9662,141.04C 90.6732,141.033 90.3867,141.03 90.1068,141.03C 67.0664,141.033 48.168,159.477 47.7096,182.613L 47.7096,182.604C 47.7031,182.897 47.7018,183.184 47.7018,183.465C 47.7018,206.512 66.1445,225.405 89.2878,225.866L 89.2943,225.866C 89.5716,225.87 89.8529,225.872 90.1354,225.872C 113.178,225.871 132.077,207.434 132.535,184.288L 132.535,184.281L 129.868,184.236 Z " HorizontalAlignment="Left" Margin="0,0,0,-0.343"/>
+                                <Path Width="56.765" Height="3.149" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 118.642,169.945L 61.9089,169.319L 61.9414,166.434L 118.674,167.06L 118.642,169.945 Z " HorizontalAlignment="Left" Margin="14.207,22.818,0,0" VerticalAlignment="Top"/>
+                                <Path Width="56.765" Height="3.145" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 118.529,180.276L 61.7956,179.651L 61.8294,176.768L 118.561,177.393L 118.529,180.276 Z " HorizontalAlignment="Left" Margin="14.094,32.014,0,0" VerticalAlignment="Top"/>
+                                <TextBlock TextAlignment="Left" FontFamily="Segoe UI Semibold" FontSize="21.7348" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="34,36,0,0" RenderTransformOrigin="0.5,0.5" Height="26"><Run Text="IF" Foreground="#FFFFFFFF"/></TextBlock>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="NewClassNode_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Viewbox Stretch="Fill" Width="50" Height="50">
+                        <Grid Background="Transparent">
+                            <Path Width="79.507" Height="79.509" Stretch="Fill" Fill="#FFD86091" Data="F1 M 193.169,98.4297C 192.737,120.385 174.594,137.826 152.639,137.393C 130.69,136.961 113.243,118.815 113.678,96.862C 114.111,74.9115 132.255,57.4688 154.204,57.8997C 176.16,58.3333 193.604,76.4805 193.169,98.4297 Z " HorizontalAlignment="Left" Margin="2.666,2.667,0,0" VerticalAlignment="Top"/>
+                            <Path Width="84.838" Height="84.841" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 193.169,98.4297L 190.503,98.3776C 190.107,118.611 173.581,134.736 153.438,134.733C 153.191,134.734 152.94,134.73 152.685,134.727L 152.691,134.727C 132.466,134.331 116.335,117.803 116.337,97.6641C 116.337,97.4128 116.339,97.1641 116.345,96.9206L 116.345,96.9141C 116.74,76.6849 133.27,60.556 153.408,60.5586C 153.658,60.5586 153.902,60.5612 154.147,60.5664L 154.152,60.5664C 174.384,60.9622 190.512,77.4922 190.509,97.6263C 190.509,97.8737 190.507,98.1276 190.503,98.388L 190.504,98.3008L 190.503,98.3776L 193.169,98.4297L 195.835,98.4713C 195.84,98.194 195.842,97.9128 195.842,97.6263C 195.841,74.5872 177.4,55.6927 154.257,55.2331L 154.262,55.2331C 153.971,55.2279 153.688,55.2253 153.408,55.2253C 130.366,55.2266 111.47,73.6693 111.012,96.8099L 111.012,96.8034C 111.007,97.0951 111.004,97.3815 111.004,97.6641C 111.005,120.707 129.449,139.6 152.587,140.059L 152.594,140.059C 152.871,140.064 153.152,140.066 153.438,140.066C 176.483,140.066 195.378,121.626 195.835,98.4818L 195.833,98.5651L 195.835,98.4713L 193.169,98.4297 Z " HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                            <Path Width="57.43" Height="3.517" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 182.275,84.1419L 124.876,83.5091L 124.908,80.625L 182.306,81.2591L 182.275,84.1419 Z " HorizontalAlignment="Left" Margin="13.872,25.4,0,0" VerticalAlignment="Top"/>
+                            <Path Width="57.428" Height="3.517" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 182.16,94.4753L 124.763,93.8438L 124.794,90.9583L 182.191,91.5912L 182.16,94.4753 Z " HorizontalAlignment="Left" Margin="13.609,35.733,0,0" VerticalAlignment="Top"/>
+                            <TextBlock TextAlignment="Left" FontFamily="Segoe UI Semibold" FontSize="16.1685" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="24,40,0,0" RenderTransformOrigin="0.5,0.5"><Run Text="Class" Foreground="#FFFFFFFF"/></TextBlock>
+                        </Grid>
+                    </Viewbox>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="NewTextNode_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Grid Background="Transparent">
+                        <Viewbox Stretch="Fill" Width="50" Height="50">
+                            <Grid Background="Transparent">
+                                <Path Width="79.51" Height="79.511" Stretch="Fill" Fill="#FFCE4D4D" Data="F1 M 300.167,96.3828C 299.923,118.344 281.932,135.941 259.977,135.699C 238.021,135.458 220.419,117.466 220.661,95.5052C 220.904,73.5547 238.897,55.9518 260.852,56.194C 282.809,56.4362 300.408,74.431 300.167,96.3828 Z " HorizontalAlignment="Left" Margin="2.668,2.666,0,0" VerticalAlignment="Top"/>
+                                <Path Width="84.844" Height="84.842" Stretch="Fill" Fill="#FFFFFFFF" Data="F1 M 300.167,96.3828L 297.5,96.3529C 297.276,116.702 280.715,133.035 260.423,133.035C 260.286,133.035 260.142,133.034 259.993,133.033L 260.005,133.033C 239.663,132.811 223.323,116.249 223.324,95.9531C 223.324,95.8073 223.326,95.6758 223.327,95.5573L 223.328,95.5352C 223.549,75.1966 240.115,58.8555 260.404,58.8581C 260.544,58.8581 260.681,58.8581 260.814,58.8607L 260.822,58.8607C 281.167,59.082 297.504,75.6497 297.501,95.9375C 297.501,96.0742 297.501,96.2162 297.5,96.3659L 297.5,96.293L 297.5,96.3529L 300.167,96.3828L 302.833,96.3997C 302.835,96.2513 302.835,96.0977 302.835,95.9375C 302.833,72.7266 284.152,53.7865 260.882,53.5273L 260.889,53.5273C 260.721,53.5247 260.56,53.5247 260.404,53.5247C 237.191,53.526 218.254,72.2109 217.995,95.4753L 217.995,95.4375L 217.995,95.4531C 217.991,95.6328 217.991,95.7995 217.991,95.9531C 217.993,119.171 236.677,138.108 259.947,138.366L 259.96,138.366C 260.108,138.366 260.263,138.367 260.423,138.367C 283.637,138.366 302.573,119.686 302.833,96.4128L 302.833,96.3997L 300.167,96.3828 Z " HorizontalAlignment="Left" Margin="0,0,0,-0.842" VerticalAlignment="Top"/>
+                                <TextBlock TextAlignment="Left" FontFamily="Times New Roman" FontSize="45.2584" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="27,18,0,0" RenderTransformOrigin="0.5,0.5"><Run Text="T" Foreground="#FFFFFFFF"/></TextBlock>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+        </syncfusion:SfRadialMenu>
+        <syncfusion:SfRadialMenu  x:Name="objectRadialMenu" Visibility="Collapsed"
+                               HorizontalAlignment="Left" VerticalAlignment="Top" RadiusX="110" RadiusY="110"
+                               Background="#FFF2F3F2" BorderBrush="#d1d3d4">
+            <!--<syncfusion:RadialMenuItem Click="Clear_pressed">
+                <syncfusion:RadialMenuItem.Header>
+                    <Viewbox Width="50" Height="50" Stretch="Fill">
+                        <Grid Background="Transparent">
+                            <Grid  Width="128" Height="128" Visibility="Visible">
+                                <Ellipse StrokeThickness="7" Fill="#4CACFB" Stroke="White" Stretch="Fill"/>
+                            </Grid>
+                            <Path Data="M41.66254,22.659482L25.770635,39.857334C25.770635,39.857334,36.811951,56.565493,38.182119,59.965517L42.612736,57.395483C42.612736,57.395483 39.402367,51.256006 37.602091,49.706369 37.602091,49.706369 35.921824,47.406813 38.862259,48.246567 38.862259,48.246567 45.593092,53.775755 46.483221,54.386042L50.953758,50.386473C50.953758,50.386473,50.353706,49.00625,49.433546,47.856472L44.162857,41.927423C44.162857,41.927423 43.222797,40.027239 45.313028,40.687323 45.313028,40.687323 50.933735,45.19709 54.564199,46.326853L58.024721,41.617399C58.024721,41.617399 51.56382,35.417871 51.073769,34.248075 51.073769,34.248075 49.943619,33.218402 51.56382,33.027993 51.56382,33.027993 58.164633,37.597813 60.645048,37.377621 60.645048,37.377621 62.745291,33.487905 62.615271,33.168115 62.615271,33.168115 44.783054,24.789135 41.66254,22.659482z M41.102533,17.700056C47.203281,23.049088 63.63542,29.438537 63.63542,29.438537 68.235975,30.528262 66.245733,34.297876 66.245733,34.297876 58.344709,53.076124 39.5623,63.374819 39.5623,63.374819 36.231921,65.69488 34.641754,60.675402 34.641754,60.675402 30.821201,53.056108 21.11001,39.747482 21.11001,39.747482z M3.8394279,0.001115799C4.1157207,-0.011383057,4.3957653,0.081111908,4.615799,0.28110123L22.788616,16.840264C22.978645,17.010256,23.068659,17.230245,23.108666,17.460233L27.129289,13.050456C30.509813,11.170551,33.400261,12.760471,33.400261,12.76047L38.10099,16.170298 18.818001,37.149237 15.457479,32.539471C13.427165,28.299685,15.78753,25.479827,15.787531,25.479827L19.158054,21.780015C18.928017,21.760015,18.707983,21.690019,18.517954,21.520028L0.35513878,4.960865C-0.08493042,4.5608854,-0.12493706,3.8709202,0.28512764,3.4309425L3.0855618,0.35109901C3.2905941,0.13110924,3.5631351,0.013616562,3.8394279,0.001115799z" 
+                                          Stretch="Uniform" Fill="White" Width="68" Height="68" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5"/>
+                        </Grid>
+                    </Viewbox>
+                </syncfusion:RadialMenuItem.Header>
+            </syncfusion:RadialMenuItem>-->
+            <syncfusion:SfRadialMenuItem Click="Redo_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Viewbox Width="50" Height="50" Stretch="Fill">
+                        <Grid Background="Transparent">
+                            <Path Stretch="Fill" StrokeThickness="5.33333" StrokeMiterLimit="2.75" Stroke="#FFFFFFFF" Fill="#FFC9C9C9" Data="F1 M 604.248,362.561C 604.007,384.519 621.606,402.51 643.562,402.752C 665.514,402.994 683.51,385.394 683.752,363.438C 683.993,341.484 666.39,323.49 644.437,323.248C 622.482,323.006 604.49,340.608 604.248,362.561 Z " Height="84.842" Margin="0,0,0,0.158" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="84.842"/>
+                            <Path Data="F1M-198.67,4280.19C-197.609,4277.78 -197.035,4275.17 -197.035,4272.46 -197.035,4267.33 -199.032,4262.51 -202.665,4258.88 -206.286,4255.25 -211.107,4253.26 -216.235,4253.26 -221.365,4253.26 -226.186,4255.25 -229.811,4258.88 -232.498,4261.57 -234.282,4264.92 -235.032,4268.56L-225.835,4278.86 -252.503,4278.86 -250.373,4251.38 -241.577,4261.22C-240.214,4258.14 -238.303,4255.3 -235.844,4252.85 -230.61,4247.61 -223.644,4244.72 -216.235,4244.72 -208.822,4244.72 -201.861,4247.61 -196.627,4252.85 -191.39,4258.08 -188.503,4265.05 -188.503,4272.46 -188.503,4275.11 -188.894,4277.71 -189.617,4280.19L-198.67,4280.19z" Stretch="Uniform" Fill="#FFFFFFFF" Height="44.666" Margin="19.375,0,0,32.106" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="44.666">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleY="1" ScaleX="-1"/>
+                                        <SkewTransform AngleY="0" AngleX="0"/>
+                                        <RotateTransform Angle="0"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </Viewbox>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="UndoClicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Viewbox Width="50" Height="50" Stretch="Fill">
+                        <Grid Background="Transparent">
+                            <Path Stretch="Fill" StrokeThickness="5.33333" StrokeMiterLimit="2.75" Stroke="#FFFFFFFF" Fill="#FFC9C9C9" Data="F1 M 604.248,362.561C 604.007,384.519 621.606,402.51 643.562,402.752C 665.514,402.994 683.51,385.394 683.752,363.438C 683.993,341.484 666.39,323.49 644.437,323.248C 622.482,323.006 604.49,340.608 604.248,362.561 Z " Height="84.842" Margin="0,0,0,0.158" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="84.842"/>
+                            <Path Data="F1M-198.67,4280.19C-197.609,4277.78 -197.035,4275.17 -197.035,4272.46 -197.035,4267.33 -199.032,4262.51 -202.665,4258.88 -206.286,4255.25 -211.107,4253.26 -216.235,4253.26 -221.365,4253.26 -226.186,4255.25 -229.811,4258.88 -232.498,4261.57 -234.282,4264.92 -235.032,4268.56L-225.835,4278.86 -252.503,4278.86 -250.373,4251.38 -241.577,4261.22C-240.214,4258.14 -238.303,4255.3 -235.844,4252.85 -230.61,4247.61 -223.644,4244.72 -216.235,4244.72 -208.822,4244.72 -201.861,4247.61 -196.627,4252.85 -191.39,4258.08 -188.503,4265.05 -188.503,4272.46 -188.503,4275.11 -188.894,4277.71 -189.617,4280.19L-198.67,4280.19z" Stretch="Uniform" Fill="#FFFFFFFF" Height="44.666" Margin="19.375,0,0,32.106" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="44.666">
+                            </Path>
+                        </Grid>
+                    </Viewbox>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="Settings_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Viewbox Width="50" Height="50">
+                        <Grid Background="Transparent">
+                            <Grid Width="48" Height="48" Visibility="Visible">
+                                <Ellipse StrokeThickness="3" Fill="#48D075" Stroke="White" Stretch="Fill"/>
+                            </Grid>
+                            <Path Data="F1M-515.802,331.242C-515.789,329.857,-515.923,328.495,-516.128,327.172L-510.578,322.745C-512.008,317.424,-514.756,312.655,-518.482,308.812L-525.111,311.322C-527.209,309.586,-529.594,308.195,-532.179,307.198L-533.233,300.195C-535.788,299.515 -538.464,299.107 -541.237,299.086 -544.006,299.07 -546.686,299.44 -549.259,300.088L-550.396,307.078C-552.989,308.052,-555.398,309.403,-557.514,311.117L-564.117,308.526C-567.886,312.318,-570.696,317.047,-572.198,322.354L-566.702,326.846C-566.924,328.172 -567.071,329.531 -567.083,330.919 -567.093,332.318 -566.962,333.672 -566.752,335.005L-572.311,339.427C-570.872,344.742,-568.124,349.518,-564.398,353.354L-557.769,350.851C-555.674,352.581,-553.284,353.971,-550.698,354.976L-549.656,361.976C-547.092,362.659 -544.416,363.065 -541.647,363.086 -538.875,363.096 -536.198,362.729 -533.63,362.086L-532.482,355.088C-529.891,354.114,-527.484,352.763,-525.362,351.062L-518.771,353.651C-514.998,349.851,-512.192,345.12,-510.687,339.82L-516.182,335.333C-515.959,333.997,-515.814,332.643,-515.802,331.242z M-541.53,344.336C-548.84,344.292 -554.737,338.318 -554.689,331 -554.641,323.68 -548.673,317.784 -541.354,317.833 -534.035,317.88 -528.139,323.851 -528.187,331.172 -528.235,338.495 -534.205,344.385 -541.53,344.336z" 
+                                          Stretch="Uniform" Fill="White" Width="28" Height="28" Margin="0,0,0,0">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </Viewbox>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="SplitConnect_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Grid Background="Transparent">
+                        <Grid.Resources>
+                            <local:VisibiliyCommandBinding x:Key="visibiliyCommandBinding"/>
+                        </Grid.Resources>
+                        <Viewbox Width="50" Height="50" Visibility="{Binding Path=Connector, Converter={StaticResource visibiliyCommandBinding}}">
+                            <Grid>
+                                <Grid Width="48" Height="48" Visibility="Visible">
+                                    <Ellipse StrokeThickness="3" Fill="#FFFFAE00" Stroke="White" Stretch="Fill"/>
+                                </Grid>
+                                <Path Data="M5.9442482,39.851C9.2254944,39.851 11.887001,42.515145 11.887001,45.7964 11.887001,49.077756 9.2254944,51.738001 5.9442482,51.738001 2.6602631,51.738001 0,49.077756 0,45.7964 0,42.515145 2.6602631,39.851 5.9442482,39.851z M54.571699,39.574002C59.779954,39.574002 64,43.792891 64,49.000002 64,54.207113 59.779954,58.426003 54.571699,58.426003 49.365844,58.426003 45.146999,54.207113 45.146999,49.000002 45.146999,43.792891 49.365844,39.574002 54.571699,39.574002z M17.059084,38.473003L17.907999,39.9143 13.223015,42.668002 12.374001,41.226706z M36.32003,38.019001L44.646997,42.765482 43.087067,45.504003 34.763999,40.757521z M26.5662,26.613002C31.077789,26.613002 34.738,30.273369 34.738,34.789052 34.738,39.300835 31.077789,42.961002 26.5662,42.961002 22.05341,42.961002 18.391998,39.300835 18.391998,34.789052 18.391998,30.273369 22.05341,26.613002 26.5662,26.613002z M25.125999,18.207001L28.005999,18.207001 28.005999,25.313002 25.125999,25.313002z M26.5662,0C31.077789,0 34.738,3.6602287 34.738,8.1759319 34.738,12.687735 31.077789,16.348001 26.5662,16.348001 22.05341,16.348001 18.391998,12.687735 18.391998,8.1759319 18.391998,3.6602287 22.05341,0 26.5662,0z" 
+                                              Stretch="Uniform" Fill="White" Width="28" Height="28" Margin="0,0,0,0">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <RotateTransform Angle="0" />
+                                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Grid>
+                        </Viewbox>
+                        <Viewbox Width="50" Height="50" Margin="0" Visibility="{Binding Path=Split, Converter={StaticResource visibiliyCommandBinding}}">
+                            <Grid>
+                                <Grid Visibility="Visible">
+                                    <Ellipse StrokeThickness="3" Fill="#FFFFAE00" Stroke="White" Stretch="Fill"/>
+                                </Grid>
+                                <Grid Height="82.408" Width="82.4069999999999" Margin="10">
+                                    <Path Stretch="Fill" Fill="White" Data="F1 M -91.4665,124.581L -68.3402,147.707L -64.9404,144.306L -91.4665,117.782L -117.155,143.472L -113.756,146.87L -91.4665,124.581 Z " HorizontalAlignment="Right" Height="40.52" VerticalAlignment="Top" Width="63.384" Margin="0,20.527,10,0" UseLayoutRounding="False"/>
+                                    <Path Stretch="Fill" Fill="White" Data="F1 M 9.76433,13.0194L 0,13.0194L 0,14.1041L 11.9348,14.1041L 11.9348,2.16919L 9.76433,2.16919L 9.76433,13.0194 Z " Margin="60.533,47.783,9.467,22.217" UseLayoutRounding="False"/>
+                                    <Path Stretch="Fill" Fill="White" Data="F1 M 14.1042,14.1041L 0,14.1041L 0,10.8489L 9.76433,10.8489L 9.76433,0L 14.1042,0L 14.1042,14.1041 Z M 2.02474,13.0194L 12.0911,13.0194L 2.02474,13.0194 Z " Margin="59.375,47.375,8.625,20.625" UseLayoutRounding="False"/>
+                                </Grid>
+                            </Grid>
+                        </Viewbox>
+                    </Grid>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+            <syncfusion:SfRadialMenuItem Click="Delete_Clicked">
+                <syncfusion:SfRadialMenuItem.Header>
+                    <Viewbox HorizontalAlignment="Center" Width="50" Height="50">
+                        <Grid Background="Transparent">
+                            <Grid Width="48" Height="48" Visibility="Visible">
+                                <Ellipse StrokeThickness="3" Fill="#C42D2D" Stroke="White" Stretch="Fill"/>
+                            </Grid>
+                            <Path Data="M33.977998,27.684L33.977998,58.102997 41.373998,58.102997 41.373998,27.684z M14.841999,27.684L14.841999,58.102997 22.237998,58.102997 22.237998,27.684z M4.0319996,22.433001L52.183,22.433001 52.183,63.999001 4.0319996,63.999001z M15.974,0L40.195001,0 40.195001,7.7260003 56.167001,7.7260003 56.167001,16.000999 0,16.000999 0,7.7260003 15.974,7.7260003z"
+                                          Stretch="Uniform" Fill="White" Width="26" Height="26" Margin="0,0,0,0">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Grid>
+                    </Viewbox>
+                </syncfusion:SfRadialMenuItem.Header>
+            </syncfusion:SfRadialMenuItem>
+        </syncfusion:SfRadialMenu>
+    </Grid>
+</UserControl>

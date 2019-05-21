@@ -1,0 +1,151 @@
+﻿<syncfusion:ChromelessWindow x:Class="CellSelectionDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             xmlns:local="clr-namespace:CellSelectionDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <local:SelectionModeConverter x:Key="selectionModeConverter"/>
+        <local:CurrencyConverter x:Key="currencyConverter"/>
+    </syncfusion:ChromelessWindow.Resources>
+    <interactivity:Interaction.Behaviors>
+        <local:InitialSetupBehaviour AverageValue="{Binding Average, Mode=TwoWay}"
+                                     CellsCount="{Binding Count, Mode=TwoWay}"   
+                                     CellsNumCount="{Binding NumCount, Mode=TwoWay}"
+                                     MinimumValue="{Binding Min, Mode=TwoWay}"
+                                     MaximumValue="{Binding Max, Mode=TwoWay}"
+                                     SumValue="{Binding Sum, Mode=TwoWay}"/>
+    </interactivity:Interaction.Behaviors>
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="The sample showcases Cell Selection functionality in SfDataGrid."
+                                  HeaderText="Cell Selection Demo"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Visible">
+            <syncfusion:LayoutControl.GridView>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <syncfusion:SfDataGrid x:Name="dataGrid"
+                                            Grid.Row="0" 
+                                            ItemsSource="{Binding ProductList}"
+                                            SelectionUnit="Cell"
+                                            AllowSelectionOnPointerPressed="{Binding IsChecked,
+                                                                                    ElementName=ckbSelectionOnPointerPressed}"
+                                            SelectionMode="{Binding SelectedIndex,
+                                                                    Converter={StaticResource selectionModeConverter},
+                                                                    ElementName=cmbSelectionMode}"
+                                            AllowGrouping="True"
+                                            AllowFiltering="True"
+                                            AllowSorting="True"
+                                            ShowGroupDropArea="True"
+                                            AutoGenerateColumns="False">
+                        <syncfusion:SfDataGrid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.MergedDictionaries>
+                                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                                </ResourceDictionary.MergedDictionaries>
+                            </ResourceDictionary>
+                        </syncfusion:SfDataGrid.Resources>
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridTextColumn MappingName="ProductName"/>
+                            <syncfusion:GridCurrencyColumn MappingName="Year2008" HeaderText="2008"/>
+                            <syncfusion:GridCurrencyColumn MappingName="Year2009" HeaderText="2009"/>
+                            <syncfusion:GridCurrencyColumn MappingName="Year2010" HeaderText="2010"/>
+                            <syncfusion:GridCurrencyColumn MappingName="Year2011" HeaderText="2011"/>
+                            <syncfusion:GridCurrencyColumn MappingName="Year2012" HeaderText="2012"/>
+                            <syncfusion:GridCurrencyColumn MappingName="Year2013" HeaderText="2013"/>
+                            <syncfusion:GridCurrencyColumn MappingName="TotalSales" HeaderText="Total Sales"/>
+                        </syncfusion:SfDataGrid.Columns>
+                        <syncfusion:SfDataGrid.StackedHeaderRows>
+                            <syncfusion:StackedHeaderRow>
+                                <syncfusion:StackedHeaderRow.StackedColumns>
+                                    <syncfusion:StackedColumn HeaderText="Amount of Sales by Year" ChildColumns="Year2008,Year2009,Year2010,Year2011,Year2012,Year2013">
+                                    </syncfusion:StackedColumn>
+                                </syncfusion:StackedHeaderRow.StackedColumns>
+                            </syncfusion:StackedHeaderRow>
+                        </syncfusion:SfDataGrid.StackedHeaderRows>
+                    </syncfusion:SfDataGrid>
+                    <Border Grid.Row="1" 
+                            Padding="4"
+                            BorderBrush="SkyBlue"
+                            BorderThickness="0.5">
+                        <StackPanel HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="AVERAGE:"/>
+                                <TextBlock Width="60"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding Path=Average, Converter={StaticResource currencyConverter}, Mode=TwoWay, UpdateSourceTrigger =LostFocus}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="COUNT:"/>
+                                <TextBlock Width="60"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding Path=Count, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="NUMERICAL COUNT:"/>
+                                <TextBlock Width="60"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding Path=NumCount, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="MIN:"/>
+                                <TextBlock Width="60"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding Path=Min, Mode=TwoWay, Converter={StaticResource currencyConverter}, UpdateSourceTrigger=LostFocus}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="MAX:"/>
+                                <TextBlock Width="60"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding Path=Max, Converter={StaticResource currencyConverter}, Mode=TwoWay}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="SUM:"/>
+                                <TextBlock Width="60"
+                                           Margin="5,0,0,0"
+                                           Text="{Binding Path=Sum, Converter={StaticResource currencyConverter}, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </syncfusion:LayoutControl.GridView>
+            <syncfusion:LayoutControl.UserOptionsView>
+                <syncfusion:UserOptions HeaderText="Options">
+                    <StackPanel>
+                        <TextBlock Margin="5,5,0,5"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   Text="Selection Mode:" />
+                        <ComboBox x:Name="cmbSelectionMode"
+                                  Margin="5,10,10,10"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Center"
+                                  SelectedIndex="2">
+                            <ComboBoxItem Content="Single" />
+                            <ComboBoxItem Content="Multiple" />
+                            <ComboBoxItem Content="Extended" />
+                            <ComboBoxItem Content="None" />
+                        </ComboBox>
+                        <CheckBox x:Name="ckbSelectionOnPointerPressed"
+                                  Margin="5,10,10,10"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  Content="Allow Selection On Pointer Pressed"
+                                  IsChecked="False" />
+                    </StackPanel>
+                </syncfusion:UserOptions>
+            </syncfusion:LayoutControl.UserOptionsView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

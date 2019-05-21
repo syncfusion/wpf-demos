@@ -1,0 +1,49 @@
+﻿<sync:ChromelessWindow x:Class="CustomDateTimeSchedule.MainWindow"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:local="clr-namespace:CustomDateTimeSchedule"
+                       xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                       xmlns:sync="http://schemas.syncfusion.com/wpf"
+                       Title="Custom DateTime Schedule"
+                       sync:LayoutControl.SetMetroMode="True"
+                       Width="1300"
+                       Height="720"
+                       Icon="App.ico"
+                       WindowStartupLocation="CenterScreen">
+
+    <!--  Window DataContext information  -->
+    <sync:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </sync:ChromelessWindow.DataContext>
+
+    <sync:LayoutControl HeaderDescriptionText="This sample illustrates how the user can define the custom DateTime schedule of Gantt Control from application level"
+                        HeaderText="Custom DateTime Schedule"
+                        LayoutMode="Metro"
+                        UserGuideUri="http://help.syncfusion.com/UG/User%20Interface/WPF/Gantt/default.htm#!documents/45customschedule.htm"
+                        UserOptionsVisibility="Collapsed">
+        <sync:LayoutControl.GridView>
+
+            <!--  Gantt Control Information  -->
+            <sync:GanttControl x:Name="Gantt"
+                               CustomScheduleSource="{Binding CustomScheduleSource}"
+                               ItemsSource="{Binding TaskDetails}"
+                               ScheduleType="CustomDateTime"
+                               ShowChartLines="False"
+                               ShowNonWorkingHoursBackground="False"
+                               UseAutoUpdateHierarchy="False"
+                               VisualStyle="Metro">
+                <sync:GanttControl.TaskAttributeMapping>
+                    <sync:TaskAttributeMapping TaskIdMapping="Id"
+                                                TaskNameMapping="Name"
+                                                StartDateMapping="StDate" 
+                                                ChildMapping="ChildTask"
+                                                FinishDateMapping="EndDate"
+                                                DurationMapping="Duration"                                            
+                                                ProgressMapping="Complete"
+                                                ResourceInfoMapping="Resource"
+                                                PredecessorMapping="Predecessor"/>
+                </sync:GanttControl.TaskAttributeMapping>
+            </sync:GanttControl>
+        </sync:LayoutControl.GridView>
+    </sync:LayoutControl>
+</sync:ChromelessWindow>

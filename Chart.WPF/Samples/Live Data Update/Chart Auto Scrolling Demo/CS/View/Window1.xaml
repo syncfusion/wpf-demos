@@ -1,0 +1,111 @@
+﻿<layout:SampleLayoutWindow x:Class="ChartAutoScrollingDemo.Window1"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                           xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+                           xmlns:local="clr-namespace:ChartAutoScrollingDemo"
+                           xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                           xmlns:inter="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                           Title="Chart Auto Scrolling Demo">
+    <layout:SampleLayoutWindow.Resources>
+        <ObjectDataProvider x:Key="chartColorPalette" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartColorPalette"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </layout:SampleLayoutWindow.Resources>
+        <Grid>
+            <Grid>
+                <Grid.DataContext>
+                    <local:ProductDetails />
+                </Grid.DataContext>
+                <!--Hosting Chart control in second Row of the Grid-->
+                <syncfusion:Chart Name="Chart1">
+                    <!--Chart area to present chart segments-->
+                    <syncfusion:ChartArea x:Name="ChartArea">
+                        <syncfusion:ChartArea.ColorModel>
+                            <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="MixedFantasy"/>
+                        </syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartArea.GridHeader>
+                            <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI" Margin="0,0,0,20">Patient Cardiac Pulse Rate Monitor</TextBlock>
+                        </syncfusion:ChartArea.GridHeader>
+                        <!--Primary Axis(X)-->
+                        <syncfusion:ChartArea.PrimaryAxis>
+                            <!--Y axis declaration with required property settings-->
+                            <syncfusion:ChartAxis x:Name="XAxis" ValueType="DateTime" Header="Time" LabelDateTimeFormat="HH:mm" RangePadding="None" EnableAutoScrolling="{Binding ElementName=Chk_AutoScrolling, Path=IsChecked, Mode=TwoWay}" AutoScrollingDelta="60" IsAutoSetRange="True" LabelForeground="Black" LabelFontWeight="SemiBold"     EdgeLabelsDrawingMode="Fit">
+                            </syncfusion:ChartAxis>
+                        </syncfusion:ChartArea.PrimaryAxis>
+                        <!--Secondary Axis(Y)-->
+                        <syncfusion:ChartArea.SecondaryAxis>
+                            <!--Y axis declaration with required property settings-->
+                            <syncfusion:ChartAxis RangePadding="None" IsAutoSetRange="False" Range="60,300" Interval="30" LabelForeground="Black"    LabelFontWeight="SemiBold"  Header="Heart Pulse Rate in bpm">
+                                <syncfusion:ChartAxis.StripLines>
+                                    <syncfusion:ChartStripLine Name="strip1" Offset="30" Width="30" IsPixelWidth="False" >
+                                        <syncfusion:ChartStripLine.Stroke>
+                                            <Pen Brush="LightGray" />
+                                        </syncfusion:ChartStripLine.Stroke>
+                                    </syncfusion:ChartStripLine>
+                                    <syncfusion:ChartStripLine Name="strip2" Offset="180" Width="30" IsPixelWidth="False">
+                                        <syncfusion:ChartStripLine.Stroke>
+                                            <Pen Brush="LightGray"/>
+                                        </syncfusion:ChartStripLine.Stroke>
+                                    </syncfusion:ChartStripLine>
+                                </syncfusion:ChartAxis.StripLines>
+                            </syncfusion:ChartAxis>
+                        </syncfusion:ChartArea.SecondaryAxis>
+                        <!--Chart series declaration-->
+                        <syncfusion:ChartSeries x:Name="Series1" Label="Platinum" AutoDiscard="ExtendRange" DataSource="{Binding}" StrokeThickness="2" 
+                                                BindingPathX="Speed" BindingPathsY="Rate" Type="Spline" ShowToolTip="False"/>
+                    </syncfusion:ChartArea>
+                </syncfusion:Chart>
+            </Grid>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Expander Header="Palette" Grid.Row="0" IsExpanded="True">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Palette"/>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Source={StaticResource chartColorPalette}}" SelectedItem="{Binding Palette, ElementName=AreaColorModel, Mode=TwoWay}"/>
+                </Grid>
+            </Expander>
+
+            <Expander Header="Properties" Grid.Row="1" IsExpanded="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                  
+                    <TextBlock Grid.Row="1" Text="EnableAutoScrolling" />
+                    <CheckBox Grid.Row="1" Grid.Column="1" Name="Chk_AutoScrolling" IsChecked="True"/>
+
+                    <TextBlock Grid.Row="2" Text="AutoScrolling Delta"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" Name="txtBox_xAutoScrollingDelta" Text="{Binding ElementName=XAxis, Path=AutoScrollingDelta, Mode=TwoWay}" />
+
+                    <Button Grid.Row="3" Grid.ColumnSpan="2" Name="btn_start" Content="Start Monitoring" />
+
+                    <Button Grid.Row="4" Grid.ColumnSpan="2" Name="btn_stop" Content="Stop Monitoring" />
+                </Grid>
+            </Expander>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+    <inter:Interaction.Behaviors>
+        <local:ChartAutoScrollingBehavior/>
+    </inter:Interaction.Behaviors>
+</layout:SampleLayoutWindow>

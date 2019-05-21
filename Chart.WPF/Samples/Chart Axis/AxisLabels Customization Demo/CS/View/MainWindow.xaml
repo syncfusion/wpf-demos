@@ -1,0 +1,280 @@
+﻿<layout:SampleLayoutWindow x:Class="AxisLabelsCustomizationDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AxisLabelsCustomizationDemo"  
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:library="clr-namespace:System;assembly=mscorlib"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:frame="clr-namespace:System.Windows;assembly=PresentationFramework"
+        Title="AxisLabels Customization Demo">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="chartAlignments" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="axisPositions" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:LabelPositions"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="headerPositions" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:HeaderPositions"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="horizontalAlignments" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:HorizontalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="verticalAlignments" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:VerticalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        
+        <ObjectDataProvider x:Key="edgeLabelsDrawingModes" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:EdgeLabelsDrawingMode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="HeaderAlignmentCollection" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="LabelIntersectActionCollection" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartLabelIntersectAction"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="FontWeightsCollection" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="System.Windows:FontWeights"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        
+        <DataTemplate x:Key="xPostfix">
+            <TextBlock FontSize="14" Text=" Hz"/>
+        </DataTemplate>
+        <DataTemplate x:Key="yPostfix">
+            <TextBlock FontSize="12" Text=" Km"/>
+        </DataTemplate>
+    </Window.Resources>
+        <Grid>
+            <Grid.DataContext>
+                <local:ViewModel/>
+            </Grid.DataContext>
+            <syncfusion:Chart Name="Chart1" CornerRadius="5" >
+                <syncfusion:ChartArea Name="Area">
+                    <syncfusion:ChartArea.GridHeader>
+                        <TextBlock FontSize="20" FontFamily="Segoe UI" Text="Frequency to WaveLength Variation Display"/>
+                    </syncfusion:ChartArea.GridHeader>
+                    <syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="Metro"/>
+                    </syncfusion:ChartArea.ColorModel>
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <syncfusion:ChartAxis x:Name="XAxis" LabelWidth="100" LabelHeight="30" 
+                                              LabelBackground="{Binding Brush,ElementName=XLabelBackground,Mode=TwoWay}"
+                                              LabelBorderBrush="{Binding Brush,ElementName=XLabelBorderBrush,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                              LabelForeground="{Binding Brush,ElementName=XLabelForeground,Mode=TwoWay}"
+                                              LabelFontFamily="{Binding SelectedItem,ElementName=LabelFontFamily1,Mode=TwoWay}"
+                                              LabelFontWeight="{Binding SelectedItem,ElementName=XLabelFontWeight,Mode=TwoWay}"
+                                              LabelBorderThickness="{Binding SelectedItem,ElementName=XLabelBorderThickness,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            HeaderPosition="{Binding ElementName=cmb_xAxisHeaderPosition, Path=SelectedItem, Mode=TwoWay}" LabelPosition="{Binding SelectedItem,ElementName=cmb_xAxisLabelsPosition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            LabelsPostfix="{StaticResource xPostfix}" LabelRotateAngle="{Binding XAxisLabelRotate,Mode=TwoWay}"
+                                            LabelHorizontalAlignment="{Binding ElementName=cmb_xAxisLabelHorizontalAlignment, Path=SelectedItem}"
+                                            LabelVerticalAlignment="{Binding ElementName=cmb_xAxisLabelVerticalAlignment, Path=SelectedItem}"
+                                            EdgeLabelsDrawingMode="{Binding ElementName=cmb_xedgeLabelsDrawingMode, Path=SelectedItem}" IntersectAction="MultipleRows">
+
+                            <syncfusion:ChartAxis.Header>
+                                <TextBlock Text="Frequency Range" FontFamily="Segoe UI"/>
+                            </syncfusion:ChartAxis.Header>
+                            <syncfusion:ChartAxis.CustomLabels>
+                                <syncfusion:ChartAxisLabel Content="3-30" Position="0"></syncfusion:ChartAxisLabel>
+                                <syncfusion:ChartAxisLabel Content="30-300" Position="1"></syncfusion:ChartAxisLabel>
+                                <syncfusion:ChartAxisLabel Content="300-3K" Position="2"></syncfusion:ChartAxisLabel>
+                                <syncfusion:ChartAxisLabel Content="3K-30K" Position="3"></syncfusion:ChartAxisLabel>
+                                <syncfusion:ChartAxisLabel Content="30K-300K" Position="4"></syncfusion:ChartAxisLabel>
+                            </syncfusion:ChartAxis.CustomLabels>
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <syncfusion:ChartAxis x:Name="YAxis" DesiredIntervalsCount="5" ValueType="Logarithmic" LabelLogarithmicFormat="Value" EnableLogLabels="True" IsAutoSetRange="False" LogarithmicBase="10" LogarithmicRange="1,100000"
+                                          LabelBackground="{Binding Brush,ElementName=XLabelBackground,Mode=TwoWay}"
+                                          LabelBorderBrush="{Binding Brush,ElementName=XLabelBorderBrush,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                          LabelForeground="{Binding Brush,ElementName=XLabelForeground,Mode=TwoWay}"
+                                          LabelFontFamily="{Binding SelectedItem,ElementName=LabelFontFamily1,Mode=TwoWay}"
+                                          LabelFontWeight="{Binding SelectedItem,ElementName=XLabelFontWeight,Mode=TwoWay}"
+                                          LabelBorderThickness="{Binding SelectedItem,ElementName=XLabelBorderThickness,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                          HeaderPosition="{Binding ElementName=cmb_yAxisHeaderPosition, Path=SelectedItem}" LabelPosition="{Binding SelectedItem,ElementName=cmb_xAxisLabelsPosition,Mode=TwoWay}"
+                                          LabelsPostfix="{StaticResource yPostfix}"
+                                          LabelHorizontalAlignment="{Binding ElementName=cmb_yAxisLabelHorizontalAlignment, Path=SelectedItem}"
+                                          LabelVerticalAlignment="{Binding ElementName=cmb_yAxisLabelVerticalAlignment, Path=SelectedItem}"
+                                          EdgeLabelsDrawingMode="{Binding ElementName=cmb_yedgeLabelsDrawingMode, Path=SelectedItem}" LabelRotateAngle="{Binding Text, ElementName=YAxisLabelRotate,Mode=TwoWay}">
+                            <syncfusion:ChartAxis.Header>
+                                <TextBlock Text="Wavlength Propagation Range in Kilometres" FontFamily="Segoe UI"/>
+                            </syncfusion:ChartAxis.Header>
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <syncfusion:ChartSeries Label="FrequencytoWavelenth" Name="Series" Type="RangeColumn" IsIndexed="True" DataSource="{Binding SalesDetails}" BindingPathX="Frequency" BindingPathsY="MinimumWaveLength,MaximumWaveLength" ColorEach="True" Palette="Metro" StrokePalette="Metro">
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                        <syncfusion:ChartAdornmentInfo AdornmentsPosition="TopAndBottom" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visible="True"  SegmentLabelFontSize="9" AdornmentForeground="White" SegmentLabelFontFamily="Segoe UI" SegmentLabelFontWeight="Bold">
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+                </syncfusion:ChartArea>
+            </syncfusion:Chart>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.DataContext>
+                <local:ViewModel/>
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Expander Header="Label Fomatting Properties" IsExpanded="False" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Label Foreground" Grid.Row="0" Grid.Column="0" />
+                    <syncfusion:ColorPicker Name="XLabelForeground" Brush="Black" Grid.Row="0" Grid.Column="1" />
+
+                    <TextBlock Text="Label Background" Grid.Row="1" Grid.Column="0" />
+                    <syncfusion:ColorPicker Name="XLabelBackground" Grid.Row="1" Grid.Column="1" />
+
+                    <TextBlock Text="Label BorderBrush" Grid.Row="2" Grid.Column="0" />
+                    <syncfusion:ColorPicker Name="XLabelBorderBrush" Grid.Row="2" Grid.Column="1"/>
+
+                    <TextBlock Text="Label Border Thickness" Grid.Row="4" Grid.Column="0" TextWrapping="Wrap" />
+                    <ComboBox  x:Name="XLabelBorderThickness" Grid.Row="4" Grid.Column="1" ItemsSource="{Binding ThicknessCollection}" SelectedIndex="1"/>
+
+
+                    <TextBlock Text="LabelsFontFamily" Grid.Row="5" Grid.Column="0" />
+                    <ComboBox  x:Name="LabelFontFamily1" Grid.Row="5" Grid.Column="1" ItemsSource="{x:Static Fonts.SystemFontFamilies}" SelectedItem="22" />
+
+                    <TextBlock Text="LabelsFontWeight" Grid.Row="6" Grid.Column="0" />
+                    <ComboBox  x:Name="XLabelFontWeight" Grid.Row="6" Grid.Column="1" ItemsSource="{Binding FontWeightsCollection}" SelectedIndex="4"/>
+                    
+                </Grid>
+            </Expander>
+            <Expander Header="Label Positioning Properties" IsExpanded="False" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" >Labels Rotation</TextBlock>
+                    <TextBox Grid.Row="0" Grid.Column="1" Name="XAxisLabelRotate" Text="{Binding ElementName=XAxis,Path=LabelRotateAngle,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" >Labels Position</TextBlock>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Name="cmb_xAxisLabelsPosition"  BorderThickness="2"  ItemsSource="{Binding Source={StaticResource axisPositions}}" SelectedIndex="1"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" >Horizontal Label Alignment</TextBlock>
+                    <ComboBox Grid.Row="2" Grid.Column="1" Name="cmb_xAxisLabelHorizontalAlignment" ItemsSource="{Binding Source={StaticResource horizontalAlignments}}" SelectedIndex="3"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" >Vertical Label Alignment</TextBlock>
+                    <ComboBox Grid.Row="3" Grid.Column="1" Name="cmb_xAxisLabelVerticalAlignment" ItemsSource="{Binding Source={StaticResource verticalAlignments}}" SelectedIndex="3"/>
+
+                    <!--<TextBlock Grid.Row="4" Grid.Column="0">EdgeLabelsDrawingMode</TextBlock>
+                    <ComboBox Grid.Row="4" Grid.Column="1" Name="cmb_xedgeLabelsDrawingMode"  ItemsSource="{Binding Source={StaticResource edgeLabelsDrawingModes}}" SelectedIndex="2"/>-->
+
+                    <TextBlock Grid.Row="5" Grid.Column="0">Header Position</TextBlock>
+                    <ComboBox Grid.Row="5" Grid.Column="1" Name="cmb_xAxisHeaderPosition" ItemsSource="{Binding Source={StaticResource headerPositions}}" SelectedIndex="1"/>
+
+                    <TextBlock Text="Header Alignment" Grid.Row="6" Grid.Column="0" />
+                    <ComboBox Grid.Row="6" Grid.Column="1" x:Name="XAxisHeaderAlignment" SelectedIndex="1" ItemsSource="{Binding Source={StaticResource HeaderAlignmentCollection}}" SelectedItem="{Binding ElementName=XAxis, Path=HeaderAlignment, Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="7" Grid.Column="0">Label Header Text</TextBlock>
+                    <TextBox Grid.Row="7" Grid.Column="1" Name="XAxisHeaderText"  Text="{Binding ElementName=XAxis,Path=Header.Text,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+                    <TextBlock Text="Labels IntersectAction" Grid.Row="8" Grid.Column="0" />
+                    <ComboBox Grid.Row="8" Grid.Column="1" x:Name="XLabelIntersectAction" SelectedIndex="1" ItemsSource="{Binding Source={StaticResource LabelIntersectActionCollection}}" SelectedItem="{Binding ElementName=XAxis, Path=IntersectAction, Mode=TwoWay}"/>
+                </Grid>
+            </Expander>
+            <!--</Expander>-->
+            <!--<Expander Grid.Row="2" Header="Secondary Axis" Grid.ColumnSpan="2" IsExpanded="False">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0">Labels Rotation</TextBlock>
+                    <TextBox Grid.Row="0" Grid.Column="1" Name="YAxisLabelRotate" Text="0"></TextBox>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0">Labels Position</TextBlock>
+                    <ComboBox Grid.Row="1" Grid.Column="1" Name="cmb_yAxisLabelsPosition" BorderThickness="2" ItemsSource="{Binding Source={StaticResource axisPositions}}" SelectedIndex="1"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0">Horizontal Label Alignment</TextBlock>
+                    <ComboBox Grid.Row="2" Grid.Column="1" Name="cmb_yAxisLabelHorizontalAlignment" ItemsSource="{Binding Source={StaticResource horizontalAlignments}}" SelectedIndex="3"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0">Vertical Label Alignment</TextBlock>
+                    <ComboBox Grid.Row="3" Grid.Column="1" Name="cmb_yAxisLabelVerticalAlignment" ItemsSource="{Binding Source={StaticResource verticalAlignments}}" SelectedIndex="3"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0">EdgeLabelsDrawingMode</TextBlock>
+                    <ComboBox Grid.Row="4" Grid.Column="1" Name="cmb_yedgeLabelsDrawingMode" ItemsSource="{Binding Source={StaticResource edgeLabelsDrawingModes}}" SelectedIndex="2"/>
+                </Grid>
+            </Expander>
+            <Expander Grid.Row="3" Grid.ColumnSpan="2" Header="Secondary Axis Header options" IsExpanded="False">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" >Header Position</TextBlock>
+                    <ComboBox Grid.Row="0" Grid.Column="1" Name="cmb_yAxisHeaderPosition" ItemsSource="{Binding Source={StaticResource axisPositions}}" SelectedIndex="1"/>
+
+                    <TextBlock Text="Header Alignment" Grid.Row="1" Grid.Column="0" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" x:Name="YAxisHeaderAlignment" SelectedIndex="1" ItemsSource="{Binding Source={StaticResource HeaderAlignmentCollection}}" SelectedItem="{Binding ElementName=YAxis, Path=HeaderAlignment, Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0">Label Text</TextBlock>
+                    <TextBox Grid.Row="2" Grid.Column="1" Name="YAxisHeaderText" Text="{Binding ElementName=YAxis,Path=Header.Text,Mode=TwoWay}"></TextBox>
+                </Grid>
+            </Expander>-->
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+</layout:SampleLayoutWindow >

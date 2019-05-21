@@ -1,0 +1,225 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+
+xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+                    >
+
+
+    <syncfusion:SpeedToDurationConverter x:Key="SpeedToDurationConverter" />
+    <syncfusion:DoubleToNegativeDoubleConverter x:Key="DoubleToNegativeDoubleConverter" />
+    <syncfusion:SkinDataToObjectConverter x:Key="SkinDataToObjectConverter" />
+    <syncfusion:FocusToBrushConverter x:Key="FocusToBrushConverter" />
+    <!-- Normal ToggeButton Template -->
+    <ControlTemplate x:Key="ToggleButtonTemplate"  TargetType="{x:Type ToggleButton}">
+        <syncfusion:CheckableBorder MinHeight="28" Margin="0" BorderThickness="0,0,0,1">
+            <Border.Background>
+                <MultiBinding Converter="{StaticResource SkinDataToObjectConverter}" ConverterParameter="Background">
+                    <Binding Path="GroupVisualStyles" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBar}}"  UpdateSourceTrigger="PropertyChanged" />
+                    <Binding Path="VisualStyle" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBar}}"  UpdateSourceTrigger="PropertyChanged"/>
+                </MultiBinding>
+            </Border.Background>
+            <Border.BorderBrush>
+                <MultiBinding Converter="{StaticResource SkinDataToObjectConverter}" ConverterParameter="Border">
+                <Binding Path="GroupVisualStyles" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBar}}"  UpdateSourceTrigger="PropertyChanged" />
+                <Binding Path="VisualStyle" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBar}}"  UpdateSourceTrigger="PropertyChanged"/>
+            </MultiBinding>
+           
+            </Border.BorderBrush>
+            <DockPanel>
+                <Border Name="bord" DockPanel.Dock="Right" Margin="0,2,3,2" ClipToBounds="True"
+							Width="{Binding Path=(syncfusion:TaskBar.ButtonSize), RelativeSource={RelativeSource AncestorType={x:Type syncfusion:TaskBarItem}}}" 
+							Height="{Binding Path=(syncfusion:TaskBar.ButtonSize), RelativeSource={RelativeSource AncestorType={x:Type syncfusion:TaskBarItem}}}" 
+							BorderThickness="0.7" >
+                    <Border.BorderBrush>
+                        <MultiBinding Converter="{StaticResource SkinDataToObjectConverter}" ConverterParameter="Background">
+                            <Binding Path="GroupVisualStyles" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBar}}"  UpdateSourceTrigger="PropertyChanged" />
+                            <Binding Path="VisualStyle" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBar}}"  UpdateSourceTrigger="PropertyChanged"/>
+                        </MultiBinding>
+                    </Border.BorderBrush>
+                    <Border Margin="2.5,2.5,2.5,2.5"  Name="LittelButton" RenderTransformOrigin="0.5, 0.5" >
+                        <Border.RenderTransform>
+                            <RotateTransform Angle="180"/>
+                        </Border.RenderTransform>
+                        <Border.Background>
+                            <DrawingBrush Stretch="Fill">
+                                <DrawingBrush.Drawing>
+                                    <GeometryDrawing>
+                                        <GeometryDrawing.Pen>
+                                            <Pen Thickness="10" Brush="Black" LineJoin="Miter" />
+                                        </GeometryDrawing.Pen>
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry>
+                                                <PathGeometry.Figures>
+                                                    <PathFigureCollection>
+                                                        <PathFigure StartPoint="0,0">
+                                                            <PathFigure.Segments>
+                                                                <PathSegmentCollection>
+                                                                    <LineSegment Point="50,25" />
+                                                                    <LineSegment Point="100,0" />
+                                                                </PathSegmentCollection>
+                                                            </PathFigure.Segments>
+                                                        </PathFigure>
+                                                        <PathFigure StartPoint="0,30">
+                                                            <PathFigure.Segments>
+                                                                <PathSegmentCollection>
+                                                                    <LineSegment Point="50,55" />
+                                                                    <LineSegment Point="100,30" />
+                                                                </PathSegmentCollection>
+                                                            </PathFigure.Segments>
+                                                        </PathFigure>
+                                                    </PathFigureCollection>
+                                                </PathGeometry.Figures>
+                                            </PathGeometry>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingBrush.Drawing>
+                            </DrawingBrush>
+                        </Border.Background>
+                    </Border>
+                </Border>
+                <ContentPresenter Name="ContentSite"  Margin="7,2,7,2" HorizontalAlignment="Left" VerticalAlignment="Center" 
+								  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" RecognizesAccessKey="True" 
+								  Content="{TemplateBinding ContentControl.Content}"   
+				/>
+            </DockPanel>
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="syncfusion:CheckableBorder.Checked">
+                    
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="LittelButton"
+									Storyboard.TargetProperty="(Border.RenderTransform).(RotateTransform.Angle)">
+                                    <DoubleAnimation.Duration>
+                                        <MultiBinding Converter="{StaticResource SpeedToDurationConverter}" ConverterParameter="Expanded">
+                                            <Binding Path="(syncfusion:TaskBar.Speed)" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBarItem}}"/>
+                                            <Binding Path="DesiredSize.Height" ElementName="ItemsPresenter" />
+                                            <Binding Path="SafeHeight" ElementName="PanelPresenter" />
+                                        </MultiBinding>
+                                    </DoubleAnimation.Duration>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="syncfusion:CheckableBorder.Unchecked">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="LittelButton"
+									Storyboard.TargetProperty="(Border.RenderTransform).(RotateTransform.Angle)" To="0">
+                                    <DoubleAnimation.Duration>
+                                        <MultiBinding Converter="{StaticResource SpeedToDurationConverter}" ConverterParameter="Collapsed">
+                                            <Binding Path="(syncfusion:TaskBar.Speed)" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBarItem}}"/>
+                                            <Binding Path="SafeHeight" ElementName="PanelPresenter" />
+                                        </MultiBinding>
+                                    </DoubleAnimation.Duration>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+                
+            </Border.Triggers>
+        </syncfusion:CheckableBorder>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=ChildHasFocus, Mode=OneWay, ElementName=ExpandTemplate}" Value="True">
+                <Setter Property="Background" TargetName="bord">
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource SkinDataToObjectConverter}" ConverterParameter="Background">
+                            <Binding Path="GroupVisualStyles" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBar}}"  UpdateSourceTrigger="PropertyChanged" />
+                            <Binding Path="VisualStyle" RelativeSource="{RelativeSource AncestorType={x:Type syncfusion:TaskBar}}"  UpdateSourceTrigger="PropertyChanged"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="BorderBrush" TargetName="bord" >
+                    <Setter.Value>
+                        <MultiBinding Converter="{StaticResource SkinDataToObjectConverter}" ConverterParameter="Border">
+                            <Binding Path="GroupVisualStyles" RelativeSource="{RelativeSource AncestorType={x:Type local:TaskBar}}"  UpdateSourceTrigger="PropertyChanged" />
+                            <Binding Path="VisualStyle" RelativeSource="{RelativeSource AncestorType={x:Type local:TaskBar}}"  UpdateSourceTrigger="PropertyChanged"/>
+                        </MultiBinding>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <Trigger Property="UIElement.IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation  Storyboard.TargetName="bord" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:.2" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="bord" Storyboard.TargetProperty="Opacity" Duration="0:0:.2" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+   
+    <!--Normal ExpanderExt Template -->
+    <ControlTemplate x:Key="ExpanderExtTemplate" TargetType="{x:Type Expander}">
+        <Border Name="GeneralBorder" BorderBrush="{TemplateBinding Border.BorderBrush}"
+				BorderThickness="{TemplateBinding Border.BorderThickness}" 
+				Background="{Binding Path=GroupBackground, RelativeSource={RelativeSource AncestorType={x:Type local:TaskBar}}}"
+				SnapsToDevicePixels="True" Padding="{TemplateBinding Control.Padding}">
+            <DockPanel>
+                <local:ToggleButtonExt Name="HeaderSite"  MinWidth="0" Margin="0" Template="{StaticResource ToggleButtonTemplate}"
+		   					  FontWeight="{TemplateBinding TextElement.FontWeight}" 
+							  HorizontalContentAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
+							  FontStretch="{TemplateBinding TextElement.FontStretch}" 
+							  VerticalContentAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
+							  Foreground="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:TaskBar}}}" 
+							  FontFamily="{TemplateBinding TextElement.FontFamily}"  
+							  FontStyle="{TemplateBinding TextElement.FontStyle}" 
+							  FontSize="{TemplateBinding TextElement.FontSize}" MinHeight="0" 
+							  ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}" 
+							  Padding="{TemplateBinding Control.Padding}" 
+							  Content="{TemplateBinding HeaderedContentControl.Header}" DockPanel.Dock="Top" 
+							  Style="{Binding Path=(local:TaskBar.HeaderStyle), RelativeSource={RelativeSource AncestorType={x:Type local:TaskBarItem}}}"
+					>
+                    <ToggleButton.IsChecked>
+                        <Binding Mode="TwoWay" Path="IsExpanded" RelativeSource="{RelativeSource TemplatedParent}" 
+								 NotifyOnSourceUpdated="False" BindsDirectlyToSource="False" IsAsync="False" 
+								 NotifyOnValidationError="False" NotifyOnTargetUpdated="False"/>
+                    </ToggleButton.IsChecked>
+                </local:ToggleButtonExt>
+                <ContentPresenter Name="ExpandSite" Margin="{TemplateBinding Control.Padding}"
+								  HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" 
+								  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" 
+								  Focusable="False" ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+								  Content="{TemplateBinding ContentControl.Content}" DockPanel.Dock="Bottom" 
+				/>
+            </DockPanel>
+        </Border>
+    </ControlTemplate>
+    
+    
+
+    <!-- ExpanderExt Style -->
+    <Style x:Key="{x:Type local:ExpanderExt}" TargetType="{x:Type local:ExpanderExt}">
+        <!--<Setter Property="TextElement.Foreground" Value="White"/>-->
+        <Setter Property="Control.HorizontalContentAlignment" Value="{x:Static HorizontalAlignment.Left}"/>
+        <Setter Property="Control.VerticalContentAlignment" Value="{x:Static VerticalAlignment.Center}"/>
+        <Setter Property="Border.BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Control.Template" Value="{StaticResource ExpanderExtTemplate}" />
+        <Setter Property="Border.BorderBrush">
+            <Setter.Value>
+                <MultiBinding Converter="{StaticResource SkinDataToObjectConverter}" ConverterParameter="Border">
+                    <Binding Path="GroupVisualStyles" RelativeSource="{RelativeSource AncestorType={x:Type local:TaskBar}}"  UpdateSourceTrigger="PropertyChanged" />
+                    <Binding Path="VisualStyle" RelativeSource="{RelativeSource AncestorType={x:Type local:TaskBar}}"  UpdateSourceTrigger="PropertyChanged"/>
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
+
+   
+</ResourceDictionary>

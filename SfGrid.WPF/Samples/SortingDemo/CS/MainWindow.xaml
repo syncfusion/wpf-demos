@@ -1,0 +1,114 @@
+﻿<syncfusion:ChromelessWindow x:Class="SortingDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:SortingDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <syncfusion:ChromelessWindow.Resources>
+        <local:SortClickActionConveter x:Key="SortClickActionConveter" />
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases Sorting in SfDataGrid."
+                                  HeaderText="Sorting"
+                                  LayoutMode="Metro">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid AllowSorting="{Binding IsChecked,
+                                                              ElementName=CkbAllowSort}"
+                                       AllowTriStateSorting="{Binding IsChecked,
+                                                                      ElementName=CkbEnableTriStateSorting}"
+                                       AutoGenerateColumns="False"
+                                       ColumnSizer="Star"
+                                       ItemsSource="{Binding ProductInfo}"
+                                       NavigationMode="Row"
+                                       ShowSortNumbers="{Binding IsChecked,
+                                                                 ElementName=CkbShowSortNumbers}"
+                                       SortClickAction="{Binding SelectedIndex,
+                                                                 ElementName=CmbSortClickAction,
+                                                                 Converter={StaticResource SortClickActionConveter}}">
+                    <syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </syncfusion:SfDataGrid.Resources>
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn AllowSorting="{Binding Source={x:Reference CkbEmployeeId},
+                                                                          Path=IsChecked,
+                                                                          Mode=TwoWay}"
+                                                   HeaderText="Supplier ID"
+                                                   MappingName="SupplierID"
+                                                   TextAlignment="Left" />
+                        <syncfusion:GridTextColumn AllowSorting="{Binding Source={x:Reference CkbName},
+                                                                          Path=IsChecked,
+                                                                          Mode=TwoWay}"
+                                                   HeaderText="Product ID"
+                                                   MappingName="ProductID"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn HeaderText="Product Name" MappingName="ProductName" />
+                        <syncfusion:GridTextColumn HeaderText="Quantity Per Unit"
+                                                   MappingName="QuantityPerUnit"
+                                                   TextAlignment="Left" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=UnitPrice,
+                                                                            StringFormat='{}{0:C}'}"
+                                                   HeaderText="Price"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn HeaderText="Units In Stock"
+                                                   MappingName="UnitsInStock"
+                                                   TextAlignment="Right" />
+                    </syncfusion:SfDataGrid.Columns>
+                    <syncfusion:SfDataGrid.SortColumnDescriptions>
+                        <syncfusion:SortColumnDescription ColumnName="ProductName" />
+                    </syncfusion:SfDataGrid.SortColumnDescriptions>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+            <syncfusion:LayoutControl.UserOptionsView>
+                <syncfusion:UserOptions HeaderText="Options">
+                    <StackPanel Margin="5">
+                        <CheckBox x:Name="CkbAllowSort"
+                                  Margin="5"
+                                  Content="Allow Sort"
+                                  IsChecked="True" />
+                        <CheckBox x:Name="CkbEnableTriStateSorting"
+                                  Margin="5"
+                                  Content="Allow TriState Sorting"
+                                  IsChecked="True" />
+                        <CheckBox x:Name="CkbShowSortNumbers"
+                                  Margin="5"
+                                  Content="Show Sort Numbers"
+                                  IsChecked="False" />
+                        <ComboBox x:Name="CmbSortClickAction"
+                                  Margin="5"
+                                  SelectedIndex="0">
+                            <ComboBoxItem Content="SingleClick" />
+                            <ComboBoxItem Content="DoubleClick" />
+                        </ComboBox>
+
+                        <TextBlock Margin="5"
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   Text="Allow Sort for Columns :" />
+
+                        <CheckBox x:Name="CkbEmployeeId"
+                                  Margin="5"
+                                  Content="Allow Sort Supplier ID Column"
+                                  IsChecked="True" />
+
+                        <CheckBox x:Name="CkbName"
+                                  Margin="5"
+                                  Content="Allow Sort Product ID Column"
+                                  IsChecked="True" />
+
+                    </StackPanel>
+                </syncfusion:UserOptions>
+            </syncfusion:LayoutControl.UserOptionsView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

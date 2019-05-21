@@ -1,0 +1,75 @@
+﻿<layout:SampleLayoutWindow x:Class="CustomChartTypeDemo_2008.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:CustomChartTypeDemo_2008"      
+        WindowStartupLocation="CenterScreen"
+    Title="Custom Chart Type Demo">
+    
+        <Grid>
+            <Grid.DataContext>
+                <local:Model  />
+            </Grid.DataContext>
+                    <!--Chart is addded for the ChartView-->
+                    <syncfusion:Chart x:Name="chart" >
+                        <!--Header is added to the Chart-->
+                        <syncfusion:Chart.Header>
+                            <TextBlock Text="Company Growth Analysis" FontFamily="Segoe UI" FontWeight="Regular" FontSize="20" />
+                        </syncfusion:Chart.Header>
+                        <syncfusion:ChartArea IsContextMenuEnabled="False" >
+                            <!--X Axis added to the ChartArea-->
+                            <syncfusion:ChartArea.PrimaryAxis>
+                                <syncfusion:ChartAxis LabelForeground="Black" EdgeLabelsDrawingMode="Fit" >
+                                    <syncfusion:ChartAxis.Header>
+                                        <TextBlock Text="Year"/>
+                                    </syncfusion:ChartAxis.Header>
+                                </syncfusion:ChartAxis>
+                            </syncfusion:ChartArea.PrimaryAxis>
+                            <!--Y axis added to the ChartArea-->
+                            <syncfusion:ChartArea.SecondaryAxis>
+                                <syncfusion:ChartAxis LabelForeground="Black" EdgeLabelsDrawingMode="Center" >
+                                    <syncfusion:ChartAxis.Header>
+                                        <TextBlock Text="Growth in percentage"/>
+                                    </syncfusion:ChartAxis.Header>
+                                </syncfusion:ChartAxis>
+                            </syncfusion:ChartArea.SecondaryAxis>
+                            <syncfusion:ChartArea.Legend>
+                                <syncfusion:ChartLegend></syncfusion:ChartLegend>
+                            </syncfusion:ChartArea.Legend>
+                            <!--Seris added to the ChartArea-->
+                            <syncfusion:ChartSeries Label="Software Ltd" DataSource="{Binding DataList}" BindingPathX="X" BindingPathsY="Y1,Y2" Type="Custom" Template="{StaticResource HybirdAreaLineType}"
+                                                local:HybridChartType.HybirdLineValue="30" local:HybridChartType.HighValueInterior="{Binding ElementName=combo1, Mode=TwoWay, Path=Brush}" local:HybridChartType.LowValueInterior="{Binding ElementName=combo2, Mode=TwoWay, Path=Brush}" local:HybridChartType.LineStroke="{Binding ElementName=combo3, Mode=TwoWay, Path=Brush}" />
+                        </syncfusion:ChartArea>
+                    </syncfusion:Chart>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <!--UserOptions for the interactivity-->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Settings" FontFamily="Segoe UI" FontWeight="SemiBold" Margin="5,10,5,10" Grid.Row="0"/>
+            <TextBlock Text="High Area Color" Grid.Row="1" Grid.Column="0"/>
+            <syncfusion:ColorPicker Color="Chartreuse"  x:Name="combo1" Grid.Row="1"  Grid.Column="1"/>
+
+            <TextBlock Text="Low Area Color" Grid.Row="2"  Grid.Column="0"/>
+            <syncfusion:ColorPicker Color="OliveDrab" x:Name="combo2" Grid.Row="2" Grid.Column="1"/>
+
+            <TextBlock Text="Line Color" Grid.Row="3" Grid.Column="0"/>
+            <syncfusion:ColorPicker Color="Black" x:Name="combo3" Grid.Row="3" Grid.Column="1"/>
+
+            
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+  
+</layout:SampleLayoutWindow>

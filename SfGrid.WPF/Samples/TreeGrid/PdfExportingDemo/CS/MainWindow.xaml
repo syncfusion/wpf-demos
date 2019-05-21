@@ -1,0 +1,167 @@
+﻿<syncfusion:ChromelessWindow x:Class="PDFExportingDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             xmlns:local="clr-namespace:PDFExportingDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Icon="App.ico">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:EmployeeDetailsRepository />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <syncfusion:ChromelessWindow.Resources>
+        <local:PDFOptionsConverter x:Key="pdfOptionsConverter" />
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid>
+        <Grid Margin="0,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="95" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--  Header Panel Implementation  -->
+            <Border Background="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Name="border1"
+                            Width="26"
+                            Height="45"
+                            Margin="0,6,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Background="#FF119EDA"
+                            BorderBrush="#FF119EDA"
+                            BorderThickness="1" />
+
+                    <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Margin="10,10,0,0"
+                                   HorizontalAlignment="Left"
+                                   FontFamily="Segoe WP"
+                                   FontSize="35"
+                                   Foreground="#FF119EDA"
+                                   Text="Exporting TreeGrid To PDF" />
+                        <TextBlock Grid.Row="1"
+                                   Margin="10,0,0,7"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   FontFamily="Segoe WP"
+                                   FontSize="16"
+                                   Text="This sample showcases how to export the TreeGrid content to PDF."
+                                   TextWrapping="Wrap" />
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="1" Margin="35,0,35,35">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="78*" />
+                    <ColumnDefinition Width="22*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  GridView  -->
+                <Border Grid.Column="0">
+                    <syncfusion:SfTreeGrid Name="treeGrid"
+                                           AutoExpandMode="AllNodesExpanded"
+                                           AutoGenerateColumns="False"
+                                           ChildPropertyName="ReportsTo"
+                                           ItemsSource="{Binding EmployeeDetails}"
+                                           ParentPropertyName="ID"
+                                           SelfRelationRootValue="-1">
+                        <interactivity:Interaction.Behaviors>
+                            <local:SfTreeGridBehavior />
+                        </interactivity:Interaction.Behaviors>
+                        <syncfusion:SfTreeGrid.Columns>
+                            <syncfusion:TreeGridTextColumn HeaderText="First Name" MappingName="FirstName" />
+                            <syncfusion:TreeGridTextColumn HeaderText="Last Name" MappingName="LastName" />
+                            <syncfusion:TreeGridTextColumn HeaderText="Employee ID"
+                                                           MappingName="ID"
+                                                           TextAlignment="Left" />
+                            <syncfusion:TreeGridTextColumn MappingName="Title" />
+                            <syncfusion:TreeGridHyperlinkColumn MappingName="City" />
+                            <syncfusion:TreeGridCurrencyColumn CurrencyDecimalDigits="0"
+                                                               CurrencySymbol="$"
+                                                               MappingName="Salary" />
+                            <syncfusion:TreeGridTextColumn HeaderText="Reports To" MappingName="ReportsTo" />
+                        </syncfusion:SfTreeGrid.Columns>
+
+                    </syncfusion:SfTreeGrid>
+                </Border>
+
+                <!--  UserOptions  -->
+                <Border Grid.Column="1">
+                    <ItemsControl IsTabStop="False">
+                        <syncfusion:UserOptions Grid.Column="1" HeaderText="Options">
+                            <StackPanel Margin="5">
+                                <TextBlock Margin="4"
+                                           FontSize="12"
+                                           FontWeight="Bold"
+                                           Text="PDF Exporting Options" />
+                                <CheckBox x:Name="autoRowHeight"
+                                          Margin="6"
+                                          Content="Auto RowHeight"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="autoColumnWidth"
+                                          Margin="6"
+                                          Content="Auto ColumnWidth"
+                                          IsChecked="False" />
+                                <CheckBox x:Name="exportFormat"
+                                          Margin="6"
+                                          Content="Export Format"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="exportLink"
+                                          Margin="6"
+                                          Content="Export HyperLink"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="repeatHeader"
+                                          Margin="6"
+                                          Content="Repeat Headers"
+                                          IsChecked="True" />
+                                <CheckBox x:Name="fitAllColumns"
+                                          Margin="6"
+                                          Content="Fit All Columns in One Page"
+                                          IsChecked="False" />
+                                <CheckBox x:Name="customizeColumns"
+                                          Margin="6"
+                                          Content="Customize Title Column Style"
+                                          IsChecked="False" />
+                                <CheckBox x:Name="pageHeaderandFooter"
+                                          Margin="6"
+                                          Content="Add Header and Footer"
+                                          IsChecked="False" />
+                                <Button Width="150"
+                                        Margin="6"
+                                        Command="local:Commands.ExportToPDF"
+                                        CommandTarget="{Binding ElementName=treeGrid}"
+                                        Content="Export to PDF">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource pdfOptionsConverter}"
+                                                      Mode="OneWay"
+                                                      UpdateSourceTrigger="PropertyChanged">
+                                            <Binding ElementName="autoRowHeight" Path="IsChecked" />
+                                            <Binding ElementName="autoColumnWidth" Path="IsChecked" />
+                                            <Binding ElementName="exportFormat" Path="IsChecked" />
+                                            <Binding ElementName="exportLink" Path="IsChecked" />
+                                            <Binding ElementName="repeatHeader" Path="IsChecked" />
+                                            <Binding ElementName="fitAllColumns" Path="IsChecked" />
+                                            <Binding ElementName="customizeColumns" Path="IsChecked" />
+                                            <Binding ElementName="pageHeaderandFooter" Path="IsChecked" />
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                </Button>
+                            </StackPanel>
+                        </syncfusion:UserOptions>
+                    </ItemsControl>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</syncfusion:ChromelessWindow>

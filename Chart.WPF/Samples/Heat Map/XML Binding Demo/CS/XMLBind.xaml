@@ -1,0 +1,144 @@
+﻿<Window Style="{StaticResource windowStyle}"
+        x:Class="XMLBinding.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:XMLBinding"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        Icon="app.ico" Title="XML Binding Demo" Height="720" Width="1024" MinHeight="500" MinWidth="750" 
+        WindowStartupLocation="CenterScreen"  Loaded="Window_Loaded">
+    
+     <Window.Resources>
+        
+        <ResourceDictionary>
+            
+          <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.Shared.WPF;component/SkinManager/SkinManager.xaml" />
+                <ResourceDictionary Source="/syncfusion.VectorImages.WPF;component/Icons/General.xaml"/>
+</ResourceDictionary.MergedDictionaries>
+            <!--Style to set hte ToolTip-->
+            <Style TargetType="ToolTip" x:Key="MyToolTip">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToolTip">
+                            <Border BorderBrush="Black" BorderThickness="0.5" Background="White" CornerRadius="4">
+                                <StackPanel Background="White" Margin="5">
+                                    <TextBlock Text="{Binding XPath=@Name}" FontSize="9" FontWeight="Bold" />
+                                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                    <TextBlock Text="Total Payroll : $" />
+                                    <TextBlock Text="{Binding XPath=@TotalPayroll}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Median Salary : $" />
+                                    <TextBlock Text="{Binding XPath=@MedianSalary}" />
+                                </StackPanel>                                
+                            </StackPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
+            <DataTemplate x:Key="itemDataTemplate">
+                <TextBlock Text="{Binding XPath=@Name}" Height="Auto" Width="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#ff787878" FontWeight="Bold" />
+            </DataTemplate>
+
+            <ToolTip x:Key="MyTool" Style="{StaticResource MyToolTip}"/>
+
+            <Style TargetType="{x:Type syncfusion:HeatMapItem}">
+                <Setter Property="ToolTip" Value="{StaticResource MyTool}" />
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="true">
+                        <Setter Property="BorderBrush" Value="Red" />
+                        <Setter Property="BorderThickness" Value="2.0" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>         
+      
+        </ResourceDictionary>
+     </Window.Resources>
+        
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="7.7*" />
+            <RowDefinition Height="2.3*" />
+
+        </Grid.RowDefinitions>
+
+        <!--Hosting and Textblock into first row and first column of root layout -->
+   
+        <TextBlock Name="RealText" 
+                   FontFamily="Segoe UI"
+                   FontSize="18 px"    
+                   FontWeight="Bold"
+                   Margin="4,0,0,0"  HorizontalAlignment="Left"
+                   VerticalAlignment="Center">                  
+    Company Payroll System
+     </TextBlock>
+
+        <!-- Heatmap item which is showing HeatMapItem from XML list-->
+        <GroupBox Grid.Row="1" Header="HeatMapControl : Cell Size = TotalPayroll; Cell Color = MedianSalary" Margin="3">
+            <syncfusion:HeatMapControl x:Name="heatMap"
+                                  ItemsSource="{Binding Source={StaticResource salary}}"
+                                  ItemTemplate="{StaticResource itemDataTemplate}"
+                                  HighestWeightColor="#ffb22222"
+                                  MedianWeightColor="#ffffff99"
+                                  LowestWeightColor="#ff5f9ea0"
+                                  ColorValuePath="@MedianSalary"
+                                  WeightValuePath="@TotalPayroll" >
+            </syncfusion:HeatMapControl>
+        </GroupBox>
+        <!--Other Controls to provide dynamic property settings for chart control-->
+        <GroupBox  Grid.Row="2" Margin="3,8,3,3">
+           <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                    <Image  HorizontalAlignment="Left" Width="16" Height="16" Source="{StaticResource Label}"/>
+                        <TextBlock Text="Median Salary Information" FontWeight="Bold" Margin="3,0,0,0" />
+                    </StackPanel>
+                </GroupBox.Header>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Border Height="15" Width="15" Background="#ffb22222" BorderBrush="Black" BorderThickness="1" />
+                        <TextBlock Text="Highest Median Salary" Margin="5,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Border Height="15" Width="15" Background="#ffffff99" BorderBrush="Black" BorderThickness="1" />
+                        <TextBlock Text="Average Median Salary" Margin="5,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Border Height="15" Width="15" Background="#ff5f9ea0" BorderBrush="Black" BorderThickness="1" />
+                        <TextBlock Text="Lowest Median Salary" Margin="5,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center" Text="Change Median Salary: " />
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Slider Name="sliderColor" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" Width="150" Height="Auto" Value="40" Minimum="0" Maximum="100" 
+                                ValueChanged="sliderColor_ValueChanged" TickPlacement="BottomRight" TickFrequency="10"/>
+                                            
+                        <Label Grid.Row="1" Grid.Column="0" x:Name="lowColorValue"  Content="$" />
+                        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Name="centerLabel" />
+                        <Label Grid.Row="1" Grid.Column="1" x:Name="highColorValue" HorizontalAlignment="Right" Content="$" />
+                    </Grid>
+                </StackPanel>
+                
+            </Grid>
+        </GroupBox>
+    </Grid>
+ </Window>

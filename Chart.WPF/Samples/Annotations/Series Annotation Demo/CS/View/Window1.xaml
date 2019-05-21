@@ -1,0 +1,142 @@
+﻿<layout:SampleLayoutWindow x:Class="AnnotationsSample.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syn="http://www.syncfusion.com/WpfChart.xsd"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:AnnotationsSample"
+                           xmlns:inter="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"        
+     Title="Series Annotation Demo" >
+    <inter:Interaction.Behaviors>
+        <local:SeriesAnnotationsDemoBehavior/>
+    </inter:Interaction.Behaviors>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:Multi x:Key="multi"/>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.DataContext>
+                <local:DataViewModel/>
+            </Grid.DataContext>
+              <syncfusion:Chart Name="Chart1" Grid.Row="0" >
+                        <syncfusion:Chart.Header>
+                            <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI">ICICI Bank Mumbai Stock Exchange Analysis</TextBlock>
+                        </syncfusion:Chart.Header>
+                        <!--Chart area to present chart segments-->
+                        <syncfusion:ChartArea >
+                            <!--Primary Axis(X)-->
+                            <syncfusion:ChartArea.PrimaryAxis>
+                                <!--X axis declaration with required property settings-->
+                                <syncfusion:ChartAxis ValueType="DateTime" Header="Date" RangePadding="None" EdgeLabelsDrawingMode="Fit" LabelFontSize="11" LabelDateTimeFormat="M/dd/yyyy" >
+                                    <syncfusion:ChartArea.ShowGridLines>False</syncfusion:ChartArea.ShowGridLines>
+                                </syncfusion:ChartAxis>
+                            </syncfusion:ChartArea.PrimaryAxis>
+                            <!--Secondary Axis(Y)-->
+                            <syncfusion:ChartArea.SecondaryAxis>
+                                <!--Y axis declaration with required property settings-->
+                        <syncfusion:ChartAxis Header="Stock in Millions"   RangePadding="Normal" IsAutoSetRange="True" LabelFontSize="11" EdgeLabelsDrawingMode="Fit">
+                                    <syncfusion:ChartArea.ShowGridLines>False</syncfusion:ChartArea.ShowGridLines>
+                                </syncfusion:ChartAxis>
+                            </syncfusion:ChartArea.SecondaryAxis>
+
+                    <syncfusion:ChartSeries Name="Series1" Type="Line" BindingPathsY="RainFall" IsIndexed="False" StrokeThickness="2" Label="Year 2010" BindingPathX="TimeStamp"  DataSource="{Binding datalist}">
+                                <syncfusion:ChartSeries.Annotations>
+                                    <syncfusion:AnnotationsCollection>
+                                        <syncfusion:ChartSeriesAnnotation x:Name="serAnnot1" X="40702" Y="468"  AnnotationShape="Square" Stroke="Black"  Fill="Orange"/>                                       
+                                    </syncfusion:AnnotationsCollection>
+                                </syncfusion:ChartSeries.Annotations>
+                            </syncfusion:ChartSeries>
+                        </syncfusion:ChartArea>
+                    </syncfusion:Chart>
+             </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.DataContext>
+                <local:DataViewModel/>
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                <RowDefinition  Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Expander Header="Annotation Position" Grid.Row="0" Grid.ColumnSpan="2" IsExpanded="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Series X value:" Grid.Row="0" Grid.Column="0" />
+                    <Slider  Grid.Row="0" Grid.Column="1"  Minimum="40400" Maximum="40745" AutoToolTipPlacement="BottomRight" Value="{Binding ElementName=serAnnot1, Path=X, Mode=TwoWay}" Interval="1" TickFrequency="1"  x:Name="xvalue"  />
+
+                    <TextBlock Text="Series Y value:" Grid.Row="1" Grid.Column="0" />
+                    <Slider  Minimum="460" Maximum="660" Interval="1" AutoToolTipPlacement="BottomRight" Value="{Binding ElementName=serAnnot1, Path=Y, Mode=TwoWay}" TickFrequency="1" Grid.Row="1" Grid.Column="1"  x:Name="yvalue"/>
+
+                   
+                </Grid>
+            </Expander>
+            <Expander Header="Annotation Shapes and Values" Grid.Row="1" Grid.ColumnSpan="2" IsExpanded="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition  Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock  Grid.Row="0" Grid.Column="0"  Text="Description:"/>
+                    <ComboBox  Name="cmbDescription"  Grid.Row="0" Grid.Column="1"   SelectedIndex="1" >
+                        <ComboBoxItem>X Value</ComboBoxItem>
+                        <ComboBoxItem>Y Value</ComboBoxItem>
+                        <ComboBoxItem>X And Y Value</ComboBoxItem>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Annotation Shapes"/>
+                    <ComboBox x:Name="cmbTemplate1"  ItemsSource="{Binding AnnotationShapesCollection}" SelectedItem="{Binding ElementName=serAnnot1, Path=AnnotationShape, Mode=TwoWay}" Grid.Row="1" Grid.Column="1" >
+                    </ComboBox>
+                </Grid>
+            </Expander>
+            <Expander Header="Interactive Feature" IsExpanded="True" Grid.Row="2" Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Enable Drag and Drop" Grid.Row="0" Grid.Column="0"/>
+
+                    <CheckBox Name="chkEnableDragDrop" Grid.Column="1" Grid.Row="0">
+                        <CheckBox.IsChecked>
+                            <MultiBinding Converter="{StaticResource multi}">
+                                <Binding ElementName="serAnnot1" Path="IsAnnotationDragDrop" Mode="TwoWay" />
+                            </MultiBinding>
+                        </CheckBox.IsChecked>
+                    </CheckBox>
+                </Grid>
+            </Expander>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+  
+</layout:SampleLayoutWindow>
+    

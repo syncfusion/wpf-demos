@@ -1,0 +1,818 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                     xmlns:local="http://schemas.syncfusion.com/wpf"
+                    xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF">
+
+    <local:FilterValueComboEnableConverter x:Key="filterValueComboEnableConverter" />
+    <local:ReverseVisibilityConverter x:Key="reverseVisibilityConverter" />
+    <local:BoolToVisiblityConverter x:Key="boolToVisiblityConverter" />
+    <local:CaseSensitiveConverter x:Key="casesensitiveConverter" />
+
+    <!--  ComboBox  -->
+
+    <Geometry x:Key="DownArrowGeometry">M 0 0 L 3.5 4 L 7 0 Z</Geometry>
+    <SolidColorBrush x:Key="MetroBorderBrush" Color="#FFCCCCCC" />
+    <SolidColorBrush x:Key="MetroPanelBackgroundBrush" Color="White" />
+    <SolidColorBrush x:Key="MetroForegroundBrush" Color="#FF333333" />
+    <FontFamily x:Key="MetroFontFamily">Segoe UI</FontFamily>
+    <SolidColorBrush x:Key="MetroBrush" Color="#FF119EDA" />
+    <SolidColorBrush x:Key="MetroHighlightedForegroundBrush" Color="White" />
+    <SolidColorBrush x:Key="MetroHoverBrush" Color="#FFD8D8D9" />
+
+    <SolidColorBrush x:Key="MetroThemeComboBoxToggleButtonMouseOverTextBoxBackground" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="MetroThemeComboBoxToggleButtonPressedBackground" Color="#FF119EDA" />
+    <SolidColorBrush x:Key="MetroThemeComboBoxToggleButtonPressedTextBoxBackground" Color="#FFFFFFFF" />
+
+    <Style x:Key="ComboBoxFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="4,4,19,4"
+                               SnapsToDevicePixels="true"
+                               Stroke="Black"
+                               StrokeDashArray="1 2"
+                               StrokeThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ButtonFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle SnapsToDevicePixels="true"
+                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                               StrokeDashArray="1 2"
+                               StrokeThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="MetroThemeComboBoxEditableTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="AllowDrop" Value="true" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TextBox}">
+                    <ScrollViewer x:Name="PART_ContentHost"
+                                  Background="Transparent"
+                                  Focusable="false"
+                                  HorizontalScrollBarVisibility="Hidden"
+                                  VerticalScrollBarVisibility="Hidden" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MetroThemeComboBoxReadonlyToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="ClickMode" Value="Press" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border Name="Chrome1"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            SnapsToDevicePixels="true">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" SharedSizeGroup="ComboBoxButton" />
+                            </Grid.ColumnDefinitions>
+                            <Border Name="Chrome"
+                                    Grid.Column="1"
+                                    Width="25"
+                                    Margin="0"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="1,0,0,0">
+                                <Path Name="Arrow"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      Data="{StaticResource DownArrowGeometry}"
+                                      Fill="{StaticResource MetroForegroundBrush}" />
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="sfshared:SkinStorage.EnableTouch" Value="true">
+                            <Setter TargetName="Arrow" Property="Data" Value="M 0 0 L 7 7 L 14 0 Z" />
+                            <Setter TargetName="Chrome" Property="Width" Value="35" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource MetroBrush}" />
+                            <Setter TargetName="Chrome1" Property="Background" Value="{StaticResource MetroThemeComboBoxToggleButtonPressedTextBoxBackground}" />
+                            <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource MetroHighlightedForegroundBrush}" />
+                        </Trigger>
+
+                        <Trigger SourceName="Chrome" Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Chrome1" Property="Background" Value="{StaticResource MetroThemeComboBoxToggleButtonMouseOverTextBoxBackground}" />
+                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource MetroHoverBrush}" />
+                        </Trigger>
+
+                        <Trigger SourceName="Chrome1" Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource MetroBrush}" />
+                            <Setter TargetName="Chrome1" Property="Background" Value="{StaticResource MetroThemeComboBoxToggleButtonMouseOverTextBoxBackground}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Chrome" Property="Background" Value="{StaticResource MetroBrush}" />
+                            <Setter TargetName="Chrome1" Property="Background" Value="{StaticResource MetroThemeComboBoxToggleButtonPressedTextBoxBackground}" />
+                            <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource MetroHighlightedForegroundBrush}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MetroComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="Padding" Value="3,1,3,0" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Background" Value="{StaticResource MetroPanelBackgroundBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MetroPanelBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource MetroForegroundBrush}" />
+        <Setter Property="local:VisualContainer.WantsMouseInput" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border Name="Border"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="0"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="true">
+                        <ContentPresenter Margin="2"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="true">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource MetroBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="#FF0B77A5" />
+                            <Setter Property="Foreground" Value="{StaticResource MetroHighlightedForegroundBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MetroComboBoxStyle" TargetType="{x:Type ComboBox}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ComboBoxFocusVisual}" />
+        <Setter Property="BorderBrush" Value="{StaticResource MetroBorderBrush}" />
+        <Setter Property="Background" Value="{StaticResource MetroPanelBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource MetroForegroundBrush}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource MetroComboBoxItemStyle}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Padding" Value="3,3,23,3" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <ToggleButton x:Name="ToggleButton"
+                                      Background="{TemplateBinding Background}"
+                                      BorderBrush="{TemplateBinding BorderBrush}"
+                                      IsChecked="{Binding Path=IsDropDownOpen,
+                                                          Mode=TwoWay,
+                                                          RelativeSource={RelativeSource TemplatedParent}}"
+                                      Style="{StaticResource MetroThemeComboBoxReadonlyToggleButton}" />
+                        <ContentPresenter x:Name="ContentSite"
+                                          Margin="5,3,23,3"
+                                          HorizontalAlignment="Left"
+                                          VerticalAlignment="Center"
+                                          Content="{TemplateBinding SelectionBoxItem}"
+                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          IsHitTestVisible="False" />
+
+                        <TextBox x:Name="PART_EditableTextBox"
+                                 Margin="3,3,23,3"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
+                                 Background="Transparent"
+                                 Focusable="True"
+                                 IsReadOnly="{TemplateBinding IsReadOnly}"
+                                 Style="{StaticResource MetroThemeComboBoxEditableTextBox}"
+                                 Visibility="Hidden" />
+
+                        <Popup x:Name="Popup"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               Placement="Bottom"
+                               PopupAnimation="Slide">
+                            <Border x:Name="DropDownBorder"
+                                    Background="{StaticResource MetroPanelBackgroundBrush}"
+                                    BorderBrush="{StaticResource MetroBorderBrush}"
+                                    BorderThickness="1">
+                                <Grid x:Name="DropDown"
+                                      MinWidth="{TemplateBinding ActualWidth}"
+                                      MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                      SnapsToDevicePixels="True">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <ScrollViewer Margin="4,6,4,6"
+                                                  CanContentScroll="True"
+                                                  HorizontalScrollBarVisibility="Auto"
+                                                  SnapsToDevicePixels="True"
+                                                  VerticalScrollBarVisibility="Auto">
+                                        <ItemsPresenter x:Name="ItemsPresenter"
+                                                        KeyboardNavigation.DirectionalNavigation="Contained"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                        </Trigger>
+                        <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0,0,0,0" />
+                        </Trigger>
+                        <Trigger Property="IsEditable" Value="true">
+                            <Setter Property="IsTabStop" Value="false" />
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsEditable" Value="true">
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{StaticResource MetroBorderBrush}" />
+                <Setter Property="Background" Value="{StaticResource MetroPanelBackgroundBrush}" />
+                <Setter Property="Foreground" Value="{StaticResource MetroForegroundBrush}" />
+                <Setter Property="IsTabStop" Value="false" />
+                <Setter Property="Padding" Value="3" />
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ComboBox}">
+                            <Grid>
+                                <ToggleButton x:Name="ToggleButton"
+                                              Grid.Column="2"
+                                              Background="{TemplateBinding Background}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              IsChecked="{Binding Path=IsDropDownOpen,
+                                                                  Mode=TwoWay,
+                                                                  RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{StaticResource MetroThemeComboBoxReadonlyToggleButton}" />
+                                <ContentPresenter x:Name="ContentSite"
+                                                  Margin="3,3,23,3"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Center"
+                                                  Content="{TemplateBinding SelectionBoxItem}"
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                  IsHitTestVisible="False" />
+                                <TextBox x:Name="PART_EditableTextBox"
+                                         Margin="3,3,23,3"
+                                         HorizontalAlignment="Left"
+                                         VerticalAlignment="Center"
+                                         Background="Transparent"
+                                         Focusable="True"
+                                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                                         Style="{StaticResource MetroThemeComboBoxEditableTextBox}"
+                                         Visibility="Hidden" />
+                                <Popup x:Name="Popup"
+                                       AllowsTransparency="True"
+                                       Focusable="False"
+                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                       Placement="Bottom"
+                                       PopupAnimation="Slide">
+                                    <Grid x:Name="DropDown"
+                                          MinWidth="{TemplateBinding ActualWidth}"
+                                          MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                          SnapsToDevicePixels="True">
+                                        <Border x:Name="DropDownBorder"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="1" />
+                                        <ScrollViewer Margin="4,6,4,6"
+                                                      CanContentScroll="True"
+                                                      HorizontalScrollBarVisibility="Auto"
+                                                      SnapsToDevicePixels="True"
+                                                      VerticalScrollBarVisibility="Auto">
+                                            <ItemsPresenter x:Name="ItemsPresenter"
+                                                            KeyboardNavigation.DirectionalNavigation="Contained"
+                                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Popup>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                    <Setter TargetName="ToggleButton" Property="BorderBrush" Value="{StaticResource MetroBrush}" />
+                                </Trigger>
+                                <Trigger Property="HasItems" Value="false">
+                                    <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95" />
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                </Trigger>
+                                <Trigger Property="IsGrouping" Value="true">
+                                    <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                                </Trigger>
+                                <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
+                                    <Setter TargetName="DropDownBorder" Property="Margin" Value="0,0,0,0" />
+                                </Trigger>
+                                <Trigger Property="IsEditable" Value="true">
+                                    <Setter Property="IsTabStop" Value="false" />
+                                    <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                                    <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="CasingButtonStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}" />
+        <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}" />
+        <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid x:Name="PART_CasingButtonPresenter" Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingButtonPresenter" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF119EDA" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingInnerBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.5" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingButtonPresenter" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FFD8D8D9" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingButtonPresenter" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FFD3F0E0" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                                <VisualState x:Name="PointerFocused" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CaseSensitiveStates">
+                                <VisualState x:Name="CaseSensitive">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingInnerBorder" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF119EDA" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="NotCaseSensitive">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingInnerBorder" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="Transparent" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border x:Name="PART_CasingInnerBorder"
+                                Width="32"
+                                Height="31"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                BorderBrush="#FFB2B2B2"
+                                BorderThickness="1">
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              OpacityMask="{x:Null}"
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+        <Setter Property="Foreground" Value="#FF333333" />
+        <Setter Property="IsTodayHighlighted" Value="True" />
+        <Setter Property="SelectedDateFormat" Value="Short" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderBrush" Value="{StaticResource MetroBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type DatePicker}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}">
+
+
+                        <Grid x:Name="PART_Root"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+
+                            <Grid.Resources>
+                                <SolidColorBrush x:Key="DisabledBrush" Color="#A5FFFFFF" />
+                                <ControlTemplate x:Key="DropDownButtonTemplate" TargetType="{x:Type Button}">
+                                    <Grid>
+                                        <Grid Width="20"
+                                              Height="29"
+                                              Margin="0"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Background="#11FFFFFF"
+                                              FlowDirection="LeftToRight">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="20*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="23*" />
+                                            </Grid.RowDefinitions>
+                                            <Path x:Name="date_filter"
+                                                  Width="18.667"
+                                                  Height="17.703"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Data="F1 M 351.667,330.056L 351.667,347.759L 370.333,347.759L 370.333,330.056L 351.667,330.056 Z M 368.825,337.017L 364.671,337.017L 364.671,333.674L 368.825,333.674L 368.825,337.017 Z M 358.927,341.438L 358.927,338.469L 363.219,338.469L 363.219,341.438L 358.927,341.438 Z M 363.219,342.889L 363.219,346.13L 358.927,346.13L 358.927,342.889L 363.219,342.889 Z M 357.475,341.438L 353.175,341.438L 353.175,338.469L 357.475,338.469L 357.475,341.438 Z M 358.927,337.017L 358.927,333.674L 363.219,333.674L 363.219,337.017L 358.927,337.017 Z M 364.671,338.469L 368.825,338.469L 368.825,341.438L 364.671,341.438L 364.671,338.469 Z M 357.475,333.674L 357.475,337.017L 353.175,337.017L 353.175,333.674L 357.475,333.674 Z M 353.175,342.889L 357.475,342.889L 357.475,346.13L 353.175,346.13L 353.175,342.889 Z M 364.671,346.13L 364.671,342.889L 368.825,342.889L 368.825,346.13L 364.671,346.13 Z "
+                                                  Fill="#FF6F6F6F"
+                                                  Stretch="Fill" />
+                                        </Grid>
+                                    </Grid>
+                                </ControlTemplate>
+                            </Grid.Resources>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="PART_Button"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Width="20"
+                                    Margin="3,0,3,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Focusable="False"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Template="{StaticResource DropDownButtonTemplate}" />
+
+                            <Grid x:Name="PART_DisabledVisual"
+                                  Grid.Row="0"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  IsHitTestVisible="False"
+                                  Opacity="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Grid.Row="0"
+                                           Grid.Column="0"
+                                           Fill="#A5FFFFFF"
+                                           RadiusX="1"
+                                           RadiusY="1" />
+                                <Rectangle Grid.Row="0"
+                                           Grid.Column="1"
+                                           Width="19"
+                                           Height="18"
+                                           Margin="3,0,3,0"
+                                           Fill="#A5FFFFFF"
+                                           RadiusX="1"
+                                           RadiusY="1" />
+                                <Popup x:Name="PART_Popup"
+                                       AllowsTransparency="True"
+                                       Placement="Bottom"
+                                       PlacementTarget="{Binding ElementName=PART_Button}"
+                                       StaysOpen="False" />
+                            </Grid>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Root" Property="Background" Value="#FFD8D8D9" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--  Advance Filter Control  -->
+    <Style x:Key="TimeSpanColumnAdvancedFilter" TargetType="local:AdvancedFilterControl">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="Foreground" Value="#FF5E5E5E" />
+        <Setter Property="MaxHeight" Value="275" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:AdvancedFilterControl">
+                    <Grid Height="{TemplateBinding Height}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="AdvancedFilterStates">
+                                <VisualState x:Name="TextFilter">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DatePicker1" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DatePicker2" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="NumberFilter">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingButton1" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingButton2" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DatePicker1" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DatePicker2" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="DateFilter">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingButton1" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_CasingButton2" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Collapsed}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DatePicker1" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_DatePicker2" Storyboard.TargetProperty="(FrameworkElement.Visibility)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="{x:Static Visibility.Visible}" />
+                                        </ObjectAnimationUsingKeyFrames>-->
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid Margin="30,0,4,4">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="15" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Margin="0,0,10,5"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding Source={x:Static Member=local:GridResourceWrapper.ShowRowsWhere}}" />
+
+                            <ComboBox x:Name="PART_MenuComboBox1"
+                                      Grid.Row="1"
+                                      Margin="0,0,10,10"
+                                      ItemsSource="{Binding FilterTypeComboItems,
+                                                            RelativeSource={RelativeSource TemplatedParent}}"
+                                      SelectedItem="{Binding FilterType1,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Mode=TwoWay,
+                                                             UpdateSourceTrigger=PropertyChanged}"
+                                      Style="{StaticResource MetroComboBoxStyle}" />
+
+                            <Grid Grid.Row="2" Margin="0,0,10,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <ComboBox x:Name="PART_ComboBox1"
+                                          Grid.Column="0"
+                                          DisplayMemberPath="DisplayText"
+                                          IsEditable="True"
+                                          IsEnabled="{Binding FilterType1,
+                                                              RelativeSource={RelativeSource TemplatedParent},
+                                                              Converter={StaticResource filterValueComboEnableConverter}}"
+                                          IsTextSearchCaseSensitive="True"
+                                          ItemsSource="{Binding ComboItemsSource,
+                                                                RelativeSource={RelativeSource TemplatedParent},
+                                                                Mode=TwoWay,
+                                                                UpdateSourceTrigger=PropertyChanged}"
+                                          SelectedItem="{Binding FilterSelectedItem1,
+                                                                 RelativeSource={RelativeSource TemplatedParent}}"
+                                          
+                                          Style="{StaticResource MetroComboBoxStyle}"
+                                          Text="{Binding FilterValue1,
+                                                         RelativeSource={RelativeSource TemplatedParent},
+                                                         Mode=TwoWay,
+                                                         ValidatesOnDataErrors=true,
+                                                         NotifyOnValidationError=true}"
+                                          Visibility="{Binding CanGenerateUniqueItems,
+                                                               RelativeSource={RelativeSource TemplatedParent},
+                                                               Converter={StaticResource boolToVisiblityConverter}}" />
+
+                                <TextBox x:Name="PART_TextBox1"
+                                         Grid.Column="0"
+                                         VerticalContentAlignment="Center"
+                                         IsEnabled="{Binding FilterType1,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Converter={StaticResource filterValueComboEnableConverter}}"
+                                         Text="{Binding FilterValue1,
+                                                        RelativeSource={RelativeSource TemplatedParent},
+                                                        Mode=TwoWay,
+                                                        UpdateSourceTrigger=PropertyChanged,
+                                                        ValidatesOnDataErrors=true,
+                                                        NotifyOnValidationError=true}"
+                                           Visibility="{Binding CanGenerateUniqueItems,
+                                                              RelativeSource={RelativeSource TemplatedParent},
+                                                              Converter={StaticResource reverseVisibilityConverter}}" />
+
+                             <ToggleButton x:Name="PART_CasingButton1"
+                                              Grid.Column="1"
+                                              Margin="5,0,0,0"
+                                              Foreground="{Binding IsCaseSensitive1,
+                                                                   RelativeSource={RelativeSource TemplatedParent},
+                                                                   Converter={StaticResource casesensitiveConverter}}"
+                                              IsChecked="{Binding IsCaseSensitive1,
+                                                                  RelativeSource={RelativeSource TemplatedParent},
+                                                                  Mode=TwoWay}"
+                                              IsEnabled="{Binding FilterType1,
+                                                                  RelativeSource={RelativeSource TemplatedParent},
+                                                                  Converter={StaticResource filterValueComboEnableConverter}}"
+                                              Style="{StaticResource CasingButtonStyle}"
+                                              Visibility="{Binding CasingButtonVisibility,
+                                                                   RelativeSource={RelativeSource TemplatedParent},
+                                                                   Converter={StaticResource reverseVisibilityConverter}}">
+                                    <ToggleButton.Content>
+                                        <Grid Width="20">
+                                            <Path Width="18.667"
+                                                  Height="10.875"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Bottom"
+                                                  Data="M4.8177202,6.9778699 C4.5546901,7.0650901 4.1380301,7.1718797 3.5690904,7.2916597 3,7.41406 2.6276202,7.5350598 2.4519,7.6511201 2.1849103,7.83853 2.0507803,8.0793504 2.0507803,8.3724097 2.0507803,8.6588401 2.1587801,8.9088401 2.3724103,9.1172799 2.58603,9.3268098 2.8593102,9.4309997 3.1901202,9.4309997 3.5599103,9.4309997 3.9127803,9.3111896 4.2487202,9.0650901 4.4960902,8.8815002 4.6601601,8.6549396 4.7369101,8.3867196 4.7917502,8.2109403 4.8177202,7.8801297 &#10;4.8177202,7.3867201 z M3.5690904,2.7747499 C4.4843802,2.7747499 5.1666901,2.88419 5.6133702,3.0989699 6.0612202,3.3150899 6.3763101,3.58994 6.5585301,3.92441 6.7409701,4.2577199 6.8320302,4.86841 6.8320303,5.7618097 L6.8099103,8.1549396 C6.8099102,8.8333396 6.8437501,9.3385295 6.9076502,9.66016 6.9740602,9.9830598 7.0964402,10.3307 7.2773403,10.7006 L5.2473102,10.7006 C5.1953101,10.5638 5.1303101,10.3621 5.0507801,10.0938 5.0169401,9.9738797 4.99213,9.8945302 4.9778702,9.8541602 4.6276202,10.194 4.2526901,10.4506 3.8527803,10.6211 3.4544401,10.7917 3.0286603,10.875 2.5768399,10.875 1.7786603,10.875 1.1497502,10.6602 0.69012499,10.2266 0.2305603,9.7916602 0,9.2448701 0,8.5847196 0,8.1458997 0.10546923,7.7552199 0.31390429,7.4126901 0.52343798,7.0689401 0.81771898,6.8085899 &#10;1.1940303,6.62363 1.57162,6.4427199 2.1133699,6.2839398 2.8243103,6.1471299 3.7825603,5.9675297 4.4478502,5.79678 4.8177202,5.6432199 L4.8177202,5.4388098 C4.8177202,5.0429701 4.7199702,4.7643098 4.5259702,4.59628 4.3306601,4.4284701 3.9636202,4.3437499 3.4245601,4.3437499 3.0585303,4.3437499 2.7748404,4.41406 2.57025,4.5599097 2.3645,4.7031297 2.2005301,4.95444 2.0729403,5.3138098 L0.21225023,4.9778699 C0.421875,4.2304701 0.78118896,3.67441 1.29175,3.3150899 1.8021903,2.95444 2.5625,2.7747499 3.5690904,2.7747499 z M13.216205,2.49741 L11.770804,6.4675297 14.690106,6.4675297 z M12.099004,0 L14.382807,0 18.666711,10.7006 16.316409,10.7006 15.382808,8.2708396 11.105504,8.2708396 10.224103,10.7006 7.9309104,10.7006 z"
+                                                  Fill="{Binding ElementName=PART_CasingButton1,
+                                                                 Path=Foreground}"
+                                                  Stretch="Fill" />
+                                        </Grid>
+                                    </ToggleButton.Content>
+                                </ToggleButton>
+                            </Grid>
+
+                            <StackPanel Grid.Row="3"
+                                        Margin="0,0,0,10"
+                                        VerticalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <RadioButton x:Name="PART_RadioButton1"
+                                             Content="{Binding Source={x:Static Member=local:GridResourceWrapper.AND}}"
+                                             GroupName="R1" />
+                                <RadioButton x:Name="PART_RadioButton2"
+                                             Margin="40,0,0,0"
+                                             Content="{Binding Source={x:Static Member=local:GridResourceWrapper.OR}}"
+                                             GroupName="R1"
+                                             IsChecked="{Binding IsORChecked,
+                                                                 RelativeSource={RelativeSource TemplatedParent}}" />
+                            </StackPanel>
+
+                            <ComboBox x:Name="PART_MenuComboBox2"
+                                      Grid.Row="4"
+                                      Margin="0,0,10,10"
+                                      ItemsSource="{Binding FilterTypeComboItems,
+                                                            RelativeSource={RelativeSource TemplatedParent}}"
+                                      SelectedItem="{Binding FilterType2,
+                                                             RelativeSource={RelativeSource TemplatedParent},
+                                                             Mode=TwoWay}"
+                                      Style="{StaticResource MetroComboBoxStyle}" />
+
+                            <Grid Grid.Row="5" Margin="0,0,10,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ComboBox x:Name="PART_ComboBox2"
+                                          Grid.Column="0"
+                                          DisplayMemberPath="DisplayText"
+                                          IsEditable="True"
+                                          IsEnabled="{Binding FilterType2,
+                                                              RelativeSource={RelativeSource TemplatedParent},
+                                                              Converter={StaticResource filterValueComboEnableConverter}}"
+                                          IsTextSearchCaseSensitive="True"
+                                          ItemsSource="{Binding ComboItemsSource,
+                                                                RelativeSource={RelativeSource TemplatedParent}}"
+                                          SelectedItem="{Binding FilterSelectedItem2,
+                                                                 RelativeSource={RelativeSource TemplatedParent}}"
+                                          Style="{StaticResource MetroComboBoxStyle}"
+                                          Text="{Binding FilterValue2,
+                                                         RelativeSource={RelativeSource TemplatedParent},
+                                                         Mode=TwoWay,
+                                                         ValidatesOnDataErrors=true,
+                                                         NotifyOnValidationError=true}"
+                                          Visibility="{Binding CanGenerateUniqueItems,
+                                                               RelativeSource={RelativeSource TemplatedParent},
+                                                               Converter={StaticResource boolToVisiblityConverter}}" />
+
+                             
+                                <ToggleButton x:Name="PART_CasingButton2"
+                                              Grid.Column="1"
+                                              Margin="5,0,0,0"
+                                              Foreground="{Binding IsCaseSensitive2,
+                                                                   RelativeSource={RelativeSource TemplatedParent},
+                                                                   Converter={StaticResource casesensitiveConverter}}"
+                                              IsChecked="{Binding IsCaseSensitive2,
+                                                                  RelativeSource={RelativeSource TemplatedParent},
+                                                                  Mode=TwoWay}"
+                                              IsEnabled="{Binding FilterType2,
+                                                                  RelativeSource={RelativeSource TemplatedParent},
+                                                                  Converter={StaticResource filterValueComboEnableConverter}}"
+                                              Style="{StaticResource CasingButtonStyle}"
+                                              Visibility="{Binding CasingButtonVisibility,
+                                                                   RelativeSource={RelativeSource TemplatedParent},
+                                                                   Converter={StaticResource reverseVisibilityConverter}}">
+                                    <ToggleButton.Content>
+                                        <Grid Width="20">
+                                            <Path Width="18.667"
+                                                  Height="10.875"
+                                                  HorizontalAlignment="Left"
+                                                  VerticalAlignment="Bottom"
+                                                  Data="M4.8177202,6.9778699 C4.5546901,7.0650901 4.1380301,7.1718797 3.5690904,7.2916597 3,7.41406 2.6276202,7.5350598 2.4519,7.6511201 2.1849103,7.83853 2.0507803,8.0793504 2.0507803,8.3724097 2.0507803,8.6588401 2.1587801,8.9088401 2.3724103,9.1172799 2.58603,9.3268098 2.8593102,9.4309997 3.1901202,9.4309997 3.5599103,9.4309997 3.9127803,9.3111896 4.2487202,9.0650901 4.4960902,8.8815002 4.6601601,8.6549396 4.7369101,8.3867196 4.7917502,8.2109403 4.8177202,7.8801297 &#10;4.8177202,7.3867201 z M3.5690904,2.7747499 C4.4843802,2.7747499 5.1666901,2.88419 5.6133702,3.0989699 6.0612202,3.3150899 6.3763101,3.58994 6.5585301,3.92441 6.7409701,4.2577199 6.8320302,4.86841 6.8320303,5.7618097 L6.8099103,8.1549396 C6.8099102,8.8333396 6.8437501,9.3385295 6.9076502,9.66016 6.9740602,9.9830598 7.0964402,10.3307 7.2773403,10.7006 L5.2473102,10.7006 C5.1953101,10.5638 5.1303101,10.3621 5.0507801,10.0938 5.0169401,9.9738797 4.99213,9.8945302 4.9778702,9.8541602 4.6276202,10.194 4.2526901,10.4506 3.8527803,10.6211 3.4544401,10.7917 3.0286603,10.875 2.5768399,10.875 1.7786603,10.875 1.1497502,10.6602 0.69012499,10.2266 0.2305603,9.7916602 0,9.2448701 0,8.5847196 0,8.1458997 0.10546923,7.7552199 0.31390429,7.4126901 0.52343798,7.0689401 0.81771898,6.8085899 &#10;1.1940303,6.62363 1.57162,6.4427199 2.1133699,6.2839398 2.8243103,6.1471299 3.7825603,5.9675297 4.4478502,5.79678 4.8177202,5.6432199 L4.8177202,5.4388098 C4.8177202,5.0429701 4.7199702,4.7643098 4.5259702,4.59628 4.3306601,4.4284701 3.9636202,4.3437499 3.4245601,4.3437499 3.0585303,4.3437499 2.7748404,4.41406 2.57025,4.5599097 2.3645,4.7031297 2.2005301,4.95444 2.0729403,5.3138098 L0.21225023,4.9778699 C0.421875,4.2304701 0.78118896,3.67441 1.29175,3.3150899 1.8021903,2.95444 2.5625,2.7747499 3.5690904,2.7747499 z M13.216205,2.49741 L11.770804,6.4675297 14.690106,6.4675297 z M12.099004,0 L14.382807,0 18.666711,10.7006 16.316409,10.7006 15.382808,8.2708396 11.105504,8.2708396 10.224103,10.7006 7.9309104,10.7006 z"
+                                                  Fill="{Binding ElementName=PART_CasingButton2,
+                                                                 Path=Foreground}"
+                                                  Stretch="Fill" />
+                                        </Grid>
+                                    </ToggleButton.Content>
+                                </ToggleButton>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style >
+    
+
+</ResourceDictionary>
