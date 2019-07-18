@@ -1,0 +1,812 @@
+﻿<syncfusion:RibbonWindow x:Class="RibbonSample.Window1" x:Name="ribbonwindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+    Loaded="ribbonwindow_Loaded" Icon="App.ico" Office2010Icon="/Resources/syncfusion.png"
+	xmlns:sample="clr-namespace:RibbonSample" syncfusion:SkinStorage.VisualStyle="Office2010Silver"
+	WindowState="Normal"  SnapsToDevicePixels="True"
+    Title="Untitled 1 - Ribbon Control"  WindowStartupLocation="CenterScreen" Height="635" Width="1087">
+
+   
+    <syncfusion:RibbonWindow.StatusBar>
+        <syncfusion:RibbonStatusBar Grid.Row="2" Height="25">
+            <Grid  Height="25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+
+                </Grid.ColumnDefinitions>
+
+                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0" Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">Page : 1</TextBlock>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Left" Margin="10 0" Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">Section : 1</TextBlock>
+                <TextBlock VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Left" Margin="10 0" Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">Page 1 of 1</TextBlock>
+                <TextBlock VerticalAlignment="Center" Grid.Column="4" HorizontalAlignment="Left" Margin="10 0" Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">English (U.S.)</TextBlock>
+                <syncfusion:RibbonButton SizeForm="ExtraSmall" Grid.Column="6" SmallIcon="Images/PageNumber.png" VerticalAlignment="Center" IsToggle="True" IsSelected="True"/>
+                <syncfusion:RibbonButton SizeForm="ExtraSmall" Grid.Column="7" SmallIcon="Images/book_addressHS.png" VerticalAlignment="Center" IsToggle="True"/>
+                <syncfusion:RibbonButton SizeForm="ExtraSmall" Grid.Column="8" SmallIcon="Images/Web.png" VerticalAlignment="Center" IsToggle="True"/>
+            </Grid>
+        </syncfusion:RibbonStatusBar>
+    </syncfusion:RibbonWindow.StatusBar>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <!--<RowDefinition Height="Auto"  />-->
+            <RowDefinition Height="Auto"  />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" x:Name="ribbonGrid"  VerticalAlignment="Top">
+            <syncfusion:Ribbon Name="MyRibbon"   EnableMoreCommands="False" BackStageColor="#FF2961B3">
+
+                <syncfusion:Ribbon.TabPanelItem>
+                    <syncfusion:RibbonButton SizeForm="ExtraSmall" SmallIcon="/Resources/Help16.png"/>
+                </syncfusion:Ribbon.TabPanelItem>
+                <!--Applicaton Menu-->
+                <syncfusion:Ribbon.ApplicationMenu>
+                    <syncfusion:ApplicationMenu Width="38" Height="38" syncfusion:Ribbon.KeyTip="F"
+						ApplicationButtonImage="/Resources/syncfusion.png" IsPopupOpen="False">
+
+                        <syncfusion:ApplicationMenu.ToolTip>
+                            <syncfusion:ScreenTip MinWidth="150"  Description="Office Button" ImageSource="/Resources/AppMenuImage.png"  VerticalOffset="10">
+                                <TextBlock TextWrapping="Wrap" Width="180">
+								Click here to open, save or print, and to see everything you can do with your document
+                                </TextBlock>
+                            </syncfusion:ScreenTip>
+                        </syncfusion:ApplicationMenu.ToolTip>
+                        <!--Application Recent Document list Area-->
+                        <syncfusion:ApplicationMenu.MenuItems>
+                            <TextBlock MinWidth="300" FontWeight="Bold">Create New Outlook Item</TextBlock>
+                            <Separator Padding="0"/>
+                        </syncfusion:ApplicationMenu.MenuItems>
+                        <syncfusion:SimpleMenuButton Label="New Mail Message" Icon="{StaticResource MailMessage}" syncfusion:Ribbon.KeyTip="M"/>
+                        <syncfusion:SimpleMenuButton Label="Send" Icon="{StaticResource Send}" />
+                        <Separator Margin="40,0,0,0"/>
+                        <syncfusion:SimpleMenuButton Label="Save" syncfusion:RibbonCommandManager.SynchronizedItem="Save" Icon="{StaticResource QATSave}" syncfusion:Ribbon.KeyTip="S">
+                        </syncfusion:SimpleMenuButton>
+                        <syncfusion:SplitMenuButton Label="Save As" Icon="{StaticResource SaveAs}" syncfusion:Ribbon.KeyTip="Z">
+                            <syncfusion:ApplicationMenuGroup Header="Save in another format" IconBarEnabled="False">
+                                <syncfusion:SimpleMenuButton  Label="Save As" Description="Save a copy of the item to your computer in one of the several formates"	   Icon="{StaticResource SaveAs}"/>
+                            </syncfusion:ApplicationMenuGroup>
+                        </syncfusion:SplitMenuButton>
+                        <syncfusion:SimpleMenuButton Label="Delete" Icon="{StaticResource Delete}" syncfusion:Ribbon.KeyTip="D" />
+                        <syncfusion:SplitMenuButton Label="Move" Icon="{StaticResource MoveToFolder}" syncfusion:Ribbon.KeyTip="MO">
+                            <syncfusion:ApplicationMenuGroup Header="Move this item to another folder">
+                                <syncfusion:SimpleMenuButton Label="Inbox"  Icon="{StaticResource Inbox}"/>
+                                <Separator Margin="20,0,0,0"/>
+                                <syncfusion:SimpleMenuButton Label="Other Folder" Icon="{StaticResource Folder}"/>
+                                <syncfusion:SimpleMenuButton Label="Copy to folder" Icon="{StaticResource CopyText}"/>
+                            </syncfusion:ApplicationMenuGroup>
+                        </syncfusion:SplitMenuButton>
+                        <Separator Margin="40,0,0,0"/>
+                        <syncfusion:SplitMenuButton Label="Print" Icon="{StaticResource Print}" syncfusion:Ribbon.KeyTip="PR">
+                            <syncfusion:ApplicationMenuGroup Header="Preview and print">
+                                <syncfusion:SimpleMenuButton Label="Print" Description="Select a printer, number of copies, and other printing options before printing."  Icon="{StaticResource Print}"/>
+                                <syncfusion:SimpleMenuButton Label="Quick Print" syncfusion:RibbonCommandManager.SynchronizedItem="Quick Print" Description="Send the item directly to the default printer without making changes."  Icon="{StaticResource Print}"/>
+                                <syncfusion:SimpleMenuButton Label="Print Preview" syncfusion:RibbonCommandManager.SynchronizedItem="Print Preview" Description="Preview and make changes to pages before printing."  Icon="{StaticResource Zoom}"/>
+                                <syncfusion:SimpleMenuButton Label="Define Print Styles" Description="Change how an item prints by creating your own print styles."  Icon="{StaticResource Bookmark}"/>
+                            </syncfusion:ApplicationMenuGroup>
+                            <syncfusion:ApplicationMenuGroup Header="Page Setup">
+                                <syncfusion:SimpleMenuButton Label="Memo Style" Icon="{StaticResource QuickParts}"/>
+                            </syncfusion:ApplicationMenuGroup>
+                        </syncfusion:SplitMenuButton>
+                        <Separator Margin="40,0,0,0"/>
+                        <syncfusion:SimpleMenuButton Label="Properties" Icon="{StaticResource Properties}" />
+                        <syncfusion:SimpleMenuButton Label="Close" Icon="Resources/Close32.png" >
+                        </syncfusion:SimpleMenuButton>
+                        <!--Footer items-->
+                        <syncfusion:ApplicationMenu.ApplicationItems>
+                            <syncfusion:RibbonButton SizeForm = "Small" Label="Edit Options" SmallIcon="Resources/Options.png"/>
+                        </syncfusion:ApplicationMenu.ApplicationItems>
+                    </syncfusion:ApplicationMenu>
+                </syncfusion:Ribbon.ApplicationMenu>
+
+                <!-- Ribbon BackStage -->
+                <syncfusion:Ribbon.BackStage>
+                    <syncfusion:Backstage Name="RibbonBackStage" SelectedTabItemForeground="White">
+
+                        <!--Back Stage Command button helps in executing simple commands like Save, Close, etc. Here we mentioned Save command.-->
+                        <syncfusion:BackStageCommandButton Header="Save"  Command="Save" Icon="/Resources/Save16.png"/>
+
+                        <!--Back Stage command button for Save As command.-->
+                        <syncfusion:BackStageCommandButton Header="Save As" Command="SaveAs"  Icon="/Resources/Save16.png"/>
+
+                        <!--BackStage Tab item helps to show some contents with header.-->
+                        <syncfusion:BackstageTabItem Header="Info" >
+                            <!--Back Stage tab item content can be of any type.-->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Information about Document 1" FontFamily="Segoe UI" FontSize="20" Margin="10"/>
+                                    <Rectangle Grid.Row="1" Stroke="Gray" HorizontalAlignment="Stretch" StrokeThickness="1" StrokeDashArray="5"  Margin="10" Height="1"/>
+                                    <Grid Grid.Row="2" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Width="87" Height="80" Margin="5" BorderBrush="#FFA1A2A4" BorderThickness="1">
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FFEEF0F2" Offset="1"/>
+                                                    <GradientStop Color="#FFFEFEFE"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                            <StackPanel>
+                                                <Image Source="/SampleImages/security.png" Margin="2" Width="40"/>
+                                                <TextBlock Text="Security" Margin="2"/>
+                                            </StackPanel>
+
+                                        </Button>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="3">
+                                            <TextBlock Text="Permissions" Grid.Column="1" FontWeight="Bold" Margin="3"/>
+                                            <TextBlock Text="Any one can open, copy and change any part of this document." Grid.Column="1" TextWrapping="Wrap" Margin="3"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Rectangle Grid.Row="3" Stroke="Gray" HorizontalAlignment="Stretch" StrokeThickness="1" StrokeDashArray="5"  Margin="10" Height="1"/>
+                                    <Grid Grid.Row="4" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Width="87" Height="80" Margin="5" BorderBrush="#FFA1A2A4" BorderThickness="1">
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FFEEF0F2" Offset="1"/>
+                                                    <GradientStop Color="#FFFEFEFE"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                            <StackPanel>
+                                                <Image Source="/SampleImages/sharing.png" Margin="2" Width="40"/>
+                                                <TextBlock Text="Sharing" Margin="2"/>
+                                            </StackPanel>
+
+                                        </Button>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Top"  Margin="3">
+                                            <TextBlock Text="Prepare for Sharing" Grid.Column="1" FontWeight="Bold" Margin="3"/>
+                                            <TextBlock Text="Before sharing the file be aware that it contains author's name." Grid.Column="1" TextWrapping="Wrap" Margin="3"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Rectangle Grid.Row="5" Stroke="Gray" HorizontalAlignment="Stretch" StrokeThickness="1" StrokeDashArray="5"  Margin="10" Height="1"/>
+                                    <Grid Grid.Row="6" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Width="87" Height="80" Margin="5" BorderBrush="#FFA1A2A4" BorderThickness="1">
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FFEEF0F2" Offset="1"/>
+                                                    <GradientStop Color="#FFFEFEFE"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                            <StackPanel>
+                                                <Image Source="/SampleImages/versions.png" Margin="2" Width="40"/>
+                                                <TextBlock Text="Versions" Margin="2"/>
+                                            </StackPanel>
+
+                                        </Button>
+                                        <StackPanel Grid.Column="1"  VerticalAlignment="Top"  Margin="3">
+                                            <TextBlock Text="Manage Versions" Grid.Column="1" FontWeight="Bold" Margin="3"/>
+                                            <TextBlock Text="There are no previous versions of this file" Grid.Column="1" TextWrapping="Wrap" Margin="3"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                                <Border BorderThickness="0.5" BorderBrush="#FFBCBCBC" Margin="15" Grid.Column="1" HorizontalAlignment="Left" />
+                                <Grid  Grid.Column="2">
+                                    <Button VerticalAlignment="Top" Margin="20 10" HorizontalAlignment="Center" Click="Return">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Grid>
+                                                                <Border Background="Gray" Opacity="0.1" x:Name="bor">
+                                                                    <Border.BitmapEffect>
+                                                                        <BlurBitmapEffect />
+                                                                    </Border.BitmapEffect>
+                                                                </Border>
+                                                                <ContentPresenter Margin="3"/>
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Opacity" TargetName="bor" Value="0.5"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                        <Image Source="/SampleImages/return.png" Width="186" Height="98" Stretch="Fill"/>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+
+                        </syncfusion:BackstageTabItem>
+
+                        <!--Back Stage tab item for Help content-->
+                        <syncfusion:BackstageTabItem Header="Help">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Text="Syncfusion User Interface Help" FontFamily="Segoe UI" FontSize="20" Margin="10"/>
+                                    <Rectangle Grid.Row="1" Stroke="Gray" HorizontalAlignment="Stretch" StrokeThickness="1" StrokeDashArray="5"  Margin="10" Height="1"/>
+                                    <Grid Grid.Row="2" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Width="87" Height="80" Margin="5" BorderBrush="#FFA1A2A4" BorderThickness="1">
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FFEEF0F2" Offset="1"/>
+                                                    <GradientStop Color="#FFFEFEFE"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                            <StackPanel>
+                                                <Image Source="/SampleImages/help.png" Margin="2" Width="40"/>
+                                                <TextBlock Text="Online Help" Margin="2"/>
+                                            </StackPanel>
+
+                                        </Button>
+                                        <StackPanel Grid.Column="1"  VerticalAlignment="Top"  Margin="3">
+                                            <TextBlock Text="Online Help" Grid.Column="1" FontWeight="Bold" Margin="3"/>
+                                            <TextBlock Text="UG documents helps understanding the usage of our Syncfusion UI components." Grid.Column="1" TextWrapping="Wrap" Margin="3"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Rectangle Grid.Row="3" Stroke="Gray" HorizontalAlignment="Stretch" StrokeThickness="1" StrokeDashArray="5"  Margin="10" Height="1"/>
+                                    <Grid Grid.Row="4" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Width="87" Height="80" Margin="5" BorderBrush="#FFA1A2A4" BorderThickness="1">
+                                            <Button.Background>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FFEEF0F2" Offset="1"/>
+                                                    <GradientStop Color="#FFFEFEFE"/>
+                                                </LinearGradientBrush>
+                                            </Button.Background>
+                                            <StackPanel>
+                                                <Image Source="/SampleImages/start.png" Margin="2" Width="40"/>
+                                                <TextBlock Text="Getting Started" Margin="2"/>
+                                            </StackPanel>
+
+                                        </Button>
+                                        <StackPanel Grid.Column="1"  VerticalAlignment="Top"  Margin="3">
+                                            <TextBlock Text="Getting Started" Grid.Column="1" FontWeight="Bold" Margin="3"/>
+                                            <TextBlock Text="A complete information on Syncfusion Ribbon control and its usage." Grid.Column="1" TextWrapping="Wrap" Margin="3"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                </Grid>
+                                <Border BorderThickness="0.5" BorderBrush="#FFBCBCBC" Margin="15" Grid.Column="1" HorizontalAlignment="Left" />
+                                <Grid  Grid.Column="2">
+                                    <Button VerticalAlignment="Top" Margin="20 10" HorizontalAlignment="Center" Click="Return">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Grid>
+                                                                <Border Background="Gray" Opacity="0.1" x:Name="bor">
+                                                                    <Border.BitmapEffect>
+                                                                        <BlurBitmapEffect />
+                                                                    </Border.BitmapEffect>
+                                                                </Border>
+                                                                <ContentPresenter Margin="3"/>
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Opacity" TargetName="bor" Value="0.5"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                        <Image Source="/SampleImages/return.png" Width="186" Height="98" Stretch="Fill"/>
+                                    </Button>
+                                </Grid>
+                                <!--<Image x:Name="blue1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Source="/SampleImages/Backstage.png" Grid.Column="2" Width="330" Height="160"/>
+                                <Image x:Name="black1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Source="/SampleImages/Backstageblack.png" Grid.Column="2" Width="330" Height="160"/>-->
+                                <!--<Image x:Name="silver1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Source="/SampleImages/Backstagesilver.png" Grid.Column="2" Width="330" Height="160"/>-->
+
+                            </Grid>
+
+                        </syncfusion:BackstageTabItem>
+
+                        <!-- Back Stage command button for Options.-->
+                        <syncfusion:BackStageCommandButton Header="Options"  Icon="Images/BlueLarge.png"/>
+
+                        <!-- Back Stage command button for Exit.-->
+                        <syncfusion:BackStageCommandButton Header="Exit"   Click="Exit" Icon="/SampleImages/exit.png"/>
+                    </syncfusion:Backstage>
+                </syncfusion:Ribbon.BackStage>
+
+
+                <!--QAT toolbar-->
+                <syncfusion:Ribbon.QuickAccessToolBar>
+                    <syncfusion:QuickAccessToolBar>
+                        <syncfusion:QuickAccessToolBar.QATMenuItems>
+                            <syncfusion:RibbonButton Label="Save" syncfusion:RibbonCommandManager.SynchronizedItem="Save" />
+                            <syncfusion:RibbonButton Label="Quick Print" syncfusion:RibbonCommandManager.SynchronizedItem="Quick Print"/>
+                            <syncfusion:RibbonButton Label="Print Preview" syncfusion:RibbonCommandManager.SynchronizedItem="Print Preview"/>
+                            <syncfusion:RibbonButton Label="Undo" syncfusion:RibbonCommandManager.SynchronizedItem="Undo"  />
+                            <syncfusion:RibbonButton Label="Redo" syncfusion:RibbonCommandManager.SynchronizedItem="Redo" />
+                            <syncfusion:RibbonButton Label="Paste" syncfusion:RibbonCommandManager.SynchronizedItem="Paste"/>
+                        </syncfusion:QuickAccessToolBar.QATMenuItems>
+
+                        <syncfusion:RibbonButton Label="Undo" SmallIcon="/Resources/Undo16.png" SizeForm="ExtraSmall"   
+                                             ToolTip="Undo" syncfusion:RibbonCommandManager.SynchronizedItem="Undo" />
+                        <syncfusion:RibbonButton Label="Redo" SmallIcon="/Resources/Redo16.png" SizeForm="ExtraSmall"
+                                             ToolTip="Redo" syncfusion:RibbonCommandManager.SynchronizedItem="Redo"/>
+                        <syncfusion:RibbonButton Command="ApplicationCommands.Save" SizeForm="ExtraSmall"
+                                             syncfusion:RibbonCommandManager.SynchronizedItem="Save" SmallIcon="/Resources/Save16.png"/>
+                     
+
+                    </syncfusion:QuickAccessToolBar>
+                </syncfusion:Ribbon.QuickAccessToolBar>
+
+                <syncfusion:RibbonTab Caption="Home"  syncfusion:Ribbon.KeyTip="H" IsChecked="False">
+                    <syncfusion:RibbonBar Header="Clipboard" Name="format_barClipboaurd" syncfusion:Ribbon.ShowInMoreCommands="False"  syncfusion:Ribbon.KeyTip="FN"
+                                      CollapseImage="/Resources/Paste32.png" LauncherClick="OnLauncherClick">
+                        <syncfusion:RibbonButton Margin="3,0,3,3" Width="44" Label="Paste" SizeForm="Large"
+                                             LargeIcon="/Resources/Paste32.png"  syncfusion:RibbonCommandManager.SynchronizedItem="Paste" 
+                                             syncfusion:Ribbon.KeyTip="CP">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Paste (Ctrl+V)">
+                                    <TextBlock Text="Paste the contents of clipboard." Width="130" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                                Foreground="#FF4C4C4C"/>
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+
+                        <syncfusion:RibbonButton  Label="Cut" SizeForm="Small"  HorizontalAlignment="Left"
+                                              SmallIcon="/Resources/Cut16.png"  syncfusion:Ribbon.KeyTip="CT">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Cut (Ctrl+X)">
+                                    <TextBlock Text="Cut the selection and put it on the clipboard." Width="130" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                        
+                        <syncfusion:RibbonButton  Label="Copy" SizeForm="Small"  SmallIcon="/Resources/Copy16.png"  
+                                              syncfusion:Ribbon.KeyTip="CY" HorizontalAlignment="Left">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Copy (Ctrl+C)">
+                                    <TextBlock Text="Copy the selection and put it on the clipboard." Width="130" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                                Foreground="#FF4C4C4C"/>
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                        
+                        <syncfusion:RibbonButton  Label="Format Painter" SizeForm="Small"  
+                                              SmallIcon="/Resources/FormatPainter16.png"  
+                                              syncfusion:Ribbon.KeyTip="CR" >
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Format painter (Ctrl+Shift+C)" HelpText="Press F1 for more help."
+                                                      >
+                                    <TextBlock Width="175" HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FF4C4C4C">
+                                        <Run Text="Copy formatting from one place and apply it to another."/>
+                                        <LineBreak/>
+                                        <LineBreak/>
+                                        <Run Text="Double-click this button to apply the same formatting to multiple places in the document."/>
+                                    </TextBlock>
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+
+                    <!-- Format Text - ForRibbon Bar for Basic Text-->
+                    <syncfusion:RibbonBar IsLargeButtonPanel="False"  Name="barFont"  LauncherClick="OnLauncherClick"
+                                          Header="Font" KeyTipOnCollapsed="ZF" syncfusion:Ribbon.KeyTip="HF" CollapseImage="{StaticResource FontColor}">
+                        <syncfusion:ButtonPanel SeparatorVisibility="Collapsed" >
+                            <syncfusion:RibbonComboBox Name="format_fontNameBox" syncfusion:Ribbon.ShowInMoreCommands="False" SelectionChanged="OnFontNameChanged"  IsEditable="True"  Width="110" syncfusion:Ribbon.KeyTip="FF" >
+                                <syncfusion:RibbonComboBox.ToolTip>
+                                <syncfusion:ScreenTip Description="Font (Ctrl+Shift+F)" 
+                                                      >
+                                    <TextBlock Width="165" Text="Change the font face." HorizontalAlignment="Left" TextWrapping="Wrap" Foreground="#FF4C4C4C">
+                                       
+                                    </TextBlock>
+                                </syncfusion:ScreenTip>
+                                </syncfusion:RibbonComboBox.ToolTip>
+                            </syncfusion:RibbonComboBox>
+                            <syncfusion:RibbonComboBox Name="format_fontSizeBox" syncfusion:Ribbon.ShowInMoreCommands="False" SelectionChanged="OnFontSizeChanged" IsEditable="True" Width="40" SelectedIndex="0" syncfusion:Ribbon.KeyTip="FZ">
+                            </syncfusion:RibbonComboBox>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel  Height="24" SeparatorVisibility="Collapsed"  >
+                            <syncfusion:RibbonButton Padding="2" Height="22" Width="24"  Name="format_btnIncFontSize" SizeForm="ExtraSmall" SmallIcon="/Resources/GrowFont16.png" Command="EditingCommands.IncreaseFontSize" CommandTarget="{Binding ElementName=Editor}" syncfusion:Ribbon.KeyTip="IF"/>
+                            <syncfusion:RibbonButton Padding="2" Height="22" Width="24"  Name="format_btnDecFontSize" SizeForm="ExtraSmall" SmallIcon="/Resources/ShrinkFont16.png" Command="EditingCommands.DecreaseFontSize" CommandTarget="{Binding ElementName=Editor}" syncfusion:Ribbon.KeyTip="DF"/>
+                        </syncfusion:ButtonPanel>
+
+                        <syncfusion:ButtonPanel Height="24">
+                            <syncfusion:RibbonButton Padding="2" syncfusion:Ribbon.KeyTip="B" Height="22" Width="24" SizeForm="ExtraSmall" IsToggle="True" Command="EditingCommands.ToggleBold" CommandTarget="{Binding ElementName=Editor}" Name="format_btnBold" SmallIcon="/Resources/Bold16.png"/>
+                            <syncfusion:RibbonButton Padding="2" syncfusion:Ribbon.KeyTip="I" Height="22" Width="24"  SizeForm="ExtraSmall" Command="EditingCommands.ToggleItalic"  CommandTarget="{Binding ElementName=Editor}" IsToggle="True" Name="format_btnItalic" SmallIcon="/Resources/Italic16.png"/>
+                            <syncfusion:RibbonButton Padding="2" syncfusion:Ribbon.KeyTip="U" Height="22" Width="24"  SizeForm="ExtraSmall" Name="format_btnUnderline" Command="EditingCommands.ToggleUnderline" CommandTarget="{Binding ElementName=Editor}" SmallIcon="/Resources/Underline16.png"/>
+                            <syncfusion:RibbonButton Padding="2" syncfusion:Ribbon.KeyTip="SB" Height="22" Width="24"  SizeForm="ExtraSmall" Command="EditingCommands.ToggleSubscript" CommandTarget="{Binding ElementName=Editor}" Name="btnSubscript" SmallIcon="/Resources/Subscript16.png"/>
+                            <syncfusion:RibbonButton Padding="2" Height="22" Width="24" syncfusion:Ribbon.KeyTip="SP" SizeForm="ExtraSmall" Command="EditingCommands.ToggleSuperscript" CommandTarget="{Binding ElementName=Editor}" Name="btnSuperscript" SmallIcon="/Resources/SuperScript16.png"/>
+
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel SeparatorVisibility="Collapsed"  >
+                            <syncfusion:SplitButton Padding="2" SizeForm="ExtraSmall" syncfusion:Ribbon.KeyTip="TH" SmallIcon="/Resources/TextHighlightColor16.png">
+                                <syncfusion:ColorPickerPalette IsExpanded="True"/>
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton Padding="2" syncfusion:Ribbon.KeyTip="FC"  SizeForm="ExtraSmall" SmallIcon="/Resources/FontColor16.png">
+                                <syncfusion:ColorPickerPalette IsExpanded="True"/>
+                            </syncfusion:SplitButton>
+                        </syncfusion:ButtonPanel>
+                    </syncfusion:RibbonBar>
+
+                    <!-- Format Text - For Ribbon Bar Paragraph-->
+                    <syncfusion:RibbonBar  IsLargeButtonPanel="False"  Name="Format_barParagraph"  LauncherClick="OnLauncherClick"
+                                           Header="Paragraph" syncfusion:Ribbon.KeyTip="HP" KeyTipOnCollapsed="ZP" CollapseImage="{StaticResource Justify}">
+                        <syncfusion:ButtonPanel  Height="24">
+                            <syncfusion:SplitButton  Padding="2" Height="22" Width="37" SizeForm="ExtraSmall"  Name="format_btnbullet" SmallIcon="/Resources/Bullets16.png" syncfusion:Ribbon.KeyTip="FN" >
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton  Padding="2" Height="22" Width="37" SizeForm="ExtraSmall"  Name="format_btnNumbering" SmallIcon="/Resources/Numbering16.png" syncfusion:Ribbon.KeyTip="FB">
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton  Padding="2" Height="22" Width="37" SizeForm="ExtraSmall"  Name="format_btnMultilevel" SmallIcon="/Resources/MultilevelList16.png" syncfusion:Ribbon.KeyTip="FM">
+                            </syncfusion:SplitButton>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel  Height="24">
+                            <syncfusion:RibbonButton  Padding="2" Height="22" Width="24" SizeForm="ExtraSmall"  IsToggle="True" Name="format_btnDecInd" SmallIcon="/Resources/DecreaseIndent16.png" syncfusion:Ribbon.KeyTip="AO"/>
+                            <syncfusion:RibbonButton  Padding="2" Height="22" Width="24" SizeForm="ExtraSmall"  IsToggle="True" Name="format_btnIncInd" SmallIcon="/Resources/IncreaseIndent16.png" syncfusion:Ribbon.KeyTip="AI"/>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel  Height="24">
+                            <syncfusion:RibbonButton  Padding="2" Height="22" Width="24" SizeForm="ExtraSmall"  Name="format_btnSort" SmallIcon="/Resources/Sort16.png"/>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel  Height="24">
+                            <syncfusion:RibbonButton  Padding="2" Height="22" Width="24" SizeForm="ExtraSmall"  Name="format_btnToggleSymbol" SmallIcon="{StaticResource Show_Hide}" syncfusion:Ribbon.KeyTip="PM"/>
+                        </syncfusion:ButtonPanel>
+
+                        <syncfusion:ButtonPanel  Height="24">
+                            <syncfusion:RibbonButton SizeForm="ExtraSmall" Padding="2" Height="22" Width="24"  IsToggle="True" Name="format_btnLeftAlign" SmallIcon="/Resources/AlignTextLeft16.png" syncfusion:Ribbon.KeyTip="LA"/>
+                            <syncfusion:RibbonButton SizeForm="ExtraSmall" Padding="2" Height="22" Width="24"  IsToggle="True" Name="format_btnCenterAlign" SmallIcon="/Resources/AlignTextCenter16.png"  syncfusion:Ribbon.KeyTip="CA"/>
+                            <syncfusion:RibbonButton SizeForm="ExtraSmall" Padding="2" Height="22" Width="24"  Name="format_btnRightAlign" IsToggle="True"   SmallIcon="/Resources/AlignTextRight16.png" syncfusion:Ribbon.KeyTip="RA"/>
+                            <syncfusion:RibbonButton SizeForm="ExtraSmall" Padding="2" Height="22" Width="24"  IsToggle="True" Name="format_btnJustify"   SmallIcon="/Resources/AlignTextJustify16.png" syncfusion:Ribbon.KeyTip="JA"/>
+
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel SeparatorVisibility="Collapsed"  Height="24" >
+                            <syncfusion:SplitButton SizeForm="ExtraSmall"  Height="22" Width="37"  Name="format_btnAlign"  SmallIcon="/Resources/LineSpacing16.png" syncfusion:Ribbon.KeyTip="FA">
+                               
+
+                            </syncfusion:SplitButton>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel SeparatorVisibility="Collapsed"  Height="24">
+                            <syncfusion:SplitButton SizeForm="ExtraSmall" Name="format_btnShading"   SmallIcon="/Resources/Shading16.png" syncfusion:Ribbon.KeyTip="FS"
+                                               >
+                                <syncfusion:ColorPickerPalette IsExpanded="True" Margin="3"/>
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton SizeForm="ExtraSmall" Name="format_btnBorder"   SmallIcon="/Resources/OutsideBorders16.png" syncfusion:Ribbon.KeyTip="BF" 
+                                                >
+
+                            </syncfusion:SplitButton>
+                        </syncfusion:ButtonPanel>
+                    </syncfusion:RibbonBar>
+
+                    <syncfusion:RibbonBar Header="Ribbon Gallery" CollapseImage="Images/RedLarge.png"  LauncherClick="OnLauncherClick">
+                        <syncfusion:RibbonGallery Width="200" MenuIconBarEnabled="True" ItemWidth="60" ItemHeight="60">
+                            <syncfusion:RibbonGallery.GalleryFilters>
+                                <syncfusion:RibbonGalleryFilter Label="All"/>
+                                <syncfusion:RibbonGalleryFilter Label="Group 1"/>
+                                <syncfusion:RibbonGalleryFilter Label="Group 2"/>
+                            </syncfusion:RibbonGallery.GalleryFilters>
+                            <syncfusion:RibbonGallery.GalleryGroups>
+                                <syncfusion:RibbonGalleryGroup Label="Group 1" syncfusion:RibbonGallery.FilterIndexes="0, 1">
+                                    <syncfusion:RibbonGalleryItem Margin="5">
+                                        <Image Source="Images/RedLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                    <syncfusion:RibbonGalleryItem  Margin="5">
+                                        <Image Source="Images/OrangeLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                    <syncfusion:RibbonGalleryItem  Margin="5">
+                                        <Image Source="Images/BlueLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                    <syncfusion:RibbonGalleryItem  Margin="5">
+                                        <Image Source="Images/GrayLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                    <syncfusion:RibbonGalleryItem  Margin="5">
+                                        <Image Source="Images/PinkLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                </syncfusion:RibbonGalleryGroup>
+                                <syncfusion:RibbonGalleryGroup Label="Group 2" syncfusion:RibbonGallery.FilterIndexes="0, 2">
+                                    <syncfusion:RibbonGalleryItem Margin="5" >
+                                        <Image Source="Images/OrangeLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                    <syncfusion:RibbonGalleryItem  Margin="5">
+                                        <Image Source="Images/RedLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                    <syncfusion:RibbonGalleryItem  Margin="5">
+                                        <Image Source="Images/GreenLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                    <syncfusion:RibbonGalleryItem Margin="5" >
+                                        <Image Source="Images/PinkLarge.png" Stretch="None"/>
+                                    </syncfusion:RibbonGalleryItem>
+                                </syncfusion:RibbonGalleryGroup>
+                            </syncfusion:RibbonGallery.GalleryGroups>
+
+
+                        </syncfusion:RibbonGallery>
+
+                    </syncfusion:RibbonBar>
+
+
+                    <!--Format Text - RibbonBar Editing-->
+                    <syncfusion:RibbonBar Header="Editing" syncfusion:Ribbon.ShowInMoreCommands="False" Name="format_barEditing"
+                                      syncfusion:Ribbon.KeyTip="E" KeyTipOnCollapsed="ZN" CollapseImage="Resources/Find16.png"  LauncherClick="OnLauncherClick">
+                        <syncfusion:RibbonButton Label="Hyperlink" SizeForm="Large" SmallIcon="Resources/hyperlink16.png"  
+                                             syncfusion:Ribbon.KeyTip="SB" LargeIcon="Resources/hyperlink32.png">
+
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton  Label="Replace" SizeForm="Large" SmallIcon="Resources/replace_16.png"  
+                                             syncfusion:Ribbon.KeyTip="RB" LargeIcon="Resources/replace_32.png" />
+                        <syncfusion:RibbonButton  Label="Zoom" SizeForm="Large" 
+                                                  syncfusion:Ribbon.KeyTip="BS" LargeIcon="Resources/Zoom_32x32.png">
+                        </syncfusion:RibbonButton>
+
+                    </syncfusion:RibbonBar>
+
+                </syncfusion:RibbonTab>
+
+                <!--Insert Tab-->
+                <syncfusion:RibbonTab Caption="Insert" syncfusion:Ribbon.KeyTip="I" IsChecked="True" >
+
+                    <!--Insert Tab - RibbonBar Pages-->
+                    <syncfusion:RibbonBar Header="Mail" syncfusion:Ribbon.ShowInMoreCommands="False" syncfusion:Ribbon.KeyTip="P" KeyTipOnCollapsed="ZP" IsLauncherButtonVisible="False">
+                        <syncfusion:DropDownButton Label="Attach File" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False"  LargeIcon="Images/base_paperclip_32.png"/>
+                        <syncfusion:RibbonButton Label="Business card" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="Images/base_business_contacts.png"/>
+                        <syncfusion:RibbonButton Label="Audio" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="Images/base_speaker_32.png"/>
+                    </syncfusion:RibbonBar>
+
+                  <syncfusion:RibbonBar Header="Tables">
+                    <syncfusion:DropDownButton Label="Tables" LargeIcon="Images/Table_32.png" SizeForm="Large"  syncfusion:Ribbon.ShowInMoreCommands="False" />
+                  </syncfusion:RibbonBar>
+
+                    <!--Insert Tab - RibbonBar Illustrations-->
+                    <syncfusion:RibbonBar Header="Illustrations" KeyTipOnCollapsed="ZI" syncfusion:Ribbon.ShowInMoreCommands="False" IsLauncherButtonVisible="False">
+                        <syncfusion:RibbonButton Label="Picture" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" />
+                        <syncfusion:RibbonButton Label="Comment" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="Images/0356_NewComment_32.png"/>
+                        <syncfusion:DropDownButton Label="Shapes" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="Images/0202_InsertShape_32.png"/>
+                        <syncfusion:RibbonButton Label="Chart" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="Images/base_charts.png"/>
+                    </syncfusion:RibbonBar>
+
+                    <syncfusion:RibbonBar Header="Links" syncfusion:Ribbon.ShowInMoreCommands="False" syncfusion:Ribbon.KeyTip="P" KeyTipOnCollapsed="ZP" IsLauncherButtonVisible="False">
+                        <syncfusion:RibbonButton Label="Hyperlink" SizeForm="Large" VerticalContentAlignment="Center" syncfusion:Ribbon.ShowInMoreCommands="False"  LargeIcon="Images/0205_WebInsertHyperlink_32.png"/>
+                        <syncfusion:RibbonButton Label="Map" SizeForm="Large" VerticalContentAlignment="Center" syncfusion:Ribbon.ShowInMoreCommands="False"  LargeIcon="Images/base_map.png"/>
+                        <syncfusion:RibbonButton Label="Blue" SizeForm="Large" VerticalContentAlignment="Center" syncfusion:Ribbon.ShowInMoreCommands="False"  LargeIcon="Images/BlueLarge.png"/>
+                        <syncfusion:RibbonButton Label="Red" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="Images/RedLarge.png"/>
+                        <syncfusion:RibbonButton Label="Green" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="Images/GreenLarge.png"/>
+                    </syncfusion:RibbonBar>                  
+
+                </syncfusion:RibbonTab>
+
+                <syncfusion:RibbonTab Caption="Skin" >
+                    <syncfusion:RibbonBar Header="Office 2010 themes" IsLauncherButtonVisible="False">
+                        <syncfusion:RibbonButton Label="Office 2010 Blue" LargeIcon="Images/Office2010Blue.png" SizeForm="Large" Click="OnApplySkin" Tag="Office2010Blue" IsToggle="True"/>
+                        <syncfusion:RibbonButton Label="Office 2010 Silver" x:Name="defaultskin" IsHitTestVisible="False" IsSelected="True"  LargeIcon="Images/Office2010Silver.png" SizeForm="Large" Click="OnApplySkin"  Tag="Office2010Silver" IsToggle="True"/>
+                        <syncfusion:RibbonButton Label="Office 2010 Black" LargeIcon="Images/Office2010Black.png" SizeForm="Large" Click="OnApplySkin"  Tag="Office2010Black" IsToggle="True"/>
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar Header="Office 2007 themes" IsLauncherButtonVisible="False">
+                        <syncfusion:RibbonButton Label="Office 2007 Blue" LargeIcon="Images/Office2007Blue.png" SizeForm="Large" Tag="Office2007Blue" Click="OnApplySkin"  IsToggle="True"/>
+                        <syncfusion:RibbonButton Label="Office 2007 Silver" LargeIcon="Images/Office2007Silver.png" SizeForm="Large" Tag="Office2007Silver" Click="OnApplySkin"  IsToggle="True"/>
+                        <syncfusion:RibbonButton Label="Office 2007 Black" LargeIcon="Images/Office2007Black.png" SizeForm="Large" Tag="Office2007Black" Click="OnApplySkin"  IsToggle="True"/>
+                    </syncfusion:RibbonBar>
+                </syncfusion:RibbonTab>
+
+                <!-- Standard Ribbon Controls -->
+                <syncfusion:RibbonTab Caption="Ribbon Controls" syncfusion:Ribbon.KeyTip="R" IsChecked="False">
+
+                    <!-- Simple buttons Bar-->
+                    <syncfusion:RibbonBar Header="Simple Buttons" syncfusion:Ribbon.ShowInMoreCommands="False" x:Name="simplebtns">
+                        <syncfusion:RibbonButton Label="Standard (Large)" syncfusion:Ribbon.ShowInMoreCommands="False" SizeForm="Large" 
+                                             LargeIcon="Images/BlueLarge.png" SmallIcon="Images/Blue.png"/>
+                        <syncfusion:RibbonButton Label="Checkable (Large)" syncfusion:Ribbon.ShowInMoreCommands="False" SizeForm="Large" IsToggle="True"
+                                             LargeIcon="Images/OrangeLarge.png" SmallIcon="Images/Pink.png"/>
+                        <syncfusion:RibbonButton Label=" Standard Small" SizeForm="Small" SmallIcon="Images/Green.png" />
+                        <syncfusion:RibbonButton Label=" Checkable Small " SizeForm="Small" IsToggle="True" SmallIcon="Images/Orange.png" />
+                        <syncfusion:ButtonPanel SeparatorVisibility="Collapsed">
+                            <syncfusion:RibbonButton Label="Simple" SizeForm="ExtraSmall" SmallIcon="Images/Gray.png"/>
+                            <syncfusion:RibbonButton Label="Toggle" SizeForm="ExtraSmall" IsToggle="True"  SmallIcon="Images/Red.png"/>
+                            <syncfusion:RibbonButton Label="Simple" SizeForm="ExtraSmall" SmallIcon="Images/Yellow.png"/>
+                            <syncfusion:RibbonButton Label="Toggle" SizeForm="ExtraSmall" IsToggle="True" SmallIcon="Images/Blue.png"/>
+                            <syncfusion:RibbonButton Label="Toggle" SizeForm="ExtraSmall" IsToggle="True" SmallIcon="Images/Orange.png"/>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:RibbonBar.ToolTip>
+                            <syncfusion:ScreenTip MinWidth="150"  Description="ScreenTip Example" ImageSource="Images/BlueLarge.png"  VerticalOffset="10">
+                                <TextBlock TextWrapping="Wrap" Width="180">
+								Represent a ribbon simple buttons with differeent sizes.
+                                </TextBlock>
+                            </syncfusion:ScreenTip>
+                        </syncfusion:RibbonBar.ToolTip>
+                    </syncfusion:RibbonBar>
+
+                    <!--DropDwon and Split buttons bar-->
+                    <syncfusion:RibbonBar Header="Drop Split Buttons" syncfusion:Ribbon.ShowInMoreCommands="False" x:Name="dropbtns">
+                        <syncfusion:DropDownButton Label="Drop Button" syncfusion:Ribbon.ShowInMoreCommands="False" 
+                                               SizeForm="Large" LargeIcon="Images/BlueLarge.png" Name="DropSplit" >
+                            <syncfusion:RibbonMenuItem Header="Checkable menu item" IsCheckable="True" IsChecked="True"></syncfusion:RibbonMenuItem>
+                            <syncfusion:RibbonMenuItem Header="Uncheckable menu item"  IsCheckable="False"></syncfusion:RibbonMenuItem>
+                            <syncfusion:RibbonMenuItem Header="Checkable with icon"  IsCheckable="True" IsChecked="True">
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="/Resources/Copy.png"/>
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+                            <syncfusion:RibbonMenuItem Header="Uncheckable with icon" IsCheckable="False">
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="/Resources/Copy.png"/>
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+                        </syncfusion:DropDownButton>
+                        <syncfusion:SplitButton Label="Split Button" syncfusion:Ribbon.ShowInMoreCommands="False" Name="DropdownSplit" 
+                                                SizeForm="Large" LargeIcon="Images/OrangeLarge.png" >
+                            <syncfusion:RibbonMenuItem Header=" AlignLeft " IsCheckable="True"  >
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="/Resources/AlignTextLeft16.png"/>
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+                            <syncfusion:RibbonMenuItem Header=" AlignCenter " IsCheckable="True" IsChecked="True" >
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="/Resources/AlignTextCenter16.png"/>
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+                            <syncfusion:RibbonMenuItem Header=" AlignRight " IsCheckable="True"  >
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="/Resources/AlignTextRight16.png"/>
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+                            <syncfusion:RibbonMenuItem Header=" AlignJustify " IsCheckable="True"  >
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="/Resources/AlignTextJustify16.png"/>
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+                        </syncfusion:SplitButton>
+                        <syncfusion:SplitButton Label=" Split1 " SizeForm="Small" SmallIcon="Images/Green.png" />
+                        <syncfusion:SplitButton Label=" Split2 " SizeForm="Small" SmallIcon="Images/Red.png" />
+                        <syncfusion:ButtonPanel>
+                            <syncfusion:DropDownButton Label=" Drop " SizeForm="ExtraSmall" SmallIcon="Images/Gray.png" />
+                            <syncfusion:SplitButton Label=" Split " SizeForm="ExtraSmall" SmallIcon="Images/Yellow.png" />
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:RibbonBar.ToolTip>
+                            <syncfusion:ScreenTip MinWidth="150"  Description="ScreenTip Example" ImageSource="/Resources/DSB64.png"  VerticalOffset="10">
+                                <TextBlock TextWrapping="Wrap" Width="180">
+								Represent a ribbon DropDown and Split buttons with differeent sizes.
+                                </TextBlock>
+                            </syncfusion:ScreenTip>
+                        </syncfusion:RibbonBar.ToolTip>
+                    </syncfusion:RibbonBar>
+
+                    <!-- Other Standard Controls-->
+                    <syncfusion:RibbonBar Header="Other" syncfusion:Ribbon.ShowInMoreCommands="False">
+                        <syncfusion:RibbonCheckBox Content=" Check Box" syncfusion:Ribbon.ShowInMoreCommands="False" ></syncfusion:RibbonCheckBox>
+                        <syncfusion:RibbonRadioButton Content=" Radio button" syncfusion:Ribbon.ShowInMoreCommands="False"></syncfusion:RibbonRadioButton>
+                        <syncfusion:RibbonTextBox syncfusion:Ribbon.ShowInMoreCommands="False">Ribbon Text Box</syncfusion:RibbonTextBox>
+                        <syncfusion:RibbonButton Label="Right to left" syncfusion:Ribbon.ShowInMoreCommands="False" SizeForm="Large" 
+                                                 LargeIcon="Images/rtl.png" Click="OnFlowDirection" IsToggle="True"/>
+                        <syncfusion:RibbonButton Label="Disable Ribbon Bar" syncfusion:Ribbon.ShowInMoreCommands="False" SizeForm="Large" 
+                                                 LargeIcon="Images/disable.png" Click="OnDisable" IsToggle="True"/>
+                        <syncfusion:RibbonButton Label="Show Modal tab" syncfusion:Ribbon.ShowInMoreCommands="False" SizeForm="Large" 
+                                                 LargeIcon="Images/modal.png" Click="OnModal" />
+                    </syncfusion:RibbonBar>
+
+                </syncfusion:RibbonTab>
+
+                <syncfusion:Ribbon.ContextTabGroups>
+                   
+                    <syncfusion:ContextTabGroup Label="Table tools" BackColor="Green" IsGroupVisible="True">
+                        <syncfusion:RibbonTab Caption="Tables" IsChecked="False" />
+                        <syncfusion:RibbonTab Caption="Design" IsChecked="False" />
+                    </syncfusion:ContextTabGroup>
+                </syncfusion:Ribbon.ContextTabGroups>
+
+                    <!-- Modal Tab Collection Initialization -->
+                <syncfusion:Ribbon.ModalTabCollection>
+                    <syncfusion:ModalTabCollection>
+                        <syncfusion:RibbonTab Caption="Print Preview" Name="printpreview" IsChecked="True">
+                            <!-- Print Options-->
+                            <syncfusion:RibbonBar Header="Print">
+                                <syncfusion:RibbonButton Label="Print" SizeForm="Large" LargeIcon="Images/PrintArea.png" />
+                                <syncfusion:RibbonButton Label="Options" SizeForm="Large" IsToggle="True"  LargeIcon="/Resources/InspectDocument32.png" />
+                            </syncfusion:RibbonBar>
+
+                            <!-- Page Setup -->
+                            <syncfusion:RibbonBar Header="Page Setup">
+                                <syncfusion:DropDownButton Label="Margins" SizeForm="Large" LargeIcon="/Resources/Margins32.png">
+                                    <syncfusion:RibbonMenuItem Header="Checkable menu item"  />
+                                    <syncfusion:RibbonMenuItem Header="Uncheckable menu item" />
+                                    <syncfusion:RibbonMenuItem Header="Checkable with icon" />
+                                    <syncfusion:RibbonMenuItem Header="Uncheckable with icon" />
+                                </syncfusion:DropDownButton>
+                                <syncfusion:DropDownButton Label="Orientation" SizeForm="Large" LargeIcon="/Resources/Orientation32.png">
+                                    <syncfusion:RibbonMenuItem Header="Checkable menu item" />
+                                    <syncfusion:RibbonMenuItem Header="Uncheckable menu item" />
+                                    <syncfusion:RibbonMenuItem Header="Checkable with icon" />
+                                    <syncfusion:RibbonMenuItem Header="Uncheckable with icon" />
+                                </syncfusion:DropDownButton>
+                                <syncfusion:DropDownButton Label="Size" SizeForm="Large" LargeIcon="/Resources/New32.png">
+                                    <syncfusion:RibbonMenuItem Header="Checkable menu item" />
+                                    <syncfusion:RibbonMenuItem Header="Uncheckable menu item" />
+                                    <syncfusion:RibbonMenuItem Header="Checkable with icon" />
+                                    <syncfusion:RibbonMenuItem Header="Uncheckable with icon" />
+                                </syncfusion:DropDownButton>
+                            </syncfusion:RibbonBar>
+
+                            <!-- Zoom Options -->
+                            <syncfusion:RibbonBar Header="Zoom">
+                                <syncfusion:RibbonButton Label="Zoom" SizeForm="Large"  LargeIcon="/Resources/zoom.png"/>
+                                <syncfusion:RibbonButton Label="100%" SizeForm="Large"  LargeIcon="/Resources/PageNumber32.png"/>
+                                <syncfusion:RibbonButton Label="One Page" SizeForm="Small" SmallIcon="/Resources/onepage.png"/>
+                                <syncfusion:RibbonButton Label="Two Pages" SizeForm="Small"   SmallIcon="/Resources/twopages.gif"/>
+                                <syncfusion:RibbonButton Label="Page Width" SizeForm="Small"   SmallIcon="/Resources/twopages.gif"/>
+                            </syncfusion:RibbonBar>
+
+                            <!-- Close Preview-->
+                            <syncfusion:RibbonBar Header="Preview">
+                                <syncfusion:RibbonCheckBox Content="Show Ruler"/>
+                                <syncfusion:RibbonCheckBox Content="Magnifier"/>
+                                <syncfusion:RibbonButton Label="Shrink on OnePage" SizeForm="Small"  SmallIcon="/Resources/Object16.png"/>
+                                <syncfusion:RibbonButton Label="Next Page" SizeForm="Small"   SmallIcon="/Resources/nextpage.png"/>
+                                <syncfusion:RibbonButton Label="Previous Page" SizeForm="Small"   SmallIcon="/Resources/previouspage.png"/>
+                                <syncfusion:RibbonSeparator />
+                                <syncfusion:RibbonButton Label="Close Print Preview" SizeForm="Large" Click="CloseModalTab_Click" LargeIcon="/Resources/CloseTab32.png"/>
+                            </syncfusion:RibbonBar>
+                        </syncfusion:RibbonTab>
+                    </syncfusion:ModalTabCollection>
+                </syncfusion:Ribbon.ModalTabCollection>
+
+            </syncfusion:Ribbon>
+        </Grid>
+        <ScrollViewer Grid.Row="1" x:Name="scrollviewer" >
+            <Grid>                
+                <RichTextBox Name="Editor" AcceptsTab="True" Visibility="Collapsed"  Margin="100 10" Padding="50">
+
+                    <FlowDocument FontFamily="Calibri" FontSize="14.5" TextAlignment="Left" Name="Document">
+                       
+
+                       
+                    </FlowDocument>
+                </RichTextBox>
+                <Button Content=" Click here to Customize Ribbon"  Height="50" Width="250"  VerticalContentAlignment="Center"
+                                Click="RibbonButton_Click" />
+            </Grid>
+        </ScrollViewer>
+
+
+
+    </Grid>
+</syncfusion:RibbonWindow>

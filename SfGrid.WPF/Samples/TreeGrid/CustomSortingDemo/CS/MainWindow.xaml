@@ -1,0 +1,49 @@
+﻿<syncfusion:ChromelessWindow x:Class="CustomSorting.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:data="clr-namespace:Syncfusion.Data;assembly=Syncfusion.Data.WPF"
+                             xmlns:local="clr-namespace:CustomSorting"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Icon="App.ico">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <syncfusion:ChromelessWindow.Resources>
+        <local:CustomComparer x:Key="sortComparer" />
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases how to sort a grid column using SortComparer in SfTreeGrid."
+                                  HeaderText="Custom Sorting"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfTreeGrid Name="treeGrid"
+                                       AutoExpandMode="RootNodesExpanded"
+                                       AutoGenerateColumns="False"
+                                       ChildPropertyName="Children"
+                                       ColumnSizer="Star"
+                                       ExpanderColumn="FirstName"
+                                       ItemsSource="{Binding PersonDetails}">
+                    <syncfusion:SfTreeGrid.SortComparers>
+                        <data:SortComparer Comparer="{StaticResource sortComparer}" PropertyName="FirstName" />
+                    </syncfusion:SfTreeGrid.SortComparers>
+                    <syncfusion:SfTreeGrid.SortColumnDescriptions>
+                        <syncfusion:SortColumnDescription ColumnName="FirstName" SortDirection="Descending" />
+                    </syncfusion:SfTreeGrid.SortColumnDescriptions>
+                    <syncfusion:SfTreeGrid.Columns>
+                        <syncfusion:TreeGridTextColumn HeaderText="ID"
+                                                       MappingName="Id"
+                                                       TextAlignment="Left" />
+                        <syncfusion:TreeGridTextColumn HeaderText="First Name" MappingName="FirstName" />
+                        <syncfusion:TreeGridTextColumn HeaderText="Last Name" MappingName="LastName" />
+                        <syncfusion:TreeGridCheckBoxColumn HeaderText="Availability" MappingName="Availability" />
+                        <syncfusion:TreeGridDateTimeColumn MappingName="DOB" TextAlignment="Right" />
+                    </syncfusion:SfTreeGrid.Columns>
+                </syncfusion:SfTreeGrid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

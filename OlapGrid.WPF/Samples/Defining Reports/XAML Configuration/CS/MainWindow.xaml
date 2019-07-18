@@ -1,0 +1,44 @@
+﻿<sfutils:SampleWindow x:Class="XAMLConfig.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Grid.Olap;assembly=Syncfusion.OlapGrid.WPF"
+                      xmlns:olapshared="clr-namespace:Syncfusion.Windows.Shared.Olap;assembly=Syncfusion.OlapShared.WPF"
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                      xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+                      sfshared:SkinStorage.VisualStyle="Metro"
+                      WindowState="Maximized" WindowStartupLocation="CenterScreen"
+                      Title="XAML Configuration" Icon="App.ico" Height="630" Width="900" MinHeight="500" MinWidth="600">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="Binding the OlapReport on OlapGrid through XAML." 
+                       Foreground="White" Margin="5 0" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <GroupBox Header="OlapGrid" Grid.Row="1" Margin="5" BorderThickness="1">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <syncfusion:OlapGrid x:Name="olapGrid" HorizontalAlignment="Stretch"
+                                 ReportName="SalesReport" CurrentCubeName="Adventure Works" SharedDataManagerName="localManager" ShowHeaderCellsToolTip="True"                                    
+                                 olapshared:DataSource.DataManagerName="localManager"
+                                 olapshared:DataSource.ConnectionString="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type sfutils:SampleWindow}}, Path=ConnectionString}">
+                <syncfusion:OlapGrid.CategoricalAxis>
+                    <syncfusion:Dimension Name="Date" HierarchyName="Fiscal" LevelName="Fiscal Year" IncludeMembers="FY 2002, FY 2003"/>
+                    <syncfusion:Kpi Name="Revenue" ShowGoal="True" ShowStatus="True" ShowValue="True" ShowTrend="True"/>
+                </syncfusion:OlapGrid.CategoricalAxis>
+                <syncfusion:OlapGrid.SeriesAxis>
+                    <syncfusion:Dimension Name="Product" HierarchyName="Product Categories" LevelName="Category"/>
+                    <syncfusion:Dimension Name="Customer" HierarchyName="Customer Geography" LevelName="Country" IncludeMembers="United States"/>
+                </syncfusion:OlapGrid.SeriesAxis>
+            </syncfusion:OlapGrid>
+        </GroupBox>
+    </Grid>
+</sfutils:SampleWindow>

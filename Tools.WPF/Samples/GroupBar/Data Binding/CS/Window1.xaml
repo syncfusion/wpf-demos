@@ -1,0 +1,135 @@
+﻿<syncfusion:ChromelessWindow x:Class="ItemsSourceDemo.Window1"
+    xmlns:custom="clr-namespace:ItemsSourceDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"  Icon="App.ico"
+    Title="Data Binding Demo" Width="800"  
+    xmlns:local="clr-namespace:ItemsSourceDemo" UseNativeChrome="True"
+         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+    Height="550" FontFamily="Calibri" FontSize="13" xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF" 
+    WindowStartupLocation="CenterScreen">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.Tools.WPF;component/Controls/GroupBar/Themes/Office2007BlueStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        <custom:TextToVisibilityConverter x:Key="conv"/>
+        <custom:SampleTemplateSelector x:Key="selector"/>
+        <DataTemplate x:Key="template">
+            <StackPanel Name="contentstack">
+                <Border>
+                    <StackPanel>
+                        <Image Source="{Binding Image}" Width="150" Height="150"/>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="1" HorizontalAlignment="Center" FontSize="14"/>
+                    </StackPanel>
+                </Border>
+                <StackPanel HorizontalAlignment="Center" Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="DOB : " FontWeight="Bold"/>
+                        <TextBlock Text="{Binding DOB}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Location : " FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Location}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Age : " FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Age}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </syncfusion:ChromelessWindow.Resources>
+    <sblayout:SampleLayoutControl Header="Data Binding" x:Name="sblayout" HideEventsLog="True" EnableThemeSwitching="False" 
+                                  Description="GroupBarControl enables you to bind a collection of business objects through the ItemsSource property. HeaderTemplate and ContentTemplate can be applied to visually host the business object.">
+
+        <sblayout:SampleLayoutControl.PropertyViewContent>
+            <sblayout:GroupBoxAdv Header="User Options">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                  
+                      <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+                                <TextBlock Text="Orientation: " Margin="3"  VerticalAlignment="Center"/>
+                                <ComboBox  Grid.Column="1"  SelectedIndex="1" Name="cmboOrientation" Margin="3">
+                                    <Orientation>Horizontal</Orientation>
+                                    <Orientation >Vertical</Orientation>
+                                </ComboBox>
+                                <TextBlock Text="Visual Mode: " Margin="3" Grid.Row="1"  VerticalAlignment="Center"/>
+                                <ComboBox  Grid.Column="1" Grid.Row="1"  SelectedIndex="2" Name="cmboVisualmode" Margin="3">
+                                    <ComboBoxItem>Default</ComboBoxItem>
+                                    <ComboBoxItem>MultipleExpansion</ComboBoxItem>
+                                    <ComboBoxItem>StackMode</ComboBoxItem>
+                                </ComboBox>
+                                <TextBlock Text="Allow Collapse" Margin="3" Grid.Row="2" Visibility="Collapsed"  VerticalAlignment="Center"/>
+                                <CheckBox Grid.Row="2" Name="chkallowcollapse" Margin="3" Visibility="Collapsed" Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Left"/>
+                                <TextBlock Text="Enable ContextMenu" Margin="3" Grid.Row="3"  VerticalAlignment="Center"/>
+                                <CheckBox Grid.Row="3" Name="chkEnableContextmenu" Margin="3" IsChecked="True"  Grid.Column="1" VerticalAlignment="Center"  HorizontalAlignment="Left"/>
+                           
+                      
+                           
+                </Grid>
+            </sblayout:GroupBoxAdv>
+        </sblayout:SampleLayoutControl.PropertyViewContent>
+       
+            <syncfusion:GroupBar Name="gBar" 
+                           Orientation="{Binding ElementName=cmboOrientation,Path=SelectedItem,Mode=TwoWay}"
+                           AllowCollapse="{Binding ElementName=chkallowcollapse, Path=IsChecked}" VerticalAlignment="Stretch" 
+                              
+                       Margin="10" ItemHeaderHeight="25" IsEnabledContextMenu="{Binding ElementName=chkEnableContextmenu, Path=IsChecked}" ItemsSource="{Binding SampleList}"
+                       Width="300"  ShowGripper="True" IsToolBarEnabled="True" HorizontalAlignment="Center"
+                       AnimationType="Fade" VisualMode="{Binding ElementName=cmboVisualmode,Path=SelectionBoxItem}" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="ContextMenuItemClick">
+                    <local:ContextMenuAction Target="{Binding ElementName=gBar}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <syncfusion:GroupBar.ItemContainerStyle>
+                    <Style TargetType="{x:Type syncfusion:GroupBarItem}" BasedOn="{StaticResource Office2007BlueGroupBarItemStyle}">
+                        <Setter Property="Header" Value="{Binding}"/>
+                        <Setter Property="HeaderTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Width="25" Height="25" Source="{Binding Image}" Margin="3"/>
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="3" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Content" Value="{Binding}"/>
+                        <Setter Property="ContentTemplate" Value="{StaticResource template}"/>
+                        <Setter Property="HeaderImageSource" Value="{Binding Image}"/>
+
+                    </Style>
+                </syncfusion:GroupBar.ItemContainerStyle>
+            </syncfusion:GroupBar>
+     
+
+
+    </sblayout:SampleLayoutControl>
+</syncfusion:ChromelessWindow>

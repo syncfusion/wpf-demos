@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="CoxPH Survival Regression Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-15 15:25:37</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="11">
+  <DataField name="survival" optype="continuous" dataType="double"/>
+  <DataField name="Race" optype="continuous" dataType="double"/>
+  <DataField name="Is_Poor" optype="continuous" dataType="double"/>
+  <DataField name="Smoker" optype="continuous" dataType="double"/>
+  <DataField name="Alcoholic" optype="continuous" dataType="double"/>
+  <DataField name="Age" optype="continuous" dataType="double"/>
+  <DataField name="Year" optype="continuous" dataType="double"/>
+  <DataField name="Education_Level" optype="continuous" dataType="double"/>
+  <DataField name="Prenatal_Care" optype="continuous" dataType="double"/>
+  <DataField name="Duration" optype="continuous" dataType="double"/>
+  <DataField name="Bfeed_Indicator" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <GeneralRegressionModel modelType="CoxRegression" modelName="CoxPH_Survival_Regression_Model" functionName="regression" algorithmName="coxph" endTimeVariable="Duration" statusVariable="Bfeed_Indicator">
+  <MiningSchema>
+   <MiningField name="survival" usageType="predicted"/>
+   <MiningField name="Race" usageType="active"/>
+   <MiningField name="Is_Poor" usageType="active"/>
+   <MiningField name="Smoker" usageType="active"/>
+   <MiningField name="Alcoholic" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Year" usageType="active"/>
+   <MiningField name="Education_Level" usageType="active"/>
+   <MiningField name="Prenatal_Care" usageType="active"/>
+   <MiningField name="Duration" usageType="active"/>
+   <MiningField name="Bfeed_Indicator" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_hazard" feature="predictedValue"/>
+   <OutputField name="SurvivalProbability" feature="transformedValue">
+    <Apply function="exp">
+     <Apply function="*">
+      <Constant>-1.0</Constant>
+      <FieldRef field="Predicted_hazard"/>
+     </Apply>
+    </Apply>
+   </OutputField>
+  </Output>
+  <ParameterList>
+   <Parameter name="p0" label="Race" referencePoint="1.45883940620783"/>
+   <Parameter name="p1" label="Is_Poor" referencePoint="0.184885290148448"/>
+   <Parameter name="p2" label="Smoker" referencePoint="0.279352226720648"/>
+   <Parameter name="p3" label="Alcoholic" referencePoint="0.0755735492577598"/>
+   <Parameter name="p4" label="Age" referencePoint="21.5155195681511"/>
+   <Parameter name="p5" label="Year" referencePoint="82.0904183535763"/>
+   <Parameter name="p6" label="Education_Level" referencePoint="12.2402159244265"/>
+   <Parameter name="p7" label="Prenatal_Care" referencePoint="0.186234817813765"/>
+  </ParameterList>
+  <FactorList/>
+  <CovariateList>
+   <Predictor name="Race"/>
+   <Predictor name="Is_Poor"/>
+   <Predictor name="Smoker"/>
+   <Predictor name="Alcoholic"/>
+   <Predictor name="Age"/>
+   <Predictor name="Year"/>
+   <Predictor name="Education_Level"/>
+   <Predictor name="Prenatal_Care"/>
+  </CovariateList>
+  <PPMatrix>
+   <PPCell value="1" predictorName="Race" parameterName="p0"/>
+   <PPCell value="1" predictorName="Is_Poor" parameterName="p1"/>
+   <PPCell value="1" predictorName="Smoker" parameterName="p2"/>
+   <PPCell value="1" predictorName="Alcoholic" parameterName="p3"/>
+   <PPCell value="1" predictorName="Age" parameterName="p4"/>
+   <PPCell value="1" predictorName="Year" parameterName="p5"/>
+   <PPCell value="1" predictorName="Education_Level" parameterName="p6"/>
+   <PPCell value="1" predictorName="Prenatal_Care" parameterName="p7"/>
+  </PPMatrix>
+  <ParamMatrix>
+   <PCell parameterName="p0" df="1" beta="0.152578050826247"/>
+   <PCell parameterName="p1" df="1" beta="-0.215797330193555"/>
+   <PCell parameterName="p2" df="1" beta="0.156861641237673"/>
+   <PCell parameterName="p3" df="1" beta="0.0870307437675765"/>
+   <PCell parameterName="p4" df="1" beta="-0.0247291463080276"/>
+   <PCell parameterName="p5" df="1" beta="0.0877445384559638"/>
+   <PCell parameterName="p6" df="1" beta="-0.0519582456183678"/>
+   <PCell parameterName="p7" df="1" beta="-0.0384105466220913"/>
+  </ParamMatrix>
+  <BaseCumHazardTables maxTime="192">
+   <BaselineCell time="1" cumHazard="0.0838886537615686"/>
+   <BaselineCell time="2" cumHazard="0.177917037880248"/>
+   <BaselineCell time="3" cumHazard="0.235812717515143"/>
+   <BaselineCell time="4" cumHazard="0.33331898146686"/>
+   <BaselineCell time="5" cumHazard="0.358553822689809"/>
+   <BaselineCell time="6" cumHazard="0.443442782013665"/>
+   <BaselineCell time="7" cumHazard="0.467898670715241"/>
+   <BaselineCell time="8" cumHazard="0.611885378757318"/>
+   <BaselineCell time="9" cumHazard="0.619875964348722"/>
+   <BaselineCell time="10" cumHazard="0.669523909398948"/>
+   <BaselineCell time="11" cumHazard="0.672364008756808"/>
+   <BaselineCell time="12" cumHazard="0.860267123782257"/>
+   <BaselineCell time="13" cumHazard="0.874205032906218"/>
+   <BaselineCell time="14" cumHazard="0.895611522448572"/>
+   <BaselineCell time="15" cumHazard="0.913860799157463"/>
+   <BaselineCell time="16" cumHazard="1.0991605587751"/>
+   <BaselineCell time="17" cumHazard="1.10363157561429"/>
+   <BaselineCell time="18" cumHazard="1.14026684520907"/>
+   <BaselineCell time="20" cumHazard="1.26598098240445"/>
+   <BaselineCell time="21" cumHazard="1.27674348799424"/>
+   <BaselineCell time="22" cumHazard="1.28760313513273"/>
+   <BaselineCell time="23" cumHazard="1.28760313513273"/>
+   <BaselineCell time="24" cumHazard="1.58454601105941"/>
+   <BaselineCell time="25" cumHazard="1.59189878742297"/>
+   <BaselineCell time="26" cumHazard="1.62184699428524"/>
+   <BaselineCell time="28" cumHazard="1.74276637666679"/>
+   <BaselineCell time="30" cumHazard="1.7600367376345"/>
+   <BaselineCell time="32" cumHazard="1.91967088909108"/>
+   <BaselineCell time="34" cumHazard="1.92985754170268"/>
+   <BaselineCell time="36" cumHazard="2.09602516705927"/>
+   <BaselineCell time="38" cumHazard="2.12033769586878"/>
+   <BaselineCell time="40" cumHazard="2.33728150688235"/>
+   <BaselineCell time="42" cumHazard="2.38336175359491"/>
+   <BaselineCell time="44" cumHazard="2.51628007826677"/>
+   <BaselineCell time="46" cumHazard="2.55201233739136"/>
+   <BaselineCell time="48" cumHazard="3.11618502418433"/>
+   <BaselineCell time="50" cumHazard="3.1811328997199"/>
+   <BaselineCell time="52" cumHazard="3.79606198196728"/>
+   <BaselineCell time="56" cumHazard="3.98749753148606"/>
+   <BaselineCell time="60" cumHazard="4.41034761655305"/>
+   <BaselineCell time="64" cumHazard="4.64074543636402"/>
+   <BaselineCell time="68" cumHazard="4.78322198137233"/>
+   <BaselineCell time="72" cumHazard="4.94037144429135"/>
+   <BaselineCell time="80" cumHazard="5.11152462512956"/>
+   <BaselineCell time="96" cumHazard="6.222699426868"/>
+   <BaselineCell time="104" cumHazard="6.79288876724028"/>
+   <BaselineCell time="192" cumHazard="8.29524826950812"/>
+  </BaseCumHazardTables>
+ </GeneralRegressionModel>
+</PMML>

@@ -1,0 +1,161 @@
+﻿<syncfusion:ChromelessWindow x:Class="ImportDataTable.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:Behavior="clr-namespace:ImportDataTable.Behavior"
+                             xmlns:CommandHelper="clr-namespace:ImportDataTable.Commands"
+                             xmlns:Interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title=""
+                             Width="1024"
+                             Height="720"
+                             Icon="App.ico"
+                             ShowIcon="False"
+                             syncfusion:SkinStorage.VisualStyle="Office2013"
+                             WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid Margin="0,0,0,0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="95" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!--  Header Panel Implementation  -->
+            <Border Background="White" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Name="border1"
+                        Width="26"
+                        Height="45"
+                        Margin="0,6,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#FF119EDA"
+                        BorderBrush="#FF119EDA"
+                        BorderThickness="1" />
+
+                    <Grid Grid.Column="1" HorizontalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                               Margin="10,10,0,0"
+                               HorizontalAlignment="Left"
+                               FontFamily="Segoe WP"
+                               FontSize="35"
+                               Foreground="#FF119EDA"
+                               Text="Data Management" />
+                        <TextBlock Grid.Row="1"
+                               Margin="10,0,0,7"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Bottom"
+                               FontFamily="Segoe WP"
+                               FontSize="16"
+                               Text="This sample showcases the import and export of DataTable in the Spreadsheet control"
+                               TextWrapping="Wrap" />
+                    </Grid>
+                </Grid>
+            </Border>
+            
+            <Grid Grid.Row="1" Margin="35,0,35,35">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="78*" />
+                    <ColumnDefinition Width="22*" />
+                </Grid.ColumnDefinitions>
+
+                <!--  GridView  -->
+                <Border Grid.Column="0">
+                    <syncfusion:SfSpreadsheet Name="Spreadsheet">
+                        <Interactivity:Interaction.Behaviors>
+                            <Behavior:ImportBehavior />
+                        </Interactivity:Interaction.Behaviors>
+                    </syncfusion:SfSpreadsheet>
+                </Border>
+
+                <!-- UserOptions  -->
+                <Border Grid.Column="1">
+                    <ItemsControl>
+                        <Label 
+                            Name="label1"  
+                            Content="Select the Table to Import"    
+                            Height="27"  
+                            Canvas.Left="10" Canvas.Top="10"   
+                            FontSize="13" 
+                            FontWeight="Bold" />
+
+                        <Border 
+                            Name="border2"
+                            Width= "160"
+                            Height="3"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Left"
+                            Background="#FF119EDA"
+                            BorderBrush="#FF119EDA"
+                            BorderThickness="1" />
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ComboBox x:Name="Selectedtable"
+                                  Grid.Row="0"
+                                  Height="30"
+                                  Margin="15, 10, 0, 0"
+                                  SelectedIndex="0">
+                                <ComboBoxItem>Products Table</ComboBoxItem>
+                                <ComboBoxItem>Orders Table</ComboBoxItem>
+                                <ComboBoxItem>Customers Table</ComboBoxItem>
+                            </ComboBox>
+                            <Button Grid.Row="1"
+                                Height="30"
+                                Margin="15, 10, 0, 0"
+                                Tag="{Binding ElementName=Selectedtable}"
+                                Command="CommandHelper:ImportCommand.ImportFromDataTable"
+                                CommandParameter="{Binding Path=SelectedItem.Content,ElementName=Selectedtable}"
+                                CommandTarget="{Binding ElementName=Spreadsheet}"
+                                Content="Import DataTable" />
+                        </Grid>
+                        <Label 
+                            Name="label2"  
+                            Content="Export to DataTable"    
+                            Height="27"  
+                            Canvas.Left="10"
+                            Margin="0, 15, 0, 0"
+                            FontSize="13" 
+                            FontWeight="Bold" />
+
+                        <Border 
+                            Name="border3"
+                            Width="130"
+                            Height="3"
+                            Margin="5,0,0,0"
+                            HorizontalAlignment="Left"
+                            Background="#FF119EDA"
+                            BorderBrush="#FF119EDA"
+                            BorderThickness="1" />
+
+                        <StackPanel Orientation="Vertical">
+                            <Button Grid.Row="1"
+                                Height="30"
+                                Margin="15, 10, 0, 0"
+                                Command="CommandHelper:ExportCommand.ExportToDataTable"
+                                CommandTarget="{Binding ElementName=Spreadsheet}"
+                                Content="Export to DataTable" />
+                            <TextBlock FontSize="12" TextWrapping="Wrap" Margin="15, 10, 0, 0">
+                                <TextBlock.Inlines>
+                                    <LineBreak />
+                                    <Run>It will export the data from worksheet to DataTable and that will be set as an item source to the SfDataGrid control.</Run>
+                                    <LineBreak />
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                        </StackPanel>
+                    </ItemsControl>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</syncfusion:ChromelessWindow>

@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="CoxPH Survival Regression Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-14 11:29:50</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="7">
+  <DataField name="survival" optype="continuous" dataType="double"/>
+  <DataField name="Age" optype="continuous" dataType="double"/>
+  <DataField name="Residual_Disease_Present" optype="continuous" dataType="double"/>
+  <DataField name="Treatment_Group" optype="continuous" dataType="double"/>
+  <DataField name="ECOG_Score" optype="continuous" dataType="double"/>
+  <DataField name="Survival_Time" optype="continuous" dataType="double"/>
+  <DataField name="Censoring_Status" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <GeneralRegressionModel modelType="CoxRegression" modelName="CoxPH_Survival_Regression_Model" functionName="regression" algorithmName="coxph" endTimeVariable="Survival_Time" statusVariable="Censoring_Status">
+  <MiningSchema>
+   <MiningField name="survival" usageType="predicted"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Residual_Disease_Present" usageType="active"/>
+   <MiningField name="Treatment_Group" usageType="active"/>
+   <MiningField name="ECOG_Score" usageType="active"/>
+   <MiningField name="Survival_Time" usageType="active"/>
+   <MiningField name="Censoring_Status" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_hazard" feature="predictedValue"/>
+   <OutputField name="SurvivalProbability" feature="transformedValue">
+    <Apply function="exp">
+     <Apply function="*">
+      <Constant>-1.0</Constant>
+      <FieldRef field="Predicted_hazard"/>
+     </Apply>
+    </Apply>
+   </OutputField>
+  </Output>
+  <ParameterList>
+   <Parameter name="p0" label="Age" referencePoint="55.9641363636364"/>
+   <Parameter name="p1" label="Residual_Disease_Present" referencePoint="1.59090909090909"/>
+   <Parameter name="p2" label="Treatment_Group" referencePoint="1.45454545454545"/>
+   <Parameter name="p3" label="ECOG_Score" referencePoint="1.5"/>
+  </ParameterList>
+  <FactorList/>
+  <CovariateList>
+   <Predictor name="Age"/>
+   <Predictor name="Residual_Disease_Present"/>
+   <Predictor name="Treatment_Group"/>
+   <Predictor name="ECOG_Score"/>
+  </CovariateList>
+  <PPMatrix>
+   <PPCell value="1" predictorName="Age" parameterName="p0"/>
+   <PPCell value="1" predictorName="Residual_Disease_Present" parameterName="p1"/>
+   <PPCell value="1" predictorName="Treatment_Group" parameterName="p2"/>
+   <PPCell value="1" predictorName="ECOG_Score" parameterName="p3"/>
+  </PPMatrix>
+  <ParamMatrix>
+   <PCell parameterName="p0" df="1" beta="0.13198832717786"/>
+   <PCell parameterName="p1" df="1" beta="0.918708396032957"/>
+   <PCell parameterName="p2" df="1" beta="-1.0685803616818"/>
+   <PCell parameterName="p3" df="1" beta="0.512312478684471"/>
+  </ParamMatrix>
+  <BaseCumHazardTables maxTime="1227">
+   <BaselineCell time="59" cumHazard="0.00983893983939018"/>
+   <BaselineCell time="115" cumHazard="0.0215011779612164"/>
+   <BaselineCell time="156" cumHazard="0.0369786595063536"/>
+   <BaselineCell time="268" cumHazard="0.0560695383647282"/>
+   <BaselineCell time="421" cumHazard="0.0560695383647282"/>
+   <BaselineCell time="431" cumHazard="0.116298679391451"/>
+   <BaselineCell time="448" cumHazard="0.116298679391451"/>
+   <BaselineCell time="464" cumHazard="0.185581114472328"/>
+   <BaselineCell time="475" cumHazard="0.261113229024981"/>
+   <BaselineCell time="477" cumHazard="0.261113229024981"/>
+   <BaselineCell time="563" cumHazard="0.425883155322658"/>
+   <BaselineCell time="638" cumHazard="0.601591646571988"/>
+   <BaselineCell time="744" cumHazard="0.601591646571988"/>
+   <BaselineCell time="769" cumHazard="0.601591646571988"/>
+   <BaselineCell time="770" cumHazard="0.601591646571988"/>
+   <BaselineCell time="803" cumHazard="0.601591646571988"/>
+   <BaselineCell time="855" cumHazard="0.601591646571988"/>
+   <BaselineCell time="1040" cumHazard="0.601591646571988"/>
+   <BaselineCell time="1106" cumHazard="0.601591646571988"/>
+   <BaselineCell time="1129" cumHazard="0.601591646571988"/>
+   <BaselineCell time="1206" cumHazard="0.601591646571988"/>
+   <BaselineCell time="1227" cumHazard="0.601591646571988"/>
+  </BaseCumHazardTables>
+ </GeneralRegressionModel>
+</PMML>

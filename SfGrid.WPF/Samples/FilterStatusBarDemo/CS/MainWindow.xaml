@@ -1,0 +1,76 @@
+﻿<syncfusion:ChromelessWindow x:Class="StatusBar.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:local="clr-namespace:StatusBar"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title="MainWindow"  
+                             Icon="App.ico"                             
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.Resources>
+        <local:EmployeeInfoRespository x:Key="employeeinfocollection" />
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases to display the filtered information at bottom of the SfDataGrid."
+                                  HeaderText="Filter Status Bar"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="../StatusBar/Themes/Generic.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </syncfusion:LayoutControl.Resources>
+            <syncfusion:LayoutControl.GridView>
+                <Grid x:Name="status">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <syncfusion:SfDataGrid x:Name="sfgrid"
+                                           Grid.Row="0"
+                                           FilterRowPosition="FixedTop"
+                                           ShowRowHeader="True"
+                                           AllowEditing="True"  
+                                           ColumnSizer="Star"
+                                           AllowFiltering="True"                                              
+                                           AutoGenerateColumns="False"                                       
+                                           LiveDataUpdateMode="AllowDataShaping"  
+                                           DataContext="{Binding Source={StaticResource employeeinfocollection}}"
+                                           ItemsSource="{Binding Path=EmployeeDetails}"
+                                           ShowGroupDropArea="True">
+                        <syncfusion:SfDataGrid.Columns>
+                            <syncfusion:GridNumericColumn HeaderText="Employee ID" 
+                                                          NumberDecimalDigits="0"
+                                                          ImmediateUpdateColumnFilter="True" 
+                                                          MappingName="EmployeeID" />
+                            <syncfusion:GridTextColumn HeaderText="Employee Name" 
+                                                       ImmediateUpdateColumnFilter="True"
+                                                       MappingName="Name" />
+                            <syncfusion:GridTextColumn MappingName="Gender" 
+                                                       ImmediateUpdateColumnFilter="True" />
+                            <syncfusion:GridComboBoxColumn MappingName="Title" 
+                                                           ColumnSizer="SizeToCells"
+                                                           ItemsSource="{Binding  Path=ComboBoxItemsSource,Source={StaticResource employeeinfocollection}}"
+                                                           FilterRowEditorType="MultiSelectComboBox" />
+                            <syncfusion:GridDateTimeColumn MappingName="BirthDate" 
+                                                           HeaderText="Birth Date"
+                                                           ImmediateUpdateColumnFilter="True"/>
+                            <syncfusion:GridTextColumn MappingName="SickLeaveHours" 
+                                                       HeaderText="Sick Leave Hours"
+                                                       TextAlignment="Right"
+                                                       ImmediateUpdateColumnFilter="True"/>
+                            <syncfusion:GridCurrencyColumn MappingName="Salary" 
+                                                           ImmediateUpdateColumnFilter="True" />
+                        </syncfusion:SfDataGrid.Columns>
+                    </syncfusion:SfDataGrid>
+                    <local:FilterStatusBar x:Name="FilterStatusBar"                                     
+                                           Grid.Row="1"                                                
+                                           DataGrid="{Binding ElementName=sfgrid,UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

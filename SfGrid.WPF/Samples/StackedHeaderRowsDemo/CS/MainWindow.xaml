@@ -1,0 +1,73 @@
+﻿<syncfusion:ChromelessWindow x:Class="StackedHeaderRowsDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:StackedHeaderRowsDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="Orders Shipment Details are separated by stacked headers to provide clear and better reports."
+                                  HeaderPanelVisibility="Visible"
+                                  HeaderText="Stacked Headers"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid AllowDraggingColumns="True"
+                                       AutoGenerateColumns="False"
+                                       ItemsSource="{Binding OrderList}">
+                    <syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </syncfusion:SfDataGrid.Resources>
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn MappingName="OrderID" TextAlignment="Right" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=OrderDate,
+                                                                            StringFormat=d}"
+                                                   HeaderText="Order Date"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=RequiredDate,
+                                                                            StringFormat=d}"
+                                                   HeaderText="Required Date"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn MappingName="CustomerID" />
+                        <syncfusion:GridTextColumn HeaderText="Company Name" MappingName="Customers.CompanyName" />
+                        <syncfusion:GridTextColumn HeaderText="Contact Name" MappingName="Customers.ContactName" />
+                        <syncfusion:GridTextColumn HeaderText="Contact Number"
+                                                   MappingName="Customers.Phone"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=ShippedDate,
+                                                                            StringFormat=d}"
+                                                   HeaderText="Shipped Date"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn HeaderText="Ship Name" MappingName="ShipName" />
+                        <syncfusion:GridTextColumn HeaderText="Ship Address" MappingName="ShipAddress" />
+                        <syncfusion:GridTextColumn HeaderText="Ship City" MappingName="ShipCity" />
+                        <syncfusion:GridTextColumn HeaderText="Ship Country" MappingName="ShipCountry" />
+                    </syncfusion:SfDataGrid.Columns>
+
+                    <syncfusion:SfDataGrid.StackedHeaderRows>
+                        <syncfusion:StackedHeaderRow>
+                            <syncfusion:StackedHeaderRow.StackedColumns>
+                                <syncfusion:StackedColumn ChildColumns="OrderID,OrderDate,RequiredDate,CustomerID,Customers.CompanyName,Customers.ContactName,Customers.Phone,ShippedDate,ShipName,ShipAddress,ShipCity,ShipCountry" HeaderText="OrderShipmentDetails" />
+                            </syncfusion:StackedHeaderRow.StackedColumns>
+                        </syncfusion:StackedHeaderRow>
+                        <syncfusion:StackedHeaderRow>
+                            <syncfusion:StackedHeaderRow.StackedColumns>
+                                <syncfusion:StackedColumn ChildColumns="OrderID,OrderDate,RequiredDate" HeaderText="Order Details" />
+                                <syncfusion:StackedColumn ChildColumns="CustomerID,Customers.CompanyName,Customers.ContactName,Customers.Phone" HeaderText="Customer Details" />
+                                <syncfusion:StackedColumn ChildColumns="ShippedDate,ShipName,ShipAddress,ShipCity,ShipCountry" HeaderText="Shipment Details " />
+                            </syncfusion:StackedHeaderRow.StackedColumns>
+                        </syncfusion:StackedHeaderRow>
+                    </syncfusion:SfDataGrid.StackedHeaderRows>
+
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

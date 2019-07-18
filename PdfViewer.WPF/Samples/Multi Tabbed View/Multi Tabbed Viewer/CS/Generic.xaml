@@ -1,0 +1,145 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    >
+
+    <Style x:Key="ButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                        <ColorAnimation Duration="0" To="#F2FFFFFF" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="BackgroundGradient"/>
+                                        <ColorAnimation Duration="0" To="#CCFFFFFF" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="BackgroundGradient"/>
+                                        <ColorAnimation Duration="0" To="#7FFFFFFF" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Storyboard.TargetName="BackgroundGradient"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <!--<VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Duration="0" To="#FF6DBDD1" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="Background"/>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="BackgroundAnimation"/>
+                                        <ColorAnimation Duration="0" To="#D8FFFFFF" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[0].(GradientStop.Color)" Storyboard.TargetName="BackgroundGradient"/>
+                                        <ColorAnimation Duration="0" To="#C6FFFFFF" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Color)" Storyboard.TargetName="BackgroundGradient"/>
+                                        <ColorAnimation Duration="0" To="#8CFFFFFF" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Color)" Storyboard.TargetName="BackgroundGradient"/>
+                                        <ColorAnimation Duration="0" To="#3FFFFFFF" Storyboard.TargetProperty="(Rectangle.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Color)" Storyboard.TargetName="BackgroundGradient"/>
+                                    </Storyboard>
+                                </VisualState>-->
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Border x:Name="Background" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="Transparent"  CornerRadius="3">
+                            <Grid Background="{TemplateBinding Background}" Margin="1">
+                                <Border x:Name="BackgroundAnimation" Background="Transparent" Opacity="0"/>
+                                <Rectangle x:Name="BackgroundGradient">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush EndPoint=".7,1" StartPoint=".7,0">
+                                            <GradientStop Color="Transparent" Offset="0"/>
+                                            <GradientStop Color="Transparent" Offset="0.375"/>
+                                            <GradientStop Color="Transparent" Offset="0.625"/>
+                                            <GradientStop Color="Transparent" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </Grid>
+                        </Border>
+                        <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Rectangle x:Name="DisabledVisualElement" Fill="Transparent" IsHitTestVisible="false" Opacity="0" RadiusY="3" RadiusX="3"/>
+                        <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="1" Opacity="0" RadiusY="2" RadiusX="2" Stroke="#FF6DBDD1" StrokeThickness="1"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <BitmapImage x:Key="PrintDocument">
+        <BitmapImage.UriSource>
+            /Resources/PrintDocument.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="GoToFirstPage_Disabled">
+        <BitmapImage.UriSource>
+            /Resources/GoToFirstPage_Disabled.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="GoToFirstPage_Enabled">
+        <BitmapImage.UriSource>
+            /Resources/GoToFirstPage_Enabled.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="GoToLastPage_Disabled">
+        <BitmapImage.UriSource>
+            /Resources/GoToLastPage_Disabled.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="GoToLastPage_Enabled">
+        <BitmapImage.UriSource>
+            /Resources/GoToLastPage_Enabled.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="GoToNextPage_Disabled">
+        <BitmapImage.UriSource>
+            /Resources/GoToNextPage_Disabled.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="GoToNextPage_Enabled">
+        <BitmapImage.UriSource>
+            /Resources/GoToNextPage_Enabled.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="GoToPreviousPage_Disabled">
+        <BitmapImage.UriSource>
+            /Resources/GoToPreviousPage_Disabled.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="GoToPreviousPage_Enabled">
+        <BitmapImage.UriSource>
+            /Resources/GoToPreviousPage_Enabled.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="ZoomIn">
+        <BitmapImage.UriSource>
+            /Resources/ZoomIn.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+
+    <BitmapImage x:Key="ZoomOut">
+        <BitmapImage.UriSource>
+            /Resources/ZoomOut.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+    
+    <BitmapImage x:Key="OpenFile">
+        <BitmapImage.UriSource>
+            /Resources/OpenFile.png
+        </BitmapImage.UriSource>
+    </BitmapImage>
+</ResourceDictionary>

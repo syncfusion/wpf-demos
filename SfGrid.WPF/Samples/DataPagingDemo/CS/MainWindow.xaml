@@ -1,0 +1,98 @@
+﻿<shared:ChromelessWindow x:Class="DataPagingDemo.MainWindow"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:datapager="clr-namespace:Syncfusion.UI.Xaml.Controls.DataPager;assembly=Syncfusion.SfGrid.WPF"
+                         xmlns:grid="clr-namespace:Syncfusion.Windows.Controls.Grid;assembly=Syncfusion.SampleLayout"
+                         xmlns:local="clr-namespace:DataPagingDemo"
+                         xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                         xmlns:syncfusion="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF"
+                         Icon="App.ico"
+                         WindowStartupLocation="CenterScreen"
+                         grid:LayoutControl.SetMetroMode="True">
+    <shared:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </shared:ChromelessWindow.DataContext>
+    <grid:LayoutControl HeaderDescriptionText="This sample showcases Paging in SfDataGrid."
+                        HeaderText="Data Paging "
+                        LayoutMode="Metro"
+                        UserOptionsVisibility="Visible">
+        <grid:LayoutControl.GridView>
+            <Grid>
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <local:GridColumnConverter x:Key="GridColumnConverter" />
+                        <local:GridOrientationConverter x:Key="OrientationConverter" />
+                        <local:GridRowConverter x:Key="GridRowConverter" />
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <syncfusion:SfDataGrid x:Name="dataGrid"
+                                       AllowFiltering="False"
+                                       AutoGenerateColumns="False"
+                                       ColumnSizer="Star"
+                                       IsGroupDropAreaExpanded="True"
+                                       ItemsSource="{Binding Path=PagedSource,
+                                                             ElementName=sfDataPager}"
+                                       NavigationMode="Row"
+                                       ShowGroupDropArea="True">
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn MappingName="OrderID" TextAlignment="Left" />
+                        <syncfusion:GridTextColumn MappingName="CustomerID" />
+                        <syncfusion:GridTextColumn MappingName="EmployeeID" TextAlignment="Right" />
+                        <syncfusion:GridTextColumn HeaderText="Ship Name" MappingName="ShipName" />
+                        <syncfusion:GridTextColumn HeaderText="Ship Address" MappingName="ShipAddress" />
+                        <syncfusion:GridTextColumn HeaderText="Ship City" MappingName="ShipCity" />
+                        <syncfusion:GridTextColumn HeaderText="Ship Country" MappingName="ShipCountry" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=Freight, StringFormat='{}{0:c}'}" TextAlignment="Right" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+                <datapager:SfDataPager x:Name="sfDataPager"
+                                       Grid.Row="{Binding ElementName=OrientationComboBox,
+                                                          Path=SelectedIndex,
+                                                          Converter={StaticResource GridRowConverter}}"
+                                       Grid.Column="{Binding ElementName=OrientationComboBox,
+                                                             Path=SelectedIndex,
+                                                             Converter={StaticResource GridColumnConverter}}"
+                                       Height="60"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       AccentBackground="#FF53C3D5"
+                                       AccentForeground="White"
+                                       NumericButtonCount="10"
+                                       Orientation="{Binding ElementName=OrientationComboBox,
+                                                             Path=SelectedIndex,
+                                                             Converter={StaticResource OrientationConverter}}"
+                                       PageSize="16"
+                                       Source="{Binding GridItemSource}" />
+            </Grid>
+        </grid:LayoutControl.GridView>
+        <grid:LayoutControl.UserOptionsView>
+            <grid:UserOptions HeaderText="Options">
+                <StackPanel Margin="0,20,0,0" Orientation="Vertical">
+                    <TextBlock HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Text="Orientation:" />
+                    <ComboBox x:Name="OrientationComboBox"
+                              Margin="5"
+                              SelectedIndex="0"
+                              SelectionChanged="OrientationComboBox_OnSelectionChanged">
+                        <ComboBoxItem>Horizontal</ComboBoxItem>
+                        <ComboBoxItem>Vertical</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+            </grid:UserOptions>
+        </grid:LayoutControl.UserOptionsView>
+    </grid:LayoutControl>
+</shared:ChromelessWindow>

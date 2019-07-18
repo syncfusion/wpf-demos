@@ -1,0 +1,252 @@
+﻿<layout:SampleLayoutWindow x:Class="ChartDataEditing.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:charts="http://schemas.syncfusion.com/wpf"
+        ResizeMode="CanResizeWithGrip" 
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        UserOptionsVisibility="Visible"
+        WindowStartupLocation="CenterScreen"
+        xmlns:local="clr-namespace:ChartDataEditing"
+        Title="Chart Data Editing">
+
+    <layout:SampleLayoutWindow.DataContext>
+        <local:ViewModel/>
+    </layout:SampleLayoutWindow.DataContext>
+
+    <Grid Margin="30">
+
+        <Grid.Resources>
+
+            <DataTemplate x:Key="AxisPercentageLabelTemplate">
+                <TextBlock FontSize="9.5" Foreground="#606060"
+                           Text="%"/>
+            </DataTemplate>
+
+            <Style TargetType="Line" x:Key="AxisLineStyle">
+                <Setter Property="StrokeThickness" Value="1"/>
+                <Setter Property="Stroke" Value="#E2E2E2"/>
+            </Style>
+
+            <Style TargetType="Line" x:Key="MajorTickLineStyle">
+                <Setter Property="StrokeThickness" Value="1"/>
+                <Setter Property="Stroke" Value="#DDDDDD"/>
+            </Style>
+
+            <Style TargetType="Line" x:Key="SecondaryAxisLineStyle">
+                <Setter Property="StrokeThickness" Value="0"/>
+            </Style>
+
+            <charts:ChartColorModel x:Key="ColorModel">
+                <charts:ChartColorModel.CustomBrushes>
+                    <SolidColorBrush Color="#7BB0F9"/>
+                    <SolidColorBrush Color="#F98292"/>
+                    <SolidColorBrush Color="#96E6A1"/>
+                    <SolidColorBrush Color="#D9AFD9"/>
+                    <SolidColorBrush Color="#FAE5A8"/>
+                    <SolidColorBrush Color="#BCC254"/>
+                    <SolidColorBrush Color="#FCB69F"/>
+                    <SolidColorBrush Color="#E9F3BA"/>
+                </charts:ChartColorModel.CustomBrushes>
+            </charts:ChartColorModel>
+
+            <local:CenterViewSizeConverter x:Key="CenterViewResizer"/>
+
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border BorderThickness="0.5" BorderBrush="#606060" Margin="15">
+            <charts:SfChart  Margin="4,10,10,5" AreaBorderThickness="0">
+                
+                <charts:SfChart.PrimaryAxis>
+                    <charts:DateTimeAxis ShowGridLines="False"
+                                         Interval="1"
+                                         FontSize="9.5"
+                                         Foreground="#606060"
+                                         LabelFormat="yyyy"
+                                         AxisLineStyle="{StaticResource AxisLineStyle}"
+                                         MajorTickLineStyle="{StaticResource MajorTickLineStyle}">
+                    </charts:DateTimeAxis>                    
+                </charts:SfChart.PrimaryAxis>
+
+                <charts:SfChart.SecondaryAxis>
+                    <charts:NumericalAxis RangePadding="Round"                                         
+                                          TickLineSize="0"                                        
+                                          Interval="20"
+                                          FontSize="9.5" 
+                                          Foreground="#606060"
+                                          PostfixLabelTemplate="{StaticResource AxisPercentageLabelTemplate}"
+                                          AxisLineStyle="{StaticResource SecondaryAxisLineStyle}"/>
+                </charts:SfChart.SecondaryAxis>
+
+                <charts:LineSeries XBindingPath="XValue" 
+                                   YBindingPath="YValue" 
+                                   ItemsSource="{Binding Data}" 
+                                   ListenPropertyChange="True"
+                                   Interior="#7BB0F9"/>
+                
+            </charts:SfChart>
+        </Border>
+
+        <Border BorderThickness="0.5" BorderBrush="#606060" Grid.Column="1" Margin="15">
+            <charts:SfChart  Margin="4,10,10,5"  AreaBorderThickness="0">
+
+                <charts:SfChart.PrimaryAxis>
+                    <charts:CategoryAxis Interval="1" FontSize="9.5"
+                                         Foreground="#606060" ShowGridLines="False"
+                                         LabelPlacement="BetweenTicks" LabelsIntersectAction="Hide"
+                                         LabelFormat="yyyy"
+                                         AxisLineStyle="{StaticResource AxisLineStyle}"
+                                         MajorTickLineStyle="{StaticResource MajorTickLineStyle}"/>
+                </charts:SfChart.PrimaryAxis>
+
+                <charts:SfChart.SecondaryAxis>
+                    <charts:NumericalAxis Interval="20"  
+                                          TickLineSize="0"
+                                          FontSize="9.5" 
+                                          Foreground="#606060"
+                                          PostfixLabelTemplate="{StaticResource AxisPercentageLabelTemplate}"
+                                          AxisLineStyle="{StaticResource SecondaryAxisLineStyle}"/>
+                </charts:SfChart.SecondaryAxis>
+
+                <charts:ColumnSeries XBindingPath="XValue" 
+                                     YBindingPath="YValue" 
+                                     ItemsSource="{Binding Data}" 
+                                     ListenPropertyChange="True"
+                                     Palette="Custom"
+                                     ColorModel="{StaticResource ColorModel}"/>
+            </charts:SfChart>
+        </Border>
+
+        <Border BorderThickness="0.5" BorderBrush="#606060" Grid.Row="1" Margin="15">
+
+            <charts:SfChart Margin="4,10,10,5"  AreaBorderThickness="0" >
+
+                <charts:SfChart.PrimaryAxis>
+                    <charts:DateTimeAxis ShowGridLines="False"
+                                         Interval="1"
+                                         FontSize="9.5" Foreground="#606060"                                       
+                                         LabelFormat="yyyy" 
+                                         PlotOffset="10"
+                                         AxisLineStyle="{StaticResource AxisLineStyle}"
+                                         MajorTickLineStyle="{StaticResource MajorTickLineStyle}"/>
+                </charts:SfChart.PrimaryAxis>
+
+                <charts:SfChart.SecondaryAxis>
+                    <charts:NumericalAxis RangePadding="Round"                                        
+                                          TickLineSize="0"                                        
+                                          Interval="20"
+                                          FontSize="9.5" 
+                                          Foreground="#606060"
+                                          PostfixLabelTemplate="{StaticResource AxisPercentageLabelTemplate}"
+                                          AxisLineStyle="{StaticResource SecondaryAxisLineStyle}"
+                                          Minimum="0"
+                                          Maximum="100"/>
+                </charts:SfChart.SecondaryAxis>
+
+                <charts:ScatterSeries XBindingPath="XValue" 
+                                      YBindingPath="Scatter" 
+                                      ItemsSource="{Binding Data}" 
+                                      ListenPropertyChange="True"
+                                      ScatterWidth="13"
+                                      ScatterHeight="13"
+                                      Interior="#7BB0F9"                                      
+                                      />
+
+            </charts:SfChart>
+        </Border>
+
+        <Border BorderThickness="0.5" BorderBrush="#606060" Grid.Column="1" Grid.Row="1" Margin="15">
+            <charts:SfChart AreaBorderThickness="0" SelectionChanged="SfChart_SelectionChanged"
+                           >
+
+                <charts:SfChart.Behaviors>
+                    <charts:ChartSelectionBehavior EnableSegmentSelection="True"/>
+                </charts:SfChart.Behaviors>
+                
+                <charts:DoughnutSeries XBindingPath="XValue" 
+                                       YBindingPath="YValue" 
+                                       ItemsSource="{Binding Data}" 
+                                       ListenPropertyChange="True"
+                                       Palette="Custom"
+                                       LabelPosition="Inside"
+                                       EnableSmartLabels="True"  
+                                       ColorModel="{StaticResource ColorModel}"
+                                       ExplodeOnMouseClick="True"
+                                       x:Name="doughnutSeries"                                       
+                                       ExplodeIndex="1"
+                                       SelectedIndex="1"
+                                       ExplodeRadius="10"
+                                       >
+
+                    <charts:DoughnutSeries.CenterView>
+                        <ContentControl Width="{Binding ElementName=doughnutSeries, Path=InnerRadius,  Converter={StaticResource CenterViewResizer}}"
+                                        Height="{Binding ElementName=doughnutSeries, Path=InnerRadius, Converter={StaticResource CenterViewResizer}}"
+                                        >
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock x:Name="XText" TextWrapping="Wrap" 
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" 
+                                       TextAlignment="Center"
+                                       FontSize="14"
+                                       FontWeight="SemiBold"  
+                                       />
+                                <TextBlock x:Name="YText" TextWrapping="Wrap" 
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" 
+                                       TextAlignment="Center"
+                                       FontSize="13"
+                                       />
+                            </StackPanel>
+                        </ContentControl>
+                    </charts:DoughnutSeries.CenterView>
+                    
+                    <charts:DoughnutSeries.AdornmentsInfo>
+                        <charts:ChartAdornmentInfo ShowLabel="True" 
+                                                   SegmentLabelContent="Percentage"
+                                                   FontSize="10"
+                                                   SegmentLabelFormat="#"
+                                                   Margin="0"/>
+                    </charts:DoughnutSeries.AdornmentsInfo>
+
+                </charts:DoughnutSeries>
+            </charts:SfChart>
+        </Border>
+
+    </Grid>    
+
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <StackPanel Grid.Column="1">
+            <charts:SfDataGrid ItemsSource="{Binding Data}"
+                               AllowEditing="True"       
+                               Margin="10"        
+                               HorizontalAlignment="Center"                     
+                               AddNewRowPosition="Top"
+                               ShowRowHeader="True"
+                               AllowDeleting="True" 
+                               ColumnSizer="Star"
+                               GroupCaptionTextFormat="#"
+                               >
+
+                <charts:SfDataGrid.Columns>
+                    <charts:Columns>
+                        <charts:GridDateTimeColumn MappingName="XValue" MinDateTime="1/1/2000" />
+                        <charts:GridNumericColumn NumberDecimalDigits="0" MappingName="YValue"/>
+                        <charts:GridNumericColumn NumberDecimalDigits="0" MappingName="Scatter"/>
+                    </charts:Columns>
+                </charts:SfDataGrid.Columns>
+
+            </charts:SfDataGrid>
+        </StackPanel>        
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+    
+</layout:SampleLayoutWindow>
+    

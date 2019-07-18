@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="DockingManagerMVVMCaliburnMicro.MenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:local="clr-namespace:DockingManagerMVVMCaliburnMicro"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cal="http://www.caliburnproject.org"
+             >
+
+    <Grid>
+        <Grid.Resources>
+            <HierarchicalDataTemplate x:Key="MenuItemTemplate" ItemsSource="{Binding MenuItemCollection}">
+                <TextBlock Text="{Binding Header}"/>
+                <!-- SubMenu template -->
+                <HierarchicalDataTemplate.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding SubMenuItemCollection}">
+                        <TextBlock  Text="{Binding Header}"/>
+                        <!-- Inner SubMenu template -->
+                        <HierarchicalDataTemplate.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Header}"/>
+                            </DataTemplate>
+                        </HierarchicalDataTemplate.ItemTemplate>
+                    </HierarchicalDataTemplate>
+                </HierarchicalDataTemplate.ItemTemplate>
+            </HierarchicalDataTemplate>
+        </Grid.Resources>
+        <Menu Name="Menu" ItemTemplate="{StaticResource MenuItemTemplate}" >
+            <Menu.ItemContainerStyle>
+                <Style TargetType="MenuItem">
+                    <Setter Property="cal:Action.TargetWithoutContext" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Menu}}, Path=DataContext}" />
+                    <Setter Property="cal:Message.Attach" Value="[Event Click] = [Action MenuClick($dataContext)]" />
+                    <Setter Property="IsChecked" Value="{Binding IsChecked}"/>
+                </Style>
+            </Menu.ItemContainerStyle>
+        </Menu>
+    </Grid>
+</UserControl>

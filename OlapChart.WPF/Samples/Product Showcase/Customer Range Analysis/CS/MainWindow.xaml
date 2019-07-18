@@ -1,0 +1,56 @@
+﻿<samplUtils:SampleWindow x:Class="CustomerRangeAnalysis.MainWindow"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                         xmlns:behavior="clr-namespace:CustomerRangeAnalysis.Behavior"
+                         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                         xmlns:baseChart="clr-namespace:Syncfusion.Windows.Chart;assembly=Syncfusion.Chart.Wpf"
+                         xmlns:samplUtils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                         xmlns:vm="clr-namespace:CustomerRangeAnalysis.ViewModel"
+                         xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF" 
+                         sfshared:SkinStorage.VisualStyle="Metro"                       
+                         Title="Customer Range Analysis" Icon="App.Ico" MinHeight="640" MinWidth="800" Height="640" Width="1020"
+                         WindowState="Maximized" WindowStartupLocation="CenterScreen">
+
+    <samplUtils:SampleWindow.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="chartPalette" MethodName="GetValues" ObjectType="{x:Type sys:Enum}" >
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="baseChart:ChartColorPalette"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </samplUtils:SampleWindow.Resources>
+
+    <Grid>
+        <Grid.DataContext>
+            <vm:ViewModel/>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="Distance and quantity of internet orders placed by the customers for the products." 
+                       Foreground="White" VerticalAlignment="Center" Margin="5 0"/>
+        </StackPanel>
+
+        <syncfusion:OlapChart x:Name="olapChartStackedBar" Grid.Row="1" Margin="5"
+                              OlapDataManager="{Binding DataManager}" ChartType="StackingBar" ColorPalette="Metro">
+            <syncfusion:OlapChart.PrimaryAxis>
+                <syncfusion:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes"/>
+            </syncfusion:OlapChart.PrimaryAxis>
+            <syncfusion:OlapChart.Legend>
+                <syncfusion:ChartLegend RowsCount="2" ColumnsCount="2" Background="Transparent"/>
+            </syncfusion:OlapChart.Legend>
+            <syncfusion:OlapChart.SecondaryAxis>
+                <syncfusion:ChartAxis LabelRotateAngle="90"/>
+            </syncfusion:OlapChart.SecondaryAxis>
+            <i:Interaction.Behaviors>
+                <behavior:ChartLoadedBehavior/>
+            </i:Interaction.Behaviors>
+        </syncfusion:OlapChart>
+    </Grid>
+</samplUtils:SampleWindow>

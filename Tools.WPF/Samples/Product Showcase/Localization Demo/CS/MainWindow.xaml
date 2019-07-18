@@ -1,0 +1,333 @@
+﻿<syncfusion:RibbonWindow x:Class="LocalizationDemo.MainWindow" x:Name="ribbonwindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" Office2010Icon="Images/syncfusion.png"
+    Loaded="ribbonwindow_Loaded"    Icon="/App.ico"	
+	WindowState="Normal" WindowStyle="SingleBorderWindow" 
+    Title="Démo de localisation ruban"  WindowStartupLocation="CenterScreen" Height="700" Width="1000">
+     <syncfusion:RibbonWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.VectorImages.WPF;component/Icons/Outlook2007Icons.xaml"/>
+                <ResourceDictionary Source="/Syncfusion.VectorImages.WPF;component/Icons/General.xaml"/>
+            </ResourceDictionary.MergedDictionaries>       
+            <Style TargetType="{x:Type syncfusion:SimpleMenuButton}" >
+                <Setter Property="CommandTarget" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=Content}"></Setter>
+            </Style>
+            <Style TargetType="{x:Type syncfusion:RibbonMenuItem}" >
+                <Setter Property="CommandTarget" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type Page}}, Path=Content}"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </syncfusion:RibbonWindow.Resources>
+
+    <syncfusion:RibbonWindow.StatusBar>
+        <syncfusion:RibbonStatusBar Grid.Row="2">
+            <TextBlock VerticalAlignment="Center" Margin="7,0,0,0" Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">prêts</TextBlock>
+        </syncfusion:RibbonStatusBar>
+    </syncfusion:RibbonWindow.StatusBar>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+          
+            <RowDefinition Height="Auto"  />
+            <RowDefinition Height="Auto"  />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <syncfusion:Ribbon Name="MyRibbon" Grid.Row="0"  VerticalAlignment="Top">
+
+            <!--Applicaton Menu-->
+            <syncfusion:Ribbon.ApplicationMenu >
+                <syncfusion:ApplicationMenu Width="38" Height="38"
+						ApplicationButtonImage="/Images/syncfusion.png" IsPopupOpen="False">
+                    <syncfusion:ApplicationMenu.ToolTip>
+                        <syncfusion:ScreenTip MinWidth="150"  Description="Bouton Office" ImageSource="/Images/AppMenuImage.png"  VerticalOffset="10">
+                            <TextBlock TextWrapping="Wrap" Width="180">
+								Cliquez ici pour ouvrir, enregistrer ou imprimer, et de voir tout ce que vous pouvez faire avec votre document
+                            </TextBlock>
+                        </syncfusion:ScreenTip>
+                    </syncfusion:ApplicationMenu.ToolTip>
+                    <!--Application Recent Document list Area-->
+                    <syncfusion:ApplicationMenu.MenuItems>
+                        <TextBlock MinWidth="300" FontWeight="Bold">Créer un élément Outlook nouveau</TextBlock>
+                        <Separator Padding="0"/>
+                    </syncfusion:ApplicationMenu.MenuItems>
+                    <syncfusion:SimpleMenuButton Label="Nouveau message" Icon="{StaticResource MailMessage}" syncfusion:Ribbon.ShowInMoreCommands="False" syncfusion:Ribbon.KeyTip="M"/>
+                    <syncfusion:SimpleMenuButton Label="Envoyer" syncfusion:Ribbon.ShowInMoreCommands="False" Icon="{StaticResource Send}" />
+                    <Separator Margin="40,0,0,0"/>
+                    <syncfusion:SimpleMenuButton Label="Enregistrer"  Icon="{StaticResource QATSave}" syncfusion:Ribbon.ShowInMoreCommands="False" syncfusion:Ribbon.KeyTip="S">
+                    </syncfusion:SimpleMenuButton>
+                    <syncfusion:SplitMenuButton Label="Enregistrer sous" Icon="{StaticResource SaveAs}" syncfusion:Ribbon.ShowInMoreCommands="False" syncfusion:Ribbon.KeyTip="Z">
+                        <syncfusion:ApplicationMenuGroup Header="Enregistrer dans un autre format" IconBarEnabled="False">
+                            <syncfusion:SimpleMenuButton  Label="Enregistrer sous" syncfusion:Ribbon.ShowInMoreCommands="False"  Description="Enregistrer une copie de l'article à votre ordinateur dans l'un des formiates de plusieurs"	   Icon="{StaticResource SaveAs}"/>
+                        </syncfusion:ApplicationMenuGroup>
+                    </syncfusion:SplitMenuButton>
+                    <syncfusion:SimpleMenuButton Label="supprimer" syncfusion:Ribbon.ShowInMoreCommands="False" Icon="{StaticResource Delete}" syncfusion:Ribbon.KeyTip="D" />
+                    <syncfusion:SplitMenuButton Label="déplacez"  Icon="{StaticResource MoveToFolder}" syncfusion:Ribbon.KeyTip="MO">
+                        <syncfusion:ApplicationMenuGroup Header="Déplacer ce point vers un autre dossier">
+                            <syncfusion:SimpleMenuButton Label="Boîte de réception" syncfusion:Ribbon.ShowInMoreCommands="False" Icon="{StaticResource Inbox}"/>
+                            <Separator Margin="20,0,0,0"/>
+                            <syncfusion:SimpleMenuButton Label="Autre dossier" syncfusion:Ribbon.ShowInMoreCommands="False" Icon="{StaticResource Folder}"/>
+                            <syncfusion:SimpleMenuButton Label="Copier dans un dossier" syncfusion:Ribbon.ShowInMoreCommands="False" Icon="{StaticResource CopyText}"/>
+                        </syncfusion:ApplicationMenuGroup>
+                    </syncfusion:SplitMenuButton>
+                    <Separator Margin="40,0,0,0"/>
+                    <syncfusion:SplitMenuButton Label="Imprimer"  Icon="{StaticResource Print}" syncfusion:Ribbon.KeyTip="PR">
+                        <syncfusion:ApplicationMenuGroup Header="Prévisualiser et imprimer">
+                            <syncfusion:SimpleMenuButton Label="Imprimer" syncfusion:Ribbon.ShowInMoreCommands="False" Description="Sélectionnez une imprimante, le nombre de copies, et autres options d'impression avant l'impression."  Icon="{StaticResource Print}"/>
+                             </syncfusion:ApplicationMenuGroup>
+                       
+                    </syncfusion:SplitMenuButton>
+                    <Separator Margin="40,0,0,0"/>
+                    <syncfusion:SimpleMenuButton Label="propriétés" Icon="{StaticResource Properties}" syncfusion:Ribbon.ShowInMoreCommands="False"  />
+                    <syncfusion:SimpleMenuButton Label="Fermer" Icon="Images/Close32.png" syncfusion:Ribbon.ShowInMoreCommands="False"  >
+                    </syncfusion:SimpleMenuButton>
+                    <!--Footer items-->
+                    <syncfusion:ApplicationMenu.ApplicationItems>
+                        <syncfusion:RibbonButton SizeForm = "Small" Label="Modifier les options" SmallIcon="Images/Options.png"/>
+                    </syncfusion:ApplicationMenu.ApplicationItems>
+                </syncfusion:ApplicationMenu>
+            </syncfusion:Ribbon.ApplicationMenu>
+
+            <!-- Ribbon BackStage -->
+            <syncfusion:Ribbon.BackStage  >
+                <syncfusion:Backstage Name="RibbonBackStage" syncfusion:Ribbon.ShowInMoreCommands="False"  syncfusion:Ribbon.KeyTip="F">
+                    <syncfusion:BackStageCommandButton Header="Enregistrer" Icon="/Images/BackStageImages/Save.png"   />
+                    <syncfusion:BackStageCommandButton Header="Enregistrer sous"   Icon="/Images/BackStageImages/saveas16.gif"/>
+
+                    <syncfusion:BackstageTabItem Header="Nouveau" >
+                        
+                    </syncfusion:BackstageTabItem>
+
+                    <syncfusion:BackstageTabItem Header="Infos">
+                      
+                    </syncfusion:BackstageTabItem>
+
+                    <syncfusion:BackstageTabItem Header="Imprimer">
+                     
+                    </syncfusion:BackstageTabItem>
+
+                    <syncfusion:BackstageTabItem Header="Enregistrer et envoyer">
+                   
+                    </syncfusion:BackstageTabItem>
+
+                    <syncfusion:BackstageTabItem Header="Aide">
+                        
+                    </syncfusion:BackstageTabItem>
+
+                    <syncfusion:BackStageCommandButton Header="Les options"  Icon="/Images/BackStageImages/Options16.png" />
+                    <syncfusion:BackStageCommandButton Header="Sortir"  Icon="/Images/BackStageImages/Exit.png" />
+                </syncfusion:Backstage>
+            </syncfusion:Ribbon.BackStage>
+
+            <!--QAT toolbar-->
+            <syncfusion:Ribbon.QuickAccessToolBar>
+                <syncfusion:QuickAccessToolBar>
+                    <syncfusion:QuickAccessToolBar.QATMenuItems>
+                        <syncfusion:RibbonButton Label="d impression rapide" />
+                        <syncfusion:RibbonButton Label="Aperçu avant impression" />
+                        <syncfusion:RibbonButton Label="coller" />
+                    </syncfusion:QuickAccessToolBar.QATMenuItems>           
+            
+                    <syncfusion:RibbonButton Label="annuler" SmallIcon="/Images/Undo16.png" SizeForm="ExtraSmall"
+                                             ToolTip="annuler" syncfusion:RibbonCommandManager.SynchronizedItem="Undo" />
+                    <syncfusion:RibbonButton Label="refaire" ToolTip="refaire"  SmallIcon="/Images/Redo16.png" SizeForm="ExtraSmall" syncfusion:RibbonCommandManager.SynchronizedItem="Redo"  />
+                </syncfusion:QuickAccessToolBar>
+            </syncfusion:Ribbon.QuickAccessToolBar>
+
+            <!-- Message Tab-->
+            <syncfusion:RibbonTab  Caption="Accueil" syncfusion:Ribbon.ShowInMoreCommands="False"  syncfusion:Ribbon.KeyTip="H" > 
+
+                <!-- Ribbon Bar for Clipboard-->
+                <syncfusion:RibbonBar Header="Presse-papiers" Name="barClipboaurd" syncfusion:Ribbon.ShowInMoreCommands="False"  syncfusion:Ribbon.KeyTip="FN">
+                    <syncfusion:SplitButton Label="coller" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False"  syncfusion:Ribbon.KeyTip="CO" LargeIcon="{StaticResource PasteText}" Command="ApplicationCommands.Paste" CommandTarget="{Binding ElementName=Editor}">
+                        <syncfusion:SplitButton.ToggleButtonToolTip>
+                            <syncfusion:ScreenTip MinWidth="150"  Description="coller(Ctrl +V)"   VerticalOffset="10">
+                                <TextBlock TextWrapping="Wrap" Width="180">
+								Cliquez ici pour plus d'options telles que coller uniquement les valeurs ou le formatage.
+                                </TextBlock>
+                            </syncfusion:ScreenTip>
+                        </syncfusion:SplitButton.ToggleButtonToolTip>
+                        <syncfusion:SplitButton.ToolTip>
+                            <syncfusion:ScreenTip MinWidth="150"  Description="coller(Ctrl +V)"   VerticalOffset="10">
+                                <TextBlock TextWrapping="Wrap" Width="180">
+								Collez le contenu du Presse-papiers.
+                                </TextBlock>
+                            </syncfusion:ScreenTip>
+                        </syncfusion:SplitButton.ToolTip>
+                        <syncfusion:RibbonButton SmallIcon="{StaticResource PasteText}" SizeForm="Small" Label="coller" Command="ApplicationCommands.Paste" CommandTarget="{Binding ElementName=Editor}"/>
+                        <syncfusion:RibbonButton SmallIcon="/Images/PasteSpecial16.png" SizeForm="Small" Label="Collage spécial"/>
+                        <syncfusion:RibbonButton SmallIcon="/Images/PasteHyperlink16.png" SizeForm="Small" Label="Coller comme lien hypertexte"/>
+                    </syncfusion:SplitButton>
+
+                    <syncfusion:RibbonButton  Label="couper" SizeForm="Small"  SmallIcon="{StaticResource CutText}"  Command="ApplicationCommands.Cut" CommandTarget="{Binding ElementName=Editor}" />
+                    <syncfusion:RibbonButton  Label="copie" SizeForm="Small"  SmallIcon="{StaticResource CopyText}"  Command="ApplicationCommands.Copy" CommandTarget="{Binding ElementName=Editor}" />
+                    <syncfusion:RibbonButton  Label="Reproduire la mise" SizeForm="Small"  SmallIcon="{StaticResource FormatPainter}" />
+                </syncfusion:RibbonBar>             
+
+                <!-- Ribbon Bar Names-->
+                <syncfusion:RibbonBar Header="noms" Name="barNames" syncfusion:Ribbon.KeyTip="NO" syncfusion:Ribbon.ShowInMoreCommands="False">
+                    <syncfusion:RibbonButton Label="carnet d'adresses" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="{StaticResource AddressBook}"/>
+                    <syncfusion:RibbonButton  Label="vérifier les noms" SizeForm="Large"  syncfusion:Ribbon.ShowInMoreCommands="False" LargeIcon="{StaticResource CheckNames}" />
+                </syncfusion:RibbonBar>
+
+                <!-- Ribbon Bar Include-->
+                <syncfusion:RibbonBar Header="inclure" Name="barInclude" syncfusion:Ribbon.ShowInMoreCommands="False" syncfusion:Ribbon.KeyTip="IN">
+                    <syncfusion:RibbonButton Label="oindre un fichier" syncfusion:Ribbon.ShowInMoreCommands="False" SizeForm="Large" syncfusion:Ribbon.KeyTip="OU" LargeIcon="{StaticResource AttachFile}"/>
+                    <syncfusion:RibbonButton  Label="Attachez l'article" syncfusion:Ribbon.ShowInMoreCommands="False" SizeForm="Large"  LargeIcon="{StaticResource AttachItem}" />
+                    <syncfusion:DropDownButton  Label="carte de visite" syncfusion:Ribbon.ShowInMoreCommands="False" SizeForm="Large" syncfusion:Ribbon.KeyTip="CD" LargeIcon="{StaticResource BusinessCard}">
+                        <syncfusion:RibbonMenuItem Header="Autres cartes de visite..." />
+                    </syncfusion:DropDownButton>
+                    <syncfusion:RibbonButton  Label="Calendrier" SizeForm="Large"  LargeIcon="{StaticResource Calendar}" syncfusion:Ribbon.ShowInMoreCommands="False" />
+                    <syncfusion:DropDownButton  Label="Signature" SizeForm="Large" LargeIcon="{StaticResource Signature}" syncfusion:Ribbon.ShowInMoreCommands="False">
+
+                        <syncfusion:RibbonMenuItem  IconBarEnabled="True" Header="Signatures..." />
+
+                    </syncfusion:DropDownButton>
+                </syncfusion:RibbonBar>
+
+                <!-- Ribbon Bar Options-->
+                <syncfusion:RibbonBar Header="Les options" Name="barOptions" syncfusion:Ribbon.ShowInMoreCommands="False"  syncfusion:Ribbon.KeyTip="LO">
+                    <syncfusion:DropDownButton Label="Suivez Up" SizeForm="Large" syncfusion:Ribbon.ShowInMoreCommands="False"  LargeIcon="{StaticResource FollowUp}">
+                        <syncfusion:ApplicationMenuGroup IconBarEnabled="True">
+                            <syncfusion:RibbonMenuItem Header="aujourd'hui">
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="{StaticResource FollowUp}" />
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+
+
+                            <syncfusion:RibbonMenuItem Header="demain" >
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="{StaticResource FollowUp}" />
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+
+                            <syncfusion:RibbonMenuItem Header="Cette Semaine" >
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="{StaticResource FollowUp}" />
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+
+                            <syncfusion:RibbonMenuItem Header="Semaine suivante" >
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="{StaticResource FollowUp}" />
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+
+                            <syncfusion:RibbonMenuItem Header="Pas de date">
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="{StaticResource FollowUp}" />
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+
+                            <syncfusion:RibbonMenuItem Header="personnalisé">
+                                <syncfusion:RibbonMenuItem.Icon>
+                                    <Image Source="{StaticResource FollowUp}" />
+                                </syncfusion:RibbonMenuItem.Icon>
+                            </syncfusion:RibbonMenuItem>
+
+                            <syncfusion:RibbonMenuItem Header="Ajouter un rappel" />
+                            <syncfusion:RibbonMenuItem Header="Effacer l'indicateur" />
+                            <syncfusion:RibbonMenuItem Header="Drapeau pour les bénéficiaires" />
+                        </syncfusion:ApplicationMenuGroup>
+                    </syncfusion:DropDownButton>
+                    <syncfusion:RibbonSeparator />
+                    <syncfusion:RibbonButton  Label="Importance haute" IsToggle="True" SizeForm="Small"  SmallIcon="{StaticResource HighImportance}" />
+                    <syncfusion:RibbonButton  Label="Importance faible" IsToggle="True" SizeForm="Small"  SmallIcon="{StaticResource LowImportance}" />
+                </syncfusion:RibbonBar>
+
+          
+          
+
+            </syncfusion:RibbonTab>
+            
+        </syncfusion:Ribbon>
+
+        <syncfusion:DockingManager UseDocumentContainer="True" ContainerMode="TDI" Grid.Row="2">
+            <Grid syncfusion:DockingManager.SideInDockedMode="Left" 
+                             syncfusion:DockingManager.State="Dock"                             
+                             syncfusion:DockingManager.Header="tâche"
+                             syncfusion:DockingManager.DesiredWidthInDockedMode="200"  
+                  >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                <syncfusion:CalendarEdit Margin="0,10,0,10" Height="200" CalendarStyle="Vista" Width="180"></syncfusion:CalendarEdit>
+                    <!--<syncfusion:DateTimeEdit Height="20" NoneDateText="Aucune date n'est sélectionnée" Margin="0,10,0,10" Width="180" Grid.Row="1"  IsEmptyDateEnabled="True" />-->
+                </Grid>
+            </Grid>
+            <Border  syncfusion:DocumentContainer.TabCaptionToolTip="Dockingmanager Window" 
+                         syncfusion:DockingManager.State="Document" 
+                         syncfusion:DockingManager.Header="WPF ruban" 
+                         >
+                <FlowDocumentScrollViewer  HorizontalScrollBarVisibility="Auto" 
+                                               VerticalScrollBarVisibility="Auto">
+                    <FlowDocument FontFamily="Calibri" FontSize="14.5" TextAlignment="Left">
+                        <Paragraph FontSize="24" FontFamily="Cambria"  FontWeight="Bold" >
+                            WPF Ruban
+                        </Paragraph>
+                        <Paragraph FontSize="15" FontFamily="Calibri">
+                            Ruban illustre la mise en œuvre de Office2010 interface utilisateur, qui est une disposition nouvelle interface utilisateur conçue par Microsoft dans son emballage d'Office 2010. Notre produit expose les plus caractéristiques de la nouvelle interface utilisateur tout en se conformant à l'architecture de WPF. Configuration et conception de la mise en page est très facile lorsque vous utilisez le code XAML. RibbonWindow a été mis en œuvre pour donner un Office 2010 sur le thème chercher IU et se sentir à la fenêtre traditionnelle. Les utilisateurs peuvent éprouver plein la navigation au clavier. Conseils clés sont fournies pour un accès plus rapide des éléments dans le ruban. Amélioration des infobulles aider les utilisateurs à utiliser et à comprendre l'application très facilement.
+                        </Paragraph>
+                        <Paragraph FontSize="18" FontFamily="Cambria">
+                            caractéristiques
+                        </Paragraph>
+                        <List MarkerStyle="Square">
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">support de la localisation</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">Fenêtre du ruban qui remplace la fenêtre par défaut et Office affiche des fenêtres de style 2010</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">Plein d'Office 2010 UI-comme la disposition</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">Ruban structures mises en bar</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">
+                                    Modes-LargeButton Ruban mode et le mode SmallButton
+                                </Paragraph>
+
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">Implémentation personnalisée Ruban de bouton de contrôle-RibbonButton</Paragraph>
+                            </ListItem>
+
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">Angles arrondis ressemblent Bouton Ruban Office</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">Réduire / Agrandir Ruban</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">
+                                    La navigation au clavier simplifiée grâce à des touches accélératrices (soutien d'accélérateur Super)
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph FontSize="15" FontFamily="Calibri">Barre d'outils Accès rapide permet d'accéder aux objets d'usage courant</Paragraph>
+                            </ListItem>
+                            
+                        </List>
+                       
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+            </Border>
+
+            <Grid syncfusion:DockingManager.SideInDockedMode="Right" 
+                             syncfusion:DockingManager.State="Dock"                             
+                             syncfusion:DockingManager.Header="Structure du document"
+                             syncfusion:DockingManager.DesiredWidthInDockedMode="200"  
+                  >
+
+            </Grid>
+        </syncfusion:DockingManager>
+
+    </Grid>
+</syncfusion:RibbonWindow>
