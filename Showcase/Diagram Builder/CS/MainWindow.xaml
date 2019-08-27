@@ -1,0 +1,680 @@
+﻿<syncfusion:RibbonWindow x:Class="DiagramBuilder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:utility="clr-namespace:DiagramBuilder.Utility"
+        xmlns:viewModel="clr-namespace:DiagramBuilder.ViewModel"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:view="clr-namespace:DiagramBuilder.View"
+                         xmlns:local="clr-namespace:DiagramBuilder"
+                         Office2010Icon="/Resources/syncfusion.png"
+       IsGlassActive="False"
+                         Icon="App.ico"
+                         
+        x:Name="diagrambuilder" UseLayoutRounding="True" SnapsToDevicePixels="True"
+        Title="Diagram Builder"  WindowStartupLocation="CenterScreen"
+                         xmlns:brainstorming="clr-namespace:Brainstorming.ViewModel"
+                         xmlns:brainstormingUtility="clr-namespace:Brainstorming.Utility"
+                         xmlns:brainstormingView="clr-namespace:Brainstorming.View"
+                         WindowState="Maximized"
+                         >
+    <Window.DataContext>
+        <!--<viewModel:DiagramBuilderVM>
+           
+        </viewModel:DiagramBuilderVM>-->
+        <brainstorming:BrainstormingBuilderVM></brainstorming:BrainstormingBuilderVM>
+    </Window.DataContext>   
+    <Grid Background="Transparent" UseLayoutRounding="True" SnapsToDevicePixels="True">
+        <Grid.Resources>
+            <BitmapImage x:Key="newpagepng" UriSource="../../Resources/New-page.png" />
+            <BitmapImage x:Key="brainstorming" UriSource="../../Resources/Brainstorming.png" />
+            <BitmapImage x:Key="flowchart" UriSource="../../Resources/Flow_diagram.png" />
+            <BitmapImage x:Key="blank" UriSource="../../Resources/BlankDiagram.png" />
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" VerticalAlignment="Top" UseLayoutRounding="True" SnapsToDevicePixels="True">
+            <Grid.Resources>
+                <Style x:Key="ribbonstyle" TargetType="syncfusion:Ribbon" BasedOn="{StaticResource Office2013RibbonStyle}">
+                   
+                </Style>
+                <utility:BooleanToVisibility x:Key="BooleanToVisibility"/>
+            </Grid.Resources>
+            <syncfusion:Ribbon EnableMoreCommands="False" Style="{StaticResource ribbonstyle}" UseLayoutRounding="True" SnapsToDevicePixels="True" TextOptions.TextRenderingMode="ClearType" 
+                                 TextOptions.TextFormattingMode="Display" BackStageOpening="ribbon_BackStageOpening"  x:Name="ribbon" BackStageHeader="File" ItemsSource="{Binding DataContext.DiagramCommandsVM.DiagramTabs,ElementName=diagrambuilder}"
+                               SelectedIndex="2"
+                               >
+                <syncfusion:Ribbon.ItemContainerStyle>
+                    <Style TargetType="{x:Type syncfusion:RibbonTab}" >                        
+                        <Setter Property="Caption" Value="{Binding Header}"></Setter>
+                        <Setter Property="ItemsSource" Value="{Binding DiagramGroups}"/>
+                        <Setter Property="IsChecked" Value="False"></Setter>                        
+                        <Setter Property="ItemContainerStyle">
+                            <Setter.Value>
+                                <Style TargetType="{x:Type syncfusion:RibbonBar}"  BasedOn="{StaticResource Office2013RibbonBarStyle}">
+                                    <Setter Property="Header" Value="{Binding Header}"/>
+                                    <Setter Property="ItemsSource" Value="{Binding DiagramButtons}"/>
+                                    <Setter Property="IsLauncherButtonVisible" Value="False"/>
+                                   
+                                    <Setter Property="ItemTemplateSelector" Value="{StaticResource DisplayControlSelector}"></Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="Header" Value="Clipboard">
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <view:CustomGrid Header="Clipboard"></view:CustomGrid>
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>                                        
+                                        <Trigger Property="Header" Value="Font">
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Width="230">                                                            
+                                                        </WrapPanel>
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <Trigger Property="Header" Value="Paragraph">
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <WrapPanel Width="80">
+                                                        </WrapPanel>
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <!--<Trigger Property="Header" Value="Tools">
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <view:CustomGrid Header="Tools"></view:CustomGrid>
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>-->
+                                        <Trigger Property="Header" Value="ShapeStyle">
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <view:CustomGrid Header="ShapeStyle"></view:CustomGrid>
+                                                        <!--<view:VariableSizedWrapGrid Orientation="Horizontal" LatchItemSize="True"
+                                                                                   
+                                                          RowSpan="2" MaximumRowsOrColumns="2" ></view:VariableSizedWrapGrid>-->
+                                                        <!--<WrapPanel  Width="Auto" ItemWidth="60" Height="Auto" HorizontalAlignment="Left" Orientation="Horizontal"/>-->
+                                                        
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <!--<Trigger Property="Header" Value="Arrange">
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <view:CustomGrid Header="Arrange"></view:CustomGrid>
+                                                        --><!--<WrapPanel Width="280" ItemWidth="70" ItemHeight="70"/>--><!--
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>-->
+                                        <Trigger Property="Header" Value="Show">
+                                            <Setter Property="ItemsPanel">
+                                                <Setter.Value>
+                                                    <ItemsPanelTemplate>
+                                                        <view:CustomGrid Header="Show"></view:CustomGrid>
+                                                    </ItemsPanelTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="Caption" Value="BRAINSTORMING">
+                                <Setter Property="IsChecked" Value="True"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </syncfusion:Ribbon.ItemContainerStyle>
+                <!--<syncfusion:Ribbon.ContextTabGroups>
+                    <syncfusion:ContextTabGroupCollection>
+                        <syncfusion:ContextTabGroup Label="Picture Tools" ItemsSource="{Binding DataContext.DiagramCommandsVM.BrainstormingTabs,ElementName=diagrambuilder}" x:Name="pictureTools" BackColor="#FFC90077" IsGroupVisible="True">
+
+                            <syncfusion:ContextTabGroup.ItemContainerStyle>
+                                <Style TargetType="{x:Type syncfusion:RibbonTab}" >
+                                    <Setter Property="Caption" Value="Brainstorming"></Setter>
+                                    <Setter Property="ItemsSource" Value="{Binding DiagramGroups}"/>
+                                    <Setter Property="IsChecked" Value="False"></Setter>
+                                    <Setter Property="ItemContainerStyle">
+                                        <Setter.Value>
+                                            <Style TargetType="{x:Type syncfusion:RibbonBar}"  BasedOn="{StaticResource Office2013RibbonBarStyle}">
+                                                <Setter Property="Header" Value="Brainstorming"/>
+                                                
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </syncfusion:ContextTabGroup.ItemContainerStyle>
+                        </syncfusion:ContextTabGroup>
+                    </syncfusion:ContextTabGroupCollection>
+                </syncfusion:Ribbon.ContextTabGroups>-->
+                <syncfusion:Ribbon.QuickAccessToolBar>
+                    <syncfusion:QuickAccessToolBar>
+                        <syncfusion:QuickAccessToolBar.QATMenuItems>
+                            <syncfusion:RibbonButton Label="Save" syncfusion:RibbonCommandManager.SynchronizedItem="Save" />
+                            <syncfusion:RibbonButton Label="Load" syncfusion:RibbonCommandManager.SynchronizedItem="Load" />
+                            <syncfusion:RibbonButton Label="Undo" syncfusion:RibbonCommandManager.SynchronizedItem="Undo" />
+                            <syncfusion:RibbonButton Label="Redo" syncfusion:RibbonCommandManager.SynchronizedItem="Redo" />
+                        </syncfusion:QuickAccessToolBar.QATMenuItems>
+
+                        <syncfusion:RibbonButton Label="Save"
+                                                 SizeForm="ExtraSmall"
+                                                 SmallIcon="/Resources/Save.png"
+                                                 Command="{Binding DataContext.Save ,ElementName=diagrambuilder}"
+                                                 ToolTip="Save" 
+                                                 syncfusion:RibbonCommandManager.SynchronizedItem="Save"
+                                                 />
+                        <syncfusion:RibbonButton Label="Open"
+                                                 SizeForm="ExtraSmall"
+                                                 SmallIcon="/Resources/Load.png"
+                                                 Command="{Binding DataContext.Open ,ElementName=diagrambuilder}"
+                                                 ToolTip="Open" 
+                                                 syncfusion:RibbonCommandManager.SynchronizedItem="Load"
+                                                 />
+                        <syncfusion:RibbonButton Label="Undo"                                                 
+                                                 SizeForm="ExtraSmall"
+                                                 SmallIcon="/Resources/Undo.png"
+                                                 Command="{Binding DataContext.SelectedDiagram.Info.Commands.Undo,ElementName=diagrambuilder}"
+                                                 ToolTip="Undo"
+                                                 syncfusion:RibbonCommandManager.SynchronizedItem="Undo"
+                                                 IsEnabled="{Binding DataContext.IsBlankDiagramSelected, Mode=TwoWay,ElementName=diagrambuilder}"
+                                                 />
+                        <syncfusion:RibbonButton Label="Redo"                                                 
+                                                 SizeForm="ExtraSmall"
+                                                 SmallIcon="/Resources/Redo.png"
+                                                 Command="{Binding DataContext.SelectedDiagram.Info.Commands.Redo,ElementName=diagrambuilder}"
+                                                 ToolTip="Redo"
+                                                 syncfusion:RibbonCommandManager.SynchronizedItem="Redo"
+                                                 IsEnabled="{Binding DataContext.IsBlankDiagramSelected, Mode=TwoWay,ElementName=diagrambuilder}"
+                                                 />
+                    </syncfusion:QuickAccessToolBar>
+                </syncfusion:Ribbon.QuickAccessToolBar>
+
+                <!--  Back Stage  -->
+                <syncfusion:Ribbon.BackStage>
+                    <syncfusion:Backstage>
+                        <!--<syncfusion:BackstageTabItem Header="Info">
+                            <Grid Margin="20,10,0,0">
+                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10">
+                                    <TextBlock Text="File Info" FontWeight="Bold" FontSize="14" Width="100" HorizontalAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="File Name  " FontSize="14" Width="100"/>
+                                        <TextBlock Text="{Binding DataContext.SelectedDiagram.FileInfo.FileName, Mode=TwoWay,ElementName=ribbon}" FontSize="14"  Width="300"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Selected   " FontSize="14" Width="100"/>
+                                        <TextBlock Text="{Binding DataContext.SelectedDiagram.FileInfo.Selected, Mode=TwoWay,ElementName=ribbon}" FontSize="14"  Width="300"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Title  " FontSize="14" Width="100"/>
+                                        <TextBlock Text="{Binding DataContext.SelectedDiagram.FileInfo.Title, Mode=TwoWay,ElementName=ribbon}" FontSize="14"  Width="300"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                                        <TextBlock Text="Comments  " FontSize="14" Width="100"/>
+                                        <TextBox Text="{Binding DataContext.SelectedDiagram.Comments, Mode=TwoWay,ElementName=ribbon, UpdateSourceTrigger=PropertyChanged}" FontSize="14"  Width="300"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+                        </syncfusion:BackstageTabItem>-->
+
+                        <!--<syncfusion:BackstageTabItem Header="New">
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border BorderBrush="#FFD7D7D7" BorderThickness="0,0,0.5,0" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0">
+                                    <StackPanel>
+                                        <TextBlock Text="Available Template" FontSize="14" FontWeight="Bold"/>
+                                        <Button Height="80" Width="80" Margin="0,10,0,0" HorizontalAlignment="Left" >
+                                            <Button.Template>
+                                                <ControlTemplate>
+                                                    <StackPanel Background="LightBlue">
+                                                        <Image Source="{StaticResource newpagepng}" Width="35" Height="35" Stretch="Fill"/>
+                                                        <TextBlock Text="Blank Document" TextWrapping="Wrap" TextAlignment="Center" Padding="5" FontSize="14"/>
+                                                    </StackPanel>
+                                                </ControlTemplate>
+                                            </Button.Template>
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
+                                <StackPanel Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                    <TextBlock Text="Blank Document" FontSize="14" FontWeight="Bold"/>
+                                    <Border Margin="0,10,0,0" BorderBrush="Black" BorderThickness="0.5" Background="White" Width="262" Height="338" HorizontalAlignment="Left">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="#FFC7C8C9" BlurRadius="3"/>
+                                        </Border.Effect>
+                                        <Rectangle x:Name="Rect"/>
+                                    </Border>
+                                    <Button Height="80" Width="80" Command="{Binding DataContext.New, Mode=TwoWay,ElementName=ribbon}" Margin="0,20,0,0" HorizontalAlignment="Left" >
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <StackPanel>
+                                                    <Image Source="{StaticResource newpagepng}" Width="35" Height="35" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                    <TextBlock Text="Create" FontSize="14" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,10,0,0"/>
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="LightBlue"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="False">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </syncfusion:BackstageTabItem>-->
+                        <!--<syncfusion:BackstageTabItem Header="Open">
+                            <Grid Margin="10">
+                                <Button Height="65" Width="300" Command="{Binding DataContext.Open, Mode=TwoWay,ElementName=ribbon}" VerticalAlignment="Top" HorizontalAlignment="Left">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{StaticResource newpagepng}" Width="35" Height="35" Stretch="Fill" VerticalAlignment="Center"/>
+                                                <TextBlock Text="Computer" FontSize="14" VerticalAlignment="Center"/>
+                                                <StackPanel.Style>
+                                                    <Style TargetType="StackPanel">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="LightBlue"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsMouseOver" Value="False">
+                                                                <Setter Property="Background" Value="Transparent"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </StackPanel.Style>
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </Grid>
+                        </syncfusion:BackstageTabItem>
+                        <syncfusion:BackstageTabItem Header="Export">
+                            <Grid Margin="10">
+                                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                                    <Button Height="65" Width="300" Command="{Binding DataContext.Export, Mode=TwoWay,ElementName=ribbon}" CommandParameter="PNG">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{StaticResource newpagepng}" Width="35" Height="35" Stretch="Fill" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="Export as PNG format in your computer" FontSize="14" VerticalAlignment="Center"/>
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="LightBlue"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="False">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                    <Button Height="65" Width="300" Command="{Binding DataContext.Export, Mode=TwoWay,ElementName=ribbon}" CommandParameter="JPG">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{StaticResource newpagepng}" Width="35" Height="35" Stretch="Fill" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="Export as JPG format in your computer" FontSize="14" VerticalAlignment="Center"/>
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="LightBlue"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="False">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                    <Button Height="65" Width="300" Command="{Binding DataContext.Export, Mode=TwoWay,ElementName=ribbon}" CommandParameter="BMP">
+                                        <Button.Template>
+                                            <ControlTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Source="{StaticResource newpagepng}" Width="35" Height="35" Stretch="Fill" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="Export as BMP format in your computer" FontSize="14" VerticalAlignment="Center"/>
+                                                    <StackPanel.Style>
+                                                        <Style TargetType="StackPanel">
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="LightBlue"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsMouseOver" Value="False">
+                                                                    <Setter Property="Background" Value="Transparent"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </StackPanel.Style>
+                                                </StackPanel>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </syncfusion:BackstageTabItem>-->
+                        <syncfusion:BackstageTabItem Header="New" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="75"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Margin="20,0,0,0" Text="New" FontSize="25" Foreground="#111111" FontFamily="SegoeUI" HorizontalAlignment="Left"/>
+                                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,0,0,0">                                    
+                                    <Button Width="132" Height="155" 
+                                            Command="{Binding DataContext.New, Mode=TwoWay,ElementName=ribbon}" 
+                                                 CommandParameter="Blank"
+                                            Click="HideBackstage_Click" Background="Transparent"
+                                            >
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid x:Name="grid" Background="#FFFFFF">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="125"/>
+                                                        <RowDefinition Height="30"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Border x:Name="border" Width="120" Height="120"  BorderBrush="#B4B4B6" BorderThickness="1" HorizontalAlignment="Left" 
+                                                            VerticalAlignment="Top" Margin="5,5,0,0">
+                                                        <Image Source="{StaticResource blank}" Width="62" Height="62" Stretch="Fill"/>
+                                                    </Border>
+                                                    <TextBlock Text="Blank Diagram" Grid.Row="1" FontSize="10" Foreground="#111111" 
+                                                               FontFamily="SegoeUI" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                               Margin="5,5,0,0"/>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="Button.IsFocused" Value="True">
+                                                        <Setter TargetName="grid" Property="Background" Value="#AAC2E7" />
+                                                        <Setter TargetName="border" Property="Background" Value="#FFFFFF" />
+                                                    </Trigger>
+                                                    <Trigger Property="Button.IsMouseOver" Value="True">
+                                                        <Setter TargetName="grid" Property="Background" Value="#D2DFF2" />
+                                                        <Setter TargetName="border" Property="Background" Value="#FFFFFF" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                    <Button Width="132" Height="155" Margin="20,0,0,0"
+                                            Command="{Binding DataContext.New, Mode=TwoWay,ElementName=ribbon}" 
+                                                 CommandParameter="FlowChart"
+                                            Click="HideBackstage_Click" Background="Transparent"
+                                            >
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid x:Name="grid" Background="#FFFFFF">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="125"/>
+                                                        <RowDefinition Height="30"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Border x:Name="border" Width="120" Height="120" BorderBrush="#B4B4B6" BorderThickness="1" HorizontalAlignment="Left" 
+                                                            VerticalAlignment="Top" Margin="5,5,0,0">
+                                                        <Image Source="{StaticResource flowchart}" Width="75" Height="75" Stretch="Fill"/>
+                                                    </Border>
+                                                    <TextBlock Text="Basic Flowchart" Grid.Row="1" FontSize="10" Foreground="#111111" FontFamily="SegoeUI" FontWeight="SemiBold"
+                                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                               Margin="5,5,0,0"
+                                                               />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="Button.IsFocused" Value="True">
+                                                        <Setter TargetName="grid" Property="Background" Value="#AAC2E7" />
+                                                        <Setter TargetName="border" Property="Background" Value="#FFFFFF" />
+                                                    </Trigger>
+                                                    <Trigger Property="Button.IsMouseOver" Value="True">
+                                                        <Setter TargetName="grid" Property="Background" Value="#D2DFF2" />
+                                                        <Setter TargetName="border" Property="Background" Value="#FFFFFF" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                    <Button Width="132" Height="155" Margin="20,0,0,0"
+                                            Command="{Binding DataContext.New, Mode=TwoWay,ElementName=ribbon}" 
+                                                 CommandParameter="Brainstorming"
+                                            Click="HideBackstage_Click" Background="Transparent"
+                                            >
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid x:Name="grid" Background="#FFFFFF">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="125"/>
+                                                        <RowDefinition Height="30"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Border x:Name="border" Width="120" Height="120" BorderBrush="#B4B4B6" BorderThickness="1" HorizontalAlignment="Left" 
+                                                            VerticalAlignment="Top" Margin="5,5,0,0">
+                                                        <Image Source="{StaticResource brainstorming}" Width="75" Height="75" Stretch="Fill"/>
+                                                    </Border>
+                                                    <TextBlock Text="Brainstorming Diagram" TextWrapping="WrapWithOverflow" Grid.Row="1" FontSize="10" Foreground="#111111" FontFamily="SegoeUI" FontWeight="SemiBold"
+                                                               VerticalAlignment="Center" HorizontalAlignment="Center" 
+                                                               Margin="5,5,0,0"
+                                                               />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="Button.IsFocused" Value="True">
+                                                        <Setter TargetName="grid" Property="Background" Value="#AAC2E7" />
+                                                        <Setter TargetName="border" Property="Background" Value="#FFFFFF" />
+                                                    </Trigger>
+                                                    <Trigger Property="Button.IsMouseOver" Value="True">
+                                                        <Setter TargetName="grid" Property="Background" Value="#D2DFF2" />
+                                                        <Setter TargetName="border" Property="Background" Value="#FFFFFF" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                  
+                                </StackPanel>
+                            </Grid>
+                        </syncfusion:BackstageTabItem>
+                        <syncfusion:BackStageCommandButton Header="Open" Click="HideBackstage_Click" Command="{Binding DataContext.Open, Mode=TwoWay,ElementName=ribbon}"></syncfusion:BackStageCommandButton>
+                        <syncfusion:BackStageCommandButton IsEnabled="False" Header="Save" Click="HideBackstage_Click" Command="{Binding DataContext.Save, Mode=TwoWay,ElementName=ribbon}"></syncfusion:BackStageCommandButton>
+                        <syncfusion:BackStageCommandButton IsEnabled="False" Header="SaveAs" Click="HideBackstage_Click" Command="{Binding DataContext.SaveAs, Mode=TwoWay,ElementName=ribbon}"></syncfusion:BackStageCommandButton>
+                        <syncfusion:BackStageCommandButton IsEnabled="False" Header="Print" Click="HideBackstage_Click" Command="{Binding DataContext.SelectedDiagram.PrintCommand, Mode=TwoWay,ElementName=diagrambuilder}"></syncfusion:BackStageCommandButton>
+                        <syncfusion:BackStageCommandButton IsEnabled="False" Header="Export" Click="HideBackstage_Click" Command="{Binding DataContext.SelectedDiagram.ExportCommand, Mode=TwoWay,ElementName=diagrambuilder}"></syncfusion:BackStageCommandButton>
+                        <syncfusion:BackStageCommandButton Header="Close" Click="CloseButton_Click"></syncfusion:BackStageCommandButton>
+                    </syncfusion:Backstage>
+                </syncfusion:Ribbon.BackStage>
+            </syncfusion:Ribbon>
+        </Grid>
+        <view:DiagramBuilder1 Grid.Row="1" x:Name="Builder1"/>    
+      
+    </Grid>
+    <syncfusion:RibbonWindow.StatusBar>
+        <syncfusion:RibbonStatusBar Grid.Row="2" Height="26">
+            <Grid Margin="0,0,10,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    <ColumnDefinition Width="20"></ColumnDefinition>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <!--<syncfusion:RibbonButton VerticalAlignment="Center" FontSize="13" HorizontalAlignment="Center"  Margin="0,0,0,10"
+                Command="{Binding ZoomIn}" Style="{StaticResource buttonstyle}" IsSmallImageVisible="False" Grid.Column="2" Foreground="White" Label="&#x271A;" ></syncfusion:RibbonButton>-->
+
+                <RepeatButton Grid.Column="2">
+                    <RepeatButton.Style>
+                        <Style TargetType="{x:Type RepeatButton}">                            
+                            <Setter Property="Command" Value="{Binding ZoomIn}" />
+                            <Setter Property="ToolTip" Value="ZoomIn"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                        <Viewbox Width="13" Height="13">
+                                            <Grid Background="Transparent">
+                                                <Path Width="16"
+                                                          Height="16"
+                                                          Margin="0,0,0,0"
+                                                          Data="M19.833,0L32.501,0 32.501,19.833999 52.334,19.833999 52.334,32.500999 32.501,32.500999 32.501,52.333 19.833,52.333 19.833,32.500999 0,32.500999 0,19.833999 19.833,19.833999z"
+                                                          Fill="#FFFFFFFF"
+                                                          RenderTransformOrigin="0.5,0.5"
+                                                          Stretch="Uniform">
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TransformGroup.Children>
+                                                                <RotateTransform Angle="0" />
+                                                                <ScaleTransform ScaleX="-1" ScaleY="-1" />
+                                                            </TransformGroup.Children>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                            </Grid>
+                                        </Viewbox>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </RepeatButton.Style>
+                </RepeatButton>
+
+                <!--<syncfusion:sli-->
+                <!--<Slider Grid.Column="1" Minimum="0.3"  Margin="5" Maximum="3" TickFrequency="0.1" Tag="FitToPage" Value="{Binding SelectedDiagram.SelectedItems.Scale, Mode=TwoWay}"/>-->
+                
+                <Slider Grid.Column="1" IsMoveToPointEnabled="True"
+                        Minimum="0.3"  Margin="5" Maximum="3" 
+                        TickFrequency="0.1" 
+                        Tag="FitToPage" 
+                        Value="{Binding SelectedDiagram.SelectedItems.Scale, Mode=TwoWay}" ToolTip="Zoom">
+                    <Slider.Style>
+                        <Style TargetType="{x:Type Slider}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Slider}">
+                                        <Grid>
+                                            <Border     Height="2"
+                                                        VerticalAlignment="center"
+                                                        Background="White"
+                                                        BorderBrush="White"
+                                                        BorderThickness="1"
+                                                        CornerRadius="1">
+                                                <Canvas >
+                                                    <Rectangle x:Name="PART_SelectionRange"
+                                                                   Height="2.0"                                                                  
+                                                                   StrokeThickness="1.0"
+                                                                   Visibility="Visible" />
+                                                </Canvas>
+                                            </Border>
+                                            <Track x:Name="PART_Track" >
+                                                <Track.Thumb>
+                                                    <Thumb Foreground="White">
+                                                        <Thumb.Style>
+                                                            <Style TargetType="{x:Type Thumb}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type Thumb}">
+                                                                            <Rectangle Fill="{TemplateBinding Foreground}" Height="15" Width="3"/>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Thumb.Style>
+                                                    </Thumb>
+                                                </Track.Thumb>
+                                            </Track>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Slider.Style>
+                </Slider>               
+
+                <!--<syncfusion:RibbonButton Margin="0,0,0,10"  FontSize="13" Style="{StaticResource buttonstyle}" Command="{Binding ZoomOut}" Label="&#x268A;" Grid.Column="0" Foreground="White" IsSmallImageVisible="False"></syncfusion:RibbonButton>-->
+
+                <RepeatButton x:Name="incrementButton" Grid.Column="0" >
+                    <RepeatButton.Style>
+                        <Style TargetType="{x:Type RepeatButton}">
+                            <Setter Property="Command" Value="{Binding ZoomOut}" />
+                            <Setter Property="ToolTip" Value="ZoomOut"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                                        <Viewbox Width="13" Height="13">
+                                            <Grid Background="Transparent">
+                                                <Path Width="16"
+                                                          Height="16"
+                                                          Margin="0,0,0,0"
+                                                          Data="M0,0L53.333,0 53.333,8.888 0,8.888z"
+                                                          Fill="#FFFFFFFF"
+                                                          RenderTransformOrigin="0.5,0.5"
+                                                          Stretch="Uniform">
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TransformGroup.Children>
+                                                                <RotateTransform Angle="0" />
+                                                                <ScaleTransform ScaleX="-1" ScaleY="-1" />
+                                                            </TransformGroup.Children>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                            </Grid>
+                                        </Viewbox>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </RepeatButton.Style>
+                </RepeatButton>
+                <TextBlock Margin="5" Foreground="White" ToolTip="Zoom level. Click to Open the Zoom Dialog Box." Text="{Binding SelectedDiagram.SelectedItems.Scale,Converter={StaticResource TexttoPercentageConverter}}" MouseLeftButtonDown="TextBlock_MouseLeftButtonDown" Grid.Column="3"></TextBlock>
+
+                <syncfusion:RibbonButton Tag="FitToPage" SizeForm="ExtraSmall" Grid.Column="4" 
+                  Command="{Binding SelectedDiagram.Info.Commands.FitToPage}" ToolTip="Fit page to current window"
+                                         SmallIcon="\Resources\fullscreen-16x16-1.png">
+                    <syncfusion:RibbonButton.CommandParameter>
+                        <syncfusion:FitToPageParameter FitToPage="FitToPage" Margin="20" />
+                    </syncfusion:RibbonButton.CommandParameter>
+                </syncfusion:RibbonButton>
+            </Grid>           
+        </syncfusion:RibbonStatusBar>
+    </syncfusion:RibbonWindow.StatusBar>
+    
+    
+</syncfusion:RibbonWindow>

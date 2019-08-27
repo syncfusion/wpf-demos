@@ -1,0 +1,182 @@
+﻿<layout:SampleLayoutWindow x:Class="ChartLegends.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+    xmlns:local="clr-namespace:ChartLegends"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"       
+    Title="Legend Configuration Demo" x:Name="window1" >
+
+    <Window.Resources>
+        <ResourceDictionary>
+        </ResourceDictionary>
+    </Window.Resources>
+        <!--Root layout, splitting into two rows and two columns-->
+        <Grid >
+            <Grid.DataContext>
+                <local:LegendViewModel/>
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Hosting Chart control in second Row of the Grid-->
+            <syncfusion:Chart Grid.Row="1" Name="Chart1"  Margin="0" Background="White" >
+                <syncfusion:Chart.Header>
+                    <TextBlock FontSize="20" TextWrapping="Wrap" FontWeight="Regular">Performance comparison of Toyota Prius in U.S.</TextBlock>
+                </syncfusion:Chart.Header>
+                <!--Chart area to present chart segments-->
+                <syncfusion:ChartArea IsContextMenuEnabled="False" ContextMenu="{x:Null}" >
+                    <syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartStyleModel Palette="Metro"/>
+                    </syncfusion:ChartArea.ColorModel>
+                    <!--Chart area Legend declaration-->
+                    <syncfusion:ChartArea.Legend>
+                        <syncfusion:ChartLegend Name="Legend1"  syncfusion:Chart.Dock="{Binding ElementName=Position1, Path=SelectedItem, Mode=TwoWay}"></syncfusion:ChartLegend>
+                    </syncfusion:ChartArea.Legend>
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <syncfusion:ChartAxis Header="Toyota Prius family models sold in the U.S. " EdgeLabelsDrawingMode="Shift"></syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <syncfusion:ChartAxis Header="EPA Mileage (mpg)"  EdgeLabelsDrawingMode="Shift"></syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <!--Chart series declaration-->
+                    <syncfusion:ChartSeries Name="SeriesA" Type="Column" Unit="mpg" DataSource="{Binding fruitList}" BindingPathX="CarName" BindingPathsY="CityMileage" Label="City Mileage" StrokeThickness="0.5" >
+
+                    </syncfusion:ChartSeries>
+                    <syncfusion:ChartSeries Name="SeriesB" Type="Column" Unit="mpg" DataSource="{Binding fruitList}" BindingPathX="CarName" BindingPathsY="HighwayMileage" Label="High Way Mileage" StrokeThickness="0.5" >
+
+                    </syncfusion:ChartSeries>
+                </syncfusion:ChartArea>
+            </syncfusion:Chart>            
+            
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.DataContext>
+                <local:LegendViewModel/>
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+        <Expander IsExpanded="True" Grid.Row="0" Grid.ColumnSpan="2" Header="Legend Styles">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Position"  Grid.Row="0" Grid.Column="0" />
+                <ComboBox x:Name="Position1" Grid.Row="0"  Grid.Column="1" ItemsSource="{Binding ChartDockCollection}" SelectedIndex="1"/>
+
+                <TextBlock Text="Background" Grid.Row="1" Grid.Column="0" />
+                <syncfusion:ColorPicker x:Name="Background" Grid.Row="1" Grid.Column="1" Brush="{Binding ElementName=Legend1, Path=Background, Mode=TwoWay}"  />
+                
+                <TextBlock Text="BorderBrush"  Grid.Row="2" Grid.Column="0" />
+                <syncfusion:ColorPicker x:Name="BorderBrush" Grid.Row="2" Grid.Column="1" Brush="{Binding ElementName=Legend1, Path=BorderBrush, Mode=TwoWay}" />
+
+                <TextBlock Text="Border Thickness"  Grid.Row="3" Grid.Column="0" />
+                <TextBox x:Name="BorderThickness"  Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=Legend1, Path=BorderThickness, Mode=TwoWay}"/>
+                
+                <TextBlock Text="Corner Radius"  Grid.Row="4" Grid.Column="0"/>
+                <TextBox x:Name="CornerRadius"  Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=Legend1, Path=CornerRadius, Mode=TwoWay}"/>
+                
+                <TextBlock Text="Opacity"  Grid.Row="5" Grid.Column="0"/>
+                <TextBox x:Name="opacity"  Grid.Column="1" Grid.Row="5" Text="{Binding ElementName=Legend1, Path=Opacity, Mode=TwoWay}"/>
+            </Grid>
+        </Expander>
+            <Expander Grid.Row="1" Grid.ColumnSpan="2" Header="Visibility">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock TextWrapping="Wrap"  Text="Icons in Legend" Grid.Row="0" Grid.Column="0"  />
+                    <ComboBox Grid.Row="0" Name="cmbShowIcons" Grid.Column="1" ItemsSource="{Binding VisibilityCollection}" SelectedItem="{Binding ElementName=Legend1, Path=IconVisibility, Mode=TwoWay}"/>
+                    
+                    <TextBlock Grid.Row="1" Grid.Column="0" Name="textBlock2" Text="Visibility Of Legend" />
+                    <ComboBox Grid.Row="1" Grid.Column="1" Name="combovisibility" ItemsSource="{Binding VisibilityCollection}" SelectedItem="{Binding ElementName=Legend1, Path=Visibility, Mode=TwoWay}" />
+
+                    <TextBlock Text="Check Box Visibility" Grid.Row="2" Grid.Column="0"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding VisibilityCollection}" SelectedItem="{Binding ElementName=Legend1, Path=CheckBoxVisibility, Mode=TwoWay}"/>
+
+
+                </Grid>
+            </Expander>
+            <Expander Grid.Row="2" Grid.ColumnSpan="2" Header="Dock">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="DockX" Grid.Row="0" Grid.Column="0" />
+                    <Slider x:Name="x" Value="{Binding ElementName=Legend1, Path=OffsetX, Mode=TwoWay}" Minimum="0" Maximum="430" Grid.Row="0"  Grid.Column="1"/>
+                    <TextBlock Text="DockY" Grid.Row="1" Grid.Column="0" />
+                    <Slider x:Name="y" Value="{Binding ElementName=Legend1, Path=OffsetY, Mode=TwoWay}" TickFrequency="2"    Minimum="0" Maximum="535" Grid.Row="1" Grid.Column="1"/>
+                </Grid>
+            </Expander>
+            <Expander Grid.Row="3" Grid.Column="2" Header="Margin Settings">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Item Margin" Grid.Row="0" Grid.Column="0" />
+                    <TextBox x:Name="ItemMargin" Grid.Column="1" Grid.Row="0"  Text="{Binding ElementName=Legend1, Path=ItemMargin, Mode=TwoWay}"/>
+                    <TextBlock Text="Element Margin" Grid.Row="1" />
+                    <TextBox x:Name="ElementMargin" Grid.Column="1" Grid.Row="1"  Text="{Binding ElementName=Legend1, Path=ElementMargin, Mode=TwoWay}" />
+                </Grid>
+            </Expander>
+            <Expander Grid.Row="4" Grid.ColumnSpan="2" Header="Unit For Series">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Series 1 Metric(Unit)" Grid.Row="0" Grid.Column="0" />
+                    <TextBox x:Name="txtUnit1" Grid.Column="1" Grid.Row="0" Text="{Binding ElementName=SeriesA, Path=Unit, Mode=TwoWay}" />
+                    <TextBlock Text="Series 2 Metric(Unit)" Grid.Row="4" Grid.Column="0" />
+                    <TextBox x:Name="txtUnit2" Grid.Column="1" Grid.Row="4" Text="{Binding ElementName=SeriesB, Path=Unit, Mode=TwoWay}"/>
+                </Grid>
+            </Expander>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+   
+</layout:SampleLayoutWindow>

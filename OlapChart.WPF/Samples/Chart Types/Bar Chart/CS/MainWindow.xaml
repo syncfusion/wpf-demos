@@ -1,0 +1,80 @@
+<sfutils:SampleWindow x:Class="BarChart.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+                      xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                      xmlns:local="clr-namespace:BarChart" 
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                      sfshared:SkinStorage.VisualStyle="Metro"                  
+                      Title="Bar Chart" x:Name="window1" Icon="App.ico" MinHeight="570" MinWidth="740"
+                      WindowStartupLocation="CenterScreen" WindowState="Maximized">
+
+    <Grid>
+        <Grid.DataContext>
+            <local:ViewModel/>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="This sample illustrates the internet sales analysis of specific countries over some range of years through bar chart type of OlapChart."
+                       VerticalAlignment="Center" Foreground="White" Margin="5 0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Margin="5" Header="OlapChart" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                
+                <!--Adding Chart-->
+                <syncfusion:OlapChart Name="olapchart1" Margin="5" ColorPalette="Metro"
+                                      ChartType="{Binding OlapChartType,Mode=TwoWay}" 
+                                      OlapDataManager="{Binding DataManager}" 
+                                      SeriesStrokeThickness="0" SeriesAnimateOption="Left" SeriesAnimateOneByOne="True"
+                                      EnableSeriesAnimation="True" SeriesAnimationDuration="00:00:3">
+                    <syncfusion:OlapChart.PrimaryAxis>
+                        <syncfusion:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes"/>
+                    </syncfusion:OlapChart.PrimaryAxis>
+                    <syncfusion:OlapChart.SecondaryAxis>
+                        <syncfusion:ChartAxis LabelRotateAngle="90" LabelFormat="C"/>
+                    </syncfusion:OlapChart.SecondaryAxis>
+                    <syncfusion:OlapChart.Legend>
+                        <syncfusion:ChartLegend Background="Transparent" Visibility="{Binding ShowLegend}"/>
+                    </syncfusion:OlapChart.Legend>
+                </syncfusion:OlapChart>
+            </GroupBox>
+
+            <GridSplitter Grid.Column="0" Width="1" Margin="0 10 0 5" Background="#FF119EDA" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+
+            <GroupBox Grid.Column="1" Margin="5" Header="Properties" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                
+                <StackPanel Margin="5">
+                    <CheckBox Name="chkShowLegend" Margin="0 10" IsChecked="True" Content="Show Legend" Command="{Binding LegendDelegateCommand}" CommandParameter="{Binding ElementName=chkShowLegend, Path=IsChecked}"/>
+                    <TextBlock Margin="0 10" Text="Series Type:" FontWeight="SemiBold" TextAlignment="Left"/>
+                    <RadioButton Name="rbtBar" GroupName="SeriesType" Margin="0 10" Content="Bar" IsChecked="True" 
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtBar, Path=Content}"/>
+                    <RadioButton Name="rbtStackingBar" GroupName="SeriesType" Margin="0 10" Content="Stacking Bar"
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtStackingBar, Path=Content}"/>
+                    <RadioButton Name="rbtStackingBar100" GroupName="SeriesType" Margin="0 10" Content="Stacking Bar 100"
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtStackingBar100, Path=Content}"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</sfutils:SampleWindow>

@@ -1,0 +1,41 @@
+﻿<Page x:Class="DataBindingDemo.DynamicObjectsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:DataBindingDemo"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sync="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF"
+      Title="DynamicObjectsPage"
+      d:DesignHeight="300"
+      d:DesignWidth="300"
+      mc:Ignorable="d">
+
+    <Page.DataContext>
+        <local:OrderInfoViewModel />
+    </Page.DataContext>
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <sync:SfDataGrid x:Name="syncgrid"
+                         AutoGenerateColumns="False"
+                         ColumnSizer="Star"
+                         AllowFiltering="True"
+                         AllowResizingColumns="True"
+                         ItemsSource="{Binding DynamicOrders}"
+                         NavigationMode="Row">
+            <sync:SfDataGrid.Columns>
+                <sync:GridTextColumn HeaderText="Order ID" MappingName="OrderID" TextAlignment="Left" />
+                <sync:GridTextColumn HeaderText="Customer ID" MappingName="CustomerID" />
+                <sync:GridTextColumn HeaderText="Employee ID" MappingName="EmployeeID" TextAlignment="Right" />
+                <sync:GridTextColumn HeaderText="Ship City" MappingName="ShipCity" />
+                <sync:GridTextColumn HeaderText="Ship Country" MappingName="ShipCountry" />
+                <sync:GridTextColumn DisplayBinding="{Binding Path=Freight, StringFormat='{}{0:c}'}" TextAlignment="Right" />
+            </sync:SfDataGrid.Columns>
+        </sync:SfDataGrid>
+    </Grid>
+</Page>

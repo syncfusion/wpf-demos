@@ -1,0 +1,1079 @@
+﻿<syncfusion:RibbonWindow x:Class="RichTextBoxAdvSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" WindowState="Maximized"
+        xmlns:this="clr-namespace:RichTextBoxAdvSample" Icon="App.ico"
+        Title="{Binding Path=DocumentTitle, ElementName=rte}" >
+    
+        <syncfusion:RibbonWindow.Resources>
+            <this:ZoomFactorInPercentage x:Key="FactorInPercentage"/>
+        </syncfusion:RibbonWindow.Resources>
+
+    <syncfusion:RibbonWindow.StatusBar>
+        <syncfusion:RibbonStatusBar Height="25">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Margin="10,0,0,5" FontSize="12">
+								<this:RunAdv Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" RunText="Section :"/>
+								<this:RunAdv Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" RunText="{Binding Path=Document.Sections.Count, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock Margin="10,0,0,5" FontSize="12">
+								<this:RunAdv Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" RunText="Page :" />
+								<this:RunAdv Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" RunText="{Binding Path=Viewer.CurrentPageNumber}"/>
+								<this:RunAdv Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" RunText="Of"/>
+								<this:RunAdv Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" x:Name="pagecount" RunText="{Binding PageCount}"/>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1">
+                    <syncfusion:RibbonButton SizeForm="ExtraSmall" x:Name="print" SmallIcon="/Images/PrintLayout.png" Command="syncfusion:RichTextBoxAdv.ChangeLayout" CommandTarget="{Binding ElementName=rte}" CommandParameter="Pages"/>
+                    <syncfusion:RibbonButton SizeForm="ExtraSmall" x:Name="web"  SmallIcon="/Images/WebLayout.png" Command="syncfusion:RichTextBoxAdv.ChangeLayout" CommandTarget="{Binding ElementName=rte}" CommandParameter="Continuous"/>
+                    <TextBlock FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0">
+								<this:RunAdv Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" RunText="{Binding Path=ZoomFactor, Converter={StaticResource FactorInPercentage}}"/>
+								<this:RunAdv Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" RunText="%"/>
+                    </TextBlock>
+                    <Slider x:Name="rangeslider" Foreground="{Binding Path=Foreground,
+                                                Mode=OneWay,
+                                                RelativeSource={RelativeSource FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:RibbonStatusBar}}}" Value="0.25" TickFrequency="0.1" Width="150"
+											    TickPlacement="None" Minimum="0" Maximum="1" />
+                </StackPanel>
+            </Grid>
+        </syncfusion:RibbonStatusBar>
+    </syncfusion:RibbonWindow.StatusBar>
+    
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <syncfusion:RichTextRibbon DataContext="{Binding ElementName=rte}"/>
+        <syncfusion:RichTextBoxAdv PageLayout="Pages" Grid.Row="1" x:Name="rte" ZoomFactor="{Binding Path=Value, ElementName=rangeslider, Mode=TwoWay}" FontSize="12" DocumentTitle="Syncfusion RichTextEditor Document-1">
+            <syncfusion:DocumentAdv>
+                <syncfusion:SectionAdv>
+                    <syncfusion:ParagraphAdv>
+                        <syncfusion:SpanAdv Text="RichTextEditor" FontStyle="Normal" Baseline="Normal" Foreground="#FF4F81BD" FontSize="24" FontFamily="Verdana" FontWeight="Bold" />
+                        <syncfusion:SpanAdv Text="								                        " />
+                        <syncfusion:ImageContainerAdv ImageSource="/Images/Synclogo.png"  Width="220" Height="60"/>
+                    </syncfusion:ParagraphAdv>
+
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv" FontWeight="Bold" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" is a control " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="using which you can format the text, align and " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="indent" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" the paragraph, and display the content in pages or web layout mode." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="The following table shows the important Features in  Table." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:TableAdv >
+                        <syncfusion:TableRowAdv >
+                            <syncfusion:TableCellAdv Background="LightGray">
+                                <syncfusion:ParagraphAdv  TextAlignment="Center">
+                                    <syncfusion:SpanAdv Text="Actions" FontWeight="Bold">
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                            <syncfusion:TableCellAdv Background="LightGray">
+                                <syncfusion:ParagraphAdv  TextAlignment="Center">
+                                    <syncfusion:SpanAdv Text="Description" FontWeight="Bold">
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                        </syncfusion:TableRowAdv>
+                        <syncfusion:TableRowAdv >
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="Insert a Table" >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="It allows the user to insert the Table." >
+                                    </syncfusion:SpanAdv>
+                                    <syncfusion:SpanAdv Text="It also allows n*n tables in nested level." >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                        </syncfusion:TableRowAdv>
+                        <syncfusion:TableRowAdv >
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="Insert Rows Above" >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="It allows the user insert a Row above to the current row." >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                        </syncfusion:TableRowAdv>
+                        <syncfusion:TableRowAdv >
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="Insert Rows Below" >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="It is used to insert a Row which is below to the current row." >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                        </syncfusion:TableRowAdv>
+                        <syncfusion:TableRowAdv >
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="Insert Columns To Left" >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="It allows inserting a column to the left of current column." >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                        </syncfusion:TableRowAdv>
+                        <syncfusion:TableRowAdv >
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="Insert Columns To Right" >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="It permits to insert a column which is right to the current column." >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                        </syncfusion:TableRowAdv>
+                        <syncfusion:TableRowAdv >
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="Delete a Table" >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="It allows the user to delete table from the " >
+                                    </syncfusion:SpanAdv>
+                                    <syncfusion:SpanAdv Text="RichTextBox" >
+                                    </syncfusion:SpanAdv>
+                                    <syncfusion:SpanAdv Text="." >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                        </syncfusion:TableRowAdv>
+                        <syncfusion:TableRowAdv >
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="Merging" >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                                <syncfusion:ParagraphAdv/>
+                            </syncfusion:TableCellAdv>
+                            <syncfusion:TableCellAdv >
+                                <syncfusion:ParagraphAdv >
+                                    <syncfusion:SpanAdv Text="It merges the selected cells in the Table using the specified RowSpan and ColumnSpan values in the TableCellAdv" >
+                                    </syncfusion:SpanAdv>
+                                </syncfusion:ParagraphAdv>
+                            </syncfusion:TableCellAdv>
+                        </syncfusion:TableRowAdv>
+                    </syncfusion:TableAdv>
+                    <syncfusion:ParagraphAdv >
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="The features of the RichTextBoxAdv control includes:" FontWeight="Bold" />
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Clipboard" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" support." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Text Formatting" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Paragraph " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="alignment" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" and indentation" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" features like " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="TextAlignment, LineSpacing, LeftIndent, RightIndent, BeforeSpacing, AfterSpacing." FontStyle="Italic" Foreground="BlueViolet"  >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:HyperlinkAdv Text="Commands Support "/>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Insert an " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Image " FontWeight="Bold"/>
+                        <syncfusion:SpanAdv Text="or" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" UIElement " FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="into syncfusion" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="BoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="PageLayout" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Import and Export feature for following file formats .doc, .docx, .html, .xaml, .txt." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Printing and Zooming." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Keyboard" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" shortcuts." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Undo and Redo Support." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Disable editing using " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="IsReadOnly " FontWeight="Bold" HighlightColor="Yellow"/>
+                        <syncfusion:SpanAdv Text="property."/>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="1. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Inlines" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="It allows you to " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="define the c" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ontent into paragraphs. It can be added only inside the sec" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="tions. We " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="can" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" keep 'n' number of Paragraphs inside the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="SectionAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". Each and every paragraph may co" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="n" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="tain the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="inline elements " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="like " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="SpanAdv, HyperlinkAdv, ImageContainerAdv" FontStyle="Italic" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" and"/>
+                        <syncfusion:SpanAdv Text=" UIContainerAdv" FontStyle="Italic" FontWeight="Bold"/>
+                        <syncfusion:SpanAdv Text=". " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="2. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Text Formatting" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="As Inline will be the content property of the ParagraphAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=", SpanAdv can be added only inside the ParagraphAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". Every ParagraphAdv can keep 'n' number of " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="inlines" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" inside it." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="It allows you to display the format" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ted text using advanced features like " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="FontSize" HighlightColor="Red">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=", " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="FontFamily" FontFamily="Arial Black" FontSize="13">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=", " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="StrikeThrough"  StrikeThrough="DoubleStrike">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=", " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Baseline" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="3. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Insert an Image" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv TextAlignment="Center">
+                        <syncfusion:SpanAdv Text="In order to insert an image into the document, we offer " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ImageContainerAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" inline in the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTex" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="t" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="BoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". It can be added only inside the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ParagraphAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="4. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Insert a UIElement" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="In order to insert " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="a" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" UIElement into the document, we offer " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="UIContainerAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" inline in the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTex" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="t" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="BoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". It can be added only inside the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ParagraphAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="5. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Layout" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Modes" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="Layout mode feature allows " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="choosing" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" several " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="layouts" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" in the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="document. " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="Page" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Layout" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" -" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Single" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" document in the edited content can be " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="separated" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" into" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" 'n'" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" number of pages" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" depend upon the capacity of the content" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". We can customize the page margin and size using the properties" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" which are available in " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="SectionAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="Continuous" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Layout" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" -" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" This layout mode look like Web Layout mode in MS word. Instead of having pages of content, it will have single page which displays the whole content" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="6. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Import and Export" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv TextAlignment="Justify">
+                        <syncfusion:SpanAdv Text="This feature lets you to " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="use more than 3 file formats like " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=".doc, .docx, .html, .xaml, .txt"  FontStyle="Italic">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" inside the Ric" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="h" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="TextBoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Any" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" one format" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" allows" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="making use of other formats." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="6.1. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Html Import/Export" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="Html Import allows the user to import .html file into the RichTextBoxAdv. " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="It just r" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="en" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ders the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="HtmlTags" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" as like the Browser and displays the text in the format of " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv's" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" content model.  Html Export feature actually exposes the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv's" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" document as the .html file. " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="6.2. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Doc" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" Import/Export " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="and Docx Import/Export" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv LineSpacing="3">
+                        <syncfusion:SpanAdv Text="Doc and Docx" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" Import allow the user to import ." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="doc" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" file" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" and .docx file" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" into the RichTextBoxAdv. It just r" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="en" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ders the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Word " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Doucment" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" as like the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="MS Word" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" and displays the text in the format of " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Ric" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="h" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="TextBoxAdv's" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" content model.  " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Doc" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" Export" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" and Docx Export" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" feature actually exposes the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTex" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="t" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="BoxAdv's" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" document as the ." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="doc" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" file" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" and .docx" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" To enable Doc and Docx Import/Export in the applic" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="a" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="tion you should add " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Syncfusion.RichTextDocIOParser.WPF" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="dll" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" in the project. " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="6.3. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Xaml Import/Export" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="Xaml" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" Import allows the user to import ." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="xaml" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" file into the RichTextBoxAdv. It just r" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="en" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ders the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="XamlElements" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" as like the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="XamlReader" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" and displays the text in the format of " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv's" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" co" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="n" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="tent model.  " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Xaml" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" Export feature actually exposes the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv's" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" document as the ." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="xaml" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" file. " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="6.4. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Text Import/Export" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv LeftIndent="40">
+                        <syncfusion:SpanAdv Text="Text" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" Import allows the user to import ." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="txt" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" file into the RichTextBoxAdv. It just r" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="en" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ders the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Text " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" as" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" like the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Notepad" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" and displays the text in the format of " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv's" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" content model.  " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Text" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" E" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="x" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="port feature actually exposes the " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv's" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" document as the ." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="txt" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" file. " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="7. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Clipboard"  Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" support" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="Clipboard support in RichTextBoxAdv control allows you to " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="cut ," >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" copy and paste the selected text inside the RichTextBoxAdv. These can be executed by the built in commands." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Cut" FontWeight="Bold" Underline="True">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" – It performs the cut operation " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="over" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" the selected text." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Copy" FontWeight="Bold" Underline="True">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" – It simply copies the selected text from the R" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ichTextBoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Paste" FontWeight="Bold" Underline="True">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" – It " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="pastes" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" the copied text in " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="to RichTextBoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="8. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Commands support" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv  >
+                        <syncfusion:SpanAdv Text="The " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" control " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="provides the build in Static" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" Commands to show case the features available in RichTextBoxAdv." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="AfterSpacing" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="BeforeSpacing" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ToggleBold" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ChangeFontFamily" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered" >
+                        <syncfusion:SpanAdv Text="ChangeFontSize" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="HighlightColor" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered" >
+                        <syncfusion:SpanAdv Text="TextColor" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Copy" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Cut" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ToggleStrikeThrough" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="FontDialog" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ToggleItalic" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="InsertTable" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="InsertRow" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="InsertColumn" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="InsertTableDialog" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="HyperlinkDialog" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="LeftIndent" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="RightIndent" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ParagraphDialog" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Open" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Save" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Paste" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ToggleSubscript" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ToggleSuperscript" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="TextAlignment" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ToggleUnderline" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="New" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Print" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ListType" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Undo" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="Redo" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ChangeLayout" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="ToggleDoubleStrikeThrough" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Numbered">
+                        <syncfusion:SpanAdv Text="LineSpacing" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="9. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Keyboard support" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" provides some short cut keys for " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="ease" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" of use like " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" Ctrl + A , Ctrl + C " HighlightColor="Olive" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="10. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Context Menu Support" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv supports for Context Menu as like in MS word.  It supports the following list of features in Context menu."  Foreground="Red">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Cut" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Copy" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Paste" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Table" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Font" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Paragraph" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Bullets" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Numbering " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv ListType="Bulleted">
+                        <syncfusion:SpanAdv Text="Hyperlink" >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="11. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Zooming and Printing" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv allows you to " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="zoom" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" the content of the document." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" C" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="trl + Mouse wheel will zoom in and zoom out the content of RichTextBoxAdv." >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv >
+                        <syncfusion:SpanAdv Text="12. " Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="Disable Editing" Foreground="#FF4F81BD" FontSize="14" FontWeight="Bold">
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv LineSpacing="2.5">
+                        <syncfusion:SpanAdv Text="You can disable the editing in " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="RichTextBoxAdv" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="by" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" enabling" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" the property called " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="IsReadOnly">
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=". " >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text="It will not allow" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" the" >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" user to edit the content." >
+                        </syncfusion:SpanAdv>
+                        <syncfusion:SpanAdv Text=" " >
+                        </syncfusion:SpanAdv>
+                    </syncfusion:ParagraphAdv>
+                    <syncfusion:ParagraphAdv>
+                        <syncfusion:SpanAdv Text="Copyright © 2001-2011 Syncfusion Inc." FontSize="8" FontFamily="Calibri"/>
+                        <syncfusion:SpanAdv Text="								                                                           " />
+                        <syncfusion:SpanAdv Text="June 22, 2011" FontSize="8" FontFamily="Calibri" />
+                    </syncfusion:ParagraphAdv>
+                </syncfusion:SectionAdv>
+            </syncfusion:DocumentAdv>
+        </syncfusion:RichTextBoxAdv>
+    </Grid>
+</syncfusion:RibbonWindow>

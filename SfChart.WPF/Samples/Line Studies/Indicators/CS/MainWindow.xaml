@@ -1,0 +1,71 @@
+﻿<layout:SampleLayoutWindow x:Class="Indicator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:local="clr-namespace:Indicator"
+        ResizeMode="CanResizeWithGrip" UserOptionsVisibility="Visible"
+        Title="Indicators">
+    <Grid>
+        
+        <Grid.Resources>
+            
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Text="{Binding LabelContent}" FontFamily="Seoge UI" 
+                           Foreground="Black" FontSize="14"/>
+            </DataTemplate>
+
+            <Style TargetType="Line" x:Key="AxisStyle">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+            
+            <Style TargetType="Line" x:Key="AxisStyle1">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="0.5"/>
+            </Style>
+            
+        </Grid.Resources>
+        
+        <syncfusion:SfChart x:Name="SfChart" Margin="5" IsManipulationEnabled="True"
+                            AreaBorderThickness="0,1,1,1">
+           
+            <syncfusion:SfChart.Header>
+                <TextBlock Margin="0,0,0,7" Text="Financial Analysis" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center" 
+                           FontFamily="Seoge UI" FontSize="22"/>
+            </syncfusion:SfChart.Header>
+            
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:CategoryAxis LabelFormat="MMM" Header="Month" 
+                                         FontFamily="Seoge UI" Foreground="Black" FontSize="20" 
+                                         LabelTemplate="{StaticResource labelTemplate}" 
+                                         AxisLineStyle="{StaticResource AxisStyle1}"
+                                         MajorTickLineStyle="{StaticResource AxisStyle}"/>
+            </syncfusion:SfChart.PrimaryAxis>
+            
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis Minimum="100" Maximum="900" LabelFormat="$0" 
+                                          Header="Price in Dollar" FontFamily="Seoge UI"
+                                          Foreground="Black"  FontSize="20" 
+                                          LabelTemplate="{StaticResource labelTemplate}"
+                                          AxisLineStyle="{StaticResource AxisStyle}" 
+                                          MajorTickLineStyle="{StaticResource AxisStyle}"/>
+            </syncfusion:SfChart.SecondaryAxis>
+            
+            <syncfusion:FastHiLoOpenCloseBitmapSeries x:Name="Series" XBindingPath="TimeStamp"
+                                                      High="High" Low="Low" 
+                                                      Open="Open" Close="Last" 
+                                                      ItemsSource="{Binding Datas}" />
+       
+        </syncfusion:SfChart>
+        
+    </Grid>
+    
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <ComboBox x:Name="Indicators" Margin="0,20,0,0" HorizontalAlignment="Center" IsEditable="False"
+                  VerticalAlignment="Top" Width="220" Height="40"  
+                  SelectionChanged="Indicators_OnSelectionChanged"/>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+    
+</layout:SampleLayoutWindow>

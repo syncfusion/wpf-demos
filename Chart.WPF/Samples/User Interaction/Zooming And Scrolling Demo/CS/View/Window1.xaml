@@ -1,0 +1,367 @@
+﻿<layout:SampleLayoutWindow x:Class="ZoomingAndScrolling.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:library="clr-namespace:System;assembly=mscorlib"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+    WindowStartupLocation="CenterScreen" 
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:inter="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    Title="Zooming and Scrolling Demo"  x:Name="window1"  xmlns:local ="clr-namespace:ZoomingAndScrolling" UserOptionsVisibility="Collapsed"
+     Height="720" Width="1024"
+     MinHeight="573" MinWidth="740" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:RangeConverter x:Key="rangeConverter"/>
+            <local:BoolToVisibleConverter x:Key="Visibleconverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <inter:Interaction.Behaviors>
+        <local:DemoBehaviors/>
+    </inter:Interaction.Behaviors>
+        <!--Root layout, splitting into three rows -->
+        <Grid>
+            <Grid.DataContext>
+                <local:ProductList />
+            </Grid.DataContext>
+            <TabControl>
+                <TabItem Header="Zooming In ChartArea">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                        </Grid.ColumnDefinitions>
+                            <!--Hosting Chart control in second Row of the Grid-->
+                            <syncfusion:Chart Name="Chart1" Grid.Row="0" Grid.Column="0">
+                                <syncfusion:Chart.Header>
+                                    <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI">Annual Loss Analysis</TextBlock>
+                                </syncfusion:Chart.Header>
+                                <!--Chart Legend declaration-->
+                                <syncfusion:Chart.Legends>
+                                    <syncfusion:ChartLegend/>
+                                </syncfusion:Chart.Legends>
+                                <!--Chart area to present chart segments-->
+                                <syncfusion:ChartArea Name="area" IsContextMenuEnabled="True"  syncfusion:ChartZoomingScrollBar.HorizontalBarLargeChange="{Binding ElementName=Hor_largechng, Path=SelectedItem}" syncfusion:ChartZoomingScrollBar.HorizontalBarSmallChange="{Binding ElementName=Hor_smallchng, Path=SelectedItem}" syncfusion:ChartZoomingScrollBar.VerticalBarLargeChange="{Binding ElementName=Ver_largechng, Path=SelectedItem}" syncfusion:ChartZoomingScrollBar.VerticalBarSmallChange="{Binding ElementName=Ver_smallchng, Path=SelectedItem}" syncfusion:ChartZoomingToolkit.ZoomInButtonVisibility="Visible" syncfusion:ChartZoomingToolkit.ZoomOutButtonVisibility="Visible" syncfusion:ChartZoomingToolkit.ZoomResetButtonVisibility="Visible" syncfusion:ChartZoomingToolkit.ZoomingToolkitVisibility="{Binding ElementName=combovisibility, Path=SelectedItem, Mode=TwoWay}" CornerRadius="0" View3DMode="{Binding ElementName=chkbox1, Path=IsChecked}" >
+                                <syncfusion:ChartArea.ColorModel>
+                                    <syncfusion:ChartStyleModel Palette="Default"/>
+                                </syncfusion:ChartArea.ColorModel>
+                                    <!--Primary Axis(X)-->
+                                    <syncfusion:ChartArea.PrimaryAxis>
+                                        <!--X axis declaration with required property settings-->
+                                        <syncfusion:ChartAxis Header="Product ID" RangePadding="None" ZoomFactor="{Binding ElementName=combo_zoomfactorX, Path=SelectedItem}" IntersectAction="Hide"  IsAutoSetRange="False" Range="0,160" Interval="40" EdgeLabelsDrawingMode="Fit">
+                                        </syncfusion:ChartAxis>
+                                    </syncfusion:ChartArea.PrimaryAxis>
+                                    <!--Secondary Axis(Y)-->
+                                    <syncfusion:ChartArea.SecondaryAxis>
+                                        <!--Y axis declaration with required property settings-->
+                                        <syncfusion:ChartAxis   IsAutoSetRange="True"  ZoomFactor="{Binding ElementName=combo_zoomfactorY, Path=SelectedItem}"  Header="Loss due to Defects" >
+                                        </syncfusion:ChartAxis>
+                                    </syncfusion:ChartArea.SecondaryAxis>
+                                    <!--Chart 1st series declaration-->
+                                    <syncfusion:ChartSeries Type="Area" StrokeThickness="1.0" InactiveSeriesOpacityOnZoom="0.25"  x:Name="ser1" DataSource="{Binding ZoomingModel}" BindingPathX="Id" BindingPathsY="YValue" IsIndexed="False" Label="Anomaly" />
+                                    <!--Chart 2nd series declaration-->
+                                    <syncfusion:ChartSeries Type="Area" InactiveSeriesOpacityOnZoom="0.25"  x:Name="ser2" DataSource="{Binding ZoomingModel}" BindingPathX="Id" BindingPathsY="ZValue" IsIndexed="False" Label="Smoothed"/>
+                                </syncfusion:ChartArea>
+                            </syncfusion:Chart>
+
+                        <!--Other Controls to provide dynamic property settings for chart control-->
+                        <Grid Grid.Row="0" Grid.Column="1">
+                            <Grid.DataContext>
+                                <local:ProductList />
+                            </Grid.DataContext>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Expander Header="Zooming Toolkit Visibility" Grid.ColumnSpan="2" IsExpanded="True">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Zooming Toolkit Visibility"/>
+                            <ComboBox Grid.Row="0" Grid.Column="1" Name="combovisibility" ItemsSource="{Binding VisibilityCollection}" SelectedIndex="0"  />
+                                </Grid>
+                            </Expander>
+                            <Expander Header="Zoom using Keys" Grid.Row="1" Grid.ColumnSpan="2" IsExpanded="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!--Select the KeyStroke for ZoomIn-->
+                                    <TextBlock  Grid.Row="0" Text="Zoom-In" Margin="5"   />
+                                    <ComboBox Grid.Row="0" Name="combo_zoomin" SelectedIndex="0" Margin="5"   Grid.Column="1">
+                                        <library:String>[Select]</library:String>
+                                        <library:String>+</library:String>
+                                        <library:String>Alt + I</library:String>
+                                    </ComboBox>
+
+                                    <!--Select the KeyStroke for ZoomOut-->
+                                    <TextBlock Grid.Row="1" Text="Zoom-Out"  Margin="5" />
+                                    <ComboBox Grid.Row="1" Grid.Column="1" Margin="5" Name="combo_zoomout" SelectedIndex="0" >
+                                        <library:String>[Select]</library:String>
+                                        <library:String>-</library:String>
+                                        <library:String>Alt + O</library:String>
+                                    </ComboBox>
+                                    <TextBlock Grid.Row="2" Text="Panning"  Margin="5" />
+                                    <ComboBox Grid.Row="2" Grid.Column="1" Name="Combo_Pan" SelectedIndex="0"  Margin="5">
+                                        <library:String>[Select]</library:String>
+                                        <library:String>,</library:String>
+                                        <library:String>Alt + P</library:String>
+                                    </ComboBox>
+
+                                </Grid>
+                            </Expander>             
+                            <Expander Header="Zoom Factor" Grid.Row="5" Grid.ColumnSpan="2" IsExpanded="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Zoom Factor X" Grid.Row="0"  Margin="5" />
+                                    <TextBlock Text="Zoom Factor Y" Grid.Row="1" Grid.Column="0" Margin="5"/>
+                                    <ComboBox Name="combo_zoomfactorX" Grid.Row="0" Grid.Column="1" SelectedIndex="8" Margin="5">
+                                        <library:String>0.1</library:String>
+                                        <library:String>0.2</library:String>
+                                        <library:String>0.3</library:String>
+                                        <library:String>0.4</library:String>
+                                        <library:String>0.5</library:String>
+                                        <library:String>0.7</library:String>
+                                        <library:String>0.8</library:String>
+                                        <library:String>0.9</library:String>
+                                        <library:String>1</library:String>
+                                    </ComboBox>
+                                    <ComboBox Name="combo_zoomfactorY" Grid.Row="1" Grid.Column="1"  SelectedIndex="8" Margin="5">
+                                        <library:String>0.1</library:String>
+                                        <library:String>0.2</library:String>
+                                        <library:String>0.3</library:String>
+                                        <library:String>0.4</library:String>
+                                        <library:String>0.5</library:String>
+                                        <library:String>0.7</library:String>
+                                        <library:String>0.8</library:String>
+                                        <library:String>0.9</library:String>
+                                        <library:String>1</library:String>
+                                    </ComboBox>
+
+                                </Grid>
+                            </Expander>
+                            <Expander Header="Zoomed Range" Grid.Row="4" Grid.ColumnSpan="2">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <!--Select the ZoomFactor-->
+                                    <!--Select the ZoomFactor of X-Axis-->
+                                    <!--Select the ZoomFactor of Y-Axis-->
+                                    <TextBox Name="textBox1" Text="{Binding ElementName=area,Path=ZoomedXRange,Converter={StaticResource rangeConverter}}" IsEnabled="False" Grid.Row="0" Grid.Column="1" />
+                                    <TextBlock Name="textBlock1" Text="Zoomed X Range" Grid.Row="0"/>
+                                    <TextBlock Name="textBlock2" Grid.Row="1" Text="Zoomed Y Range" />
+                                    <TextBox IsEnabled="False" Name="textBox2" Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=area,Path=ZoomedYRange,Converter={StaticResource rangeConverter}}" Grid.ColumnSpan="2" />
+
+                                </Grid>
+                            </Expander>
+                           
+                            <Expander Header="Zooming ScrollBar Properties" Grid.Row="3" Grid.ColumnSpan="2" IsExpanded="False">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                                        <ColumnDefinition Width="50*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="HorizontalBar LargeChange" Grid.Row="0" Grid.Column="0" Margin="5" />
+                                    <TextBlock Text="HorizontalBar SmallChange" Grid.Row="1" Grid.Column="0" Margin="5"/>
+                                    <TextBlock Text="VerticalBar LargeChange" Grid.Row="2" Grid.Column="0" Margin="5" />
+                                    <TextBlock Text="VerticalBar SmallChange" Grid.Row="3" Grid.Column="0" Margin="5"/>
+                                    <ComboBox Name="Hor_largechng" Grid.Row="0" Grid.Column="1"  SelectedIndex="4" Margin="5">
+                                        <library:String>0.1</library:String>
+                                        <library:String>0.2</library:String>
+                                        <library:String>0.3</library:String>
+                                        <library:String>0.4</library:String>
+                                        <library:String>0.5</library:String>
+                                        <library:String>0.7</library:String>
+                                        <library:String>0.8</library:String>
+                                        <library:String>0.9</library:String>
+                                        <library:String>1</library:String>
+                                    </ComboBox>
+                                    <ComboBox Name="Hor_smallchng" Grid.Row="1" Grid.Column="1" SelectedIndex="0" Margin="5">
+                                        <library:String>0.1</library:String>
+                                        <library:String>0.2</library:String>
+                                        <library:String>0.3</library:String>
+                                        <library:String>0.4</library:String>
+                                        <library:String>0.5</library:String>
+                                        <library:String>0.7</library:String>
+                                        <library:String>0.8</library:String>
+                                        <library:String>0.9</library:String>
+                                        <library:String>1</library:String>
+                                    </ComboBox>
+                                    <ComboBox Name="Ver_largechng" Grid.Row="2" Grid.Column="1" SelectedIndex="4" Margin="5">
+                                        <library:String>0.1</library:String>
+                                        <library:String>0.2</library:String>
+                                        <library:String>0.3</library:String>
+                                        <library:String>0.4</library:String>
+                                        <library:String>0.5</library:String>
+                                        <library:String>0.7</library:String>
+                                        <library:String>0.8</library:String>
+                                        <library:String>0.9</library:String>
+                                        <library:String>1</library:String>
+                                    </ComboBox>
+                                    <ComboBox Name="Ver_smallchng" Grid.Row="3" Grid.Column="1" SelectedIndex="0" Margin="5">
+                                        <library:String>0.1</library:String>
+                                        <library:String>0.2</library:String>
+                                        <library:String>0.3</library:String>
+                                        <library:String>0.4</library:String>
+                                        <library:String>0.5</library:String>
+                                        <library:String>0.7</library:String>
+                                        <library:String>0.8</library:String>
+                                        <library:String>0.9</library:String>
+                                        <library:String>1</library:String>
+                                    </ComboBox>
+                                </Grid>
+                            </Expander>        
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Zooming In SyncChartArea">
+                    <Grid>
+                        <Grid.DataContext>
+                            <local:SyncChartAreaModel />
+                        </Grid.DataContext>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="0.3*"/>
+                        </Grid.ColumnDefinitions>
+                         <syncfusion:Chart Name="chart1">
+                            <syncfusion:Chart.Header>
+                                <TextBlock FontWeight="Regular" Margin="20" FontSize="20">International Census Data</TextBlock>
+                            </syncfusion:Chart.Header>
+                            <!--legend added to the Chart-->
+                            <syncfusion:Chart.Legends>
+                                <syncfusion:ChartLegend syncfusion:ChartDockPanel.Dock="Bottom"/>
+                            </syncfusion:Chart.Legends>
+                            <syncfusion:SyncChartAreas Name="syncChart" SplitterWidth="{Binding ElementName=width, Path=Text, Mode=TwoWay}" SplitterVisiblity="{Binding ElementName=VisibilityComobo, Path=SelectedItem, Mode=TwoWay}" SplitterColor="{Binding ElementName=color1, Path=SelectedItem, Mode=TwoWay}" SplitterStroke="{Binding ElementName=stroke1, Path=SelectedItem, Mode=TwoWay}">
+                                <!--X Axis added to the SyncChartArea-->
+                                <syncfusion:SyncChartAreas.PrimaryAxis>
+                                    <syncfusion:ChartAxis Name="year"  ValueType="Double" Range="1998,2004" IsAutoSetRange="False" RangePadding="None" RangeCalculationMode="ConsistentAcrossChartTypes" syncfusion:ChartArea.ShowGridLines="True" Header="Year" />
+                                </syncfusion:SyncChartAreas.PrimaryAxis>
+                                <syncfusion:SyncChartAreas.Areas>
+                                    <!--Area added to the SyncChartArea-->
+                                    <syncfusion:ChartArea x:Name="Area1" MinHeight="30"  SplitterPosition="0.5">
+                                        <syncfusion:ChartArea.ColorModel>
+                                            <syncfusion:ChartStyleModel Palette="Default"/>
+                                        </syncfusion:ChartArea.ColorModel>
+                                        <syncfusion:ChartArea.SecondaryAxis>
+                                            <syncfusion:ChartAxis Name="Literacy" ValueType="Double" IsAutoSetRange="False" Range="0,100" Interval="20"  RangePadding="Normal" syncfusion:ChartArea.ShowGridLines="True" >
+                                                <syncfusion:ChartAxis.Header>
+                                                    <TextBlock Text="Literacy Growth (%)" FontWeight="Regular"/>
+                                                </syncfusion:ChartAxis.Header>
+                                            </syncfusion:ChartAxis>
+                                        </syncfusion:ChartArea.SecondaryAxis>
+
+                                        <syncfusion:ChartSeries  Name="series22" Label="Population" BindingPathX="Year"  BindingPathsY="IncreaseInPopulation" Type="Area"  DataSource="{Binding Products}" Stroke="Transparent" >
+                                            <syncfusion:ChartSeries.Interior>
+                                                <SolidColorBrush Color="Black" Opacity="0.1"/>
+                                            </syncfusion:ChartSeries.Interior>
+                                            <syncfusion:ChartSeries.YAxis>
+                                                <syncfusion:ChartAxis syncfusion:ChartArea.ShowGridLines="False" IsAutoSetRange="False" Range="0,100" Interval="20" OpposedPosition="True" Orientation="Vertical" ValueType="Double" RangePadding="None">
+                                                    <syncfusion:ChartAxis.Header>
+                                                        <TextBlock Text="Population Growth(%)" FontWeight="Regular"/>
+                                                    </syncfusion:ChartAxis.Header>
+                                                </syncfusion:ChartAxis>
+                                            </syncfusion:ChartSeries.YAxis>
+                                        </syncfusion:ChartSeries>
+
+                                        <syncfusion:ChartSeries  Name="series21"  Label="Literacy" Stroke="#FF1BA1E2" DataSource="{Binding Products}" BindingPathX="Year"  BindingPathsY="LiteracyGrowth" Type="Spline"  StrokeThickness="3" Interior="#FF1BA1E2"/>
+
+                                    </syncfusion:ChartArea>
+                                    <syncfusion:ChartArea MinHeight="30" x:Name="Area2" SplitterPosition="0.5" >
+
+                                        <!--Area added to the SyncChartArea-->
+                                        <syncfusion:ChartArea.ColorModel>
+                                            <syncfusion:ChartStyleModel Palette="Metro"/>
+                                        </syncfusion:ChartArea.ColorModel>
+                                        <syncfusion:ChartArea.SecondaryAxis>
+                                            <syncfusion:ChartAxis IntersectAction="Hide"  ValueType="Double" Range="0,100" IsAutoSetRange="False" Interval="20" RangePadding="None" syncfusion:ChartArea.ShowGridLines="True">
+                                                <syncfusion:ChartAxis.Header>
+                                                    <TextBlock Text="People Below Poverty Line (%)" FontWeight="Regular"/>
+                                                </syncfusion:ChartAxis.Header>
+                                            </syncfusion:ChartAxis>
+                                        </syncfusion:ChartArea.SecondaryAxis>
+                                        <syncfusion:ChartSeries Name="series11" DataSource="{Binding Products}" Stroke="#FF1BA1E2" Label="Below Poverty" BindingPathX="Year" BindingPathsY="BelowPovertyLine" Type="Line"  StrokeThickness="3" >
+                                            <syncfusion:ChartSeries.YAxis>
+                                                <syncfusion:ChartAxis  DesiredIntervalsCount="3" Range="0,100" Interval="20" IsAutoSetRange="False" syncfusion:ChartArea.ShowGridLines="True"  OpposedPosition="True" Orientation="Vertical" ValueType="Double" RangePadding="None">
+                                                    <syncfusion:ChartAxis.Header>
+                                                        <TextBlock Text="People Above Poverty Line (%)" FontWeight="Regular"/>
+                                                    </syncfusion:ChartAxis.Header>
+                                                </syncfusion:ChartAxis>
+                                            </syncfusion:ChartSeries.YAxis>
+                                        </syncfusion:ChartSeries>
+                                        <syncfusion:ChartSeries Name="series23" DataSource="{Binding Products}" Stroke="#FFE51400" Label="Above Poverty" BindingPathX="Year"  BindingPathsY="AbovePovertyLine" Type="Line"  StrokeThickness="3" >
+                                        </syncfusion:ChartSeries>
+                                    </syncfusion:ChartArea>
+                                </syncfusion:SyncChartAreas.Areas>
+                            </syncfusion:SyncChartAreas>
+                            </syncfusion:Chart>
+                            <Expander Header="SyncChart Zooming Properties" Grid.Column="1" IsExpanded="True">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Show Zoom Button"/>
+                                <CheckBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center"  VerticalAlignment="Center" Name="chk_zoombutton1" />
+
+                                <!--<TextBlock Grid.Column="0" Grid.Row="1" Text="Enable Mouse Drag Zooming" Name="Text" IsEnabled="False"></TextBlock>
+                                <CheckBox Grid.Column="1" Grid.Row="1" IsChecked="False" Name="check1"   IsEnabled="False"  HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                            </Grid>
+                        </Expander>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    
+</layout:SampleLayoutWindow>

@@ -1,0 +1,88 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:layout="clr-namespace:Syncfusion.Windows.Controls.Chart.Wpf.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"  
+        xmlns:local="clr-namespace:Chart3D"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Chart3D.Window1"
+    Title="3D Charts Demo" x:Name="window1" Icon="App.ico"  WindowStartupLocation="CenterScreen" 
+    Height="720" Width="1024" MinHeight="570" MinWidth="740">
+    
+	<Grid syncfusion:SkinStorage.VisualStyle="Metro"  >
+		<Grid.DataContext>
+            <local:ColumnChartModel/>
+        </Grid.DataContext>      	
+		<Grid.RowDefinitions>
+			<RowDefinition Height="50" />
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+        <syncfusion:Chart Grid.Row="1" Background="WhiteSmoke" Margin="30" x:Name="Chart1" Header="3D Charts" FontWeight="Bold" syncfusion:SkinStorage.VisualStyle="DefaultDark" >
+			<!--Chart area to present chart segments-->
+            <syncfusion:ChartArea Allow3DRotate="{Binding IsChecked, ElementName=chk2, Mode=TwoWay}" Foreground="Black" FontWeight="Normal"  EnableDepthAxis="True" View3DMode="{Binding IsChecked, ElementName=chk1, Mode=TwoWay}" Margin="3,0,-3,0" ZoomInCoefficient="0" ZoomOutCoefficient="0" >
+            	<syncfusion:ChartArea.Camera3D>
+            		<PerspectiveCamera Position="0,0,-12" LookDirection="0,0,5">
+            			<PerspectiveCamera.Transform>
+            				<Transform3DGroup>
+            					<TranslateTransform3D OffsetZ="0" OffsetX="0" OffsetY="0"/>
+            					<ScaleTransform3D ScaleZ="1" ScaleY="1" ScaleX="1"/>
+            					<RotateTransform3D d:EulerAngles="0,0,0">
+            						<RotateTransform3D.Rotation>
+            							<AxisAngleRotation3D Axis="0,1,0" Angle="0"/>
+            						</RotateTransform3D.Rotation>
+            					</RotateTransform3D>
+            					<TranslateTransform3D OffsetZ="0" OffsetX="0" OffsetY="0"/>
+            					<TranslateTransform3D OffsetZ="0" OffsetX="0" OffsetY="0"/>
+            				</Transform3DGroup>
+            			</PerspectiveCamera.Transform>
+            		</PerspectiveCamera>
+            	</syncfusion:ChartArea.Camera3D>
+				<syncfusion:ChartArea.PrimaryAxis>
+                    <syncfusion:ChartAxis Header="X Axis" RangePadding="Additional"/>
+				</syncfusion:ChartArea.PrimaryAxis>
+				<syncfusion:ChartArea.SecondaryAxis>
+					<syncfusion:ChartAxis Header="Y Axis" RangePadding="None"/>
+				</syncfusion:ChartArea.SecondaryAxis>
+				<syncfusion:ChartArea.DepthAxis>
+					<syncfusion:ChartAxis Header="Z Axis" RangePadding="Additional"/>
+				</syncfusion:ChartArea.DepthAxis>
+				<syncfusion:ChartArea.Chart3DSettings>
+                    <syncfusion:Chart3D ShowBackWall="True" ShowLeftWall="True" ShowBottomWall="True" BackWallBackground="#FFD3D3D3" BottomWallThickness="0.02" BackWallThickness="0.02" LeftWallThickness="0.02" BottomWallBackground="#FFD3D3D3" LeftWallBackground="#FFD3D3D3" ViewDefaultRotate="45" ViewDefaultTilt="28" >
+					</syncfusion:Chart3D>
+				</syncfusion:ChartArea.Chart3DSettings>
+                <syncfusion:ChartArea.Legend>
+                    <syncfusion:ChartLegend Visibility="Visible" syncfusion:Chart.Dock="Right" />
+                </syncfusion:ChartArea.Legend>
+                <syncfusion:ChartSeries Label="Series A" BindingPathX="ProdId" Interior="#FF3069B4" LegendIcon="Rectangle" ColorEach="True" Palette="{Binding SelectedItem, ElementName=chartthemes, Mode=TwoWay}" BindingPathsY="Price2010,Price2012,Price2010" DataSource="{Binding Products}" Type="{Binding SelectedItem, ElementName=charttype, Mode=TwoWay}" syncfusion:ChartScatterType.ScatterHeight="20" syncfusion:ChartScatterType.ScatterWidth="20" >
+				</syncfusion:ChartSeries>
+				<!--Chart 2nd series declaration-->
+                <syncfusion:ChartSeries Label="Series B" BindingPathX="ProdId" Interior="#FF307900" LegendIcon="Rectangle" ColorEach="True" Palette="{Binding SelectedItem, ElementName=chartthemes, Mode=TwoWay}" BindingPathsY="Price2000,Price2010,Price2012" DataSource="{Binding Products}" Type="{Binding SelectedItem, ElementName=charttype, Mode=TwoWay}" >
+				</syncfusion:ChartSeries>
+			</syncfusion:ChartArea>
+		</syncfusion:Chart>
+		<Grid Grid.Row="0" >        	
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="0.19*" />
+				<ColumnDefinition Width="0.19*" />
+				<ColumnDefinition Width="0.19*" />
+				<ColumnDefinition Width="0.19*" />
+				<ColumnDefinition Width="0.239*" />
+                <ColumnDefinition Width="0.19*" />
+                <ColumnDefinition Width="0.19*" />
+			</Grid.ColumnDefinitions>
+			<CheckBox x:Name="chk1" Margin="59,15,-18.888,5" Content="View 3D Mode" Visibility="Hidden" IsChecked="True" >
+			</CheckBox>
+			<CheckBox x:Name="chk2" Grid.Column="1"  Margin="55,16,104,4" Content="Allow 3D Rotate"  IsChecked="False" Grid.ColumnSpan="2">
+			</CheckBox>
+			<Label Content="Chart Types" Grid.Column="2"  VerticalAlignment="Center" Margin="114,10,9,14" Grid.ColumnSpan="2">
+			</Label>
+			<ComboBox x:Name="charttype" Grid.Column="3" Height="25" Margin="0,10,139,15" ItemsSource="{Binding TypesCollection}" Grid.ColumnSpan="2" HorizontalAlignment="Right" Width="118">
+			</ComboBox>
+            <Label Content="Palette" Grid.Column="4"  VerticalAlignment="Center" Margin="132,10,44,14" Grid.ColumnSpan="3">
+            </Label>
+            <ComboBox x:Name="chartthemes" Grid.Column="5" Height="25" Margin="20,10,0.447,15" ItemsSource="{Binding ThemesCollection}" >
+            </ComboBox>
+        </Grid>
+	</Grid>
+</Window>
+

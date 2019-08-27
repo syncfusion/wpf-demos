@@ -1,0 +1,170 @@
+﻿<layout:SampleLayoutWindow x:Class="StripLinesDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:library="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:StripLinesDemo"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"    
+    xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Title="StripLines Demo">
+    <Window.Resources>
+        <XmlDataProvider Source="..\Model\Datavalues.xml" x:Key="dataval" XPath="Values/Value"/>
+        
+        <DataTemplate x:Key="yPostfix">
+            <TextBlock Foreground="{Binding Interior,ElementName=TemperatureSeries1,Mode=TwoWay}" FontSize="8" VerticalAlignment="Top" Text="0"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="rainfallpostfix">
+            <TextBlock Foreground="{Binding Interior,ElementName=RainfallSeries1,Mode=TwoWay}" FontSize="8" VerticalAlignment="Bottom" Text="mm"/>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="adornment">
+            <Grid>
+                <Rectangle Stroke="#FFAEAEAE" RadiusY="5" RadiusX="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFDADADA" Offset="1"/>
+                            <GradientStop Color="White"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock  Margin="7.5,3,7.5,3"  TextWrapping="Wrap" Text="{Binding}" FontSize="12" Foreground="#FF585858" FontFamily="Segoe UI Symbol" FontWeight="Regular" VerticalAlignment="Center" HorizontalAlignment="Center">
+               </TextBlock>
+            </Grid>
+        </DataTemplate>        
+    </Window.Resources>
+        <Grid >
+            <Grid.DataContext>
+                <local:ViewModel/>
+            </Grid.DataContext>
+            <syncfusion:Chart Name="chart1">               
+                <syncfusion:ChartArea IsContextMenuEnabled="True">
+                    <syncfusion:ChartArea.GridHeader>
+                        <TextBlock FontSize="20">Yearly Average Weather Analysis of Chennai</TextBlock>
+                    </syncfusion:ChartArea.GridHeader>
+                    <syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartStyleModel x:Name="AreaColorModel1" Palette="Metro"/>
+                    </syncfusion:ChartArea.ColorModel>                    
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <syncfusion:ChartAxis OpposedPosition="True" Header="Month"
+                             Interval="1" SmallTicksPerInterval="0" IntersectAction="MultipleRows" EdgeLabelsDrawingMode="Shift">                            
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <syncfusion:ChartAxis Header="Temperature in Celcius" IsAutoSetRange="False" Range="28,52" Interval="4" LineStroke="{Binding Interior,ElementName=TemperatureSeries1,Mode=TwoWay}" LabelForeground="{Binding Interior,ElementName=TemperatureSeries1,Mode=TwoWay}"  LabelsPostfix="{StaticResource yPostfix}" ValueType="Double" RangePadding="Normal" SmallTicksPerInterval="0">
+                            <syncfusion:ChartAxis.StripLines>
+                                <syncfusion:ChartStripLine x:Name="YAxisStripline1" Interior="{Binding Brush,ElementName=StripLineInterior}" StartFromAxis="True" Start="28"  Offset="0"  Width="4" IsPixelWidth="False">
+                                </syncfusion:ChartStripLine>
+                                <syncfusion:ChartStripLine x:Name="YAxisStripline2" Interior="{Binding Brush,ElementName=StripLineInterior}"  StartFromAxis="True" Start="28" Offset="8"  Width="4" IsPixelWidth="False">
+                                </syncfusion:ChartStripLine>
+                                <syncfusion:ChartStripLine x:Name="YAxisStripline3" Interior="{Binding Brush,ElementName=StripLineInterior}" StartFromAxis="True" Start="28" Offset="16" Width="4" IsPixelWidth="False">
+                                </syncfusion:ChartStripLine>
+                            </syncfusion:ChartAxis.StripLines>
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <syncfusion:ChartSeries Type="Spline" Name="TemperatureSeries1" Label="Chennai City" DataSource="{Binding Source={StaticResource dataval}}" BindingPathX="Month" BindingPathsY="Temperature"  IsIndexed="True" StrokeThickness="2">
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                            <syncfusion:ChartAdornmentInfo HorizontalAlignment="Center" VerticalAlignment="Top" Symbol="Ellipse" SymbolWidth="10" SymbolHeight="10" SymbolInterior="Orange"  Visible="True"  LabelTemplate="{StaticResource adornment}">
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+                </syncfusion:ChartArea>
+                <syncfusion:ChartArea IsContextMenuEnabled="True">
+                    <syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="Metro"/>
+                    </syncfusion:ChartArea.ColorModel>
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <syncfusion:ChartAxis IsAutoSetRange="True" AxisVisibility="Collapsed" Header="Month"
+                                    Interval="1"  SmallTicksPerInterval="0" IntersectAction="MultipleRows" EdgeLabelsDrawingMode="Shift">
+                            <syncfusion:ChartAxis.StripLines>
+                                <syncfusion:ChartStripLine x:Name="XAxisStripline1"  StartFromAxis="True" Offset="0" Width="2" TextRotationAngle="270" IsPixelWidth="False">
+                                </syncfusion:ChartStripLine>
+                                <syncfusion:ChartStripLine x:Name="XAxisStripline2" Interior="{Binding Brush,ElementName=StripLineInterior}" StartFromAxis="True" Offset="3" Width="2" TextRotationAngle="270" IsPixelWidth="False">
+                                </syncfusion:ChartStripLine>
+                                <syncfusion:ChartStripLine x:Name="XAxisStripline3"  Interior="{Binding Brush,ElementName=StripLineInterior}" StartFromAxis="True" Offset="6" Width="2" TextRotationAngle="270" IsPixelWidth="False">
+                                </syncfusion:ChartStripLine>
+                                <syncfusion:ChartStripLine x:Name="XAxisStripline4" Interior="{Binding Brush,ElementName=StripLineInterior}" StartFromAxis="True" Offset="9" Width="2" TextRotationAngle="270" IsPixelWidth="False">
+                                </syncfusion:ChartStripLine>
+                            </syncfusion:ChartAxis.StripLines>
+                        </syncfusion:ChartAxis>
+                        
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <syncfusion:ChartAxis Header="Temperature in Celcius" IsAutoSetRange="False" Range="28,52" Interval="4" LineStroke="{Binding Interior,ElementName=TemperatureSeries1,Mode=TwoWay}" LabelForeground="{Binding Interior,ElementName=TemperatureSeries1,Mode=TwoWay}"  LabelsPostfix="{StaticResource yPostfix}" ValueType="Double" RangePadding="Normal" SmallTicksPerInterval="0">
+                           
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <syncfusion:ChartSeries Type="Spline" Name="TemperatureSeries" Label="US" DataSource="{Binding Source={StaticResource dataval}}" BindingPathX="Month" BindingPathsY="Temperature"  IsIndexed="True" StrokeThickness="2" >
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                            <syncfusion:ChartAdornmentInfo HorizontalAlignment="Center" VerticalAlignment="Top" Symbol="Ellipse" SymbolWidth="10" SymbolHeight="10" SymbolInterior="Orange"  Visible="True"  LabelTemplate="{StaticResource adornment}">
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+                </syncfusion:ChartArea>
+
+            </syncfusion:Chart>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Expander Header="StripLines Customization" IsExpanded="True" Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Interior" Grid.Row="0" Grid.Column="0" />
+                    <syncfusion:ColorPicker Brush="{Binding ElementName=XAxisStripline1,Path=Interior}" GradientBrushDisplayMode="Extended" Width="150" Grid.Row="0" Grid.Column="1" x:Name="StripLineInterior"/>
+
+                    <TextBlock Text="YAxis StripLine1" Grid.Row="1" Grid.Column="0"></TextBlock>
+                    <TextBox Name="YAxisStripText1"  Text="Moderate Temperature" Grid.Row="1" Grid.Column="1"></TextBox>
+
+                    <TextBlock Text="YAxis StripLine2" Grid.Row="2" Grid.Column="0"></TextBlock>
+                    <TextBox Name="YAxisStripText2"  Text="High Temperature" Grid.Row="2" Grid.Column="1"></TextBox>
+
+                    <TextBlock Text="YAxis StripLine3" Grid.Row="3" Grid.Column="0"></TextBlock>
+                    <TextBox Name="YAxisStripText3"  Text="Very High Temperature" Grid.Row="3" Grid.Column="1"></TextBox>
+
+                    <TextBlock Text="XAxis StripLine1" Grid.Row="4" Grid.Column="0"></TextBlock>
+                    <TextBox Name="XAxisStripText1"  Text="Quarter1" Grid.Row="4" Grid.Column="1"></TextBox>
+
+                    <TextBlock Text="XAxis StripLine2" Grid.Row="5" Grid.Column="0"></TextBlock>
+                    <TextBox Name="XAxisStripText2"  Text="Quarter2" Grid.Row="5" Grid.Column="1"></TextBox>
+
+                    <TextBlock Text="XAxis StripLine3" Grid.Row="6" Grid.Column="0"></TextBlock>
+                    <TextBox Name="XAxisStripText3"  Text="Quarter3" Grid.Row="6" Grid.Column="1"></TextBox>
+
+                    <TextBlock Text="XAxis StripLine4" Grid.Row="7" Grid.Column="0"></TextBlock>
+                    <TextBox Name="XAxisStripText4"  Text="Quarter4" Grid.Row="7" Grid.Column="1"></TextBox>
+                </Grid>
+            </Expander>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+    <i:Interaction.Behaviors>
+        <local:SampleBehavior/>
+    </i:Interaction.Behaviors>
+</layout:SampleLayoutWindow>

@@ -1,0 +1,88 @@
+﻿<layout:SampleLayoutWindow x:Class="High_Volume_Data_Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:syncfusion="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+        ResizeMode="CanResizeWithGrip"
+        Title="Performance">
+    <Grid>
+        
+        <Grid.Resources>
+            <Style TargetType="Line" x:Key="AxisStyle">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <syncfusion:SfChart IsManipulationEnabled="True" x:Name="chart1" 
+                            AreaBorderThickness="0,1,1,1" 
+                            AreaBorderBrush="DarkGray"  
+                            LayoutUpdated="Chart_LayoutUpdated" Margin="10,10,10,10" >
+            
+            <syncfusion:SfChart.Header>
+                <TextBlock FontSize="24" FontFamily="SegoeUI" Margin="0,0,0,5">Data Generator</TextBlock> 
+            </syncfusion:SfChart.Header>
+            
+            <syncfusion:SfChart.Behaviors>
+                <syncfusion:ChartZoomPanBehavior EnableMouseWheelZooming="True" 
+                                                 EnableSelectionZooming="True"/>
+            </syncfusion:SfChart.Behaviors>
+            
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:CategoryAxis LabelFormat="MMM/dd/yyyy" EnableScrollBar="True" 
+                                         LabelsIntersectAction="Hide" Name="axp"
+                                         AxisLineStyle="{StaticResource AxisStyle}" 
+                                         MajorTickLineStyle="{StaticResource AxisStyle}">
+                    <syncfusion:ChartAxis.Header>
+                        <TextBlock FontFamily="SegoeUI" FontSize="18" Margin="0,5,0,0">Date</TextBlock>
+                    </syncfusion:ChartAxis.Header>
+                </syncfusion:CategoryAxis>
+            </syncfusion:SfChart.PrimaryAxis>
+            
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis RangePadding="Round" EnableScrollBar="True" Interval="100" 
+                                          AxisLineStyle="{StaticResource AxisStyle}"
+                                          MajorTickLineStyle="{StaticResource AxisStyle}">
+                    <syncfusion:ChartAxis.Header>
+                        <TextBlock FontFamily="SegoeUI" FontSize="18">Value</TextBlock>
+                    </syncfusion:ChartAxis.Header>
+                </syncfusion:NumericalAxis>
+            </syncfusion:SfChart.SecondaryAxis>
+            
+            <syncfusion:FastLineBitmapSeries EnableAntiAliasing="False" 
+                                             syncfusion:ChartTooltip.ShowDuration="2000" 
+                                             XBindingPath="Date" YBindingPath="Value"  
+                                             HorizontalAlignment="Right" Width="660"/>
+            
+        </syncfusion:SfChart>
+
+    </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="Load 500000 Points" 
+                    Click="Button_Click" Grid.ColumnSpan="2"
+                    BorderThickness="3" Grid.Row="3" 
+                    Grid.RowSpan="2" Grid.Column="0"/>
+            <TextBlock x:Name="text" FontWeight="Bold" 
+                       Text="Time Taken to Load" Grid.Row="1" 
+                       Grid.Column="0" Grid.ColumnSpan="2" 
+                       HorizontalAlignment="Center"/>            
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+</layout:SampleLayoutWindow>

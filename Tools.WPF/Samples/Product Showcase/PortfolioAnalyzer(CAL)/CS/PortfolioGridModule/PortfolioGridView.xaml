@@ -1,0 +1,322 @@
+﻿<ContentControl x:Class="PortfolioAnalyzer.PortfolioGridModule.PortfolioGridView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:local="clr-namespace:PortfolioAnalyzer.PortfolioGridModule"
+    xmlns:cal="http://www.codeplex.com/CompositeWPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+    syncfusion:DockingManager.Header="PortfolioGrid Module"
+    Name="PortfolioGrid" FontFamily="Verdana"
+    syncfusion:DockingManager.SideInDockedMode="Right"
+    syncfusion:DockingManager.State="Dock"
+    syncfusion:DockingManager.TargetNameInDockedMode="Accounts"
+    syncfusion:DockingManager.DesiredWidthInDockedMode="600"
+    >
+    <!--<ContentControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.Shared.WPF;component/SkinManager/SkinManager.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </ContentControl.Resources>-->
+    <Grid> 
+        <Grid.Resources>
+            <local:GroupedColumnCollection x:Key="countryGroup">
+                <syncfusion:GridDataGroupColumn ColumnName="StockExchangeName"/>                
+            </local:GroupedColumnCollection>
+            
+            <local:GroupedColumnCollection x:Key="sectorGroup">
+                <syncfusion:GridDataGroupColumn ColumnName="SectorName"/>
+                <syncfusion:GridDataGroupColumn ColumnName="IndustryName"/>   
+            </local:GroupedColumnCollection>            
+            <ObjectDataProvider x:Key="dayChangeSummary" ObjectType="{x:Type local:DayChangeSummary}" />            
+            </Grid.Resources>
+
+
+        <syncfusion:TabControlExt Name="tabControl1" >
+            <!--Industry View-->
+            <syncfusion:TabItemExt Header="Industry/Sector View" Name="tabItem1">
+                <Grid>
+                    <syncfusion:GridDataControl  
+        Name="IndustrySectorGrid" 
+        ItemsSource="{Binding StockList}"        
+        ShowGroupDropArea="{Binding GroupDropArea}"
+        ShowAddNewRow="False"
+        AllowEdit="False"
+        AllowDelete="False"
+        AutoPopulateColumns="False"                          
+        ShowGroupSummaryInCaption="True"
+        AllowSelection="None"
+        ListBoxSelectionMode="None"        
+        ShowCurrentCell="False"
+        ClearAllOnItemSourceChange="False"
+        local:GridQueryCellStyleInfo.Command="{Binding SectorGridQueryCellStyleInfo}"  
+        local:GridItemsSourceChanged.Command="{Binding ItemsSourceChanged}">
+                        <!--GroupedColumns="{StaticResource sectorGroup}"-->
+                        <!--StackedHeaderRows-->
+                        <syncfusion:GridDataControl.StackedHeaderRows>
+                            <syncfusion:GridDataStackedHeaderRow Name="Row1">
+                                <syncfusion:GridDataStackedHeaderRow.Columns>
+                                    <syncfusion:GridDataStackedHeaderColumn HeaderText="StockDetails" Name="Header1" ColumnSpan="2">
+                                        <syncfusion:GridDataStackedHeaderColumn.ColumnStyle>
+                                            <syncfusion:GridDataColumnStyle HorizontalAlignment="Center"></syncfusion:GridDataColumnStyle>
+                                        </syncfusion:GridDataStackedHeaderColumn.ColumnStyle>
+                                    </syncfusion:GridDataStackedHeaderColumn>
+                                    <syncfusion:GridDataStackedHeaderColumn HeaderText="Change" Name="Header2" ColumnSpan="2" />
+                                    <syncfusion:GridDataStackedHeaderColumn HeaderText="Price, Quantity and Volume" Name="Header3" ColumnSpan="3" />
+                                </syncfusion:GridDataStackedHeaderRow.Columns>
+                            </syncfusion:GridDataStackedHeaderRow>
+                        </syncfusion:GridDataControl.StackedHeaderRows>
+
+                        <!--Visible Colums-->
+                        <syncfusion:GridDataControl.VisibleColumns>
+                            <syncfusion:GridDataVisibleColumn MappingName="Symbol">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                            </syncfusion:GridDataVisibleColumn>
+
+                            <syncfusion:GridDataVisibleColumn MappingName="CompanyName">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                            </syncfusion:GridDataVisibleColumn>
+
+                            <syncfusion:GridDataVisibleColumn MappingName="QuoteChange" HeaderText="$" Width="100">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+
+                            <syncfusion:GridDataVisibleColumn MappingName="QuotePercentChange" HeaderText="%" Width="100">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+
+                            <syncfusion:GridDataVisibleColumn MappingName="Quantity">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+
+                            <syncfusion:GridDataVisibleColumn MappingName="Price" HeaderText="PricePaid" >
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+
+                            <syncfusion:GridDataVisibleColumn MappingName="Volume" HeaderText="Volume">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+
+                            <syncfusion:GridDataVisibleColumn MappingName="StockExchangeName" HeaderText="StockExchange" />
+                            <syncfusion:GridDataVisibleColumn MappingName="SectorName" HeaderText="Sector" />
+                        </syncfusion:GridDataControl.VisibleColumns>
+
+                        <!--Caption Summary Row-->
+                        <syncfusion:GridDataControl.CaptionSummaryRow>
+                            <syncfusion:GridDataSummaryRow ShowSummaryInRow="False" Title="'{Key} - {ItemsCount} Items'" TitleColumnCount="2">
+                                <syncfusion:GridDataSummaryRow.SummaryColumns>
+                                    <syncfusion:GridDataSummaryColumn Name="QuoteChange"  MappingName="QuoteChange" SummaryType="Custom" Format="'{DayChangeTotal:$ (##.00)}'" CustomAggregate="{Binding Source={StaticResource dayChangeSummary}}">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right" ImageWidth="0.3*">
+                                                <syncfusion:GridDataStyleInfo.Image>
+                                                    <Image Source="{StaticResource ChangeInPrice2}"></Image>
+                                                </syncfusion:GridDataStyleInfo.Image>
+                                                <syncfusion:GridDataStyleInfo.ImageMargins>
+                                                    <syncfusion:CellMarginsInfo Left="10" Right="10" />
+                                                </syncfusion:GridDataStyleInfo.ImageMargins>
+                                            </syncfusion:GridDataStyleInfo>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+
+                                    <syncfusion:GridDataSummaryColumn Name="QuotePercentChange" MappingName="QuotePercentChange" SummaryType="DoubleAggregate" Format="'{Average:##.00}%'">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right" ImageWidth="0.3*">
+                                                <syncfusion:GridDataStyleInfo.Image>
+                                                    <Image Source="{StaticResource PercentageChange2}"></Image>
+                                                </syncfusion:GridDataStyleInfo.Image>
+                                                <syncfusion:GridDataStyleInfo.ImageMargins>
+                                                    <syncfusion:CellMarginsInfo Left="10" Right="10" />
+                                                </syncfusion:GridDataStyleInfo.ImageMargins>
+                                            </syncfusion:GridDataStyleInfo>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+
+                                    <syncfusion:GridDataSummaryColumn Name="Quantity" MappingName="Quantity" SummaryType="Int32Aggregate" Format="'{Sum:## Items}'">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right"/>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+                                    <syncfusion:GridDataSummaryColumn Name="Price" MappingName="Price" SummaryType="DoubleAggregate" Format="'{Sum:$ (##.00)}'">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right"/>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+                                    <syncfusion:GridDataSummaryColumn Name="Volume" MappingName="Volume" SummaryType="Int32Aggregate" Format="'{Average:##}'">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right"/>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+                                </syncfusion:GridDataSummaryRow.SummaryColumns>
+                            </syncfusion:GridDataSummaryRow>
+                        </syncfusion:GridDataControl.CaptionSummaryRow>
+                    </syncfusion:GridDataControl>
+                </Grid>
+            </syncfusion:TabItemExt>
+
+            <!--StockExchangeView-->
+            <syncfusion:TabItemExt Header="StockExchangeView" Name="tabItem2">
+                <Grid>
+                    <syncfusion:GridDataControl
+        Name="StockExchangeGrid" 
+        ItemsSource="{Binding StockList}"        
+        ShowGroupDropArea="{Binding GroupDropArea}"
+        ShowAddNewRow="False"
+        AllowEdit="False"
+        AllowDelete="False"
+        AutoPopulateColumns="False"
+        GroupedColumns="{StaticResource countryGroup}"                
+        ShowGroupSummaryInCaption="True"    
+        AllowSelection="None"
+        ListBoxSelectionMode="None"        
+        ShowCurrentCell="False"
+        ClearAllOnItemSourceChange="False"
+        local:GridQueryCellStyleInfo.Command="{Binding StockExchangeGridQueryCellStyleInfo}" 
+        local:GridItemsSourceChanged.Command="{Binding ItemsSourceChanged}">
+                        <!--StackedHeaderRows-->
+                        <syncfusion:GridDataControl.StackedHeaderRows>
+                            <syncfusion:GridDataStackedHeaderRow Name="Row1">
+                                <syncfusion:GridDataStackedHeaderRow.Columns>
+                                    <syncfusion:GridDataStackedHeaderColumn HeaderText="StockDetails" Name="Header1" ColumnSpan="2" />
+                                    <syncfusion:GridDataStackedHeaderColumn HeaderText="Change(day)" Name="Header2" ColumnSpan="2" />
+                                    <syncfusion:GridDataStackedHeaderColumn HeaderText="Price, Quantity and Volume" Name="Header3" ColumnSpan="3" />
+                                </syncfusion:GridDataStackedHeaderRow.Columns>
+                            </syncfusion:GridDataStackedHeaderRow>
+                        </syncfusion:GridDataControl.StackedHeaderRows>
+
+                        <!--Visible Colums-->
+                        <syncfusion:GridDataControl.VisibleColumns>
+                            <syncfusion:GridDataVisibleColumn MappingName="Symbol">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                            </syncfusion:GridDataVisibleColumn>
+                            <syncfusion:GridDataVisibleColumn MappingName="CompanyName" >
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                            </syncfusion:GridDataVisibleColumn>
+                            <syncfusion:GridDataVisibleColumn MappingName="QuoteChange" HeaderText="$" Width="100" >
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+                            <syncfusion:GridDataVisibleColumn MappingName="QuotePercentChange" HeaderText="%" Width="100">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+                            <syncfusion:GridDataVisibleColumn MappingName="Quantity">
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+                            <syncfusion:GridDataVisibleColumn MappingName="Price" HeaderText="PricePaid" >
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+                            <syncfusion:GridDataVisibleColumn MappingName="Volume" HeaderText="Volume" >
+                                <syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Center" Foreground="White"/>
+                                </syncfusion:GridDataVisibleColumn.HeaderStyle>
+                                <syncfusion:GridDataVisibleColumn.ColumnStyle>
+                                    <syncfusion:GridDataColumnStyle HorizontalAlignment="Right"></syncfusion:GridDataColumnStyle>
+                                </syncfusion:GridDataVisibleColumn.ColumnStyle>
+                            </syncfusion:GridDataVisibleColumn>
+                            <syncfusion:GridDataVisibleColumn MappingName="IndustryName" HeaderText="Industry" />
+                            <syncfusion:GridDataVisibleColumn MappingName="SectorName" HeaderText="Sector" />
+                        </syncfusion:GridDataControl.VisibleColumns>
+
+                        <!--Caption Summary Row-->
+                        <syncfusion:GridDataControl.CaptionSummaryRow>
+                            <syncfusion:GridDataSummaryRow ShowSummaryInRow="False" Title="'{Key} - {ItemsCount} Items'" TitleColumnCount="2">
+                                <syncfusion:GridDataSummaryRow.SummaryColumns>
+                                    <syncfusion:GridDataSummaryColumn Name="QuoteChange"  MappingName="QuoteChange" SummaryType="Custom" Format="'{DayChangeTotal:$ (##.00)}'" CustomAggregate="{Binding Source={StaticResource dayChangeSummary}}" >
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right" ImageWidth="0.3*">
+                                                <syncfusion:GridDataStyleInfo.Image>
+                                                    <Image Source="{StaticResource TradeFinance}"></Image>
+                                                </syncfusion:GridDataStyleInfo.Image>
+                                                <syncfusion:GridDataStyleInfo.ImageMargins>
+                                                    <syncfusion:CellMarginsInfo Left="10" Right="10" />
+                                                </syncfusion:GridDataStyleInfo.ImageMargins>
+                                            </syncfusion:GridDataStyleInfo>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+                                    <syncfusion:GridDataSummaryColumn Name="QuotePercentChange" MappingName="QuotePercentChange" SummaryType="DoubleAggregate" Format="'{Average:##.00}%'">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right" ImageWidth="0.3*">
+                                                <syncfusion:GridDataStyleInfo.Image>
+                                                    <Image Source="{StaticResource TradeFinance}"></Image>
+                                                </syncfusion:GridDataStyleInfo.Image>
+                                                <syncfusion:GridDataStyleInfo.ImageMargins>
+                                                    <syncfusion:CellMarginsInfo Left="10" Right="10" />
+                                                </syncfusion:GridDataStyleInfo.ImageMargins>
+                                            </syncfusion:GridDataStyleInfo>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+                                    <syncfusion:GridDataSummaryColumn Name="Quantity" MappingName="Quantity" SummaryType="Int32Aggregate" Format="'{Sum:## Items}'">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right"/>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+                                    <syncfusion:GridDataSummaryColumn Name="Price" MappingName="Price" SummaryType="DoubleAggregate" Format="'{Sum:$ (##.00)}'">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right"/>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+                                    <syncfusion:GridDataSummaryColumn Name="Volume" MappingName="Volume" SummaryType="Int32Aggregate" Format="'{Average:##}'">
+                                        <syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                            <syncfusion:GridDataStyleInfo HorizontalAlignment="Right"/>
+                                        </syncfusion:GridDataSummaryColumn.ColumnStyle>
+                                    </syncfusion:GridDataSummaryColumn>
+                                </syncfusion:GridDataSummaryRow.SummaryColumns>
+                            </syncfusion:GridDataSummaryRow>
+                        </syncfusion:GridDataControl.CaptionSummaryRow>
+                    </syncfusion:GridDataControl>
+                </Grid>
+            </syncfusion:TabItemExt>
+        </syncfusion:TabControlExt>
+    </Grid>
+</ContentControl>

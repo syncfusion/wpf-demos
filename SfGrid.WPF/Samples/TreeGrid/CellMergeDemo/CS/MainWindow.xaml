@@ -1,0 +1,103 @@
+﻿<syncfusion:ChromelessWindow x:Class="Merging.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:helper="using:Syncfusion.UI.Xaml.Grid"
+                             xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             xmlns:local="clr-namespace:Merging"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Icon="App.ico">
+   
+    <syncfusion:ChromelessWindow.Resources>
+        <local:EmployeeRepository x:Key="viewModel" />
+        <local:CurrencyFormatConverter x:Key="CurrencyConverter" />
+        <local:EditTriggerOptionConverter x:Key="EditTriggerOptionConverter" />
+		 <Style TargetType="syncfusion:TreeGridExpanderCell" x:Key="customCellStyles">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=HasChildNodes, RelativeSource={RelativeSource Self}}" Value="true">
+                    <Setter Property="FontWeight" Value="Bold" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </syncfusion:ChromelessWindow.Resources>
+    <Window.DataContext>
+        <local:EmployeeRepository />
+    </Window.DataContext>
+
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases the merging capabilities in SfTreeGrid."
+                                  HeaderText="Cell Merge"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfTreeGrid Name="treeGrid"
+                                       AllowEditing="{Binding IsChecked,
+                                                              Mode=TwoWay,
+                                                              ElementName=checkBox}"
+                                       AllowSorting="True"
+                                       AutoExpandMode="RootNodesExpanded"
+                                       ColumnSizer="Star"
+                                       AutoGenerateColumns="False"
+                                       ChildPropertyName="Children"
+                                       EditTrigger="{Binding SelectedIndex,
+                                                             Mode=TwoWay,
+                                                             ElementName=EditTriggerComboBox,
+                                                             Converter={StaticResource EditTriggerOptionConverter}}"
+                                       ItemsSource="{Binding EmployeeDetails}"
+									    ExpanderCellStyle="{StaticResource customCellStyles}"
+                                       LiveNodeUpdateMode="AllowDataShaping">
+                    <interactivity:Interaction.Behaviors>
+                        <local:RequestTreeItemsBehavior />
+                        <local:QueryCoveredRangeBehavior />
+                    </interactivity:Interaction.Behaviors>
+                    
+                    <syncfusion:SfTreeGrid.Columns>
+                        <syncfusion:TreeGridTextColumn Width="150" MappingName="Title" />
+                        <syncfusion:TreeGridTextColumn HeaderText="First Name" MappingName="FirstName" />
+                        <syncfusion:TreeGridTextColumn HeaderText="Last Name" MappingName="LastName" />
+                        <syncfusion:TreeGridTemplateColumn HeaderText="Employee ID" MappingName="EmpId">
+                            <syncfusion:TreeGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding EmpId}" />
+                                </DataTemplate>
+                            </syncfusion:TreeGridTemplateColumn.CellTemplate>
+                            <syncfusion:TreeGridTemplateColumn.EditTemplate>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Stretch"
+                                          FocusManager.FocusedElement="{Binding ElementName=textBox}">
+                                        <TextBox x:Name="textBox"
+                                                 FontStyle="Italic"
+                                                 FontWeight="SemiBold"
+                                                 Padding="2,0"
+                                                 Text="{Binding Id,
+                                                                Mode=TwoWay}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </syncfusion:TreeGridTemplateColumn.EditTemplate>
+                        </syncfusion:TreeGridTemplateColumn>
+                        <syncfusion:TreeGridDateTimeColumn Width="150" MappingName="DOJ" HeaderText="Date of Joining">
+                        </syncfusion:TreeGridDateTimeColumn>
+                        <syncfusion:TreeGridNumericColumn Width="100" MappingName="Rating">
+                        </syncfusion:TreeGridNumericColumn>
+                        <syncfusion:TreeGridNumericColumn MappingName="Salary">
+                            <syncfusion:TreeGridNumericColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <TextBlock HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
+                                                   Text="{Binding Salary,
+                                                                  Converter={StaticResource CurrencyConverter}}"
+                                                   TextAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </syncfusion:TreeGridNumericColumn.CellTemplate>
+                        </syncfusion:TreeGridNumericColumn>
+                        <syncfusion:TreeGridTextColumn MappingName="Hike" />
+                    </syncfusion:SfTreeGrid.Columns>
+
+                </syncfusion:SfTreeGrid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="DataBindingDemo.TileItemView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="tileView"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             d:DesignHeight="150" d:DesignWidth="310" xmlns:local="clr-namespace:DataBindingDemo">
+    <interactivity:Interaction.Triggers>
+        <interactivity:EventTrigger EventName="Loaded">
+            <local:TileLoadedAction TargetObject="{Binding ElementName=tileView}"/>
+        </interactivity:EventTrigger>
+    </interactivity:Interaction.Triggers>   
+
+    <Grid>
+        <Grid.Clip>
+            <RectangleGeometry Rect="0, 0, 310, 150"/>
+        </Grid.Clip>
+        <Grid Background="{Binding Color}" x:Name="_grid">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Image Source="{Binding Icon}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"
+                               Stretch="None" />
+            <StackPanel Grid.Column="1" Margin="5 10" Grid.RowSpan="2">
+                <TextBlock Text="{Binding Header}" FontFamily="Segoe UI" FontWeight="Light" FontSize="30" Foreground="White"/>
+                <TextBlock Text="{Binding Description}" FontFamily="Segoe UI" FontWeight="Light" FontSize="20" Foreground="White" TextWrapping="Wrap"/>
+            </StackPanel>
+            <TextBlock Text="{Binding Name}" FontSize="20" FontFamily="Segoe UI" FontWeight="Light"
+                                   Margin="10 10 10 20" Foreground="White" VerticalAlignment="Bottom" Grid.Row="1"/>
+        </Grid>
+        <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
+        	<Grid.RenderTransform>
+        		<TransformGroup>
+        			<ScaleTransform/>
+        			<SkewTransform/>
+        			<RotateTransform/>
+        			<TranslateTransform Y="150"/>
+        		</TransformGroup>
+        	</Grid.RenderTransform>
+            <Image Source="{Binding SlideImage}" Stretch="Fill"/>
+        </Grid>
+    </Grid>
+</UserControl>

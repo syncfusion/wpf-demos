@@ -1,0 +1,149 @@
+﻿<syncfusion:ChromelessWindow 
+    x:Class="HierarchyNavigator_2008.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" UseNativeChrome="True"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:HierarchyNavigator_2008"  xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" Icon="App.ico" xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF" 
+    Title="Getting Started" Height="510" Width="710" WindowStartupLocation="CenterScreen" FontFamily="Calibri" FontSize="13">
+      
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <syncfusion:ChromelessWindow.Resources>
+        <DataTemplate x:Key="FolderTemplate">
+            <TextBlock Text="{Binding Content}"/>
+        </DataTemplate>
+
+        <HierarchicalDataTemplate x:Key="ItemGroup1Template" ItemsSource="{Binding FolderItems}" ItemTemplate="{StaticResource FolderTemplate}">
+            <TextBlock Text="{Binding Content}"/>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate x:Key="ItemGroupTemplate" ItemsSource="{Binding FolderItems}" ItemTemplate="{StaticResource ItemGroup1Template}">
+            <TextBlock Text="{Binding Content}"/>
+        </HierarchicalDataTemplate>
+
+        <DataTemplate x:Key="ItemArranger">          
+                <StackPanel Margin="5" Orientation="Vertical">
+                    <Image Source="{Binding FolderImage}" Height="60" />
+                    <TextBlock Text="{Binding Content}" TextAlignment="Center"></TextBlock>
+                </StackPanel>         
+        </DataTemplate>
+
+    </syncfusion:ChromelessWindow.Resources>
+  
+
+        <sblayout:SampleLayoutControl Header="Hierarchy Navigator" x:Name="sblayout" EventLogs="{Binding EventLog}"
+                                  Description="The Hierarchy Navigator control provides a bread-crumb interface which is similar to the address bar in Windows 7's Windows Explorer, which is used to navigate items in a hierarchical way. It also provides command binding with MVVM support, data binding via HierarchicalDataTemplate, and XML data and WCF services.">
+
+        <sblayout:SampleLayoutControl.PropertyViewContent>
+            <sblayout:GroupBoxAdv Header="User Options" x:Name="groupBoxAdv1">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                 
+                    <TextBlock Text="Maximum Level:" VerticalAlignment="Center" Visibility="Collapsed" Margin="3" Grid.Row="1" />
+                    <ComboBox x:Name="maxdrillDownCbo" SelectedIndex="0" Visibility="Collapsed" Grid.Column="1" Grid.Row="1">
+                        <ComboBoxItem Content="-1" />
+                        <ComboBoxItem Content="0"  />
+                        <ComboBoxItem Content="1" />
+                        <ComboBoxItem Content="2" />
+                        <ComboBoxItem Content="3" />
+                        <ComboBoxItem Content="4" />
+                        <ComboBoxItem Content="5" />
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="SelectionChanged">
+                                <local:SelectionChangedAction TargetObject="{Binding ElementName=hierarchyNavigator1}"/>
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                    </ComboBox>
+                    
+                    <TextBlock Text="Enable Edit Mode" Grid.Row="2" VerticalAlignment="Center" Margin="3"/>
+                    <CheckBox x:Name="isEnableEditChk" IsChecked="True" Margin="3" HorizontalAlignment="Left" Grid.Row="2" Grid.Column="1" />
+                    
+                    <TextBlock Text="Enable History" Grid.Row="3" VerticalAlignment="Center" Margin="3"/>
+                    <CheckBox x:Name="isEnableHistoryChk" IsChecked="True" Margin="2" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="3" />
+
+                    <TextBlock VerticalAlignment="Center"  Text="Progress speed in ms "  HorizontalAlignment="Left" Margin="3"  Grid.Row="4" />
+                    <syncfusion:UpDown Step="100" MinValue="0" Value ="2000" MaxValue="5000" x:Name="ProgresssBar_Seconds" TextAlignment="Left"  Grid.Row="4" Margin="3" Grid.Column="1"/>
+
+                    <Button Content="Show Progress" Grid.Row="5" VerticalAlignment="Center" Margin="3">
+                        <interactivity:Interaction.Triggers>                         
+                            <interactivity:EventTrigger EventName="Click">
+                                <local:ShowProgressBarAction TargetObject="{Binding ElementName=hierarchyNavigator1}" ShowValue="{Binding ElementName=ProgresssBar_Seconds,Path=Value}"/>                                
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                    </Button>
+                    
+                    <Button Content="Cancel Progress" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="3">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="Click">
+                                <local:CancelProgressBarAction TargetObject="{Binding ElementName=hierarchyNavigator1}" CancelValue="{Binding ElementName=ProgresssBar_Seconds,Path=Value}"/>
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                    </Button>
+
+                </Grid>
+            </sblayout:GroupBoxAdv>
+        </sblayout:SampleLayoutControl.PropertyViewContent>
+        <Border  Grid.Row="1" CornerRadius="5" Margin="2"  x:Name="hnContainer">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <syncfusion:HierarchyNavigator Grid.ColumnSpan="2" 
+                                               x:Name="hierarchyNavigator1" VerticalAlignment="Top"
+                                               IsEnableEditMode="{Binding ElementName=isEnableEditChk,Path=IsChecked}" ItemsSource="{Binding FileItems}" ItemTemplate="{StaticResource ItemGroupTemplate}"
+                                               IsEnableHistory="{Binding ElementName=isEnableHistoryChk,Path=IsChecked}"                                      
+                                               syncfusion:HierarchyNavigatorHierarchyNavigatorSelectedItemChangedCommand.Command="{Binding SelectedItem}" 
+                                               SelectedItem="{Binding SelectedValue,Mode=TwoWay}"
+                                               syncfusion:HierarchyNavigatorHierarchyNavigatorRefreshButtonClickCommand.Command="{Binding RefreshCommand}"
+                                               syncfusion:HierarchyNavigatorHierarchyNavigatorRefreshButtonClickCommand.CommandParameter="{Binding ElementName=hierarchyNavigator1}">
+                
+               
+                
+                  
+                </syncfusion:HierarchyNavigator>
+                <Border Margin="0,5,0,5" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="25" x:Name="folders">
+                    <!--<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" BorderThickness="0">
+                        <Grid x:Name="SelctedItemContainer" Margin="25,10,0,0" VerticalAlignment="Top">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ScrollViewer>-->
+                    <ListBox ItemsSource="{Binding ListBoxItems}" ItemTemplate="{StaticResource ItemArranger}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Border>
+               
+            </Grid>
+        </Border>
+    </sblayout:SampleLayoutControl>
+</syncfusion:ChromelessWindow>

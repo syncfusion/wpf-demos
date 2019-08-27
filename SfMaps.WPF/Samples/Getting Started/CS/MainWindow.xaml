@@ -1,0 +1,53 @@
+﻿<syncfusion:ChromelessWindow x:Class="DataMarkers.MainWindow" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:DataMarkers"   ResizeMode="CanResizeWithGrip"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"   WindowStartupLocation="CenterScreen"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        syncfusion:SkinStorage.VisualStyle="Metro" Icon="App.ico"
+        >
+    <syncfusion:ChromelessWindow.Resources>
+        <local:MapViewModel x:Key="model"/>
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid  DataContext="{Binding Source={StaticResource model}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Background="#1196CD" Padding="20,3,0,0">
+            <TextBlock Text=" Top Population Countries" Foreground="White" FontSize="20"/>
+        </Border>
+        <syncfusion:SfMap x:Name="map" Grid.Row="1" Margin="10" SizeChanged="SfMap_SizeChanged">
+            <syncfusion:SfMap.Layers>
+                <syncfusion:ShapeFileLayer  Background="White" Markers="{Binding Models}" Uri="DataMarkers.ShapeFiles.world1.shp"  >
+                    <syncfusion:ShapeFileLayer.ShapeSettings>
+                        <syncfusion:ShapeSetting ShapeFill="#626171" />
+                    </syncfusion:ShapeFileLayer.ShapeSettings>
+                    <syncfusion:ShapeFileLayer.MarkerTemplate>
+                        <DataTemplate>
+                            <Grid Margin="-12,-30,0,0">
+                               
+                                    <Canvas>
+                                    <Image Source="pin.png" Height="30"/>
+                                    </Canvas>
+                                    <Grid DataContext="{Binding Data}" Width="265">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Canvas Grid.Row="0" Grid.Column="0" Margin="0,0,106,0" >
+                                            <Image Source="mappath.png" Width="92" Canvas.Top="25" Canvas.Left="10"/>
+                                            <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="15" FontFamily="Segoe UI" Text="{Binding Name}" Canvas.Left="25" Canvas.Top="25" RenderTransformOrigin="0.515,-0.3"/>
+                                        </Canvas>
+                                    </Grid>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:ShapeFileLayer.MarkerTemplate>
+                </syncfusion:ShapeFileLayer>
+            </syncfusion:SfMap.Layers>
+        </syncfusion:SfMap>
+    </Grid>
+</syncfusion:ChromelessWindow>

@@ -1,0 +1,156 @@
+﻿<layout:SampleLayoutWindow x:Class="Palettes.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Palettes"  UserOptionsVisibility="Collapsed" 
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" ResizeMode="CanResizeWithGrip"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        WindowStartupLocation="CenterScreen" 
+        Title="Palettes">
+    <Window.Resources>
+        
+        <ResourceDictionary>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.Shared.WPF;component/SkinManager/MetroStyle.xaml" />
+                <ResourceDictionary Source="/syncfusion.Shared.WPF;component/Controls/ColorPicker/Themes/MetroStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource MetroComboBoxStyle}">
+                
+                <Setter Property="Margin" Value="10"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="IsEditable" Value="False"/>
+                <Setter Property="TextBlock.TextWrapping" Value="NoWrap"/>
+
+            </Style>
+            
+        </ResourceDictionary>
+        
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.DataContext>
+            <local:ViewModel/>
+        </Grid.DataContext>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.Resources>
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Text="{Binding LabelContent}" FontSize="12" />
+            </DataTemplate>
+            
+            <Style x:Key="axisLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="#FFBCBEC0"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+
+            <Style x:Key="gridLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="Gray"/>
+                <Setter Property="StrokeThickness" Value="0.2"/>
+            </Style>
+
+            <Style x:Key="majorTickLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="#FFBCBEC0"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+            
+        </Grid.Resources>
+        
+        <!--Add the header to the sample-->
+        <TextBlock Text="Social Networking Usage Statistics" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"  
+                   FontSize="20" FontWeight="SemiBold"  Grid.ColumnSpan="2"/>
+        
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"  VerticalAlignment="Center"  Grid.Column="1">
+            <ComboBox x:Name="palettecombo" ItemsSource="{Binding PaletteList}" Height="25" Width="150" BorderThickness="1" 
+                      SelectedIndex="0" Margin="5" >
+            </ComboBox>
+        </StackPanel>
+        
+        
+        <!--Add the Doughnutseries for facebook usage in the world-->
+        <syncfusion:SfChart Grid.Row="1" Grid.Column="1" AreaBorderThickness="0" HorizontalAlignment="Left" >
+            
+            <syncfusion:SfChart.Header>
+                <TextBlock Text="Facebook Users" Margin="-180,25,0,-15" FontWeight="SemiBold" />
+            </syncfusion:SfChart.Header>
+            
+            <syncfusion:SfChart.Legend>
+                <syncfusion:ChartLegend IconHeight="15" IconWidth="15" Orientation="Vertical" DockPosition="Right" Margin="0,-40,30,-40"/>
+            </syncfusion:SfChart.Legend>
+
+            <syncfusion:DoughnutSeries x:Name="pieSeries" ItemsSource="{Binding CountryStatus}" XBindingPath="Country" YBindingPath="Status" 
+                                       Palette="{Binding ElementName=palettecombo,Path=SelectedItem}" Stroke="White" StrokeThickness="3"
+                                       ExplodeRadius="8" EnableSmartLabels="False" >
+            </syncfusion:DoughnutSeries>
+            
+        </syncfusion:SfChart>
+        
+        
+        <!--Add the barseries for activeusers by social network in the world-->
+        <syncfusion:SfChart x:Name="barChart" Grid.Row="1" Grid.RowSpan="3" Margin="10" 
+                            Palette="{Binding ElementName=palettecombo,Path=SelectedItem}" >
+            
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:CategoryAxis LabelTemplate="{StaticResource labelTemplate }" AxisLineStyle="{StaticResource axisLineStyle}"
+                                         MajorTickLineStyle="{StaticResource majorTickLineStyle}" 
+                                         LabelPlacement="BetweenTicks" MajorGridLineStyle="{StaticResource gridLineStyle}"/>
+            </syncfusion:SfChart.PrimaryAxis>
+            
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis Maximum="2100" Interval="300" Minimum="100" ShowGridLines="False" 
+                                          LabelTemplate="{StaticResource labelTemplate }"
+                                          AxisLineStyle="{StaticResource axisLineStyle}"
+                                          MajorTickLineStyle="{StaticResource majorTickLineStyle}" />
+            </syncfusion:SfChart.SecondaryAxis>
+            
+            <syncfusion:SfChart.Legend>
+                <syncfusion:ChartLegend IconHeight="8" IconWidth="8" FontSize="11" />
+            </syncfusion:SfChart.Legend>
+
+            <syncfusion:BarSeries x:Name="barSeries1" ItemsSource="{Binding ActiveUsers}" XBindingPath="SocialNetwork" 
+                                  YBindingPath="Status" Label="Active Users" />
+            <syncfusion:BarSeries x:Name="barSeries2" ItemsSource="{Binding RegisteredUsers}" XBindingPath="SocialNetwork" 
+                                  YBindingPath="Status" Label="Registered Users"/>
+            
+        </syncfusion:SfChart>
+
+        
+        <!--Active users of social network in the year of 2012,2014 and 2015-->
+        <syncfusion:SfChart x:Name="stackedChart" Grid.Row="2" Grid.Column="1" Margin="10" 
+                            Palette="{Binding ElementName=palettecombo,Path=SelectedItem}" >
+            
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:CategoryAxis  ShowGridLines="False" LabelTemplate="{StaticResource labelTemplate }" 
+                                          AxisLineStyle="{StaticResource axisLineStyle}" 
+                                          MajorTickLineStyle="{StaticResource majorTickLineStyle}"/>
+            </syncfusion:SfChart.PrimaryAxis>
+            
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis LabelTemplate="{StaticResource labelTemplate}" 
+                                          AxisLineStyle="{StaticResource axisLineStyle}"
+                                          MajorTickLineStyle="{StaticResource majorTickLineStyle}"
+                                          MajorGridLineStyle="{StaticResource gridLineStyle}"/>
+            </syncfusion:SfChart.SecondaryAxis>
+            
+            <syncfusion:SfChart.Legend>
+                <syncfusion:ChartLegend IconHeight="8" IconWidth="8" FontSize="11" LegendPosition="Inside" Margin="250,0,0,0" />
+            </syncfusion:SfChart.Legend>
+
+            <syncfusion:StackingAreaSeries ItemsSource="{Binding AnnualStatus}" XBindingPath="SocialNetwork" YBindingPath="Year2012" Label="2012"/>
+            <syncfusion:StackingAreaSeries ItemsSource="{Binding AnnualStatus}" XBindingPath="SocialNetwork" YBindingPath="Year2014" Label="2014"/>
+            <syncfusion:StackingAreaSeries ItemsSource="{Binding AnnualStatus}" XBindingPath="SocialNetwork" YBindingPath="Year2015" Label="2015"/>
+            
+        </syncfusion:SfChart>
+    </Grid>
+</layout:SampleLayoutWindow> 
+    
