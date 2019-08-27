@@ -1,0 +1,206 @@
+﻿<layout:SampleLayoutWindow x:Class="ChartAreaGridConfiguration.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ChartArea Grid Configuration Demo" 
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:local="clr-namespace:ChartAreaGridConfiguration" ResizeMode="NoResize"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="horizontalAlignments" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="media:AlignmentX"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="verticalAlignments" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="media:AlignmentY"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <local:WatermarkVisibilityConverter x:Key="watermarkVisibilityConv"/>
+    </Window.Resources>
+        <Grid>
+            <Grid.DataContext>
+                <local:DataViewModel/>
+            </Grid.DataContext>            
+                    <syncfusion:Chart Name="Chart1" Grid.Row="1" Margin="20"  >
+                        <syncfusion:Chart.Header>
+                            <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI">Efficiency of oil-fired power production</TextBlock>
+                        </syncfusion:Chart.Header>
+                        <!--Chart area to present chart segments-->
+                <syncfusion:ChartArea Name="Area1" ShowLegend="True"  IsContextMenuEnabled="False" AlternatingFillMode="Odd" GridBackground="GhostWhite" AlternatingGridBackground="White" AlternatingFillDirection="Vertical" DataContext="{Binding}">
+                    
+                            <syncfusion:ChartArea.ColorModel>
+                                <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="Metro"/>
+                            </syncfusion:ChartArea.ColorModel>
+                            <!--Chart Watermark declaration-->
+                            <syncfusion:ChartArea.Watermark>
+                                <VisualBrush Stretch="None" Opacity="{Binding ElementName=slider_transparancy, Path=Value }" 
+                             AlignmentX="{Binding ElementName=combo_halign, Path=SelectedItem}"
+                             AlignmentY="{Binding ElementName=combo_valign, Path=SelectedItem}">
+                                    <VisualBrush.Visual>
+                                        <Grid>
+                                            <Image Name="img" Width="350" Visibility="{Binding IsChecked, ElementName=rd_imagewatermark, Converter={StaticResource watermarkVisibilityConv}}" 
+                                               Source="/ChartAreaGridConfiguration;component/Images/SyncLogo1.png">
+                                                <Image.LayoutTransform>
+                                                    <RotateTransform Angle="{Binding ElementName=txt_rotationangle, Path=Value}"/>
+                                                </Image.LayoutTransform>
+                                            </Image>
+                                            <TextBlock Name="txt" TextAlignment="Center" Text="{Binding ElementName=txt_watermark, Path=Text}" 
+                                   Foreground="{Binding ElementName=cp_interiorcolor, Path=Brush}"
+                                   FontFamily="{Binding ElementName=combo_Fonts, Path=SelectedItem}"
+                                   FontSize="{Binding ElementName=txt_watermarkSize, Path=Value}"
+                                   Visibility="{Binding IsChecked, ElementName=rd_textwatermark, Converter={StaticResource watermarkVisibilityConv}}">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="{Binding ElementName=txt_rotationangle, Path=Value}"/>
+                            </TextBlock.LayoutTransform>
+                                            </TextBlock>
+                                        </Grid>
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </syncfusion:ChartArea.Watermark>
+                            <!--Primary Axis(X)-->
+                            <syncfusion:ChartArea.PrimaryAxis>
+                                <!--X axis declaration with required property settings-->
+                                <syncfusion:ChartAxis  EdgeLabelsDrawingMode="Fit" LabelFontSize="11" Header="Year" ValueType="DateTime" IsAutoSetRange="True" DateTimeInterval="1" LabelDateTimeFormat="yyyy"  />
+                            </syncfusion:ChartArea.PrimaryAxis>
+                            <!--Secondary Axis(Y)-->
+                            <syncfusion:ChartArea.SecondaryAxis>
+                                <!--Y axis declaration with required property settings-->
+                                <syncfusion:ChartAxis  LabelFontSize="11" Header="Efficiency (%)" />
+                            </syncfusion:ChartArea.SecondaryAxis>
+
+                            <syncfusion:ChartSeries Label="Germany" DataSource="{Binding power}" BindingPathX="Year" BindingPathsY="ger" Type="Spline" StrokeThickness="2">
+
+                            </syncfusion:ChartSeries>
+                            <syncfusion:ChartSeries Label="England" DataSource="{Binding power}" BindingPathX="Year" BindingPathsY="uk" Type="Spline" StrokeThickness="2">
+
+                            </syncfusion:ChartSeries>
+                            <syncfusion:ChartSeries Label="France" DataSource="{Binding power}" BindingPathX="Year" BindingPathsY="fra" Type="Spline" StrokeThickness="2"/>
+
+                        </syncfusion:ChartArea>
+                    </syncfusion:Chart>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.DataContext>
+                <local:DataViewModel/>
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+
+            </Grid.ColumnDefinitions>
+            <Expander Header="Grid Appearance" Grid.Row="0" Grid.ColumnSpan="2" IsExpanded="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+               
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Grid Background" />
+                <syncfusion:ColorPicker Grid.Row="0" Grid.Column="1" x:Name="GridBackground"  Brush="{Binding ElementName=Area1, Path=GridBackground, Mode=TwoWay}"  />
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Alternating Grid BG" />
+                <syncfusion:ColorPicker Grid.Row="1" Grid.Column="1" x:Name="AlternatingGridBackground"   Brush="{Binding ElementName=Area1, Path=AlternatingGridBackground,Mode=TwoWay}" />
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Alternating Fill Direction" />
+                <ComboBox Grid.Row="2" Grid.Column="1"  x:Name="cmbAlternatingFillDirection" ItemsSource="{Binding FillDirectionCollection}" SelectedItem="{Binding ElementName=Area1, Path=AlternatingFillDirection, Mode=TwoWay}" SelectedIndex="1" />
+
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Alternating Fill Mode" />
+                <ComboBox Grid.Row="3" Grid.Column="1"  x:Name="cmbAlternatingFillMode"  ItemsSource="{Binding AlternateFillCollection}" SelectedItem="{Binding ElementName=Area1, Path=AlternatingFillMode, Mode=TwoWay}" />
+                </Grid>
+            </Expander>
+            <Expander Header="WaterMark Settings" IsExpanded="False" Grid.Row="1"  Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0"  >Text Watermark</TextBlock>
+                    <RadioButton Grid.Row="0" Grid.Column="1" Name="rd_textwatermark" IsChecked="True" Margin="10" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Name="textBlock5" Text="Text Watermark Font"   />
+                    <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="{Binding ElementName=rd_textwatermark, Path=IsChecked}"  Name="combo_Fonts"  ItemsSource="{x:Static Fonts.SystemFontFamilies}" SelectedIndex="126">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontFamily="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Text Watermark Interior"  />
+                    <syncfusion:ColorPicker Grid.Row="2" Grid.Column="1" Name="cp_interiorcolor" IsEnabled="{Binding ElementName=rd_textwatermark, Path=IsChecked}" Brush="Gray" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Text Watermark Content"  />
+                    <TextBox Grid.Row="3" Grid.Column="1" Name="txt_watermark"  IsEnabled="{Binding ElementName=rd_textwatermark, Path=IsChecked}" Text="Syncfusion"></TextBox>
+
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Text Watermark Content Size" />
+                    <Slider Grid.Row="4" Grid.Column="1" Name="txt_watermarkSize" Minimum="1" Maximum="60" Value="50" TickPlacement="BottomRight" TickFrequency="10" AutoToolTipPlacement="BottomRight"></Slider>
+
+                    <TextBlock Grid.Row="5"  >Image Watermark</TextBlock>
+                    <RadioButton Grid.Row="5" Grid.Column="1" Name="rd_imagewatermark" IsChecked="False" Margin="10" />
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Opacity"  />
+                    <Slider Grid.Row="6" Grid.Column="1" Name="slider_transparancy" Value="0.2" Minimum="0" Maximum="1" TickPlacement="BottomRight" TickFrequency="0.2" AutoToolTipPlacement="BottomRight"  />
+
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Watermark Rotation Angle"  />
+                    <Slider Grid.Row="7" Grid.Column="1" Name="txt_rotationangle"  Minimum="0" Maximum="360" TickPlacement="BottomRight" TickFrequency="20" AutoToolTipPlacement="BottomRight" ></Slider>
+
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Horizontal Alignment"  />
+                    <ComboBox Grid.Row="8" Grid.Column="1" Name="combo_halign"  ItemsSource="{Binding Source={StaticResource horizontalAlignments}}" SelectedIndex="1" />
+
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Vertical Alignment"  />
+                    <ComboBox Grid.Row="9" Grid.Column="1" Name="combo_valign"  ItemsSource="{Binding Source={StaticResource verticalAlignments}}" SelectedIndex="1" />
+
+
+                </Grid>
+            </Expander>
+
+            
+
+            
+
+
+
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+    
+</layout:SampleLayoutWindow>

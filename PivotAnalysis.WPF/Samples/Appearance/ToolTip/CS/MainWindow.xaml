@@ -1,0 +1,275 @@
+﻿<Window x:Class="ToolTip.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:viewModel="clr-namespace:ToolTip.ViewModel"
+        xmlns:action="clr-namespace:ToolTip.Action"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF" 
+        sfshared:SkinStorage.VisualStyle="Metro"
+        Title="Tooltip " Height="600" Width="1000" Icon="App.ico"
+        WindowStartupLocation="CenterScreen" WindowState="Maximized">
+
+    <Window.Resources>
+        <DataTemplate x:Key="CustomTemplateTooltip">
+            <Border BorderThickness="1" BorderBrush="Black" Background="LightGreen" CornerRadius="2">
+                <StackPanel Margin="5" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Tag}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="RowTemplateTooltip">
+            <Border BorderThickness="1" BorderBrush="Black" Background="Yellow" CornerRadius="2">
+                <StackPanel Margin="5" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Tag}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ColumnTemplateTooltip">
+            <Border BorderThickness="1" BorderBrush="Black" Background="GreenYellow" CornerRadius="2">
+                <StackPanel Margin="5" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Tag}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ValueTemplateTooltip">
+            <Border BorderThickness="1" BorderBrush="Black" Background="Gold" CornerRadius="2">
+                <StackPanel Margin="5" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Tag}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SummaryCellTemplateTooltip">
+            <Border BorderThickness="1" BorderBrush="Black" Background="Aqua" CornerRadius="2">
+                <StackPanel Margin="5" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Tag}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SummaryHeaderTemplateTooltip">
+            <Border BorderThickness="1" BorderBrush="Black" Background="AntiqueWhite" CornerRadius="2">
+                <StackPanel Margin="5" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Tag}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.DataContext>
+            <viewModel:ViewModel />
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Sample Header-->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="PivotGrid control supports to enable/disable tooltip for individual cells." 
+                       VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="300"/>
+            </Grid.ColumnDefinitions>
+
+            <!--PivotGrid control-->
+            <syncfusion:PivotGridControl x:Name="pivotGrid1" Margin="5" VisualStyle="Metro"
+                                         ItemSource="{Binding ProductSalesData}" ShowGroupingBar="False" AllowSelection="False" ToolTipEnabled="{Binding ElementName=chkBoxToolTipEnabled,Path=IsChecked,Mode=TwoWay}">
+                <syncfusion:PivotGridControl.PivotRows>
+                    <syncfusion:PivotItem FieldMappingName="Product" FieldHeader="Product" TotalHeader="Total"/>
+                    <syncfusion:PivotItem FieldMappingName="Date" FieldHeader="Date" TotalHeader="Total"/>
+                </syncfusion:PivotGridControl.PivotRows>
+                <syncfusion:PivotGridControl.PivotColumns>
+                    <syncfusion:PivotItem FieldMappingName="Country" FieldHeader="Country" TotalHeader="Total"/>
+                </syncfusion:PivotGridControl.PivotColumns>
+                <syncfusion:PivotGridControl.PivotCalculations>
+                    <syncfusion:PivotComputationInfo CalculationName = "Total" Description = "Summation of values" FieldName = "Amount" Format = "C" SummaryType="DoubleTotalSum"/>
+                    <syncfusion:PivotComputationInfo CalculationName = "Total" Description = "Summation of values" FieldName = "Quantity" Format = "#,##0"/>
+                </syncfusion:PivotGridControl.PivotCalculations>
+            </syncfusion:PivotGridControl>
+
+            <GridSplitter Grid.Column="0" Width="1" Margin="0 7" Background="#FF119EDA" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+
+            <syncfusion:TabControlExt Grid.Column="1" Margin="5" FontSize="12" EnableLabelEdit="False" CloseButtonType="Hide" 
+                                      ShowTabListContextMenu="False" BorderThickness="1" BorderBrush="DarkGray">
+                <syncfusion:TabItemExt Header="Pivot Schema Designer">
+                    <syncfusion:PivotSchemaDesigner Name="SchemaDesigner" Margin="2"
+                                                    PivotControl="{Binding ElementName=pivotGrid1}" VisualStyle="{Binding ElementName=pivotGrid1,Path=VisualStyle}"/>
+                </syncfusion:TabItemExt>
+
+                <syncfusion:TabItemExt Header="Properties">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <GroupBox Margin="2" Header="Properties" BorderThickness="1" BorderBrush="DarkGray">
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            
+                            <StackPanel Margin="5">
+                                <CheckBox x:Name="chkBoxToolTipEnabled" Margin="0 7" Content="Enable Tooltip" IsChecked="True"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Grid.Row="1" Margin="2" Header="Enable Tooltip" BorderThickness="1" BorderBrush="DarkGray" IsEnabled="{Binding Path=IsChecked, ElementName=chkBoxToolTipEnabled, Mode=TwoWay}">
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            
+                            <StackPanel Margin="5">
+                                <CheckBox x:Name="chkBoxColHeader" Margin="0 7" Content="Column Header" 
+                                          IsChecked="{Binding ElementName=pivotGrid1,Path=ColumnHeaderCellStyle.ToolTipEnabled,Mode=TwoWay}" CommandParameter="{Binding ElementName=chkBoxColHeader, Path=Content}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                                
+                                <CheckBox x:Name="chkBoxRowHeader" Margin="0 7" Content="Row Header" 
+                                          IsChecked="{Binding ElementName=pivotGrid1,Path=RowHeaderCellStyle.ToolTipEnabled,Mode=TwoWay}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                                
+                                <CheckBox x:Name="chkBoxValCell" Margin="0 7" Content="Value Cell" 
+                                          IsChecked="{Binding ElementName=pivotGrid1,Path=ValueCellStyle.ToolTipEnabled,Mode=TwoWay}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                                
+                                <CheckBox x:Name="chkBoxSumHeader" Margin="0 7" Content="Summary Header" 
+                                          IsChecked="{Binding ElementName=pivotGrid1,Path=SummaryHeaderStyle.ToolTipEnabled,Mode=TwoWay}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                                
+                                <CheckBox x:Name="chkBoxSumCell" Margin="0 7" Content="Summary Cell"
+                                          IsChecked="{Binding ElementName=pivotGrid1,Path=SummaryCellStyle.ToolTipEnabled,Mode=TwoWay}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Grid.Row="2" Margin="2" Header="Enable Custom Tooltip" BorderThickness="1" BorderBrush="DarkGray" IsEnabled="{Binding Path=IsChecked, ElementName=chkBoxToolTipEnabled, Mode=TwoWay}" >
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            
+                            <StackPanel Margin="5">
+                                <CheckBox x:Name="chkBoxEnableCustom_All" Margin="0 7" Content="Enable For All">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                                
+                                <CheckBox x:Name="chkBoxCustomColHeader" Margin="0 7" 
+                                          IsChecked="{Binding IsChecked,ElementName=chkBoxEnableCustom_All,Mode=OneWay}" 
+                                          IsEnabled="{Binding ElementName=chkBoxColHeader, Path=IsChecked, Mode=TwoWay}"
+                                          Content="Column Header">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                                
+                                <CheckBox x:Name="chkBoxCustomRowHeader" Margin="0 7"
+                                          IsChecked="{Binding IsChecked,ElementName=chkBoxEnableCustom_All,Mode=OneWay}"
+                                          IsEnabled="{Binding ElementName=chkBoxRowHeader, Path=IsChecked, Mode=TwoWay}"
+                                          Content="Row Header">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+
+                                <CheckBox x:Name="chkBoxCustomValCell" Margin="0 7" 
+                                          IsChecked="{Binding IsChecked,ElementName=chkBoxEnableCustom_All,Mode=OneWay}"
+                                          IsEnabled="{Binding ElementName=chkBoxValCell, Path=IsChecked, Mode=TwoWay}"
+                                          Content="Value Cell">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+
+                                <CheckBox x:Name="chkBoxCustomSumHeader" Margin="0 7" 
+                                          IsChecked="{Binding IsChecked,ElementName=chkBoxEnableCustom_All,Mode=OneWay}" 
+                                          IsEnabled="{Binding ElementName=chkBoxSumHeader, Path=IsChecked, Mode=TwoWay}"
+                                          Content="Summary Header">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+
+                                <CheckBox x:Name="chkBoxCustomSumCell" Margin="0 7" 
+                                          IsChecked="{Binding IsChecked,ElementName=chkBoxEnableCustom_All,Mode=OneWay}" 
+                                          IsEnabled="{Binding ElementName=chkBoxSumCell, Path=IsChecked, Mode=TwoWay}"
+                                          Content="Summary Cell">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <action:CheckboxClickAction TargetName="pivotGrid1"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </CheckBox>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Grid.Row="3" Margin="2" Header="Visual Styles" BorderThickness="1" BorderBrush="DarkGray">
+                            <GroupBox.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                                </DataTemplate>
+                            </GroupBox.HeaderTemplate>
+                            <StackPanel Margin="5">
+                                <ComboBox Height="25" Margin="0 7" ItemsSource="{Binding ThemeList}" SelectedIndex="1"
+                                          SelectedItem="{Binding ElementName=pivotGrid1, Path=VisualStyle}" />
+                            </StackPanel>
+                        </GroupBox>
+                    </Grid>
+                </syncfusion:TabItemExt>
+            </syncfusion:TabControlExt>
+        </Grid>
+    </Grid>
+</Window>

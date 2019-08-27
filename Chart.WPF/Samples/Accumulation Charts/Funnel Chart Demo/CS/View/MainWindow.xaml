@@ -1,0 +1,227 @@
+﻿<layout:SampleLayoutWindow x:Class="FunnelChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:library="clr-namespace:System;assembly=mscorlib"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:FunnelChart"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        xmlns:frame="clr-namespace:System.Windows;assembly=PresentationFramework"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Title="Funnel Chart Demo" >
+    <layout:SampleLayoutWindow.Resources>
+        <local:Labelconvertor x:Key="labelconvert"/>
+        <local:Labelconvertor1 x:Key="labelconvert1"/>
+        <local:TooltipConverter x:Key="tooltipConverter1"  />
+        <local:InteriorConverter x:Key="interior"/>
+        <DataTemplate x:Key="LegendTemplate1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox VerticalAlignment="Center" Margin="5"  IsChecked="{Binding CorrespondingPoints[0].DataPoint.Visible}"                  
+                    Visibility="{Binding CheckBoxVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                <Rectangle Fill="{Binding Interior}" Margin="5" Height="10" Width="20" Grid.Column="1" Visibility="{Binding IconVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                <TextBlock Text="{Binding Path=CorrespondingPoints[0].DataPoint.Item,Converter={StaticResource labelconvert1}}" Margin="5" Width="Auto" Grid.Column="2" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}}}" />
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="LabelsTemplateX">
+            <Border CornerRadius="0"
+              Margin="0"
+              Padding="2"
+              Background="Transparent"
+              BorderThickness="0">
+                <TextBlock Text="{Binding}" Foreground="White" FontFamily="Tahoma" FontSize="11"  FontWeight="Regular"/>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SymbolTemplate">
+            <Rectangle Stroke="Black" Fill="Red" Width="5" Height="5" StrokeThickness="0.5"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ConnectorTemplate">
+            <Line X1="0" X2="15" Y1="0" Y2="0" Stroke="Black"/>
+        </DataTemplate>
+        <DataTemplate x:Key="LabelsTemplate">
+            <Grid>
+                
+                <TextBlock  Margin="7.5,3,7.5,3" TextWrapping="Wrap" Text="{Binding Converter={StaticResource labelconvert}}" FontSize="25" Foreground="White" Opacity="0.5" FontFamily="Segoe UI Symbol" FontWeight="Regular" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+        <ToolTip x:Key="CustomTooltips"  >
+            <ToolTip.Template>
+                <ControlTemplate>
+                    <Grid>
+                        <Rectangle Stroke="{Binding Converter={StaticResource interior}}" RadiusY="5" RadiusX="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FFDADADA" Offset="1"/>
+                                    <GradientStop Color="White"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Margin="15,3,15,0" Text="{Binding CorrespondingPoints[0].DataPoint.StringItem}" FontSize="13" FontFamily="Segoe UI" FontWeight="SemiBold"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock  Margin="15,0,0,3" TextWrapping="Wrap" Text="{Binding CorrespondingPoints[0].DataPoint.Y}" FontSize="15" Foreground="{Binding Converter={StaticResource interior}}" FontFamily="Segoe UI" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                <TextBlock  Margin="0,0,15,3" Text=" %" FontSize="15" Foreground="{Binding Converter={StaticResource interior}}" FontFamily="Segoe UI" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                    </Grid>
+                </ControlTemplate>
+            </ToolTip.Template>
+
+        </ToolTip>
+        
+    </layout:SampleLayoutWindow.Resources>
+    <Grid>
+        <Grid.DataContext>
+            <local:FunnelChartModel/>
+        </Grid.DataContext>
+        
+                <!--Hosting Chart control in second Row of the Grid-->
+            <syncfusion:Chart Grid.Row="1" Margin="20"  Name="AccumulationChart1">
+                    <syncfusion:Chart.Header>
+                    <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI" Margin="0,20,0,10">Power Generation Analysis- US</TextBlock>
+                    </syncfusion:Chart.Header>
+                    <!--Chart area to present chart segments-->
+                    <syncfusion:ChartArea FontWeight="Bold">
+                        <syncfusion:ChartArea.ColorModel>
+                            <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="Default"/>
+                        </syncfusion:ChartArea.ColorModel>
+                        <!--ChartArea Legend declaration-->
+                        <syncfusion:ChartArea.Legend>
+                            <syncfusion:ChartLegend ItemTemplate="{StaticResource LegendTemplate1}"  BorderThickness="0"/>
+                        </syncfusion:ChartArea.Legend>
+                        <!--Primary Axis(X)-->
+                        <syncfusion:ChartArea.PrimaryAxis>
+                            <!--X axis declaration with required property settings-->
+                            <syncfusion:ChartAxis  Header="Product"  IntersectAction="Hide"  syncfusion:ChartArea.ShowGridLines="False"/>
+                        </syncfusion:ChartArea.PrimaryAxis>
+                        <!--Secondary Axis(Y)-->
+                        <syncfusion:ChartArea.SecondaryAxis>
+                            <!--Y axis declaration with required property settings-->
+                            <syncfusion:ChartAxis Header="Growth" RangePadding="Additional" syncfusion:ChartArea.ShowGridLines="False" IsAutoSetRange="True"/>
+                        </syncfusion:ChartArea.SecondaryAxis>
+                        <!--Chart series declaration-->
+                    <syncfusion:ChartSeries Label="Power Generation - US"  x:Name="Series"  BindingPathX="source" BindingPathsY="percentage" DataSource="{Binding productlist}" 
+                                                Type="Funnel" ToolTip="{StaticResource CustomTooltips}" StrokeThickness="0"
+                                                syncfusion:ChartFunnelType.GapRatio="{Binding ElementName=comboGapratio, Path=SelectedItem, Mode=TwoWay}"
+                                                syncfusion:ChartPieType.ExplodedIndex="{Binding ElementName=comboExplode, Path=SelectedItem, Mode=TwoWay}"
+                                                >
+                            <!--Chart series adornment declaration-->
+                            <syncfusion:ChartSeries.AdornmentsInfo>
+                                <syncfusion:ChartAdornmentInfo  x:Name="Adornments"   Visible="True"
+                                  LabelTemplate="{StaticResource LabelsTemplate}" SegmentLabelContent="LabelContentPath"  ConnectorTemplate="{StaticResource ConnectorTemplate}"    LabelContentPath="DataPoint.Tag"/>
+                            </syncfusion:ChartSeries.AdornmentsInfo>
+                        </syncfusion:ChartSeries>
+                    </syncfusion:ChartArea>
+                </syncfusion:Chart>
+    </Grid>
+    <!--Other Controls to provide dynamic property settings for chart control-->
+            <layout:SampleLayoutWindow.UserOptionsLayout>
+                <Grid>
+            <Grid.DataContext>
+                <local:FunnelChartModel/>
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Expander Grid.Row="0" Grid.ColumnSpan="2" Header="Palette" IsExpanded="True">
+                        <Grid Margin="0,10,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Palette"/>
+                            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding PaletteCollection}" SelectedItem="{Binding Palette, ElementName=AreaColorModel, Mode=TwoWay}"/>
+                        </Grid>
+                    </Expander>
+                    <Expander Grid.Row="1" Grid.ColumnSpan="2" Header="Properties" IsExpanded="True">
+                        <Grid Margin="0,10,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                          
+                            <!--Select the Point Gap-->
+                            <TextBlock Grid.Row="3" Grid.Column="0"  Name="textBlock4" Text="Point Gap"  />
+                            <ComboBox Grid.Row="3" Grid.Column="1" Name="comboGapratio" SelectedIndex="0" >
+                                <library:String>0.0</library:String>
+                                <library:String>0.1</library:String>
+                                <library:String>0.2</library:String>
+                            </ComboBox>
+                            <!--Select the exploded index-->
+
+                            <TextBlock Grid.Row="4" Grid.Column="0" Name="textBlock5" Text="Explode Index" />
+                            <ComboBox Grid.Row="4" Grid.Column="1" Name="comboExplode" SelectedIndex="0" >
+                                <library:Int32>-1</library:Int32>
+                                <library:Int32>0</library:Int32>
+                                <library:Int32>1</library:Int32>
+                                <library:Int32>2</library:Int32>
+                                <library:Int32>3</library:Int32>
+                                <library:Int32>4</library:Int32>
+
+                            </ComboBox>
+
+
+                        </Grid>
+                    </Expander>
+                    <Expander Grid.Row="2" Grid.ColumnSpan="2" Header="DataLabels" IsExpanded="True">
+                        <Grid Margin="0,10,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="ShowDataLabels"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" Name="chb" IsChecked="{Binding ShowDataLabels, ElementName=Series, Mode=TwoWay}"/>
+                           
+                        </Grid>
+                    </Expander>
+
+                </Grid>
+            </layout:SampleLayoutWindow.UserOptionsLayout>
+   
+</layout:SampleLayoutWindow>
+

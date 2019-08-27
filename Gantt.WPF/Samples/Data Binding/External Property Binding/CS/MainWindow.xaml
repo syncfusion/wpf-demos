@@ -1,0 +1,46 @@
+﻿<syncfusion:ChromelessWindow x:Class="ExternalPropertyBinding.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:gantt="http://schemas.syncfusion.com/wpf"
+                             xmlns:local="clr-namespace:ExternalPropertyBinding"
+                             xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title="External Property Binding"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Width="1300"
+                             Height="720"
+                             Icon="App.ico"
+                             WindowStartupLocation="CenterScreen">
+
+    <!--  Window DataContext Information  -->
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases how the Gantt control accepts an external property collection as a data source"
+                              HeaderText="External Property Binding"
+                              LayoutMode="Metro"
+                              UserGuideUri="http://help.syncfusion.com/UG/User%20Interface/WPF/Gantt/default.htm#!documents/412externalpropertyb.htm"
+                              UserOptionsVisibility="Collapsed">
+        <syncfusion:LayoutControl.GridView>
+
+            <!--  Gantt Control Information  -->
+            <gantt:GanttControl x:Name="Gantt"
+                                ItemsSource="{Binding TaskCollection}"
+                                UseAutoUpdateHierarchy="False"
+                                VisualStyle="Metro">
+                <gantt:GanttControl.TaskAttributeMapping>
+                    <gantt:TaskAttributeMapping TaskIdMapping="Id"
+                                                TaskNameMapping="Name"
+                                                StartDateMapping="StDate" 
+                                                ChildMapping="ChildTask"
+                                                FinishDateMapping="EndDate"
+                                                DurationMapping="Duration"
+                                                ResourceInfoMapping="Resource"
+                                                ProgressMapping="Complete"
+                                                PredecessorMapping="Predecessor"/>
+                </gantt:GanttControl.TaskAttributeMapping>
+            </gantt:GanttControl>
+        </syncfusion:LayoutControl.GridView>
+    </syncfusion:LayoutControl>
+</syncfusion:ChromelessWindow>

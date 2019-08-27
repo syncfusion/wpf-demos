@@ -1,0 +1,82 @@
+﻿<layout:SampleLayoutWindow x:Class="GraphChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:GraphChart" 
+        ResizeMode="CanResizeWithGrip" 
+        WindowStartupLocation="CenterScreen"
+        UserOptionsVisibility="Collapsed"
+        Title="Trackball" >
+    
+    <Grid>
+        
+        <Grid.Resources>
+            
+            <local:TrackConverter x:Key="track"></local:TrackConverter>
+            
+            <!-- Template for Axis Labels -->
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Text="{Binding LabelContent}" Foreground="Black" FontSize="12"/>
+            </DataTemplate>
+
+            <Style TargetType="Line" x:Key="AxisStyle">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+        </Grid.Resources>
+        
+        <Grid.DataContext>
+            <local:CommoditiesPrices></local:CommoditiesPrices>
+        </Grid.DataContext>
+
+        <Syncfusion:SfChart FontSize="20" Margin="10,10,20,10">
+
+            <Syncfusion:SfChart.Header>
+                <TextBlock  FontSize="25" FontFamily="Seoge UI" Margin="0,0,0,20" 
+                            Text="Commodities changing price in US dollars"/>
+            </Syncfusion:SfChart.Header>
+            <Syncfusion:SfChart.Behaviors>
+                <Syncfusion:ChartTrackBallBehavior />
+            </Syncfusion:SfChart.Behaviors>
+            <!-- Properties Origin and ShowAxisNextToOrigin are use to make chart like graph design-->
+            <Syncfusion:SfChart.PrimaryAxis>
+                <Syncfusion:CategoryAxis FontSize="16" PlotOffset="20"  
+                                         LabelTemplate="{StaticResource labelTemplate}" 
+                ShowTrackBallInfo="True" Foreground="Black" 
+                                         AxisLineStyle="{StaticResource AxisStyle}" 
+                                         MajorTickLineStyle="{StaticResource AxisStyle}">
+                   
+                </Syncfusion:CategoryAxis>
+            </Syncfusion:SfChart.PrimaryAxis>
+
+            <Syncfusion:SfChart.SecondaryAxis >
+                <Syncfusion:NumericalAxis Minimum="-50" Maximum="50"   Interval="10"
+                                          FontSize="16" LabelTemplate="{StaticResource labelTemplate}" 
+                                          ShowTrackBallInfo="False" AxisLineStyle="{StaticResource AxisStyle}"
+                                          MajorTickLineStyle="{StaticResource AxisStyle}" Header="Price in dollars">
+                                        
+                </Syncfusion:NumericalAxis>
+            </Syncfusion:SfChart.SecondaryAxis>
+
+            <Syncfusion:SplineAreaSeries ItemsSource="{Binding CommodityDetails}" 
+                                         EnableAnimation="True" Interior="#A2C139" 
+                                         XBindingPath="Commodity" YBindingPath="ChangingPrice">
+                <Syncfusion:SplineAreaSeries.AdornmentsInfo>
+                    <Syncfusion:ChartAdornmentInfo ShowLabel="True" Symbol="Ellipse" >
+                        <Syncfusion:ChartAdornmentInfo.LabelTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Ellipse Fill="White" Stroke="SeaGreen" StrokeThickness="2" Height="35" Width="35"  >
+                                    </Ellipse>
+                                    <TextBlock Text="{Binding}" Foreground="SeaGreen" FontFamily="Segoe UI" 
+                                               FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </Syncfusion:ChartAdornmentInfo.LabelTemplate>
+                    </Syncfusion:ChartAdornmentInfo>
+                </Syncfusion:SplineAreaSeries.AdornmentsInfo>
+            </Syncfusion:SplineAreaSeries>
+        </Syncfusion:SfChart>
+    </Grid>
+</layout:SampleLayoutWindow>

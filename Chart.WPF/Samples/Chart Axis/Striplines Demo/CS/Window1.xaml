@@ -1,0 +1,148 @@
+﻿<Window x:Class="StripLines.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:library="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:StripLines"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.Controls.Chart.Wpf.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" Icon="App.ico"  WindowStartupLocation="CenterScreen"
+    Title="Striplines Demo" MinWidth="600" MinHeight="450" Height="720" Width="1024">
+
+    
+    <!--Root layout, splitting into three rows and two columns-->
+    <Grid >
+        <layout:LayoutControl>
+            <layout:LayoutControl.ChartView>
+                <!--Hosting Chart control in second Row of the Grid-->
+                <syncfusion:Chart Grid.Row="1" Grid.Column="0" Margin="10" Name="chart1">
+                    <syncfusion:Chart.Header>
+                        <TextBlock FontSize="20" FontWeight="Bold">Temperature by Week</TextBlock>
+                    </syncfusion:Chart.Header>
+                    <!--Chart area to present chart segments-->
+                    <syncfusion:ChartArea IsContextMenuEnabled="True">
+                        <syncfusion:ChartArea.Legend>
+                            <syncfusion:ChartLegend/>
+                        </syncfusion:ChartArea.Legend>
+                        <!--Primary Axis(X)-->
+                        <syncfusion:ChartArea.PrimaryAxis>
+                            <!--X axis declaration with required property settings-->
+                            <syncfusion:ChartAxis Header="Day" RangePadding="Normal"  ValueType="Double"
+                                        IsAutoSetRange="True" SmallTicksPerInterval="0" EdgeLabelsDrawingMode="Shift">
+                                <syncfusion:ChartAxis.StripLines>
+                                    
+                                    <syncfusion:ChartStripLine Offset="1" RepeatEvery="2" Width="2" IsPixelWidth="True" TextRotationAngle="270" >
+                                        <syncfusion:ChartStripLine.Stroke>
+                                            <Pen Brush="Black"/>
+                                        </syncfusion:ChartStripLine.Stroke>
+                                    </syncfusion:ChartStripLine>
+                                </syncfusion:ChartAxis.StripLines>
+                            </syncfusion:ChartAxis>
+                        </syncfusion:ChartArea.PrimaryAxis>
+                        <!--Secondary Axis(Y)-->
+                        <syncfusion:ChartArea.SecondaryAxis>
+                            <!--Y axis declaration with required property settings-->
+                            <syncfusion:ChartAxis Header="Temperature" Range="30, 100" ValueType="Double"  Interval="10" RangePadding="Normal" IsAutoSetRange="True" SmallTicksPerInterval="0">
+                                <syncfusion:ChartAxis.StripLines>
+                                    <syncfusion:ChartStripLine VerticalText="True" />
+                                </syncfusion:ChartAxis.StripLines>
+                            </syncfusion:ChartAxis>
+                        </syncfusion:ChartArea.SecondaryAxis>
+                        <!--Chart series declaration-->
+                        <syncfusion:ChartSeries Type="Spline" Label="US"  IsIndexed="False" StrokeThickness="3"/>
+                        <syncfusion:ChartSeries Type="Spline" Label="UK" IsIndexed="False" StrokeThickness="3" />
+                    </syncfusion:ChartArea>
+                </syncfusion:Chart>
+            </layout:LayoutControl.ChartView>
+            <layout:LayoutControl.UserOptions>
+                <!--Other Controls to provide dynamic property settings for chart control-->
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />                     
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="7*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2">
+                        <TextBlock Text="Stripline for X-axis" FontWeight="Bold" />
+                    </StackPanel>
+                  
+                    <!-- Selecting  Offset,Width,Interior and Text of X-Axis StripLines -->
+                    <TextBlock Text="Offset from Axis start" Grid.Row="1" Grid.Column="0"/>
+                    <ComboBox Name="cmboffset" Grid.Row="1" Grid.Column="1" SelectedIndex="1" >
+                    </ComboBox>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Width" ></TextBlock>
+                    <ComboBox Name="cmbStripWidth" Grid.Row="2" Grid.Column="1" SelectedIndex="0"></ComboBox>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Repeat" ></TextBlock>
+                    <ComboBox Name="cmbstripRPFreq" Grid.Row="3" Grid.Column="1" SelectedIndex="1" ></ComboBox>
+
+                    <TextBlock Text="Stripline Text"  Grid.Row="4" Grid.Column="0" ></TextBlock>
+                    <TextBox Name="txtXStriplinetext" Grid.Row="4" Grid.Column="1" Text="X Strip" ></TextBox>
+                    <TextBlock Text="Interior" Grid.Row="5" Grid.Column="0" />
+                    <ComboBox Name="xStripInteriorOptions"  Grid.Row="5" Grid.Column="1" SelectedIndex="0"/>
+                    <!--Rotating the stripline text-->
+                    <TextBlock Text="Rotation Angle" Grid.Row="6" Grid.Column="0"></TextBlock>
+                    <Slider Name="txtRotationAngle" Grid.Row="6" Grid.Column="1" IsSnapToTickEnabled="True" Ticks="0,30,60,90,120,180,270,360"  AutoToolTipPlacement="BottomRight" ToolTip="True"  Minimum="0" Maximum="360" ></Slider>
+                    
+                    <Button Name="butaddstripline" Grid.Row="7"  Content="Add Stripline" Click="butaddstripline_Click" Grid.Column="1" ></Button>
+                    <!--Y Axis-->
+                    <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2">
+                        <TextBlock Text="Stripline for Y-axis" FontWeight="Bold" />
+                    </StackPanel>
+
+                    <!--X Axis-->
+                    <!-- Selecting  Offset,Width,Interior and Text of Y-Axis StripLines -->
+                    <TextBlock Text="Start Position" Grid.Row="9" Grid.Column="0"></TextBlock>
+                    <ComboBox Name="cmbstripPosition" SelectedIndex="0" Grid.Row="9" Grid.Column="4">
+                    </ComboBox>
+                    <TextBlock Text="Width"  Grid.Row="10" Grid.Column="0" ></TextBlock>
+                    <ComboBox Name="cmbstripLength" Grid.Row="10" Grid.Column="4" SelectedIndex="0">
+                    </ComboBox>
+
+                    <TextBlock Text="Repeat"  Grid.Row="11" Grid.Column="0" ></TextBlock>
+                    <ComboBox Name="cmbstripYRPFreq" Grid.Row="11" Grid.Column="4" SelectedIndex="0">
+                    </ComboBox>
+
+                    <TextBlock Text="Stripline Text"  Grid.Row="12" Grid.Column="0"></TextBlock>
+                    <TextBox Name="txtStriplineYtext" Grid.Row="12" Grid.Column="4" Text="Y Strip" ></TextBox>
+
+                    <TextBlock Text="Interior" FontWeight="Normal" Grid.Row="13" Grid.Column="0" />
+                    <ComboBox Name="yStripInteriorOptions"  Grid.Row="13" Grid.Column="4" SelectedIndex="0"/>
+                    <!--Rotating the stripline text-->
+                    <TextBlock Text="Rotation Angle" Grid.Row="14" Grid.Column="0" ></TextBlock>
+                    <Slider Name="txtRotationAngle1" Grid.Row="14" Grid.Column="1" IsSnapToTickEnabled="True" Ticks="0,30,60,90,120,180,270,360"  AutoToolTipPlacement="BottomRight"  Minimum="0" Maximum="360" ></Slider>
+                    
+                    <Button Name="butaddYstripline" Grid.Row="15"  Content="Add Stripline"  Click="butaddYstripline_Click" Grid.Column="4" ></Button>
+                    <!--Clear the strip Line-->
+                    <Button Name="butClearAll" Click="butClearAll_Click" Grid.Row="16" Content="Clear All Striplines" Grid.ColumnSpan="2" Grid.RowSpan="2"></Button>
+                    <TextBlock Grid.Row="18" Grid.Column="0" Text="IsSegmented"/>
+                    <CheckBox Grid.Row="18" Grid.Column="1" Name="checkBox1" Checked="checkBox1_Checked" Unchecked="checkBox1_Unchecked" ></CheckBox>
+                    <TextBlock Grid.Row="19" Grid.Column="0" Text="IsPixelWidth"/>
+                    <CheckBox x:Name="pixelwidth" Grid.Row="19" Grid.Column="1" Checked="pixelwidth_Checked" Unchecked="pixelwidth_Unchecked" IsChecked="False"/>
+
+                </Grid>
+            </layout:LayoutControl.UserOptions>
+        </layout:LayoutControl>
+    </Grid>
+</Window>  

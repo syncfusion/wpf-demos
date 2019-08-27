@@ -1,0 +1,44 @@
+﻿<shared:ChromelessWindow x:Class="FloorPlanner.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:diagramFrontPageUtility="clr-namespace:DiagramFrontPageUtility;assembly=DiagramFrontPageUtility"
+        xmlns:floorPlanner="clr-namespace:FloorPlanner"
+        Icon="App.ico"
+        xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+        Title="FLOOR PLANNER" 
+       xmlns:syncfusion="http://schemas.syncfusion.com/wpf"    
+                             ResizeMode="NoResize"
+                              MinWidth="1024"
+                              MinHeight="600"
+                              Template="{StaticResource ChromelessWindowTemplate}"
+                              UseNativeChrome="True"
+                              WindowStartupLocation="CenterScreen"  
+                              WindowState="Maximized"
+                             >
+    <Window.Resources>
+        <floorPlanner:VisibilityInverse x:Key="visibiliyInv"></floorPlanner:VisibilityInverse>
+    </Window.Resources>
+  
+    <Grid>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="85"></RowDefinition>
+        </Grid.RowDefinitions>-->
+        <Grid Grid.Row="0" Background="White">
+        <diagramFrontPageUtility:DiagramFrontPage FrontPageImge="../Resource/umllogo.png"  x:Name="frontpage"
+                                 Create="{Binding Path=Create}"
+                                 DiagramCommonViewModel="{Binding}"
+                                 DiagramType="FloorPlan"
+                                 Load="{Binding Path=Load}" />
+
+        <floorPlanner:FloorPlannerDiagram FloorPlannerViewModel="{Binding}" Visibility="{Binding DiagramVisibility}" />
+            <!--<Grid Height="85" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Visibility="{Binding DiagramVisibility}" Background="{StaticResource AppBarBackgroundThemeBrush}">
+                <floorPlanner:FloorPlanAppBarView  Delete="{Binding Delete}"></floorPlanner:FloorPlanAppBarView>
+            </Grid>-->
+        </Grid>
+        
+        <!--<Grid x:Name="bar" Opacity="0.5" Background="#f2f2f2" Visibility="Collapsed" Height="40"  VerticalAlignment="Top">
+            <Button HorizontalAlignment="Right" Content="&#xE10A;" Style="{StaticResource AppBarButtonStyle1}" Click="Close"></Button>
+        </Grid>-->
+    </Grid>
+</shared:ChromelessWindow>

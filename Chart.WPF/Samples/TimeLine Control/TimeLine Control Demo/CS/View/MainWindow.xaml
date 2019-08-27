@@ -1,0 +1,215 @@
+﻿<layout:SampleLayoutWindow x:Class="TimeLineControlSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sync="http://schemas.syncfusion.com/wpf" Style="{StaticResource SampleLayoutWindowStyle}"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:TimeLineControlSample" 
+        xmlns:inter="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Title="TimeLine Control Demo" UserOptionsVisibility="Collapsed" TitleBarBackground="Transparent" >
+    <inter:Interaction.Behaviors>
+        <local:TimelineDemoBehavior/>
+    </inter:Interaction.Behaviors>
+   
+    <layout:SampleLayoutWindow.Background>
+        <RadialGradientBrush RadiusX="0.558795" RadiusY="0.805194" Center="0.499999,0.5" GradientOrigin="0.499999,0.5">
+            <RadialGradientBrush.RelativeTransform>
+                <TransformGroup/>
+            </RadialGradientBrush.RelativeTransform>
+            <GradientStop Color="#FF226285" Offset="0"/>
+            <GradientStop Color="#FF060B2A" Offset="1"/>
+        </RadialGradientBrush>
+    </layout:SampleLayoutWindow.Background>
+    <layout:SampleLayoutWindow.Resources>
+        <ResourceDictionary>
+            
+            <DataTemplate x:Key="ScrollThumbTemplateKey" >
+                <Grid>
+                    <Button Height="12" Margin="0,1,-2,1" Opacity="0.8" >
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Rectangle Fill="#FFC7EAE9" StrokeThickness="0" x:Name="path" Stretch="Fill"  Width="{Binding Path=SelectedRegionWidth, RelativeSource={RelativeSource FindAncestor,  AncestorType={x:Type sync:TimeLineControl}}}" />
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="path" Property="Opacity" Value="0.75"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
+            </DataTemplate>
+            <local:LabelConverter  x:Key="LabelConverterKey" />
+           
+            <DataTemplate x:Key="verticalline">
+                <Canvas>
+                    <Line X1="{Binding OffsetX}" Y1="0" X2="{Binding OffsetX}" Y2="1000" Stroke="White" />
+                </Canvas>
+            </DataTemplate>
+            <DataTemplate x:Key="label">
+                <TextBlock Text="{Binding Content}" Foreground="Red"/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </layout:SampleLayoutWindow.Resources>
+    <layout:SampleLayoutWindow.ControlLayout>
+        <Grid Margin="50,30,50,50">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="0.75*" />
+                <RowDefinition Height="0.25*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Grid HorizontalAlignment="Left" Height="40" Width="180" Grid.Column="0" >
+                    <Rectangle Stretch="Fill" Fill="#FF68C7DD" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0.4"/>
+                    <TextBlock Text="Stock Price Chart" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="20" FontFamily="Segoe UI" FontWeight="Regular" />
+                                      
+                </Grid>
+                <Grid Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Date" Text="Date:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="15" FontFamily="Segoe UI" FontWeight="Regular"  ></TextBlock>
+                    <TextBlock x:Name="date"  HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="15" FontFamily="Segoe UI" FontWeight="Regular"  Grid.Column="1"   ></TextBlock>
+                    <TextBlock x:Name="volume" Text="Volume:" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="15" FontFamily="Segoe UI" FontWeight="Regular" Margin="30,0,0,0" Grid.Column="2"></TextBlock>
+                    <TextBlock x:Name="vol" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="15" FontFamily="Segoe UI" FontWeight="Regular"  Grid.Column="3"></TextBlock>
+                </Grid>
+            </StackPanel>
+            
+            <sync:Chart Grid.Row="1">
+                <sync:ChartArea x:Name="area" Margin="-7,0,0,0" >
+                    <sync:ChartArea.PrimaryAxis>
+                        <sync:ChartAxis  LabelForeground="#FFAAD8D6" InteractiveCursorContentVisibility="false" ValueType="DateTime"  LabelDateTimeFormat="MMM/dd/yyy" RangePadding="None" EdgeLabelsDrawingMode="Shift" IsInversed="True"  TickSize="0" SmallTickSize="0">
+                            <sync:ChartAxis.Header>
+                                <TextBlock Text="Date" FontFamily="Segoe UI" FontSize="12" Foreground="#FFAAD8D6"/>
+                            </sync:ChartAxis.Header>
+                            <sync:ChartArea.GridLineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartArea.GridLineStroke>
+                            <sync:ChartArea.OriginLineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartArea.OriginLineStroke>
+                            <sync:ChartAxis.LineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartAxis.LineStroke>
+                        </sync:ChartAxis>
+                    </sync:ChartArea.PrimaryAxis>
+                    <sync:ChartArea.SecondaryAxis>
+                        <sync:ChartAxis LabelForeground="#FFAAD8D6" InteractiveCursorContentVisibility="false" OpposedPosition="True" IsAutoSetRange="False" Range="0,800" Interval="100" TickSize="0" SmallTickSize="0">
+                            <sync:ChartAxis.Header>
+                                <TextBlock Text="Price in Dollars(USD)" FontFamily="Segoe UI" FontSize="12" Foreground="#FFAAD8D6"/>
+                            </sync:ChartAxis.Header>
+                            <sync:ChartArea.GridLineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartArea.GridLineStroke>
+                            <sync:ChartArea.OriginLineStroke>
+                                <Pen Thickness="1" Brush="#FF4A9BC6" />
+                            </sync:ChartArea.OriginLineStroke>
+                            <sync:ChartAxis.LineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartAxis.LineStroke>
+                        </sync:ChartAxis>
+                    </sync:ChartArea.SecondaryAxis>
+                    <sync:ChartSeries x:Name="series1" ShowToolTip="False" DataSource="{Binding ElementName=timelineControl, Path=SelectedData, Mode=TwoWay, UpdateSourceTrigger=Explicit}" BindingPathX="TimeStamp" BindingPathsY="High" Type="SplineArea">
+                        <sync:ChartSeries.Template>
+                            <DataTemplate>
+                                <Grid>
+                                    <Path Data="{Binding Geometry}" Fill="Transparent" Stroke="#FFAAD8D6" StrokeThickness="1" ></Path>
+                                    <Path Data="{Binding Geometry}" ToolTip="{Binding ToolTip}">
+                                        <Path.OpacityMask>
+                                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                <GradientStop Color="#A7000000" Offset="0"/>
+                                                <GradientStop Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Path.OpacityMask>
+                                        <Path.Fill>
+                                            <LinearGradientBrush SpreadMethod="Repeat" StartPoint="0.76,0.3" EndPoint="0.764,0.316">
+                                                <GradientStop Color="#007BCEC1" Offset="1"/>
+                                                <GradientStop Color="#FF00F1FF" Offset="0.312"/>
+                                                <GradientStop Color="#0070CAD0" Offset="0.152"/>
+                                            </LinearGradientBrush>
+                                        </Path.Fill>
+                                    </Path>
+                                </Grid>
+                                
+                            </DataTemplate>
+                        </sync:ChartSeries.Template>
+                    </sync:ChartSeries>
+                </sync:ChartArea>
+            </sync:Chart>
+            <Border Grid.Row="2" BorderBrush="#FF4A9BC6" BorderThickness="1" Margin="0,0,33,0">
+                <sync:TimeLineControl x:Name="timelineControl" BorderBrush="#FFAAD8D6" sync:TimeLineControl.StartDate="9/27/2006" sync:TimeLineControl.EndDate="12/7/2006" IsContextMenuEnabled="True"  TimeLineInterior="#FF70CAD0" TimeLineThickness="2"  UnSelectedRegionInterior="Transparent" ViewLineInterior="#FFC7EAE9"  ScrollBarInterior="Transparent" ScrollThumbTemplate="{DynamicResource ScrollThumbTemplateKey}"  ScrollBarBorderBrush="#FF4A9BC6"  >
+                    <sync:TimeLineControl.ViewPortInterior>
+                        <SolidColorBrush Color="#FF68C7DD" Opacity="0.4"/>
+                    </sync:TimeLineControl.ViewPortInterior>
+                    <sync:TimeLineControl.MouseOverInterior>
+                        <SolidColorBrush Color="#FF68C7DD" Opacity="0.4"/>
+                    </sync:TimeLineControl.MouseOverInterior>
+                    <sync:TimeLineControl.LeftIndicatorTemplate>
+                        <DataTemplate>
+                            <Rectangle Fill="#FFC7EAE9" Stretch="Fill" Height="20" Width="5" Margin="-2.5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </sync:TimeLineControl.LeftIndicatorTemplate>
+                    <sync:TimeLineControl.RightIndicatorTemplate>
+                        <DataTemplate>
+                            <Rectangle Fill="#FFC7EAE9" Stretch="Fill" Height="20" Width="5" Margin="-2.5,0,0,-10" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </DataTemplate>
+                    </sync:TimeLineControl.RightIndicatorTemplate>
+                    <sync:TimeLineControl.ScrollBarSmallIncreaseTemplate>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                            <Grid>
+                                <TextBlock FontFamily="Wingdings 3" Text="}" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFAAD8D6" Background="Transparent"  />
+                            </Grid>
+                        </ControlTemplate>
+                    </sync:TimeLineControl.ScrollBarSmallIncreaseTemplate>
+                    <sync:TimeLineControl.ScrollBarSmallDecreaseTemplate>
+                        <ControlTemplate TargetType="{x:Type RepeatButton}">
+                            <Grid>
+                                <TextBlock FontFamily="Wingdings 3" Text="|" FontSize="12" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFAAD8D6" Background="Transparent"  />
+                            </Grid>
+                        </ControlTemplate>
+                    </sync:TimeLineControl.ScrollBarSmallDecreaseTemplate>
+                    <sync:TimeLineControl.GridBackground>
+                        <LinearGradientBrush StartPoint="0.5,0.939745" EndPoint="0.5,0.146812" Opacity="0.4">
+                            <GradientStop Color="#007BCEC1" Offset="0"/>
+                            <GradientStop Color="#FF6BC7DD" Offset="1"/>
+                        </LinearGradientBrush>
+                    </sync:TimeLineControl.GridBackground>
+                    <sync:TimeLineControl.PrimaryAxis>
+                        <sync:ChartAxis x:Name="primary" TickSize="0" SmallTickSize="0" RangePadding="None" EdgeLabelsDrawingMode="Fit" IntersectAction="Hide" ValueType="DateTime"  LabelDateTimeFormat="yyyy" Interval="1"  LabelPosition="Outside" LabelForeground="#FFD8F0F0" OpposedPosition="True">
+                            <sync:ChartArea.ShowGridLines>False</sync:ChartArea.ShowGridLines>
+                            <sync:ChartArea.ShowMajorGridLines>True</sync:ChartArea.ShowMajorGridLines>
+                            <sync:ChartArea.OriginLineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartArea.OriginLineStroke>
+                            <sync:ChartAxis.LineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartAxis.LineStroke>
+                        </sync:ChartAxis>
+                    </sync:TimeLineControl.PrimaryAxis>
+                    <sync:TimeLineControl.Axes>
+                        <sync:ChartAxis x:Name="quater" TickSize="0" SmallTickSize="0" LabelForeground="White" ValueType="DateTime" Interval="63" IsAutoSetRange="False" Range="0,1250">
+                            <sync:ChartArea.GridLineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartArea.GridLineStroke>
+                            <sync:ChartArea.ShowGridLines>True</sync:ChartArea.ShowGridLines>
+                            <sync:ChartArea.ShowMajorGridLines>True</sync:ChartArea.ShowMajorGridLines>
+                            <sync:ChartArea.OriginLineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartArea.OriginLineStroke>
+                            <sync:ChartAxis.LineStroke>
+                                <Pen Brush="#FF4A9BC6" Thickness="1"/>
+                            </sync:ChartAxis.LineStroke>
+                            <sync:ChartAxis.LabelTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Converter={StaticResource LabelConverterKey}}" Margin="50,0,0,0"  Foreground="#FFD8F0F0"/>
+                                </DataTemplate>
+                            </sync:ChartAxis.LabelTemplate>
+                        </sync:ChartAxis>
+                    </sync:TimeLineControl.Axes>
+                </sync:TimeLineControl>
+            </Border>
+        </Grid>
+    </layout:SampleLayoutWindow.ControlLayout>
+</layout:SampleLayoutWindow>

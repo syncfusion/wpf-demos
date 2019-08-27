@@ -1,0 +1,370 @@
+﻿<UserControl
+    x:Class="PatientDetailsDemo.CurrentDetailsDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PatientDetailsDemo"
+    xmlns:local1="using:PatientDetailsDemo"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" xmlns:chart="using:Syncfusion.UI.Xaml.Charts" xmlns:patientDetailsDemo="clr-namespace:PatientDetailsDemo"
+    xmlns:charts="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    Grid.Row="1">
+
+    <UserControl.Resources>
+        <patientDetailsDemo:BloodPressureConverter x:Key="BPConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources>
+            <patientDetailsDemo:SaturationConverter x:Key="SatConverter"/>
+           <Style x:Key="GridLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="#FF33789E"></Setter>           
+        </Style>
+        <Style x:Key="lineStyle" TargetType="Line">
+            <Setter Property="StrokeThickness" Value="0.5"></Setter>
+                <Setter Property="Stroke" Value="#FF33789E"></Setter>
+        </Style>
+            <Style x:Key="axisLineStyle" TargetType="Line">
+                <Setter Property="StrokeThickness" Value="0"/>
+            </Style>
+            <Style x:Key="BackButtonStyle" TargetType="Button">
+                <Setter Property="MinWidth" Value="0"/>
+                <Setter Property="Width" Value="48"/>
+                <Setter Property="Height" Value="48"/>
+                <Setter Property="Margin" Value="36,0,36,36"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Setter Property="FontSize" Value="56"/>
+                <Setter Property="AutomationProperties.AutomationId" Value="BackButton"/>
+                <Setter Property="AutomationProperties.Name" Value="Back"/>
+                <Setter Property="AutomationProperties.ItemType" Value="Navigation Button"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid">
+                                <Grid Margin="-1,-16,0,0">
+                                    <TextBlock x:Name="BackgroundGlyph" Text="&#xE0A8;" Foreground="#00FFFFFF"/>
+                                    <TextBlock x:Name="NormalGlyph" Text="{StaticResource BackButtonGlyph}" Foreground="#FFFFFFFF"/>
+                                    <TextBlock x:Name="ArrowGlyph" Text="&#xE0A6;" Foreground="#FF000000" Opacity="0"/>
+                                </Grid>
+                                <Rectangle
+                            x:Name="FocusVisualWhite"
+                            IsHitTestVisible="False"
+                            Stroke="{StaticResource FocusVisualWhiteStrokeThemeBrush}"
+                            StrokeEndLineCap="Square"
+                            StrokeDashArray="1,1"
+                            Opacity="0"
+                            StrokeDashOffset="1.5"/>
+                                <Rectangle
+                            x:Name="FocusVisualBlack"
+                            IsHitTestVisible="False"
+                            Stroke="{StaticResource FocusVisualBlackStrokeThemeBrush}"
+                            StrokeEndLineCap="Square"
+                            StrokeDashArray="1,1"
+                            Opacity="0"
+                            StrokeDashOffset="0.5"/>
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundGlyph" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="#21FFFFFF"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="NormalGlyph" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="#FFFFFFFF"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundGlyph" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="#FFFFFFFF"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <DoubleAnimation
+                                            Storyboard.TargetName="ArrowGlyph"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0"/>
+                                                <DoubleAnimation
+                                            Storyboard.TargetName="NormalGlyph"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="0"
+                                            Duration="0"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Visibility">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                                <DoubleAnimation
+                                            Storyboard.TargetName="FocusVisualWhite"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0"/>
+                                                <DoubleAnimation
+                                            Storyboard.TargetName="FocusVisualBlack"
+                                            Storyboard.TargetProperty="Opacity"
+                                            To="1"
+                                            Duration="0"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unfocused" />
+                                        <VisualState x:Name="PointerFocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+
+        <Grid  x:Name="Grd" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <charts:SfChart  Grid.Column="0" x:Name="chartGrid" Margin="5,5,5,4" AreaBorderBrush="#FF33789E" AreaBorderThickness="0.5" >
+                <charts:SfChart.DataContext>
+                    <patientDetailsDemo:CurrentDetailsViewModel/>
+                </charts:SfChart.DataContext>
+
+                <charts:SfChart.RowDefinitions>
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" BorderStroke="#FF33789E"></charts:ChartRowDefinition>
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" BorderStroke="#FF33789E"></charts:ChartRowDefinition>
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" BorderStroke="#FF33789E"></charts:ChartRowDefinition>
+                </charts:SfChart.RowDefinitions>
+
+
+                <!--<charts:SfChart.Behaviors>
+                    <charts:ChartZoomPanBehavior ZoomMode="X"></chart:ChartZoomPanBehavior>
+                    <local:CustomTrackBallBehavior ChartTrackBallStyle="{StaticResource trackBallStyle}" LabelVerticalAlignment="Far"  LabelHorizontalAlignment="Near"  LineStyle="{StaticResource trackerLineStyle}" CustomLabelTemplate="{StaticResource customLabel}"></local:CustomTrackBallBehavior>
+                </charts:SfChart.Behaviors>-->
+
+                <charts:SfChart.PrimaryAxis>
+                    <charts:CategoryAxis Foreground="Transparent" ShowGridLines="True" Interval="0.2" TickLineSize="0"  ZoomFactor="0.1"></charts:CategoryAxis>
+                </charts:SfChart.PrimaryAxis>
+
+                <charts:SfChart.SecondaryAxis>
+                    <charts:NumericalAxis ShowTrackBallInfo="True" Foreground="Transparent"  LabelFormat="#" 
+                                   charts:SfChart.Row="3" Visibility="Hidden"
+                                     Interval="30" ShowGridLines="False" LabelExtent="30" AxisLineStyle="{StaticResource axisLineStyle}"
+                                     TickLineSize="0" SmallTickLineSize="0" Minimum="0" Maximum="60">
+                    </charts:NumericalAxis>
+                </charts:SfChart.SecondaryAxis>
+
+
+                <charts:FastLineSeries x:Name="series1" ItemsSource="{Binding RandomData}" Interior="#FF33789E" XBindingPath="X" YBindingPath="Y" StrokeThickness="2" >
+                    <charts:FastLineSeries.YAxis>
+                        <charts:NumericalAxis Foreground="Transparent" OpposedPosition="True" LabelsPosition="Inside"
+                                     charts:SfChart.Row="2" AxisLineStyle="{StaticResource axisLineStyle}" MajorGridLineStyle="{StaticResource GridLineStyle}"
+                                     PlotOffset="10" Interval="3" ShowGridLines="False" LabelExtent="30" 
+                                     TickLineSize="0" SmallTickLineSize="0" Visibility="Hidden">
+                            <!--<chart:NumericalAxis.Header>
+                                <Grid RenderTransformOrigin="0.5,0.5">
+                                    <Grid.RenderTransform>
+                                        <RotateTransform Angle="90"/>
+                                    </Grid.RenderTransform>
+                                    <Ellipse Fill="#FFA05000" Width="50" Height="50"/>
+                                    <TextBlock Text="RR" FontSize="10" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </chart:NumericalAxis.Header>-->
+                        </charts:NumericalAxis>
+                    </charts:FastLineSeries.YAxis>
+                </charts:FastLineSeries>
+
+                <charts:FastLineSeries x:Name="series2" ItemsSource="{Binding RandomData2}" Interior="#FF33789E" XBindingPath="X" Foreground="Transparent" YBindingPath="Y"  StrokeThickness="2">
+                    <charts:FastLineSeries.YAxis>
+                        <charts:NumericalAxis Foreground="Transparent" Visibility="Hidden"
+                                     charts:SfChart.Row="1"  AxisLineStyle="{StaticResource axisLineStyle}"
+                                     PlotOffset="10" Interval="30" ShowGridLines="False" LabelExtent="30" 
+                                     TickLineSize="0" SmallTickLineSize="0" >
+                        </charts:NumericalAxis>
+                    </charts:FastLineSeries.YAxis>
+                </charts:FastLineSeries>
+
+                <charts:FastLineSeries x:Name="series3" ItemsSource="{Binding RandomData3}" Interior="#FF33789E" XBindingPath="X" Foreground="Transparent" YBindingPath="Y" StrokeThickness="2">
+                    <charts:FastLineSeries.YAxis>
+                        <charts:NumericalAxis Foreground="Transparent" Visibility="Hidden"
+                                     charts:SfChart.Row="0" AxisLineStyle="{StaticResource axisLineStyle}"
+                                     PlotOffset="10" Interval="30" ShowGridLines="False" LabelExtent="30" 
+                                     TickLineSize="0" SmallTickLineSize="0" >
+                        </charts:NumericalAxis>
+                    </charts:FastLineSeries.YAxis>
+                </charts:FastLineSeries>
+
+            </charts:SfChart>
+            <Grid Grid.Column="1" Margin="-10,10,10,41" Background="#FFFFFFFF">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="#FF33789E" BorderThickness="0,1,1,0"  Padding="5">
+                    <StackPanel HorizontalAlignment="Center" Margin="5,0,0,0">
+                        <TextBlock HorizontalAlignment="Center" Text="BP" Width="100" FontSize="16"/>
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Converter={StaticResource BPConverter}}" Width="Auto" FontSize="32" FontWeight="ExtraBold" Foreground="#FFFF9100"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="0" BorderBrush="#FF33789E" Width="100" BorderThickness="0,1,1,0"  Padding="5">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock HorizontalAlignment="Center" Text="Sat" Width="Auto" FontSize="14"/>
+                        <TextBlock HorizontalAlignment="Center" Text="{Binding Converter={StaticResource SatConverter}}" Width="Auto" FontSize="26" Foreground="#FFFF9100"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" BorderBrush="#FF33789E" Width="100" BorderThickness="0,1,1,0"  Padding="5">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="RR" Width="Auto" FontSize="14" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding RespirationRate}" Width="Auto" FontSize="26" HorizontalAlignment="Center" Foreground="#FFFF9100"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="0" BorderBrush="#FF33789E" Width="100" BorderThickness="0,1,1,1"  Padding="10">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="HR" Width="Auto" FontSize="14" HorizontalAlignment="Center"/>
+                        <TextBlock Text="{Binding HeartRate}" Width="Auto" HorizontalAlignment="Center" FontSize="26" Foreground="#FFFF9100"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" BorderBrush="#FF33789E" Width="100" BorderThickness="0,1,1,1"  Padding="10">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock Text="Temp" Width="Auto" HorizontalAlignment="Center" FontSize="14"/>
+                        <TextBlock Text="{Binding Temperature}" HorizontalAlignment="Center" Width="Auto" FontSize="26"  Foreground="#FFFF9100"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!--<Grid x:Name="chartGrid" Grid.Row="1" Grid.Column="0">
+            <Grid.DataContext>
+                <patientDetailsDemo:CurrentDetailsViewModel/>
+            </Grid.DataContext>
+            <charts:SfChart x:Name="PatientRandom" AreaBorderThickness="0.5,0.5,0.5,0.5">
+                    <charts:SfChart.RowDefinitions>
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" BorderStroke="#D3D3D3"></charts:ChartRowDefinition>
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" BorderStroke="#D3D3D3"></charts:ChartRowDefinition>
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" BorderStroke="#D3D3D3"></charts:ChartRowDefinition>
+                    </charts:SfChart.RowDefinitions>
+                <charts:SfChart.PrimaryAxis>
+                    <charts:CategoryAxis Visibility="Collapsed" MajorGridLineStyle="{StaticResource GridLineStyle}" ShowGridLines="False"/>
+                </charts:SfChart.PrimaryAxis>
+                <charts:SfChart.SecondaryAxis>
+                    <charts:NumericalAxis Visibility="Collapsed" ShowGridLines="False" MajorGridLineStyle="{StaticResource GridLineStyle}" PlotOffset="30" Interval="4" Minimum="0" Maximum="20"/>
+                </charts:SfChart.SecondaryAxis>
+                <charts:FastLineSeries ItemsSource="{Binding RandomData}" Interior="#17EBFC" XBindingPath="X" YBindingPath="Y"></charts:FastLineSeries>
+                    <charts:FastLineSeries ItemsSource="{Binding RandomData2}" Interior="#17EBFC" XBindingPath="X" YBindingPath="Y">
+                    <charts:FastLineSeries.YAxis>
+                        <charts:NumericalAxis Visibility="Collapsed" ShowGridLines="False" charts:SfChart.Row="1" MajorGridLineStyle="{StaticResource GridLineStyle}" PlotOffset="30" Interval="4" Minimum="0" Maximum="20" />
+                    </charts:FastLineSeries.YAxis>
+                        </charts:FastLineSeries>
+                        <charts:FastLineSeries ItemsSource="{Binding RandomData3}" Interior="#17EBFC" XBindingPath="X" YBindingPath="Y">
+                            <charts:FastLineSeries.YAxis>
+                        <charts:NumericalAxis Visibility="Collapsed" ShowGridLines="False" charts:SfChart.Row="2" MajorGridLineStyle="{StaticResource GridLineStyle}" PlotOffset="30" Interval="4" Minimum="0" Maximum="20"/>
+                        </charts:FastLineSeries.YAxis>
+                    </charts:FastLineSeries>
+            </charts:SfChart>
+        </Grid>
+
+        <Border Grid.Row="1" Grid.Column="1" DataContext="{Binding}">
+            <Grid x:Name="DetailsGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                    <Rectangle Stretch="Fill" Stroke="Red" StrokeThickness="1"></Rectangle>
+                        <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Rectangle Stretch="UniformToFill" StrokeThickness="1"  Stroke="#097895" Height="250" VerticalAlignment="Stretch" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="0,0,-58,0"/>
+                      
+                        <TextBlock Text="BP" FontSize="40" Margin="25,10,10,10" FontWeight="Normal" Foreground="#17EBFC" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        <TextBlock Text="TEST" FontSize="45" FontWeight="ExtraBold" Foreground="Orange" Margin="25,10,10,10" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"/>
+                        
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Rectangle Stretch="UniformToFill" StrokeThickness="1" HorizontalAlignment="Stretch" Stroke="#097895" Height="250" VerticalAlignment="Stretch" Grid.RowSpan="2"></Rectangle>
+                            <TextBlock Margin="25,10,10,10" Text="Sat" Foreground="#17EBFC" FontSize="25" FontWeight="Light"/>
+                            <TextBlock  Margin="25,10,10,10" Text="DDDDDDDDD" Foreground="Orange" FontSize="35" FontWeight="Light" Grid.Row="1" Grid.Column="0"/>
+                           
+                        </Grid>
+
+                        <Grid Grid.Column="1" Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Rectangle Stretch="UniformToFill" StrokeThickness="1" HorizontalAlignment="Stretch" Stroke="#097895" Height="250" VerticalAlignment="Stretch" Grid.RowSpan="2"></Rectangle>
+                            <TextBlock Margin="25,10,10,10" Text="RR" Foreground="#17EBFC" FontSize="25" FontWeight="Light"/>
+                            <TextBlock Margin="25,10,10,10" Text="TEST" Foreground="Orange" FontSize="35" FontWeight="Light" Grid.Row="1" Grid.Column="0"/>
+                        </Grid>
+
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Rectangle Stretch="UniformToFill" StrokeThickness="1" HorizontalAlignment="Stretch" Stroke="#097895" Height="250" VerticalAlignment="Stretch" Grid.RowSpan="2"></Rectangle>
+                            <TextBlock Margin="25,10,10,10" Text="HR" Foreground="#17EBFC" FontSize="25" FontWeight="Light"/>
+                            <TextBlock Text="{Binding HeartRate}" Margin="25,10,10,10" Foreground="Orange" FontSize="35" FontWeight="Light" Grid.Row="1" Grid.Column="0"/>
+                        </Grid>
+
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Rectangle Stretch="UniformToFill" StrokeThickness="1" HorizontalAlignment="Stretch" Stroke="#097895" Height="250" VerticalAlignment="Stretch" Grid.RowSpan="2"></Rectangle>
+                            <TextBlock Margin="25,10,10,10" Text="Temp" Foreground="#17EBFC" FontSize="25" FontWeight="Light"/>
+                            <TextBlock Text="{Binding Temperature}" Margin="25,10,10,10" Foreground="Orange" FontSize="35" FontWeight="Light" Grid.Row="1" Grid.Column="0"/>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>-->
+
+    </Grid>
+</UserControl>

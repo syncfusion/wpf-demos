@@ -1,0 +1,215 @@
+﻿<layout:SampleLayoutWindow x:Class="AdornmentConfiguration.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:library="clr-namespace:System;assembly=mscorlib"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:AdornmentConfiguration"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"  
+        xmlns:frame="clr-namespace:System.Windows;assembly=PresentationFramework"
+        Title="Adornment Configuration Demo" x:Name="window1" >
+    <layout:SampleLayoutWindow.Resources>
+        
+        <ObjectDataProvider x:Key="SeriesType" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ChartTypes"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="horizontalAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:HorizontalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="verticalAlignment" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="frame:VerticalAlignment"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="symbol" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:Symbol"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="adornmentsPosition" MethodName="GetValues" ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:AdornmentsPosition"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+      
+        <DataTemplate x:Key="adornment">
+            <Grid>
+                <Rectangle Stroke="#FFAEAEAE" RadiusY="5" RadiusX="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFDADADA" Offset="1"/>
+                            <GradientStop Color="White"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <TextBlock x:Name="adorntext" Margin="7.5,3,7.5,3" TextWrapping="Wrap" Text="{Binding}" FontSize="12" Foreground="#FF585858" FontFamily="Segoe UI" FontWeight="Regular" VerticalAlignment="Center" HorizontalAlignment="Center">
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+    </layout:SampleLayoutWindow.Resources>
+        <Grid>
+            <Grid.DataContext>
+                <local:SeriesConfigViewModel/>
+            </Grid.DataContext>
+
+
+            <syncfusion:Chart Name="Chart1" >
+
+                <!--Chart area to present chart segments-->
+                <syncfusion:ChartArea  IsContextMenuEnabled="False"  >
+
+                    <syncfusion:ChartArea.GridHeader>
+                        <TextBlock FontSize="20" FontWeight="Regular" FontFamily="Segoe UI" Margin="0,0,0,20">Military aircraft crashes in Germany (1984 - 1993)</TextBlock>
+                    </syncfusion:ChartArea.GridHeader>
+                   
+                    <syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="Metro"/>
+                    </syncfusion:ChartArea.ColorModel>
+                    <!--Primary Axis(X)-->
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <!--X axis declaration with required property settings-->
+                        <syncfusion:ChartAxis Header="Year" RangePadding="Normal" LabelFontSize="11"   EdgeLabelsDrawingMode="Fit" ValueType="DateTime" IsAutoSetRange="True" DateTimeInterval="1" LabelDateTimeFormat="yyyy"/>
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <!--Secondary Axis(Y)-->
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <!--Y axis declaration with required property settings-->
+                        <syncfusion:ChartAxis Header="Count" RangePadding="Normal" IsAutoSetRange="True"  EdgeLabelsDrawingMode="Fit"  LabelFontSize="11"  />
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <!--Chart 1st series declaration-->
+                    <syncfusion:ChartSeries Name="Series1"   Label="Germany" BindingPathX="year" BindingPathsY="count" StrokeThickness="{Binding ElementName=series1Thickness, Path=SelectedItem, Mode=TwoWay}" DataSource="{Binding Crashes}" Type="Column" >
+                        <syncfusion:ChartSeries.AdornmentsInfo>
+                            <syncfusion:ChartAdornmentInfo  Visible="True"  SegmentLabelFontSize="12" SegmentLabelContent="YValue" SegmentLabelFontFamily="Segoe UI" SegmentLabelFormat="0" SegmentLabelDataTimeFormat="d/MM/yy"
+                                                               Symbol="Diamond" SymbolWidth="15"  SymbolHeight="15" SymbolInterior="White" SymbolStroke="Black" SymbolStrokeThickness="2" HorizontalAlignment="Center" VerticalAlignment="Top" AdornmentsPosition="TopAndBottom" x:Name="adorn"  AdornmentFontStretch="Expanded" AdornmentForeground="White" SegmentLabelFontWeight="Regular" AdornmentWrapping="Wrap" AdornmentMargin="0,10,0,0" >
+
+                            </syncfusion:ChartAdornmentInfo>
+                        </syncfusion:ChartSeries.AdornmentsInfo>
+                    </syncfusion:ChartSeries>
+                </syncfusion:ChartArea>
+            </syncfusion:Chart>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <!--Other Controls to provide dynamic property settings for chart control-->
+        <Grid>
+            <Grid.DataContext>
+                <local:SeriesConfigViewModel/>
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Properties" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+            
+            <Grid Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        
+
+                </Grid.RowDefinitions>
+                   
+                <Expander Header="Symbol Property" Grid.Row="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="IsVisible"/>
+                        <CheckBox Grid.Row="0" Grid.Column="1" Name="chb" IsChecked="{Binding ShowDataLabels, ElementName=Series1, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="AdornmentsPosition"/>
+                        <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="{Binding ElementName=chb, Path=IsChecked, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource adornmentsPosition}}" SelectedItem="{Binding AdornmentsPosition, ElementName=adorn, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="HorizontalAlignment"/>
+                        <ComboBox Grid.Row="2" Grid.Column="1" IsEnabled="{Binding ElementName=chb, Path=IsChecked, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource horizontalAlignment}}" SelectedItem="{Binding HorizontalAlignment, ElementName=adorn, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="VerticalAlignment"/>
+                        <ComboBox Grid.Row="3" Grid.Column="1" IsEnabled="{Binding ElementName=chb, Path=IsChecked, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource verticalAlignment}}" SelectedItem="{Binding VerticalAlignment, ElementName=adorn, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Symbol"/>
+                        <ComboBox Grid.Row="4" Grid.Column="1" IsEnabled="{Binding ElementName=chb, Path=IsChecked, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource symbol}}" SelectedItem="{Binding Symbol, ElementName=adorn, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="SymbolHeight"/>
+                        <TextBox Grid.Row="5" Grid.Column="1" IsEnabled="{Binding ElementName=chb, Path=IsChecked, Mode=TwoWay}"  Text="{Binding SymbolHeight, ElementName=adorn, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="SymbolWidth"/>
+                        <TextBox Grid.Row="6" Grid.Column="1" IsEnabled="{Binding ElementName=chb, Path=IsChecked, Mode=TwoWay}" Text="{Binding SymbolWidth, ElementName=adorn, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="SymbolInterior"/>
+                        <syncfusion:ColorPicker Grid.Row="7" Grid.Column="1" IsEnabled="{Binding ElementName=chb, Path=IsChecked, Mode=TwoWay}" Brush="{Binding SymbolInterior, ElementName=adorn, Mode=TwoWay}"  />
+                    </Grid>
+                    
+                </Expander>
+
+                <Expander Header="Label Properties" Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Segment Label Content" />
+                        <ComboBox Grid.Row="0" Grid.Column="1"  x:Name="segmentlabelcontent"  ItemsSource="{Binding LabelContentCollection}" SelectedItem="{Binding SegmentLabelContent, ElementName=adorn,  Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text=" Label FontFamily" />
+                        <ComboBox  Grid.Row="1" Grid.Column="1" x:Name="segmentlabelfontfamily"  ItemsSource="{x:Static Fonts.SystemFontFamilies}" SelectedItem="{Binding ElementName=adorn, Path=SegmentLabelFontFamily, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Label FontSize"  />
+                        <TextBox Grid.Row="2" Grid.Column="1" x:Name="series1SegmentLabelFontSize"  Text="{Binding SegmentLabelFontSize, ElementName=adorn, Mode=TwoWay}" />
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Label FontWeight"  />
+                        <ComboBox  Grid.Row="3" Grid.Column="1" x:Name="series1SegmentLabelFontWeight" ItemsSource="{Binding FontWeightsCollection}"  SelectedItem="{Binding ElementName=adorn, Path=SegmentLabelFontWeight, Mode=TwoWay}" SelectedIndex="6" />
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Label Foreground"  />
+                        <syncfusion:ColorPicker Grid.Row="4" Grid.Column="1" Brush="{Binding AdornmentForeground, ElementName=adorn, Mode=TwoWay}"  />
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="SymbolStroke"  />
+                        <syncfusion:ColorPicker Grid.Row="5" Grid.Column="1" Brush="{Binding SymbolStroke, ElementName=adorn, Mode=TwoWay}"  />
+
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="SymbolStrokeThickness"  />
+                        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding ElementName=adorn, Path=SymbolStrokeThickness, Mode=TwoWay}"/>
+
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Label Margin"  />
+                        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding ElementName=adorn, Path=AdornmentMargin, Mode=TwoWay}"/>
+                    </Grid>
+                </Expander>
+
+            </Grid>
+           
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+
+</layout:SampleLayoutWindow>
+

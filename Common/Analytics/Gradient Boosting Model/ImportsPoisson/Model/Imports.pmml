@@ -1,0 +1,2079 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_2" version="4.2">
+    <Header>
+        <Application name="JPMML-Converter" version="1.0-SNAPSHOT"/>
+        <Timestamp>2017-11-07T09:39:17Z</Timestamp>
+    </Header>
+    <DataDictionary>
+        <DataField name="Price" optype="continuous" dataType="double"/>
+        <DataField name="Symboling" optype="continuous" dataType="double"/>
+        <DataField name="Normalized_Losses" optype="continuous" dataType="double"/>
+        <DataField name="Fuel_Type" optype="categorical" dataType="string">
+            <Value value="diesel"/>
+            <Value value="gas"/>
+        </DataField>
+        <DataField name="Aspiration" optype="categorical" dataType="string">
+            <Value value="std"/>
+            <Value value="turbo"/>
+        </DataField>
+        <DataField name="Num_Of_Doors" optype="categorical" dataType="string">
+            <Value value="four"/>
+            <Value value="two"/>
+        </DataField>
+        <DataField name="Body_Style" optype="categorical" dataType="string">
+            <Value value="convertible"/>
+            <Value value="hardtop"/>
+            <Value value="hatchback"/>
+            <Value value="sedan"/>
+            <Value value="wagon"/>
+        </DataField>
+        <DataField name="Drive_Wheels" optype="categorical" dataType="string">
+            <Value value="4wd"/>
+            <Value value="fwd"/>
+            <Value value="rwd"/>
+        </DataField>
+        <DataField name="Wheel_Base" optype="continuous" dataType="double"/>
+        <DataField name="Length" optype="continuous" dataType="double"/>
+        <DataField name="Width" optype="continuous" dataType="double"/>
+        <DataField name="Height" optype="continuous" dataType="double"/>
+        <DataField name="Curb_Weight" optype="continuous" dataType="double"/>
+        <DataField name="Engine_Size" optype="continuous" dataType="double"/>
+        <DataField name="Bore" optype="continuous" dataType="double"/>
+        <DataField name="Stroke" optype="continuous" dataType="double"/>
+        <DataField name="Compression_Ratio" optype="continuous" dataType="double"/>
+        <DataField name="Horse_Power" optype="continuous" dataType="double"/>
+        <DataField name="Peak_Rpm" optype="continuous" dataType="double"/>
+        <DataField name="City_Mpg" optype="continuous" dataType="double"/>
+        <DataField name="Highway_Mpg" optype="continuous" dataType="double"/>
+    </DataDictionary>
+    <MiningModel functionName="regression">
+        <MiningSchema>
+            <MiningField name="Price" usageType="target"/>
+            <MiningField name="Symboling" usageType="active"/>
+            <MiningField name="Normalized_Losses" usageType="active"/>
+            <MiningField name="Fuel_Type" usageType="active"/>
+            <MiningField name="Aspiration" usageType="active"/>
+            <MiningField name="Num_Of_Doors" usageType="active"/>
+            <MiningField name="Body_Style" usageType="active"/>
+            <MiningField name="Drive_Wheels" usageType="active"/>
+            <MiningField name="Wheel_Base" usageType="active"/>
+            <MiningField name="Length" usageType="active"/>
+            <MiningField name="Width" usageType="active"/>
+            <MiningField name="Height" usageType="active"/>
+            <MiningField name="Curb_Weight" usageType="active"/>
+            <MiningField name="Engine_Size" usageType="active"/>
+            <MiningField name="Bore" usageType="active"/>
+            <MiningField name="Stroke" usageType="active"/>
+            <MiningField name="Compression_Ratio" usageType="active"/>
+            <MiningField name="Horse_Power" usageType="active"/>
+            <MiningField name="Peak_Rpm" usageType="active"/>
+            <MiningField name="City_Mpg" usageType="active"/>
+            <MiningField name="Highway_Mpg" usageType="active"/>
+        </MiningSchema>
+        <Targets>
+            <Target field="Price" rescaleConstant="9.300551636880183"/>
+        </Targets>
+        <Segmentation multipleModelMethod="sum">
+            <Segment id="1">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.942651893039655E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.35347496179984E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2678.5"/>
+                        </Node>
+                        <Node id="3" score="6.483364128183658E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2678.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="2">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.1275178140716307E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.419900523628111E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-3.3099905933048785E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="3">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Engine_Size" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.7372075982187958E-5">
+                            <SimplePredicate field="Engine_Size" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.183644556958812E-4">
+                            <SimplePredicate field="Engine_Size" operator="lessThan" value="126.5"/>
+                        </Node>
+                        <Node id="3" score="7.245816710163954E-4">
+                            <SimplePredicate field="Engine_Size" operator="greaterOrEqual" value="126.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="4">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.9172486776237297E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.405443465433446E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="4.53159540288504E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="5">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0844628346892878E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.478045598115468E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.7572591018748137E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="6">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Wheel_Base" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.545185239945533E-4">
+                            <SimplePredicate field="Wheel_Base" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.9979727742134705E-4">
+                            <SimplePredicate field="Wheel_Base" operator="lessThan" value="99.75"/>
+                        </Node>
+                        <Node id="3" score="4.7502274085488625E-4">
+                            <SimplePredicate field="Wheel_Base" operator="greaterOrEqual" value="99.75"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="7">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.810818107078611E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.179763655811941E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.858118541333405E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="8">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.563923556164886E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.079535263359923E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118.5"/>
+                        </Node>
+                        <Node id="3" score="7.110560244605059E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="9">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.111976839712341E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-1.857322069591886E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118"/>
+                        </Node>
+                        <Node id="3" score="8.037873998380284E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="10">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.4494193939564813E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.6839163208095885E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="5.53157633237421E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="11">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2698827714307647E-4">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.781836819351904E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118.5"/>
+                        </Node>
+                        <Node id="3" score="6.894669087343386E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="12">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.949283614355969E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.433384115625959E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2603"/>
+                        </Node>
+                        <Node id="3" score="5.746684606031876E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2603"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="13">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.603384415236122E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.512312282201253E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2605"/>
+                        </Node>
+                        <Node id="3" score="4.8746556131972705E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2605"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="14">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2853080055862665E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.361480683288418E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-3.0139167878948434E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="15">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2986230838599194E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.634399554161231E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-3.129320615710954E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="16">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.929618608140862E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.784055979808804E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.720436996659136E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="17">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.3295969290167455E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.466891929827031E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.65223340696352E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="18">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.618045495565414E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.877123570814668E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2605"/>
+                        </Node>
+                        <Node id="3" score="5.984152514217839E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2605"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="19">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.514795057596559E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.523717991386136E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="23.5"/>
+                        </Node>
+                        <Node id="3" score="-2.832118448998991E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="23.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="20">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.278478130648805E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.943893022985837E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.92028781669799E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="21">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Engine_Size" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.1007441560107274E-5">
+                            <SimplePredicate field="Engine_Size" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-1.9458827859293782E-4">
+                            <SimplePredicate field="Engine_Size" operator="lessThan" value="149"/>
+                        </Node>
+                        <Node id="3" score="6.989729550526217E-4">
+                            <SimplePredicate field="Engine_Size" operator="greaterOrEqual" value="149"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="22">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.1867766338488046E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.1977383764996514E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118.5"/>
+                        </Node>
+                        <Node id="3" score="7.306539169167872E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="23">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Wheel_Base" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0319123584809702E-4">
+                            <SimplePredicate field="Wheel_Base" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.949721020436681E-4">
+                            <SimplePredicate field="Wheel_Base" operator="lessThan" value="98.94999999999999"/>
+                        </Node>
+                        <Node id="3" score="4.721513627386163E-4">
+                            <SimplePredicate field="Wheel_Base" operator="greaterOrEqual" value="98.94999999999999"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="24">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.7593094031273236E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.7826926633623577E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2684"/>
+                        </Node>
+                        <Node id="3" score="5.901586764589173E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2684"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="25">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Highway_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.3180472783049597E-5">
+                            <SimplePredicate field="Highway_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.089969764176956E-4">
+                            <SimplePredicate field="Highway_Mpg" operator="lessThan" value="28.5"/>
+                        </Node>
+                        <Node id="3" score="-2.75877618001142E-4">
+                            <SimplePredicate field="Highway_Mpg" operator="greaterOrEqual" value="28.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="26">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Wheel_Base" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.072938542086664E-4">
+                            <SimplePredicate field="Wheel_Base" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.9556532347482914E-4">
+                            <SimplePredicate field="Wheel_Base" operator="lessThan" value="98.94999999999999"/>
+                        </Node>
+                        <Node id="3" score="5.077262787274652E-4">
+                            <SimplePredicate field="Wheel_Base" operator="greaterOrEqual" value="98.94999999999999"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="27">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.1068175416717128E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.55387934352752E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2660"/>
+                        </Node>
+                        <Node id="3" score="5.338996746949443E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2660"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="28">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.7928488572844154E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.588149126565598E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.97670150752207E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="29">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.351036550310619E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.766972108089334E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.835795576071194E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="30">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.1736086465333237E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.073143905166119E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.515599859810998E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="31">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Length" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.200913631232095E-4">
+                            <SimplePredicate field="Length" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.9438762904295196E-4">
+                            <SimplePredicate field="Length" operator="lessThan" value="176.5"/>
+                        </Node>
+                        <Node id="3" score="5.636862954850108E-4">
+                            <SimplePredicate field="Length" operator="greaterOrEqual" value="176.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="32">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.273835644231637E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.416887590663165E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.21832958796084E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="33">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0263281648147687E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.847841747194177E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2736.5"/>
+                        </Node>
+                        <Node id="3" score="5.479077486540261E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2736.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="34">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Highway_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.435956582392832E-5">
+                            <SimplePredicate field="Highway_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.277681747865436E-4">
+                            <SimplePredicate field="Highway_Mpg" operator="lessThan" value="29.5"/>
+                        </Node>
+                        <Node id="3" score="-2.717023896372387E-4">
+                            <SimplePredicate field="Highway_Mpg" operator="greaterOrEqual" value="29.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="35">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.368089904175187E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.744164090405295E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.716320195956881E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="36">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.2380858843618344E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.075740132653399E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.090440808841691E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="37">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2677958538240196E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.033665766852837E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2605"/>
+                        </Node>
+                        <Node id="3" score="4.0298138852624314E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2605"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="38">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0657208223228607E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.566127285637165E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="4.8204891491409474E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="39">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0725436043434363E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.282906825963572E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.769955242106592E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="40">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Engine_Size" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0418346755746018E-4">
+                            <SimplePredicate field="Engine_Size" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.4180718672340567E-4">
+                            <SimplePredicate field="Engine_Size" operator="lessThan" value="148.5"/>
+                        </Node>
+                        <Node id="3" score="6.389846159386456E-4">
+                            <SimplePredicate field="Engine_Size" operator="greaterOrEqual" value="148.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="41">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.007037695418E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.156133619065769E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118.5"/>
+                        </Node>
+                        <Node id="3" score="7.206158911728731E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="42">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.7638030894657105E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.1855152169900684E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="4.7661340265710674E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="43">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.894361212552707E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.0849916658441803E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="6.282711991068501E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="44">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.4331449744302164E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.714274909364361E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2603"/>
+                        </Node>
+                        <Node id="3" score="6.211693700221857E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2603"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="45">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.74361854291614E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.1749104043741968E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118"/>
+                        </Node>
+                        <Node id="3" score="7.137372068833557E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="46">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.53382618433676E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.7651708596421095E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2660"/>
+                        </Node>
+                        <Node id="3" score="5.695589531796824E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2660"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="47">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.646930077091741E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.470969213474445E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="4.754135609586639E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="48">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.858225220951304E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.0652239276506567E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118.5"/>
+                        </Node>
+                        <Node id="3" score="6.526325354888892E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="49">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0847659474343161E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.223109973089352E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2660"/>
+                        </Node>
+                        <Node id="3" score="5.330266129530792E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2660"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="50">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.4194038188362473E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.744517237571249E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.5608706811339324E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="51">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.301621762472402E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.1193866500298155E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="6.442300367863786E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="52">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.6546154977274775E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.8759192268273666E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="4.229847924299261E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="53">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.384220226781287E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.475755788866448E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-3.004839427195572E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="54">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.078043323006124E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.861840127252734E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2708"/>
+                        </Node>
+                        <Node id="3" score="5.919928755192114E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2708"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="55">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.6615808622913988E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.1679263828267465E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118"/>
+                        </Node>
+                        <Node id="3" score="7.19462523119224E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="56">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.848043078787665E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.8852989856719135E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.516679725500675E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="57">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.241342446811461E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.2621027194773277E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2708.5"/>
+                        </Node>
+                        <Node id="3" score="6.940895519218234E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2708.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="58">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Highway_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.208944451740855E-5">
+                            <SimplePredicate field="Highway_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.925478474358113E-4">
+                            <SimplePredicate field="Highway_Mpg" operator="lessThan" value="27.5"/>
+                        </Node>
+                        <Node id="3" score="-2.4538788626431016E-4">
+                            <SimplePredicate field="Highway_Mpg" operator="greaterOrEqual" value="27.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="59">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.156492188079476E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.599613832752512E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.687403569328101E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="60">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.892635708418568E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.615639147020432E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.922951787940982E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="61">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Engine_Size" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.212105313319952E-5">
+                            <SimplePredicate field="Engine_Size" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.3409851459202125E-4">
+                            <SimplePredicate field="Engine_Size" operator="lessThan" value="129"/>
+                        </Node>
+                        <Node id="3" score="7.385572387444378E-4">
+                            <SimplePredicate field="Engine_Size" operator="greaterOrEqual" value="129"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="62">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Wheel_Base" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.582228992441706E-5">
+                            <SimplePredicate field="Wheel_Base" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.8374748880237595E-4">
+                            <SimplePredicate field="Wheel_Base" operator="lessThan" value="98.94999999999999"/>
+                        </Node>
+                        <Node id="3" score="5.176847600496962E-4">
+                            <SimplePredicate field="Wheel_Base" operator="greaterOrEqual" value="98.94999999999999"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="63">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.032526337490174E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.5096194456905075E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="5.290914551756305E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="64">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2807229304956814E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.258066172285872E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2684"/>
+                        </Node>
+                        <Node id="3" score="5.17859832601894E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2684"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="65">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.810652603522445E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.5713657657686615E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118.5"/>
+                        </Node>
+                        <Node id="3" score="6.443570263118898E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="66">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.076901283271666E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.746974150626899E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2704"/>
+                        </Node>
+                        <Node id="3" score="5.306800992148563E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2704"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="67">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.016251089421773E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.749749448261072E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2726.5"/>
+                        </Node>
+                        <Node id="3" score="5.698818960053876E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2726.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="68">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Engine_Size" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.323814367485411E-5">
+                            <SimplePredicate field="Engine_Size" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.2740087422966988E-4">
+                            <SimplePredicate field="Engine_Size" operator="lessThan" value="128"/>
+                        </Node>
+                        <Node id="3" score="5.531822853619855E-4">
+                            <SimplePredicate field="Engine_Size" operator="greaterOrEqual" value="128"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="69">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.643520654770987E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.198319532034496E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.58838151853453E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="70">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.180992891919818E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.9433391612935687E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.157620327112779E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="71">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.814886670321675E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.9013044514053163E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2730"/>
+                        </Node>
+                        <Node id="3" score="5.07917850152889E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2730"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="72">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.0501297875623085E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.469524794432827E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2682.5"/>
+                        </Node>
+                        <Node id="3" score="5.226517216861738E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2682.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="73">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0305894225418047E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.937714563302929E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.199352703944535E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="74">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.756115712570787E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.398515986496868E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="4.5258761851929005E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="75">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.819877946597236E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.82225722755678E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="6.237530749782575E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="76">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.692378531289678E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.356654921026967E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.631268158118442E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="77">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.24641501108677E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.690654246822695E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2682.5"/>
+                        </Node>
+                        <Node id="3" score="5.573396736033378E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2682.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="78">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.360384326145074E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.545297200119612E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.622812409780061E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="79">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.2807851762743073E-6">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.628299986039874E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2702.5"/>
+                        </Node>
+                        <Node id="3" score="5.8232450949285E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2702.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="80">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2977307914501996E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.830671323056994E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2678.5"/>
+                        </Node>
+                        <Node id="3" score="4.17705682143121E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2678.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="81">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.219892242941167E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.8521825149222804E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2660"/>
+                        </Node>
+                        <Node id="3" score="5.54383928508963E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2660"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="82">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.1100567004055195E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.2764911134105813E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="6.109580111634878E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="83">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="2.5739815485400302E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.5494140117756373E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2603"/>
+                        </Node>
+                        <Node id="3" score="6.004680210333742E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2603"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="84">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.3563970743726665E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.296465656610676E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-3.1224423199842073E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="85">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2235301510752928E-4">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.075447547183437E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="4.8260666762113113E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="86">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Wheel_Base" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.779614352187862E-5">
+                            <SimplePredicate field="Wheel_Base" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.837351372034272E-4">
+                            <SimplePredicate field="Wheel_Base" operator="lessThan" value="98.94999999999999"/>
+                        </Node>
+                        <Node id="3" score="5.196035069976345E-4">
+                            <SimplePredicate field="Wheel_Base" operator="greaterOrEqual" value="98.94999999999999"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="87">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.971954998850118E-7">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-1.9031729240313186E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118.5"/>
+                        </Node>
+                        <Node id="3" score="6.756031505831395E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="88">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.336074373720912E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.5364872031115716E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2383.5"/>
+                        </Node>
+                        <Node id="3" score="3.9845695363374163E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2383.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="89">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.497017707090801E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.8749238946826003E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="4.6814214350010265E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="90">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.0726451473163956E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.2234824804460044E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118.5"/>
+                        </Node>
+                        <Node id="3" score="7.179967501892117E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="91">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.2387953213544973E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.157175561941864E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.746901090687442E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="92">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Horse_Power" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.2121959780548458E-5">
+                            <SimplePredicate field="Horse_Power" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-1.9174488868382852E-4">
+                            <SimplePredicate field="Horse_Power" operator="lessThan" value="118"/>
+                        </Node>
+                        <Node id="3" score="6.433218382246272E-4">
+                            <SimplePredicate field="Horse_Power" operator="greaterOrEqual" value="118"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="93">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.292777778842087E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.547690639418315E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="5.339999534925174E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="94">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.1187859143622514E-4">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.012899725742877E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-3.3019549878638213E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="95">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.871717005854355E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.7660408880781577E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="4.749435861892731E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="96">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.04111663521212E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-2.5765064982584564E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2701"/>
+                        </Node>
+                        <Node id="3" score="4.513072840690521E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2701"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="97">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Wheel_Base" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.744099012648807E-5">
+                            <SimplePredicate field="Wheel_Base" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-3.110217828394074E-4">
+                            <SimplePredicate field="Wheel_Base" operator="lessThan" value="98.75"/>
+                        </Node>
+                        <Node id="3" score="5.433013880122699E-4">
+                            <SimplePredicate field="Wheel_Base" operator="greaterOrEqual" value="98.75"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="98">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="City_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.350062893201022E-5">
+                            <SimplePredicate field="City_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.248341372700721E-4">
+                            <SimplePredicate field="City_Mpg" operator="lessThan" value="22.5"/>
+                        </Node>
+                        <Node id="3" score="-2.4360310838162725E-4">
+                            <SimplePredicate field="City_Mpg" operator="greaterOrEqual" value="22.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="99">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Highway_Mpg" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.252554057772507E-5">
+                            <SimplePredicate field="Highway_Mpg" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.37176972352931E-4">
+                            <SimplePredicate field="Highway_Mpg" operator="lessThan" value="27.5"/>
+                        </Node>
+                        <Node id="3" score="-3.0667325802072836E-4">
+                            <SimplePredicate field="Highway_Mpg" operator="greaterOrEqual" value="27.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="100">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Curb_Weight" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.779645302252952E-5">
+                            <SimplePredicate field="Curb_Weight" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="-1.969726239048254E-4">
+                            <SimplePredicate field="Curb_Weight" operator="lessThan" value="2664"/>
+                        </Node>
+                        <Node id="3" score="4.399259017697003E-4">
+                            <SimplePredicate field="Curb_Weight" operator="greaterOrEqual" value="2664"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+        </Segmentation>
+    </MiningModel>
+</PMML>

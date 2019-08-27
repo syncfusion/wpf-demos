@@ -1,0 +1,48 @@
+﻿<syncfusion:ChromelessWindow x:Class="BubbleVisualization.MainWindow" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:BubbleVisualization"   ResizeMode="CanResizeWithGrip"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"   WindowStartupLocation="CenterScreen"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        syncfusion:SkinStorage.VisualStyle="Metro" Icon="App.ico"
+        >
+    <syncfusion:ChromelessWindow.Resources>
+        <local:MapViewModel x:Key="model"/>
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid  DataContext="{Binding Source={StaticResource model}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Background="#1196CD" Padding="20,3,0,0">
+            <TextBlock Text="Bubble Visualization" Foreground="White" FontSize="20"/>
+        </Border>
+        <syncfusion:SfMap Grid.Row="1" Margin="10">
+              <syncfusion:SfMap.Layers>
+                <syncfusion:ShapeFileLayer Background="White" EnableSelection="False" ItemsSource="{Binding Countries}" ShapeIDPath="NAME"  ShapeIDTableField="NAME" Uri="BubbleVisualization.ShapeFiles.world1.shp">
+                    <syncfusion:ShapeFileLayer.BubbleMarkerSetting>
+                        <syncfusion:BubbleMarkerSetting AutoFillColor="False" MaxSize="100" MinSize="50" StrokeThickness="0" ValuePath="Population" ColorValuePath="Population" >
+                            <syncfusion:BubbleMarkerSetting.ColorMappings>
+                                <syncfusion:RangeColorMapping Color="#7F20BCEE" To="1347350000" From="314623001"/>
+                                <syncfusion:RangeColorMapping Color="#7FA7CE38" To="314623001" From="143228301"/>
+                                <syncfusion:RangeColorMapping Color="#7FF1B21A" To="143228301" From="82724090"/>
+                                <syncfusion:RangeColorMapping Color="#7F1DA249" To="50586757" From="22789702"/>
+                                <syncfusion:RangeColorMapping Color="#7FEB737C" To="22789702" From="0"/>
+                                <syncfusion:RangeColorMapping Color="#7FED2D95" To="82724090" From="50586757"/>
+                            </syncfusion:BubbleMarkerSetting.ColorMappings>
+                        </syncfusion:BubbleMarkerSetting>
+                    </syncfusion:ShapeFileLayer.BubbleMarkerSetting>
+                    <syncfusion:ShapeFileLayer.ItemsTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent">
+                                <TextBlock FontFamily="Segoe UI" FontSize="12" Foreground="#FF333333" Text="{Binding Data.PopulationFormat}"/>
+                            </Border>
+                        </DataTemplate>
+                    </syncfusion:ShapeFileLayer.ItemsTemplate>
+                    <syncfusion:ShapeFileLayer.ShapeSettings>
+                        <syncfusion:ShapeSetting ShapeStroke="#C1C1C1" ShapeStrokeThickness="0.5" ShapeValuePath="Population" ShapeFill="#E5E5E5"/>
+                    </syncfusion:ShapeFileLayer.ShapeSettings>
+                </syncfusion:ShapeFileLayer>
+            </syncfusion:SfMap.Layers>
+        </syncfusion:SfMap>
+    </Grid>
+</syncfusion:ChromelessWindow>

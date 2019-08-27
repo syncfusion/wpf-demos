@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="Multinomial Logistic Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-06 16:40:27</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="10">
+  <DataField name="Indicator" optype="categorical" dataType="string">
+   <Value value="0"/>
+   <Value value="1"/>
+  </DataField>
+  <DataField name="Hormonal_Therapy" optype="categorical" dataType="string">
+   <Value value="no"/>
+   <Value value="yes"/>
+  </DataField>
+  <DataField name="Age" optype="continuous" dataType="double"/>
+  <DataField name="Menopausal_Status" optype="categorical" dataType="string">
+   <Value value="Pre"/>
+   <Value value="Post"/>
+  </DataField>
+  <DataField name="Tumor_Size" optype="continuous" dataType="double"/>
+  <DataField name="Tumor_Grade" optype="categorical" dataType="string">
+   <Value value="I"/>
+   <Value value="II"/>
+   <Value value="III"/>
+  </DataField>
+  <DataField name="Positive_Nodes" optype="continuous" dataType="double"/>
+  <DataField name="Progesterone" optype="continuous" dataType="double"/>
+  <DataField name="Estrogen_Receptor" optype="continuous" dataType="double"/>
+  <DataField name="Survival_Time" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <RegressionModel modelName="multinom_Model" functionName="classification" algorithmName="multinom" normalizationMethod="softmax">
+  <MiningSchema>
+   <MiningField name="Indicator" usageType="predicted"/>
+   <MiningField name="Hormonal_Therapy" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Menopausal_Status" usageType="active"/>
+   <MiningField name="Tumor_Size" usageType="active"/>
+   <MiningField name="Tumor_Grade" usageType="active"/>
+   <MiningField name="Positive_Nodes" usageType="active"/>
+   <MiningField name="Progesterone" usageType="active"/>
+   <MiningField name="Estrogen_Receptor" usageType="active"/>
+   <MiningField name="Survival_Time" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Indicator" feature="predictedValue"/>
+   <OutputField name="Probability_0" optype="continuous" dataType="double" feature="probability" value="0"/>
+   <OutputField name="Probability_1" optype="continuous" dataType="double" feature="probability" value="1"/>
+  </Output>
+  <RegressionTable intercept="1.00569435710095" targetCategory="1">
+   <NumericPredictor name="Age" exponent="1" coefficient="-0.0116975039175408"/>
+   <NumericPredictor name="Tumor_Size" exponent="1" coefficient="0.0045368952837981"/>
+   <NumericPredictor name="Positive_Nodes" exponent="1" coefficient="0.048367490174167"/>
+   <NumericPredictor name="Progesterone" exponent="1" coefficient="-0.00146632292645015"/>
+   <NumericPredictor name="Estrogen_Receptor" exponent="1" coefficient="0.000234023770321402"/>
+   <NumericPredictor name="Survival_Time" exponent="1" coefficient="-0.00142101252247592"/>
+   <CategoricalPredictor name="Hormonal_Therapy" value="yes" coefficient="-0.226845176053625"/>
+   <CategoricalPredictor name="Menopausal_Status" value="Post" coefficient="0.492315827570145"/>
+   <CategoricalPredictor name="Tumor_Grade" value="II" coefficient="0.451157125469126"/>
+   <CategoricalPredictor name="Tumor_Grade" value="III" coefficient="0.347624744076587"/>
+  </RegressionTable>
+  <RegressionTable intercept="0.0" targetCategory="0"/>
+ </RegressionModel>
+</PMML>

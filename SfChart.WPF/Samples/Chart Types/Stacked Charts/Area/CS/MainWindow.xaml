@@ -1,0 +1,160 @@
+﻿<layout:SampleLayoutWindow x:Class="StackingAreaChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:StackingAreaChart"
+        WindowStartupLocation="CenterScreen" 
+        UserOptionsVisibility="Collapsed" ResizeMode="CanResizeWithGrip"
+        Title="Area">
+    <Grid>
+        
+        <Grid.DataContext>
+            <local:StackingAreaChartViewModel/>
+        </Grid.DataContext>
+        
+        <Grid.Resources>
+            
+            <DataTemplate x:Key="adornment">
+                <Grid>
+                    <Ellipse Fill="#FFF4F4F5" HorizontalAlignment="Stretch" 
+                             Height="25" Stroke="#EE5A5A5A" 
+                             VerticalAlignment="Stretch" Width="25">
+                    </Ellipse>
+                    <TextBlock  HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                TextWrapping="Wrap" Text="{Binding}" FontSize="13"
+                                Foreground="#FF585858" FontFamily="Segoe UI" FontWeight="Bold">
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Text="{Binding LabelContent}" Foreground="Black"  FontSize="16"/>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="legend">
+                <StackPanel Orientation="Horizontal">
+                    <Grid Margin="20,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Width="15" Height="15" Fill="{Binding Interior}"></Rectangle>
+                        <TextBlock Margin="5,0,0,0" FontSize="16" Grid.Column="1" 
+                                   Foreground="Black" Text="{Binding Label}"></TextBlock>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+            
+            <Style TargetType="Line" x:Key="axisStyle">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+            
+            <Style TargetType="Line" x:Key="axisStyle1">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="0.5"/>
+            </Style>
+            
+        </Grid.Resources>
+
+        <chart:SfChart x:Name="StackingAreaChart" Margin="22,24,22,25" AreaBorderThickness="0,1,1,1">
+           
+            <chart:SfChart.Header>
+                <TextBlock FontSize="23" FontFamily="Segoe UI" 
+                           Foreground="Black" Margin="0,0,0,20">Road Accident Statistics(2009)</TextBlock>
+            </chart:SfChart.Header>
+            
+            <chart:SfChart.Legend>
+                <chart:ChartLegend DockPosition="Bottom" ItemTemplate="{StaticResource legend}" 
+                                   Foreground="Black" Margin="234,0,161,0" Width="255"/>
+            </chart:SfChart.Legend>
+            
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis ShowTrackBallInfo="True" LabelFormat="MMM" 
+                                    Header="Month" Foreground="Black" PlotOffset="30"
+                                    LabelTemplate="{StaticResource labelTemplate}"  
+                                    AxisLineStyle="{StaticResource axisStyle1}"
+                                    MajorTickLineStyle="{StaticResource axisStyle}"/>
+            </chart:SfChart.PrimaryAxis>
+            
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis Header="Death Counts(Thousands)" Foreground="Black" 
+                                     Minimum="0" Maximum="25" Interval="5" 
+                                     LabelTemplate="{StaticResource labelTemplate}"  
+                                     AxisLineStyle="{StaticResource axisStyle}"
+                                     MajorTickLineStyle="{StaticResource axisStyle}" />
+            </chart:SfChart.SecondaryAxis>
+            
+            <chart:StackingAreaSeries StrokeThickness="3" Interior="#781BA1E2" Stroke="#FF1BA1E2"
+                                      EnableAnimation="True" Label="Bus" Canvas.ZIndex="3" 
+                                      XBindingPath="Month" YBindingPath="Bus" ItemsSource="{Binding Accidents}"
+                                      ShowTooltip="True" chart:ChartTooltip.EnableAnimation="True">
+                <chart:StackingAreaSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo ShowLabel="True">
+                        <chart:ChartAdornmentInfo.LabelTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Ellipse Stroke="#FF1BA1E2" StrokeThickness="3" Fill="White" 
+                                             Height="30" Width="30" HorizontalAlignment="Left" 
+                                             VerticalAlignment="Top"/>
+                                    <TextBlock Foreground="Black" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center" TextWrapping="Wrap" 
+                                               Text="{Binding}" FontSize="12" 
+                                               FontFamily="Segoe UI" FontWeight="Bold" />
+                                </Grid>
+                            </DataTemplate>
+                        </chart:ChartAdornmentInfo.LabelTemplate>
+                    </chart:ChartAdornmentInfo>
+                </chart:StackingAreaSeries.AdornmentsInfo>
+            </chart:StackingAreaSeries>
+
+            <chart:StackingAreaSeries StrokeThickness="3" Interior="#78C3942B" Stroke="#C3942B" 
+                                      EnableAnimation="True" Label="Car" Canvas.ZIndex="2" 
+                                      XBindingPath="Month" YBindingPath="Car" ItemsSource="{Binding Accidents}" 
+                                      ShowTooltip="True" chart:ChartTooltip.EnableAnimation="True">
+                <chart:StackingAreaSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo ShowLabel="True">
+                        <chart:ChartAdornmentInfo.LabelTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Ellipse Stroke="#C3942B" StrokeThickness="3" Fill="White" Height="30" 
+                                             Width="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                    <TextBlock Foreground="Black" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center" 
+                                               TextWrapping="Wrap" Text="{Binding}" FontSize="12" 
+                                               FontFamily="Segoe UI" 
+                                               FontWeight="Bold" />
+                                </Grid>
+                            </DataTemplate>
+                        </chart:ChartAdornmentInfo.LabelTemplate>
+                    </chart:ChartAdornmentInfo>
+                </chart:StackingAreaSeries.AdornmentsInfo>
+            </chart:StackingAreaSeries>
+
+            <chart:StackingAreaSeries StrokeThickness="3" Interior="#7886BA35" Stroke="#FF86BA35" 
+                                      EnableAnimation="True" Label="Truck" XBindingPath="Month" 
+                                      YBindingPath="Truck" ItemsSource="{Binding Accidents}" 
+                                      ShowTooltip="True" chart:ChartTooltip.EnableAnimation="True">
+                <chart:StackingAreaSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo  ShowLabel="True">
+                        <chart:ChartAdornmentInfo.LabelTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Ellipse Stroke="#FF86BA35" StrokeThickness="3" Fill="White" 
+                                             Height="30" Width="30" HorizontalAlignment="Left" 
+                                             VerticalAlignment="Top"></Ellipse>
+                                    <TextBlock Foreground="Black" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center" TextWrapping="Wrap" 
+                                               Text="{Binding}" FontSize="12" 
+                                               FontFamily="Segoe UI" FontWeight="Bold" />
+                                </Grid>
+                            </DataTemplate>
+                        </chart:ChartAdornmentInfo.LabelTemplate>
+                    </chart:ChartAdornmentInfo>
+                </chart:StackingAreaSeries.AdornmentsInfo>
+            </chart:StackingAreaSeries>
+            
+        </chart:SfChart>
+    </Grid>
+</layout:SampleLayoutWindow>
