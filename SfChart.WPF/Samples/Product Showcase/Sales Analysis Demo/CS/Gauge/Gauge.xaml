@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="SalesAnalysisDemo.Gauge"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+              xmlns:syncfusion="clr-namespace:Syncfusion.UI.Xaml.Gauges;assembly=Syncfusion.SfGauge.WPF"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid x:Name="grid" DataContext="{Binding}" HorizontalAlignment="Center">
+        <syncfusion:SfCircularGauge x:Name="SalesGauge"  Grid.Column="1">
+            <syncfusion:SfCircularGauge.Scales>
+                <syncfusion:CircularScale BindRangeStrokeToTicks="True" LabelPosition="Outside" TickStroke="#FF1CA349" LabelStroke="#FF616261" TickStrokeThickness="5" TickLength="8" TickPosition="Cross" RimStrokeThickness="5" RimStroke="#FF1CA349" Foreground="#FF616261"  StartAngle="140" MinorTicksPerInterval="0" SweepAngle="260" StartValue="0" EndValue="120" Interval="10">
+                    <syncfusion:CircularScale.Ranges>
+                        <syncfusion:CircularRange StartValue="0" EndValue="100" Stroke="#FF616261" />
+                    </syncfusion:CircularScale.Ranges>
+                    <syncfusion:CircularScale.Pointers>
+                        <syncfusion:CircularPointer PointerCapStroke="#FF616261" Value="{Binding Path=DataContext.SalesPercentage, ElementName=grid}" NeedlePointerStrokeThickness="1" NeedlePointerStroke="#FF616261" NeedleLengthFactor="0.5" PointerCapDiameter="20" />
+                    </syncfusion:CircularScale.Pointers>
+                </syncfusion:CircularScale>
+            </syncfusion:SfCircularGauge.Scales>
+        </syncfusion:SfCircularGauge>
+
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <TextBlock Text="Total Sales : " HorizontalAlignment="Right" FontSize="18" Foreground="#FF333333" VerticalAlignment="Bottom" />
+            <TextBlock x:Name="SalesTotalTextBlock" HorizontalAlignment="Left" Text="{Binding SalesTotal}" FontSize="18" Foreground="#FF333333"   VerticalAlignment="Center" Width="140"  />
+            <TextBox Visibility="Collapsed"  Text="{Binding Path=DataContext.SalesPercentage, ElementName=grid}" TextChanged="TextBox_TextChanged" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>

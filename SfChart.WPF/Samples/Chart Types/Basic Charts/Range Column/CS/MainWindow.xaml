@@ -1,0 +1,78 @@
+﻿<layout:SampleLayoutWindow x:Class="RangeColumnChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:RangeColumnChart"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        UserOptionsVisibility="Collapsed"
+        Title="Range Column">
+    <Grid>
+        
+        <Grid.DataContext>
+            <local:FinancialDataViewModel/>
+        </Grid.DataContext>
+        
+        <Grid.Resources>
+            
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Text="{Binding LabelContent}" Foreground="Black"  FontSize="16"/>
+            </DataTemplate>
+            
+            <Style TargetType="Line" x:Key="AxisStyle">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="0.5"/>
+            </Style>
+            
+        </Grid.Resources>
+
+        <chart:SfChart x:Name="RangeColumnChart" Margin="24,10,24,28">
+            
+            <chart:SfChart.Header>
+                <TextBlock Foreground="Black" FontSize="22" 
+                           FontFamily="Segoe UI" Margin="0,0,0,20">Finance Deployment</TextBlock>
+            </chart:SfChart.Header>
+            
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis ShowTrackBallInfo="True" FontSize="20" 
+                                    LabelFormat="yyyy" 
+                                    Header="Year" Foreground="Black" 
+                                    LabelTemplate="{StaticResource labelTemplate}"
+                                    AxisLineStyle="{StaticResource AxisStyle}" 
+                                    MajorTickLineStyle="{StaticResource AxisStyle}"/>
+            </chart:SfChart.PrimaryAxis>
+            
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis FontSize="20" 
+                                     Header="Data"  
+                                     Foreground="Black" 
+                                     LabelTemplate="{StaticResource labelTemplate}" 
+                                     AxisLineStyle="{StaticResource AxisStyle}" 
+                                     MajorTickLineStyle="{StaticResource AxisStyle}"/>
+            </chart:SfChart.SecondaryAxis>
+            
+            <chart:RangeColumnSeries EnableAnimation="True" 
+                                     ItemsSource="{Binding FinancialDatas}" 
+                                     XBindingPath="Time" 
+                                     ShowTooltip="True" 
+                                     Palette="Metro" 
+                                     High="High" Low="Low" 
+                                     Label="Financial Deployment in Each Year" >
+                <chart:RangeColumnSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo ShowLabel="True">
+                        <chart:ChartAdornmentInfo.LabelTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding}" Foreground="White" 
+                                               FontFamily="Segoe UI" Margin="0,50,0,0" 
+                                               FontSize="20"/>
+                                </Grid>
+                            </DataTemplate>
+                        </chart:ChartAdornmentInfo.LabelTemplate>
+                    </chart:ChartAdornmentInfo>
+                </chart:RangeColumnSeries.AdornmentsInfo>
+            </chart:RangeColumnSeries>
+            
+        </chart:SfChart>
+    </Grid>
+</layout:SampleLayoutWindow>

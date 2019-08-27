@@ -1,0 +1,114 @@
+﻿<layout:SampleLayoutWindow x:Class="RightToLeftSupport.Window1"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                           xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                           xmlns:local="clr-namespace:RightToLeftSupport" 
+                           xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+                           Style="{StaticResource RTLStyle}" UserOptionsVisibility="Collapsed"
+                           Title="Right-to-Left Support Demo" x:Name="window1">
+    <layout:SampleLayoutWindow.Resources>
+        <ResourceDictionary>
+            <Style x:Key="chartStyle">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="True">
+                        <Setter Property="TextBlock.Text" Value="Trade Market in Yearly Basis"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="False">
+                        <Setter Property="TextBlock.Text" Value="Trade Market in Yearly Basis"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="yAxisStyle">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="True">
+                        <Setter Property="syncfusion:ChartAxis.Header" Value="Exchange in Percentage"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="False">
+                        <Setter Property="syncfusion:ChartAxis.Header" Value="Exchange in Percentage"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="xAxisStyle">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="True">
+                        <Setter Property="syncfusion:ChartAxis.Header" Value="Year"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="False">
+                        <Setter Property="syncfusion:ChartAxis.Header" Value="Year"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="series1Style">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="True">
+                        <Setter Property="syncfusion:ChartSeries.Label" Value="Export"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="False">
+                        <Setter Property="syncfusion:ChartSeries.Label" Value="Export"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="series2Style">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="True">
+                        <Setter Property="syncfusion:ChartSeries.Label" Value="Import"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding ElementName=chk_RTL,Path=IsChecked}" Value="False">
+                        <Setter Property="syncfusion:ChartSeries.Label" Value="Import"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </layout:SampleLayoutWindow.Resources>
+        <Grid Margin="50,0,50,0">
+            <Grid.DataContext>
+                <local:RightToLeftSupportViewModel />
+            </Grid.DataContext>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <CheckBox Style="{StaticResource RTLStyle}" Name="chk_RTL" IsChecked="True" Content="RTL Support" Margin="20,20,20,0"/>
+            <syncfusion:Chart Name="Chart1"  Grid.Row="1" Style="{StaticResource RTLStyle}">
+                <!--Chart Legend declaration-->
+                <syncfusion:Chart.Legends>
+                    <syncfusion:ChartLegend syncfusion:Chart.Dock="Right"/>
+                </syncfusion:Chart.Legends>
+                <!--Chart area to present chart segments-->
+                <syncfusion:ChartArea Margin="5">
+                    <syncfusion:ChartArea.GridHeader>
+                        <TextBlock Style="{StaticResource chartStyle}" FontSize="20" FontWeight="Regular" FontFamily="Segoe UI" Margin="0,0,0,20"></TextBlock>
+                    </syncfusion:ChartArea.GridHeader>
+                    <!--Primary Axis(X)-->
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <!--X axis declaration with required property settings-->
+                        <syncfusion:ChartAxis RangePadding="Normal" IsAutoSetRange="true" Style="{StaticResource xAxisStyle}" LabelsSource="{x:Null}" />
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <!--Secondary Axis(Y)-->
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <!--Y axis declaration with required property settings-->
+                        <syncfusion:ChartAxis RangePadding="Normal" ValueType="Double" Style="{StaticResource yAxisStyle}"/>
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <!--Chart 1st series declaration-->
+                    <syncfusion:ChartSeries Type="Bar"  Style="{StaticResource series1Style}"  Name="series1" Stroke="{Binding Interior, ElementName=series1, Mode=TwoWay}" DataSource="{Binding RTLModel}" BindingPathX="YEAR" BindingPathsY="EXPORT" />
+                    <!--Chart 2nd series declaration-->
+                    <syncfusion:ChartSeries Type="Bar" Style="{StaticResource series2Style}" Name="series2" Stroke="{Binding Interior, ElementName=series2, Mode=TwoWay}" DataSource="{Binding RTLModel}" BindingPathX="YEAR" BindingPathsY="IMPORT"/>
+                </syncfusion:ChartArea>
+            </syncfusion:Chart>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock>RTL Support</TextBlock>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+</layout:SampleLayoutWindow>
+
+

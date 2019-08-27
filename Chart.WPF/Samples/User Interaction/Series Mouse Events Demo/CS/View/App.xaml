@@ -1,0 +1,54 @@
+﻿<Application x:Class="ColumnChartWpfApplication1.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" StartupUri="Window1.xaml">
+    <Application.Resources>
+
+        <!--SeriesInterior-->
+        <LinearGradientBrush x:Key="Series1Interior" StartPoint="0,0.5" EndPoint="1,0.5">
+           <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FFC07E2C" Offset="0"/>
+                <GradientStop Color="#FFFFDD9E" Offset="0.5"/>
+                <GradientStop Color="#FFC07E2C" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Series2Interior" StartPoint="0,0.5" EndPoint="1,0.5">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FF76933A" Offset="0"/>
+                <GradientStop Color="#FFC8E096" Offset="0.5"/>
+                <GradientStop Color="#FF76933A" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="Series3Interior" StartPoint="0,0.5" EndPoint="1,0.5">
+            <GradientStop Offset="0.4" Color="#df6f27"/>
+            <GradientStop Offset="0.7" Color="#fba971"/>
+            <GradientStop Offset="1.0" Color="#df6f27"/>
+        </LinearGradientBrush>
+        <!--Animation Template-->
+        <DataTemplate  x:Key="AnimationTemplate">
+            <Canvas>
+                <Grid Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" Width="{Binding Width}" Height="{Binding Height}">
+                    <Border Name="ColumnRect" 
+                  VerticalAlignment="Bottom" 
+                  Width="{Binding Width}" Height="{Binding Height}"
+                 CornerRadius="2" Background="{Binding Interior}">
+                        <Border.Triggers>
+                            <EventTrigger SourceName="ColumnRect" RoutedEvent="Border.Loaded" >
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation From="0" To="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=ActualHeight}" Duration="0:0:1"
+                                            Storyboard.TargetName="ColumnRect"
+                                            Storyboard.TargetProperty="Height" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+                    </Border>
+                </Grid>
+            </Canvas>
+        </DataTemplate>     
+  
+
+    
+    </Application.Resources>
+</Application>

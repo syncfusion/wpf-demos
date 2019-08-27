@@ -1,0 +1,128 @@
+﻿<sfutils:SampleWindow x:Class="BIDashboard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+        Title="{Binding DashboardTitle}" MinHeight="600" MinWidth="860"
+        Icon="App.Ico" WindowState="Maximized">
+    
+    <Grid>
+        <Border Style="{StaticResource LayoutBorderStyle}">
+            <DockPanel x:Name="dockPanel" LastChildFill="True">
+
+                <!-- Top - Header Site -->
+                <Border MinHeight="70" DockPanel.Dock="Top" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Grid.ColumnSpan="2" Style="{StaticResource TopSiteBackgroundStyle}" />
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       FontSize="25" Foreground="#FF326281" FontWeight="ExtraBold" Margin="30,0">
+                                <TextBlock.Inlines>
+                                    <Run Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}, Path=Title}"  />
+                                </TextBlock.Inlines>
+                            </TextBlock>
+                        </StackPanel>
+                        <Grid Grid.Column="1" HorizontalAlignment="Right">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="60" />
+                            </Grid.ColumnDefinitions>
+                            <!-- Load -->
+                            <Button Grid.Column="0" Style="{StaticResource DashboardToolsButtonStyle}" Tag="Load"
+                                    Command="{Binding LoadCommand}" ToolTip="Load Dashboard" />
+
+                            <!-- Save -->
+                            <Button Grid.Column="1" Style="{StaticResource DashboardToolsButtonStyle}" Tag="Save"
+                                    Command="{Binding SaveCommand}" ToolTip="Save Dashboard" MinWidth="30" />
+
+                            <!-- Re-name -->
+                            <Button Grid.Column="2" Style="{StaticResource DashboardToolsButtonStyle}" Tag="Rename"
+                                    Command="{Binding RenameCommand}" ToolTip="Re-name Dashboard" />
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- Left - ToolBox Panel -->
+                <Grid DockPanel.Dock="Left">
+                    <Rectangle Style="{StaticResource ToolBoxSiteBackgroundStyle}" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="60" />
+                        </Grid.RowDefinitions>
+                        <!-- Chart Tool Box Icon -->
+                        <Button Grid.Row="0" Style="{StaticResource DashboardToolsButtonStyle}" Tag="Chart" ToolTip="Click to Create Chart" 
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=AddControlCommand}"
+                                CommandParameter='Chart' 
+                                />
+
+                        <!-- Grid ToolBox Icon -->
+                        <Button Grid.Row="1" Style="{StaticResource DashboardToolsButtonStyle}" Tag="Grid" ToolTip="Click to Create Grid"
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=AddControlCommand}"
+                                CommandParameter='Grid' 
+                                />
+
+                        <!-- Gauge ToolBox Icon -->
+                        <Button Grid.Row="2" Style="{StaticResource DashboardToolsButtonStyle}" Tag="Gauge" ToolTip="Click to Create Gauge" 
+                                Command="{Binding RelativeSource={RelativeSource AncestorType=Window, Mode=FindAncestor}, Path=AddControlCommand}"
+                                CommandParameter='Gauge'
+                                />
+                    </Grid>
+                </Grid>
+
+                <!-- Right - Properties Window -->
+                <Expander Style="{StaticResource PropertyWindowExpanderStyle}">
+                    <Grid>
+                        <!-- Property window Expander Site Background -->
+                        <Rectangle Style="{StaticResource ExpanderSiteBackgroundStyle}" />
+                        <Grid Margin="17,0,7,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition MaxHeight="30" />
+                                <RowDefinition MaxHeight="30" />
+                                <RowDefinition MaxHeight="0" />
+                                <RowDefinition MaxHeight="30" />
+                                <RowDefinition MaxHeight="30" />
+                                <RowDefinition MaxHeight="30" />
+                                <RowDefinition MaxHeight="30" />
+                                <RowDefinition MaxHeight="30" />
+                                <RowDefinition MaxHeight="30" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="45*" />
+                                <ColumnDefinition Width="45*" MinWidth="100" />
+                                <ColumnDefinition Width="10*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Data Source" Grid.ColumnSpan="2" VerticalAlignment="Center" FontWeight="Bold" />
+                            <TextBlock Text="Tile Name : " Grid.Row="1" VerticalAlignment="Center" />
+                            <TextBlock Text="Report Name : " Grid.Row="3" VerticalAlignment="Center" />
+
+                            <ComboBox ItemsSource="{Binding DashboardReport.Tiles}" DisplayMemberPath="Header" 
+                                      SelectedItem="{Binding SelectedControl, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="0,4,0,4" Width="120" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}" />
+                            <ComboBox ItemsSource="{Binding DashboardReport.Reports}" DisplayMemberPath="ReportName" 
+                                      SelectedItem="{Binding SelectedReport, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" Margin="0,4,0,4" Width="120" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Text}"/>
+
+                            <Button Content="Bind" Grid.Row="4" Grid.Column="1" Margin="0,4,0,4" 
+                                    Command="{Binding BindCommand}" Style="{StaticResource DashboardPropertyWindowButtonStyle}" />
+                        </Grid>
+                    </Grid>
+                </Expander>
+
+
+                <!-- Bottom - Company Details Site-->
+                <StackPanel MinHeight="70" HorizontalAlignment="Stretch" DockPanel.Dock="Bottom" />
+
+                <!-- Center - TileView surface of the dashboard -->
+                <Grid Background="Transparent">
+                    <syncfusion:TileViewControl x:Name="tileViewControl" />
+                </Grid>
+            </DockPanel>
+        </Border>
+    </Grid>
+</sfutils:SampleWindow>

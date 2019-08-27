@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Northwind" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="Categories">
+    <Type Name="Categories">
+      <Column Name="Category ID" Member="CategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Category Name" Member="CategoryName" Type="System.String" DbType="NVarChar(15) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Picture" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="Categories_Products" Member="Products" ThisKey="CategoryID" OtherKey="CategoryID" Type="Products" />
+    </Type>
+  </Table>
+  <Table Name="Customers">
+    <Type Name="Customers">
+      <Column Name="Customer ID" Member="CustomerID" Type="System.String" DbType="NVarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Company Name" Member="CompanyName" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="Contact Name" Member="ContactName" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Contact Title" Member="ContactTitle" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Region" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Postal Code" Member="PostalCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(24)" CanBeNull="true" />
+      <Column Name="Fax" Type="System.String" DbType="NVarChar(24)" CanBeNull="true" />
+      <Association Name="Customers_Orders" Member="Orders" ThisKey="CustomerID" OtherKey="CustomerID" Type="Orders" />
+    </Type>
+  </Table>
+  <Table Name="Employees">
+    <Type Name="Employees">
+      <Column Name="Employee ID" Member="EmployeeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Last Name" Member="LastName" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="First Name" Member="FirstName" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Birth Date" Member="BirthDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Hire Date" Member="HireDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Region" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Postal Code" Member="PostalCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Home Phone" Member="HomePhone" Type="System.String" DbType="NVarChar(24)" CanBeNull="true" />
+      <Column Name="Extension" Type="System.String" DbType="NVarChar(4)" CanBeNull="true" />
+      <Column Name="Photo" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Notes" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Reports To" Member="ReportsTo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Employees_Orders" Member="Orders" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Orders" />
+    </Type>
+  </Table>
+  <Table Name="Order Details" Member="OrderDetails">
+    <Type Name="OrderDetails">
+      <Column Name="Order ID" Member="OrderID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Product ID" Member="ProductID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Unit Price" Member="UnitPrice" Type="System.Decimal" DbType="Money NOT NULL" CanBeNull="false" />
+      <Column Name="Quantity" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="Discount" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
+      <Association Name="Products_OrderDetails" Member="Products" ThisKey="ProductID" OtherKey="ProductID" Type="Products" IsForeignKey="true" />
+      <Association Name="Orders_OrderDetails" Member="Orders" ThisKey="OrderID" OtherKey="OrderID" Type="Orders" IsForeignKey="true" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="Orders">
+    <Type Name="Orders">
+      <Column Name="Order ID" Member="OrderID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Customer ID" Member="CustomerID" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="Employee ID" Member="EmployeeID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Ship Name" Member="ShipName" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Ship Address" Member="ShipAddress" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="Ship City" Member="ShipCity" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Ship Region" Member="ShipRegion" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Ship Postal Code" Member="ShipPostalCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Ship Country" Member="ShipCountry" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Ship Via" Member="ShipVia" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Order Date" Member="OrderDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Required Date" Member="RequiredDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Shipped Date" Member="ShippedDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Freight" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Association Name="Orders_OrderDetails" Member="OrderDetails" ThisKey="OrderID" OtherKey="OrderID" Type="OrderDetails" />
+      <Association Name="Customers_Orders" Member="Customers" ThisKey="CustomerID" OtherKey="CustomerID" Type="Customers" IsForeignKey="true" />
+      <Association Name="Shippers_Orders" Member="Shippers" ThisKey="ShipVia" OtherKey="ShipperID" Type="Shippers" IsForeignKey="true" />
+      <Association Name="Employees_Orders" Member="Employees" ThisKey="EmployeeID" OtherKey="EmployeeID" Type="Employees" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="Products">
+    <Type Name="Products">
+      <Column Name="Product ID" Member="ProductID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Supplier ID" Member="SupplierID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Category ID" Member="CategoryID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Product Name" Member="ProductName" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="English Name" Member="EnglishName" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="Quantity Per Unit" Member="QuantityPerUnit" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Unit Price" Member="UnitPrice" Type="System.Decimal" DbType="Money" CanBeNull="true" />
+      <Column Name="Units In Stock" Member="UnitsInStock" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Units On Order" Member="UnitsOnOrder" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Reorder Level" Member="ReorderLevel" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="Discontinued" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Products_OrderDetails" Member="OrderDetails" ThisKey="ProductID" OtherKey="ProductID" Type="OrderDetails" />
+      <Association Name="Suppliers_Products" Member="Suppliers" ThisKey="SupplierID" OtherKey="SupplierID" Type="Suppliers" IsForeignKey="true" />
+      <Association Name="Categories_Products" Member="Categories" ThisKey="CategoryID" OtherKey="CategoryID" Type="Categories" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="Shippers">
+    <Type Name="Shippers">
+      <Column Name="Shipper ID" Member="ShipperID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Company Name" Member="CompanyName" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Association Name="Shippers_Orders" Member="Orders" ThisKey="ShipperID" OtherKey="ShipVia" Type="Orders" />
+    </Type>
+  </Table>
+  <Table Name="Suppliers">
+    <Type Name="Suppliers">
+      <Column Name="Supplier ID" Member="SupplierID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Company Name" Member="CompanyName" Type="System.String" DbType="NVarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="Contact Name" Member="ContactName" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Contact Title" Member="ContactTitle" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="City" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Region" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Postal Code" Member="PostalCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Country" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(24)" CanBeNull="true" />
+      <Column Name="Fax" Type="System.String" DbType="NVarChar(24)" CanBeNull="true" />
+      <Association Name="Suppliers_Products" Member="Products" ThisKey="SupplierID" OtherKey="SupplierID" Type="Products" />
+    </Type>
+  </Table>
+</Database>

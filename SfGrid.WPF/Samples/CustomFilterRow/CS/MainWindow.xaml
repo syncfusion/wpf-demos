@@ -1,0 +1,175 @@
+﻿<syncfusion:ChromelessWindow x:Class="CustomFilterRow.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:local="clr-namespace:CustomFilterRow"
+        Icon="App.ico" 
+        WindowState="Maximized"
+        syncfusion:LayoutControl.SetMetroMode="True"
+        xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+        Title="MainWindow">
+    <syncfusion:ChromelessWindow.Resources>
+        <local:ViewModel x:Key="viewmodel" />       
+    </syncfusion:ChromelessWindow.Resources>
+    
+    <Grid DataContext="{StaticResource viewmodel}">
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample illustrates how to customize the FilterRow."
+                                  HeaderText="Custom FilterRow"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Visible">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid Name="sfgrid"
+                                       FilterRowPosition="FixedTop"
+                                       ShowRowHeader="True"
+                                       SelectionUnit="Row" 
+                                       ColumnSizer="Star"
+                                       AutoGenerateColumns="False" 
+                                       AllowFiltering="False" 
+                                       NavigationMode="Cell" 
+                                       SelectionMode="Extended" 
+                                       LiveDataUpdateMode="AllowDataShaping"
+                                       ItemsSource="{Binding OrderList}">
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridNumericColumn FilterRowEditorType="NumericComboBoxExt"
+                                                      NumberDecimalDigits="0" 
+                                                      HeaderText="Order ID"
+                                                      FilterRowOptionsVisibility="Collapsed"
+                                                      MappingName="OrderID" />
+                        <syncfusion:GridTextColumn MappingName="CustomerID"  
+                                                   FilterRowEditorType="TextComboBoxExt"
+                                                   HeaderText="Customer ID"
+                                                   FilterRowOptionsVisibility="Collapsed"/>
+                        <syncfusion:GridTextColumn FilterRowEditorType="TextBox"
+                                                   FilterRowOptionsVisibility="Collapsed"
+                                                   FilterBehavior="StringTyped"
+                                                   HeaderText="Product Name"
+                                                   ImmediateUpdateColumnFilter="True"
+                                                   MappingName="ProductName"/>
+                        <syncfusion:GridTextColumn MappingName="ShipName"
+                                                   HeaderText="Ship Name"
+                                              FilterRowEditorType="ExcelFilterComboBox" >
+                           
+                        </syncfusion:GridTextColumn>
+                        <syncfusion:GridTextColumn MappingName="ShipAddress"
+                                                   AllowBlankFilters="False"
+                                                   ImmediateUpdateColumnFilter="True"
+                                                   HeaderText="Ship Address"/>
+                        <syncfusion:GridDateTimeColumn MappingName="OrderDate" 
+                                                       HeaderText="Order Date"
+                                                       FilterRowOptionsVisibility="Collapsed"
+                                                       FilterRowEditorType="DateTimeComboBoxExt"/>
+                        <syncfusion:GridCheckBoxColumn MappingName="IsShipped"/>
+                    </syncfusion:SfDataGrid.Columns>
+                    <interactivity:Interaction.Behaviors>
+                        <local:FilterRowBehavior/>
+                    </interactivity:Interaction.Behaviors>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+            <syncfusion:LayoutControl.UserOptionsView>
+                <syncfusion:UserOptions  HeaderText="Custom Filtering">
+                    <Grid>
+                        <Grid.RowDefinitions >
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="10" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Margin="5">
+                            <TextBlock Grid.Row="0" Text="Order ID Column"
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="14"
+                               FontWeight="Bold">
+                            </TextBlock>
+                            <TextBlock Grid.Row="1" Text="Filter based on numeric intervals."
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               FontWeight="Normal">
+                            </TextBlock>
+                            <TextBlock Grid.Row="2">
+                            </TextBlock>
+                            <TextBlock Grid.Row="3" Text="Customer ID Column"
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="14"
+                               FontWeight="Bold">
+                            </TextBlock>
+                            <TextBlock Grid.Row="4" Text="Filter based on range of starts with characters."
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               FontWeight="Normal">
+                            </TextBlock>
+                            <TextBlock Grid.Row="5">
+                            </TextBlock>
+                            <TextBlock Grid.Row="6" Text="Ship Address Column"
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="14"
+                               FontWeight="Bold">
+                            </TextBlock>
+                            <TextBlock Grid.Row="7" Text="Required filter options are displayed in DropDown."
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               FontWeight="Normal">
+                            </TextBlock>
+                            <TextBlock Grid.Row="8">
+                            </TextBlock>
+                            <TextBlock Grid.Row="9" Text="Order Date Column"
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="14"
+                               FontWeight="Bold">
+                            </TextBlock>
+                            <TextBlock Grid.Row="10" Text="Filter based on Today, Yesterday, WeekDays, LastWeek, LastMonth and Older."
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               FontWeight="Normal">
+                            </TextBlock>
+                            <TextBlock Grid.Row="11">
+                            </TextBlock>
+                            <TextBlock Grid.Row="12" Text="Ship Name Column"
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="14"
+                               FontWeight="Bold">
+                            </TextBlock>
+                            <TextBlock Grid.Row="13" Text="Filter based on visible Records."
+                               Margin="0.5"
+                               HorizontalAlignment="Left"
+                               TextWrapping="Wrap"
+                               FontSize="12"
+                               FontWeight="Normal">
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </syncfusion:UserOptions>
+            </syncfusion:LayoutControl.UserOptionsView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

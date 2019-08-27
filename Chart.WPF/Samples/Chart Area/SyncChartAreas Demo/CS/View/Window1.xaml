@@ -1,0 +1,133 @@
+﻿<layout:SampleLayoutWindow x:Class="MultipleAreasWithSingleXAxis.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:library="clr-namespace:System;assembly=mscorlib"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  WindowStartupLocation="CenterScreen"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:MultipleAreasWithSingleXAxis"
+    Title="SyncChartAreas Demo" Height="720" xmlns:sfChart="http://schemas.syncfusion.com/wpf">
+    <Window.Resources>
+        <local:SplitterConverter x:Key="Split"/>
+    </Window.Resources>
+        <Grid Margin="10">
+            <Grid.DataContext>
+                <local:SyncChartAreaModel />
+            </Grid.DataContext>
+           
+                    <sfChart:Chart Name="chart1">
+                        <sfChart:Chart.Header>
+                    <TextBlock FontWeight="Regular" Margin="20" FontSize="20">International Census Data</TextBlock>
+                        </sfChart:Chart.Header>
+                        <!--legend added to the Chart-->
+                        <sfChart:Chart.Legends>
+                            <sfChart:ChartLegend sfChart:ChartDockPanel.Dock="Bottom"/>
+                        </sfChart:Chart.Legends>
+                        <sfChart:SyncChartAreas Name="syncChart" SplitterWidth="{Binding ElementName=width, Path=Text, Mode=TwoWay}" SplitterVisiblity="{Binding ElementName=VisibilityComobo, Path=SelectedItem, Mode=TwoWay}" SplitterColor="{Binding ElementName=color1, Path=SelectedItem, Mode=TwoWay}" SplitterStroke="{Binding ElementName=stroke1, Path=SelectedItem, Mode=TwoWay}">
+                            <!--X Axis added to the SyncChartArea-->
+                            <sfChart:SyncChartAreas.PrimaryAxis>
+                        <sfChart:ChartAxis Name="year"  ValueType="DateTime" IsAutoSetRange="False" DateTimeRange="1/1/1998,1/1/2004" LabelDateTimeFormat="yyyy" DateTimeInterval="367" RangePadding="None" RangeCalculationMode="ConsistentAcrossChartTypes" sfChart:ChartArea.ShowGridLines="True" Header="Year" />
+                    </sfChart:SyncChartAreas.PrimaryAxis>
+                            <sfChart:SyncChartAreas.Areas>
+                                <!--Area added to the SyncChartArea-->
+                                <sfChart:ChartArea x:Name="Area1" MinHeight="30"  SplitterPosition="0.5">
+                                    <sfChart:ChartArea.ColorModel>
+                                        <sfChart:ChartStyleModel Palette="Default"/>
+                                    </sfChart:ChartArea.ColorModel>
+                                    <sfChart:ChartArea.SecondaryAxis>
+                                        <sfChart:ChartAxis Name="Literacy" ValueType="Double" IsAutoSetRange="False" Range="0,100" Interval="20"  RangePadding="Normal" sfChart:ChartArea.ShowGridLines="True" >
+                                            <sfChart:ChartAxis.Header>
+                                                <TextBlock Text="Literacy Growth (%)" FontWeight="Regular"/>
+                                            </sfChart:ChartAxis.Header>
+                                        </sfChart:ChartAxis>
+                                    </sfChart:ChartArea.SecondaryAxis>
+
+                            <sfChart:ChartSeries  Name="series22" Label="Population" BindingPathX="Year"  BindingPathsY="IncreaseInPopulation" Type="Area"  DataSource="{Binding Products}" Stroke="Transparent" >
+                                <sfChart:ChartSeries.Interior>
+                                    <SolidColorBrush Color="Black" Opacity="0.1"/>
+                                </sfChart:ChartSeries.Interior>
+                                        <sfChart:ChartSeries.YAxis>
+                                            <sfChart:ChartAxis sfChart:ChartArea.ShowGridLines="False" IsAutoSetRange="False" Range="0,100" Interval="20" OpposedPosition="True" Orientation="Vertical" ValueType="Double" RangePadding="None">
+                                                <sfChart:ChartAxis.Header>
+                                                    <TextBlock Text="Population Growth(%)" FontWeight="Regular"/>
+                                                </sfChart:ChartAxis.Header>
+                                            </sfChart:ChartAxis>
+                                        </sfChart:ChartSeries.YAxis>
+                                    </sfChart:ChartSeries>
+
+                            <sfChart:ChartSeries  Name="series21"  Label="Literacy" Stroke="#FF1BA1E2" DataSource="{Binding Products}" BindingPathX="Year"  BindingPathsY="LiteracyGrowth" Type="Spline"  StrokeThickness="3" Interior="#FF1BA1E2"/>
+
+                                </sfChart:ChartArea>
+                                <sfChart:ChartArea MinHeight="30" x:Name="Area2" SplitterPosition="0.5" >
+
+                                    <!--Area added to the SyncChartArea-->
+                                    <sfChart:ChartArea.ColorModel>
+                                        <sfChart:ChartStyleModel Palette="Metro"/>
+                                    </sfChart:ChartArea.ColorModel>
+                                    <sfChart:ChartArea.SecondaryAxis>
+                                        <sfChart:ChartAxis IntersectAction="Hide"  ValueType="Double" Range="0,100" IsAutoSetRange="False" Interval="20" RangePadding="None" sfChart:ChartArea.ShowGridLines="True">
+                                            <sfChart:ChartAxis.Header>
+                                                <TextBlock Text="People Below Poverty Line (%)" FontWeight="Regular"/>
+                                            </sfChart:ChartAxis.Header>
+                                        </sfChart:ChartAxis>
+                                    </sfChart:ChartArea.SecondaryAxis>
+                            <sfChart:ChartSeries Name="series11" DataSource="{Binding Products}" Stroke="#FF1BA1E2" Label="Below Poverty" BindingPathX="Year" BindingPathsY="BelowPovertyLine" Type="Line"  StrokeThickness="3" >
+                                        <sfChart:ChartSeries.YAxis>
+                                            <sfChart:ChartAxis  DesiredIntervalsCount="3" Range="0,100" Interval="20" IsAutoSetRange="False" sfChart:ChartArea.ShowGridLines="True"  OpposedPosition="True" Orientation="Vertical" ValueType="Double" RangePadding="None">
+                                                <sfChart:ChartAxis.Header>
+                                                    <TextBlock Text="People Above Poverty Line (%)" FontWeight="Regular"/>
+                                                </sfChart:ChartAxis.Header>
+                                            </sfChart:ChartAxis>
+                                        </sfChart:ChartSeries.YAxis>
+                                    </sfChart:ChartSeries>
+                            <sfChart:ChartSeries Name="series23" DataSource="{Binding Products}" Stroke="#FFE51400" Label="Above Poverty" BindingPathX="Year"  BindingPathsY="AbovePovertyLine" Type="Line"  StrokeThickness="3" >
+                                    </sfChart:ChartSeries>
+                                </sfChart:ChartArea>
+                            </sfChart:SyncChartAreas.Areas>
+                        </sfChart:SyncChartAreas>
+                    </sfChart:Chart>
+        </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Expander Header="Splitter Properties" IsExpanded="True" Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="Splitter Visibility"></TextBlock>
+                    <ComboBox Grid.Column="1" SelectedIndex="2" Name="VisibilityComobo" >
+                        <library:String>Hide</library:String>
+                        <library:String>ShowAlways</library:String>
+                        <library:String>ShowOnMouseHover</library:String>
+                    </ComboBox>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Splitter Width"/>
+                    <TextBox x:Name="width" Grid.Column="1" Grid.Row="1" Text="4" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Splitter Color"></TextBlock>
+                    <sfChart:ColorPicker Width="123" Grid.Column="1" Grid.Row="2" Brush="{Binding ElementName=syncChart, Path=SplitterColor, Mode=TwoWay}"/>
+                    <TextBlock Grid.Column="0" Grid.Row="3" Text="Splitter Stroke"/>
+                    <sfChart:ColorPicker Width="123" Grid.Row="3" Grid.Column="1" Brush="{Binding ElementName=syncChart, Path=SplitterStroke, Mode=TwoWay}"/>
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Area1: Splitter Position"/>
+                    <TextBlock Text="{Binding ElementName=Area1, Path=SplitterPosition, Converter={StaticResource Split}}" Grid.Column="1" Grid.Row="4" />
+                    <TextBlock Grid.Column="0" Grid.Row="5" Text="Area2: Splitter Position"/>
+                    <TextBlock Text="{Binding ElementName=Area2, Path=SplitterPosition, Converter={StaticResource Split}}" Grid.Column="1" Grid.Row="5" />
+                </Grid>
+            </Expander>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+   
+</layout:SampleLayoutWindow>

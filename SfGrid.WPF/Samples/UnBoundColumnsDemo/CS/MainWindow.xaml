@@ -1,0 +1,71 @@
+﻿<syncfusion:ChromelessWindow x:Class="UnBoundColumnsDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:UnBoundColumnsDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <Grid>
+
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample illustrates how to use Unbound Columns to display custom data in SfDataGrid."
+                                  HeaderText="Unbound column"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid Name="dataGrid"
+                                       AllowEditing="True"
+                                       AutoGenerateColumns="False"
+                                       ColumnSizer="Auto"
+                                       ItemsSource="{Binding SalesInfo}"
+                                       LiveDataUpdateMode="AllowDataShaping">
+                    <syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Padding" Value="0" />
+                            </Style>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </syncfusion:SfDataGrid.Resources>
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn Width="115" MappingName="Product" />
+                        <syncfusion:GridTextColumn Width="115" MappingName="Country" />
+                        <syncfusion:GridTextColumn Width="115" MappingName="State" />
+                        <syncfusion:GridTextColumn Width="115"
+                                                   MappingName="Quantity"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn Width="115"
+                                                   DisplayBinding="{Binding Path=Amount,
+                                                                            StringFormat='{}{0:C}'}"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=Discount, StringFormat='{}{0}%'}" TextAlignment="Right" />
+
+                        <!--  UnBoundColumn with Expressions  -->
+                        <syncfusion:GridUnBoundColumn Width="150"
+                                                      AllowEditing="False"
+                                                      Expression="Quantity*Amount"
+                                                      HeaderText="Grand Total"
+                                                      MappingName="GrandTotal"
+                                                      TextAlignment="Right" />
+                        <syncfusion:GridUnBoundColumn Width="150"
+                                                      AllowEditing="False"
+                                                      Expression="Amount*Discount/100"
+                                                      HeaderText="Discount Amount"
+                                                      MappingName="DiscountAmount"
+                                                      TextAlignment="Right" />
+                        <!--  UnBoundColumn with Format  -->
+                        <syncfusion:GridUnBoundColumn Width="150"
+                                                      AllowEditing="False"
+                                                      Format="'{Amount} for {Product}'"
+                                                      MappingName="Amount for Product" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

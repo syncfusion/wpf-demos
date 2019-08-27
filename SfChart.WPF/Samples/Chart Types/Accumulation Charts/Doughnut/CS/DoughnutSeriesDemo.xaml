@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="DoughnutChart.DoughnutSeriesDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DoughnutChart"
+             xmlns:chart="http://schemas.syncfusion.com/wpf">
+    <Grid>
+
+        <Grid.Resources>
+
+            <local:Labelconvertor x:Key="labelconverter"/>
+            <local:LegendConverter x:Key="legendConverter"/>
+
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Margin="10,0,0,0" Text="{Binding Converter={StaticResource labelconverter}}"
+                           FontSize="26" FontFamily="Segoe UI" FontWeight="Light" 
+                           Foreground="White" HorizontalAlignment="Center" 
+                           VerticalAlignment="Top" Opacity="0.5"></TextBlock>
+            </DataTemplate>
+
+            <DataTemplate x:Key="legend">
+                <StackPanel Orientation="Horizontal">
+                    <Grid Margin="10,0,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Rectangle Width="15" Height="15" Fill="{Binding Interior}"></Rectangle>
+                        <TextBlock Margin="10,0,0,0" FontSize="16" Grid.Column="1" 
+                                   Foreground="Black" 
+                                   Text="{Binding Item.Category}"></TextBlock>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
+        </Grid.Resources>
+
+        <chart:SfChart AreaBorderThickness="0" HorizontalAlignment="Center" Grid.RowSpan="2">
+            
+            <chart:SfChart.DataContext>
+                <local:ViewModel/>
+            </chart:SfChart.DataContext>
+
+            <chart:SfChart.Header>
+                <TextBlock FontSize="24" FontFamily="Segoe UI" 
+                           Margin="0,20,0,10">2013 State Government Tax Collections</TextBlock>
+            </chart:SfChart.Header>
+
+            <chart:SfChart.Legend>
+                <chart:ChartLegend DockPosition="Right"  CornerRadius="0" 
+                                   ItemTemplate="{StaticResource legend}" 
+                                   CheckBoxVisibility="Visible" BorderThickness="1">
+                </chart:ChartLegend>
+            </chart:SfChart.Legend>
+
+            <chart:DoughnutSeries EnableAnimation="True" x:Name="DouughnutSeries" 
+                                  ShowTooltip="True" chart:ChartTooltip.EnableAnimation="True" 
+                                  XBindingPath="Category" ItemsSource="{Binding Tax}" 
+                                  Label="Tax" YBindingPath="Percentage" EnableSmartLabels="False">
+                <chart:DoughnutSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo AdornmentsPosition="TopAndBottom" 
+                                              LabelTemplate="{StaticResource labelTemplate}" 
+                                              ShowLabel="True" SegmentLabelContent="YValue">
+                    </chart:ChartAdornmentInfo>
+                </chart:DoughnutSeries.AdornmentsInfo>
+            </chart:DoughnutSeries>
+
+        </chart:SfChart>
+    </Grid>
+</UserControl>

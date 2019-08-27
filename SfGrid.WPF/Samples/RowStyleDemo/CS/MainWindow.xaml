@@ -1,0 +1,80 @@
+﻿<syncfusion:ChromelessWindow x:Class="RowStyleDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:RowStyleDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title="RowStyle Demo"
+                             Icon="App.ico"
+                             Width="1200" Height="720"
+                             WindowStartupLocation="CenterScreen"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.Resources>
+        <local:EmployeeInfoRespository x:Key="viewmodel" />
+        <local:RowStyelConverter x:Key="rowStyleConverter" />
+        <Style x:Key="GenericRowStyle" TargetType="syncfusion:VirtualizingCellsControl">
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="syncfusion:VirtualizingCellsControl">
+                        <Grid>
+                            <Rectangle Clip="{TemplateBinding RowBackgroundClip}" Fill="{TemplateBinding Background}" />
+                            <Border Background="{TemplateBinding RowSelectionBrush}"
+                                    BorderThickness="2,2,2,3"
+                                    BorderBrush="DarkGreen"
+                                    Clip="{TemplateBinding SelectionBorderClipRect}"
+                                    Visibility="{TemplateBinding SelectionBorderVisiblity}" />
+                            <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RowStyle" TargetType="syncfusion:VirtualizingCellsControl" BasedOn="{StaticResource GenericRowStyle}">
+            <Setter Property="Background" 
+                    Value="{Binding Path=Rating,
+                                    Mode=TwoWay,
+                                    Converter={StaticResource rowStyleConverter},
+                                    UpdateSourceTrigger=PropertyChanged}" />
+        </Style>
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid DataContext="{StaticResource viewmodel}">
+        <syncfusion:LayoutControl HeaderDescriptionText="The sample showcases the RowStyle customization of SfDataGrid based on Rating field in Descending order with the color of Green to Orange"
+                                  HeaderText="RowStyle Demo"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid  x:Name="SfGrid"
+                                        HeaderRowHeight="30"
+                                        ItemsSource="{Binding EmployeeList}" 
+                                        AutoGenerateColumns="False" 
+                                        ColumnSizer="Star"
+                                        RowStyle="{StaticResource RowStyle}"
+                                        NavigationMode="Row"
+                                        ShowRowHeader="False">
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn MappingName="EmployeeID" HeaderText="Employee ID" />
+                        <syncfusion:GridTextColumn MappingName="Name" />
+                        <syncfusion:GridTextColumn MappingName="Title" HeaderText="Designation"/>
+                        <syncfusion:GridTextColumn MappingName="Rating" TextAlignment="Right"/>
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=BirthDate,
+                                                                            StringFormat=d}"
+                                                   TextAlignment="Right" />
+                        <syncfusion:GridTextColumn MappingName="Gender" />
+                        <syncfusion:GridCurrencyColumn CurrencySymbol="$" MappingName="Salary" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>
+
+    
+    
+    
+    

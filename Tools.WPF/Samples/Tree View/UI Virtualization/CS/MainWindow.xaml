@@ -1,0 +1,112 @@
+﻿<syncfusion:ChromelessWindow x:Class="Virtualization.MainWindow" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="UI Virtualization"  Width="750"  FontSize="13" 
+        Height="550" FontFamily="Calibri"
+        WindowStartupLocation="CenterScreen"  Icon="App.ico"
+        xmlns:local="clr-namespace:Virtualization"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" >
+
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <HierarchicalDataTemplate x:Key="template" ItemsSource="{Binding Items}">
+            <TextBlock Text="{Binding Header}"/>
+        </HierarchicalDataTemplate>
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid>
+        <syncfusion:SampleLayoutControl x:Name="sblayout" IsTabStop="False" EnableThemeSwitching="False" DefaultVisualStyle="Metro"  Header="Virtualization Demo" Description="Virtualization can be achieved  in our TreeViewAdv using an interface IVirtualTree.The Model which we used to bind should implement this interface." EventLogs="{Binding EventLogsCollection}">
+            <Grid>
+                <Grid x:Name="mediagrid">
+
+                    <Button VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Width="100" Height="100">
+                        <Button.Effect>
+                            <DropShadowEffect ShadowDepth="0" BlurRadius="15"/>
+                        </Button.Effect>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <local:TreeViewVisibility TargetObject="{Binding ElementName=MyTreeView}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock TextAlignment="Center" Grid.Row="1">
+                                <Span>Load</Span>
+                                <LineBreak/>
+                                <Span FontSize="19" FontWeight="Bold">1</Span>
+                                <LineBreak/>
+                                <Span>million items</Span>
+
+                            </TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+                <syncfusion:TreeViewAdv Visibility="Collapsed"
+                    x:Name="MyTreeView" 
+                    ScrollViewer.IsDeferredScrollingEnabled="{Binding ElementName=chkdeferredscroll,Path=IsChecked,Mode=TwoWay}"
+                    BorderBrush="Transparent"  
+                    ItemContainerStyle="{StaticResource TreeViewItemAdvStyle}"
+                    ItemTemplate="{StaticResource template}"
+                    ItemsSource="{Binding MyItems}" 
+                    AllowMultiSelect="False"
+                    IsVirtualizing="True"
+                    VirtualizationMode="Extended"
+                     syncfusion:TreeViewAdvSelectedItemChangedCommand.Command="{Binding SelectedItemChangedCommand}"
+                     syncfusion:TreeViewAdvSelectedItemChangedCommand.CommandParameter="{Binding Path=SelectedItem,RelativeSource={RelativeSource Self}}"
+                   >
+
+                </syncfusion:TreeViewAdv>
+                
+            </Grid>
+            <syncfusion:SampleLayoutControl.PropertyViewContent>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                
+              
+                <syncfusion:GroupBoxAdv Header="Description" Width="330" IsTabStop="False">
+                    <FlowDocumentScrollViewer VerticalScrollBarVisibility="Auto" IsTabStop="False"
+                                        Padding="0" Background="Transparent">
+                        <FlowDocument FontFamily="Calibri" FontSize="13" >
+                            <Paragraph>
+                                <Span></Span>
+                                <Span></Span>
+                                <Span>Virtualization can be achieved  in our TreeViewAdv using an interface</Span>
+                                <Span FontWeight="Bold" FontStyle="Italic">IVirtualTree.</Span>
+                                <Span>The Model which we used to bind should implement this interface.</Span>
+                                <Image Source="codesnippet.png" Margin="0 10 0 0" Stretch="Uniform" Width="290"/>
+                                <LineBreak/>
+                                <LineBreak/>
+                                <Span/>
+                                <Span/>
+                                <Span>Our TreeViewAdv will use the VirtualTree internally to provide extended Virtualization.</Span>
+                            </Paragraph>
+                            <Paragraph TextAlignment="Center">
+                                <Span >- - - - - - - - - - - - - - - </Span>
+
+                            </Paragraph>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>
+                </syncfusion:GroupBoxAdv>
+                    <syncfusion:GroupBoxAdv  Grid.Row="1" Header="User Options" x:Name="options" IsTabStop="False">
+
+                        <CheckBox Margin="10" Height="25" VerticalAlignment="Top"  Content="Enable Deferred Scrolling" IsChecked="true" x:Name="chkdeferredscroll"/>
+
+                    </syncfusion:GroupBoxAdv>
+
+                </Grid>
+            </syncfusion:SampleLayoutControl.PropertyViewContent>
+
+        </syncfusion:SampleLayoutControl>
+
+    </Grid>
+</syncfusion:ChromelessWindow>

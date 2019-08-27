@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="RPart Decision Tree Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-07 10:20:22</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="14">
+  <DataField name="Type" optype="categorical" dataType="string">
+   <Value value="1"/>
+   <Value value="2"/>
+   <Value value="3"/>
+  </DataField>
+  <DataField name="Alcohol" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="11.03" rightMargin="14.83"/>
+  </DataField>
+  <DataField name="Malic_Acid" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0.89" rightMargin="5.8"/>
+  </DataField>
+  <DataField name="Ash" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="1.36" rightMargin="3.23"/>
+  </DataField>
+  <DataField name="Alcalinity" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="10.6" rightMargin="30"/>
+  </DataField>
+  <DataField name="Magnesium" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="78" rightMargin="162"/>
+  </DataField>
+  <DataField name="Phenols" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0.98" rightMargin="3.88"/>
+  </DataField>
+  <DataField name="Flavanoids" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0.34" rightMargin="5.08"/>
+  </DataField>
+  <DataField name="Non_Flavanoids" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0.14" rightMargin="0.66"/>
+  </DataField>
+  <DataField name="Proanthocyanins" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0.41" rightMargin="3.28"/>
+  </DataField>
+  <DataField name="Color_Intensity" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="1.28" rightMargin="13"/>
+  </DataField>
+  <DataField name="Hue" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0.48" rightMargin="1.71"/>
+  </DataField>
+  <DataField name="Dilution" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="1.27" rightMargin="4"/>
+  </DataField>
+  <DataField name="Proline" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="278" rightMargin="1680"/>
+  </DataField>
+ </DataDictionary>
+ <TreeModel modelName="RPart_Model" functionName="classification" algorithmName="rpart" splitCharacteristic="binarySplit" missingValueStrategy="defaultChild" noTrueChildStrategy="returnLastPrediction">
+  <MiningSchema>
+   <MiningField name="Type" usageType="predicted"/>
+   <MiningField name="Alcohol" usageType="active"/>
+   <MiningField name="Malic_Acid" usageType="active"/>
+   <MiningField name="Ash" usageType="active"/>
+   <MiningField name="Alcalinity" usageType="active"/>
+   <MiningField name="Magnesium" usageType="active"/>
+   <MiningField name="Phenols" usageType="active"/>
+   <MiningField name="Flavanoids" usageType="active"/>
+   <MiningField name="Non_Flavanoids" usageType="active"/>
+   <MiningField name="Proanthocyanins" usageType="active"/>
+   <MiningField name="Color_Intensity" usageType="active"/>
+   <MiningField name="Hue" usageType="active"/>
+   <MiningField name="Dilution" usageType="active"/>
+   <MiningField name="Proline" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Type" optype="categorical" dataType="string" feature="predictedValue"/>
+   <OutputField name="Probability_1" optype="continuous" dataType="double" feature="probability" value="1"/>
+   <OutputField name="Probability_2" optype="continuous" dataType="double" feature="probability" value="2"/>
+   <OutputField name="Probability_3" optype="continuous" dataType="double" feature="probability" value="3"/>
+  </Output>
+  <Node id="1" score="2" recordCount="143" defaultChild="3">
+   <True/>
+   <ScoreDistribution value="1" recordCount="50" confidence="0.34965034965035"/>
+   <ScoreDistribution value="2" recordCount="51" confidence="0.356643356643357"/>
+   <ScoreDistribution value="3" recordCount="42" confidence="0.293706293706294"/>
+   <Node id="2" score="1" recordCount="41">
+    <CompoundPredicate booleanOperator="surrogate">
+     <SimplePredicate field="Proline" operator="greaterOrEqual" value="987.5"/>
+     <SimplePredicate field="Flavanoids" operator="greaterOrEqual" value="2.31"/>
+     <SimplePredicate field="Alcohol" operator="greaterOrEqual" value="13.625"/>
+     <SimplePredicate field="Alcalinity" operator="lessThan" value="17.45"/>
+     <SimplePredicate field="Phenols" operator="greaterOrEqual" value="2.645"/>
+     <SimplePredicate field="Proanthocyanins" operator="greaterOrEqual" value="1.965"/>
+    </CompoundPredicate>
+    <ScoreDistribution value="1" recordCount="41" confidence="1"/>
+    <ScoreDistribution value="2" recordCount="0" confidence="0"/>
+    <ScoreDistribution value="3" recordCount="0" confidence="0"/>
+   </Node>
+   <Node id="3" score="2" recordCount="102" defaultChild="7">
+    <CompoundPredicate booleanOperator="surrogate">
+     <SimplePredicate field="Proline" operator="lessThan" value="987.5"/>
+     <SimplePredicate field="Flavanoids" operator="lessThan" value="2.31"/>
+     <SimplePredicate field="Alcohol" operator="lessThan" value="13.625"/>
+     <SimplePredicate field="Alcalinity" operator="greaterOrEqual" value="17.45"/>
+     <SimplePredicate field="Phenols" operator="lessThan" value="2.645"/>
+     <SimplePredicate field="Proanthocyanins" operator="lessThan" value="1.965"/>
+    </CompoundPredicate>
+    <ScoreDistribution value="1" recordCount="9" confidence="0.0882352941176471"/>
+    <ScoreDistribution value="2" recordCount="51" confidence="0.5"/>
+    <ScoreDistribution value="3" recordCount="42" confidence="0.411764705882353"/>
+    <Node id="6" score="2" recordCount="45">
+     <CompoundPredicate booleanOperator="surrogate">
+      <SimplePredicate field="Color_Intensity" operator="lessThan" value="3.825"/>
+      <SimplePredicate field="Dilution" operator="greaterOrEqual" value="2.115"/>
+      <SimplePredicate field="Alcohol" operator="lessThan" value="12.35"/>
+      <SimplePredicate field="Hue" operator="greaterOrEqual" value="0.85"/>
+      <SimplePredicate field="Flavanoids" operator="greaterOrEqual" value="0.955"/>
+      <SimplePredicate field="Malic_Acid" operator="lessThan" value="2.235"/>
+     </CompoundPredicate>
+     <ScoreDistribution value="1" recordCount="2" confidence="0.0444444444444444"/>
+     <ScoreDistribution value="2" recordCount="43" confidence="0.955555555555555"/>
+     <ScoreDistribution value="3" recordCount="0" confidence="0"/>
+    </Node>
+    <Node id="7" score="3" recordCount="57" defaultChild="15">
+     <CompoundPredicate booleanOperator="surrogate">
+      <SimplePredicate field="Color_Intensity" operator="greaterOrEqual" value="3.825"/>
+      <SimplePredicate field="Dilution" operator="lessThan" value="2.115"/>
+      <SimplePredicate field="Alcohol" operator="greaterOrEqual" value="12.35"/>
+      <SimplePredicate field="Hue" operator="lessThan" value="0.85"/>
+      <SimplePredicate field="Flavanoids" operator="lessThan" value="0.955"/>
+      <SimplePredicate field="Malic_Acid" operator="greaterOrEqual" value="2.235"/>
+     </CompoundPredicate>
+     <ScoreDistribution value="1" recordCount="7" confidence="0.12280701754386"/>
+     <ScoreDistribution value="2" recordCount="8" confidence="0.140350877192982"/>
+     <ScoreDistribution value="3" recordCount="42" confidence="0.736842105263158"/>
+     <Node id="14" score="2" recordCount="16">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimplePredicate field="Flavanoids" operator="greaterOrEqual" value="1.4"/>
+       <SimplePredicate field="Dilution" operator="greaterOrEqual" value="2.205"/>
+       <SimplePredicate field="Hue" operator="greaterOrEqual" value="0.92"/>
+       <SimplePredicate field="Phenols" operator="greaterOrEqual" value="2.36"/>
+       <SimplePredicate field="Proanthocyanins" operator="greaterOrEqual" value="1.59"/>
+       <SimplePredicate field="Alcalinity" operator="lessThan" value="17.25"/>
+      </CompoundPredicate>
+      <ScoreDistribution value="1" recordCount="7" confidence="0.4375"/>
+      <ScoreDistribution value="2" recordCount="8" confidence="0.5"/>
+      <ScoreDistribution value="3" recordCount="1" confidence="0.0625"/>
+     </Node>
+     <Node id="15" score="3" recordCount="41">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimplePredicate field="Flavanoids" operator="lessThan" value="1.4"/>
+       <SimplePredicate field="Dilution" operator="lessThan" value="2.205"/>
+       <SimplePredicate field="Hue" operator="lessThan" value="0.92"/>
+       <SimplePredicate field="Phenols" operator="lessThan" value="2.36"/>
+       <SimplePredicate field="Proanthocyanins" operator="lessThan" value="1.59"/>
+       <SimplePredicate field="Alcalinity" operator="greaterOrEqual" value="17.25"/>
+      </CompoundPredicate>
+      <ScoreDistribution value="1" recordCount="0" confidence="0"/>
+      <ScoreDistribution value="2" recordCount="0" confidence="0"/>
+      <ScoreDistribution value="3" recordCount="41" confidence="1"/>
+     </Node>
+    </Node>
+   </Node>
+  </Node>
+ </TreeModel>
+</PMML>

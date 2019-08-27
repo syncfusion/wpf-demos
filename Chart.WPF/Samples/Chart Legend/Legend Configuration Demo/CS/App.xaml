@@ -1,0 +1,204 @@
+﻿<Application x:Class="ChartLegends_2005.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" StartupUri="View/Window1.xaml"  xmlns:local="clr-namespace:ChartLegends"
+    >
+    <Application.Resources>
+       
+        <local:VisibilityToSelectedItem x:Key="visibilityToSelectedITem"/>
+        <local:VisibilityToSelectedItem x:Key="visibilityToSelectedITem1"/>
+
+        <local:StringValueConvertor x:Key="StringConvertor" />
+        <DataTemplate x:Key="LegendTemplate1">
+            <StackPanel Orientation="Horizontal">
+
+                <CheckBox Name="chbox" IsChecked="{Binding CorrespondingPoints[0].DataPoint.Visible, Mode=TwoWay}"
+                   VerticalAlignment="Center"
+                    Margin="{Binding ElementMargin, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:ChartLegend}}}" Tag="{Binding}"
+                    Visibility="{Binding CheckBoxVisibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:ChartLegend}}}" />
+
+                <Ellipse Fill="{Binding Interior}" Height="15" Width="15" Visibility="{Binding IconVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+
+                <TextBlock Margin="5" Height="20" Text="{Binding Path=CorrespondingPoints[0].DataPoint.Tag.Price}" Width="Auto" Foreground="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:ChartLegend}}}"  />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="LegendTemplate2">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse Fill="{Binding Interior}" Height="15" Width="15" Visibility="{Binding IconVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                <TextBlock HorizontalAlignment="Center"  TextWrapping="Wrap" 
+                         Name="LegendText"
+                         TextAlignment="Left"
+                         Text="{Binding Label}" 
+                         Width="100" FontFamily="Times New Roman" 
+                         VerticalAlignment="Center">
+                </TextBlock>
+
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Rectangle">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding CorrespondingPoints[0].DataPoint.Visible}"                  
+                    Visibility="{Binding CheckBoxVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+
+                <Rectangle Fill="{Binding Interior}" Height="10" Width="20" Margin="3,0,0,0" Grid.Column="1" Visibility="{Binding IconVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                <Label Content="{Binding Path=CorrespondingPoints[0].DataPoint,Converter={StaticResource StringConvertor}}"  Grid.Column="2"/>
+
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="Ellipse">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CorrespondingPoints[0].DataPoint.Visible}"                  
+                    Visibility="{Binding CheckBoxVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                    <DockPanel>
+                        <Ellipse Fill="{Binding Interior}" Height="10" Width="20" Margin="3,0,0,0" Visibility="{Binding IconVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                        <Label Content="{Binding Path=CorrespondingPoints[0].DataPoint,Converter={StaticResource StringConvertor}}"  Grid.Column="1"/>
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="Circle">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CorrespondingPoints[0].DataPoint.Visible}"                  
+                      Visibility="{Binding CheckBoxVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                    <DockPanel>
+                        <Ellipse Fill="{Binding Interior}" Height="20" Width="20" Margin="3,0,0,0" Visibility="{Binding IconVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                        <Label Content="{Binding Path=CorrespondingPoints[0].DataPoint,Converter={StaticResource StringConvertor}}"  Grid.Column="1"/>
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Polygon">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+
+                    <CheckBox VerticalAlignment="Center" IsChecked="{Binding CorrespondingPoints[0].DataPoint.Visible}"                  
+                      Visibility="{Binding CheckBoxVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}"/>
+                    <DockPanel>
+                        <Canvas Margin="3,0,0,0" Width="20" Visibility="{Binding IconVisibility, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:ChartLegend}},Mode=TwoWay}">
+
+                            <Polygon Stroke="{Binding Stroke}" StrokeThickness="{Binding StrokeThickness}" Canvas.Left="{Binding X}" Canvas.Top="{Binding Y}" 
+                             Points="176.5,   90      189.2,  155.003 
+                                    250.485, 133.5   201.9,  177 
+                                    250.485, 240.5   189.2,  198.997 
+                                    176.5,   275     163.8,  198.997 
+                                    105.5148, 240.5   140.1,  177 
+                                    85.5148, 140.5   163.8,  155.003" Fill="{Binding Interior}"  RenderTransformOrigin="0,0" Grid.Column="0" Margin="-5,-8,0,0" >
+                                <Polygon.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="0.12" ScaleY="0.12"/>
+                                    </TransformGroup>
+                                </Polygon.RenderTransform>
+
+                            </Polygon>
+                        </Canvas>
+
+                        <Label Content="{Binding Path=CorrespondingPoints[0].DataPoint,Converter={StaticResource StringConvertor}}"  Grid.Column="2"/>
+
+                    </DockPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+
+
+
+        <LinearGradientBrush x:Key="Series1Interior" EndPoint="1,0.5" StartPoint="0,0.5">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FFF89C1B" Offset="0"/>
+                <GradientStop Color="#FFF89C1B" Offset="0.164841"/>
+                <GradientStop Color="#FFFEE5CA" Offset="0.642853"/>
+                <GradientStop Color="#FFF89C1B" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="Series2Interior" EndPoint="1,0.5" StartPoint="0,0.5">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FF900C10" Offset="0"/>
+                <GradientStop Color="#FF900C10" Offset="0.164841"/>
+                <GradientStop Color="#FFCB7C64" Offset="0.642853"/>
+                <GradientStop Color="#FF900C10" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="Series3Interior" EndPoint="1,0.5" StartPoint="0,0.5">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FF1C3D6A" Offset="0"/>
+                <GradientStop Color="#FF345580" Offset="0.164841"/>
+                <GradientStop Color="#FF7AAEDE" Offset="0.642853"/>
+                <GradientStop Color="#FF183C7D" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="Series4Interior" EndPoint="1,0.5" StartPoint="0,0.5">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FFC661A5" Offset="0"/>
+                <GradientStop Color="#FFC661A5" Offset="0.164841"/>
+                <GradientStop Color="#FFF6ADCD" Offset="0.642853"/>
+                <GradientStop Color="#FFC661A5" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="Series5Interior" EndPoint="1,0.5" StartPoint="0,0.5">
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FFA17F2E" Offset="0"/>
+                <GradientStop Color="#FFA17F2E" Offset="0.164841"/>
+                <GradientStop Color="#FFDAC38D" Offset="0.642853"/>
+                <GradientStop Color="#FFA17F2E" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="Series6Interior" EndPoint="1,0.5" StartPoint="0,0.5">
+
+            <LinearGradientBrush.GradientStops>
+                <GradientStop Color="#FFED1C24" Offset="0"/>
+                <GradientStop Color="#FFED193A" Offset="0.164841"/>
+                <GradientStop Color="#FFF6A09A" Offset="0.642853"/>
+                <GradientStop Color="#FFED1C24" Offset="1"/>
+            </LinearGradientBrush.GradientStops>
+
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="ListBoxItemSelectionColor" Color="Gainsboro" />
+
+        <Style x:Key="{x:Type ListBoxItem}" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border Name="Border" Padding="3" BorderThickness="0.25" BorderBrush="Black" >
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource ListBoxItemSelectionColor}" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="2,2,2,2" />
+        </Style>
+
+    </Application.Resources>
+</Application>

@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="CoxPH Survival Regression Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-14 10:22:57</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="9">
+  <DataField name="survival" optype="continuous" dataType="double"/>
+  <DataField name="Code" optype="continuous" dataType="double"/>
+  <DataField name="Age" optype="continuous" dataType="double"/>
+  <DataField name="Sex" optype="continuous" dataType="double"/>
+  <DataField name="ECOG_Score" optype="continuous" dataType="double"/>
+  <DataField name="Physician_Score" optype="continuous" dataType="double"/>
+  <DataField name="Weight_Loss" optype="continuous" dataType="double"/>
+  <DataField name="Survival_Time" optype="continuous" dataType="double"/>
+  <DataField name="Censoring_Status" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <GeneralRegressionModel modelType="CoxRegression" modelName="CoxPH_Survival_Regression_Model" functionName="regression" algorithmName="coxph" endTimeVariable="Survival_Time" statusVariable="Censoring_Status">
+  <MiningSchema>
+   <MiningField name="survival" usageType="predicted"/>
+   <MiningField name="Code" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Sex" usageType="active"/>
+   <MiningField name="ECOG_Score" usageType="active"/>
+   <MiningField name="Physician_Score" usageType="active"/>
+   <MiningField name="Weight_Loss" usageType="active"/>
+   <MiningField name="Survival_Time" usageType="active"/>
+   <MiningField name="Censoring_Status" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_hazard" feature="predictedValue"/>
+   <OutputField name="SurvivalProbability" feature="transformedValue">
+    <Apply function="exp">
+     <Apply function="*">
+      <Constant>-1.0</Constant>
+      <FieldRef field="Predicted_hazard"/>
+     </Apply>
+    </Apply>
+   </OutputField>
+  </Output>
+  <ParameterList>
+   <Parameter name="p0" label="Code" referencePoint="9.83458646616541"/>
+   <Parameter name="p1" label="Age" referencePoint="62.796992481203"/>
+   <Parameter name="p2" label="Sex" referencePoint="1.3609022556391"/>
+   <Parameter name="p3" label="ECOG_Score" referencePoint="1.01503759398496"/>
+   <Parameter name="p4" label="Physician_Score" referencePoint="81.1278195488722"/>
+   <Parameter name="p5" label="Weight_Loss" referencePoint="10.6466165413534"/>
+  </ParameterList>
+  <FactorList/>
+  <CovariateList>
+   <Predictor name="Code"/>
+   <Predictor name="Age"/>
+   <Predictor name="Sex"/>
+   <Predictor name="ECOG_Score"/>
+   <Predictor name="Physician_Score"/>
+   <Predictor name="Weight_Loss"/>
+  </CovariateList>
+  <PPMatrix>
+   <PPCell value="1" predictorName="Code" parameterName="p0"/>
+   <PPCell value="1" predictorName="Age" parameterName="p1"/>
+   <PPCell value="1" predictorName="Sex" parameterName="p2"/>
+   <PPCell value="1" predictorName="ECOG_Score" parameterName="p3"/>
+   <PPCell value="1" predictorName="Physician_Score" parameterName="p4"/>
+   <PPCell value="1" predictorName="Weight_Loss" parameterName="p5"/>
+  </PPMatrix>
+  <ParamMatrix>
+   <PCell parameterName="p0" df="1" beta="-0.0418388759539228"/>
+   <PCell parameterName="p1" df="1" beta="0.0151506027645405"/>
+   <PCell parameterName="p2" df="1" beta="-0.529105395707073"/>
+   <PCell parameterName="p3" df="1" beta="1.04077395751669"/>
+   <PCell parameterName="p4" df="1" beta="0.0298514331081054"/>
+   <PCell parameterName="p5" df="1" beta="-0.0153828533661669"/>
+  </ParamMatrix>
+  <BaseCumHazardTables maxTime="1022">
+   <BaselineCell time="5" cumHazard="0.00612179523174694"/>
+   <BaselineCell time="11" cumHazard="0.0122662073533502"/>
+   <BaselineCell time="12" cumHazard="0.0185708326251288"/>
+   <BaselineCell time="13" cumHazard="0.0250216418927638"/>
+   <BaselineCell time="15" cumHazard="0.0316304013463081"/>
+   <BaselineCell time="26" cumHazard="0.0382625245963313"/>
+   <BaselineCell time="30" cumHazard="0.0450122298333848"/>
+   <BaselineCell time="31" cumHazard="0.0519311375810725"/>
+   <BaselineCell time="53" cumHazard="0.0659002108605696"/>
+   <BaselineCell time="54" cumHazard="0.0729814526448227"/>
+   <BaselineCell time="60" cumHazard="0.087452242853474"/>
+   <BaselineCell time="61" cumHazard="0.0947799068669335"/>
+   <BaselineCell time="62" cumHazard="0.102183247022985"/>
+   <BaselineCell time="65" cumHazard="0.109652746970287"/>
+   <BaselineCell time="81" cumHazard="0.117330455207463"/>
+   <BaselineCell time="88" cumHazard="0.125040881321667"/>
+   <BaselineCell time="92" cumHazard="0.132876890664382"/>
+   <BaselineCell time="93" cumHazard="0.140776697736748"/>
+   <BaselineCell time="95" cumHazard="0.156912919666665"/>
+   <BaselineCell time="107" cumHazard="0.165135005932408"/>
+   <BaselineCell time="118" cumHazard="0.173415808361066"/>
+   <BaselineCell time="142" cumHazard="0.182002467670915"/>
+   <BaselineCell time="145" cumHazard="0.190745961562171"/>
+   <BaselineCell time="147" cumHazard="0.199552340946331"/>
+   <BaselineCell time="153" cumHazard="0.20839762534678"/>
+   <BaselineCell time="156" cumHazard="0.226350006096163"/>
+   <BaselineCell time="163" cumHazard="0.254281801540146"/>
+   <BaselineCell time="166" cumHazard="0.264049361385344"/>
+   <BaselineCell time="167" cumHazard="0.273996822819139"/>
+   <BaselineCell time="170" cumHazard="0.28398230782065"/>
+   <BaselineCell time="176" cumHazard="0.294064783424328"/>
+   <BaselineCell time="179" cumHazard="0.304217676122095"/>
+   <BaselineCell time="180" cumHazard="0.314504493519846"/>
+   <BaselineCell time="181" cumHazard="0.335896825966499"/>
+   <BaselineCell time="196" cumHazard="0.335896825966499"/>
+   <BaselineCell time="197" cumHazard="0.346999059668167"/>
+   <BaselineCell time="199" cumHazard="0.358263417669808"/>
+   <BaselineCell time="201" cumHazard="0.369617545116384"/>
+   <BaselineCell time="207" cumHazard="0.38117796498054"/>
+   <BaselineCell time="210" cumHazard="0.392823140738271"/>
+   <BaselineCell time="212" cumHazard="0.404707999882245"/>
+   <BaselineCell time="218" cumHazard="0.416921424153202"/>
+   <BaselineCell time="222" cumHazard="0.429283129683928"/>
+   <BaselineCell time="223" cumHazard="0.441888806660348"/>
+   <BaselineCell time="226" cumHazard="0.454569472311198"/>
+   <BaselineCell time="229" cumHazard="0.467340184576685"/>
+   <BaselineCell time="230" cumHazard="0.480278517890627"/>
+   <BaselineCell time="245" cumHazard="0.493419536225264"/>
+   <BaselineCell time="246" cumHazard="0.506662599295223"/>
+   <BaselineCell time="266" cumHazard="0.506662599295223"/>
+   <BaselineCell time="267" cumHazard="0.520139367237353"/>
+   <BaselineCell time="268" cumHazard="0.533783206166303"/>
+   <BaselineCell time="269" cumHazard="0.533783206166303"/>
+   <BaselineCell time="283" cumHazard="0.547705343549652"/>
+   <BaselineCell time="284" cumHazard="0.561943640322498"/>
+   <BaselineCell time="285" cumHazard="0.576483074944899"/>
+   <BaselineCell time="288" cumHazard="0.591198460328917"/>
+   <BaselineCell time="291" cumHazard="0.606268324369129"/>
+   <BaselineCell time="292" cumHazard="0.606268324369129"/>
+   <BaselineCell time="293" cumHazard="0.622214216607419"/>
+   <BaselineCell time="296" cumHazard="0.622214216607419"/>
+   <BaselineCell time="301" cumHazard="0.638443281012562"/>
+   <BaselineCell time="303" cumHazard="0.655379470116313"/>
+   <BaselineCell time="305" cumHazard="0.673094489230082"/>
+   <BaselineCell time="310" cumHazard="0.690982024302407"/>
+   <BaselineCell time="320" cumHazard="0.709449112571006"/>
+   <BaselineCell time="337" cumHazard="0.728052910466884"/>
+   <BaselineCell time="345" cumHazard="0.746924781052148"/>
+   <BaselineCell time="348" cumHazard="0.766408242994568"/>
+   <BaselineCell time="351" cumHazard="0.786052914385106"/>
+   <BaselineCell time="353" cumHazard="0.826998143819714"/>
+   <BaselineCell time="361" cumHazard="0.847946867542526"/>
+   <BaselineCell time="363" cumHazard="0.891530741014319"/>
+   <BaselineCell time="371" cumHazard="0.914083315764566"/>
+   <BaselineCell time="376" cumHazard="0.914083315764566"/>
+   <BaselineCell time="382" cumHazard="0.914083315764566"/>
+   <BaselineCell time="384" cumHazard="0.914083315764566"/>
+   <BaselineCell time="390" cumHazard="0.937479749113727"/>
+   <BaselineCell time="404" cumHazard="0.937479749113727"/>
+   <BaselineCell time="413" cumHazard="0.937479749113727"/>
+   <BaselineCell time="426" cumHazard="0.962996176002771"/>
+   <BaselineCell time="428" cumHazard="0.989066144048285"/>
+   <BaselineCell time="429" cumHazard="1.01552681704631"/>
+   <BaselineCell time="433" cumHazard="1.04290879821234"/>
+   <BaselineCell time="444" cumHazard="1.0704685519575"/>
+   <BaselineCell time="450" cumHazard="1.09886894225058"/>
+   <BaselineCell time="455" cumHazard="1.12808641737452"/>
+   <BaselineCell time="457" cumHazard="1.1579484377549"/>
+   <BaselineCell time="458" cumHazard="1.1579484377549"/>
+   <BaselineCell time="460" cumHazard="1.1910185055462"/>
+   <BaselineCell time="473" cumHazard="1.22592250606013"/>
+   <BaselineCell time="477" cumHazard="1.26221763501311"/>
+   <BaselineCell time="511" cumHazard="1.26221763501311"/>
+   <BaselineCell time="519" cumHazard="1.30178205853138"/>
+   <BaselineCell time="520" cumHazard="1.34393777458808"/>
+   <BaselineCell time="524" cumHazard="1.38795085416478"/>
+   <BaselineCell time="529" cumHazard="1.38795085416478"/>
+   <BaselineCell time="550" cumHazard="1.43730908176698"/>
+   <BaselineCell time="551" cumHazard="1.43730908176698"/>
+   <BaselineCell time="558" cumHazard="1.49291820068069"/>
+   <BaselineCell time="559" cumHazard="1.49291820068069"/>
+   <BaselineCell time="567" cumHazard="1.55304441209971"/>
+   <BaselineCell time="574" cumHazard="1.61484702849068"/>
+   <BaselineCell time="583" cumHazard="1.6820548427984"/>
+   <BaselineCell time="613" cumHazard="1.7531683715569"/>
+   <BaselineCell time="641" cumHazard="1.83167616289028"/>
+   <BaselineCell time="643" cumHazard="1.9131758408741"/>
+   <BaselineCell time="655" cumHazard="1.99923669726997"/>
+   <BaselineCell time="687" cumHazard="2.09204527614673"/>
+   <BaselineCell time="689" cumHazard="2.19278740791313"/>
+   <BaselineCell time="705" cumHazard="2.31302940772115"/>
+   <BaselineCell time="707" cumHazard="2.44297322373625"/>
+   <BaselineCell time="731" cumHazard="2.58941650365254"/>
+   <BaselineCell time="740" cumHazard="2.58941650365254"/>
+   <BaselineCell time="765" cumHazard="2.77112643872556"/>
+   <BaselineCell time="791" cumHazard="2.97106689196499"/>
+   <BaselineCell time="806" cumHazard="2.97106689196499"/>
+   <BaselineCell time="814" cumHazard="3.27847073247162"/>
+   <BaselineCell time="821" cumHazard="3.27847073247162"/>
+   <BaselineCell time="840" cumHazard="3.27847073247162"/>
+   <BaselineCell time="965" cumHazard="3.27847073247162"/>
+   <BaselineCell time="1022" cumHazard="3.27847073247162"/>
+  </BaseCumHazardTables>
+ </GeneralRegressionModel>
+</PMML>

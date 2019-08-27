@@ -1,0 +1,226 @@
+﻿<Application x:Class="DockingStudio.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" xmlns:self="clr-namespace:DockingDemo"
+    StartupUri="Window1.xaml">
+	<Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="WPFControls.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <self:BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
+            <!--Style for window-->
+            <Style TargetType="Window" x:Key="windowStyle">
+                <Style.Triggers>
+                    <!--Window Background if Visual Style is Default-->
+                    <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Default">
+                        <Setter Property="Background" Value="WhiteSmoke"></Setter>
+                        <Setter Property="Foreground" Value="Black"></Setter>
+                    </Trigger>
+
+                    <!--Window Background if Visual Style is Blend-->
+                    <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Blend">
+                        <Setter Property="Foreground" Value="#FFFFFFFF"></Setter>
+                        <Setter Property="Background" Value="#FF333333"></Setter>
+                    </Trigger>
+
+                    <!--Window Background if Visual Style is Office2007Silver-->
+                    <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Office2007Silver">
+                        <Setter Property="Background" Value="#FFE8EAEC"></Setter>
+                        <Setter Property="Foreground" Value="Black"></Setter>
+                    </Trigger>
+
+                    <!--Window Background if Visual Style is Office2007Blue-->
+                    <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Office2007Blue">
+                        <Setter Property="Background" Value="#FFEAF2FB"></Setter>
+                        <Setter Property="Foreground" Value="Black"></Setter>
+                    </Trigger>
+
+                    <!--Window Background if Visual Style is Office2003-->
+                    <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Office2003">
+                        <Setter Property="Background" Value="#FFEAF2FB"></Setter>
+                        <Setter Property="Foreground" Value="Black"></Setter>
+                    </Trigger>
+
+                    <!--Window Background if Visual Style is Office2007Black-->
+                    <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Office2007Black">
+                        <Setter Property="Background" Value="#FFCED3DA"/>
+                        <Setter Property="Foreground" Value="Black"></Setter>
+                    </Trigger>
+                    <Trigger Property="syncfusion:SkinStorage.VisualStyle" Value="Transparent">
+                        <Setter Property="Background">
+                            <Setter.Value>
+                                <ImageBrush ImageSource="Images/TransparentBackground.jpg"/>
+                            </Setter.Value>
+                        </Setter>                        
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <!-- Buttons style and background brush -->
+            <Style TargetType="{x:Type Grid}"  x:Key="BackgroundDefault">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush 
+                         StartPoint="0,0"
+                         EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Color="#F6F6F6"
+                          Offset="0.25"/>
+                                <GradientStop Color="#EAE8E8"
+                          Offset="0.25"/>
+                                <GradientStop Color="#DCD9D9"
+                          Offset="0.8"/>
+                                <GradientStop Color="White"
+                          Offset="1"/>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type Grid}"  x:Key="BackgroundBlue">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush MappingMode="Absolute" StartPoint="237.761719,250.825195" EndPoint="237.761719,274.642578">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Offset="0.000000" Color="#ffaed1ff"/>
+                                <GradientStop Offset="1.000000" Color="#ffddebff"/>
+                                <GradientStop Offset="-583163032721691960000000000.000000" Color="#ffddebff"/>
+                            </LinearGradientBrush.GradientStops>
+                            <LinearGradientBrush.Transform>
+                                <MatrixTransform Matrix="1.000000,0.000000,-0.000000,-1.000000,-185.062500,274.642578" />
+                            </LinearGradientBrush.Transform>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="{x:Type StackPanel}"  x:Key="BackgroundOffice2003">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush 
+		                    StartPoint="0,0"
+		                    EndPoint="0,1">
+                            <LinearGradientBrush.GradientStops>
+                                <GradientStop Offset="0" Color="#FFCBE1FC"/>
+                                <GradientStop Offset="1" Color="#FF7DA5E0"/>
+                            </LinearGradientBrush.GradientStops>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type Grid}"  x:Key="BackgroundBlend">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="#FF3A3A3A"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type Grid}"  x:Key="BackgroundSilver">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush  Color="#FFCCCFD8"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="{x:Type Grid}"  x:Key="BackgroundBlack">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="#FF535353"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <DrawingImage x:Key="minimizeBlue">
+                <DrawingImage.Drawing>
+                    <DrawingGroup>
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Brush="#009A9A25" Geometry="F1 M 2.24378,1.55867L 18.2438,1.55867L 18.2438,17.5587L 2.24378,17.5587L 2.24378,1.55867 Z "/>
+                            <GeometryDrawing Brush="#FF656564" Geometry="F1 M 15.0971,10.6093L 5.39044,10.6093L 5.39044,8.508L 15.0971,8.508L 15.0971,10.6093 Z "/>
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+            <DrawingImage x:Key="maximizeBlue">
+                <DrawingImage.Drawing>
+                    <DrawingGroup>
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Brush="#009A9A25" Geometry="F1 M 1.84755,2.01378L 17.8476,2.01378L 17.8476,18.0138L 1.84755,18.0138L 1.84755,2.01378 Z "/>
+                            <GeometryDrawing Brush="#656565" Geometry="F1 M 14.8336,12.7518L 4.86289,12.7518L 4.86289,9.02778L 14.8336,9.02778M 3.55622,13.7198L 16.1389,13.7198L 16.1389,6.30778L 3.55622,6.30778L 3.55622,13.7198 Z "/>
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+            <DrawingImage x:Key="restoreBlue">
+                <DrawingImage.Drawing>
+                    <DrawingGroup>
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Brush="#009A9A25" Geometry="F1 M 1.98933,1.81734L 17.9893,1.81734L 17.9893,17.8173L 1.98933,17.8173L 1.98933,1.81734 Z "/>
+                            <GeometryDrawing Brush="#FF656564" Geometry="F1 M 14.72,10.838L 13.428,10.838L 13.428,8.14067L 14.72,8.14067M 12.4827,12.7647L 5.25867,12.7647L 5.25867,10.066L 12.4827,10.066M 15.6667,6.17L 6.55067,6.17L 6.55067,8.09533L 4.312,8.09533L 4.312,13.4647L 13.428,13.4647L 13.428,11.5393L 15.6667,11.5393L 15.6667,6.17 Z "/>
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+            <DrawingImage x:Key="closeBlue">
+                <DrawingImage.Drawing>
+                    <DrawingGroup>
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Brush="#009A9A25" Geometry="F1 M 2.19338,1.73276L 18.1934,1.73276L 18.1934,17.7328L 2.19338,17.7328L 2.19338,1.73276 Z "/>
+                            <GeometryDrawing Brush="#dd656564" Geometry="F1 M 16.516,5.58942L 12.4854,5.58942L 10.1947,7.79742L 7.89471,5.58942L 3.87071,5.58942L 8.13871,9.76942L 3.87071,13.8761L 8.03871,13.8761L 10.1947,11.7734L 12.3427,13.8761L 16.5134,13.8761L 12.2427,9.76942L 16.516,5.58942 Z "/>
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+            <DrawingBrush x:Key="OrangeRed">
+                <DrawingBrush.Drawing>
+                    <DrawingGroup>
+                        <DrawingGroup.Children>
+                            <GeometryDrawing Geometry="F1 M 728.861,704.233L 328.861,704.233L 328.861,304.233L 728.861,304.233L 728.861,704.233 Z ">
+                                <GeometryDrawing.Brush>
+                                    <LinearGradientBrush StartPoint="0.5,-6.10352e-007" EndPoint="0.5,1">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Color="#FF7B1316" Offset="0"/>
+                                            <GradientStop Color="#FF250F12" Offset="1"/>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 328.861,705.077L 728.861,705.077L 728.861,689.949L 328.861,689.949L 328.861,705.077 Z ">
+                                <GeometryDrawing.Brush>
+                                    <LinearGradientBrush StartPoint="0.5,-8.06917e-006" EndPoint="0.5,0.999964">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Color="#677B1316" Offset="0"/>
+                                            <GradientStop Color="#67FFFFFF" Offset="1"/>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 328.972,304.233C 328.904,306.015 328.861,307.808 328.861,309.616L 328.861,486.515C 374.243,496.077 445.995,496.043 549.027,455.293C 641.139,418.861 695.736,435.689 728.861,464.241L 728.861,309.616C 728.861,307.808 728.82,306.015 728.751,304.233L 328.972,304.233 Z ">
+                                <GeometryDrawing.Brush>
+                                    <LinearGradientBrush StartPoint="0.499997,-1.30211e-006" EndPoint="0.499997,0.999998">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Color="#809C4F24" Offset="0"/>
+                                            <GradientStop Color="#80DE9357" Offset="1"/>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                            <GeometryDrawing Geometry="F1 M 728.861,304.233L 328.861,304.233L 328.861,368.124L 728.861,368.124L 728.861,304.233 Z ">
+                                <GeometryDrawing.Brush>
+                                    <LinearGradientBrush StartPoint="0.499997,-3.82123e-006" EndPoint="0.499997,0.999996">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Color="#67FFFFFF" Offset="0"/>
+                                            <GradientStop Color="#67FFFFFF" Offset="0.126373"/>
+                                            <GradientStop Color="#679C4F24" Offset="0.851654"/>
+                                            <GradientStop Color="#679C4F24" Offset="1"/>
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </GeometryDrawing.Brush>
+                            </GeometryDrawing>
+                        </DrawingGroup.Children>
+                    </DrawingGroup>
+                </DrawingBrush.Drawing>
+            </DrawingBrush>
+        </ResourceDictionary>
+       
+	</Application.Resources>
+</Application>
