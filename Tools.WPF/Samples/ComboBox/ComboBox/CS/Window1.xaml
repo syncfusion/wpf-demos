@@ -1,0 +1,95 @@
+﻿<syncfusion:ChromelessWindow x:Class="CheckedComboBoxDemo.Window1" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Icon="/Images/App.ico" xmlns:local="clr-namespace:CheckedComboBoxDemo" 
+       WindowStartupLocation="CenterScreen" xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF" 
+    Title="ComboBox Demo" Width="710" xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+    Height="510" FontFamily="Calibri" FontSize="13" >
+  
+      
+        <Grid >
+        
+        <Grid.Resources>
+        <local:ParameterConverter x:Key="Multiconverter"/>
+        </Grid.Resources>
+        <Grid.DataContext>
+            <local:ViewModel />
+           
+        </Grid.DataContext>
+            <sblayout:SampleLayoutControl  Header="ComboBox" x:Name="Sblayout" EventLogs="{Binding EventLogsCollection}"
+                                          Description="The ComboBoxAdv control allows the user to select multiple items. The ComboBox item is displayed with the CheckBox. The content part of the ComboBox is updated with the values of selected items automatically and these values separated by the delimiter string.">
+                <sblayout:SampleLayoutControl.PropertyViewContent>
+                    <sblayout:GroupBoxAdv Header="User Options">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBlock  Grid.Row="0" Grid.Column="0" Text="Default Text" Margin="3" FontWeight="Normal" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="0" Margin="3"  Width="100" x:Name="Txdefaulttext" Text="Choose Items.." Height="22" VerticalAlignment="Center" />
+                            
+                            <TextBlock Grid.Column="0" Grid.Row="1" FontWeight="Normal" Text="Allow MultiSelect" Margin="3"/>
+                        <CheckBox Name="Chkmultiselect" Grid.Row="1" IsChecked="{Binding MultiSelect}" 
+                                      Margin="3"   Grid.Column="1" VerticalAlignment="Center"/>
+                                                        
+                            <TextBlock  Grid.Row="2" Grid.Column="0" Text="Selected  Value Delimiter" Margin="3" FontWeight="Normal" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="2" Margin="3"  Width="100" x:Name="Txtdelimiter" Text="-" Height="22" VerticalAlignment="Center" />
+
+                            <TextBlock  Grid.Row="3" Grid.Column="0" Text="Add New Item" Margin="3" VerticalAlignment="Center" FontWeight="Bold"/>
+
+                            <TextBlock  Grid.Row="4" Grid.Column="0" Text="Name" Margin="3" FontWeight="Normal" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="4" Margin="3"  Width="100" x:Name="Txtname"  Height="22" VerticalAlignment="Center" />
+
+                            <TextBlock  Grid.Row="5" Grid.Column="0" Text="Code" Margin="3" FontWeight="Normal" VerticalAlignment="Center"/>
+                            <TextBox Grid.Column="1" Grid.Row="5" Margin="3"  Width="100" x:Name="Txtcode" Height="22" VerticalAlignment="Center" />
+
+                        <Button Grid.Column="1" Grid.Row="6" Margin="3"  HorizontalAlignment="Right"  Width="35" x:Name="btnAdd" Content ="Add" VerticalAlignment="Center" Command="{Binding AddItemCommand}" >
+                            <Button.CommandParameter>
+                                <MultiBinding Converter="{StaticResource  Multiconverter}">
+                                    <Binding ElementName="Txtname" Path="Text"/>
+                                    <Binding ElementName="Txtcode" Path="Text"/>
+                                </MultiBinding>
+                            </Button.CommandParameter>
+                        </Button>
+                            
+                        </Grid>
+                    </sblayout:GroupBoxAdv>
+                </sblayout:SampleLayoutControl.PropertyViewContent>
+
+
+                <Grid>
+                 
+                    <syncfusion:ComboBoxAdv x:Name="MyComboBox" Width="200"    
+                                            HorizontalAlignment="Center"  VerticalAlignment="Center"
+                                            ItemsSource="{Binding Countries}" 
+                                            syncfusion:ComboBoxAdvDropDownOpenedCommand.Command="{Binding DropDownOpenedCommand}"
+                                             syncfusion:ComboBoxAdvDropDownClosedCommand.Command="{Binding DropDownClosedCommand}"
+                                             syncfusion:ComboBoxAdvSelectionChangedCommand.Command="{Binding SelectionChangedCommand}"
+                                             syncfusion:ComboBoxAdvSelectionChangedCommand.CommandParameter="{Binding Path=SelectedItems,RelativeSource={RelativeSource Self}}"
+                                            DisplayMemberPath="Name"  SelectedValuePath="Code"
+                                            AllowMultiSelect="{Binding MultiSelect}"
+                                            DefaultText="{Binding Path=Text, ElementName=Txdefaulttext}"
+                                            SelectedValue="{Binding SelectedValue}"
+                                            SelectedValueDelimiter="{Binding Path=Text, ElementName=Txtdelimiter}">
+
+                    </syncfusion:ComboBoxAdv>
+
+
+                </Grid>
+
+
+            </sblayout:SampleLayoutControl>
+        </Grid>
+
+ 
+</syncfusion:ChromelessWindow>

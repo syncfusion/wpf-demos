@@ -1,0 +1,38 @@
+#region Copyright Syncfusion Inc. 2001 - 2019
+// Copyright Syncfusion Inc. 2001 - 2019. All rights reserved.
+// Use of this code is subject to the terms of our license.
+// A copy of the current license can be obtained at any time by e-mailing
+// licensing@syncfusion.com. Any infringement will be prosecuted under
+// applicable laws. 
+#endregion
+
+namespace OLAPClientConfiguration.ViewModel
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    /// <summary>
+    /// Generic enumeration class.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class Enum<T>
+    {
+        /// <summary>
+        /// Gets the names.
+        /// </summary>
+        /// <returns></returns>
+        public static IEnumerable<string> GetNames()
+        {
+            var type = typeof(T);
+            if (!type.IsEnum)
+                throw new ArgumentException("Type '" + type.Name + "' is not an enum");
+
+            return
+              (from field in
+                   type.GetFields(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+               where field.IsLiteral
+               select field.Name).ToList();
+        }
+    }
+}

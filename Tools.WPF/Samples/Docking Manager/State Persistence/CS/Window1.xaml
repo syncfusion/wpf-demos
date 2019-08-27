@@ -1,0 +1,238 @@
+<!--Window for applying custom skins-->
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" xmlns:local="clr-namespace:StatePersistence" 
+    x:Class="StatePersistence.Window1" x:Name="window1"
+    WindowStartupLocation="CenterScreen" Icon="App.ico" Style="{StaticResource windowStyle}"
+	syncfusion:SkinStorage.VisualStyle="Metro"
+    Title="State Persistence Demo" Height="537" Width="668">
+
+
+	<!--Defining Root Grid -->
+	<Grid Name="mygrid">
+		<Grid.RowDefinitions>
+			<RowDefinition ToolTip="properties" Height="55"/>
+			<RowDefinition ToolTip="controls" Height="8.5*"/>
+		</Grid.RowDefinitions>
+		
+		<Grid Name="MenuGrid" VerticalAlignment="Stretch" Grid.Row="0">
+			<!-- SkinPicker for changing the skin of window -->
+			
+            <local:SkinCombo VerticalAlignment="Top" HorizontalAlignment="Stretch" ></local:SkinCombo>
+			<!--Menu Area-->
+			<Menu SnapsToDevicePixels="True" VerticalAlignment="Bottom"
+                           HorizontalContentAlignment="Stretch">
+				<!--Persist State Menu-->
+				<MenuItem Header="Persist State" >
+					<MenuItem Header="Serialization" >
+						<MenuItem Header="XML Format With Binary" >
+							<MenuItem Name="SaveBinaryState1" Header="Save" 
+                                              Click="OnSaveStateBinaryClick"/>
+							<MenuItem Name="LoadBinaryState1" Header="Load" 
+                                              Click="OnLoadStateBinaryClick"/>
+						</MenuItem>
+						<MenuItem Header="XML Format With SOAP" >
+							<MenuItem Name="SaveSoapState1" Header="Save" 
+                                              Click="OnSaveStateSoapClick"/>
+							<MenuItem Name="LoadSoapState1" Header="Load" 
+                                              Click="OnLoadStateSoapClick"/>
+						</MenuItem>
+						<MenuItem Header="Binary Format With Binary" >
+							<MenuItem Name="SaveBinaryState2" Header="Save" 
+                                              Click="OnSaveToBinStateClick" />
+							<MenuItem Name="SaveLoadState2" Header="Load" 
+                                              Click="OnLoadFromBinStateClick" />
+						</MenuItem>
+						<MenuItem Header="Binary Format With SOAP" >
+							<MenuItem Name="SaveBinarySoap1" Header="Save"
+                                              Click="OnSaveToBinStateSoapClick"/>
+							<MenuItem Name="LoadBinarySoap1" Header="Load" 
+                                              Click="OnLoadFromSoapStateClick" />
+						</MenuItem>
+					</MenuItem>
+					<!--<MenuItem Header="Isolated Storage" >
+						<MenuItem Name="SaveStateIsolate1" Header="Save" 
+                                          Click="OnSaveStateToIsoStorageClick"/>
+						<MenuItem Name="LoadStateIsolate1" Header="Load" 
+                                          Click="OnLoadStateFromIsoStorageClick"/>
+					</MenuItem>
+					<MenuItem Header="Registry Storage" >
+						<MenuItem Name="SaveRegister1" Header="Save" 
+                                          Click="OnSaveToRegStateClick"/>
+						<MenuItem Name="LoadRegister1" Header="Load" 
+                                          Click="OnLoadFromRegStateClick"/>
+					</MenuItem>-->
+					<MenuItem Header="Reset/Delete Storage" >
+						<MenuItem Name="ResetState1" Header="Reset State" 
+                                          Click="OnResetStateClick"/>
+						<MenuItem Name="DeleteState1" Header="Delete State" 
+                                          Click="OnDeleteDockStateClick"/>
+					</MenuItem>
+				</MenuItem>
+
+				<!--Windows Menu-->
+				<MenuItem Header="Windows" >
+					<MenuItem Header="Inbox" Click="Show_Inbox" />
+					<MenuItem Header="Sent Items" Click="Show_SentItems" />
+					<MenuItem Header="Mail" Click="Show_Mail" />
+				</MenuItem>
+			</Menu>
+		</Grid>
+		
+		<!-- Docking Manager Area -->
+		<syncfusion:DockingManager Grid.Row="1" x:Name="dockingManager" IsEnableHotTracking="True" ActiveWindowChanged="dockingManager_ActiveWindowChanged"
+                            IsVS2010DraggingEnabled="True"   PersistState="False" AnimationDelay="00:00:00.03" UseDocumentContainer="True">
+			<!--Customized Header Template-->
+			<syncfusion:DockingManager.HeaderTemplate>
+				<DataTemplate>
+					<DockPanel LastChildFill="True" >
+						<TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis"/>
+					</DockPanel>
+				</DataTemplate>
+			</syncfusion:DockingManager.HeaderTemplate>
+			<syncfusion:DockingManager.Icon>
+				<ImageBrush ImageSource="Images\myr.PNG"/>
+			</syncfusion:DockingManager.Icon>
+			
+			<!--Mail dock window -->
+			<TreeView  BorderThickness="0" FontSize="13" FontFamily="Calibri" Name="Mail"  
+                   syncfusion:DockingManager.Header="Mail"  
+                   syncfusion:DockingManager.SideInDockedMode="Left"
+                   syncfusion:DockingManager.DesiredWidthInDockedMode="130" 
+                   syncfusion:DockingManager.State="Dock">
+				<TreeViewItem IsExpanded="true"  Header="Mailbox- Peterson">
+					<TreeViewItem Header="AVG Virus Vault"/>
+					<TreeViewItem Header="Deleted Items"/>
+					<TreeViewItem Header="Drafts"/>
+					<TreeViewItem Header="Inbox"/>
+					<TreeViewItem Header="Junk E-Mail"/>
+					<TreeViewItem Header="Outbox"/>
+					<TreeViewItem Header="RSS Feeds"/>
+				</TreeViewItem>
+				<TreeViewItem Header="Search Folders"/>
+				<TreeViewItem Header="Archive Folders"/>
+			</TreeView>
+			
+			<!-- Sent Items dock window -->
+			<Grid  syncfusion:DockingManager.Header="Sent Items" Name="DockSentItem1" 
+               syncfusion:DockingManager.SideInDockedMode="Tabbed"
+            syncfusion:DockingManager.DesiredWidthInDockedMode="220" 
+               syncfusion:DockingManager.TargetNameInDockedMode="Mail" >
+				<syncfusion:GroupBar VisualMode="MultipleExpansion" 
+                                         Height="Auto" Name="SentGroupBar" BorderThickness="0" >
+					<syncfusion:GroupBarItem HeaderText="Today">
+						<syncfusion:GroupView>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+						</syncfusion:GroupView>
+					</syncfusion:GroupBarItem>
+					<syncfusion:GroupBarItem HeaderText="Yesterday">
+						<syncfusion:GroupView>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png"
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+						</syncfusion:GroupView>
+					</syncfusion:GroupBarItem>
+				</syncfusion:GroupBar>
+			</Grid>
+			
+			<!-- Inbox dock window -->
+			<Grid syncfusion:DockingManager.Header="Inbox" Name="DockInbox" 
+                      syncfusion:DockingManager.CanClose="True" 
+                      syncfusion:DockingManager.SideInDockedMode="Right" 
+                      syncfusion:DockingManager.DesiredWidthInFloatingMode="150"
+                      syncfusion:DockingManager.DesiredWidthInDockedMode="225">
+				<syncfusion:GroupBar VisualMode="MultipleExpansion" Height="Auto" 
+                                         Name="GroupBar" BorderThickness="0">
+					<syncfusion:GroupBarItem HeaderText="Today" IsSelected="True">
+						<syncfusion:GroupView>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/18/2007" >
+							</syncfusion:GroupViewItem>
+						</syncfusion:GroupView>
+					</syncfusion:GroupBarItem>
+					<syncfusion:GroupBarItem HeaderText="Yesterday">
+						<syncfusion:GroupView>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/17/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person Y   Date : 09/17/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person Z   Date : 09/17/2007" >
+							</syncfusion:GroupViewItem>
+						</syncfusion:GroupView>
+					</syncfusion:GroupBarItem >
+					<syncfusion:GroupBarItem HeaderText="Last Week" >
+						<syncfusion:GroupView >
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/15/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 09/15/2007" >
+							</syncfusion:GroupViewItem>
+						</syncfusion:GroupView>
+					</syncfusion:GroupBarItem >
+					<syncfusion:GroupBarItem HeaderText="Last Month" >
+						<syncfusion:GroupView>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 08/18/2007" >
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 08/18/2007">
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem ImageSource="images\mail.png" 
+                                                  Text="Person X   Date : 08/18/2007">
+							</syncfusion:GroupViewItem>
+							<syncfusion:GroupViewItem  ImageSource="images\mail.png" 
+                                                   Text="Person X   Date : 08/18/2007" >
+							</syncfusion:GroupViewItem>
+						</syncfusion:GroupView>
+					</syncfusion:GroupBarItem>
+				</syncfusion:GroupBar>
+			</Grid>
+			
+			<!--Document Area-->
+			<Border syncfusion:DockingManager.State="Document" 
+                        syncfusion:DockingManager.Header="Mail" 
+                        syncfusion:DocumentContainer.MDIBounds="0,0,300,300" >
+				<FlowDocumentScrollViewer  HorizontalScrollBarVisibility="Auto" 
+                                               VerticalScrollBarVisibility="Auto">
+					<FlowDocument FontFamily="Calibri" FontSize="14" TextAlignment="Left">
+						<Paragraph FontSize="14" FontFamily="Cambria" TextAlignment="Center">
+							Replied on 9/25/2008</Paragraph>
+						<Paragraph TextAlignment="Right">Sent: Wed/9/25/2008</Paragraph>
+						<Paragraph Margin="2,2,2,2">From: ---------</Paragraph>
+						<Paragraph Margin="2,2,2,2">To: ---------</Paragraph>
+						<Paragraph Margin="2,2,2,2">Cc : -----------</Paragraph>
+						<Paragraph></Paragraph>
+						<Paragraph TextAlignment="Center">/============* Content *============/</Paragraph>
+						<Paragraph ></Paragraph>
+					</FlowDocument>
+				</FlowDocumentScrollViewer>
+			</Border>
+		</syncfusion:DockingManager>
+	</Grid>
+</Window>
+    

@@ -1,0 +1,157 @@
+﻿<Window x:Class="TimeLineControlSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sync="http://schemas.syncfusion.com/wpf"
+        xmlns:local="clr-namespace:TimeLineControlSample" WindowStartupLocation="CenterScreen" Icon="App.ico"
+        Title="TimeLine Control Demo" Height="720" Width="1024">
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:LabelConverter  x:Key="LabelConverterKey" />
+            <DataTemplate x:Key="verticalline">
+                <Canvas>
+                    <Line X1="{Binding OffsetX}" Y1="0" X2="{Binding OffsetX}" Y2="1000" Stroke="White" />
+                </Canvas>
+            </DataTemplate>
+            <DataTemplate x:Key="label">
+                <TextBlock Text="{Binding Content}" Foreground="Red"/>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="340*" />
+            <ColumnDefinition Width="163*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="18*" />
+            <RowDefinition Height="48*" />
+            <RowDefinition Height="18*" />
+            <RowDefinition Height="121*" />
+            <RowDefinition Height="121*" />
+        </Grid.RowDefinitions>
+        <Label Content="The TimeLine Control" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="14" Background="Gray" Foreground="White" Grid.Row="0" Grid.ColumnSpan="2" Padding="50,0,0,0" Height="30"/>
+        <sync:TimeLineControl x:Name="timelineControl" StartValue="30" ViewPortChanged="timelineControl_ViewPortChanged" EndValue="85" IsContextMenuEnabled="True" MinimumTimeLineInterval="63" EdgePointSelection="True" TimeLineInterior="#FF588100" TimeLineThickness="2"  ViewPortInterior="White" UnSelectedRegionInterior="Transparent" ViewLineInterior="#FFACFFA9" Grid.Row="1" Grid.ColumnSpan="2" Background="Black" Margin="10,0,10,1" BorderBrush="White" BorderThickness="1" >
+            <sync:TimeLineControl.PrimaryAxis>
+                <sync:ChartAxis x:Name="primary" RangePadding="None" IntersectAction="Hide" ValueType="DateTime" TickSize="0" LabelDateTimeFormat="yyyy" Interval="1"  LabelPosition="Outside" LabelForeground="White" OpposedPosition="True">
+                    <sync:ChartArea.ShowGridLines>False</sync:ChartArea.ShowGridLines>
+                    <sync:ChartArea.ShowMajorGridLines>True</sync:ChartArea.ShowMajorGridLines>
+                    <sync:ChartArea.OriginLineStroke>
+                        <Pen Brush="White" Thickness="1"/>
+                    </sync:ChartArea.OriginLineStroke>
+                    <sync:ChartAxis.LineStroke>
+                        <Pen Brush="White" Thickness="1"/>
+                    </sync:ChartAxis.LineStroke>
+                </sync:ChartAxis>
+            </sync:TimeLineControl.PrimaryAxis>
+            <sync:TimeLineControl.Axes>
+                <sync:ChartAxis x:Name="quater" LabelForeground="White" ValueType="DateTime" Interval="63" IsAutoSetRange="False" Range="0,1250">
+                    <sync:ChartArea.GridLineStroke>
+                        <Pen Brush="Gray" Thickness="1"/>
+                    </sync:ChartArea.GridLineStroke>
+                    <sync:ChartArea.ShowGridLines>True</sync:ChartArea.ShowGridLines>
+                    <sync:ChartArea.ShowMajorGridLines>True</sync:ChartArea.ShowMajorGridLines>
+                    <sync:ChartArea.OriginLineStroke>
+                        <Pen Brush="White" Thickness="1"/>
+                    </sync:ChartArea.OriginLineStroke>
+                    <sync:ChartAxis.LineStroke>
+                        <Pen Brush="White" Thickness="1"/>
+                    </sync:ChartAxis.LineStroke>
+                    <sync:ChartAxis.LabelTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource LabelConverterKey}}" Margin="50,0,0,0"  Foreground="White"/>
+                        </DataTemplate>
+                    </sync:ChartAxis.LabelTemplate>
+                </sync:ChartAxis>
+            </sync:TimeLineControl.Axes>
+        </sync:TimeLineControl>
+        <Label Content="Stock Price Chart" HorizontalContentAlignment="Center" Foreground="White" FontSize="14" Background="Gray" FontWeight="Bold" Grid.Column="0" Grid.Row="2" Height="30" />
+        <Label Content="Highest Stock Price || Closed Stock Price" HorizontalContentAlignment="Center" Foreground="White" FontSize="14" Height="30" Background="Gray" FontWeight="Bold" Grid.Column="1" Grid.Row="2"  />
+        <sync:Chart Foreground="White" Grid.Row="3" Grid.Column="0" Grid.RowSpan="2">
+            <sync:ChartArea x:Name="area" MouseMove="ChartArea_MouseMove">
+                <sync:ChartArea.InteractiveCursors>
+                    <sync:InteractiveCursor x:Name="interactive" VerticalCursorStroke="White" VerticalCursorVisibility="Visible" HorizontalCursorVisibility="Hidden" IsBindWithSegment="False" OffsetX="2"/>
+                </sync:ChartArea.InteractiveCursors>
+                <sync:ChartArea.PrimaryAxis>
+                    <sync:ChartAxis RangePadding="None" IntersectAction="Hide" LabelForeground="White" InteractiveCursorContentVisibility="false" ValueType="DateTime"  LabelDateTimeFormat="MMM,dd">
+                        <sync:ChartArea.GridLineStroke>
+                            <Pen Brush="White" Thickness="1"/>
+                        </sync:ChartArea.GridLineStroke>
+                        <sync:ChartArea.OriginLineStroke>
+                            <Pen Brush="White" Thickness="1"/>
+                        </sync:ChartArea.OriginLineStroke>
+                        <sync:ChartAxis.LineStroke>
+                            <Pen Brush="White" Thickness="1"/>
+                        </sync:ChartAxis.LineStroke>
+                    </sync:ChartAxis>
+                </sync:ChartArea.PrimaryAxis>
+                <sync:ChartArea.SecondaryAxis>
+                    <sync:ChartAxis LabelForeground="White" InteractiveCursorContentVisibility="false">
+                        <sync:ChartArea.GridLineStroke>
+                            <Pen Brush="#FF909090" Thickness="1"/>
+                        </sync:ChartArea.GridLineStroke>
+                        <sync:ChartArea.OriginLineStroke>
+                            <Pen Thickness="1">
+                                <Pen.Brush>
+                                    <SolidColorBrush Color="#FF909090" />
+                                </Pen.Brush>
+                            </Pen>
+                        </sync:ChartArea.OriginLineStroke>
+                        <sync:ChartAxis.LineStroke>
+                            <Pen Brush="White" Thickness="1"/>
+                        </sync:ChartAxis.LineStroke>
+                    </sync:ChartAxis>
+                </sync:ChartArea.SecondaryAxis>
+                <sync:ChartSeries x:Name="series1" ShowToolTip="False" DataSource="{Binding ElementName=timelineControl, Path=SelectedData, Mode=TwoWay}" BindingPathX="TimeStamp" BindingPathsY="High" Type="SplineArea" Stroke="#FF557D00" StrokeThickness="2" >
+
+                    <sync:ChartSeries.Interior>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.7">
+                            <GradientStop Color="#FF4A6D00" Offset="0"/>
+                            <GradientStop Color="#FF4B6E00" Offset="0.088"/>
+                            <GradientStop Color="#FF537A00" Offset="1"/>
+                        </LinearGradientBrush>
+                    </sync:ChartSeries.Interior>
+                </sync:ChartSeries>
+            </sync:ChartArea>
+        </sync:Chart>
+        <sync:CircularGauge Name="CircularGauge1" SizeToContainer="True" Radius="100" Grid.Row="3" Grid.Column="1" Margin="20">
+            <sync:CircularGauge.Scales>
+                <sync:CircularScale BorderWidth="1" GapSweepAngle="300" MajorIntervalValue="100" Maximum="1000" Minimum="0" MinorIntervalValue="2" BackgroundBrush="Transparent" BorderBrush="Transparent" Radius="100" ScaleBarSize="30" ShadowOffset="0" StartAngle="180">
+                    <sync:CircularScale.Pointers>
+                        <sync:CircularPointer BorderWidth="0.3" HorizontalAlignment="Right" PointerLength="45" PointerPlacement="Inside" PointerWidth="7" />
+                    </sync:CircularScale.Pointers>
+                    <sync:CircularScale.PointerCap>
+                        <sync:PointerCap CapOnTop="True" PointerCapRadius="4" PointerCapType="Default" Width="10" />
+                    </sync:CircularScale.PointerCap>
+                    <sync:CircularScale.Ticks>
+                        <sync:CircularMarkTick TickHeight="7" DistanceFromScale="3" TickStyle="MinorTick" TickShape="Rectangle" TickWidth="2" />
+                        <sync:CircularMarkTick TickHeight="10" TickShape="Rectangle" TickStyle="MajorTick" TickWidth="3" />
+                        <sync:CircularLabelTick DistanceFromScale="7" FontSize="11" TickPlacement="Inside" TickStyle="MajorTick" />
+                    </sync:CircularScale.Ticks>
+                    <sync:CircularScale.Ranges>
+                        <sync:CircularRange BorderWidth="1" DistanceFromScale="0" EndValue="750" EndWidth="10" RangePosition="Inside" StartValue="0" StartWidth="0" />
+                    </sync:CircularScale.Ranges>
+                </sync:CircularScale>
+            </sync:CircularGauge.Scales>
+        </sync:CircularGauge>
+        <sync:CircularGauge Name="CircularGauge2" SizeToContainer="True" Radius="100"  Grid.Row="4" Grid.Column="1" Margin="20">
+            <sync:CircularGauge.Scales>
+                <sync:CircularScale BorderWidth="1" GapSweepAngle="300" MajorIntervalValue="100" Maximum="1000" Minimum="0" MinorIntervalValue="2" BackgroundBrush="Transparent" BorderBrush="Transparent" Radius="100" ScaleBarSize="30" ShadowOffset="0" StartAngle="180">
+                    <sync:CircularScale.Pointers>
+                        <sync:CircularPointer BorderWidth="0.3" HorizontalAlignment="Right" PointerLength="45" PointerPlacement="Inside" PointerWidth="7" />
+                    </sync:CircularScale.Pointers>
+                    <sync:CircularScale.PointerCap>
+                        <sync:PointerCap CapOnTop="True" PointerCapRadius="4" PointerCapType="Default" Width="10" />
+                    </sync:CircularScale.PointerCap>
+                    <sync:CircularScale.Ticks>
+                        <sync:CircularMarkTick TickHeight="7" DistanceFromScale="3" TickStyle="MinorTick" TickShape="Rectangle" TickWidth="2" />
+                        <sync:CircularMarkTick TickHeight="10" TickShape="Rectangle" TickStyle="MajorTick" TickWidth="3" />
+                        <sync:CircularLabelTick DistanceFromScale="7" FontSize="11" TickPlacement="Inside" TickStyle="MajorTick" />
+                    </sync:CircularScale.Ticks>
+                    <sync:CircularScale.Ranges>
+                        <sync:CircularRange BorderWidth="1" DistanceFromScale="0" EndValue="750" EndWidth="10" RangePosition="Inside" StartValue="0" StartWidth="0" />
+                    </sync:CircularScale.Ranges>
+                </sync:CircularScale>
+            </sync:CircularGauge.Scales>
+        </sync:CircularGauge>
+    </Grid>
+</Window>

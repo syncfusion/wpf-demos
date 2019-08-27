@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="Generalized Linear Regression Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-07 17:24:47</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="5">
+  <DataField name="Survived" optype="categorical" dataType="string">
+   <Value value="died"/>
+   <Value value="survived"/>
+  </DataField>
+  <DataField name="Sex" optype="categorical" dataType="string">
+   <Value value="female"/>
+   <Value value="male"/>
+  </DataField>
+  <DataField name="Age" optype="continuous" dataType="double"/>
+  <DataField name="Siblings" optype="continuous" dataType="double"/>
+  <DataField name="Children" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <GeneralRegressionModel modelName="General_Regression_Model" modelType="generalizedLinear" functionName="classification" algorithmName="glm" distribution="binomial" linkFunction="cloglog">
+  <MiningSchema>
+   <MiningField name="Survived" usageType="predicted"/>
+   <MiningField name="Sex" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Siblings" usageType="active"/>
+   <MiningField name="Children" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Probability_survived" targetField="Survived" feature="probability" value="survived"/>
+   <OutputField name="Predicted_Survived" feature="predictedValue"/>
+  </Output>
+  <ParameterList>
+   <Parameter name="p0" label="(Intercept)"/>
+   <Parameter name="p1" label="Sexmale"/>
+   <Parameter name="p2" label="Age"/>
+   <Parameter name="p3" label="Siblings"/>
+   <Parameter name="p4" label="Children"/>
+  </ParameterList>
+  <FactorList>
+   <Predictor name="Sex"/>
+  </FactorList>
+  <CovariateList>
+   <Predictor name="Age"/>
+   <Predictor name="Siblings"/>
+   <Predictor name="Children"/>
+  </CovariateList>
+  <PPMatrix>
+   <PPCell value="male" predictorName="Sex" parameterName="p1"/>
+   <PPCell value="1" predictorName="Age" parameterName="p2"/>
+   <PPCell value="1" predictorName="Siblings" parameterName="p3"/>
+   <PPCell value="1" predictorName="Children" parameterName="p4"/>
+  </PPMatrix>
+  <ParamMatrix>
+   <PCell targetCategory="survived" parameterName="p0" df="1" beta="0.398380948175627"/>
+   <PCell targetCategory="survived" parameterName="p1" df="1" beta="-1.84759971154462"/>
+   <PCell targetCategory="survived" parameterName="p2" df="1" beta="0.000605661783100846"/>
+   <PCell targetCategory="survived" parameterName="p3" df="1" beta="-0.156011567319913"/>
+   <PCell targetCategory="survived" parameterName="p4" df="1" beta="0.0188758124226586"/>
+  </ParamMatrix>
+ </GeneralRegressionModel>
+</PMML>

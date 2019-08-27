@@ -1,0 +1,94 @@
+﻿<layout:SampleLayoutWindow  UserOptionsVisibility="Collapsed"  x:Class="MultipleOpposedAxesDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+     xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Name="window1"
+    Title="Multiple OpposedAxes Demo">
+    <Window.Resources>
+        <DataTemplate x:Key="yPostfix1">
+                <TextBlock FontSize="8" Foreground="{Binding Interior,ElementName=TemperatureSeries}" VerticalAlignment="Top" Text="O"/>
+        </DataTemplate>
+        <DataTemplate x:Key="yPostfix2">
+            <TextBlock FontSize="8" Foreground="{Binding Interior,ElementName=RainfallSeries}" VerticalAlignment="Bottom" Text="mm"/>
+        </DataTemplate>
+        <DataTemplate x:Key="yPostfix3">
+            <TextBlock FontSize="8" Foreground="{Binding Interior,ElementName=HumiditySeries}" VerticalAlignment="Bottom" Text="%"/>
+        </DataTemplate>
+    </Window.Resources>
+            <syncfusion:Chart Name="Chart1">
+                <syncfusion:ChartArea IsContextMenuEnabled="True" >
+				    <syncfusion:ChartArea.GridHeader>
+                    <TextBlock FontFamily="Segoe UI"  FontSize="20">Average Yearly Weather Analysis For Chennai</TextBlock>
+                     </syncfusion:ChartArea.GridHeader>
+                    <syncfusion:ChartArea.ColorModel>
+                        <syncfusion:ChartStyleModel x:Name="AreaColorModel" Palette="Metro"/>
+                    </syncfusion:ChartArea.ColorModel>                    
+                    <syncfusion:ChartArea.PrimaryAxis>
+                        <syncfusion:ChartAxis LabelsSource="{Binding Source={StaticResource dataval}}" syncfusion:ChartArea.ShowGridLines="True"
+                                        RangeCalculationMode="AdjustAcrossChartTypes"   IntersectAction="Hide" LabelsMode="DataSource"
+                                            SmallTicksPerInterval="0" DesiredIntervalsCount="12" PositionPath="ID" ContentPath="Month" >
+                            <syncfusion:ChartAxis.Header>
+                                <TextBlock Text="Month" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14"/>
+                            </syncfusion:ChartAxis.Header>
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.PrimaryAxis>
+                    <syncfusion:ChartArea.SecondaryAxis>
+                        <syncfusion:ChartAxis  LabelsPostfix="{StaticResource yPostfix1}" LabelForeground="{Binding Interior,ElementName=TemperatureSeries,Mode=TwoWay}" SmallTicksPerInterval="0" IsAutoSetRange="False" Interval="10" Range="0,100">
+                            <syncfusion:ChartAxis.Header>
+                                <TextBlock Text="Temperature in Celcius" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14"/>
+                            </syncfusion:ChartAxis.Header>
+                            <syncfusion:ChartAxis.LineStroke>
+                                <Pen Brush="{Binding Interior,ElementName=TemperatureSeries,Mode=TwoWay}" Thickness="2"></Pen>
+                            </syncfusion:ChartAxis.LineStroke>
+                            <syncfusion:ChartAxis.TickLineStroke>
+                                <Pen Brush="{Binding Interior,ElementName=TemperatureSeries,Mode=TwoWay}" Thickness="2"></Pen>
+                            </syncfusion:ChartAxis.TickLineStroke>
+                        </syncfusion:ChartAxis>
+                    </syncfusion:ChartArea.SecondaryAxis>
+                    <syncfusion:ChartSeries Type="Line" ZOrder="3" EnableEffects="True"  x:Name="TemperatureSeries" DataSource="{Binding Source={StaticResource dataval}}" 
+                                         BindingPathX="Month" BindingPathsY="Temperature" IsIndexed="True"
+                                         Label="Avg Temperature">
+
+                    </syncfusion:ChartSeries>
+                    <syncfusion:ChartSeries Type="Column" EnableEffects="True" ZOrder="0" x:Name="RainfallSeries" DataSource="{Binding Source={StaticResource dataval}}" 
+                                         BindingPathX="Month" BindingPathsY="Rainfall" 
+                                         Label="Average Rainfall" IsIndexed="True">
+
+                        <syncfusion:ChartSeries.YAxis>
+                            <syncfusion:ChartAxis LabelsPostfix="{StaticResource yPostfix2}"  LabelForeground="{Binding Interior,ElementName=RainfallSeries,Mode=TwoWay}" OpposedPosition="True" RangePadding="Normal" IsAutoSetRange="False" Range="0,300" 
+                                               SmallTicksPerInterval="0" Interval="30" Orientation="Vertical" >
+                                <syncfusion:ChartAxis.Header>
+                                    <TextBlock Text="Average Rainfall (mm)" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14"/>
+                                </syncfusion:ChartAxis.Header>
+                                <syncfusion:ChartAxis.LineStroke>
+                                    <Pen Brush="{Binding Interior,ElementName=RainfallSeries,Mode=TwoWay}" Thickness="2"></Pen>
+                                </syncfusion:ChartAxis.LineStroke>
+                                <syncfusion:ChartAxis.TickLineStroke>
+                                    <Pen Brush="{Binding Interior,ElementName=RainfallSeries,Mode=TwoWay}" Thickness="2"></Pen>
+                                </syncfusion:ChartAxis.TickLineStroke>
+                                <syncfusion:ChartArea.ShowGridLines>false</syncfusion:ChartArea.ShowGridLines>
+                            </syncfusion:ChartAxis>
+                        </syncfusion:ChartSeries.YAxis>
+                    </syncfusion:ChartSeries>
+                    <syncfusion:ChartSeries Type="Line" EnableEffects="True" ZOrder="0" x:Name="HumiditySeries" DataSource="{Binding Source={StaticResource dataval}}" 
+                                         BindingPathX="Month" BindingPathsY="RelativeHumidity" 
+                                         Label="Avg Profit" IsIndexed="True">
+                        <syncfusion:ChartSeries.YAxis>
+                            <syncfusion:ChartAxis  LabelsPostfix="{StaticResource yPostfix3}" LabelForeground="{Binding Interior,ElementName=HumiditySeries,Mode=TwoWay}" OpposedPosition="True" RangePadding="Normal" IsAutoSetRange="False" Range="0,100" 
+                                               SmallTicksPerInterval="0" Interval="10" Orientation="Vertical" >
+                                <syncfusion:ChartAxis.Header>
+                                    <TextBlock Text="Relative Humidity (%)" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14"/>
+                                </syncfusion:ChartAxis.Header>
+                                <syncfusion:ChartAxis.LineStroke>
+                                    <Pen Brush="{Binding Interior,ElementName=HumiditySeries,Mode=TwoWay}" Thickness="2"></Pen>
+                                </syncfusion:ChartAxis.LineStroke>
+                                <syncfusion:ChartAxis.TickLineStroke>
+                                    <Pen Brush="{Binding Interior,ElementName=HumiditySeries,Mode=TwoWay}" Thickness="2"></Pen>
+                                </syncfusion:ChartAxis.TickLineStroke>
+                                <syncfusion:ChartArea.ShowGridLines>false</syncfusion:ChartArea.ShowGridLines>
+                            </syncfusion:ChartAxis>
+                        </syncfusion:ChartSeries.YAxis>
+                    </syncfusion:ChartSeries>
+                </syncfusion:ChartArea>
+            </syncfusion:Chart>
+</layout:SampleLayoutWindow >

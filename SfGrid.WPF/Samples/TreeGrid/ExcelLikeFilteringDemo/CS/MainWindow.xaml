@@ -1,0 +1,185 @@
+﻿<syncfusion:ChromelessWindow x:Class="ExcelLikeFilteringDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:system="clr-namespace:System;assembly=mscorlib"
+                             xmlns:local="clr-namespace:ExcelLikeFilteringDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Icon="App.ico">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:EmployeeRepository/>
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <local:EmployeeRepository x:Key="viewModel" />
+        <local:FilterLevelConverter x:Key="filterLevelConverter" />
+
+        <ObjectDataProvider x:Key="FilterMode"
+                            MethodName="GetValues"
+                            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:FilterMode" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style x:Key="advancedfilterstyleforFirstName" TargetType="syncfusion:TreeGridAdvancedFilterControl">
+            <Setter Property="CanGenerateUniqueItems" Value="False" />
+        </Style>
+        <Style x:Key="popupstyleforFirstName" TargetType="syncfusion:TreeGridFilterControl">
+            <Setter Property="FilterMode" Value="Both" />
+            <Setter Property="AdvancedFilterStyle" Value="{StaticResource advancedfilterstyleforFirstName}" />
+        </Style>
+        <Style x:Key="popupstyleforEmployeeID" TargetType="syncfusion:TreeGridFilterControl">
+            <Setter Property="FilterMode" Value="{Binding SelectedValue, ElementName=FilterModeforEmployeeID}" />
+        </Style>
+        <Style x:Key="popupstyleforDOJ" TargetType="syncfusion:TreeGridFilterControl">
+            <Setter Property="FilterMode" Value="{Binding SelectedValue, ElementName=FilterModeforDOJ}" />
+        </Style>
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases advanced filtering in SfTreeGrid."
+                                  HeaderText="Advanced Filtering"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Visible">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfTreeGrid Name="treeGrid"
+                                           AllowEditing="False"
+                                           AllowSorting="True"
+                                           AllowFiltering="{Binding ElementName=ckbAllowFilters, Path=IsChecked}"
+                                           FilterLevel="{Binding Path=SelectedIndex,
+                                                                 ElementName=filterLevelComboBox,
+                                                                 Converter={StaticResource filterLevelConverter}}"
+                                           AutoExpandMode="RootNodesExpanded"
+                                           AutoGenerateColumns="False"
+                                           ChildPropertyName="Children"
+                                           ColumnSizer="Star"
+                                           ItemsSource="{Binding EmployeeDetails}"
+                                           LiveNodeUpdateMode="AllowDataShaping">
+
+                    <syncfusion:SfTreeGrid.Columns>
+                        <syncfusion:TreeGridTextColumn HeaderText="First Name" MappingName="FirstName"
+                                                       AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersFirstName},
+                                                                               Mode=TwoWay,
+                                                                               Path=IsChecked}"
+                                                   AllowFiltering="{Binding Source={x:Reference ckbAllowFilterFirstName},
+                                                                            Mode=TwoWay,
+                                                                            Path=IsChecked}"
+                                                   FilterPopupStyle="{StaticResource popupstyleforFirstName}"
+                                                   ImmediateUpdateColumnFilter="{Binding Path=IsChecked,
+                                                                                         Mode=TwoWay,
+                                                   Source={x:Reference ckbImmediateUpdateColumnFilterFirstName}}"/>
+                        <syncfusion:TreeGridTextColumn HeaderText="Last Name" MappingName="LastName"/>
+                        <syncfusion:TreeGridTextColumn HeaderText="Employee ID" MappingName="EmployeeID"
+                                                       AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersEmployeeID},
+                                                                               Mode=TwoWay,
+                                                                               Path=IsChecked}"
+                                                   AllowFiltering="{Binding Source={x:Reference ckbAllowFilterEmployeeID},
+                                                                            Mode=TwoWay,
+                                                                            Path=IsChecked}"
+                                                   FilterPopupStyle="{StaticResource popupstyleforEmployeeID}"
+                                                   ImmediateUpdateColumnFilter="{Binding Path=IsChecked,
+                                                                                         Mode=TwoWay,
+                                                   Source={x:Reference ckbImmediateUpdateColumnFilterEmployeeID}}"/>
+                        <syncfusion:TreeGridDateTimeColumn HeaderText="Date of Joining" MappingName="DOJ" TextAlignment="Right"
+                                                           AllowBlankFilters="{Binding Source={x:Reference ckbAllowBlankFiltersDOJ},
+                                                                               Mode=TwoWay,
+                                                                               Path=IsChecked}"
+                                                   AllowFiltering="{Binding Source={x:Reference ckbAllowFilterDOJ},
+                                                                            Mode=TwoWay,
+                                                                            Path=IsChecked}"
+                                                   FilterPopupStyle="{StaticResource popupstyleforDOJ}"
+                                                   ImmediateUpdateColumnFilter="{Binding Path=IsChecked,
+                                                                                         Mode=TwoWay,
+                                                   Source={x:Reference ckbImmediateUpdateColumnFilterDOJ}}"/>
+                        <syncfusion:TreeGridTextColumn HeaderText="Contact Number" MappingName="ContactNumber"/>
+                        <syncfusion:TreeGridTextColumn HeaderText="City" MappingName="City" />
+                        <syncfusion:TreeGridCurrencyColumn MappingName="Salary" 
+                                                           CurrencyDecimalDigits="2" 
+                                                           CurrencyDecimalSeparator="." 
+                                                           CurrencySymbol="$" 
+                                                           CurrencyGroupSeparator=","/>
+                    </syncfusion:SfTreeGrid.Columns>
+                </syncfusion:SfTreeGrid>
+            </syncfusion:LayoutControl.GridView>
+            <syncfusion:LayoutControl.UserOptionsView>
+                <syncfusion:UserOptions HeaderText="Filtering Options for TreeGrid" Margin="5,-10,0,0">
+                    <StackPanel Margin="5">
+                        <CheckBox x:Name="ckbAllowFilters"
+                                  Margin="0.5"
+                                  Content="Allow Filter"
+                                  IsChecked="True" />
+                        <TextBlock Text="Filter Level" Margin="0.5,7,0.5,0.5"/>
+                        <ComboBox x:Name="filterLevelComboBox"
+                                      Width="120"
+                                      Margin="0.5,5,0.5,0.5"
+                                      HorizontalAlignment="Left"
+                                      SelectedIndex="2">
+                            <ComboBoxItem Content="All" Tag="Filter will be applied to all the nodes in SfTreeGrid." />
+                            <ComboBoxItem Content="Root" Tag="Filter will be applied to root nodes only in SfTreeGrid." />
+                            <ComboBoxItem Content="Extended" Tag="Filter will be applied to all the nodes.If a node matches the filter condition, its all ancestors will also be displayed, even though parent node does not match the filter condition." />
+                        </ComboBox>
+                    </StackPanel>
+                </syncfusion:UserOptions>
+                <syncfusion:UserOptions HeaderText="Column Options" Margin="5,-10,0,0">
+                    <StackPanel>
+                        <StackPanel Margin="5">
+                            <TextBlock FontWeight="Bold" Text="Options for First Name Column" />
+                            <CheckBox x:Name="ckbAllowFilterFirstName"
+                                      Margin="0 5"
+                                      Content="Allow Filter"
+                                      IsChecked="True" />
+                            <CheckBox x:Name="ckbImmediateUpdateColumnFilterFirstName"
+                                      Margin="0 5"
+                                      Content="Immediately Update Column Filter"
+                                      IsChecked="True" />
+                            <CheckBox x:Name="ckbAllowBlankFiltersFirstName"
+                                      Margin="0 5"
+                                      Content="Allow Blank Filter" />
+                        </StackPanel>
+                        <StackPanel Margin="5">
+                            <TextBlock FontWeight="Bold" Text="Options for Employee ID Column" />
+                            <CheckBox x:Name="ckbAllowFilterEmployeeID"
+                                      Margin="0 5"
+                                      Content="Allow Filter"
+                                      IsChecked="True" />
+                            <CheckBox x:Name="ckbImmediateUpdateColumnFilterEmployeeID"
+                                      Margin="0 5"
+                                      Content="Immediately Update Column Filter" />
+                            <CheckBox x:Name="ckbAllowBlankFiltersEmployeeID"
+                                      Margin="0 5"
+                                      Content="Allow Blank Filter"
+                                      IsChecked="True" />
+                            <TextBlock Text="Filter Popup Mode" />
+                            <ComboBox x:Name="FilterModeforEmployeeID"
+                                      Width="120"
+                                      Margin="0 5"
+                                      HorizontalAlignment="Left"
+                                      ItemsSource="{Binding Source={StaticResource FilterMode}}"
+                                      SelectedIndex="1" />
+                        </StackPanel>
+                        <StackPanel Margin="5">
+                            <TextBlock FontWeight="Bold" Text="Options for Date Of Joining Column" />
+                            <CheckBox x:Name="ckbAllowFilterDOJ"
+                                      Margin="0 5"
+                                      Content="Allow Filter"
+                                      IsChecked="True" />
+                            <CheckBox x:Name="ckbImmediateUpdateColumnFilterDOJ"
+                                      Margin="0 5"
+                                      Content="Immediately Update Column Filter" />
+                            <CheckBox x:Name="ckbAllowBlankFiltersDOJ"
+                                      Margin="0 5"
+                                      Content="Allow Blank Filter"
+                                      IsChecked="True" />
+                            <TextBlock Text="Filter Popup Mode" />
+                            <ComboBox x:Name="FilterModeforDOJ"
+                                      Width="120"
+                                      Margin="0 5"
+                                      HorizontalAlignment="Left"
+                                      ItemsSource="{Binding Source={StaticResource FilterMode}}"
+                                      SelectedIndex="0" />
+                        </StackPanel>
+                    </StackPanel>
+                </syncfusion:UserOptions>
+            </syncfusion:LayoutControl.UserOptionsView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

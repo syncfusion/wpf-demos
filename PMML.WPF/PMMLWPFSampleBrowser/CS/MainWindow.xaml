@@ -1,0 +1,185 @@
+﻿<syncfusion:ChromelessWindow  x:Class="PMMLWPFSampleBrowser.MainWindow"
+                              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                              xmlns:local="clr-namespace:PMMLWPFSampleBrowser"
+                              xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                              xmlns:navigation="clr-namespace:Syncfusion.Windows.Controls.Navigation;assembly=Syncfusion.SfTreeNavigator.WPF"
+                              xmlns:notification="clr-namespace:Syncfusion.Windows.Controls.Notification;assembly=Syncfusion.SfBusyIndicator.WPF"
+                              Title="Predictive Analytics"
+                              MinWidth="1024"
+                              MinHeight="650"
+                              Icon="App.ico"
+                              Template="{StaticResource ChromelessWindowTemplate}"
+                              UseNativeChrome="True"
+                              WindowStartupLocation="CenterScreen"
+                              WindowState="Maximized">
+
+  <syncfusion:ChromelessWindow.DataContext>
+    <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+
+  <Grid x:Name="Layout" Background="White">
+
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="0.27*" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <Grid>
+      <navigation:SfTreeNavigator
+          Name="Navigator"
+          BorderBrush="LightGray"
+          BorderThickness="0,0,1,0"
+          NavigationMode="Extended"
+          ItemsSource="{Binding ModelCollection}"
+          SelectedItem="{Binding SelectedItem,UpdateSourceTrigger=PropertyChanged,Mode=OneWayToSource}">
+
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}" CommandParameter="{Binding ElementName=Navigator}"/>
+          </i:EventTrigger>
+          <i:EventTrigger EventName="SelectionChanged">
+            <i:InvokeCommandAction Command="{Binding ModelClickCommand}"
+                                   CommandParameter="{Binding ElementName=Navigator}" />
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+        <navigation:SfTreeNavigator.ItemTemplate>
+
+          <HierarchicalDataTemplate x:Name="Hierarchical" ItemsSource="{Binding SampleCollection}">
+            <HierarchicalDataTemplate.ItemTemplate>
+              <DataTemplate>
+                  <StackPanel Orientation="Horizontal">
+                      <TextBlock ToolTip="{Binding Name}" Margin="10,5,0,0" Height="50" Text="{Binding Name}" />
+                      <Border x:Name="TagColor" Margin="10,0,6,0" ToolTip="{Binding Tag}" Height="15"
+                              Background="{Binding ElementName=TagColor,Path=ToolTip,Converter={StaticResource ColorConverter}}">
+                          <TextBlock Margin="2,0,2,0" FontSize="11" HorizontalAlignment="Center" ToolTip="{Binding Tag}" x:Name="TagText"  Foreground="White" VerticalAlignment="Center"
+                                     Text="{Binding ElementName=TagText,Path=ToolTip,Converter={StaticResource TextConverter}}"/>
+                      </Border>                      
+                  </StackPanel>                  
+              </DataTemplate>
+            </HierarchicalDataTemplate.ItemTemplate>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="10,5,0,0" Height="50" Text="{Binding Name}" ToolTip="{Binding Name}" />
+                            <Border x:Name="TagColor" Margin="10,0,6,0" ToolTip="{Binding Tag}" Height="15"
+                        Background="{Binding ElementName=TagColor,Path=ToolTip,Converter={StaticResource ColorConverter}}">
+                    <TextBlock Margin="2,0,2,0" FontSize="11" HorizontalAlignment="Center" ToolTip="{Binding Tag}" x:Name="TagText"  Foreground="White" VerticalAlignment="Center"
+                               Text="{Binding ElementName=TagText,Path=ToolTip,Converter={StaticResource TextConverter}}"/>
+                </Border>                                        
+            </StackPanel>
+          </HierarchicalDataTemplate>
+        </navigation:SfTreeNavigator.ItemTemplate>
+      </navigation:SfTreeNavigator>
+    </Grid>
+
+        
+            <Grid Grid.Column="1">
+
+            <Grid Grid.Row="1">
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Border BorderBrush="Transparent" BorderThickness="0" Background="#F5F5F5">       
+                <StackPanel  Orientation="Horizontal"  VerticalAlignment="Center">
+                    <TextBlock Text="{Binding SelectedSampleName}" FontFamily="Sego UI" Padding="3,0,0,0" Foreground="DeepSkyBlue" FontSize="20"/>
+                </StackPanel>
+                </Border>
+                
+                <Border Grid.Row="1">
+                    <notification:SfBusyIndicator IsBusy="{Binding IsBusy}" Header="Loading..." AnimationType="SingleCircle">
+                        <syncfusion:TabControlExt Name="tabControlExt"
+                                EnableLabelEdit="False"
+                                ShowTabListContextMenu="False"
+                                CloseButtonType="Hide"
+                                Visibility="{Binding Visible,
+                                          Converter={StaticResource booleanToVisibilityConverterKey}}"
+                                syncfusion:SkinStorage.VisualStyle="Metro">
+
+                            <!-- Adding TabItemExt -->
+
+                            <syncfusion:TabItemExt Name="tabItemExt1" Header="Predicted Result">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="27" />
+                                    </Grid.RowDefinitions>
+
+                                    <syncfusion:SfDataGrid BorderBrush="#53C3D5"   x:Name="SfDataGrid"
+                                       ColumnSizer="AutoWithLastColumnFill"
+                                       AutoGenerateColumnsMode="ResetAll"
+                                       CellStyle="{StaticResource customCellStyle}"
+                                       HeaderStyle="{StaticResource headerCellStyle}"                                      
+                                       HeaderRowHeight="30"
+                                       ItemsSource="{Binding ElementName=sfDataPager, Path=PagedSource}">
+                                        <!--  GridColumnSizer Events Behavior  -->
+                                        <i:Interaction.Behaviors>
+                                            <local:GridColumnSizerBehvaior />
+                                        </i:Interaction.Behaviors>
+
+                                        <!--ItemsSourceChanged Event-->
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="ItemsSourceChanged">
+                                                <i:InvokeCommandAction Command="{Binding ItemsSourceChangedCommand}" CommandParameter="{Binding ElementName=SfDataGrid}" />
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="Loaded">
+                                                <i:InvokeCommandAction Command="{Binding SfDataGridLoadCommand}" CommandParameter="{Binding ElementName=SfDataGrid}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </syncfusion:SfDataGrid>
+
+                                    <syncfusion:SfDataPager Grid.Row="1" x:Name="sfDataPager"
+                   AccentBackground="DodgerBlue"
+                   NumericButtonCount="10"
+                   UseOnDemandPaging="True"
+                   PageSize="{Binding  PageSize}"
+                   PageCount="10">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Loaded">
+                                                <i:InvokeCommandAction Command="{Binding SFDataPagerLoadCommand}" CommandParameter="{Binding ElementName=sfDataPager}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </syncfusion:SfDataPager>
+                                </Grid>
+                            </syncfusion:TabItemExt>
+                            <syncfusion:TabItemExt Name="tabItemExt2" Header=" C# ">
+                                <FlowDocumentScrollViewer Background="Transparent"
+                                    Grid.Row="1"
+                                    FontFamily="Segoe UI"
+                                    FontSize="14"
+                                    x:Name="CSharpreader"
+                                    Padding="0"
+                                    Document="{Binding CSharpDocument }">
+                                </FlowDocumentScrollViewer>
+                            </syncfusion:TabItemExt>
+                            <syncfusion:TabItemExt Name="tabItemExt3" Header=" R ">
+                                <FlowDocumentScrollViewer Background="Transparent"
+                                    Grid.Row="1"
+                                    FontFamily="Segoe UI"
+                                    FontSize="14"
+                                    x:Name="Rreader"
+                                    Padding="0"
+                                    Document="{Binding RDocument }">
+                                </FlowDocumentScrollViewer>
+                            </syncfusion:TabItemExt>
+                            <syncfusion:TabItemExt Name="tabItemExt4" Header="PMML">
+                                <FlowDocumentScrollViewer Background="Transparent"
+                                    Grid.Row="1"
+                                    FontFamily="Segoe UI"
+                                    FontSize="14"
+                                    x:Name="PMMLreader"
+                                    Padding="0"
+                                    Document="{Binding PMMLDocument }">
+                                </FlowDocumentScrollViewer>
+                            </syncfusion:TabItemExt>
+                        </syncfusion:TabControlExt>
+                    </notification:SfBusyIndicator>
+                </Border>
+
+            </Grid>
+                
+    </Grid>
+  </Grid>
+</syncfusion:ChromelessWindow >

@@ -1,0 +1,200 @@
+﻿<syncfusion:ChromelessWindow x:Class="EditorControlsDemo.MainWindow" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowStartupLocation="CenterScreen"
+        xmlns:local="clr-namespace:EditorControlsDemo" xmlns:str="clr-namespace:System;assembly=mscorlib"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" xmlns:converters="clr-namespace:Syncfusion.Windows.Tools;assembly=Syncfusion.Tools.Wpf"
+        xmlns:global="clr-namespace:System.Globalization;assembly=mscorlib" Icon="MetroIcon.png" syncfusion:SkinStorage.VisualStyle="Metro"
+        xmlns:sync="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=Syncfusion.Shared.WPF" Title="Registration Form Demo" 
+        HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="720" Height="420">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+
+        <ControlTemplate x:Key="upErrorTemp">
+            <StackPanel>
+                <AdornedElementPlaceholder Name="MyAdorned">
+                    <Image HorizontalAlignment="Right" Stretch="Uniform" Height="13" Width="15" 
+                           ToolTip="{Binding [0].ErrorContent}" ToolTipService.InitialShowDelay="0" 
+                           ToolTipService.ShowDuration="60000" Margin="0,0,35,0" Source="/EditorControlsDemo;component/error.png" />
+                </AdornedElementPlaceholder>
+            </StackPanel>
+        </ControlTemplate>
+        <ControlTemplate x:Key="dateErrorTemp">
+            <StackPanel>
+                <AdornedElementPlaceholder Name="MyAdorned">
+                    <Image HorizontalAlignment="Right" Stretch="Uniform" Height="13" Width="15" 
+                           ToolTip="{Binding [0].ErrorContent}" ToolTipService.InitialShowDelay="0" 
+                           ToolTipService.ShowDuration="60000" Margin="0,0,25,0" Source="/EditorControlsDemo;component/error.png" />
+                </AdornedElementPlaceholder>
+            </StackPanel>
+        </ControlTemplate>
+        <ControlTemplate x:Key="ErrorTemp">
+            <StackPanel>
+                <AdornedElementPlaceholder Name="MyAdorned">
+                    <Image HorizontalAlignment="Right" Stretch="Uniform" Height="13" Width="15" 
+                           ToolTip="{Binding [0].ErrorContent}" ToolTipService.InitialShowDelay="0" 
+                           ToolTipService.ShowDuration="60000" Margin="0,0,5,0" Source="/EditorControlsDemo;component/error.png" />
+                </AdornedElementPlaceholder>
+            </StackPanel>
+        </ControlTemplate>
+
+        <Style TargetType="TextBox" x:Key="BaseStyle">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="FontStyle" Value="Italic"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="syncfusion:PercentTextBox" BasedOn="{StaticResource BaseStyle}"/>
+        <Style TargetType="syncfusion:DoubleTextBox" BasedOn="{StaticResource BaseStyle}"/>
+        <Style TargetType="syncfusion:MaskedTextBox" BasedOn="{StaticResource BaseStyle}"/>
+        <Style TargetType="syncfusion:IntegerTextBox" BasedOn="{StaticResource BaseStyle}"/>
+        <Style TargetType="syncfusion:CurrencyTextBox" BasedOn="{StaticResource BaseStyle}"/>
+        <Style TargetType="syncfusion:AutoComplete">
+            <Setter Property="Background" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid x:Name="Root" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.ColumnSpan="2" Padding="5 10 0 10" BorderBrush="Black" BorderThickness="0 0 0 0">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF5F85B2" Offset="0"/>
+                    <GradientStop Color="#FF5B87B8" Offset="0.189"/>
+                    <GradientStop Color="#FF5B87B7" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel HorizontalAlignment="Left">
+                <TextBlock Text="Registration Form" FontSize="30" FontFamily="SegoeUI" Foreground="White"
+                            />
+                <TextBlock Text="Fill the following details" VerticalAlignment="Center" Foreground="White"
+                           />
+
+            </StackPanel>
+        </Border>
+        <!--<Image Source="1.jpg" Grid.Row="1" Grid.ColumnSpan="2" Stretch="Fill" Opacity="0.2"/>-->
+
+        <Grid x:Name="LayoutRoot" Grid.Row="1" Margin="5 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="160"/>
+            </Grid.ColumnDefinitions>
+
+            <!--MaskedTextBox -->
+            <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:MaskedTextBox Name="NameMask" Validation.ErrorTemplate="{StaticResource ErrorTemp}" PreviewKeyDown="NameMask_PreviewKeyDown"
+                                      Value="{Binding ModelPerson.Name,Mode=TwoWay, ValidatesOnDataErrors=True, 
+                NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" WatermarkTextIsVisible="False" 
+                                      TextSelectionOnFocus="False" PromptChar=" " Grid.Row="0" Grid.Column="1"/>
+
+            <!--IntegerTextBox-->
+            <TextBlock Text="Age"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:IntegerTextBox Name="AgeInteger" Validation.ErrorTemplate="{StaticResource ErrorTemp}" MinValue="0" MaxValue="100"
+                                       Grid.Row="1" Value="{Binding ModelPerson.Age,Mode=TwoWay, ValidatesOnDataErrors=True, 
+                NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" />
+
+            <!--DateTimeEdit-->
+            <TextBlock Text="Date of Birth" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:DateTimeEdit Name="DobDate" Validation.ErrorTemplate="{StaticResource dateErrorTemp}" 
+                                     Grid.Row="2" DateTime="{Binding ModelPerson.DOB,Mode=TwoWay, ValidatesOnDataErrors=True, 
+                NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" MinHeight="19" Height="19"  />
+
+
+            <!--MaskedTextBox-->
+            <TextBlock Text="Phone No."  Grid.Row="3" Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:MaskedTextBox Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+                                      StringValidation="OnLostFocus"
+                                      Value="{Binding ModelPerson.MobileNo,Mode=TwoWay, ValidatesOnDataErrors=True, 
+                NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" Mask="+0 000-000-0000" WatermarkText="Type here..."
+                                      WatermarkTextIsVisible="True" TextSelectionOnFocus="False" PromptChar=" " Grid.Row="3" Grid.Column="1"/>
+
+            <!--MaskedTextBox-->
+            <TextBlock Text="Email Address"  Grid.Row="4" Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:MaskedTextBox Validation.ErrorTemplate="{StaticResource ErrorTemp}" Value="{Binding ModelPerson.Email,Mode=TwoWay, 
+                ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" 
+                                      InvalidValueBehavior="ResetValue" StringValidation="OnLostFocus" WatermarkText="Type here..."
+                                      ValidationString="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})" WatermarkTextIsVisible="True" TextSelectionOnFocus="False" PromptChar=" " Grid.Row="4" Grid.Column="1"/>
+
+            <!--Button-->
+
+
+
+
+
+
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1" Margin="5 10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="130" />
+                <ColumnDefinition Width="170"/>
+            </Grid.ColumnDefinitions>
+            <!--PercentageTextBox-->
+            <TextBlock Text="Score"  Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:DoubleTextBox Name="MarksPercent" 
+                                      Value="{Binding ModelPerson.Marks,Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" 
+                                      MinValue="0" MaxValue="100" Validation.ErrorTemplate="{StaticResource ErrorTemp}"
+                                      Grid.Row="0" Grid.Column="1" />
+
+            <!--UpDown-->
+            <TextBlock Text="Experience"  Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:UpDown Validation.ErrorTemplate="{StaticResource upErrorTemp}"        MinHeight="19" Height="19"                      
+                               TextAlignment="Left" MinValue="0" MaxValue="10" Grid.Row="1" Step="0.1" Value="{Binding ModelPerson.Exp,Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}"
+                               Grid.Column="1" ZeroColor="Black">
+                <syncfusion:UpDown.NumberFormatInfo>
+                    <global:NumberFormatInfo NumberDecimalDigits="1"/>
+                </syncfusion:UpDown.NumberFormatInfo>
+            </syncfusion:UpDown>
+
+            <!--CurrencyTextBox-->
+            <TextBlock Text="Current Salary" Grid.Row="2"  Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:CurrencyTextBox Validation.ErrorTemplate="{StaticResource ErrorTemp}" MinValue="0"
+                                        Value="{Binding ModelPerson.CurrentCTC,Mode=TwoWay, ValidatesOnDataErrors=True,
+                NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}"  Grid.Row="2" Grid.Column="1" />
+
+            <!--CurrencyTextBox-->
+            <TextBlock Text="Expected Salary" Grid.Row="3"  Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:CurrencyTextBox Validation.ErrorTemplate="{StaticResource ErrorTemp}"  MinValue="0"
+                                        Value="{Binding ModelPerson.ExpectedCTC,Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="3" Grid.Column="1" />
+
+            <!--DoubleTextBox-->
+            <TextBlock Text="Total Score" Grid.Row="4"  Grid.Column="0" VerticalAlignment="Center"/>
+            <syncfusion:PercentTextBox IsReadOnly="True" MinValue="0" MaxValue="100" PercentValue="{Binding ModelPerson.Marks,Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged}" Name="TotalMarksDouble" Validation.ErrorTemplate="{StaticResource ErrorTemp}" Grid.Row="4" Grid.Column="1" />
+
+
+        </Grid>
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Background="#FFECECEC" BorderThickness="0 1 0 0" BorderBrush="Gray">
+            <Grid Margin="10" >
+                <Button Name="BtnRegister" Padding="5 2"
+                               HorizontalAlignment="Right" Grid.ColumnSpan="3" Content="Save All"
+                                Command="{Binding RegisterCommand}"/>
+
+            </Grid>
+        </Border>
+    </Grid>
+</syncfusion:ChromelessWindow>

@@ -1,0 +1,38 @@
+﻿<Page x:Class="DataBindingDemo.ListViewPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:DataBindingDemo"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:sync="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF"
+      xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+      Title="ListViewPage"
+      mc:Ignorable="d">
+    <Page.DataContext>
+        <local:OrderInfoViewModel />
+    </Page.DataContext>
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <sync:SfDataGrid x:Name="syncgrid"
+                         AllowFiltering="True"
+                         AutoGenerateColumns="False"
+                         ColumnSizer="Star"
+                         ItemsSource="{Binding OrdersListDetails}"
+                         NavigationMode="Row">
+            <sync:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn HeaderText="Order ID" MappingName="OrderID" TextAlignment="Left" />
+                <syncfusion:GridTextColumn HeaderText="Customer ID" MappingName="CustomerID" />
+                <syncfusion:GridTextColumn HeaderText="Employee ID" MappingName="EmployeeID" TextAlignment="Right" />
+                <syncfusion:GridTextColumn HeaderText="Ship City" MappingName="ShipCity" />
+                <syncfusion:GridTextColumn HeaderText="Ship Country" MappingName="ShipCountry" />
+                <syncfusion:GridTextColumn DisplayBinding="{Binding Path=Freight, StringFormat='{}{0:c}'}" TextAlignment="Right" />
+            </sync:SfDataGrid.Columns>
+        </sync:SfDataGrid>
+    </Grid>
+</Page>

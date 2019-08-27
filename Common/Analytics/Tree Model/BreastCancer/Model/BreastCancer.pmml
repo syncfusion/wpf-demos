@@ -1,0 +1,245 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="RPart Decision Tree Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-07 10:27:50</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="10">
+  <DataField name="Indicator" optype="categorical" dataType="string">
+   <Value value="0"/>
+   <Value value="1"/>
+  </DataField>
+  <DataField name="Hormonal_Therapy" optype="categorical" dataType="string">
+   <Value value="no"/>
+   <Value value="yes"/>
+  </DataField>
+  <DataField name="Age" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="21" rightMargin="80"/>
+  </DataField>
+  <DataField name="Menopausal_Status" optype="categorical" dataType="string">
+   <Value value="Pre"/>
+   <Value value="Post"/>
+  </DataField>
+  <DataField name="Tumor_Size" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="3" rightMargin="120"/>
+  </DataField>
+  <DataField name="Tumor_Grade" optype="categorical" dataType="string">
+   <Value value="I"/>
+   <Value value="II"/>
+   <Value value="III"/>
+  </DataField>
+  <DataField name="Positive_Nodes" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="1" rightMargin="51"/>
+  </DataField>
+  <DataField name="Progesterone" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0" rightMargin="2380"/>
+  </DataField>
+  <DataField name="Estrogen_Receptor" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0" rightMargin="1144"/>
+  </DataField>
+  <DataField name="Survival_Time" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="8" rightMargin="2659"/>
+  </DataField>
+ </DataDictionary>
+ <TreeModel modelName="RPart_Model" functionName="classification" algorithmName="rpart" splitCharacteristic="binarySplit" missingValueStrategy="defaultChild" noTrueChildStrategy="returnLastPrediction">
+  <MiningSchema>
+   <MiningField name="Indicator" usageType="predicted"/>
+   <MiningField name="Hormonal_Therapy" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Menopausal_Status" usageType="active"/>
+   <MiningField name="Tumor_Size" usageType="active"/>
+   <MiningField name="Tumor_Grade" usageType="active"/>
+   <MiningField name="Positive_Nodes" usageType="active"/>
+   <MiningField name="Progesterone" usageType="active"/>
+   <MiningField name="Estrogen_Receptor" usageType="active"/>
+   <MiningField name="Survival_Time" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Indicator" optype="categorical" dataType="string" feature="predictedValue"/>
+   <OutputField name="Probability_0" optype="continuous" dataType="double" feature="probability" value="0"/>
+   <OutputField name="Probability_1" optype="continuous" dataType="double" feature="probability" value="1"/>
+  </Output>
+  <Node id="1" score="0" recordCount="550" defaultChild="2">
+   <True/>
+   <ScoreDistribution value="0" recordCount="313" confidence="0.569090909090909"/>
+   <ScoreDistribution value="1" recordCount="237" confidence="0.430909090909091"/>
+   <Node id="2" score="0" recordCount="301">
+    <CompoundPredicate booleanOperator="surrogate">
+     <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="965.5"/>
+     <SimplePredicate field="Positive_Nodes" operator="lessThan" value="5.5"/>
+     <SimplePredicate field="Progesterone" operator="greaterOrEqual" value="11.5"/>
+     <SimplePredicate field="Estrogen_Receptor" operator="greaterOrEqual" value="8.5"/>
+     <SimplePredicate field="Tumor_Size" operator="lessThan" value="32.5"/>
+     <SimplePredicate field="Age" operator="greaterOrEqual" value="32.5"/>
+    </CompoundPredicate>
+    <ScoreDistribution value="0" recordCount="236" confidence="0.784053156146179"/>
+    <ScoreDistribution value="1" recordCount="65" confidence="0.215946843853821"/>
+   </Node>
+   <Node id="3" score="1" recordCount="249" defaultChild="6">
+    <CompoundPredicate booleanOperator="surrogate">
+     <SimplePredicate field="Survival_Time" operator="lessThan" value="965.5"/>
+     <SimplePredicate field="Positive_Nodes" operator="greaterOrEqual" value="5.5"/>
+     <SimplePredicate field="Progesterone" operator="lessThan" value="11.5"/>
+     <SimplePredicate field="Estrogen_Receptor" operator="lessThan" value="8.5"/>
+     <SimplePredicate field="Tumor_Size" operator="greaterOrEqual" value="32.5"/>
+     <SimplePredicate field="Age" operator="lessThan" value="32.5"/>
+    </CompoundPredicate>
+    <ScoreDistribution value="0" recordCount="77" confidence="0.309236947791165"/>
+    <ScoreDistribution value="1" recordCount="172" confidence="0.690763052208835"/>
+    <Node id="6" score="0" recordCount="9">
+     <SimplePredicate field="Survival_Time" operator="lessThan" value="69.5"/>
+     <ScoreDistribution value="0" recordCount="9" confidence="1"/>
+     <ScoreDistribution value="1" recordCount="0" confidence="0"/>
+    </Node>
+    <Node id="7" score="1" recordCount="240" defaultChild="14">
+     <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="69.5"/>
+     <ScoreDistribution value="0" recordCount="68" confidence="0.283333333333333"/>
+     <ScoreDistribution value="1" recordCount="172" confidence="0.716666666666667"/>
+     <Node id="14" score="1" recordCount="99" defaultChild="28">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="613.5"/>
+       <SimplePredicate field="Progesterone" operator="greaterOrEqual" value="35.5"/>
+       <SimplePredicate field="Estrogen_Receptor" operator="greaterOrEqual" value="49.5"/>
+       <SimplePredicate field="Age" operator="greaterOrEqual" value="67.5"/>
+       <SimpleSetPredicate field="Tumor_Grade" booleanOperator="isIn">
+        <Array n="1" type="string">&quot;I&quot;</Array>
+       </SimpleSetPredicate>
+       <SimplePredicate field="Positive_Nodes" operator="greaterOrEqual" value="19.5"/>
+      </CompoundPredicate>
+      <ScoreDistribution value="0" recordCount="45" confidence="0.454545454545455"/>
+      <ScoreDistribution value="1" recordCount="54" confidence="0.545454545454545"/>
+      <Node id="28" score="0" recordCount="88" defaultChild="56">
+       <CompoundPredicate booleanOperator="surrogate">
+        <SimplePredicate field="Estrogen_Receptor" operator="greaterOrEqual" value="1.5"/>
+        <SimplePredicate field="Progesterone" operator="greaterOrEqual" value="2"/>
+       </CompoundPredicate>
+       <ScoreDistribution value="0" recordCount="45" confidence="0.511363636363636"/>
+       <ScoreDistribution value="1" recordCount="43" confidence="0.488636363636364"/>
+       <Node id="56" score="0" recordCount="21">
+        <CompoundPredicate booleanOperator="surrogate">
+         <SimplePredicate field="Positive_Nodes" operator="lessThan" value="1.5"/>
+         <SimplePredicate field="Age" operator="greaterOrEqual" value="66.5"/>
+         <SimplePredicate field="Estrogen_Receptor" operator="greaterOrEqual" value="565"/>
+        </CompoundPredicate>
+        <ScoreDistribution value="0" recordCount="16" confidence="0.761904761904762"/>
+        <ScoreDistribution value="1" recordCount="5" confidence="0.238095238095238"/>
+       </Node>
+       <Node id="57" score="1" recordCount="67" defaultChild="114">
+        <CompoundPredicate booleanOperator="surrogate">
+         <SimplePredicate field="Positive_Nodes" operator="greaterOrEqual" value="1.5"/>
+         <SimplePredicate field="Age" operator="lessThan" value="66.5"/>
+         <SimplePredicate field="Estrogen_Receptor" operator="lessThan" value="565"/>
+        </CompoundPredicate>
+        <ScoreDistribution value="0" recordCount="29" confidence="0.432835820895522"/>
+        <ScoreDistribution value="1" recordCount="38" confidence="0.567164179104478"/>
+        <Node id="114" score="0" recordCount="33" defaultChild="228">
+         <CompoundPredicate booleanOperator="surrogate">
+          <SimplePredicate field="Survival_Time" operator="lessThan" value="774"/>
+          <SimplePredicate field="Age" operator="lessThan" value="46.5"/>
+          <SimplePredicate field="Positive_Nodes" operator="lessThan" value="5.5"/>
+          <SimplePredicate field="Progesterone" operator="greaterOrEqual" value="331"/>
+          <SimpleSetPredicate field="Menopausal_Status" booleanOperator="isIn">
+           <Array n="1" type="string">&quot;Pre&quot;</Array>
+          </SimpleSetPredicate>
+          <SimplePredicate field="Estrogen_Receptor" operator="greaterOrEqual" value="89.5"/>
+         </CompoundPredicate>
+         <ScoreDistribution value="0" recordCount="20" confidence="0.606060606060606"/>
+         <ScoreDistribution value="1" recordCount="13" confidence="0.393939393939394"/>
+         <Node id="228" score="0" recordCount="9">
+          <CompoundPredicate booleanOperator="surrogate">
+           <SimplePredicate field="Progesterone" operator="greaterOrEqual" value="136"/>
+           <SimplePredicate field="Tumor_Size" operator="lessThan" value="13.5"/>
+           <SimplePredicate field="Estrogen_Receptor" operator="greaterOrEqual" value="126"/>
+          </CompoundPredicate>
+          <ScoreDistribution value="0" recordCount="8" confidence="0.888888888888889"/>
+          <ScoreDistribution value="1" recordCount="1" confidence="0.111111111111111"/>
+         </Node>
+         <Node id="229" score="0" recordCount="24" defaultChild="458">
+          <CompoundPredicate booleanOperator="surrogate">
+           <SimplePredicate field="Progesterone" operator="lessThan" value="136"/>
+           <SimplePredicate field="Tumor_Size" operator="greaterOrEqual" value="13.5"/>
+           <SimplePredicate field="Estrogen_Receptor" operator="lessThan" value="126"/>
+          </CompoundPredicate>
+          <ScoreDistribution value="0" recordCount="12" confidence="0.5"/>
+          <ScoreDistribution value="1" recordCount="12" confidence="0.5"/>
+          <Node id="458" score="0" recordCount="7">
+           <CompoundPredicate booleanOperator="surrogate">
+            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="749.5"/>
+            <SimplePredicate field="Tumor_Size" operator="greaterOrEqual" value="43.5"/>
+            <SimplePredicate field="Positive_Nodes" operator="greaterOrEqual" value="16.5"/>
+            <SimplePredicate field="Age" operator="greaterOrEqual" value="58.5"/>
+           </CompoundPredicate>
+           <ScoreDistribution value="0" recordCount="6" confidence="0.857142857142857"/>
+           <ScoreDistribution value="1" recordCount="1" confidence="0.142857142857143"/>
+          </Node>
+          <Node id="459" score="1" recordCount="17">
+           <CompoundPredicate booleanOperator="surrogate">
+            <SimplePredicate field="Survival_Time" operator="lessThan" value="749.5"/>
+            <SimplePredicate field="Tumor_Size" operator="lessThan" value="43.5"/>
+            <SimplePredicate field="Positive_Nodes" operator="lessThan" value="16.5"/>
+            <SimplePredicate field="Age" operator="lessThan" value="58.5"/>
+           </CompoundPredicate>
+           <ScoreDistribution value="0" recordCount="6" confidence="0.352941176470588"/>
+           <ScoreDistribution value="1" recordCount="11" confidence="0.647058823529412"/>
+          </Node>
+         </Node>
+        </Node>
+        <Node id="115" score="1" recordCount="34">
+         <CompoundPredicate booleanOperator="surrogate">
+          <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="774"/>
+          <SimplePredicate field="Age" operator="greaterOrEqual" value="46.5"/>
+          <SimplePredicate field="Positive_Nodes" operator="greaterOrEqual" value="5.5"/>
+          <SimplePredicate field="Progesterone" operator="lessThan" value="331"/>
+          <SimpleSetPredicate field="Menopausal_Status" booleanOperator="isIn">
+           <Array n="1" type="string">&quot;Post&quot;</Array>
+          </SimpleSetPredicate>
+          <SimplePredicate field="Estrogen_Receptor" operator="lessThan" value="89.5"/>
+         </CompoundPredicate>
+         <ScoreDistribution value="0" recordCount="9" confidence="0.264705882352941"/>
+         <ScoreDistribution value="1" recordCount="25" confidence="0.735294117647059"/>
+        </Node>
+       </Node>
+      </Node>
+      <Node id="29" score="1" recordCount="11">
+       <CompoundPredicate booleanOperator="surrogate">
+        <SimplePredicate field="Estrogen_Receptor" operator="lessThan" value="1.5"/>
+        <SimplePredicate field="Progesterone" operator="lessThan" value="2"/>
+       </CompoundPredicate>
+       <ScoreDistribution value="0" recordCount="0" confidence="0"/>
+       <ScoreDistribution value="1" recordCount="11" confidence="1"/>
+      </Node>
+     </Node>
+     <Node id="15" score="1" recordCount="141" defaultChild="30">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimplePredicate field="Survival_Time" operator="lessThan" value="613.5"/>
+       <SimplePredicate field="Progesterone" operator="lessThan" value="35.5"/>
+       <SimplePredicate field="Estrogen_Receptor" operator="lessThan" value="49.5"/>
+       <SimplePredicate field="Age" operator="lessThan" value="67.5"/>
+       <SimpleSetPredicate field="Tumor_Grade" booleanOperator="isIn">
+        <Array n="2" type="string">&quot;II&quot; &quot;III&quot;</Array>
+       </SimpleSetPredicate>
+       <SimplePredicate field="Positive_Nodes" operator="lessThan" value="19.5"/>
+      </CompoundPredicate>
+      <ScoreDistribution value="0" recordCount="23" confidence="0.163120567375887"/>
+      <ScoreDistribution value="1" recordCount="118" confidence="0.836879432624113"/>
+      <Node id="30" score="0" recordCount="8">
+       <SimpleSetPredicate field="Tumor_Grade" booleanOperator="isIn">
+        <Array n="1" type="string">&quot;I&quot;</Array>
+       </SimpleSetPredicate>
+       <ScoreDistribution value="0" recordCount="7" confidence="0.875"/>
+       <ScoreDistribution value="1" recordCount="1" confidence="0.125"/>
+      </Node>
+      <Node id="31" score="1" recordCount="133">
+       <SimpleSetPredicate field="Tumor_Grade" booleanOperator="isIn">
+        <Array n="2" type="string">&quot;II&quot; &quot;III&quot;</Array>
+       </SimpleSetPredicate>
+       <ScoreDistribution value="0" recordCount="16" confidence="0.120300751879699"/>
+       <ScoreDistribution value="1" recordCount="117" confidence="0.879699248120301"/>
+      </Node>
+     </Node>
+    </Node>
+   </Node>
+  </Node>
+ </TreeModel>
+</PMML>
