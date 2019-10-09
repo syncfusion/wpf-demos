@@ -1,0 +1,757 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <Description>This sample shows an example of an area chart.</Description>
+  <DataSources>
+    <DataSource Name="AdventureWorksXMLDataSource">
+      <ConnectionProperties>
+        <DataProvider>XML</DataProvider>
+        <ConnectString />
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:DataSourceID>1076de2f-1b3d-43fc-847a-47b56888f330</rd:DataSourceID>
+      <rd:SecurityType>Windows</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="AdventureWorksXMLDataSet">
+      <Fields>
+        <Field Name="SalesPersonID">
+          <DataField>SalesPersonID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="FullName">
+          <DataField>FullName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Title">
+          <DataField>Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SalesTerritory">
+          <DataField>SalesTerritory</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Y2002">
+          <DataField>Y2002</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="Y2003">
+          <DataField>Y2003</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="Y2004">
+          <DataField>Y2004</DataField>
+          <rd:TypeName>System.Double</rd:TypeName>
+        </Field>
+        <Field Name="LastModifiedOn">
+          <DataField>LastModifiedOn</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>AdventureWorksXMLDataSource</DataSourceName>
+        <CommandText>&lt;Query&gt;
+&lt;ElementPath&gt;Root /S {@SalesPersonID (Integer), @FullName, @Title, @SalesTerritory, @Y2002 (Float), @Y2003 (Float), @Y2004 (Float), @LastModifiedOn(Date)}
+&lt;/ElementPath&gt;
+&lt;XmlData&gt;
+&lt;Root&gt;
+
+&lt;S SalesPersonID="281" FullName="Ito" Title="Sales Representative" SalesTerritory="Southwest" Y2003="28000.8578" Y2004="3018725.4858" LastModifiedOn="1999-01-13T00:00:00"/&gt;
+&lt;S SalesPersonID="282" FullName="Saraiva" Title="Sales Representative" SalesTerritory="Canada" Y2002="25000.9127" Y2003="14000.3386" Y2004="3189356.2465" LastModifiedOn="1999-01-13T00:00:00"/&gt;
+&lt;S SalesPersonID="283" FullName="Campbell" Title="Sales Representative" SalesTerritory="Northwest" Y2002="12000.7691" Y2003="13000.3288" Y2004="1930885.5631" LastModifiedOn="1999-01-13T00:00:00"/&gt;
+&lt;S SalesPersonID="275" FullName="Blythe" Title="Sales Representative" SalesTerritory="Northeast" Y2002="19000.8256" Y2003="47000.8935" Y2004="4557045.0459" LastModifiedOn="1999-01-13T00:00:00"/&gt;
+&lt;S SalesPersonID="276" FullName="Mitchell" Title="Sales Representative" SalesTerritory="Southwest" Y2002="28000.1538" Y2003="46000.4431" Y2004="5200475.2311" LastModifiedOn="1999-01-13T00:00:00"/&gt;
+&lt;S SalesPersonID="277" FullName="Carson" Title="Sales Representative" SalesTerritory="Central" Y2002="33000.8507" Y2003="49000.7074" Y2004="3857163.6331" LastModifiedOn="1999-01-13T00:00:00"/&gt;
+&lt;S SalesPersonID="278" FullName="Vargas" Title="Sales Representative" SalesTerritory="Canada" Y2002="11000.2632" Y2003="14000.0065" Y2004="1764938.9857" LastModifiedOn="1999-01-13T00:00:00"/&gt;
+&lt;S SalesPersonID="279" FullName="Reiter" Title="Sales Representative" SalesTerritory="Southeast" Y2002="32000.0127" Y2003="26000.2418" Y2004="2811012.7150" LastModifiedOn="1999-01-13T00:00:00"/&gt;
+&lt;/Root&gt;
+&lt;/XmlData&gt;
+&lt;/Query&gt;</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Textbox Name="textbox1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Area Charts</Value>
+                <Style>
+                  <FontSize>16pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>0.34375in</Top>
+        <Left>0.25in</Left>
+        <Height>0.375in</Height>
+        <Width>5.91667in</Width>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Chart Name="Chart1">
+        <ChartCategoryHierarchy>
+          <ChartMembers>
+            <ChartMember>
+              <Group Name="Chart1_CategoryGroup1">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!FullName.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <Label>=Fields!FullName.Value</Label>
+            </ChartMember>
+          </ChartMembers>
+        </ChartCategoryHierarchy>
+        <ChartSeriesHierarchy>
+          <ChartMembers>
+            <ChartMember>
+              <Label>Y2002</Label>
+            </ChartMember>
+            <ChartMember>
+              <Label>Y2003</Label>
+            </ChartMember>
+          </ChartMembers>
+        </ChartSeriesHierarchy>
+        <ChartData>
+          <ChartSeriesCollection>
+            <ChartSeries Name="Y2002">
+              <ChartDataPoints>
+                <ChartDataPoint>
+                  <ChartDataPointValues>
+                    <Y>=Sum(Fields!Y2002.Value)</Y>
+                  </ChartDataPointValues>
+                  <ChartDataLabel>
+                    <Style />
+                  </ChartDataLabel>
+                  <Style />
+                  <ChartMarker>
+                    <Style />
+                  </ChartMarker>
+                  <DataElementOutput>Output</DataElementOutput>
+                </ChartDataPoint>
+              </ChartDataPoints>
+              <Type>Area</Type>
+              <Style />
+              <ChartEmptyPoints>
+                <Style />
+                <ChartMarker>
+                  <Style />
+                </ChartMarker>
+                <ChartDataLabel>
+                  <Style />
+                </ChartDataLabel>
+              </ChartEmptyPoints>
+              <ValueAxisName>Primary</ValueAxisName>
+              <CategoryAxisName>Primary</CategoryAxisName>
+              <ChartSmartLabel>
+                <CalloutLineColor>Black</CalloutLineColor>
+                <MinMovingDistance>0pt</MinMovingDistance>
+              </ChartSmartLabel>
+            </ChartSeries>
+            <ChartSeries Name="Y2003">
+              <ChartDataPoints>
+                <ChartDataPoint>
+                  <ChartDataPointValues>
+                    <Y>=Sum(Fields!Y2003.Value)</Y>
+                  </ChartDataPointValues>
+                  <ChartDataLabel>
+                    <Style />
+                  </ChartDataLabel>
+                  <Style />
+                  <ChartMarker>
+                    <Style />
+                  </ChartMarker>
+                  <DataElementOutput>Output</DataElementOutput>
+                </ChartDataPoint>
+              </ChartDataPoints>
+              <Type>Area</Type>
+              <Style />
+              <ChartEmptyPoints>
+                <Style />
+                <ChartMarker>
+                  <Style />
+                </ChartMarker>
+                <ChartDataLabel>
+                  <Style />
+                </ChartDataLabel>
+              </ChartEmptyPoints>
+              <ValueAxisName>Primary</ValueAxisName>
+              <CategoryAxisName>Primary</CategoryAxisName>
+              <ChartSmartLabel>
+                <CalloutLineColor>Black</CalloutLineColor>
+                <MinMovingDistance>0pt</MinMovingDistance>
+              </ChartSmartLabel>
+            </ChartSeries>
+          </ChartSeriesCollection>
+        </ChartData>
+        <ChartAreas>
+          <ChartArea Name="ChartArea1">
+            <ChartCategoryAxes>
+              <ChartAxis Name="Primary">
+                <Style>
+                  <FontFamily />
+                </Style>
+                <ChartAxisTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Microsoft Sans Serif</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <Margin>False</Margin>
+                <ChartMajorGridLines>
+                  <Enabled>True</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#50418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#32418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Enabled>False</Enabled>
+                  <Type>None</Type>
+                </ChartMinorTickMarks>
+                <PreventLabelOffset>true</PreventLabelOffset>
+                <PreventWordWrap>true</PreventWordWrap>
+              </ChartAxis>
+              <ChartAxis Name="Secondary">
+                <Style>
+                  <FontFamily>Trebuchet MS</FontFamily>
+                  <FontSize>8.25pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Microsoft Sans Serif</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <Margin>False</Margin>
+                <ChartMajorGridLines>
+                  <Enabled>True</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#50418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#32418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <Location>Opposite</Location>
+                <AllowLabelRotation>Rotate30</AllowLabelRotation>
+                <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
+              </ChartAxis>
+            </ChartCategoryAxes>
+            <ChartValueAxes>
+              <ChartAxis Name="Primary">
+                <Style>
+                  <FontFamily />
+                </Style>
+                <ChartAxisTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Microsoft Sans Serif</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Enabled>True</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#50418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#32418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Enabled>False</Enabled>
+                  <Type>None</Type>
+                </ChartMinorTickMarks>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+                <AllowLabelRotation>None</AllowLabelRotation>
+              </ChartAxis>
+              <ChartAxis Name="Secondary">
+                <Style>
+                  <FontFamily>Trebuchet MS</FontFamily>
+                  <FontSize>8.25pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Microsoft Sans Serif</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <Margin>True</Margin>
+                <ChartMajorGridLines>
+                  <Enabled>True</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#50418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#32418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <Location>Opposite</Location>
+                <AllowLabelRotation>Rotate30</AllowLabelRotation>
+                <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
+              </ChartAxis>
+            </ChartValueAxes>
+            <ChartThreeDProperties>
+              <ProjectionMode>Perspective</ProjectionMode>
+              <Perspective>3</Perspective>
+              <Rotation>5</Rotation>
+              <Inclination>0</Inclination>
+              <Shading>Simple</Shading>
+              <Clustered>true</Clustered>
+            </ChartThreeDProperties>
+            <Style>
+              <Border>
+                <Color>#50418cf0</Color>
+                <Style>Solid</Style>
+              </Border>
+              <BackgroundGradientType>TopBottom</BackgroundGradientType>
+              <BackgroundGradientEndColor>#e6f2fc</BackgroundGradientEndColor>
+            </Style>
+            <AlignOrientation>Vertical</AlignOrientation>
+          </ChartArea>
+        </ChartAreas>
+        <Palette>Custom</Palette>
+        <ChartCustomPaletteColors>
+          <ChartCustomPaletteColor>#a5bfd6</ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>#fed15d</ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>#cccccc</ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>#e1eaf5</ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>#999999</ChartCustomPaletteColor>
+        </ChartCustomPaletteColors>
+        <ChartBorderSkin>
+          <ChartBorderSkinType>Emboss</ChartBorderSkinType>
+          <Style>
+            <Color>White</Color>
+          </Style>
+        </ChartBorderSkin>
+        <ChartNoDataMessage Name="NoDataMessageTitle">
+          <Caption>*****  No Data  *****</Caption>
+          <Style>
+            <FontFamily>Microsoft Sans Serif</FontFamily>
+            <FontSize>8pt</FontSize>
+          </Style>
+        </ChartNoDataMessage>
+        <DataSetName>AdventureWorksXMLDataSet</DataSetName>
+        <Top>1.30208in</Top>
+        <Left>0.25in</Left>
+        <Height>3in</Height>
+        <Width>4.75in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+          <BackgroundColor>White</BackgroundColor>
+        </Style>
+      </Chart>
+      <Textbox Name="textbox2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>An Area chart emphasizes the degree of change over time, and also shows the relationship of the parts to the whole.
+</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>0.77431in</Top>
+        <Left>0.25in</Left>
+        <Height>0.375in</Height>
+        <Width>5.91667in</Width>
+        <ZIndex>2</ZIndex>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Chart Name="Chart1_2">
+        <ChartCategoryHierarchy>
+          <ChartMembers>
+            <ChartMember>
+              <Group Name="Chart1_CategoryGroup1_2">
+                <GroupExpressions>
+                  <GroupExpression>=Fields!FullName.Value</GroupExpression>
+                </GroupExpressions>
+              </Group>
+              <Label>=Fields!FullName.Value</Label>
+            </ChartMember>
+          </ChartMembers>
+        </ChartCategoryHierarchy>
+        <ChartSeriesHierarchy>
+          <ChartMembers>
+            <ChartMember>
+              <Label>Y2002</Label>
+            </ChartMember>
+            <ChartMember>
+              <Label>Y2003</Label>
+            </ChartMember>
+          </ChartMembers>
+        </ChartSeriesHierarchy>
+        <ChartData>
+          <ChartSeriesCollection>
+            <ChartSeries Name="Y2002">
+              <ChartDataPoints>
+                <ChartDataPoint>
+                  <ChartDataPointValues>
+                    <Y>=Sum(Fields!Y2002.Value)</Y>
+                  </ChartDataPointValues>
+                  <ChartDataLabel>
+                    <Style />
+                  </ChartDataLabel>
+                  <Style />
+                  <ChartMarker>
+                    <Style />
+                  </ChartMarker>
+                  <DataElementOutput>Output</DataElementOutput>
+                </ChartDataPoint>
+              </ChartDataPoints>
+              <Type>Area</Type>
+              <Subtype>Stacked</Subtype>
+              <Style />
+              <ChartEmptyPoints>
+                <Style />
+                <ChartMarker>
+                  <Style />
+                </ChartMarker>
+                <ChartDataLabel>
+                  <Style />
+                </ChartDataLabel>
+              </ChartEmptyPoints>
+              <ValueAxisName>Primary</ValueAxisName>
+              <CategoryAxisName>Primary</CategoryAxisName>
+              <ChartSmartLabel>
+                <CalloutLineColor>Black</CalloutLineColor>
+                <MinMovingDistance>0pt</MinMovingDistance>
+              </ChartSmartLabel>
+            </ChartSeries>
+            <ChartSeries Name="Y2003">
+              <ChartDataPoints>
+                <ChartDataPoint>
+                  <ChartDataPointValues>
+                    <Y>=Sum(Fields!Y2003.Value)</Y>
+                  </ChartDataPointValues>
+                  <ChartDataLabel>
+                    <Style />
+                  </ChartDataLabel>
+                  <Style />
+                  <ChartMarker>
+                    <Style />
+                  </ChartMarker>
+                  <DataElementOutput>Output</DataElementOutput>
+                </ChartDataPoint>
+              </ChartDataPoints>
+              <Type>Area</Type>
+              <Subtype>Stacked</Subtype>
+              <Style />
+              <ChartEmptyPoints>
+                <Style />
+                <ChartMarker>
+                  <Style />
+                </ChartMarker>
+                <ChartDataLabel>
+                  <Style />
+                </ChartDataLabel>
+              </ChartEmptyPoints>
+              <ValueAxisName>Primary</ValueAxisName>
+              <CategoryAxisName>Primary</CategoryAxisName>
+              <ChartSmartLabel>
+                <CalloutLineColor>Black</CalloutLineColor>
+                <MinMovingDistance>0pt</MinMovingDistance>
+              </ChartSmartLabel>
+            </ChartSeries>
+          </ChartSeriesCollection>
+        </ChartData>
+        <ChartAreas>
+          <ChartArea Name="ChartArea1">
+            <ChartCategoryAxes>
+              <ChartAxis Name="Primary">
+                <Style>
+                  <FontFamily />
+                </Style>
+                <ChartAxisTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Microsoft Sans Serif</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <Margin>False</Margin>
+                <ChartMajorGridLines>
+                  <Enabled>True</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#50418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#32418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Enabled>False</Enabled>
+                  <Type>None</Type>
+                </ChartMinorTickMarks>
+                <PreventLabelOffset>true</PreventLabelOffset>
+                <PreventWordWrap>true</PreventWordWrap>
+              </ChartAxis>
+              <ChartAxis Name="Secondary">
+                <Style>
+                  <FontFamily>Trebuchet MS</FontFamily>
+                  <FontSize>8.25pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Microsoft Sans Serif</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <Margin>False</Margin>
+                <ChartMajorGridLines>
+                  <Enabled>True</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#50418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#32418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <Location>Opposite</Location>
+                <AllowLabelRotation>Rotate30</AllowLabelRotation>
+                <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
+              </ChartAxis>
+            </ChartCategoryAxes>
+            <ChartValueAxes>
+              <ChartAxis Name="Primary">
+                <Style>
+                  <FontFamily />
+                </Style>
+                <ChartAxisTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Microsoft Sans Serif</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <ChartMajorGridLines>
+                  <Enabled>True</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#50418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#32418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <ChartMinorTickMarks>
+                  <Enabled>False</Enabled>
+                  <Type>None</Type>
+                </ChartMinorTickMarks>
+                <Minimum>NaN</Minimum>
+                <Maximum>NaN</Maximum>
+                <AllowLabelRotation>None</AllowLabelRotation>
+              </ChartAxis>
+              <ChartAxis Name="Secondary">
+                <Style>
+                  <FontFamily>Trebuchet MS</FontFamily>
+                  <FontSize>8.25pt</FontSize>
+                </Style>
+                <ChartAxisTitle>
+                  <Caption />
+                  <Style>
+                    <FontFamily>Microsoft Sans Serif</FontFamily>
+                    <FontSize>8pt</FontSize>
+                  </Style>
+                </ChartAxisTitle>
+                <Margin>True</Margin>
+                <ChartMajorGridLines>
+                  <Enabled>True</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#50418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMajorGridLines>
+                <ChartMinorGridLines>
+                  <Enabled>False</Enabled>
+                  <Style>
+                    <Border>
+                      <Color>#32418cf0</Color>
+                    </Border>
+                  </Style>
+                </ChartMinorGridLines>
+                <Location>Opposite</Location>
+                <AllowLabelRotation>Rotate30</AllowLabelRotation>
+                <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
+              </ChartAxis>
+            </ChartValueAxes>
+            <ChartThreeDProperties>
+              <ProjectionMode>Perspective</ProjectionMode>
+              <Perspective>3</Perspective>
+              <Rotation>5</Rotation>
+              <Inclination>0</Inclination>
+              <Shading>Simple</Shading>
+              <Clustered>true</Clustered>
+            </ChartThreeDProperties>
+            <Style>
+              <Border>
+                <Color>#50418cf0</Color>
+                <Style>Solid</Style>
+              </Border>
+              <BackgroundGradientType>TopBottom</BackgroundGradientType>
+              <BackgroundGradientEndColor>#e6f2fc</BackgroundGradientEndColor>
+            </Style>
+            <AlignOrientation>Vertical</AlignOrientation>
+          </ChartArea>
+        </ChartAreas>
+        <Palette>Custom</Palette>
+        <ChartCustomPaletteColors>
+          <ChartCustomPaletteColor>#a5bfd6</ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>#fed15d</ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>#cccccc</ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>#e1eaf5</ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>#999999</ChartCustomPaletteColor>
+        </ChartCustomPaletteColors>
+        <ChartBorderSkin>
+          <ChartBorderSkinType>Emboss</ChartBorderSkinType>
+          <Style>
+            <Color>White</Color>
+          </Style>
+        </ChartBorderSkin>
+        <ChartNoDataMessage Name="NoDataMessageTitle">
+          <Caption>*****  No Data  *****</Caption>
+          <Style>
+            <FontFamily>Microsoft Sans Serif</FontFamily>
+            <FontSize>8pt</FontSize>
+          </Style>
+        </ChartNoDataMessage>
+        <DataSetName>AdventureWorksXMLDataSet</DataSetName>
+        <Top>5.05233in</Top>
+        <Left>0.25in</Left>
+        <Height>3in</Height>
+        <Width>4.75in</Width>
+        <ZIndex>3</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+          <BackgroundColor>White</BackgroundColor>
+        </Style>
+      </Chart>
+      <Textbox Name="textbox2_2">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>If values overlap, the Area chart can obscure some values. A Stacked Area chart improves the readability of these charts.</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <Top>4.4375in</Top>
+        <Left>0.25in</Left>
+        <Height>0.375in</Height>
+        <Width>5.91667in</Width>
+        <ZIndex>4</ZIndex>
+        <DataElementOutput>NoOutput</DataElementOutput>
+        <Style>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+    </ReportItems>
+    <Height>8.09375in</Height>
+    <Style />
+  </Body>
+  <Width>6.5in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportID>a7d824c8-b383-4e99-9614-64faa347ab06</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>

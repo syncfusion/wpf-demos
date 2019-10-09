@@ -1,0 +1,122 @@
+﻿<Window x:Class="CarouselDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:CarouselDemo" 
+    Title="Carousel" Icon="App.ico" WindowStartupLocation="CenterScreen" Height="700" Width="1050"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" FontFamily="Calibri" FontSize="13" >
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <local:BrushToColorConverter x:Key="converter1"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <syncfusion:Carousel x:Name="carousel" Margin="0, 0, 0, 50"
+                                     VerticalAlignment="Center" ItemsSource="{Binding ItemsCollection}"
+                                     HorizontalAlignment="Center" 
+                                     RadiusX="{Binding RadisuX,Mode=TwoWay}" 
+                                     RadiusY="{Binding RadisuY,Mode=TwoWay}" 
+                                     RenderTransformOrigin="0.5, 0.5"
+                                      RotationSpeed="{Binding RotationSpeed,Mode=TwoWay}"   
+                                     ScaleFraction="{Binding ScaleFraction,Mode=TwoWay}" 
+                                     OpacityFraction="0.1" 
+                                     RotationAngle="{Binding RotationAngle,Mode=TwoWay}" 
+                                     >
+            <syncfusion:Carousel.ItemContainerStyle>
+                <Style TargetType="syncfusion:CarouselItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="syncfusion:CarouselItem">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Border x:Name="border" BorderThickness="0" Background="Transparent"  RenderTransformOrigin="0.5,0.5" CornerRadius="4" Padding="0">
+                                        <Grid>
+                                            <Ellipse   x:Name="iborder1" Stroke="{Binding ElementName=groupboxadv1,Path=BorderBrush}" StrokeThickness="4" Fill="White" RenderTransformOrigin="0.5,0.5" >
+                                                <Ellipse.Effect>
+                                                    <DropShadowEffect Direction="273" Opacity="0.445" BlurRadius="7" ShadowDepth="17" Color="{Binding ElementName=groupboxadv1,Path=BorderBrush,Converter={StaticResource converter1}}"/>
+                                                </Ellipse.Effect>
+                                            </Ellipse>
+                                            <Border BorderThickness="0.3" Margin="20"  CornerRadius="20">
+                                                <Grid>
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip>
+                                                            <StackPanel Orientation="Vertical">
+                                                                <TextBlock Text="{Binding Name,StringFormat=Name:   {0}}" HorizontalAlignment="Center" FontSize="13" FontWeight="Bold" Foreground="Black"></TextBlock>
+                                                                <TextBlock Text="{Binding DOB, StringFormat=DOB:  {0}}" FontSize="13" TextWrapping="Wrap" FontFamily="Tahoma" Foreground="Black" HorizontalAlignment="Left"></TextBlock>
+                                                                <TextBlock Text="{Binding Age,StringFormat=Age:   {0}}" FontSize="13" TextWrapping="Wrap" FontFamily="Tahoma" Foreground="Black" HorizontalAlignment="Left" ></TextBlock>
+                                                                <TextBlock Text="{Binding State,StringFormat=State:   {0}}" FontSize="13" TextWrapping="Wrap" FontFamily="Tahoma" Foreground="Black" HorizontalAlignment="Left" ></TextBlock>
+                                                                <TextBlock Text="{Binding Designation,StringFormat=Designation:  {0}}" FontSize="13" TextWrapping="Wrap" FontFamily="Tahoma" Foreground="Black" HorizontalAlignment="Left" Width="233"></TextBlock>
+                                                                <TextBlock Text="{Binding Experience,StringFormat=Experience:   {0}}" FontSize="13" TextWrapping="Wrap" FontFamily="Tahoma" Foreground="Black" HorizontalAlignment="Left"></TextBlock>
+                                                            </StackPanel>
+                                                        </ToolTip>
+                                                    </ToolTipService.ToolTip>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+                                                    <Grid Grid.Row="1"  Margin="0,-5,0,0" >
+                                                        <StackPanel Orientation="Vertical" >
+                                                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" Foreground="Black"></TextBlock>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                    <Viewbox  Height="200" Width="180">
+                                                        <Image  HorizontalAlignment="Center" Source="{Binding ImageSource}"/>
+                                                    </Viewbox>
+                                                </Grid>
+                                            </Border>
+
+                                        </Grid>
+                                    </Border>
+
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </syncfusion:Carousel.ItemContainerStyle>
+        </syncfusion:Carousel>
+
+        <GroupBox Margin="0,0,3,3" x:Name="groupboxadv1" FontWeight="Bold" FontSize="15" Grid.Column="1" BorderBrush="Silver" Header="User Options">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="90" ></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock VerticalAlignment="Center" FontWeight="Normal" HorizontalAlignment="left" Text ="RadiusX" Margin="3"/>
+                <syncfusion:UpDown ZeroColor="Black" FontWeight="Normal" TextAlignment="Left"   NegativeForeground="Black"  VerticalAlignment="Center" Margin="3"  x:Name="sliderx"  MaxValue="350" Step="10" MinValue="-350"  Grid.Column="1" Value="{Binding RadisuX,Mode=TwoWay}"  />
+
+                <TextBlock VerticalAlignment="Center" FontWeight="Normal"  Margin="3"  HorizontalAlignment="left" Grid.Row="1" Text ="RadiusY"/>
+                <syncfusion:UpDown  ZeroColor="Black" FontWeight="Normal" TextAlignment="Left"   NegativeForeground="Black" VerticalAlignment="Center" Margin="3" MinValue="-200" x:Name="slidery" Step="5" Value="{Binding RadisuY,Mode=TwoWay}"  Grid.Row="1" Grid.Column="1" MaxValue="200" />
+
+                <TextBlock VerticalAlignment="Center" FontWeight="Normal" Margin="3"  HorizontalAlignment="left" Grid.Row="2" Text ="Rotation Angle" />
+                <syncfusion:UpDown  ZeroColor="Black" FontWeight="Normal" TextAlignment="Left"   NegativeForeground="Black" VerticalAlignment="Center" Margin="3"  MinValue="-300" x:Name="slider_rot" Value="{Binding RotationAngle,Mode=TwoWay}"  Grid.Row="2" Grid.Column="1" MaxValue="360"  />
+
+                <TextBlock VerticalAlignment="Center" FontWeight="Normal" Margin="3"  HorizontalAlignment="left" Grid.Row="3" Text ="Scale Fraction" Width="120"/>
+                <syncfusion:UpDown FontWeight="Normal" Value="{Binding ScaleFraction,Mode=TwoWay}" ZeroColor="Black" TextAlignment="Left"   NegativeForeground="Black" MaxValue="1" Margin="3" VerticalAlignment="Center" MinValue="0" Step="0.1"  x:Name="slider_scalefraction"   Grid.Row="3" Grid.Column="1" />
+
+                <TextBlock FontWeight="Normal" VerticalAlignment="Center" Margin="3"  HorizontalAlignment="left" Grid.Row="4" Text ="Rotation Speed(ms)" />
+                <syncfusion:UpDown FontWeight="Normal" TextAlignment="Left"    Value="{Binding RotationSpeed,Mode=TwoWay}" MinValue="10" Margin="3" MaxValue="500" Step ="10"  VerticalAlignment="Center"  x:Name="slider_rotspeed"   Grid.Row="4" Grid.Column="1" />
+
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</Window>

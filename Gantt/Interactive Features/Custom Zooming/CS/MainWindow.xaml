@@ -1,0 +1,59 @@
+﻿<sync:ChromelessWindow x:Class="CustomZooming.MainWindow"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                       xmlns:local="clr-namespace:CustomZooming"
+                       xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                       xmlns:sync="http://schemas.syncfusion.com/wpf"
+                       sync:LayoutControl.SetMetroMode="True"
+                       Width="1300"
+                       Height="720"
+                       Icon="App.ico"
+                       WindowStartupLocation="CenterScreen">
+
+    <!--  Window DataContext information  -->
+    <sync:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </sync:ChromelessWindow.DataContext>
+
+    <sync:LayoutControl HeaderDescriptionText="This sample will illustrate how the zooming can be achieved in the sample level by handling the ZoomChanged event of Gantt."
+                        HeaderText="Custom Zooming"
+                        LayoutMode="Metro"
+                        UserGuideUri="http://help.syncfusion.com/UG/User%20Interface/WPF/Gantt/default.htm#!documents/472customzooming.htm">
+        <sync:LayoutControl.GridView>
+
+            <!--  Gantt Control Information  -->
+            <sync:GanttControl x:Name="Gantt"
+                               Grid.Row="1"
+                               ItemsSource="{Binding TaskCollection}"
+                               ResourceCollection="{Binding ResourceDetails}"
+                               UseOnDemandSchedule="True"
+                               VisualStyle="Metro"
+                               ZoomFactor="{Binding ZoomFactor}">
+                <i:Interaction.Behaviors>
+                    <local:ScheduleZoomingBehavior />
+                </i:Interaction.Behaviors>
+            </sync:GanttControl>
+        </sync:LayoutControl.GridView>
+
+        <sync:LayoutControl.UserOptionsView>
+            <sync:UserOptions HeaderText="Options ">
+                <StackPanel Margin="10"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <TextBlock Margin="2"
+                               FontSize="14"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"
+                               Text="Zoom Factor : " />
+                    <ComboBox x:Name="ZoomBox"
+                              Width="75"
+                              Margin="2"
+                              ItemsSource="{Binding ZoomFactors}"
+                              SelectedItem="{Binding ZoomFactor}" />
+                </StackPanel>
+            </sync:UserOptions>
+        </sync:LayoutControl.UserOptionsView>
+    </sync:LayoutControl>
+</sync:ChromelessWindow>

@@ -1,0 +1,289 @@
+<syncfusion:RibbonWindow x:Class="MindMap.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MindMap"
+        mc:Ignorable="d"
+        Title="Mind Map" WindowState="Maximized"
+        xmlns:mindmap="clr-namespace:Syncfusion.UI.Xaml.MindMapDiagram;assembly=Syncfusion.MindMapDiagram.WPF"
+        xmlns:mindmapViewmodel="clr-namespace:Syncfusion.UI.Xaml.MindMapDiagram.Utility;assembly=Syncfusion.MindMapDiagram.WPF"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:sfSkinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+        Office2010Icon="App.ico" TitleTextAlignment="Left"
+        sfSkinManager:SfSkinManager.VisualStyle="Office2016White"
+        >
+    <syncfusion:RibbonWindow.Resources>
+        <mindmapViewmodel:BooleanToOppositeBooleanConverter x:Key="BooleanToOppositeBooleanConverter"/>
+        <BitmapImage x:Key="subtopic" UriSource="../../Resources/Subtopic.png" />
+        <BitmapImage x:Key="peer" UriSource="../../Resources/Peer.png" />
+        <BitmapImage x:Key="multiplesubtopic" UriSource="../../Resources/MultipleSubtopics.png" />
+        <BitmapImage x:Key="changetopic" UriSource="../../Resources/ChangeTopic.png" />
+        <BitmapImage x:Key="importdata" UriSource="../../Resources/ImportData.png" />
+        <BitmapImage x:Key="exportdata" UriSource="../../Resources/ExportData.png" />
+        <BitmapImage x:Key="diagramstyle" UriSource="../../Resources/DiagramStyle.png" />
+        <BitmapImage x:Key="fittopage" UriSource="../../Resources/FittoPage.png" />
+        <BitmapImage x:Key="fittowidth" UriSource="../../Resources/FitToWidth.png" />
+        <BitmapImage x:Key="zoomin" UriSource="../../Resources/Zoomin.png" />
+        <BitmapImage x:Key="zoomout" UriSource="../../Resources/Zoomout.png" />
+        <BitmapImage x:Key="save" UriSource="../../Resources/Save.png" />
+        <BitmapImage x:Key="load" UriSource="../../Resources/Load.png" />
+
+        <!--This dummy style is to fix the binding error-->
+        <Style TargetType="syncfusion:Connector">
+            <Setter Property="ConnectorGeometryStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="Black"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TargetDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="Black"/>
+                        <Setter Property="Stretch" Value="Fill"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+    </syncfusion:RibbonWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <syncfusion:Ribbon x:Name="_ribbon" VerticalAlignment="Top"
+                               EnableMoreCommands="False" UseLayoutRounding="True" SnapsToDevicePixels="True" TextOptions.TextRenderingMode="ClearType" 
+                               TextOptions.TextFormattingMode="Display"
+                               >
+                <syncfusion:RibbonTab Caption="Mind Map"  IsChecked="True">
+                    <syncfusion:RibbonBar Name="Manage" Width="90" Header="Manage" IsLauncherButtonVisible="False">
+                        <syncfusion:RibbonButton Label="Save" SizeForm="Large" 
+                                                 ToolTip="Save (Ctrl + S)" IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.SaveCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M0,0 L28,0 28,28 13,28 9,28 4,28 0,23.917 z" Fill="#FF895AA4" Stretch="Fill" />
+                                    <Path Data="M2.9999998,19 L17,19 17,28 2.9999998,28 z M0,0 L20,0 20,14 0,14 z" Fill="White" Margin="4,0" Stretch="Fill"/>
+                                    <Path Data="M0,7.9999999 L14,7.9999999 14,8.9999999 0,8.9999999 z M0,6 L14,6 14,7 0,7 z M0,4 L14,4 14,5 0,5 z M0,2 L14,2 14,3 0,3 z M0,0 L14,0 14,1 0,1 z" Fill="#FFD3D3D1" Height="9" Margin="7,2,7,0" Stretch="Fill" VerticalAlignment="Top" />
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton Label="Load" SizeForm="Large"
+                                                 ToolTip="Load (Ctrl + O)" 
+                                                 IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.LoadCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M9,10 L30,10 20.804001,21 0,21 z M5.364418E-06,0 L13.000005,0 13.000005,4 24.000006,4 24.000006,9.0000001 8.2220049,9.0000001 5.364418E-06,19 z" Fill="#FFEDC87E" Margin="0,4,0.995,0" Stretch="Fill" />
+                                    <Path Data="M0,0 L1,0 C3.7570038,0 6,2.2429962 6,5 L6,6.4728441 7.6850033,5.0100002 8.9950047,6.519999 5,9.9889965 1.0049951,6.519999 2.3149968,5.0100002 4,6.4728441 4,5 C4,3.3460007 2.654007,2 1,2 L0,2 z" Fill="#FF4D82B8" HorizontalAlignment="Right" Height="9.989" Stretch="Fill" VerticalAlignment="Top" Width="8.995"/>
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                        </syncfusion:RibbonButton>                 
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar Name="AddTopics" Width="155"  Header="Add Topics" IsLauncherButtonVisible="False">
+                        <syncfusion:RibbonButton Label="Subtopic"  
+                                                 SizeForm="Large"
+                                                  IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.AddSubTopicCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M10.5,20 C10.224,20 10,20.224001 10,20.5 L10,30.5 C10,30.775999 10.224,31 10.5,31 L20.5,31 C20.775999,31 21,30.775999 21,30.5 L21,20.5 C21,20.224001 20.775999,20 20.5,20 z M10.5,19 L20.5,19 C21.327,19 22,19.673 22,20.5 L22,30.5 C22,31.327 21.327,32 20.5,32 L10.5,32 C9.6730003,32 9,31.327 9,30.5 L9,20.5 C9,19.673 9.6730003,19 10.5,19 z M1.5,1 C1.223999,1 1,1.223999 1,1.5 L1,11.5 C1,11.776001 1.223999,12 1.5,12 L11.5,12 C11.776001,12 12,11.776001 12,11.5 L12,1.5 C12,1.223999 11.776001,1 11.5,1 z M1.5,0 L11.5,0 C12.327,0 13,0.67300034 13,1.5 L13,11.5 C13,12.327 12.327,13 11.5,13 L1.5,13 C0.67300034,13 0,12.327 0,11.5 L0,1.5 C0,0.67300034 0.67300034,0 1.5,0 z" Fill="#FF557CAC" Margin="10,0,0,0" Stretch="Fill"/>
+                                    <Path Data="M10,0 L11,0 11,2.9999999 20,2.9999999 20,7 19,7 19,3.9999999 0.99999994,3.9999999 0.99999994,9 0,9 0,2.9999999 10,2.9999999 z" Fill="#FF717272" Margin="6,12,6,11" Stretch="Fill" />
+                                    <Path Data="M2,0 L11,0 C12.104,0 13,0.89600372 13,2 L13,11 C13,12.103996 12.104,13 11,13 L2,13 C0.89599991,13 0,12.103996 0,11 L0,2 C0,0.89600372 0.89599991,0 2,0 z" Fill="#FFE8C888" HorizontalAlignment="Left" Height="13" Stretch="Fill" VerticalAlignment="Bottom" Width="13" />
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                            <syncfusion:RibbonButton.ToolTip>
+                                <Grid Width="200" Margin="2.5,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Subtopic (Alt + B)" FontWeight="Bold"/>
+                                    <TextBlock Margin="0,5,25,0" Grid.Row="1" Text="Add a sub topic to the selected topic." TextWrapping="Wrap"/>
+                                </Grid>
+                            </syncfusion:RibbonButton.ToolTip>    
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton Label="Peer" IconType="VectorImage" SizeForm="Large"                                    
+                                                 Command="{Binding Path=ViewModel.AddPeerCommand, ElementName=mindmapDiagram}"
+                                                 IsEnabled="{Binding ViewModel.Root.IsSelected, Converter={StaticResource BooleanToOppositeBooleanConverter}, Mode=TwoWay,ElementName=mindmapDiagram}"
+                                                 >
+                            
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <!--<Path Data="M 0 10 L 10 0 L 10 20 Z" Fill="Blue" Stretch="Fill"/>-->
+                                    <Path Data="M2,0 L11,0 C12.103996,0 13,0.89599991 13,2 L13,11 C13,12.103996 12.103996,13 11,13 L2,13 C0.89600372,13 0,12.103996 0,11 L0,2 C0,0.89599991 0.89600372,0 2,0 z" Fill="#FFE8C888" HorizontalAlignment="Left" Stretch="Fill" Width="13" />
+                                    <Path Data="M1.4999999,0.99999994 C1.2249985,1 1,1.223999 0.99999994,1.4999999 L0.99999994,11.5 C1,11.776001 1.2249985,12 1.4999999,12 L11.5,12 C11.775002,12 12,11.776001 12,11.5 L12,1.4999999 C12,1.223999 11.775002,1 11.5,0.99999994 z M1.4999999,0 L11.5,0 C12.327003,0 13,0.67300034 13,1.4999999 L13,11.5 C13,12.327003 12.327003,13 11.5,13 L1.4999999,13 C0.67299652,13 0,12.327003 0,11.5 L0,1.4999999 C0,0.67300034 0.67299652,0 1.4999999,0 z" Fill="#FF557CAC" HorizontalAlignment="Right" Stretch="Fill" Width="13" />
+                                    <Path Data="M0,0 L6,0 6,1.0000001 0,1.0000001 z" Fill="#FF717272" Margin="13,6" Stretch="Fill"/>
+                                </local:PathCollection>                                
+                            </syncfusion:RibbonButton.VectorImage>  
+                            <syncfusion:RibbonButton.ToolTip>
+                                <Grid Width="200" Margin="2.5,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Peer (Alt + P)" FontWeight="Bold"/>
+                                    <TextBlock Margin="0,5,25,0" Grid.Row="1" Text="Add a peer topic." TextWrapping="Wrap"/>
+                                </Grid>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton Label="Multiple Subtopics" SizeForm="Large" 
+                                                 IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.AddMultipleSubTopicCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M1.4999999,0.99999994 C1.2250061,1 1,1.223999 0.99999994,1.4999999 L0.99999994,11.5 C1,11.776001 1.2250061,12 1.4999999,12 L11.5,12 C11.774994,12 12,11.776001 12,11.5 L12,1.4999999 C12,1.223999 11.774994,1 11.5,0.99999994 z M1.4999999,0 L11.5,0 C12.326996,0 13,0.67300034 13,1.4999999 L13,11.5 C13,12.327 12.326996,13 11.5,13 L1.4999999,13 C0.67300415,13 0,12.327 0,11.5 L0,1.4999999 C0,0.67300034 0.67300415,0 1.4999999,0 z" Fill="#FF557CAC" Height="13" Margin="10,0,9,0" Stretch="Fill" VerticalAlignment="Top"/>
+                                    <Path Data="M10,0.97038571 L11,0.97038571 11,3.0000001 20,3.0000001 20,6.9999409 19,6.9999409 19,3.9999853 1,3.9999853 1,7.1249991 0,7.1249991 0,3.0000001 10,3.0000001 z" Fill="#FF717272" Margin="6,12.992,6,12.875" Stretch="Fill"/>
+                                    <Path Data="M21,0 L30,0 C31.104,0 32,0.89600003 32,2 L32,11 C32,12.104 31.104,13 30,13 L21,13 C19.896,13 19,12.104 19,11 L19,2 C19,0.89600003 19.896,0 21,0 z M2,0 L11,0 C12.104004,0 13,0.89600372 13,2 L13,11 C13,12.103996 12.104004,13 11,13 L2,13 C0.89600372,13 0,12.103996 0,11 L0,2 C0,0.89600372 0.89600372,0 2,0 z" Fill="#FFE8C888" Height="13" Stretch="Fill" VerticalAlignment="Bottom"/>
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                            <syncfusion:RibbonButton.ToolTip>
+                                <Grid Width="200" Margin="2.5,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Multiple Subtopics (Alt + U)" FontWeight="Bold"/>
+                                    <TextBlock Margin="0,5,25,0" Grid.Row="1" Text="Show the Add Multiple Subtopics dialog box to add text for multiple subtopics to the selected topic shape." TextWrapping="Wrap"/>
+                                </Grid>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar Name="Formatting" Width="100"  Header="Formatting" IsLauncherButtonVisible="False">
+                        <syncfusion:RibbonButton Label="Change Topic" SizeForm="Large" IconStretch="Fill" 
+                                                 IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.ChangeTopicCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M11,9 L16,9 16,14 11,14 z M0,0 L5,0 5,5 0,5 z" Fill="#FFE8C787" Stretch="Fill"/>
+                                    <Path Data="M0,0 L1.9999626,0 1.9999626,1 C1.9999626,2.1030007 2.8969452,3 3.9999251,3 L6.5858769,3 5.2929001,1.7070007 6.7068753,0.29299934 9.7068195,3.2929993 C9.9928131,3.5789986 10.07881,4.0089989 9.9238138,4.3829994 9.8753777,4.4995623 9.8064337,4.6035271 9.7222004,4.6913848 L9.7065563,4.7065568 9.7069998,4.7070003 6.7070012,7.7069993 5.2930017,6.2929998 6.5860009,5 3.9999251,5 C1.793967,5 0,3.2060013 0,1 z" Fill="#FF557CAC" Margin="0,6,6,0.293" Stretch="Fill" />
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                            <syncfusion:RibbonButton.ToolTip>
+                                <Grid Width="200" Margin="2.5,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Change Topic" FontWeight="Bold"/>
+                                    <TextBlock Margin="0,5,25,0" Grid.Row="1" Text="Change the shape of the selected topic shapes to one of several choices, including rectangle or cloud." TextWrapping="Wrap"/>
+                                </Grid>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton Label="Diagram Style" SizeForm="Large"
+                                                 IconType="VectorImage" IconStretch="Fill" 
+                                                 Command="{Binding Path=ViewModel.DiagramStyleCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M5.1516472,0.00011029488 C5.2881042,0.0016966455 5.4252797,0.020415341 5.5602542,0.057606339 6.1502854,0.21961844 6.5253025,0.51264181 6.762313,0.84367039 7.2743379,1.5587256 7.1463333,2.5528107 6.5433012,3.1958616 L4.6992141,4.8119996 0,4.7409947 3.850176,0.57764962 C4.1861292,0.20730441 4.664302,-0.0055551628 5.1516472,0.00011029488 z" Fill="#FF4E82B8" Height="4.812" Margin="4,0,4.919,0" Stretch="Fill" VerticalAlignment="Bottom"/>
+                                    <Path Data="M11.822996,9.0740027 L13.155997,10.407003 11.554998,12.000003 10.221997,10.667002 z M1,9.0000002 L1,11 4,11 4,9.0000002 z M16,4.0000005 L16,7.9379992 13.774,10.218998 12,8.4439991 z M4,1 L4,3.0000005 7.0000002,3.0000005 7.0000002,1 z M3,0 L8.0000002,0 8.0000002,4.0000005 6,4.0000005 6,6.0000005 9,6.0000005 9,7.9999995 10.054001,7.9999995 9.000001,9.0000002 7.0000014,9.0000002 7.0000014,10.442001 C6.6680017,10.595001 6.3650017,10.812001 6.1150017,11.087002 L6.0000019,11.212002 6.0000019,7.9999995 8.0000002,7.9999995 8.0000002,7.0000005 6,7.0000005 5,7.0000005 3,7.0000005 3,8.0000005 5,8.0000005 5,12 0,12 0,8.0000005 2,8.0000005 2,6.0000005 5,6.0000005 5,4.0000005 3,4.0000005 z" Fill="#FF727272" Margin="0,0,0,4" Stretch="Fill"/>
+                                    <Path Data="M1.3800038,0 C2.1420042,1.5370915E-08 2.7599999,0.61799674 2.7599999,1.3799984 2.7599999,2.1250019 2.1690046,2.7279992 1.4299991,2.7540002 1.4270008,1.9950044 0.81100402,1.3799984 0.051002463,1.3799984 0.034004183,1.3799984 0.018005358,1.3840039 0.0010070819,1.3850033 0.0010070793,1.3830044 0,1.3809979 0,1.3799984 0,0.61799674 0.61800334,1.5370915E-08 1.3800038,0 z" Fill="#FFF1F1F1" Height="2.754" Margin="7.815,0,5.425,1.496" Stretch="Fill" VerticalAlignment="Bottom"/>
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                            <syncfusion:RibbonButton.ToolTip>
+                                <Grid Width="200" Margin="2.5,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Diagram Style" FontWeight="Bold"/>
+                                    <TextBlock Margin="0,5,25,0" Grid.Row="1" Text="Assign visual styles and shapes types to different levels in the mind map diagram." TextWrapping="Wrap"/>
+                                </Grid>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar Name="Zoom" Width="190" Header="Zoom" IsLauncherButtonVisible="False">
+                        <syncfusion:RibbonBar.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.5*"/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.5*"/>
+                                        <RowDefinition Height="0.5*"/>
+                                    </Grid.RowDefinitions>
+                                </Grid>
+                            </ItemsPanelTemplate>
+                        </syncfusion:RibbonBar.ItemsPanel>
+                        <syncfusion:RibbonButton Label="Zoom In" VerticalContentAlignment="Center" SizeForm="Small" Grid.Column="0" Grid.Row="0" IconStretch="Fill"  
+                                                 ToolTip="Zoom In" 
+                                                 IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.ZoomInCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M5,3.0000001 L6,3.0000001 6,5.0000001 8,5.0000001 8,6.0000001 6,6.0000001 6,8.0000001 5,8.0000001 5,6.0000001 3,6.0000001 3,5.0000001 5,5.0000001 z M5.5,2.0000001 C3.5699997,2.0000001 2,3.5699998 2,5.5000001 2,7.4300004 3.5699997,9.0000001 5.5,9.0000001 7.4300003,9.0000001 9,7.4300004 9,5.5000001 9,3.5699998 7.4300003,2.0000001 5.5,2.0000001 z M5.5,0 C8.5329971,1.3411045E-07 11,2.4680025 11,5.5000001 11,6.8264991 10.527801,8.045046 9.7425919,8.9961988 L9.7097139,9.0350715 9.7510004,8.9999973 10.335,9.5879976 11.106,9.5879976 15,13.531998 13.546,14.999997 9.6420002,11.066998 9.6420002,10.287997 9.0545654,9.6932432 8.9966135,9.7422687 C8.0455379,10.527609 6.8269362,11 5.5,11 2.4670029,11 0,8.5319978 0,5.5000001 0,2.4680025 2.4670029,1.3411045E-07 5.5,0 z" Fill="#FF727272" HorizontalAlignment="Left" Height="15" Stretch="Fill" VerticalAlignment="Top" Width="15"/>
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton Label="Zoom Out" VerticalContentAlignment="Center" SizeForm="Small" Grid.Column="1" Grid.Row="0" IconStretch="Fill" 
+                                                 ToolTip="Zoom Out"
+                                                 IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.ZoomOutCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M3,5.0000001 L8,5.0000001 8,6.0000001 3,6.0000001 z M5.5,2.0000001 C3.5699997,2.0000001 2,3.5699998 2,5.5000001 2,7.4300004 3.5699997,9.0000001 5.5,9.0000001 7.4300003,9.0000001 9,7.4300004 9,5.5000001 9,3.5699998 7.4300003,2.0000001 5.5,2.0000001 z M5.5,0 C8.5319977,1.3411045E-07 11,2.4680025 11,5.5000001 11,6.8264991 10.527609,8.045046 9.7422686,8.9961988 L9.7085476,9.0360624 9.7510004,8.9999973 10.335,9.5879976 11.106,9.5879976 15,13.531998 13.546,14.999997 9.6429996,11.066998 9.6429996,10.287997 9.0544243,9.6930152 8.9961977,9.7422687 C8.0450459,10.527609 6.826499,11 5.5,11 2.4680023,11 0,8.5319978 0,5.5000001 0,2.4680025 2.4680023,1.3411045E-07 5.5,0 z" Fill="#FF727272" HorizontalAlignment="Left" Height="15" Stretch="Fill" VerticalAlignment="Top" Width="15"/>
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton Label="Fit to Page" VerticalContentAlignment="Center" SizeForm="Small" Grid.Column="0" Grid.Row="1" IconStretch="Fill" 
+                                                  
+                                                 IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.FitToPageCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M0,0 L14,0 14,14 0,14 z" Fill="White" Margin="0.5" Stretch="Fill"/>
+                                    <Path Data="M0.99999994,0.99999994 L0.99999994,14 14,14 14,0.99999994 z M0,0 L15,0 15,15 0,15 z" Fill="#FF727272" Stretch="Fill" />
+                                    <Path Data="M6,9 L7,9 7,11 8,11 8,12 7,12 7,13 6,13 6,12 5,12 5,11 6,11 z M11,5.0000001 L12,5.0000001 12,6 13,6 13,7 12,7 12,8 11,8 11,7 9,7 9,6 11,6 z M0.99999994,5.0000001 L2.0000001,5.0000001 2.0000001,6 4,6 4,7 2.0000001,7 2.0000001,8 0.99999994,8 0.99999994,7 0,7 0,6 0.99999994,6 z M6,0 L7,0 7,1 8,1 8,2 7,2 7,4 6,4 6,2 5,2 5,1 6,1 z" Fill="#FF5684B6" Margin="1" Stretch="Fill"/>
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                            <syncfusion:RibbonButton.ToolTip>
+                                <Grid Width="200" Margin="2.5,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Text="Fit to Page (Ctrl + Alt + 0)" FontWeight="Bold"/>
+                                    <TextBlock Margin="0,5,25,0" Grid.Row="1" Text="Fit the page to current window." TextWrapping="Wrap"/>
+                                </Grid>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton Label="Fit to Width" VerticalContentAlignment="Center" SizeForm="Small" Grid.Column="1" Grid.Row="1" IconStretch="Fill"
+                                                 ToolTip="Fit the page to current window width." 
+                                                 IconType="VectorImage"
+                                                 Command="{Binding Path=ViewModel.FitToWidthCommand, ElementName=mindmapDiagram}"
+                                                 >
+                            <syncfusion:RibbonButton.VectorImage>
+                                <local:PathCollection>
+                                    <Path Data="M0,0 L8,0 8,14 0,14 z" Fill="#FF727272" Margin="4,0" Stretch="Fill" />
+                                    <Path Data="M0,0 L6,0 6,12 0,12 z" Fill="White" Margin="5,1" Stretch="Fill"/>
+                                    <Path Data="M0,8 L4,8 4,9 0,9 z M0,4 L4,4 4,5 0,5 z M0,0 L4,0 4,0.99999994 0,0.99999994 z" Fill="#FFB3B2B3" Margin="6,3,6,2" Stretch="Fill" />
+                                    <Path Data="M13,1.1920929E-06 L16,3.1069993 13,6.2140011 z M3,0 L3,6.2139992 0,3.1069998 z" Fill="#FF4A7EB1" Margin="0,4.238,0,3.548" Stretch="Fill"/>
+                                </local:PathCollection>
+                            </syncfusion:RibbonButton.VectorImage>
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+                </syncfusion:RibbonTab>
+            </syncfusion:Ribbon>
+        </Grid>
+        <Grid Grid.Row="1">
+            <mindmap:MindMapDiagram x:Name="mindmapDiagram"></mindmap:MindMapDiagram>
+        </Grid>
+    </Grid>
+</syncfusion:RibbonWindow>

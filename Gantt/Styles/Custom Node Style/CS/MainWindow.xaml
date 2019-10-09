@@ -1,0 +1,51 @@
+﻿<sync:ChromelessWindow x:Class="CustomNodeStyle.MainWindow"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:chart="clr-namespace:Syncfusion.Windows.Controls.Gantt.Chart;assembly=Syncfusion.Gantt.Wpf"
+                       xmlns:local="clr-namespace:CustomNodeStyle"
+                       xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                       xmlns:sync="http://schemas.syncfusion.com/wpf"
+                       Width="1300"
+                       Height="720"
+                       Icon="App.ico"
+                       sync:LayoutControl.SetMetroMode="True"
+                       WindowStartupLocation="CenterScreen">
+
+    <!--  Window Data Context Information  -->
+    <sync:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </sync:ChromelessWindow.DataContext>
+
+    <sync:LayoutControl HeaderDescriptionText="This sample showcases how a custom style can be set to the different nodes of Gantt control"
+                        HeaderText="Custom Node Style"
+                        LayoutMode="Metro"
+                        UserGuideUri="http://help.syncfusion.com/UG/User%20Interface/WPF/Gantt/default.htm#!documents/49customnodestyle.htm"
+                        UserOptionsVisibility="Collapsed">
+        <sync:LayoutControl.GridView>
+            <Grid>
+                <!--  GanttControl Information  -->
+                <sync:GanttControl x:Name="Gantt"
+                                   Grid.Row="1"
+                                   ItemsSource="{Binding TaskCollections}"
+                                   UseAutoUpdateHierarchy="False"
+                                   VisualStyle="Office2010Silver">
+                    <sync:GanttControl.TaskAttributeMapping>
+                        <sync:TaskAttributeMapping  TaskIdMapping="Id"
+                                                TaskNameMapping="Name"
+                                                StartDateMapping="StDate" 
+                                                ChildMapping="ChildTask"
+                                                FinishDateMapping="EndDate"
+												DurationMapping="Duration"                            
+                                                ProgressMapping="Complete"
+                                                PredecessorMapping="Predecessor"/>
+                    </sync:GanttControl.TaskAttributeMapping>
+                    <sync:GanttControl.Resources>
+                        <Style BasedOn="{StaticResource TaskNode}" TargetType="chart:GanttNode" />
+                        <Style BasedOn="{StaticResource MileStone}" TargetType="chart:MileStone" />
+                        <Style BasedOn="{StaticResource HeaderNode}" TargetType="chart:HeaderNode" />
+                    </sync:GanttControl.Resources>
+                </sync:GanttControl>
+            </Grid>
+        </sync:LayoutControl.GridView>
+    </sync:LayoutControl>
+</sync:ChromelessWindow>

@@ -1,0 +1,58 @@
+﻿<syncfusion:ChromelessWindow x:Class="FilterRow.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             xmlns:local="clr-namespace:FilterRow"
+                             xmlns:interaction="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.Resources>
+        <local:ViewModel x:Key="viewmodel" />
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid DataContext="{StaticResource viewmodel}">
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases the filter row functionalities of SfDataGrid."
+                                  HeaderText="Filter Row"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid x:Name="sfgrid"
+                                       FilterRowPosition="FixedTop"
+                                       ShowRowHeader="True"
+                                       AllowEditing="True" 
+                                       ColumnSizer="Star"
+                                       AutoGenerateColumns="False"                                       
+                                       LiveDataUpdateMode="AllowDataShaping"
+                                       ItemsSource="{Binding OrderList}">
+                    <interaction:Interaction.Behaviors>
+                        <local:DataGridBehaviour/>
+                    </interaction:Interaction.Behaviors>
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridNumericColumn MappingName="OrderID"
+                                                      ImmediateUpdateColumnFilter="True"
+                                                      NumberDecimalDigits="0"
+                                                      HeaderText="Order ID"/>
+                        <syncfusion:GridTextColumn MappingName="CustomerID"
+                                                   ImmediateUpdateColumnFilter="True"
+                                                   HeaderText="Customer ID"/>
+                        <syncfusion:GridComboBoxColumn MappingName="ProductName"
+                                                       HeaderText="Product Name"
+                                                       FilterRowEditorType="MultiSelectComboBox"
+                                                       ItemsSource="{Binding ComboBoxItemsSource, Source={StaticResource viewmodel}}"/>
+                        <syncfusion:GridDateTimeColumn MappingName="OrderDate"
+                                                       HeaderText="Order Date"/>
+                        <syncfusion:GridNumericColumn MappingName="Quantity"
+                                                      NumberDecimalDigits="0"/>
+                        <syncfusion:GridCurrencyColumn MappingName="UnitPrice"
+                                                       ImmediateUpdateColumnFilter="True"
+                                                       HeaderText="Unit Price"/>
+                        <syncfusion:GridCheckBoxColumn MappingName="IsAvailable"/>
+                        <syncfusion:GridTextColumn MappingName="ShipAddress"
+                                                   ImmediateUpdateColumnFilter="True"
+                                                   HeaderText="Ship Address"/>
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

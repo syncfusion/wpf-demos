@@ -1,0 +1,72 @@
+﻿<layout:SampleLayoutWindow x:Class="RealTimeUpdateDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+        xmlns:local="clr-namespace:RealTimeUpdateDemo"
+        xmlns:shared="clr-namespace:Syncfusion;assembly=Syncfusion.Shared.Wpf"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        ResizeMode="CanResizeWithGrip"  UserOptionsVisibility="Collapsed"
+        Title="Real Time Update"  WindowStartupLocation="CenterScreen">
+   
+    <Grid>
+        
+        <Grid.Resources>
+            
+            <Style TargetType="Line" x:Key="AxisStyle">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style> 
+            
+            <ResourceDictionary x:Key="resourcedictionary">
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/syncfusion.Chart.Wpf.SampleLayout;component/Themes/ControlStyles.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+            
+        </Grid.Resources>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        
+        <chart:SfChart x:Name="Chart" Margin="0,20,20,0" AreaBorderThickness="0,1,1,1">
+            
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis LabelFormat="hh:mm:ss" 
+                                    AxisLineStyle="{StaticResource AxisStyle}" 
+                                    MajorTickLineStyle="{StaticResource AxisStyle}">
+                    <chart:ChartAxis.Header>
+                        <TextBlock Margin="10" Text="Time" FontSize="16" FontFamily="SegoeUI"/>
+                    </chart:ChartAxis.Header>
+                </chart:CategoryAxis>
+            </chart:SfChart.PrimaryAxis>
+            
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis Minimum="1000" Maximum="1006" 
+                                     Interval="1" Margin="1,0,0,0" 
+                                     PlotOffset="0.5" 
+                                     AxisLineStyle="{StaticResource AxisStyle}"
+                                     MajorTickLineStyle="{StaticResource AxisStyle}">
+                    <chart:ChartAxis.Header>
+                        <TextBlock Margin="10" Text="Value" FontSize="16" FontFamily="SegoeUI"/>
+                    </chart:ChartAxis.Header>
+                </chart:NumericalAxis>
+            </chart:SfChart.SecondaryAxis>
+           
+            <chart:FastLineBitmapSeries EnableAntiAliasing="True" Label="First" 
+                                        XBindingPath="Date" YBindingPath="Value" 
+                                        LegendIcon="SeriesType" StrokeThickness="2"/>
+            <chart:FastLineBitmapSeries EnableAntiAliasing="True" Label="Second" 
+                                        XBindingPath="Date" YBindingPath="Value1" 
+                                        LegendIcon="SeriesType"   StrokeThickness="2"/>
+            <chart:FastLineBitmapSeries EnableAntiAliasing="True" Label="Third" 
+                                        XBindingPath="Date" YBindingPath="Value2" 
+                                        LegendIcon="SeriesType"  StrokeThickness="2"/>
+
+        </chart:SfChart>
+        
+    </Grid>
+    
+</layout:SampleLayoutWindow>

@@ -1,0 +1,424 @@
+﻿<!--Using Syncfusion's ChromlessWindow for applying custom skins-->
+<Window
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+  x:Class="DockingStudio.Window1" 
+  xmlns:self="clr-namespace:DockingDemo"  xmlns:local="clr-namespace:DockingStudio" 
+  WindowStartupLocation="CenterScreen" WindowState="Maximized" Style="{StaticResource windowStyle}"
+  
+  Icon="App.ico" 
+  x:Name="window1" 
+  Title="Docking Demo" Height="828" Width="1026">
+ 
+    <!--Defining Root Grid -->
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="55"/>
+			<RowDefinition Height="8.9*"/>
+		</Grid.RowDefinitions>
+
+		<!-- Header Area -->
+		<Grid Name="MenuGrid" VerticalAlignment="Stretch" Grid.Row="0">
+			<!-- SkinPicker for changing the skin of window -->
+            <local:SkinCombo HorizontalContentAlignment="Stretch"   VerticalContentAlignment="Top"></local:SkinCombo>
+			<!--<syncfusion:SkinPicker Name="skinPicker" Skin="Office2007Blue" HorizontalContentAlignment="Right" VerticalContentAlignment="Top" />-->
+			<!--Menu Area--> 
+			<Menu SnapsToDevicePixels="True" VerticalAlignment="Bottom"
+                           HorizontalContentAlignment="Stretch">
+
+				<!--Windows Menu-->
+				<MenuItem Header="Windows">
+					<MenuItem Header="Solution Explorer" 
+                                  Tag="SolutionExplorer" Click="OnActivateWindow" >
+						<MenuItem.Icon>
+							<Image Source="Images\Solution.png" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Properties Window" 
+                                  Tag="Properties" Click="OnActivateWindow" >
+						<MenuItem.Icon>
+							<Image Source="Images\Properties.png" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Class View" 
+                                  Tag="ClassView" Click="OnActivateWindow" >
+						<MenuItem.Icon>
+							<Image Source="Images\ClassView.png" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Toolbox" 
+                                  Tag="Toolbox" Click="OnActivateWindow" >
+						<MenuItem.Icon>
+							<Image Source="Images\Toolbox.png" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Find Results" 
+                                  Tag="FindResults" Click="OnActivateWindow" >
+						<MenuItem.Icon>
+							<Image Source="Images\FindResults.png" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Error List" Tag="ErrorList" Click="OnActivateWindow" >
+						<MenuItem.Icon>
+							<Image Source="Images\ErrorList.png" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Output" 
+                                  Tag="Output" Click="OnActivateWindow" >
+						<MenuItem.Icon>
+							<Image Source="Images\Output.png" />
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Find Symbol Results" 
+                                  Tag="FindSymbolResults" Click="OnActivateWindow" >
+						<MenuItem.Icon>
+							<Image Source="Images\FindSymbolResults.png" />
+						</MenuItem.Icon>
+					</MenuItem>
+				</MenuItem>
+
+				<!--Options Menu-->
+				<MenuItem Header="Options">
+					<MenuItem Header="Tab Placement">
+						<MenuItem Header="Left" Click="OnTabPlacementChanged" 
+                                      IsChecked="True" />
+						<MenuItem Header="Top" Click="OnTabPlacementChanged" />
+						<MenuItem Header="Right" Click="OnTabPlacementChanged" />
+						<MenuItem Header="Bottom" Click="OnTabPlacementChanged" />
+					</MenuItem>
+					<MenuItem Header="Dragging Type">
+						<MenuItem Header="NormalDragging" Click="OnDragModeChanged" 
+                                      IsChecked="True" />
+						<MenuItem Header="BorderDragging" Click="OnDragModeChanged" />
+						<MenuItem Header="ShadowDragging" Click="OnDragModeChanged" />
+					</MenuItem>
+                    <MenuItem Header="Dock Behavior" SubmenuOpened="OnDockBehaviorMenuOpened">
+                        <MenuItem Header="Default" Click="OnDockBehaviorChanged" 
+                                      IsChecked="True" />
+                        <MenuItem Header="VS2010" Click="OnDockBehaviorChanged" />
+                    </MenuItem>
+                    <MenuItem Header="Animation Type">
+						<MenuItem Header="Slide" Click="OnAnimationChanged" 
+                                      IsChecked="True" />
+						<MenuItem Header="Scale" Click="OnAnimationChanged" />
+						<MenuItem Header="Fade" Click="OnAnimationChanged" />
+					</MenuItem>
+					<MenuItem Header="AutoHide Tabs Mode">
+						<MenuItem Header="AutoHideGroup" Click="OnAutoHideTabsModeChanged" 
+                                      IsChecked="True" />
+						<MenuItem Header="AutoHideActive" Click="OnAutoHideTabsModeChanged" />
+					</MenuItem>
+					<MenuItem Header="Close Tabs Mode">
+						<MenuItem Header="CloseActive" Click="OnCloseTabsModeChanged" 
+                                      IsChecked="True" />
+						<MenuItem Header="CloseAll" Click="OnCloseTabsModeChanged" />
+					</MenuItem>
+                    <MenuItem Header="DisabledCloseButtonsBehavior">
+                        <MenuItem Header="Collapse" Click="DisabledCloseButtonsBehavior_Click"/>
+                        <MenuItem Header="Hide" Click="DisabledCloseButtonsBehavior_Click"/>
+                        <MenuItem Header="Disable" Click="DisabledCloseButtonsBehavior_Click"/>
+                    </MenuItem>
+                    <MenuItem Header="DocumentCloseButtonType">
+                        <MenuItem Header="Both" Click="OnDocumentCloseButtonTypeChanged"/>
+                        <MenuItem Header="Extended" Click="OnDocumentCloseButtonTypeChanged"/>
+                        <MenuItem Header="Hide" Click="OnDocumentCloseButtonTypeChanged"/>
+                        <MenuItem Header="Common" Click="OnDocumentCloseButtonTypeChanged"/>
+                        <MenuItem Header="Individual" Click="OnDocumentCloseButtonTypeChanged"/>
+                        <MenuItem Header="IndividualOnMouseOver" Click="OnDocumentCloseButtonTypeChanged"/>
+                    </MenuItem>
+					<MenuItem Header="Animation Speed">
+						<MenuItem Header="Low" Tag="1000" Click="OnAnimationSpeedChanged" />
+						<MenuItem Header="Medium" Tag="300" Click="OnAnimationSpeedChanged" 
+                                      IsChecked="True" />
+						<MenuItem Header="High" Tag="100" Click="OnAnimationSpeedChanged" />
+					</MenuItem>
+					<Separator />
+					<MenuItem Header="ContextMenu">
+						<CheckBox Name="showtablistcontextmenu" Content="ShowTabListContextMenu" 
+                                      IsChecked="True"/>
+						<CheckBox Name="showtabitemcontextmenu"  Content="ShowTabItemContextMenu" 
+                                      IsChecked="True"/>
+					</MenuItem>
+					<Separator />
+					<MenuItem Header="Switch Mode" >
+						<MenuItem Header="Immediate" Click="OnSwitchModeChanged" />
+						<MenuItem Header="List" Click="OnSwitchModeChanged" />
+						<MenuItem Header="QuickTabs" Click="OnSwitchModeChanged" />
+						<MenuItem Header="VS2005" Click="OnSwitchModeChanged" 
+                                      IsChecked="True" />
+						<MenuItem Header="VistaFlip" Click="OnSwitchModeChanged" />
+					</MenuItem>
+					<MenuItem Header="Container Mode" >
+						<MenuItem Header="TDI" Click="OnContainerModeChanged" 
+                                      IsChecked="True"/>
+						<MenuItem Header="MDI" Click="OnContainerModeChanged" />
+					</MenuItem>
+					<MenuItem Header="Set MDI Layout" >
+						<MenuItem Header="Cascade" Click="OnSetMDILayout" />
+						<MenuItem Header="Horizontal" Click="OnSetMDILayout" />
+						<MenuItem Header="Vertical" Click="OnSetMDILayout" />
+					</MenuItem>
+					<Separator />
+					<MenuItem Header="HotTracking" Click="OnHotTrackingChanged" />
+					<MenuItem Header="AutoHideVisibility" Click="OnAutoHideVisibilityChanged" 
+                                  IsChecked="True"/>
+                    <MenuItem Name="AutoHide" Header="IsAnimationEnabledOnMouseOver" IsCheckable="True"  
+                                  IsChecked="True"/>
+                    <MenuItem Name="SnapFloat" Header="EnableSnappingFloatWindow" IsCheckable="True"  
+                                  IsChecked="False"/>
+                </MenuItem>
+
+				<!--Active Window Menu-->
+				<MenuItem Name="activewindow" Header="Active Window" 
+                              SubmenuOpened="OnGetActiveWindowProperties" >
+					<MenuItem Header="State" IsCheckable="False" 
+                                  SubmenuOpened="OnGetActiveWindowProperties">
+						<MenuItem Header="Dock" Click="OnStateChanged"/>
+						<MenuItem Header="Float" Click="OnStateChanged"/>
+						<MenuItem Header="Document" Click="OnStateChanged"/>
+						<MenuItem Header="AutoHidden" Click="OnStateChanged"/>
+						<MenuItem Header="Hidden" Click="OnStateChanged"/>
+					</MenuItem>
+					<Separator/>
+					<MenuItem Header="CanDock" Click="OnDockOptionChanged"/>
+					<MenuItem Header="CanFloat" Click="OnDockOptionChanged"/>
+					<MenuItem Header="CanClose" Click="OnDockOptionChanged"/>
+					<MenuItem Header="CanAutoHide" Click="OnDockOptionChanged"/>
+					<MenuItem Header="CanDocument" Click="OnDockOptionChanged"/>
+					<MenuItem Header="CanDrag" Click="OnDockOptionChanged"/>
+                    <MenuItem Header="CanDragAutoHidden" Click="OnDockOptionChanged"/>
+                    <MenuItem Header="NoHeader" Click="OnDockOptionChanged"/>
+                    <MenuItem Header="AllowSnap" Click="OnDockOptionChanged"/>
+                    <Separator/>
+                    <MenuItem Header="AllowPin" Click="OnDockOptionChanged"/>
+                    <MenuItem Header="ShowPin" Click="OnDockOptionChanged"/>
+                    <Separator/>
+                    <MenuItem Header="Dock Ability" 
+                                  SubmenuOpened="OnGetActiveWindowDockAbility">
+						<MenuItem Header="Top" Click="OnDockAbilityChanged"/>
+						<MenuItem Header="Left" Click="OnDockAbilityChanged"/>
+						<MenuItem Header="Bottom" Click="OnDockAbilityChanged"/>
+						<MenuItem Header="Right" Click="OnDockAbilityChanged"/>
+						<MenuItem Header="Tabbed" Click="OnDockAbilityChanged"/>
+					</MenuItem>
+                    <Separator/>
+                    <MenuItem Header="CanResize" 
+                                  SubmenuOpened="OnGetCanResize">
+                        <MenuItem Header="CanResizeInDockedState" Click="OnCanResizeChanged"/>
+                        <MenuItem Header="CanResizeInFloatState" Click="OnCanResizeChanged"/>
+                        <MenuItem Header="CanResizeHeightInDockedState" Click="OnCanResizeChanged"/>
+                        <MenuItem Header="CanResizeWidthInDockedState" Click="OnCanResizeChanged"/>
+                        <MenuItem Header="CanResizeHeightInFloatState" Click="OnCanResizeChanged"/>
+                        <MenuItem Header="CanResizeWidthInFloatState" Click="OnCanResizeChanged"/>
+                    </MenuItem>
+                    <MenuItem Header="FixedSize" 
+                                  SubmenuOpened="OnGetFixedSize">
+                        <MenuItem Header="IsFixedSize" Click="OnIsFixedSizeChanged"/>
+                        <MenuItem Header="IsFixedHeight" Click="OnIsFixedSizeChanged"/>
+                        <MenuItem Header="IsFixedWidth" Click="OnIsFixedSizeChanged"/>
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Layout">
+                    <MenuItem Margin="2" Header="DockFill" Click="OnDockFillChanged" />
+                    <MenuItem Margin="2" x:Name="enableFlatLayoutMenuItem" IsCheckable="True" Header="EnableFlatLayout" Click="enableFlatLayoutMenuItem_Click" IsChecked="False"/>
+                    <MenuItem Margin="-5 0 0 0" Header="DockFillDocumentMode">
+                        <MenuItem Header="Fill" Click="OnDockFillDocumentModeChanged"/>
+                        <MenuItem Header="Normal" Click="OnDockFillDocumentModeChanged"/>
+                    </MenuItem>
+                    <MenuItem Margin="-5 0 0 0" Header="ContainerSplitterResize">
+                        <MenuItem Header="AllChildren" Click="OnContainerSplitterResizeChanged"/>
+                        <MenuItem Header="EdgeChildren" Click="OnContainerSplitterResizeChanged"/>
+                    </MenuItem>
+                </MenuItem>
+				<!--State Persistant Menu-->
+				<MenuItem Header="State Persistence">
+					<MenuItem Header="Storage Format">
+						<MenuItem Header="Binary" Click="OnStorageFormatChanged"/>
+						<MenuItem Header="Registry" Click="OnStorageFormatChanged" />
+						<MenuItem Header="Xml" Click="OnStorageFormatChanged" 
+                                      IsChecked="True"/>
+					</MenuItem>
+					<MenuItem Header="Serialization Format ">
+						<MenuItem Header="Binary" Click="OnSerializationFormatChanged" 
+                                      IsChecked="True"/>
+						<MenuItem Header="SOAP" x:Name="soapMenu" Click="OnSerializationFormatChanged" />
+					</MenuItem>
+					<Separator />
+					<MenuItem Header="Save State" Click="OnSaveState"/>
+					<MenuItem Header="Load State" Click="OnLoadState"/>
+					<MenuItem Header="Reset State" Click="OnResetState"/>
+					<MenuItem Header="Delete State" Click="OnDeleteState"/>
+                    <Separator />
+                    <MenuItem Header="Save to an Xml" Name="SavetoanXml" Click="SavetoanXml_Click"/>
+                    <MenuItem Header="Load from XmlNode" Name="LoadFromXmlNode" Click="LoadFromXmlNode_Click"/>
+                    <MenuItem Header="Load from XmlReader" Name="LoadFromXmlReader" Click="LoadFromXmlReader_Click"/>
+				</MenuItem>
+			</Menu>
+			<StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom"  Orientation="Horizontal" FocusManager.IsFocusScope="True" 
+                                DockPanel.Dock="Right" Margin="4,0,0,0">
+				<!--Minimize Button-->
+				<Button Name="minimize"  Visibility="{Binding Path=IsEnabled,
+                            RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibility}}"  
+							Command="{x:Static syncfusion:DocumentContainer.MinimizeDocumentCommand}" 
+                                CommandTarget="{Binding Path=ActiveWindow, ElementName=DockingManager}">
+					<Image Source="{StaticResource minimizeBlue}" Height="16" Width="16"></Image>
+				</Button>
+
+				<!--Restore Button-->
+				<Button Name="Restore" BorderThickness="1" BorderBrush="Black" 
+                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self}, 
+                            Converter={StaticResource BooleanToVisibility}}" 
+                                Command="{x:Static syncfusion:DocumentContainer.RestoreDocumentCommand}" 
+                                CommandTarget="{Binding Path=ActiveWindow, ElementName=DockingManager}">
+					<Image Source="{StaticResource restoreBlue}" Height="16" Width="16"></Image>
+				</Button>
+
+				<!--Close Button-->
+				<Button Name="Close1"  Visibility="{Binding Path=IsEnabled, 
+                            RelativeSource={RelativeSource Self}, Converter={StaticResource BooleanToVisibility}}"
+							Command="{x:Static syncfusion:DocumentContainer.HideDocumentCommand}"
+                            CommandTarget="{Binding Path=ActiveWindow, ElementName=DockingManager}">
+					<Image Source="{StaticResource closeBlue}" Height="16" Width="16"></Image>
+				</Button>
+			</StackPanel>
+		</Grid>
+		
+		<!--Dock Window Area-->
+		<syncfusion:DockingManager Grid.Row="1" x:Name="DockingManager" PersistState="False" LayoutUpdated="DockingManager_LayoutUpdated"
+                                     UseInteropCompatibilityMode="False" UseDocumentContainer="True"
+                                   CloseAllTabs="DockingManager_CloseAllTabs" IsVS2010DraggingEnabled="True"
+                                   CloseOtherTabs="DockingManager_CloseOtherTabs" EnableMouseHoverBackground="False"
+                                   WindowMoving="DockingManager_WindowMoving"
+                                   syncfusion:DocumentContainer.DocumentClosing="DockingManager_DocumentClosing"
+                                     ShowTabItemContextMenu="{Binding ElementName=showtabitemcontextmenu,
+                                                                         Path=IsChecked}"
+                                     ShowTabListContextMenu="{Binding ElementName=showtablistcontextmenu,
+                                                                         Path=IsChecked}" IsSelectedDocument="DockingManager_IsSelectedDocument"
+                                   IsAnimationEnabledOnMouseOver="{Binding ElementName=AutoHide,Path=IsChecked}"
+                                    EnableSnappingFloatWindow="{Binding ElementName=SnapFloat,Path=IsChecked}">
+            
+			<!-- Dock window icon -->
+            <syncfusion:DockingManager.Icon>
+                <ImageBrush ImageSource="Images\icon.PNG"/>
+            </syncfusion:DockingManager.Icon>
+            <!-- Output dock window -->
+            <ContentControl Name="Output"
+						   syncfusion:DockingManager.Header="Output"
+						   syncfusion:DockingManager.SideInDockedMode="Bottom"
+						   syncfusion:DockingManager.DesiredHeightInDockedMode="200" 
+						   >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images\Output.png" />
+                </syncfusion:DockingManager.Icon>
+                <ScrollViewer VerticalScrollBarVisibility ="Auto" Name ="Scroll">
+                    <TextBlock Name="Log" >  
+					<!-- Context menu for clear the event -->  
+                        <TextBlock.ContextMenu>
+                          <ContextMenu Name="cm">
+                            <MenuItem Header="Clear" Click="OnClear"/>
+                          </ContextMenu>
+                        </TextBlock.ContextMenu>
+                    </TextBlock>
+                </ScrollViewer>
+            </ContentControl>
+            <!-- FindResults dock window -->
+			<ContentControl Name="FindResults"
+						   syncfusion:DockingManager.Header="Find Results"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                            syncfusion:DockingManager.TargetNameInDockedMode="Output" >
+				<syncfusion:DockingManager.Icon>
+					<ImageBrush ImageSource="Images\FindResults.png" />
+				</syncfusion:DockingManager.Icon>
+				<TextBlock >Find Results 0 , Not Found.</TextBlock>
+			</ContentControl>
+			<!-- ErrorList dock window -->
+			<ContentControl Name="ErrorList"
+						   syncfusion:DockingManager.Header="Error List"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="Output" >
+				<syncfusion:DockingManager.Icon>
+					<ImageBrush ImageSource="Images\ErrorList.png" />
+				</syncfusion:DockingManager.Icon>
+			</ContentControl>
+			
+			<!-- FindSymbolResults dock window -->
+			<ContentControl Name="FindSymbolResults"
+						   syncfusion:DockingManager.Header="Find Symbol Results"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="Output" >
+				<syncfusion:DockingManager.Icon>
+					<ImageBrush ImageSource="Images\FindSymbolResults.png" />
+				</syncfusion:DockingManager.Icon>
+			</ContentControl>
+			<!-- SolutionExplorer dock window -->
+			<ContentControl Name="SolutionExplorer"  
+					  syncfusion:DockingManager.Header="Solution Explorer"
+					  syncfusion:DockingManager.SideInDockedMode="Right"
+					  syncfusion:DockingManager.DesiredWidthInDockedMode="300"
+                      Content="{StaticResource SolutionExplorerTree}"
+					  >
+				<syncfusion:DockingManager.Icon>
+					<ImageBrush ImageSource="Images\Solution.png" />
+				</syncfusion:DockingManager.Icon>
+			</ContentControl>
+			<!-- ClassView dock window -->
+			<ContentControl Name="ClassView"
+						   syncfusion:DockingManager.Header="Class View"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" >
+				<syncfusion:DockingManager.Icon>
+					<ImageBrush ImageSource="Images\ClassView.png" />
+				</syncfusion:DockingManager.Icon>
+			</ContentControl>
+			<!-- Properties dock window -->
+			<ContentControl Name="Properties"
+						   syncfusion:DockingManager.Header="Properties Window"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+						   syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" >
+				<syncfusion:DockingManager.Icon>
+					<ImageBrush ImageSource="Images\Properties.png" />
+				</syncfusion:DockingManager.Icon>
+			</ContentControl>
+			<!-- Toolbox dock window -->
+			<ContentControl Name="Toolbox"
+					  syncfusion:DockingManager.Header="Toolbox" 
+					  syncfusion:DockingManager.State="Dock" 
+                            HorizontalContentAlignment="Left"
+					  syncfusion:DockingManager.DesiredWidthInDockedMode="250"
+                      Content="{StaticResource ToolboxGroups}" >
+				<syncfusion:DockingManager.Icon>
+					<ImageBrush ImageSource="Images\Toolbox.png" />
+				</syncfusion:DockingManager.Icon>
+			</ContentControl>
+			<!-- Integration dock window -->
+			<ContentControl Name="Integration"
+					  syncfusion:DockingManager.Header="Integration" 
+					  syncfusion:DockingManager.State="Document" 
+					  syncfusion:DockingManager.CanDock="False"
+					  syncfusion:DockingManager.CanFloat="False"
+                      syncfusion:DocumentContainer.MDIBounds="0,0,300,300"
+                      Content="{StaticResource ContainerDocument}" >
+			</ContentControl>
+			<!-- Features dock window -->
+			<ContentControl Name="Features"
+					  syncfusion:DockingManager.Header="Features" 
+					  syncfusion:DockingManager.State="Document" 
+					  syncfusion:DockingManager.CanDock="False"
+                                 syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+					  syncfusion:DockingManager.CanFloat="False"
+                      Content="{StaticResource DockingManagerFeatures}" >
+			</ContentControl>
+			<!-- Docking dock window -->
+			<ContentControl Name="Docking"
+					  syncfusion:DockingManager.Header="Docking" 
+					  syncfusion:DockingManager.State="Document" 
+					  syncfusion:DockingManager.CanDock="False"
+                                 syncfusion:DocumentContainer.MDIBounds="60,60,300,300"
+					  syncfusion:DockingManager.CanFloat="False"
+                      Content="{StaticResource DockingDocument}" >
+			</ContentControl>
+		</syncfusion:DockingManager>
+	</Grid>
+</Window>
+

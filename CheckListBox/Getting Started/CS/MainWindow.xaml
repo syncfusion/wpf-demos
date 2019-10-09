@@ -1,0 +1,56 @@
+﻿<Window x:Class="CheckListBox_Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CheckListBox_Demo"
+        mc:Ignorable="d"
+        Icon="Images/App.ico"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+        Title="CheckListBox" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <local:GroupConverter x:Key="GroupConverter"></local:GroupConverter>
+        <local:SortConverter x:Key="SortConverter"></local:SortConverter>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="10">
+            <TextBlock TextWrapping="Wrap" Margin="0">This sample demonstrates the SelectAll, Grouping, Sorting and Checking  functionalities of the CheckListBox control.</TextBlock>
+        </StackPanel>
+
+        <syncfusion:CheckListBox 
+            Grid.Row="1"
+            Width="300" Height="400"
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center"
+            Margin="10"
+            ItemsSource="{Binding GetModels}" 
+            GroupDescriptions="{Binding
+                ElementName=Group_checkbox,
+                Path=IsChecked,
+                Mode=TwoWay,
+                Converter={StaticResource GroupConverter}}" 
+            SortDescriptions="{Binding
+                ElementName=Sort_checkbox,
+                Path=IsChecked,
+                Mode=TwoWay,
+                Converter={StaticResource SortConverter}}"
+            x:Name="ListBox"/>
+        <GroupBox Grid.Column="1" Grid.RowSpan="2" Header="Options" Margin="10" Padding="10">
+        <StackPanel  HorizontalAlignment="Center" Margin="10">
+            <CheckBox Content="Grouping" Grid.Row="0" x:Name="Group_checkbox"></CheckBox>
+            <CheckBox Content="Sorting" Grid.Row="1" x:Name="Sort_checkbox"></CheckBox>
+        </StackPanel>
+        </GroupBox>
+    </Grid>
+</Window>

@@ -1,0 +1,60 @@
+﻿<syncfusion:ChromelessWindow x:Class="ShapeSelection.MainWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:local="clr-namespace:ShapeSelection"   ResizeMode="CanResizeWithGrip"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"   WindowStartupLocation="CenterScreen"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" UseNativeChrome="True" Icon="App.ico"
+        syncfusion:SkinStorage.VisualStyle="Metro"
+        >
+    <syncfusion:ChromelessWindow.Resources>
+        <local:MapViewModel x:Key="model"/>
+    </syncfusion:ChromelessWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Background="#1196CD" Padding="20,3,0,0">
+            <TextBlock Text="Shape Selection" Foreground="White" FontSize="20"/>
+        </Border>
+        <Grid  DataContext="{Binding Source={StaticResource model}}" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0.21*"/>
+            </Grid.ColumnDefinitions>
+            <syncfusion:SfMap Grid.Column="0" x:Name="map"  EnableZoom="False" EnablePan="False">
+
+                <syncfusion:SfMap.Layers>
+                    <syncfusion:ShapeFileLayer Background="White" ItemsSource="{Binding CountriesList}" ShapeIDPath="Country" ShapeIDTableField="NAME" x:Name="shapeLayer" CrossCursorStroke="#686868" CrossCursorStrokeThickness="0.5"  
+                                               EnableSelection="True"
+                                               EnableMultiSelection="True"
+                                               SelectionRectStroke="#226DC6" 
+                                               SelectionRectStrokeThickness="4"    Uri="ShapeSelection.ShapeFiles.world1.shp"  >
+                        <syncfusion:ShapeFileLayer.ItemsTemplate>
+                            <DataTemplate>
+                                <Grid Background="Transparent">
+
+                                </Grid>
+                            </DataTemplate>
+                        </syncfusion:ShapeFileLayer.ItemsTemplate>
+                        <syncfusion:ShapeFileLayer.ShapeSettings>
+                            <syncfusion:ShapeSetting ShapeFill="#E5E5E5" ShapeValuePath="Country" SelectedShapeColor="#34CBF4" ShapeStroke="#C1C1C1" ShapeStrokeThickness="1" />
+                        </syncfusion:ShapeFileLayer.ShapeSettings>
+                    </syncfusion:ShapeFileLayer>
+                </syncfusion:SfMap.Layers>
+            </syncfusion:SfMap>
+
+            <Grid Grid.Column="1">
+                <Border Visibility="Collapsed" x:Name="textblock">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.15*"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" FontWeight="SemiBold" Height="50" Foreground="#FF767676" FontFamily="Segoe UI" Text="Selected Countries" FontSize="20" />
+                        <ListBox Grid.Row="1" x:Name="listbox" FontFamily="Segoe UI" Foreground="#FF767676" FontSize="15"  Background="Transparent" BorderThickness="2" BorderBrush="Transparent" />
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</syncfusion:ChromelessWindow>

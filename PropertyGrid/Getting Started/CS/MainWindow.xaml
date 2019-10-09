@@ -1,0 +1,75 @@
+﻿<syncskins:ChromelessWindow x:Class="PropertyGridConfigurationDemo.MainWindow" UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:str="clr-namespace:System.Windows;assembly=PresentationCore" xmlns:sort="clr-namespace:System.ComponentModel;assembly=System"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:syncskins="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf" 
+        xmlns:local="clr-namespace:PropertyGridConfigurationDemo" WindowStartupLocation="CenterScreen" Icon="App.ico"
+        Title="Getting Started"  Height="640" Width="890" xmlns:syncfusion="clr-namespace:Syncfusion.Windows.PropertyGrid;assembly=Syncfusion.PropertyGrid.Wpf"        
+        xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF" 
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:sync="http://schemas.syncfusion.com/wpf">
+    <syncskins:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncskins:ChromelessWindow.DataContext>
+    <syncskins:ChromelessWindow.Resources>
+        <local:Person x:Key="person" />
+        <local:ObjectToVisibilityConverter x:Key="objconverter"/>
+        <local:ElementTotypeConverter x:Key="TypeConverter"/>
+        <local:NameToStringConverter x:Key="StringConverter"/>
+        <local:ElementToImageConverter x:Key="ImageConverter"/>
+        <local:PersonToVisibilityConverter x:Key="PersonConverter"/>
+        <local:ObjectConverter x:Key="objconv"/>
+        <local:VisibilityToHeightConverter x:Key="HeightConverter"/>
+    </syncskins:ChromelessWindow.Resources>
+    <Grid>
+        <sblayout:SampleLayoutControl Header="Property Grid" IsTabStop="False" DefaultVisualStyle="Metro" x:Name="sblayout" EventLogs="{Binding EventLogsCollection}" EnableThemeSwitching="False" 
+                                      Description="The PropertyGrid control control provides an interface for browsing the properties of an object with blendability, custom editor, category editor, sorting and grouping support.
+This supports several built-in editors. CustomEditors or CategoryEditors can also be added to give custom look and feel.">
+
+
+            <sblayout:SampleLayoutControl.PropertyViewContent>
+                    <sblayout:GroupBoxAdv Header="User Options" IsTabStop="False">
+                    <StackPanel>
+                        <local:PropertyView/>
+                        <Grid>
+                         
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="115"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Property Expand Mode" Margin="6,3,3,3"  VerticalAlignment="Center"/>
+                            <ComboBox Height="22"  SelectedIndex="0" Margin="20,3,6,3"  Name="comboBox1" Grid.Column="1" VerticalAlignment="Center" >                                
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="SelectionChanged">
+                                        <local:ExpandAction TargetObject="{Binding ElementName=pgrid}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <ComboBoxItem>Flat</ComboBoxItem>
+                                <ComboBoxItem>Nested</ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+                        
+                    </StackPanel>
+                </sblayout:GroupBoxAdv>
+            </sblayout:SampleLayoutControl.PropertyViewContent>
+
+            <syncfusion:PropertyGrid BorderThickness="0" x:Name="pgrid"
+                                     DescriptionPanelVisibility="{Binding DescriptionPanelVisibility}"
+                                     SearchBoxVisibility="{Binding SearchBoxVisibility}"
+                                     EnableGrouping="{Binding EnableGrouping, Mode=TwoWay}"
+                                     EnableToolTip="{Binding EnableToolTip, Mode=TwoWay}"
+                                     SortDirection="{Binding SortDirection}"
+                                     ButtonPanelVisibility="{Binding ButtonPanelVisibility}"
+                                    DefaultPropertyPath="Age"
+                                     SelectedPropertyItem="{Binding SelectedPropertyItem, Mode=TwoWay}"
+                                     sync:PropertyGridSelectedPropertyItemChangedCommand.Command="{Binding Logs}">                                     
+
+                <syncfusion:PropertyGrid.SelectedObject>
+                    <local:Person/>
+                </syncfusion:PropertyGrid.SelectedObject>
+
+            </syncfusion:PropertyGrid>
+
+
+        </sblayout:SampleLayoutControl>
+      
+    </Grid>
+</syncskins:ChromelessWindow>

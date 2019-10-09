@@ -1,0 +1,137 @@
+﻿<Application x:Class="PatientDataDemo.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        
+        <ControlTemplate x:Key="Minimize" TargetType="{x:Type Button}" >
+            <Border Name="minimizeborder" Background="Transparent" Margin="5,20" Height="16" Width="16" SnapsToDevicePixels="True">
+                <Grid>
+                    <Path x:Name="minimize" Data="M0,0 L27,0 L27,6 L0,6 z" Fill="#FFFFFFFF" Height="5.962" Stretch="Uniform"  UseLayoutRounding="False" />
+                </Grid>
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="Maximize" TargetType="{x:Type Button}">
+            <Border Name="maximizeborder" Background="Transparent" Margin="5,20" Height="16" Width="16" SnapsToDevicePixels="True">
+                <Path x:Name="maximize" Width="16" Height="16" Stretch="Uniform" Fill="#FFFFFFFF" Data="F1 M 271.133,0L 271.133,27.261L 298.395,27.261L 298.395,0L 271.133,0 Z M 275.438,22.9577L 275.438,10.5071L 294.09,10.5071L 294.09,22.9577L 275.438,22.9577 Z "/>
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="Restore" TargetType="{x:Type Button}">
+            <Border Name="restoreborder" Background="Transparent" Margin="5,20" Height="16" Width="16" SnapsToDevicePixels="True">
+                <Path x:Name="restore" Data="M2.1700439,12.881993 L2.1700439,19.161991 L11.579041,19.161991 L11.579041,14.223001 L7.1100035,14.223001 L7.1100035,12.881993 z M9.3569574,5.4813881 L9.3569574,7.5829897 L13.75,7.5829897 L13.75,11.976841 L19.087025,11.976841 L19.087025,5.4813881 z M7.1100035,0 L21.333002,0 L21.333002,14.223001 L13.75,14.223001 L13.75,21.332989 L0,21.332989 L0,7.5829897 L7.1100035,7.5829897 z" Fill="White" Height="16"  Stretch="Uniform"  Width="16" />
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="Close" TargetType="{x:Type Button}">
+            <Border Name="closeborder" Background="Transparent" Margin="5,20" Height="16" Width="16" SnapsToDevicePixels="True">
+                <Path x:Name="close" Width="16" Height="16" Stretch="Uniform" Fill="#FFFFFFFF" Data="F1 M 148.815,44.4075L 144.143,39.7357L 135.185,48.694L 126.227,39.7357L 121.555,44.4075L 130.513,53.3665L 121.555,62.3229L 126.227,66.9967L 135.185,58.0378L 144.143,66.9967L 148.815,62.3229L 139.857,53.3665L 148.815,44.4075 Z " />
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="CustomTemplate" TargetType="{x:Type syncfusion:ChromelessWindow}">
+            <AdornerDecorator>
+                <Border Name="OuterBorder" CornerRadius="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorType={x:Type syncfusion:ChromelessWindow}}, Path=CornerRadius}" 
+                    Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding ResizeBorderThickness}" 
+                    BorderBrush="#FFCDCDCD" Margin="{TemplateBinding Margin}">
+                  <Border Name="InnerBorder">
+                        <Grid x:Name="RootGrid">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.RowSpan="2" Background="{TemplateBinding Background}" CornerRadius="{Binding RelativeSource={RelativeSource FindAncestor,  AncestorType={x:Type syncfusion:ChromelessWindow}}, Path=CornerRadius}">
+
+                            </Border>
+                            <syncfusion:TitleBar Grid.Row="0" Template="{TemplateBinding TitleBarTemplate}" Foreground="{TemplateBinding Foreground}" Background="{TemplateBinding TitleBarBackground}" Name="PART_TitleBar" Focusable="False"  >
+                                <Grid>
+                                    <!--<ContentControl Focusable="False" Foreground="{TemplateBinding TitleBarForeground}"  Content="{TemplateBinding Title}" FontFamily="Segoe UI" FontWeight="Light" FontSize="30" Margin="20,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" x:Name="TitlePresenter" />-->
+                                    <Grid Background="#FFB51111" Height="70" Margin="0,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Width="{TemplateBinding Width}" x:Name="TitlePresenter">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" Margin="10,0,0,0">
+                                            <Image Source="doc.png" Stretch="Fill">
+                                                <Image.Clip>
+                                                    <EllipseGeometry RadiusX="30" RadiusY="30" Center="37,37" />
+                                                </Image.Clip>
+                                            </Image>
+                                            <Ellipse Stroke="#FFC74949" StrokeThickness="5" Fill="Transparent" Height="68" Width="68"/>
+                                        </Grid>
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0">
+                                            <TextBlock FontFamily="Segoe UI" Text="Dr. Jacob John, MBBS, MD " FontSize="16" FontWeight="SemiBold" Foreground="White"/>
+                                            <TextBlock FontFamily="Segoe UI" Text="Cardiologist" FontSize="16" FontWeight="SemiBold" Foreground="White"/>
+                                        </StackPanel>
+                                        
+                                    </Grid>
+                                    <StackPanel x:Name="MinMaxCloseStackPanel"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,-10,0,0" VerticalAlignment="Top">
+                                        <syncfusion:TitleButton Command="syncfusion:ChromelessWindow.ToggleMinimizedState" x:Name="MinimizeButton"  Template="{TemplateBinding MinimizeButtonTemplate}" Focusable="False" />
+                                        <syncfusion:TitleButton Command="syncfusion:ChromelessWindow.ToggleMaximizedState" Visibility="Visible" x:Name="PART_MaximizeButton" Template="{TemplateBinding MaximizeButtonTemplate}"   Focusable="False"  />
+                                        <syncfusion:TitleButton Command="syncfusion:ChromelessWindow.ToggleMaximizedState" Visibility="Collapsed" x:Name="PART_RestoreButton" Template="{TemplateBinding RestoreButtonTemplate}"  Focusable="False"   />
+                                        <syncfusion:TitleButton Command="syncfusion:ChromelessWindow.CloseWindow" x:Name="CloseButton" Template="{TemplateBinding CloseButtonTemplate}"    VerticalAlignment="Stretch" HorizontalAlignment="Right" Focusable="False" />
+                                    </StackPanel>
+                                </Grid>
+                            </syncfusion:TitleBar>
+                            <Border Name="ContentAreaBorder" Grid.Row="1" >
+                                <Grid x:Name="ChildGrid">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <syncfusion:ResizeGripStyle x:Name="PART_Resizegrip" Style="{TemplateBinding ResizeGripStyle}" HorizontalAlignment="right" VerticalAlignment="Bottom" Visibility="Collapsed" IsTabStop="False" Cursor="SizeNWSE" Margin="0,0,3,3" />
+
+                                    <Grid DataContext="{TemplateBinding DataContext}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <ContentPresenter x:Name="ControlGrid" />
+                                        <Line Width="10" X1="0" Y1="0" X2="0" Y2="100" Stroke="#FFD3D3D3" Stretch="Fill" Margin="0,40,0,40"  RenderOptions.EdgeMode="Aliased" StrokeThickness="1" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Visibility="Collapsed" />
+                                        <ScrollViewer x:Name="UserGrid" Width="300"  Grid.Column="2" Margin="0,40,0,40" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Visibility="Collapsed" >
+                                        </ScrollViewer>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Border>
+            </AdornerDecorator>
+            <ControlTemplate.Triggers>
+                <Trigger Property="ResizeMode" Value="NoResize">
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="MinimizeButton"/>
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MaximizeButton"/>
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="PART_RestoreButton"/>
+                    <Setter Property="ResizeBorderThickness" Value="1"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                        <Condition Property="WindowState" Value="Normal"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Visible" TargetName="PART_Resizegrip"/>
+
+                </MultiTrigger>
+
+                <Trigger Property="WindowState" Value="Maximized">
+                    <Setter Property="Margin" Value="0" TargetName="OuterBorder"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="ResizeMode" Value="NoResize"/>
+                        <Condition Property="WindowState" Value="Maximized"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="MinimizeButton"/>
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="PART_MaximizeButton"/>
+                    <Setter Property="Visibility" Value="Collapsed" TargetName="PART_RestoreButton"/>
+                    <Setter Property="Margin" Value="0" TargetName="OuterBorder"/>
+                </MultiTrigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+        
+    </Application.Resources>
+</Application>

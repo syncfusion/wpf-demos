@@ -1,0 +1,153 @@
+﻿<Window x:Class="EditDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:lib="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:EditDemo"
+    WindowStartupLocation="CenterScreen" syncfusion:SkinStorage.VisualStyle="Office2007Blue"
+    Title="Edit Control Demo" Height="700" Width="700" Icon="App.ico" Style="{StaticResource windowStyle}">
+
+    <!--Merging Shared Skin Manager ResourceDictionary-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.Shared.WPF;component/SkinManager/SkinManager.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:BrushCollection x:Key="brushlist"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!--Window Content-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Menu bound to built - in RoutedUICommands -->
+        <Menu BorderBrush="LightGray" BorderThickness="0,0,1,2" Grid.ColumnSpan="1">
+            <MenuItem Header="_File" Background="Transparent" Width="{Binding}">
+                <MenuItem Command="{x:Static syncfusion:EditCommands.New}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Open}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Save}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <!--<MenuItem Command="{x:Static syncfusion:EditCommands.Print}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.PrintPreview}" CommandTarget="{Binding ElementName=Edit1}"/>-->
+                <MenuItem Header="E_xit" Name="menuitem_exit" Click="menuitem_exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Edit" Background="Transparent" Width="{Binding}">
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Undo}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Redo}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Cut}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Copy}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Paste}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.SelectAll}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Header="Find and Replace">
+                    <MenuItem Command="{x:Static syncfusion:EditCommands.Find}" CommandTarget="{Binding ElementName=Edit1}"/>
+                    <MenuItem Command="{x:Static syncfusion:EditCommands.Replace}" CommandTarget="{Binding ElementName=Edit1}"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Options">
+                <MenuItem Header="Accepts Tab" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=AcceptsTab}"/>
+                <MenuItem Header="Is ReadOnly" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=IsReadOnly}"/>
+                <MenuItem Header="Show Line Number" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=ShowLineNumber}"/>
+                <MenuItem Header="Show Default Context Menu" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=ShowDefaultContextMenu}"/>
+                <MenuItem Header="Allow Drag Drop" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=AllowDragDrop}"/>
+                <MenuItem Header="Accepts Return" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=AcceptsReturn}"/>
+                <MenuItem Header="Tab Key Behavior">
+                    <MenuItem Header="Insert Space"  x:Name="tabKeyVS" IsChecked="True" Click="TabKeyVS" />
+                    <MenuItem Header="Insert Tab" x:Name="tabKeyDefault" Click="TabKeyDefault" />
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <ToolBar Grid.Row="1" Grid.ColumnSpan="1"  Margin="-1">
+            <Button ToolTip="New" Command="{x:Static syncfusion:EditCommands.New}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/new.gif"/>
+            </Button>
+            <Button ToolTip="Open" Command="{x:Static syncfusion:EditCommands.Open}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/open.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Button ToolTip="Save" Command="{x:Static syncfusion:EditCommands.Save}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Save.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Separator/>
+            <!--<Button ToolTip="Print" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Print}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Print16.png"/>
+            </Button>
+            <Button ToolTip="Print Preview" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.PrintPreview}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/PrintPreview16.png"/>
+            </Button>
+            <Separator/>-->
+            <Button ToolTip="Cut" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Cut}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Cut.png"/>
+            </Button>
+            <Button ToolTip="Copy" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Copy}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Copy.png"/>
+            </Button>
+            <Button ToolTip="Paste" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Paste}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Paste.png"/>
+            </Button>
+            <Separator/>
+            <Button ToolTip="Undo" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Undo}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/undo.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Button ToolTip="Redo" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Redo}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/redo.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+
+            <Separator/>
+            <ComboBox ToolTip="Font" ItemsSource="{x:Static Fonts.SystemFontFamilies}" Grid.Column="1" SelectedIndex="8" Name="fontlst" Width="120" Margin="3" />
+            <ComboBox ToolTip="Font Size" Name="fontsze" Grid.Row="1" Grid.Column="1" SelectedIndex="2" Margin="3">
+                <lib:Double>10</lib:Double>
+                <lib:Double>12</lib:Double>
+                <lib:Double>13</lib:Double>
+                <lib:Double>14</lib:Double>
+                <lib:Double>15</lib:Double>
+                <lib:Double>16</lib:Double>
+                <lib:Double>17</lib:Double>
+                <lib:Double>18</lib:Double>
+                <lib:Double>20</lib:Double>
+            </ComboBox>
+            <ComboBox ToolTip="Foreground color" Name="foreclr" Grid.Row="2" Grid.Column="1" ItemsSource="{StaticResource brushlist}" SelectedIndex="7" Margin="3" MinWidth="75">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Fill="{Binding Brush}" Height="10" Width="10" Stroke="Black" Margin="1"/>
+                            <TextBlock Text="{Binding Name}" Grid.Column="1" Margin="3,0,0,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Separator/>
+            <Button ToolTip="Decrease Indent" Command="{x:Static syncfusion:EditCommands.DecreaseIndent}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/decreaseindent.png"/>
+            </Button>
+            <Button ToolTip="Increase Indent" Command="{x:Static syncfusion:EditCommands.IncreaseIndent}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/increaseindent.png"/>
+            </Button>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Themes : </TextBlock>
+            <ComboBox ToolTip="Themes" SelectionChanged="ComboBox_SelectionChanged" Name="themecombo" Width="100">
+                <ComboBoxItem>Blend</ComboBoxItem>
+                <ComboBoxItem>VS2010</ComboBoxItem>
+                <ComboBoxItem>2007Blue</ComboBoxItem>
+                <ComboBoxItem>2007Black</ComboBoxItem>
+                <ComboBoxItem>2007Silver</ComboBoxItem>
+                <ComboBoxItem>ShinyRed</ComboBoxItem>
+                <ComboBoxItem>ShinyBlue</ComboBoxItem>
+            </ComboBox>
+        </ToolBar>
+        <!-- Adding EditControl to the application -->
+        <Border BorderThickness="1" BorderBrush="Gray"  Grid.Row="2" Grid.ColumnSpan="2">
+            <syncfusion:EditControl Name="Edit1" EnableOutlining="False" Background="white" AllowDrop="True" BorderBrush="Black" BorderThickness="0" Margin="0" ShowLineNumber="False"
+                                FontFamily="{Binding ElementName=fontlst,Path=SelectedItem}"  FontSize="{Binding ElementName=fontsze,Path=SelectedItem}" 
+                                Foreground="{Binding ElementName=foreclr,Path=SelectedItem.Brush}"
+                                Grid.Row="1" TabKeyBehavior="VS">
+            </syncfusion:EditControl>
+        </Border>
+    </Grid>
+</Window>

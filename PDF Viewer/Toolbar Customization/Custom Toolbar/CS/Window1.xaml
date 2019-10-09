@@ -1,0 +1,374 @@
+﻿<syncfusion:RibbonWindow x:Class="RibbonSample.Window1"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:sample="clr-namespace:RibbonSample"
+                         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                         x:Name="ribbonwindow"
+                         Title="CustomToolBar Sample"
+                         Width="1087"
+                         Height="635"
+                           MinWidth="940"
+                         IsGlassActive="False"
+                         Loaded="Window_Loaded"
+                        SizeChanged="Window_SizeChanged"
+                         SnapsToDevicePixels="True"
+                        
+                         WindowStartupLocation="CenterScreen"
+                         WindowState="Maximized"
+                        xmlns:my="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" 
+                         syncfusion:SkinStorage.VisualStyle="Office2013">
+   
+    <syncfusion:RibbonWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.Tools.WPF;component/Framework/Ribbon/Themes/Office2013Style.xaml">
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="NewStyle" TargetType="{x:Type syncfusion:RibbonButton}">
+               <Style.Triggers>                
+
+                    <Trigger Property="SizeForm" Value="Large">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type syncfusion:RibbonButton}">
+                                    <Border Name="OuterBorder" Padding="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                    Opacity="{TemplateBinding Opacity}">
+                                        <Grid HorizontalAlignment="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:RibbonButton}}}" VerticalAlignment="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type syncfusion:RibbonButton}}}">
+                                            <StackPanel Orientation="Vertical">
+                                                <Border Name="PART_ImageBorder"
+                                               
+                                                SnapsToDevicePixels="True">
+                                                    <Image x:Name="PART_Image"
+                                                   Stretch="{Binding Path=IconStretch, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   Width="32"
+                                                   Height="42"
+                                                   Source="{Binding Path=LargeIcon,
+                                                                    Mode=OneWay,
+                                                                    RelativeSource={RelativeSource TemplatedParent}}" />
+                                                </Border>
+                                                <ItemsControl x:Name="PART_Label"
+                                                      Margin="0,3,0,2"
+                                                      Focusable="False"
+                                                      Foreground="{TemplateBinding Foreground}">
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <syncfusion:MultilinePanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemContainerStyle>
+                                                        <Style TargetType="{x:Type TextBlock}">
+                                                            <Setter Property="Foreground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                                                        </Style>
+                                                    </ItemsControl.ItemContainerStyle>
+                                                </ItemsControl>
+                                            </StackPanel>
+
+                                        </Grid>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsLargeImageVisible" Value="False">
+                                            <Setter TargetName="PART_ImageBorder" Property="Visibility" Value="Collapsed" />
+                                        </Trigger>
+
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="OuterBorder" Property="Background" Value="#fce4dc" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsKeyboardFocused" Value="True">
+                                            <Setter TargetName="OuterBorder" Property="Background" Value="Red" />
+
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+
+                                            <Setter TargetName="OuterBorder" Property="Background" Value="Red" />
+
+                                        </Trigger>
+
+                                       
+
+                                        <Trigger Property="IsPressed" Value="True">
+
+                                            <Setter TargetName="OuterBorder" Property="Background" Value="#fccdb6" />
+
+                                        </Trigger>
+
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="PART_Image" Property="Effect" Value="{StaticResource DisableEffect}" />
+                                            <Setter TargetName="PART_Label" Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                                            <Setter Property="Opacity" Value="0.5" />
+                                        </Trigger>
+                                       
+
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+        </ResourceDictionary>
+
+
+    </syncfusion:RibbonWindow.Resources>
+
+
+    <Grid Name="grid1">
+
+        <Grid.RowDefinitions>
+               
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+       
+
+            <!--
+                <syncfusion:Ribbon.TabPanelItem>
+                <syncfusion:RibbonButton SizeForm="ExtraSmall" SmallIcon="Resources/Smile16.png" />
+                </syncfusion:Ribbon.TabPanelItem>
+            -->
+
+            
+            <Grid Grid.Row="0" x:Name="ribbonGrid"  VerticalAlignment="Top">
+
+            <syncfusion:Ribbon Name="MyRibbon" 
+                           BackStageColor="#D24726"
+                         
+                           BackStageHeader="FILE"
+                           EnableMoreCommands="False">
+
+                <syncfusion:RibbonTab Caption="Home" 
+                          syncfusion:Ribbon.KeyTip="H" IsChecked="True">
+
+                        <syncfusion:RibbonBar Header="File" Name="file_tab" syncfusion:Ribbon.ShowInMoreCommands="False" IsEnabled="True" syncfusion:Ribbon.KeyTip="FN"
+                                      >
+                            <DockPanel>
+                            <syncfusion:RibbonButton  Label="Open" Foreground="Black"  Style="{StaticResource NewStyle}" SizeForm="Large" LargeIcon="/Icon/Icons_Open.png"    Width="60"
+                                             syncfusion:Ribbon.KeyTip="O" Click="Open_Click"  >
+                                
+                                
+                                <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="Open">
+                                            <TextBlock Text="Click to open the PDF document"  HorizontalAlignment="Left" 
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+
+                            <syncfusion:RibbonButton  Label="Save" Style="{StaticResource NewStyle}" Name="Save" Click="Save_Click"  HorizontalAlignment="Left"  SizeForm="Large" LargeIcon="/Icon/Icons_Save.png"
+                                            Width="60"   syncfusion:Ribbon.KeyTip="S" Foreground="Black" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="Save">
+                                            <TextBlock Text="Click to save the document in the local disk"  HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+
+                            <syncfusion:RibbonButton  Label="Print" Style="{StaticResource NewStyle}" Foreground="Black" Name="Print1"   SizeForm="Large" LargeIcon="/Icon/Icons_Print.png" Click="Print_Click"
+                                          Width="60"    syncfusion:Ribbon.KeyTip="P" HorizontalAlignment="Left" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="Print">
+                                            <TextBlock Text="Click to Print this PDF file or pages from it" HorizontalAlignment="Left" 
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+                            </DockPanel>
+
+                        </syncfusion:RibbonBar>
+
+                        <!--Page Navigation-->
+                        <syncfusion:RibbonBar   Name="Navigation"  
+                                          Header="Navigation" KeyTipOnCollapsed="N" syncfusion:Ribbon.KeyTip="HF">
+                            <DockPanel>
+                            <syncfusion:RibbonButton  Label="First" Name="First" Foreground="Black" Style="{StaticResource NewStyle}" SizeForm="Large"    Click="First_Click"   LargeIcon="/Icon/Icons_Front.png"
+                                           Width="60"   syncfusion:Ribbon.KeyTip="F" HorizontalAlignment="Left" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="First">
+                                            <TextBlock Text="Click to go to first Page in the document" HorizontalAlignment="Left" 
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+                            <syncfusion:RibbonButton  Label="Previous" Padding="0,0,5,0" Foreground="Black" SizeForm="Large" Style="{StaticResource NewStyle}" Name="Previous"  Click="Previous_Click" LargeIcon="/Icon/Icons_Backward.png"
+                                           Width="60"   syncfusion:Ribbon.KeyTip="P" HorizontalAlignment="Left" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="Previous">
+                                            <TextBlock Text="Click to go to previous page in the document"  HorizontalAlignment="Left" 
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+                            <syncfusion:RibbonTextBox Name="txtCurrentPageIndex" Width="35" Height="22"  Margin="1,-27,2,0"  Background="Beige" TextAlignment="Center"   KeyDown="txtCurrentPageIndex_KeyDown">
+
+                                    <syncfusion:RibbonTextBox.ToolTip>
+                                        <syncfusion:ScreenTip Description="GoTo Page">
+                                            <TextBlock Text="Go to specified page in the document" Width="130" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonTextBox.ToolTip>
+                                </syncfusion:RibbonTextBox>
+                            <TextBlock Text="/" FontFamily="Segoe UI" FontSize="9pt" Foreground="Black" Name="pageSeparator" VerticalAlignment="Center"  Margin="3,-27,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground"
+                            Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                                <Setter Property="Opacity" Value="0.2" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Text="100" FontFamily="Segoe UI" Foreground="Black" FontSize="9pt" Name="lblTotalPageCount" VerticalAlignment="Center" ToolTip="Total page count" Margin="3,-27,3,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Foreground"
+                            Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                                <Setter Property="Opacity" Value="0.2" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <syncfusion:RibbonButton  Label="Next"  Padding="5,0,0,0" Foreground="Black" Style="{StaticResource NewStyle}" Name="Next" SizeForm="Large"  LargeIcon="/Icon/Icons_Forward.png"
+                                           Width="60"   syncfusion:Ribbon.KeyTip="N" HorizontalAlignment="Left" Click="Next_Click" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="Next">
+                                            <TextBlock Text="Click to go to next page in the document" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+
+
+                            <syncfusion:RibbonButton  Label="Last" Foreground="Black" Name="Last" Style="{StaticResource NewStyle}" SizeForm="Large"    LargeIcon="/Icon/Icons_Last.png" 
+                                            Width="60"  syncfusion:Ribbon.KeyTip="L" HorizontalAlignment="Left" Click="Last_Click" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="Last">
+                                            <TextBlock Text="Click to go to last page of the document" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+                            </DockPanel>
+                        </syncfusion:RibbonBar>
+
+                        <!-- Zoom-->
+                        <syncfusion:RibbonBar    Name="Zoom"  
+                                           Header="Zoom" syncfusion:Ribbon.KeyTip="Z" >
+                            <DockPanel>
+                            <syncfusion:RibbonButton  Label="Zoom In" Foreground="Black" Style="{StaticResource NewStyle}" Name="ZoomIn" SizeForm="Large"   LargeIcon="/Icon/Icons_Zoom In.png"  Click="ZoomIn_Click"
+                                           Width="60"   syncfusion:Ribbon.KeyTip="ZI" HorizontalAlignment="Left" ToolTipService.ShowOnDisabled="True" >
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="Zoom In">
+                                            <TextBlock Text="Click to increase the magnification of the entire page"  HorizontalAlignment="Left" 
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+                            <syncfusion:RibbonButton  Label="Zoom Out" Foreground="Black" Name="ZoomOut" Style="{StaticResource NewStyle}" SizeForm="Large"    LargeIcon="/Icon/Icons_Zoom Out.png" Click="ZoomOut_Click"
+                                          Width="60"    syncfusion:Ribbon.KeyTip="ZO" HorizontalAlignment="Left" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="Zoom Out">
+                                            <TextBlock Text="Click to decrease the magnification of the entire page."  HorizontalAlignment="Left" 
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+                                <syncfusion:RibbonComboBox Name="ZoomComboBox"  TextBlock.TextAlignment="Center" HorizontalAlignment="Center" SelectionChanged="Zoom_SelectionChanged"  IsEditable="True"  Margin="9,-24,10,2"  Width="50" Height="25" Background="Beige" Foreground="Black" SelectedIndex="2"  syncfusion:Ribbon.KeyTip="FZ" IsReadOnly="True">
+                                <syncfusion:RibbonComboBoxItem HorizontalAlignment="Center">50</syncfusion:RibbonComboBoxItem>
+                                <syncfusion:RibbonComboBoxItem HorizontalAlignment="Center">75</syncfusion:RibbonComboBoxItem>
+                                <syncfusion:RibbonComboBoxItem HorizontalAlignment="Center">100</syncfusion:RibbonComboBoxItem>
+                                <syncfusion:RibbonComboBoxItem HorizontalAlignment="Center">125</syncfusion:RibbonComboBoxItem>
+                                <syncfusion:RibbonComboBoxItem HorizontalAlignment="Center">150</syncfusion:RibbonComboBoxItem>
+                                <syncfusion:RibbonComboBoxItem HorizontalAlignment="Center">200</syncfusion:RibbonComboBoxItem>
+                                <syncfusion:RibbonComboBoxItem HorizontalAlignment="Center">400</syncfusion:RibbonComboBoxItem>
+                                
+                            </syncfusion:RibbonComboBox>
+                                
+                            <TextBlock Text="Zoom Percentage" Width="60" Name="ZoomPercentage" TextWrapping="Wrap" LineHeight=".1" TextAlignment="Center"  Margin="-69,40,0,0">
+                            <TextBlock.Style>
+                                <Style TargetType="{x:Type TextBlock}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Foreground"
+                            Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                            <Setter Property="Opacity" Value="0.2" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            </TextBlock>
+                        </DockPanel>
+                        </syncfusion:RibbonBar>
+
+                        <syncfusion:RibbonBar Header="View" Name="Size" syncfusion:Ribbon.ShowInMoreCommands="False"  syncfusion:Ribbon.KeyTip="FN"
+                                       >
+                            <DockPanel>
+                            <syncfusion:RibbonButton  Label="Fit Page" Foreground="Black" Name="FitPage" Style="{StaticResource NewStyle}" SizeForm="Large" LargeIcon="/Icon/Icons_FitPage.png"
+                                           Width="60"  syncfusion:Ribbon.KeyTip="FP" Click="FitPage_Click" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="FitPage">
+                                        <TextBlock Text="Click to show one page at a time."  HorizontalAlignment="Left" 
+                                                Foreground="#FF4C4C4C"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+
+                            <syncfusion:RibbonButton  Label="Fit Width" Foreground="Black" Name="FitWidth" Style="{StaticResource NewStyle}" HorizontalAlignment="Left"  SizeForm="Large" LargeIcon="/Icon/Icons_FitWidth.png"
+                                           Width="60"    syncfusion:Ribbon.KeyTip="FW" Click="FitWidth_Click" ToolTipService.ShowOnDisabled="True">
+                                    <syncfusion:RibbonButton.ToolTip>
+                                        <syncfusion:ScreenTip Description="FitWidth">
+                                        <TextBlock Text="Click to fill the window with each page and scroll through pages continuously."  HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                        </syncfusion:ScreenTip>
+                                    </syncfusion:RibbonButton.ToolTip>
+                                </syncfusion:RibbonButton>
+
+                            </DockPanel>
+
+                        </syncfusion:RibbonBar>
+
+                    <syncfusion:RibbonBar Header="Search" Name="find_text" syncfusion:Ribbon.ShowInMoreCommands="False" IsEnabled="True" syncfusion:Ribbon.KeyTip="FN"
+                                       >
+                        <syncfusion:RibbonButton  Label="Find Text" Foreground="Black" Name="FindText" Style="{StaticResource NewStyle}" HorizontalAlignment="Left"  SizeForm="Large" LargeIcon="/Icon/Icons_Search.png" 
+                                           Width="60"    syncfusion:Ribbon.KeyTip="FW" Click="FindText_Click">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Find Text">
+                                    <TextBlock Text="Search Text in Document"  HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+
+                    <syncfusion:RibbonBar Header="Stamp" Name="Stamp" syncfusion:Ribbon.ShowInMoreCommands="False" IsEnabled="True" syncfusion:Ribbon.KeyTip="FN"
+                                       >
+                        <syncfusion:RibbonButton  Label="Stamp" Foreground="Black" Name="Stamps" Style="{StaticResource NewStyle}" HorizontalAlignment="Left"  SizeForm="Large" LargeIcon="/Icon/Icons_Stamp.png" 
+                                           Width="60"    syncfusion:Ribbon.KeyTip="FW" Click="CustomStamps_Click">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Stamp">
+                                    <TextBlock Text="Add custom stamp in document"  HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+                </syncfusion:RibbonTab>
+               
+
+
+            </syncfusion:Ribbon>
+            </Grid>
+
+        <my:PdfViewerControl Name="pdfViewerControl1" ShowToolbar="False" Grid.Row="1"/>
+
+    </Grid>
+</syncfusion:RibbonWindow>

@@ -1,0 +1,174 @@
+﻿<UserControl x:Class="ExpenseAnalysisDemo.ChartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ExpenseAnalysisDemo"
+             xmlns:Syncfusion="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF">
+    <!--  <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="ChartView" Foreground="LightGray" FontSize="32"/>  -->
+    <UserControl.Resources>
+
+        <local:ColorConverter x:Key="colorConv" />
+
+        <LinearGradientBrush x:Key="GridHeaderCellBackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0" Color="#FB5154" />
+            <GradientStop Offset="1" Color="#E94649" />
+        </LinearGradientBrush>
+
+        <local:LabelConverter x:Key="labelconv" />
+        <local:TextConverter x:Key="txtconv" />
+
+        <DataTemplate x:Key="labelTemplate">
+            <Grid>
+            <Rectangle Stroke="{Binding Converter={StaticResource colorConv}}" StrokeThickness="1">
+               
+            </Rectangle>
+            <TextBlock Margin="8,4,8,4"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Top"
+                           FontSize="14"
+                           Foreground="{Binding Converter={StaticResource colorConv}}"
+                           Opacity="0.5"
+                           Text="{Binding Converter={StaticResource txtconv}}" />
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="lineStyle" TargetType="Path">
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="Stroke" Value="DarkGray" />
+        </Style>
+
+        <Style x:Key="TxtStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#333333" />
+            <Setter Property="FontWeight" Value="Light"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="3,2"/>
+            <Setter Property="Margin" Value="2,0,0,0"></Setter>
+            <Setter Property="FontFamily" Value="Segoe UI"/>
+        </Style>
+        <Style x:Key="buttonstyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ControlTemplate.Resources>
+                            <Style x:Key="ShadowStyle">
+                                <Setter Property="Control.Foreground" Value="LightGray" />
+                            </Style>
+                        </ControlTemplate.Resources>
+                        <Border Name="border" BorderThickness="1" Padding="4,2" BorderBrush="DarkGray" CornerRadius="3" Background="{TemplateBinding Background}">
+                            <Grid >
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="contentShadow" Style="{StaticResource ShadowStyle}">
+                                    <ContentPresenter.RenderTransform>
+                                        <TranslateTransform X="1.0" Y="1.0" />
+                                    </ContentPresenter.RenderTransform>
+                                </ContentPresenter>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Name="content"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <!--<Grid.DataContext>
+            <local:PieChartViewModel />
+        </Grid.DataContext>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*" />
+            <RowDefinition Height="0.9*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="{StaticResource GridHeaderCellBackground}">
+            <TextBlock Style="{StaticResource TxtStyle}" Margin="20,10,0,0"
+                       Background="Transparent"
+                       FontSize="22"
+                       Foreground="White"
+                       Text="Expense Chart" />
+        </Grid>
+        <Grid Grid.Row="1" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.6*" />
+                <ColumnDefinition Width="0.3*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Height="25" Style="{StaticResource buttonstyle}" BorderBrush="LightGray" VerticalAlignment="Top" Background="{StaticResource BaseBackgroundColor}" x:Name="backbtn" Content="Back" Visibility="Hidden" Margin="20,10,10,10" Click="Button_Click_1" Cursor="Hand">
+                
+                <!--<Button.Template>
+                    <ControlTemplate>
+                        <Grid Grid.Row="0" Height="48" >                            
+                            <Path Data="F1M-218.342,2910.79L-234.066,2926.52 -233.954,2926.63 -225.428,2926.63 -210.87,2912.07 -206.495,2907.7 -225.313,2888.88 -234.066,2888.88 -218.342,2904.6 -259.829,2904.6 -259.829,2910.79 -218.342,2910.79z" Stretch="Uniform" Fill="#FF2D2D2D" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5" >
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="-1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <Grid Name="backgroundGrid" Width="48" Height="48" Visibility="Visible" Background="Transparent">
+                                <Path Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z" Stretch="Fill" Fill="#FF2D2D2D" Name="Stroke" Visibility="Visible" />
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Button.Template>-->
+            </Button>
+            
+            <Syncfusion:SfChart x:Name="Chart" Grid.Column="1" AreaBorderBrush="Transparent"  SelectionChanged="SfChart_SelectionChanged_1">
+                <Syncfusion:SfChart.Behaviors>
+                    <Syncfusion:ChartSelectionBehavior/>
+                </Syncfusion:SfChart.Behaviors>
+                <Syncfusion:PieSeries ItemsSource="{Binding PieExpense}"
+                                      LabelPosition="Outside"
+                                      PieCoefficient="0.6" 
+                                      EnableAnimation="True"
+                                      SegmentSelectionBrush="Wheat"
+                                      XBindingPath="Category"  
+                                      YBindingPath="Amount">
+                    <Syncfusion:PieSeries.AdornmentsInfo>
+                        <Syncfusion:ChartAdornmentInfo AdornmentsPosition="Top"
+                                                       ConnectorHeight="45"
+                                                       ConnectorLineStyle="{StaticResource lineStyle}"
+                                                       ConnectorRotationAngle="90"
+                                                       LabelTemplate="{StaticResource labelTemplate}"
+                                                       SegmentLabelContent="LabelContentPath"
+                                                       ShowConnectorLine="True"
+                                                       ShowLabel="True" />
+                    </Syncfusion:PieSeries.AdornmentsInfo>
+                </Syncfusion:PieSeries>
+            </Syncfusion:SfChart>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.3*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="Black" BorderThickness="0.5" Margin="30" SnapsToDevicePixels="True">
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource TxtStyle}" Text="Most Spent"  TextWrapping="Wrap"/>
+                        <TextBlock Style="{StaticResource TxtStyle}" Text="{Binding Path=MostSpent}"  TextWrapping="Wrap"/>
+                        </StackPanel>
+                </Border>
+                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0.5" Margin="30" SnapsToDevicePixels="True">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource TxtStyle}" Text="Least Spent"  TextWrapping="Wrap"/>
+                        <TextBlock Style="{StaticResource TxtStyle}" Text="{Binding Path=LeastSpent}"  TextWrapping="Wrap"/>
+                        </StackPanel>
+                </Border>
+                <Border Grid.Row="2" BorderBrush="Black" BorderThickness="0.5" Margin="30" SnapsToDevicePixels="True">
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource TxtStyle}" Text="Average Spent"  TextWrapping="Wrap"/>
+                        <TextBlock Style="{StaticResource TxtStyle}" Text="{Binding Path=AverageSpent}"  TextWrapping="Wrap"/>
+                        </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
