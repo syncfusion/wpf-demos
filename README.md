@@ -50,10 +50,10 @@ The easiest way to use these samples without using Git is to download the zip fi
 </tr>    
 <tr>
   <td>
-    <a href="SfGrid.WPF/Samples">DataGrid</a>
+    <a href="DataGrid">DataGrid</a>
   </td>
   <td>
-    <a href="SfGrid.WPF/Samples/TreeGrid">Tree Grid</a>
+    <a href="TreeGrid">Tree Grid</a>
   </td>
   <td/>
 </tr>
@@ -63,100 +63,113 @@ The easiest way to use these samples without using Git is to download the zip fi
 <tr>
   
 <td>
-<a href="Tools.WPF/Samples/AutoComplete">TextBox</a>
+<a href="AutoComplete">TextBox</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Editor%20Controls/Currency%20Text%20Box">CurrencyTextBox</a>
+<a href="Input%20Controls/Currency%20TextBox">CurrencyTextBox</a>
 </td>
 <td>
-    <a href="Grid.WPF/Samples/GridControl">Cell Grid</a>
+    <a href="GridControl">Cell Grid</a>
   </td>
 </tr>
   <tr>
   <td>
-<a href="Tools.WPF/Samples/Editor%20Controls/Double%20Text%20Box">DoubleTextBox</a>
+<a href="Input%20Controls/Double%20TextBox">DoubleTextBox</a>
 </td>
   <td>
-<a href="Tools.WPF/Samples/Editor%20Controls/Integer%20Text%20Box">IntegerTextBox</a>
+<a href="Input%20Controls/Integer%20TextBox">IntegerTextBox</a>
 </td>
   <td>
-<a href="Tools.WPF/Samples/DateTimePicker/DatePicker">DatePicker</a>
+<a href="DateTimePicker/DatePicker">DatePicker</a>
 </td>
 
 </tr>
    <tr>
    <td>
-  <a href="Tools.WPF/Samples/DateTimePicker/TimePicker">TimePicker</a>
+  <a href="DateTimePicker/TimePicker">TimePicker</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Editor%20Controls/Date%20Time%20Edit">Date-Time Editor</a>
+<a href="Input%20Controls/DateTime%20Edit">Date-Time Editor</a>
 </td>
 <td>
-    <a href="Tools.WPF/Samples/PropertyGrid">Property Grid</a>
+    <a href="PropertyGrid">Property Grid</a>
   </td>
 </tr>
   
    <tr>
     <td>
-    <a href="Tools.WPF/Samples/MaskedEdit">MaskedTextBox</a>
+    <a href="Input%20Controls/Masked%20Text%20Box">MaskedTextBox</a>
 </td>
   <td>
-<a href="Tools.WPF/Samples/Editor%20Controls/Percent%20Text%20Box">PercentTextBox</a>
+<a href="Input%20Controls/Percent%20TextBox">PercentTextBox</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Editor%20Controls/Time%20Span%20Edit">TimeSpan Editor</a>
+<a href="Input%20Controls/TimeSpan%20Edit">TimeSpan Editor</a>
 </td>
 </tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/Editor%20Controls/UpDown">NumericUpDown</a>
+<a href="Input%20Controls/UpDown">NumericUpDown</a>
 </td>
   <td>
-<a href="Tools.WPF/Samples/Editor%20Controls/DomainUpDown">DomainUpdown</a>
+<a href="Input%20Controls/Domain%20UpDown">DomainUpdown</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/ComboBox/ComboBox">ComboBox</a>
+<a href="ComboBoxAdv">ComboBox</a>
 </td>
 </tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/Range%20Slider/Range%20Slider">RangeSlider</a>
+<a href="Range%20Slider/Range%20Slider">RangeSlider</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/RadialSlider">RadialSlider</a>
+<a href="RadialSlider">RadialSlider</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Color%20Picker">ColorPicker</a>
+<a href="Color%20Picker/Color%20Picker">ColorPicker</a>
 </td>
 </tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/ColorPallete">ColorPalette</a>
+<a href="ColorPallete">ColorPalette</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Color%20Picker/Color%20Picker%20Palette">ColorPickerPalette</a>
+<a href="Color%20Picker/Color%20Picker%20Palette">ColorPickerPalette</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Calculator/Calculator">Calculator</a>
+<a href="Calculator/Calculator">Calculator</a>
 </td>
 </tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/Rating">Rating</a>
+<a href="Rating">Rating</a>
 </td>
 <td>
-  <a href="Edit.WPF/Samples/Language-Based%20Highlighting">Syntax Editor</a>
+  <a href="Syntax%20Editor/Language-Based%20Highlighting">Syntax Editor</a>
 </td>
 <td>
-<a href="SfGrid.WPF/Samples/MultiColumnDropDownDemo">MultiColumn Drop-Down</a>
+<a href="MultiColumn%20Dropdown/MultiColumnDropDownDemo">MultiColumn Drop-Down</a>
 </td>
 </tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/Calendar%20Controls">Calender</a>
+<a href="Calendar">Calender</a>
 </td>
-  <td/>
-  <td/>
+<td>
+<a href="Buttons">Button</a>
+</td>
+<td>
+<a href="CheckListBox">CheckListBox</a>
+</td>
+</tr>
+<tr>
+<td>
+<a href="DataPager">DataPager</td>
+</td>
+<td>
+<a href="Image%20Editor">ImageEditor</a>
+</td>
+<td/>
 </tr>
 
 <tr>
@@ -167,73 +180,73 @@ The easiest way to use these samples without using Git is to download the zip fi
   
   <tr>
 <td>
-<a href="SfChart.WPF/Samples">Chart</a>
+<a href="Chart">Chart</a>
 </td>
 <td>
-<a href="SfSunburstChart.WPF/Samples">Sunburst Chart</a>
+<a href="Sunburst%20Chart">Sunburst Chart</a>
 </td>
 <td>
-<a href="SfSmithChart.WPF/Samples">Smith Chart</a>
+<a href="Smith%20Chart">Smith Chart</a>
 </td>
 
 </tr>
   <tr>
   <td>
-<a href="SfKanban.WPF/Samples">Kanban</a>
+<a href="Kanban">Kanban</a>
 </td>
 <td>
-<a href="SfGauge.WPF/Samples/CircularGauge">Radial Gauge</a>
+<a href="Gauges/CircularGauge">Radial Gauge</a>
 </td>
 <td>
-<a href="SfGauge.WPF/Samples/LinearGauge">Linear Gauge</a>
+<a href="Gauges/LinearGauge">Linear Gauge</a>
 </td>
 
 </tr>
    <tr>
    <td>
-<a href="SfGauge.WPF/Samples/DigitalGauge">Digital Gauge</a>
+<a href="Gauges/DigitalGauge">Digital Gauge</a>
 </td>
 <td>
-<a href="SfDiagram.WPF/Samples">Diagramming</a>
+<a href="Diagram">Diagramming</a>
 </td>
 <td>
-<a href="SfMaps.WPF/Samples">Maps</a>
+<a href="Map">Maps</a>
 </td>
 </tr>
   
    <tr>
    <td>
-<a href="SfTreeMap.WPF/Samples">Treemap</a>
+<a href="TreeMap">Treemap</a>
 </td>
 <td>
-<a href="SfSchedule.WPF/Samples">Scheduler</a>
+<a href="Schedule">Scheduler</a>
 </td>
 <td>
-<a href="SfBulletGraph.WPF/Samples">BulletGraph</a>
+<a href="BulletGraph">BulletGraph</a>
 </td>
 
 </tr>
 <tr>
 <td>
-<a href="Gantt.WPF/Samples">Gantt</a>
+<a href="Gantt">Gantt</a>
 </td>
 <td>
-<a href="SfChart.WPF/Samples/DateTimeRangeNavigator">Range Navigator</a>
+<a href="Chart/DateTimeRangeNavigator">Range Navigator</a>
 </td>
 <td>
-<a href="SfChart.WPF/Samples/Surface%20Chart">Surface Chart</a>
+<a href="Chart/Surface%20Chart">Surface Chart</a>
 </td>
 </tr>
 <tr>
 <td>
-<a href="SfChart.WPF/Samples/SparkLine">SparkLine</a>
+<a href="Chart/SparkLine">SparkLine</a>
 </td>
 
 <td>
-<a href="SfBarcode.WPF/Samples">Barcode</a>
+<a href="Barcode">Barcode</a>
 </td>
 <td>
-<a href="SfHeatMap.WPF/Samples">Heat Map</a>
+<a href="HeatMap">Heat Map</a>
 </td>
 </tr>
 
@@ -242,37 +255,37 @@ The easiest way to use these samples without using Git is to download the zip fi
 </tr>
 <tr>
   <td>
-<a href="Tools.WPF/Samples/Ribbon">Ribbon</a>
+<a href="Ribbon">Ribbon</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Docking%20Manager">Docking Manager</a>
+<a href="Docking%20Manager">Docking Manager</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Docking%20Manager/Document%20Container">Document Container</a>
+<a href="Docking%20Manager/Document%20Container">Document Container</a>
 </td>
 
 </tr>
   <tr>
   <td>
-<a href="Tools.WPF/Samples/Tile%20View">Tile View</a>
+<a href="Tile%20View">Tile View</a>
 </td>
   <td>
-<a href="Tools.WPF/Samples/Carousel/Carousel">Carousel</a>
+<a href="Carousel/Carousel">Carousel</a>
 </td>
   <td>
-<a href="Tools.WPF/Samples/Chromeless%20Window/Chromeless%20Window">Chromeless Window</a>
+<a href="Chromeless%20Window/Chromeless%20Window">Chromeless Window</a>
 </td>
 
 </tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/Card%20View/Card%20View">Card View</a>
+<a href="Card%20View/Card%20View">Card View</a>
 </td>
 <td>
-<a href="SfAccordion.WPF/Samples">Accordion</a>
+<a href="Accordion">Accordion</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/GridSplitter/Getting%20Started">Grid Splitter</a>
+<a href="GridSplitter/Getting%20Started">Grid Splitter</a>
 </td>
 </tr>
 
@@ -281,26 +294,25 @@ The easiest way to use these samples without using Git is to download the zip fi
 </tr>
 <tr>
   <td>
-<a href="Tools.WPF/Samples/Tree%20View">Tree View</a>
+<a href="Tree%20View">Tree View</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Menu%20Control">Menu</a>
+<a href="Menu%20Control">Menu</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Hierarchy%20Navigator/Getting%20Started">Hierarchical Navigator</a>
+<a href="Hierarchy%20Navigator/Getting%20Started">Hierarchical Navigator</a>
 </td>
-
 </tr>
   <tr>
   <td>
-<a href="Tools.WPF/Samples/ToolBarAdv/Getting%20Started">Tool Bar</a>
+<a href="ToolBar/Getting%20Started">Tool Bar</a>
 </td>
 
   <td>
-<a href="Tools.WPF/Samples/GroupBar">Group Bar</a>
+<a href="GroupBar">Group Bar</a>
 </td>
  <td>
-<a href="Tools.WPF/Samples/TreeNavigator">Tree Navigator</a>
+<a href="TreeNavigator">Tree Navigator</a>
 </td>
 </tr>
   <tr>
@@ -308,65 +320,73 @@ The easiest way to use these samples without using Git is to download the zip fi
 </tr>
 <tr>
   <td>
-<a href="Tools.WPF/Samples/Tab%20Controls">Tab</a>
+<a href="Tab%20Control">Tab</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/TabNavigation">Tab Navigation</a>
+<a href="TaskBar/Getting%20Started">Taskbar</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/TaskBar/Getting%20Started">Taskbar</a>
+<a href="RadialMenu">Radial Menu</a>
 </td>
 </tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/RadialMenu">Radial Menu</a>
+<a href="Navigation%20Drawer/Getting%20Started">NavigationDrawer</a>
 </td>
-  <td>
-<a href="SfNavigationDrawer.WPF/Samples/Getting%20Started">NavigationDrawer</a>
-</td>
+<td/>
 <td/>
 </tr>
 
 <tr><td colspan="3" rowspan="1"><b>EDITORS AND VIEWERS</b></td></tr>
 <tr>
 <td>
-    <a href="SfSpreadsheet.WPF/Samples">Spreadsheet</a>
+    <a href="Spreadsheet">Spreadsheet</a>
   </td>
   
  <td>
-<a href="SfRichTextBoxAdv.WPF/Samples">RichTextBox</a>
+<a href="RichTextBox">RichTextBox</a>
 </td>
 <td>
-<a href="PdfViewer.WPF">PDF Viewer</a>
+<a href="PDF%20Viewer">PDF Viewer</a>
 </td>
 </tr>
 
 <tr><td colspan="3" rowspan="1"><b> NOTIFICATION</b></td></tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/Notify%20Icon/Notify%20Icon">NotifyIcon</a>
+<a href="Notify%20Icon/Notify%20Icon">NotifyIcon</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/HubTile">Hub Tile</a>
+<a href="HubTile">Hub Tile</a>
 </td>
- <td/>
+ <td>
+ <a href="Busy%20Indicator">Busy Indicator</a>
+</tr>
+<tr>
+<td>
+<a href="PulsingTile">PulsingTile</a>
+</td>
+<td>
+<a href="SfProgressBar">ProgressBar</a>
+</td>
+<td/>
 </tr>
 
 <tr><td colspan="3" rowspan="1"><b>FILE FORMATS</b></td></tr>
 <tr>
   <td>
-   <a href="XlsIO.WPF">Excel</a>
+   <a href="XlsIO">Excel</a>
 </td>
 <td>
-<a href="PDF.WPF">PDF</a>
+<a href="PDF">PDF</a>
 </td>
 <td>
-<a href="DocIO.WPF">Word</a>
+<a href="DocIO">Word</a>
 </td>
   </tr>
   <tr>
  <td>
-<a href="Presentation.WPF/Samples">PowerPoint</a>
+<a href="Presentation">PowerPoint</a>
 </td>
   <td/>
   <td/>
@@ -375,13 +395,13 @@ The easiest way to use these samples without using Git is to download the zip fi
 <tr><td colspan="3" rowspan="1"><b>REPORTING</b></td></tr>
 <tr>
   <td>
-   <a href="ReportViewer.WPF/samples">Report Viewer</a>
+   <a href="Report%20Viewer">Report Viewer</a>
 </td>
 <td>
-<a href="ReportWriter.WPF/Samples">Report Writer</a>
+<a href="Report%20Writer">Report Writer</a>
 </td>
 <td>
-<a href="ReportDesigner.WPF/Samples">Report Designer</a>
+<a href="Report%20Designer">Report Designer</a>
 </td>
 
 </tr>
@@ -389,21 +409,21 @@ The easiest way to use these samples without using Git is to download the zip fi
 <tr><td colspan="3" rowspan="1"><b>BUSINESS INTELIGENCE</b></td></tr>
 <tr>
   <td>
-   <a href="OlapGrid.WPF">Olap Grid</a>
+   <a href="OlapGrid">Olap Grid</a>
 </td>
 <td>
-<a href="OlapChart.WPF">Olap Chart</a>
+<a href="OlapChart">Olap Chart</a>
 </td>
 <td>
-<a href="OlapClient.WPF">Olap Client</a>
+<a href="OlapClient">Olap Client</a>
 </td>
   </tr>
   <tr>
 <td>
-<a href="OlapGauge.WPF">Olap Gauge</a>
+<a href="OlapGauge">Olap Gauge</a>
 </td>
   <td>
-<a href="PivotAnalysis.WPF">Pivot Grid</a>
+<a href="Pivot%20Grid">Pivot Grid</a>
 </td>
   <td/>
 </tr>
@@ -411,21 +431,29 @@ The easiest way to use these samples without using Git is to download the zip fi
 <tr><td colspan="3" rowspan="1"><b>MISCELLANEOUS</b></td></tr>
 <tr>
 <td>
-<a href="Tools.WPF/Samples/SfSpellChecker">Spell Checker</a>
+<a href="SfSpellChecker">Spell Checker</a>
 </td>
 <td>
-<a href="Tools.WPF/Samples/Wizard/Wizard%20Control">Wizard</a>
+<a href="Wizard/Wizard%20Control">Wizard</a>
 </td>
   <td>
-<a href="Calculate.WPF">Calculate</a>
+<a href="Calculate">Calculate</a>
 </td>
 </tr>
+<tr>
+<td>
+<a href="Skin%20Manager">SkinManager</a>
+</td>
+<td/>
+<td/>
+</tr>
+
 <tr> 
   <td colspan="3" rowspan="1"><b>DATA SCIENCE</b></td>
 </tr>
 <tr>
   <td>
-<a href="PMML.WPF/PMMLWPFSampleBrowser">Predictive Analytics</a>
+<a href="Predictive%20Analytics/PMMLWPFSampleBrowser">Predictive Analytics</a>
 </td>
 <td/>
   <td/>
@@ -438,5 +466,5 @@ The easiest way to use these samples without using Git is to download the zip fi
 
 * To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing) or contact our sales team at <salessupport@syncfusion.com>.
 
-<p>Copyright © 2001-2019 Syncfusion, Inc. Updated on 2019-10-09 at precisely 16:58:37 EST.</p>
+<p>Copyright © 2001-2019 Syncfusion, Inc. Updated on 2019-10-08 at precisely 18:34:40 EST.</p>
   
