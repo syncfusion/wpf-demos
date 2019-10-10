@@ -1,6 +1,6 @@
 # Syncfusion WPF samples 
 
-This repository contains the demos of [Syncfusion WPF UI controls](https://www.syncfusion.com/products/wpf?utm_source=github&utm_medium=listing). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing out [click once samples](http://silverlight.syncfusion.com/samples/WPF/Samples.html?utm_source=github&utm_medium=listing), in which you can browse the demo for all the controls.
+This repository contains the demos of [Syncfusion WPF UI controls](https://www.syncfusion.com/products/wpf?utm_source=github&utm_medium=listing). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing out [click once samples](https://www.syncfusion.com/demos), in which you can browse the demo for all the controls.
 
 This section guides you to use the Syncfusion WPF samples in your applications.
 
@@ -320,7 +320,7 @@ The easiest way to use these samples without using Git is to download the zip fi
 </tr>
 <tr>
   <td>
-<a href="Tab%20Control">Tab</a>
+<a href="TabControl">Tab</a>
 </td>
 <td>
 <a href="TaskBar/Getting%20Started">Taskbar</a>
