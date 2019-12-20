@@ -1,0 +1,106 @@
+﻿<Window x:Class="TimePicker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"  WindowStartupLocation="CenterScreen"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+        xmlns:local="clr-namespace:TimePicker" Icon="App.Ico"
+        Title="TimePicker" Height="500" Width="700">
+    <Window.Resources>
+        <local:FormatStringConverter x:Key="formatConv"/>
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF1FAEFF" />
+    </Window.Resources>
+    <Window.DataContext>
+        <local:TimePickerProperties />
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="0, 0, 0, 10" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="16"/>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin="10 5" Text="Start time" VerticalAlignment="Center"/>
+            </StackPanel>
+            <syncfusion:SfTimePicker Grid.Row="1" Margin="10 5" x:Name="TP1" InputScope="Number"  AllowInlineEditing="{Binding ElementName=chk,Path=IsChecked}" 
+                               AccentBrush="{StaticResource AccentBrush}"
+                               FormatString="{Binding FormatString, Mode=TwoWay}"
+                               MinWidth="200" Width="auto" HorizontalAlignment="Left">
+                <syncfusion:SfTimePicker.SelectorStyle>
+                    <Style TargetType="syncfusion:SfTimeSelector">
+                        <Setter Property="BorderThickness" Value="2" />
+                        <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                    </Style>
+                </syncfusion:SfTimePicker.SelectorStyle>
+            </syncfusion:SfTimePicker>
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <TextBlock Margin="10 5" Text="End time" VerticalAlignment="Center"/>
+            </StackPanel>
+            <syncfusion:SfTimePicker Grid.Row="3" Margin="10 5" x:Name="TP2" InputScope="Number"  AllowInlineEditing="{Binding ElementName=chk,Path=IsChecked}" 
+                               AccentBrush="{StaticResource AccentBrush}"
+                               FormatString="{Binding FormatString, Mode=TwoWay}"
+                               MinWidth="200" Width="auto" HorizontalAlignment="Left">
+                <syncfusion:SfTimePicker.SelectorStyle>
+                    <Style TargetType="syncfusion:SfTimeSelector">
+                        <Setter Property="BorderThickness" Value="2" />
+                        <Setter Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                    </Style>
+                </syncfusion:SfTimePicker.SelectorStyle>
+            </syncfusion:SfTimePicker>
+        </Grid>
+
+        <GroupBox Margin="0,0,3,3" FontWeight="Bold" FontSize="15" Grid.Column="1" BorderBrush="Silver" Header="User Options">
+            <Grid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock FontWeight="Normal" Text="Format String" Margin="10" Grid.Row="0"/>
+                <ComboBox FontWeight="Normal" IsTabStop="False" Grid.Row="1" Margin="10 5"  x:Name="format" Loaded="Loaded"
+                          SelectedItem="{Binding FormatString, Mode=TwoWay,Converter={StaticResource formatConv}}">
+                    <ComboBoxItem Content="ShortTimePattern" Tag="t"/>
+                    <ComboBoxItem Content="LongTimePattern" Tag="T"/>
+                    <ComboBoxItem Content="RFC1123Pattern" Tag="ddd, dd MMM yyyy HH':'mm':'ss 'GMT' (*)"/>
+                    <ComboBoxItem Content="SortableDateTimePattern" Tag="yyyy'-'MM'-'dd'T'HH':'mm':'ss (*)"/>
+                    <ComboBoxItem Content="TwentyFourHourTimelinePattern" Tag="yyyy'-'MM'-'dd' 'HH':'mm':'ss "/>
+                    <ComboBoxItem Content="UniversalSortableDateTimePattern" Tag="yyyy'-'MM'-'dd HH':'mm':'ss'Z' (*)"/>
+                </ComboBox>
+                <TextBlock FontWeight="Normal" Text="Selector Format String" Margin="10" Grid.Row="2"/>
+                <ComboBox FontWeight="Normal" IsTabStop="False" Grid.Row="3" Margin="10 5"  SelectionChanged="SelectorFormatStringChanged" Loaded="Loaded">
+                    <ComboBoxItem Content="HourMinutePattern" Tag="h/m"/>
+                    <ComboBoxItem Content="HourMinuteSecondPattern" Tag="h/m/s" IsSelected="True"/>
+                    <ComboBoxItem Content="TwentyFourHourTimelinePattern" Tag="HH/mmm/ss"/>
+                    <ComboBoxItem Content="HourMeridienPattern" Tag="h/t"/>
+                    <ComboBoxItem Content="MeridianHourPattern" Tag="t/h"/>
+                    <ComboBoxItem Content="MinutePattern" Tag="m"/>
+                    <ComboBoxItem Content="HourPattern" Tag="h"/>
+                </ComboBox>
+                <CheckBox FontWeight="Normal" Content="AllowInlineEditing" Grid.Row="4" Visibility="Collapsed"
+                      VerticalAlignment="Top"
+                      Margin="5" x:Name="chk"
+                      IsChecked="False"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

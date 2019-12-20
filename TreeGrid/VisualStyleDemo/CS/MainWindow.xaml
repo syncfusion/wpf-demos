@@ -1,0 +1,62 @@
+﻿<Window x:Class="VisualStylesDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+                             xmlns:local="clr-namespace:VisualStylesDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title="Visual Styles Demo" 
+                             Icon="App.ico"
+                             Width="1200" Height="720"
+                             WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    
+    <Grid>
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases SfTreeGrid with various visual styles."
+                                  HeaderText="Visual Styles Demo"
+                                  LayoutMode="Metro">
+            <syncfusion:LayoutControl.GridView>
+                
+              <syncfusion:SfTreeGrid Name="treeGrid"
+                                       AllowEditing="True"
+                                       AllowResizingColumns="True"
+                                       AllowResizingHiddenColumns="True"
+                                       AutoExpandMode="RootNodesExpanded"
+                                       AutoGenerateColumns="False"
+                                       ChildPropertyName="Children"
+                                       ColumnSizer="Star"
+                                       ExpanderColumn="FirstName"
+                                       ItemsSource="{Binding PersonDetails}"
+                                       NavigationMode="Row"
+                                       ShowRowHeader="True">
+                    <syncfusion:SfTreeGrid.Columns>
+                        <syncfusion:TreeGridTextColumn MappingName="Id" TextAlignment="Left" />
+                        <syncfusion:TreeGridTextColumn HeaderText="First Name" MappingName="FirstName" />
+                        <syncfusion:TreeGridTextColumn HeaderText="Last Name" MappingName="LastName" />
+                        <syncfusion:TreeGridCheckBoxColumn HeaderText="Availability" MappingName="LikesCake" />
+                        <syncfusion:TreeGridDateTimeColumn MappingName="DOB" />
+                    </syncfusion:SfTreeGrid.Columns>
+                </syncfusion:SfTreeGrid> 
+            </syncfusion:LayoutControl.GridView>
+
+            <syncfusion:LayoutControl.UserOptionsView>
+                <syncfusion:UserOptions HeaderText="Options">
+                    <StackPanel Margin="5">
+                        <TextBlock Margin="5" FontSize="12" FontWeight="Bold" Text="Visual Styles:" />
+                        
+                        <ComboBox x:Name="StylesComboBox" ItemsSource="{Binding Path=ComboBoxItemsSource}" FocusVisualStyle="{x:Null}" 
+                                  SelectedIndex="1" Height="30" VerticalContentAlignment="Center" Margin="5">
+                            <interactivity:Interaction.Triggers>
+                                <interactivity:EventTrigger EventName="SelectionChanged">
+                                    <local:VisualThemesTriggerAction TargetName="treeGrid" />
+                                </interactivity:EventTrigger>
+                            </interactivity:Interaction.Triggers>
+                        </ComboBox>                        
+                    </StackPanel>
+                </syncfusion:UserOptions>
+            </syncfusion:LayoutControl.UserOptionsView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</Window>

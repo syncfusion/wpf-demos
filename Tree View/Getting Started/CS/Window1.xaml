@@ -1,0 +1,113 @@
+﻿<!--Window for applying custom skins-->
+<syncfusion:ChromelessWindow x:Class="TreeViewAdvConfigurationDemo.Window1" UseNativeChrome="True"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Icon="App.ico"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" xmlns:local="clr-namespace:TreeViewAdvConfigurationDemo" 
+    Title="Getting Started" 
+    xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF"           
+    Width="800"  FontSize="13" 
+    Height="620" FontFamily="Calibri"
+    WindowStartupLocation="CenterScreen">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <local:CountToVisibilityConverter x:Key="Converter"/>
+        
+        <local:StyleConverter x:Key="StyleConverter"/>
+        
+        <local:AnimationTypeConverter x:Key="animationTypeConverter"/>
+
+        <Style TargetType="syncfusion:TreeViewItemAdv" x:Key="style">
+            <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+           
+            <Setter Property="IsEditable" Value="{Binding IsEditable, Mode=TwoWay}"/>
+        </Style>
+
+    </syncfusion:ChromelessWindow.Resources>
+
+    <sblayout:SampleLayoutControl Header="TreeView" IsTabStop="False" x:Name="sblayout" EventLogs="{Binding EventLogsCollection}"
+                                  Description="The TreeViewAdv Control is used to display data in a hierarchical order. It has all the essential features, along with more advanced features, that make the control extraordinary. The properties in the TreeViewAdv control make it easy for users to achieve a desired layout and output using both XAML and C#.">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!--<Image Source="search.png" Margin="3" />
+                <TextBox Margin="3" VerticalAlignment="Center" Grid.Column="1" x:Name="filter" TextChanged="filter_TextChanged" PreviewKeyDown="filter_PreviewKeyDown"/>-->
+                <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Orientation="Horizontal" 
+                           Visibility="{Binding ElementName=TreeView, Path=Items.Count, Converter={StaticResource Converter}}">
+                    <TextBlock Text="(no results found for " FontStyle="Italic"/>
+                    <TextBlock Text=")"/>
+                </StackPanel>
+                <syncfusion:TreeViewAdv 
+                Background="Transparent"
+            x:Name="TreeView"
+            Grid.ColumnSpan="2"
+            Margin="3"
+            Grid.Row="1"
+            IsScrollOnExpand="True"
+            ItemsSource="{Binding ModelItems}"
+            IsVirtualizing="False"
+            AllowMultiSelect="{Binding AllowMultiSelect, Mode=TwoWay}"
+            BorderThickness="0"
+            SelectedTreeItem="{Binding SelectedItem, Mode=TwoWay}"
+            ShowRootLines="{Binding ShowRootLines, Mode=TwoWay}"
+            AnimationType="{Binding AnimationType, Mode=TwoWay, Converter={StaticResource animationTypeConverter}}"
+            AllowDragDrop="{Binding AllowDragDrop, Mode=TwoWay}"
+            ItemContainerStyle="{Binding ElementName=sblayout, Path=CurrentVisualStyle, Converter={StaticResource StyleConverter}}"
+                    syncfusion:TreeViewAdvSelectedItemChangedCommand.Command="{Binding SelectedItemChangedCommand}"
+                    syncfusion:TreeViewAdvSelectedItemChangedCommand.CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=SelectedItem}"
+                    syncfusion:TreeViewAdvDragStartCommand.Command="{Binding TreeViewAdvDragStartCommand}"
+                    syncfusion:TreeViewAdvDragEndCommand.Command="{Binding TreeViewAdvDragEndCommand}"
+              >
+                    <syncfusion:TreeViewAdv.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Models}">
+                            <TextBlock Text="{Binding Header, Mode=TwoWay}" />
+                        </HierarchicalDataTemplate>
+                    </syncfusion:TreeViewAdv.ItemTemplate>
+
+
+
+                </syncfusion:TreeViewAdv>
+            </Grid>
+            <Border Width="1" Grid.Column="1" Background="{Binding ElementName=options, Path=BorderBrush}" Margin="3 0"/>
+
+            <Grid Grid.Column="2" DataContext="{Binding Path=SelectedItem}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding Header}" VerticalAlignment="Center" Margin="3" FontWeight="Bold"/>
+                <TextBlock Text="{Binding Description}" Margin="3" Grid.Row="1" TextWrapping="Wrap"
+                           VerticalAlignment="Top"/>
+                <Image Source="sync.png" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="3" Grid.Row="2" Width="110"/>
+            </Grid>
+
+        </Grid>
+
+        <sblayout:SampleLayoutControl.PropertyViewContent>
+            <Grid>               
+                <sblayout:GroupBoxAdv Header="User Options" x:Name="options" IsTabStop="False">
+                    <local:PropertyView Margin="5"/>
+                </sblayout:GroupBoxAdv>              
+            </Grid>
+        </sblayout:SampleLayoutControl.PropertyViewContent>
+
+    </sblayout:SampleLayoutControl>
+
+
+
+</syncfusion:ChromelessWindow>

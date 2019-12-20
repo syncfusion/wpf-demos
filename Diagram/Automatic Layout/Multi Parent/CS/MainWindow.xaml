@@ -1,0 +1,188 @@
+﻿<Window x:Class="AutomaticLayout_MultiParentLayout.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AutomaticLayout_MultiParentLayout"
+        xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        Icon="App.ico" 
+        Title="Multi-Parent Hierarchical Layout"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:MultiParent/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <!--DataTemplate for Content of Node-->
+            <DataTemplate x:Key="ContentTemplateforNode">
+                <Border Width="50" Height="40" BorderThickness="1" Background="{Binding Path=RatingColor}" 
+                    CornerRadius="6" BorderBrush="#5e5e5e">
+                </Border>
+            </DataTemplate>
+            
+            <!--Style for Node-->
+            <Style TargetType="Syncfusion:Node">
+                <Setter Property="ContentTemplate" Value="{StaticResource ContentTemplateforNode}"/>
+            </Style>
+            
+            <!--Style for Connector-->
+            <Style TargetType="Syncfusion:Connector">
+                <Setter Property="ConnectorGeometryStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="Black"  />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="TargetDecorator" Value="M0,0 L10,5 L0,10 L 0,0"></Setter>
+                <Setter Property="TargetDecoratorStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stretch" Value="Fill"></Setter>
+                            <Setter Property="Width" Value="7.5"></Setter>
+                            <Setter Property="Height" Value="7.5"></Setter>
+                            <Setter Property="Stroke" Value="Black"/>
+                            <Setter Property="Fill" Value="Black"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+
+            <!--Common style for Buttons-->
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--Common style for Buttons-->
+            <Style x:Key="SelectedButtonStyle" TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Name="Border" BorderBrush="#BEE6FD" BorderThickness="2" Background="{TemplateBinding Background}">
+                                <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" ContentTemplate="{TemplateBinding ContentTemplate}" Margin="{TemplateBinding Padding}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="255"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+
+            <!--Initialize Diagram-->
+            <Syncfusion:SfDiagram x:Name="sfdiagram"
+                                  DefaultConnectorType="{Binding DefaultConnectorType}"
+                                  Nodes="{Binding Nodes}"
+                                  Connectors="{Binding Connectors}"
+                                  Constraints="{Binding Constraints}"
+                                  Tool="{Binding Tool}"
+                                  Menu="{Binding Menu}"
+                                  HorizontalRuler="{Binding HorizontalRuler}"
+                                  VerticalRuler="{Binding VerticalRuler}"
+                                  DataSourceSettings="{Binding DataSourceSettings}"
+                                  LayoutManager="{Binding LayoutManager}"
+                                  Loaded="Sfdiagram_Loaded">
+            </Syncfusion:SfDiagram>
+        </Grid>
+        <Border Margin="3,0,0,0" Background="White" Grid.Column="1">
+            
+            <!--To Represent Vertical with alternate ,Horizontal with Left and Horizontal with Right-->
+            <StackPanel>
+                <TextBlock Text="Options" Margin="20,25,0,0" FontFamily="Segoe UI" Foreground="Black" FontWeight="Bold" FontSize="13pt" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Grid.ColumnSpan="2" />
+                <TextBlock Text="Orientation" Margin="10,10,0,0" FontFamily="Segoe UI" Foreground="Black" FontWeight="Bold" FontSize="11pt" Grid.Row="0" Grid.Column="1" 
+                           HorizontalAlignment="Left" Grid.ColumnSpan="2"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="10,10,0,0" Background="White" Style="{StaticResource SelectedButtonStyle}" x:Name="ToptoBottomOrientation" Width="50" Height="50" Command="{Binding Orientation_Command}" CommandParameter="{Binding ElementName=ToptoBottomOrientation}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50">
+                                    <Path x:Name="path" Data="F1M150,94L100,94L100,44L150,44z" Fill="White" Stretch="Fill" UseLayoutRounding="False"/>
+                                    <Path Data="M10.000001,0 L11.000001,0 L11.000001,6.9990001 L10.000001,6.9990001 z M0,6.999999 L1,6.999999 L20,6.999999 L21,6.999999 L21,12.999999 L20,12.999999 L20,7.999999 L11.000001,7.9990001 L11.000001,12.999999 L10.000001,12.999999 L10.000001,7.9990001 L1,7.999999 L1,12.999999 L0,12.999999 z " Fill="DimGray" Stretch="Fill" Margin="14,18,15,19" UseLayoutRounding="False"/>
+                                    <Rectangle Fill="#FF5C9BD3" Height="6" Margin="21,12,22,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="21,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="31,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="11,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                        <Button.ToolTip>
+                            <Label Content="Top to Bottom"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Margin="10,10,0,0" Background="White" Name="LefttoRightOrientation" Width="50" Height="50" Command="{Binding Orientation_Command}" CommandParameter="{Binding ElementName=LefttoRightOrientation}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50">
+                                    <Path x:Name="path" Data="F1M150,94L100,94L100,44L150,44z" Fill="White" Stretch="Fill" UseLayoutRounding="False"/>
+                                    <Path Data="M10.000001,0 L11.000001,0 L11.000001,6.9990001 L10.000001,6.9990001 z M0,6.999999 L1,6.999999 L20,6.999999 L21,6.999999 L21,12.999999 L20,12.999999 L20,7.999999 L11.000001,7.9990001 L11.000001,12.999999 L10.000001,12.999999 L10.000001,7.9990001 L1,7.999999 L1,12.999999 L0,12.999999 z " Fill="DimGray" Stretch="Fill" Margin="14,18,15,19" UseLayoutRounding="False"/>
+                                    <Rectangle Fill="#FF5C9BD3" Height="6" Margin="21,12,22,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="21,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="31,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="11,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                        <Button.ToolTip>
+                            <Label Content="Left to Right"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Margin="10,10,0,0" Background="White" Name="RighttoLeftOrientation" Width="50" Height="50" Command="{Binding Orientation_Command}" CommandParameter="{Binding ElementName=RighttoLeftOrientation}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50">
+                                    <Path x:Name="path" Data="F1M150,94L100,94L100,44L150,44z" Fill="White" Stretch="Fill" UseLayoutRounding="False"/>
+                                    <Path Data="M10.000001,0 L11.000001,0 L11.000001,6.9990001 L10.000001,6.9990001 z M0,6.999999 L1,6.999999 L20,6.999999 L21,6.999999 L21,12.999999 L20,12.999999 L20,7.999999 L11.000001,7.9990001 L11.000001,12.999999 L10.000001,12.999999 L10.000001,7.9990001 L1,7.999999 L1,12.999999 L0,12.999999 z " Fill="DimGray" Stretch="Fill" Margin="14,18,15,19" UseLayoutRounding="False"/>
+                                    <Rectangle Fill="#FF5C9BD3" Height="6" Margin="21,12,22,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="21,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="31,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="11,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                        <Button.ToolTip>
+                            <Label Content="Right to Left"/>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button Margin="10,10,0,0" Background="White" Name="BottomtoTopOrientation" Width="50" Height="50" Command="{Binding Orientation_Command}" CommandParameter="{Binding ElementName=BottomtoTopOrientation}">
+                        <Button.ContentTemplate>
+                            <DataTemplate>
+                                <Grid HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="50">
+                                    <Path x:Name="path" Data="F1M150,94L100,94L100,44L150,44z" Fill="White" Stretch="Fill" UseLayoutRounding="False"/>
+                                    <Path Data="M10.000001,0 L11.000001,0 L11.000001,6.9990001 L10.000001,6.9990001 z M0,6.999999 L1,6.999999 L20,6.999999 L21,6.999999 L21,12.999999 L20,12.999999 L20,7.999999 L11.000001,7.9990001 L11.000001,12.999999 L10.000001,12.999999 L10.000001,7.9990001 L1,7.999999 L1,12.999999 L0,12.999999 z " Fill="DimGray" Stretch="Fill" Margin="14,18,15,19" UseLayoutRounding="False"/>
+                                    <Rectangle Fill="#FF5C9BD3" Height="6" Margin="21,12,22,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="21,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="31,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                    <Rectangle Fill="DimGray" Height="6" Margin="11,31,0,0" Stroke="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Width="7" StrokeThickness="0" UseLayoutRounding="False" />
+                                </Grid>
+                            </DataTemplate>
+                        </Button.ContentTemplate>
+                        <Button.ToolTip>
+                            <Label Content="Bottom to Top"/>
+                        </Button.ToolTip>
+                    </Button>
+                </StackPanel>
+                <StackPanel>
+                    <Label Height="20"/>
+                    <CheckBox Margin="10,10,0,0" Content="Avoid Segements Overlapping" FontFamily="Segoe UI" IsChecked="{Binding ElementName=sfdiagram, Path=DataContext.LayoutManager.Layout.AvoidSegmentOverlapping}" Foreground="Black" FontSize="11pt"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

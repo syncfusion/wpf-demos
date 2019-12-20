@@ -1,0 +1,413 @@
+﻿<UserControl x:Class="SfRadialMenu.RadialMenuDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Controls.Navigation;assembly=Syncfusion.SfRadialMenu.Wpf"
+             xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="PointerOverBrush" Color="LightGray"></SolidColorBrush>
+        <Style TargetType="Image">
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Stretch" Value="Uniform"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+        <Style x:Key="NavigationButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+            <Setter Property="BorderBrush" Value="#FF464646"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="Transparent" Margin="-5">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+
+                                        <Storyboard>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="BackgroundEllipse">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PointerOverBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Ellipse Fill="Transparent" x:Name="BackgroundEllipse" />
+                            <Ellipse Stroke="{TemplateBinding BorderBrush}" StrokeThickness="2"  Fill="Transparent"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <sblayout:SampleLayoutControl EnableThemeSwitching="True" EnableSfSkinManager="True"  Header="Radial Menu" x:Name="Sblayout" EventLogs="{Binding EventLogs}" DefaultVisualStyle="Metro"
+                                          Description="">
+
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <RichTextBox VerticalAlignment="Top"  SpellCheck.IsEnabled="False" Background="Transparent"
+                           Margin="10 10 0 10" FontSize="15" PreviewMouseDown="Text_OnPreviewMouseDown" PreviewMouseUp="Text_OnPreviewMouseUp"
+                           HorizontalAlignment="Left" Padding="0 0 150 0"
+                           x:Name="text" BorderBrush="Transparent"     LostFocus="Text_OnLostFocus"                        
+                           SelectionChanged="text_SelectionChanged_1">
+
+
+                    </RichTextBox>
+                    <syncfusion:SfRadialMenu HorizontalAlignment="Left" RimHoverBrush="#FF464646"
+                                   VerticalAlignment="Top" NavigationButtonStyle="{StaticResource NavigationButtonStyle}"
+                                   EnableFreeRotation="False" IsOpen="True"
+                                     x:Name="selectionmenu" Padding="5">
+                        <syncfusion:SfRadialMenu.RenderTransform>
+                        <TranslateTransform x:Name="transform1"/>
+            </syncfusion:SfRadialMenu.RenderTransform>
+                        <syncfusion:SfRadialMenu.Icon>
+                            <Grid Background="Transparent">
+                                <Image Source="/Assets/text.png" Width="20" Stretch="Uniform"/>
+                            </Grid>
+                        </syncfusion:SfRadialMenu.Icon>
+                    <syncfusion:SfRadialMenuItem Name="BoldItem" ToolTipService.ToolTip="Bold">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <Image Source="/Assets/Text-Bold.png"/>
+                                        <TextBlock Text="Bold"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+                        <syncfusion:SfRadialMenuItem  x:Name="bold" Click="Bold" Loaded="RadialMenuItem_OnLoaded" ToolTipService.ToolTip="Bold">
+                                <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/Text-Bold.png"/>
+                                            <TextBlock Text="Bold"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem x:Name="italic" Click="Italic" ToolTipService.ToolTip="Italic">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/Text Italic.png"/>
+                                            <TextBlock Text="Italic"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem  x:Name="bullet" ToolTipService.ToolTip="Bullets" Command="EditingCommands.ToggleBullets">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5" >
+                                    <StackPanel>
+                                        <Image Source="/Assets/bullet.png"/>
+                                        <TextBlock Text="Bullets"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+                        </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem x:Name="subscript" Click="SubScript" ToolTipService.ToolTip="SubScript">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/subscript.png"/>
+                                            <TextBlock Text="Subscript" FontSize="9" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem x:Name="superscript" Click="superScript" ToolTipService.ToolTip="SuperScript">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/superscript.png"/>
+                                            <TextBlock Text="Superscript" FontSize="9" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem x:Name="strike" Click="Strike" ToolTipService.ToolTip="Strike">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/strike.png"/>
+                                            <TextBlock Text="Strike"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem x:Name="underline" Click="Underline" ToolTipService.ToolTip="Underline">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/Underline.png"/>
+                                            <TextBlock Text="Underline"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+
+                            </syncfusion:SfRadialMenuItem>
+
+                        </syncfusion:SfRadialMenuItem>
+
+                        <!--Cut Copy Paste-->
+                    <syncfusion:SfRadialMenuItem Click="Copy" ToolTipService.ToolTip="Copy" >
+                        <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <Image Source="/Assets/Copy.png"/>
+                                        <TextBlock Text="Copy"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+
+                        <syncfusion:SfRadialMenuItem Click="Cut" Loaded="RadialMenuItem_OnLoaded" ToolTipService.ToolTip="Cut" >
+                                <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/Cut.png"/>
+                                            <TextBlock Text="Cut"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem MenuMouseOverBackgroundColor="Transparent"/>
+
+                        <syncfusion:SfRadialMenuItem Click="Copy" ToolTipService.ToolTip="Copy">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/Copy.png"/>
+                                            <TextBlock Text="Copy"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem MenuMouseOverBackgroundColor="Transparent"/>
+
+                        <syncfusion:SfRadialMenuItem Click="Paste" ToolTipService.ToolTip="Paste" >
+                                <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/Paste.png"/>
+                                            <TextBlock Text="Paste"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+                        <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+                        <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+                       
+                    </syncfusion:SfRadialMenuItem>
+
+                        <!--Undo Redo-->
+                    <syncfusion:SfRadialMenuItem Name="Main_undo" Click="Undo" ToolTipService.ToolTip="Undo" >
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <Image Name="undoImage1" Source="/Assets/Undo.png"/>
+                                        <TextBlock Name="Undotext1" Text="Undo"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+                        <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+                        <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+                        <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+                        <syncfusion:SfRadialMenuItem Name="Inner_Undo" Loaded="RadialMenuItem_OnLoaded" Click="Undo" ToolTipService.ToolTip="Undo" >
+                            <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Name="undoImage2" Source="/Assets/Undo.png"/>
+                                            <TextBlock Name="undotext2" Text="Undo"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem Click="Redo" ToolTipService.ToolTip="Redo">
+                                <syncfusion:SfRadialMenuItem.Header>
+                                    <Border Background="Transparent" Padding="5">
+                                        <StackPanel>
+                                            <Image Source="/Assets/Redo.png"/>
+                                            <TextBlock Text="Redo"/>
+                                        </StackPanel>
+                                    </Border>
+                                </syncfusion:SfRadialMenuItem.Header>
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+                        <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+                        </syncfusion:SfRadialMenuItem>
+
+                        <!--FontSize with SfRadial Slider-->
+                    <syncfusion:SfRadialMenuItem ToolTipService.ToolTip="Font Size" >
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <TextBlock Padding="30,0,0,0" Text="{Binding ElementName=FontsizeSlider,Path=Value}" FontSize="9"/>
+                                    <Image Source="/Assets/a_inverte_transparent.png"  Height="20"/>
+                                        <TextBlock Text="Font Size" />
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+
+                            <syncfusion:SfRadialSlider Loaded="FontsizeSlider_OnLoaded" Margin="6" x:Name="FontsizeSlider" Value="15" SmallChange="5" ValueChanged="RadialSlider_Value_Changed" Minimum="0" Height="auto" Width="auto" Maximum="60" TickFrequency="5"/>
+                        </syncfusion:SfRadialMenuItem>
+
+                        <!--Color Pallete-->
+                    <syncfusion:SfRadialMenuItem ToolTipService.ToolTip="Color" Loaded="RadialMenuItem_OnLoaded" >
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <Image Source="/Assets/Color.png" Height="22"/>
+                                        <TextBlock Text="Color"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+                        <syncfusion:SfRadialMenuItem IsEnabled="False" MenuMouseOverBackgroundColor="Transparent">
+                              
+                            </syncfusion:SfRadialMenuItem>
+
+                        <syncfusion:SfRadialMenuItem  MenuMouseOverBackgroundColor="Transparent">
+                               
+                            </syncfusion:SfRadialMenuItem>
+
+                        <syncfusion:SfRadialMenuItem MenuMouseOverBackgroundColor="Transparent" >
+                               
+                            </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Orange" Loaded="RadialMenuItem_OnLoaded"  Click="Color" Color="#FFF6901E">
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Orange" Loaded="RadialMenuItem_OnLoaded"  Click="Color" Color="#FFD16227"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Orange"  Click="Color" Color="#FFEB7C23"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Orange"  Click="Color" Color="#FFF6901E "/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Gold" Click="Color" Color="#FFFFC000"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Light Yellow" Click="Color" Color="#FFFFD55F"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Light Yellow" Click="Color" Color="#FFFFEB9C"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Yellow"  Click="Color" Color="#FFFFFF00"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Brown"  Click="Color" Color="#FFAC4D25"/>
+                        </syncfusion:SfRadialColorItem>
+
+                        <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Red" Loaded="RadialMenuItem_OnLoaded"  Click="Color" Color="#FFC00000">
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Purple" Loaded="RadialMenuItem_OnLoaded"  Click="Color" Color="#FFFF00FF"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Plum" Click="Color" Color="#FF630331"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Red" Click="Color" Color="#FF800000"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Red" Click="Color" Color="#FFC00000"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Red"  Click="Color" Color="#FFFF0000"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Rose"  Click="Color" Color="#FFF6A2A4"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Rose"  Click="Color" Color="#FFFFC7CE"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Pink"  Click="Color" Color="#FFE8158D"/>
+                        </syncfusion:SfRadialColorItem>
+
+                        <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Green"  Click="Color" Color="#FF008000">
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Green" Loaded="RadialMenuItem_OnLoaded" Click="Color" Color="#FF00FF00"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Green"  Click="Color" Color="#FF1D421E"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Green" Click="Color" Color="#FF1D5A2D"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Green" Click="Color" Color="#FF1D5A2D"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Green" Click="Color" Color="#FF008000"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Green" Click="Color" Color="#FF00B050"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Lime" Click="Color" Color="#FF92D050"/>
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Light Green" Click="Color" Color="#FFC6EFCE"/>
+                            </syncfusion:SfRadialColorItem>
+
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Blue" Click="Color" Color="#FF002060">
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Turquoise" Loaded="RadialMenuItem_OnLoaded" Click="Color" Color="#FF00B0F0"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Aqua"  Click="Color" Color="#FF00FFFF"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Sky Blue" Click="Color" Color="#FFC5F7FF"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Purple" Click="Color" Color="#FF7030A0"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Purple" Click="Color" Color="#FF800080"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Blue" Click="Color" Color="#FF002060"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Blue" Click="Color" Color="#FF0000FF"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Dark Blue" Click="Color" Color="#FF0070C0"/>
+                            </syncfusion:SfRadialColorItem>
+
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Black" Click="Color" Color="#FF000000">
+                            <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Gray-80%" Loaded="RadialMenuItem_OnLoaded" Click="Color" Color="#FF646464"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Gray-50%" Click="Color" Color="#FF747474"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Gray-25%" Click="Color" Color="#FF969696"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Gray-25%" Click="Color" Color="#FFB9B9B9"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Gray-25%" Click="Color" Color="#FFD7D7D7"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="White" Click="Color" Color="#FFFFFFFF"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Black" Click="Color" Color="#FF000000"/>
+                                <syncfusion:SfRadialColorItem ToolTipService.ToolTip="Gray-80%" Click="Color" Color="#FF323232"/>
+
+                            </syncfusion:SfRadialColorItem>
+
+                        </syncfusion:SfRadialMenuItem>
+
+                    </syncfusion:SfRadialMenu>
+                    <syncfusion:SfRadialMenu HorizontalAlignment="Left" 
+                                   VerticalAlignment="Top" NavigationButtonStyle="{StaticResource NavigationButtonStyle}"
+                                   IsOpen="False" Padding="5"
+                                   EnableFreeRotation="False"
+                                   x:Name="defaultmenu" Visibility="Collapsed">
+                        <syncfusion:SfRadialMenu.RenderTransform>
+                <TranslateTransform x:Name="transform2"/>
+            </syncfusion:SfRadialMenu.RenderTransform>
+                        <syncfusion:SfRadialMenu.Icon>
+                            <Grid Background="Transparent">
+                                <Image Source="/Assets/Text Edit.png" Width="20" Stretch="Uniform"/>
+                            </Grid>
+                        </syncfusion:SfRadialMenu.Icon>
+                        <syncfusion:SfRadialMenuItem ToolTipService.ToolTip="Camera" >
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <Image Source="/Assets/camera.png"/>
+                                        <TextBlock Text="Camera"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+                        </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem Click="Paste" ToolTipService.ToolTip="Paste" >
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <Image Source="/Assets/Paste.png"/>
+                                        <TextBlock Text="Paste"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+                        </syncfusion:SfRadialMenuItem>
+                    <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent"/>
+
+                    <syncfusion:SfRadialMenuItem Click="Redo" ToolTipService.ToolTip="Redo">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <Image Source="/Assets/Redo.png"/>
+                                        <TextBlock Text="Redo"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+                        </syncfusion:SfRadialMenuItem>
+                        <syncfusion:SfRadialMenuItem Click="Undo" ToolTipService.ToolTip="Undo">
+                            <syncfusion:SfRadialMenuItem.Header>
+                                <Border Background="Transparent" Padding="5">
+                                    <StackPanel>
+                                        <Image Source="/Assets/Undo.png"/>
+                                        <TextBlock Text="Undo"/>
+                                    </StackPanel>
+                                </Border>
+                            </syncfusion:SfRadialMenuItem.Header>
+                        </syncfusion:SfRadialMenuItem>
+                    <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent">
+
+                        </syncfusion:SfRadialMenuItem>
+                    <syncfusion:SfRadialMenuItem CheckMode="None" MenuMouseOverBackgroundColor="Transparent">
+
+                    </syncfusion:SfRadialMenuItem>
+                </syncfusion:SfRadialMenu>
+                </Grid>
+            
+        </sblayout:SampleLayoutControl>
+    </Grid>
+</UserControl>

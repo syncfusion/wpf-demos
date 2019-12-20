@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="MenuMerging.ToolbarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MenuMerging"
+             mc:Ignorable="d" xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+    <UserControl.Resources>
+        <DataTemplate x:Key="template">
+            <syncfusion:ButtonAdv Style="{DynamicResource ToolBarButtonAdvStyle}" ToolTip="{Binding Name}" Command="{Binding Command}" CommandParameter="{Binding Name}" SizeMode="Small" 
+                                   IsCheckable="{Binding IsCheckable}" Label="{Binding Name}"  IsChecked="{Binding IsChecked, Mode=TwoWay}" SmallIcon="{Binding Icon}">
+            </syncfusion:ButtonAdv>
+        </DataTemplate>
+        <local:CollectionConverter x:Key="Converter"/>
+    </UserControl.Resources>
+    <Grid>
+        <syncfusion:ToolBarTrayAdv>
+            <syncfusion:ToolBarTrayAdv.Resources>
+                <ResourceDictionary Source="/Syncfusion.Shared.WPF;component/Controls/ToolBarAdv/Themes/Transparent/TransparentResources.xaml"></ResourceDictionary>
+            </syncfusion:ToolBarTrayAdv.Resources>
+            <syncfusion:ToolBarAdv ItemsSource="{Binding FileCommands}" ItemTemplate="{StaticResource template}"/>
+            <syncfusion:ToolBarAdv ItemsSource="{Binding WindowCommands}" ItemTemplate="{StaticResource template}"/>
+            <syncfusion:ToolBarAdv ItemsSource="{Binding OtherToolbarCommands}" ItemTemplate="{StaticResource template}"/>
+            <syncfusion:ToolBarAdv ItemTemplate="{StaticResource template}">
+                <Button>
+                    <Image Source="/Images/Help.png" Width="16" Height="16" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </Button>
+                <Button Content="About"></Button>
+            </syncfusion:ToolBarAdv>
+        </syncfusion:ToolBarTrayAdv>
+    </Grid>
+</UserControl>

@@ -1,0 +1,108 @@
+﻿<sfutils:SampleWindow x:Class="OlapGrid.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:tools="http://schemas.syncfusion.com/wpf"
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                      xmlns:behavior="clr-namespace:OlapGrid.Behavior"
+                      xmlns:viewModel="clr-namespace:OlapGrid.ViewModel"
+                      Title="Getting Started" Icon="App.ico" WindowState="Maximized" 
+                      tools:SkinStorage.VisualStyle="Metro">
+
+    <sfutils:SampleWindow.Resources>
+        <DataTemplate x:Key="DockingManagerHeaderTemplate">
+            <TextBlock Text="{Binding}" FontWeight="SemiBold"/>
+        </DataTemplate>
+    </sfutils:SampleWindow.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="OlapGrid illustrates Excel like feature to add hierarchies dynamically."
+                       Foreground="White" Margin="5,0,0,0" VerticalAlignment="Center"></TextBlock>
+        </StackPanel>
+
+        <tools:DockingManager DockFill="True" UseDocumentContainer="True" Grid.Row="1">
+            <tools:DockingManager.DataContext>
+                <viewModel:ViewModel/>
+            </tools:DockingManager.DataContext>
+
+            <Grid tools:DockingManager.SideInDockedMode="Left"
+                  tools:DockingManager.Header="Cube Browser"
+                  tools:DockingManager.HeaderTemplate="{StaticResource DockingManagerHeaderTemplate}"
+                  tools:DockingManager.DesiredWidthInDockedMode="250"
+                  tools:DockingManager.DesiredMaxWidthInDockedMode="250"
+                  tools:DockingManager.CanAutoHide="False"
+                  tools:DockingManager.CanClose="True">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <tools:CubeDimensionBrowser x:Name="cdb" Margin="2" OlapDataManager="{Binding GridDataManager}" AllowNodeDragging="True"/>
+
+                <GridSplitter Grid.Row="0" Height="1" Margin="2 0" Background="#FF119EDA" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+
+                <Grid Grid.Row="1" Margin="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="Column">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontWeight="SemiBold"/>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <tools:AxisElementBuilder x:Name="columnAxis" Margin="2" Axis="Categorical" AllowDrop="True">
+                            <i:Interaction.Behaviors>
+                                <behavior:AxisElementLoadedBehaviour/>
+                            </i:Interaction.Behaviors>
+                        </tools:AxisElementBuilder>
+                    </GroupBox>
+                    <GroupBox Header="Row" Grid.Row="1">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontWeight="SemiBold"/>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <tools:AxisElementBuilder x:Name="rowAxis" Margin="2" Axis="Series">
+                            <i:Interaction.Behaviors>
+                                <behavior:AxisElementLoadedBehaviour/>
+                            </i:Interaction.Behaviors>
+                        </tools:AxisElementBuilder>
+                    </GroupBox>
+                    <GroupBox Header="Slicer" Grid.Row="2">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontWeight="SemiBold"/>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <tools:AxisElementBuilder x:Name="slicerAxis" Margin="2" Axis="Slicer">
+                            <i:Interaction.Behaviors>
+                                <behavior:AxisElementLoadedBehaviour/>
+                            </i:Interaction.Behaviors>
+                        </tools:AxisElementBuilder>
+                    </GroupBox>
+                </Grid>
+            </Grid>
+
+            <tools:OlapGrid x:Name="olapGrid" Margin="5"
+                            tools:DockingManager.Header="OlapGrid"
+                            tools:DockingManager.HeaderTemplate="{StaticResource DockingManagerHeaderTemplate}"
+                            tools:DockingManager.SideInDockedMode="Left"
+                            tools:DockingManager.CanAutoHide="False"
+                            tools:DockingManager.CanClose="False"
+                            tools:DockingManager.CanDocument="True"
+                            tools:DockingManager.CanDrag="False"
+                            tools:DockingManager.CanFloat="False"
+                            tools:DockingManager.DesiredWidthInDockedMode="850"
+                            OlapDataManager="{Binding GridDataManager}"/>
+        </tools:DockingManager>
+    </Grid>
+</sfutils:SampleWindow>

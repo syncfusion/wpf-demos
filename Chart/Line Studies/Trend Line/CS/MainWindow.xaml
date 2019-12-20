@@ -1,0 +1,129 @@
+﻿<layout:SampleLayoutWindow x:Class="TrendlineDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+         xmlns:syncfusion ="http://schemas.syncfusion.com/wpf"
+       xmlns:local="clr-namespace:TrendlineDemo" ResizeMode="CanResizeWithGrip"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+         Title="Trend Line"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        UserOptionsVisibility="Visible"
+        WindowStartupLocation="CenterScreen">
+
+    <layout:SampleLayoutWindow.DataContext>
+        <local:ViewModel/>
+    </layout:SampleLayoutWindow.DataContext>
+    
+    <Grid >
+        
+        <Grid.Resources>
+            <Style TargetType="Line" x:Key="AxisStyle">
+                <Setter Property="Stroke" Value="DarkGray"  />
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+        </Grid.Resources>
+        
+        <chart:SfChart  Name="sfchart" AreaBorderThickness="0,1,1,1">
+         
+            <chart:SfChart.Header>
+                <TextBlock Text="Stock Price Details" FontSize="18" FontWeight="Bold"   />
+            </chart:SfChart.Header>
+
+            <chart:SfChart.PrimaryAxis>
+            <chart:CategoryAxis  LabelFormat="MMM dd yyyy" 
+                                 AxisLineStyle="{StaticResource AxisStyle}" 
+                                 MajorTickLineStyle="{StaticResource AxisStyle}">
+                    <chart:CategoryAxis.Header>
+                    <TextBlock Text="Date" FontSize="15"></TextBlock>
+                </chart:CategoryAxis.Header>
+            </chart:CategoryAxis>
+            </chart:SfChart.PrimaryAxis>
+            
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis AxisLineStyle="{StaticResource AxisStyle}" 
+                                     MajorTickLineStyle="{StaticResource AxisStyle}">
+                    <chart:NumericalAxis.Header>
+                        <TextBlock Text="Stock Price In Millions" FontSize="15"></TextBlock>
+                    </chart:NumericalAxis.Header>
+                </chart:NumericalAxis>
+            </chart:SfChart.SecondaryAxis>
+            
+            <chart:SfChart.Legend>
+                    <chart:ChartLegend   />
+                </chart:SfChart.Legend>
+            
+            <chart:FastLineSeries XBindingPath="Date" YBindingPath="Value" 
+                                  Label="Stock Price"   
+                                  ItemsSource="{Binding StockPriceDetails}">
+                <chart:FastLineSeries.Trendlines>
+                    <chart:Trendline LegendIcon="SeriesType" Label="Trendline"
+                                     Type="{Binding ElementName=trendlineTypeCombo, Path=SelectedItem}"
+                                     PolynomialOrder="{Binding ElementName=PolynomialOrderCombo,Path=SelectedItem}"
+                                     BackwardForecast="{Binding ElementName=backwardForecastCombo, Path=Value}"
+                                     ForwardForecast="{Binding ElementName=forewardForecastCombo, Path=Value }"
+                                     Stroke="{Binding ElementName=strokeColorPicker,Path=Brush}"
+                                     StrokeThickness="{Binding ElementName=strokeThicknessCombo,Path=Value}"
+                                     StrokeDashArray="{Binding ElementName=strokeDashArrayCombo, Path=SelectedValue}"/>
+
+                    </chart:FastLineSeries.Trendlines>
+                </chart:FastLineSeries>
+            
+        </chart:SfChart>
+        
+    </Grid>
+    
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid Grid.Column="1" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="5" Text="TrendLine Properties" FontWeight="Bold"  FontSize="16" Grid.Row="0"/>
+            <Border Grid.Row="1" Margin="5" BorderBrush="Black" BorderThickness="1" Padding="2">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="130"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    </Grid.RowDefinitions>
+                <TextBlock Margin="2"  Text="Trendline Type" Grid.Row="0" Grid.Column="0"  FontSize="16" />
+                <ComboBox  Margin="2"  Grid.Row="0" Grid.Column="1" SelectedIndex="0"  IsEditable="False"
+                           x:Name="trendlineTypeCombo" ItemsSource="{Binding TrendlineTypes}">
+                </ComboBox>
+                <TextBlock Margin="2" Text="Polynomial Order" Grid.Column="0" Grid.Row="1" FontSize="16"></TextBlock>
+                    <ComboBox x:Name="PolynomialOrderCombo" Margin="2" Grid.Column="1" Grid.Row="1" SelectedIndex="0" IsEditable="False" ItemsSource="{Binding PolynomialOrders}" />
+
+                <TextBlock Margin="2"  Text="Back Year Trend" FontSize="16" Grid.Row="2" Grid.Column="0" />
+                <Slider Margin="2"  Minimum="0" Maximum="12" Value="0" Grid.Row="2" 
+                        Grid.Column="1" x:Name="backwardForecastCombo" />
+
+                <TextBlock Margin="2"  Text="Future Year Trend" FontSize="16" Grid.Row="3" Grid.Column="0" />
+                <Slider Margin="2" Minimum="0" Maximum="12" Value="0" Grid.Row="3" 
+                        Grid.Column="1" x:Name="forewardForecastCombo" />
+
+                <TextBlock Margin="2" Text="Stroke" FontSize="16" Grid.Row="4" Grid.Column="0"></TextBlock>
+                    <syncfusion:ColorPicker Margin="2" Grid.Row="4" Grid.Column="1" 
+                                            Name="strokeColorPicker" BrushMode="Solid"  
+                                            Color="#FF4F3A53"
+                                            syncfusion:SkinStorage.VisualStyle="Metro"/>
+
+                <TextBlock Margin="2"  Text="StrokeThickness" FontSize="16" Grid.Row="5" Grid.Column="0" />
+                <Slider Margin="2"  Minimum="1" Maximum="10" Value="2" Grid.Row="5" 
+                        Grid.Column="1" x:Name="strokeThicknessCombo" />
+                <TextBlock  Margin="2" Text="StrokeDashArray" FontSize="16" Grid.Row="6" Grid.Column="0"></TextBlock>
+                <ComboBox Margin="2"  Grid.Row="6" Grid.Column="1" IsEditable="False" SelectedIndex="4" 
+                          ItemsSource="{Binding StrokeDashArrays}" x:Name="strokeDashArrayCombo">
+                </ComboBox>
+                </Grid>
+            </Border>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+    </layout:SampleLayoutWindow>

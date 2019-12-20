@@ -1,0 +1,239 @@
+﻿<Window x:Class="DateTimeEditDemo.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:local="clr-namespace:DateTimeEditDemo" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+    Title="DateTimeEdit" Icon="App.ico" WindowStartupLocation="CenterScreen" WindowState="Normal" 
+    Height="700" Width="992" FontFamily="Calibri" syncfusion:SkinStorage.VisualStyle="Metro" FontSize="13" MinHeight="430" >
+    <Window.Resources>
+        <local:StringToCultureConverter x:Key="cultureconverter"/>
+        <local:PatternConverter x:Key="patternConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.DataContext>
+                <local:ViewModel />
+            </Grid.DataContext>
+
+            <Grid Margin="0,0,0,60" Height="633" Width="772">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="column0" Width="0.5*"/>
+                    <ColumnDefinition x:Name="column1" Width="4.25*"/>
+                    <ColumnDefinition x:Name="column2" Width="0.5*"/>
+                    <ColumnDefinition x:Name="column3" Width="4.25*"/>
+                    <ColumnDefinition x:Name="column4" Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="1" x:Name="grid1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.68*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.68*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.68*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.68*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.6*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid HorizontalAlignment="Left" Grid.Row="1" x:Name="gridDT1" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontWeight="SemiBold" Text="Edit Mode"  VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Grid.Row="2" Name="canEditDT" HorizontalAlignment="Left" Width="{Binding ElementName=grid2, Path=ActualWidth}"
+                                              CanEdit="True" Pattern="FullDateTime"
+                                               ShowMaskOnNullValue="False"
+                            />
+                    </Grid>
+                    <Grid HorizontalAlignment="Left"  Grid.Row="3"  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontWeight="SemiBold" Text="Display only RepeatButton" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Grid.Row="2"  Name="repeatButtonDT" HorizontalAlignment="Left"
+                                               IsVisibleRepeatButton="True" IsButtonPopUpEnabled="False" Width="{Binding ElementName=grid2, Path=ActualWidth}"
+                                               ShowMaskOnNullValue="False">
+                        </syncfusion:DateTimeEdit>
+                    </Grid>
+                    <Grid HorizontalAlignment="Left" Grid.Row="5"  >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontWeight="SemiBold" Text="Min and Max date validation" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Name="validationDT" Grid.Row="2" Height="{Binding ElementName=canEditDT, Path=ActualHeight}"
+                                              Width="{Binding ElementName=grid1, Path=ActualWidth}" MinDateTime="{Binding MinimumValue}" MaxDateTime="{Binding MaximumValue}"
+                                            />
+                    </Grid>
+                    <Grid HorizontalAlignment="Left" Grid.Row="7" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontWeight="SemiBold" Text="Disable value change on mouse scroll" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Name="scrollingOnCircleDT" Grid.Row="2" Height="{Binding ElementName=canEditDT, Path=ActualHeight}"
+                                              EnableMouseWheelEdit="False" Width="{Binding ElementName=grid1, Path=ActualWidth}"
+                                                      DateTime="{Binding Value,Mode=TwoWay}"
+                                            />
+                    </Grid>
+                    <Grid HorizontalAlignment="Left" Grid.Row="9" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontWeight="SemiBold" Text="Pattern" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Name="patternDT" Grid.Row="2" Height="{Binding ElementName=canEditDT, Path=ActualHeight}"
+                                              Pattern="{Binding Pattern, Converter={StaticResource patternConverter}}" Width="{Binding ElementName=grid1, Path=ActualWidth}" 
+                                               ShowMaskOnNullValue="False"
+                                            />
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="3" x:Name="grid2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.68*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.68*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.68*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.68*"/>
+                        <RowDefinition Height="1.25*"/>
+                        <RowDefinition Height="0.6*"/>
+                    </Grid.RowDefinitions>
+                    <Grid HorizontalAlignment="Left" Grid.Row="1" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontWeight="SemiBold" Text="Read Only Mode" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Grid.Row="2"  Name="readOnlyDT" HorizontalAlignment="Left"
+                                              IsReadOnly="True" Width="{Binding ElementName=grid2, Path=ActualWidth}" Height="{Binding ElementName=canEditDT, Path=ActualHeight}"
+                                               ShowMaskOnNullValue="False"
+                                            >
+                        </syncfusion:DateTimeEdit>
+                    </Grid>
+                    <Grid HorizontalAlignment="Left"  Grid.Row="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontWeight="SemiBold" Text="Month and Year Selection" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Name="disableDateSelectionDT" Grid.Row="2" Height="{Binding ElementName=canEditDT, Path=ActualHeight}"
+                                              DisableDateSelection="True" Width="{Binding ElementName=grid1, Path=ActualWidth}"
+                                               ShowMaskOnNullValue="False" Pattern="YearMonth"
+                                            />
+                    </Grid>
+                    <Grid HorizontalAlignment="Left" Grid.Row="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock FontWeight="SemiBold" Text="Black out dates" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit  Grid.Row="2" Name="blackOutDates"  HorizontalAlignment="Left"
+                                             Width="{Binding ElementName=grid2, Path=ActualWidth}"
+                                               ShowMaskOnNullValue="False" Height="{Binding ElementName=canEditDT, Path=ActualHeight}"
+                                            >
+                        </syncfusion:DateTimeEdit>
+                    </Grid>
+                    <Grid HorizontalAlignment="Left" Grid.Row="7" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock FontWeight="SemiBold" Text="Allow Null" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Grid.Row="2" Name="allowNullDT" HorizontalAlignment="Left"
+                                              NoneDateText="Enter Value" Height="{Binding ElementName=canEditDT, Path=ActualHeight}"
+                                              IsEmptyDateEnabled="True" Width="{Binding ElementName=grid2, Path=ActualWidth}"
+                                               ShowMaskOnNullValue="False"
+                                            >
+                        </syncfusion:DateTimeEdit>
+                    </Grid>
+                    <Grid HorizontalAlignment="Left" Grid.Row="9">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="2.5*"/>
+                            <RowDefinition Height="4.5*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock FontWeight="SemiBold" Text="Culture" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                        <syncfusion:DateTimeEdit Grid.Row="2" Name="cultureDT"  HorizontalAlignment="Left" Pattern="LongDate"
+                                              CultureInfo ="{Binding ElementName=comboculture, Path=SelectedItem, Converter={StaticResource cultureconverter}}"
+                                               ShowMaskOnNullValue="False" Width="{Binding ElementName=grid2, Path=ActualWidth}" Height="{Binding ElementName=canEditDT, Path=ActualHeight}"
+                                            />
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <GroupBox Margin="3,0,3,3" FontWeight="Bold" FontSize="14" Grid.Column="1" BorderBrush="Silver" Header="User Options">
+                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" FontWeight="Normal" Grid.Row="2" Content="Pattern" Margin="5" IsEnabled="{Binding ElementName=cmbopattern, Path=IsEnabled}"
+                                       VerticalAlignment="Center"/>
+                    <ComboBox FontWeight="Normal" Width="120"  Name="cmbopattern" Grid.Row="2" Margin="5" IsEnabled="False" SelectedItem ="{Binding Pattern, Converter={StaticResource patternConverter}}"
+                                      SelectedIndex="2"  HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1">
+                        <ComboBoxItem >FullDateTime</ComboBoxItem>
+                        <ComboBoxItem >ShortDate</ComboBoxItem>
+                        <ComboBoxItem >LongDate</ComboBoxItem>
+                        <ComboBoxItem >ShortTime</ComboBoxItem>
+                        <ComboBoxItem >LongTime</ComboBoxItem>
+                        <ComboBoxItem >MonthDay</ComboBoxItem>
+                        <ComboBoxItem >RFC1123</ComboBoxItem>
+                        <ComboBoxItem >YearMonth</ComboBoxItem>
+                        <ComboBoxItem >SortableDateTime</ComboBoxItem>
+                    </ComboBox>
+                    <Label Grid.Column="0" FontWeight="Normal" Grid.Row="3" Content="Culture" Margin="5" IsEnabled="{Binding ElementName=comboculture, Path=IsEnabled}"  VerticalAlignment="Center"/>
+                    <ComboBox FontWeight="Normal" Width="120"  Name="comboculture" Grid.Row="3" Margin="3"  HorizontalAlignment="Left" IsEnabled="False"  VerticalAlignment="Center" Grid.Column="1">
+                        <ComboBoxItem Tag="0" Content="uk-UA" />
+                        <ComboBoxItem Tag="1" Content="vi-VN"/>
+                        <ComboBoxItem Tag="2" Content="sq-AL"/>
+                        <ComboBoxItem Tag="3" Content="en-US" IsSelected="True"/>
+                        <ComboBoxItem Tag="4" Content="mn-MN"/>
+                        <ComboBoxItem Tag="5" Content="is-IS"/>
+                        <ComboBoxItem Tag="6" Content="ar-SA"/>
+                        <ComboBoxItem Tag="7" Content="he-IL"/>
+                    </ComboBox>
+
+                    <Label Grid.Column="0" FontWeight="Normal" Grid.Row="4" Content="Min Date" Margin="5" IsEnabled="{Binding ElementName=minDateTime, Path=IsEnabled}"  VerticalAlignment="Center"/>
+                    <syncfusion:DateTimeEdit FontWeight="Normal" x:Name="minDateTime"  HorizontalAlignment="Left" Width="{Binding ElementName=comboculture, Path=ActualWidth}" Height="{Binding ElementName=comboculture, Path=ActualHeight}" IsEnabled="False" Grid.Column="1" Grid.Row="4" Pattern="{Binding ElementName=validationDT, Path=Pattern}"
+                                                       DateTime="{Binding MinimumValue,Mode=TwoWay}" TextAlignment="Left"  Margin="3"  FontSize="12"  VerticalAlignment="Center" />
+                    <Label Grid.Column="0" FontWeight="Normal" Grid.Row="5" Content="Max Date" Margin="5" IsEnabled="{Binding ElementName=minDateTime, Path=IsEnabled}"  VerticalAlignment="Center"/>
+                    <syncfusion:DateTimeEdit FontWeight="Normal" x:Name="maxDateTime"  HorizontalAlignment="Left" Height="{Binding ElementName=minDateTime, Path=ActualHeight}" Width="{Binding ElementName=minDateTime, Path=ActualWidth}"  Grid.Row="5" IsEnabled="{Binding ElementName=minDateTime, Path=IsEnabled}"  DateTime="{Binding MaximumValue,Mode=TwoWay}" Grid.Column="1" Pattern="{Binding ElementName=validationDT, Path=Pattern}" FontSize="12" Margin="3"  
+                                                      VerticalAlignment="Center"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+    </Grid>
+</Window>

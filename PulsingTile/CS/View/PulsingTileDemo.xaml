@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="SfPulsingTile.PulsingTileDemo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Controls.Notification;assembly=Syncfusion.SfHubTile.Wpf"
+             xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF"
+              xmlns:Input="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
+             mc:Ignorable="d" 
+             xmlns:local="clr-namespace:SfPulsingTile"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <local:ViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.Resources>
+            <SolidColorBrush x:Key="AccentBrush">#FF1196CD</SolidColorBrush>
+        </Grid.Resources>
+        <sblayout:SampleLayoutControl EventLogHeight="0"  EnableThemeSwitching="False"  Header="SfPulsingTile" x:Name="Sblayout"  DefaultVisualStyle="Metro"
+                                          Description="The control zooms in and out and translates the content across the x- and y- axis.">
+            <sblayout:SampleLayoutControl.PropertyViewContent>
+                <Grid>
+                    <sblayout:GroupBoxAdv Width="300" Header="Properties">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Header" Margin="10 5" Grid.Row="0"/>
+                            <Input:SfTextBoxExt Margin="10 5" Grid.Row="1" Text="SfPulsingTile" x:Name="header"/>
+
+                            <TextBlock Text="RadiusX" Margin="10 5" Grid.Row="2"/>
+                            <Input:SfDomainUpDown Margin="10 5" Grid.Row="3"                                   
+                                       AccentBrush="{StaticResource AccentBrush}" ItemsSource="{Binding RadiusValue}"
+                                      x:Name="radiusx" Value="2" ValueChanged="radiusx_ValueChanged"
+                                      />
+
+                            <TextBlock Text="RadiusY" Margin="10 5" Grid.Row="4"/>
+                            <Input:SfDomainUpDown Margin="10 5" Grid.Row="5"                                                                     
+                                       AccentBrush="{StaticResource AccentBrush}" ItemsSource="{Binding RadiusValue}"
+                                      x:Name="radiusy" Value="2" ValueChanged="radiusy_ValueChanged"
+                                      />
+
+                            <TextBlock Text="Pulse Duration" Margin="10 5" Grid.Row="6"/>
+                            <Input:SfDomainUpDown Margin="10 5" Grid.Row="7"                                                               
+                                       AccentBrush="{StaticResource AccentBrush}" ItemsSource="{Binding PulseDuration}"
+                                      x:Name="pulseduration" Value="5" ValueChanged="pulseduration_Changed"
+                                      />
+
+                            <TextBlock Text="Pulse Scale" Margin="10 5" Grid.Row="8"/>
+                            <Input:SfDomainUpDown Margin="10 5" Grid.Row="9" Loaded="pulsescale_Loaded_1"                                                                  
+                                       AccentBrush="{StaticResource AccentBrush}" ItemsSource="{Binding PulseValue}"
+                                      x:Name="pulsescale" ValueChanged="pulsescale_ValueChanged"
+                                      />
+
+                        </Grid>
+                    </sblayout:GroupBoxAdv>
+                </Grid>
+            </sblayout:SampleLayoutControl.PropertyViewContent>
+            <Grid HorizontalAlignment="Center" 
+                                         VerticalAlignment="Center" >
+                <syncfusion:SfPulsingTile Width="200" Height="200"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                 Padding="0"
+                                Margin="25 0" x:Name="hubtile"
+                                    Header="{Binding ElementName=header, Path=Text}"
+                                Foreground="White"  Background="{StaticResource AccentBrush}"                              
+                                    RadiusX="{Binding ElementName=radiusx,Path=Value}"
+                                    RadiusY="{Binding ElementName=radiusy,Path=Value}">
+                    <Image Source="/Assets/PulsingTile.jpg" Stretch="UniformToFill" VerticalAlignment="Center"
+                       HorizontalAlignment="Center" Height="200" />
+                </syncfusion:SfPulsingTile>
+            </Grid>
+        </sblayout:SampleLayoutControl>
+    </Grid>
+</UserControl>

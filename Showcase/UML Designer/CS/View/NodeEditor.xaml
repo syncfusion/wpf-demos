@@ -1,0 +1,182 @@
+﻿<UserControl
+    x:Class="UMLDiagramDesigner.NodeEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UMLDiagramDesigner" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" 
+      xmlns:diagram="clr-namespace:Syncfusion.UI.Xaml.Diagram;assembly=Syncfusion.SfDiagram.Wpf"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    
+    <UserControl.Resources>
+        <Style TargetType="ToggleButton">
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="BorderBrush" Value="LightGray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+            <Setter Property="Foreground" Value="#231f20"></Setter>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent"></Setter>
+            <Setter Property="BorderBrush" Value="LightGray"></Setter>
+            <Setter Property="BorderThickness" Value="2"></Setter>
+            <Setter Property="Foreground" Value="#231f20"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="Height" Value="25"></Setter>
+            <Setter Property="Foreground" Value="#231f20"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        
+        <ScrollViewer Name="scrollViewer" Padding="35" VerticalScrollBarVisibility="Auto" >
+            <Grid Name="NodeEdit">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <local:BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+                    <local:BooleanToStringConverter x:Key="BooleanToStringConverter"/>
+                </Grid.Resources>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Foreground="#231f20" FontWeight="Light" FontSize="21" Text="Class Name" Margin="0,0,0,15"/>
+                    <TextBox VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="1" Text="{Binding Name, Mode=TwoWay}" HorizontalAlignment="Left" />
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="7">
+                        <TextBlock Margin="0,7,0,0" FontSize="20" Text="Properties"  Foreground="#231f20"></TextBlock>
+                        <!--<TextBlock Margin="15,7,0,0" FontSize="20" Text="On"  Foreground="White"></TextBlock>-->
+                        <ToggleButton Margin="20,5,5,5" Padding="3" Width="60" Height="30" FontSize="15" FontWeight="Light"
+                                      IsChecked="{Binding IsPropertiesEnabled, Mode=TwoWay}">
+                            <TextBlock Text="{Binding IsPropertiesEnabled,Converter={StaticResource BooleanToStringConverter}}" Foreground="#231f20" ></TextBlock>
+                        </ToggleButton>
+                    </StackPanel>
+                   
+                    <Border HorizontalAlignment="Stretch" Margin="5,10,5,5" Grid.Row="3"
+                            Visibility="{Binding Converter={StaticResource booleanToVisibilityConverter}, Path=IsPropertiesEnabled}" >
+                        <ItemsControl ItemsSource="{Binding Properties}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,0,0,15" HorizontalAlignment="Stretch">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Margin="0,0,7,0" Width="100" BorderBrush="DarkGray" Foreground="#231f20" Command="{Binding ElementName=NodeEdit, Path=DataContext.DeleteProperty}" CommandParameter="{Binding}" Content="Remove"/>
+                                        <TextBox Height="30" VerticalAlignment="Center"  Grid.Column="1" HorizontalAlignment="Right"  Width="120" Text="{Binding Path=Name, Mode=TwoWay}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel HorizontalAlignment="Stretch"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Border>
+                    
+                    <Border Grid.Row="4" HorizontalAlignment="Left" Margin="5" Height="30" 
+                            Visibility="{Binding Converter={StaticResource booleanToVisibilityConverter}, Path=IsPropertiesEnabled}" >
+                        <Button Width="100" Foreground="#231f20" BorderBrush="DarkGray" Command="{Binding AddProperty}" CommandParameter="{Binding}" Content="Add"/>
+                    </Border>
+
+                    <!--OnContent="Operations On"
+                    OffContent="Operations Off"-->
+
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="5">
+                        <TextBlock Margin="0,3,0,0" FontSize="20" Text="Operations"  Foreground="#231f20"></TextBlock>
+                        <!--<TextBlock Margin="15,3,0,0" FontSize="20" Text="On"  Foreground="White"></TextBlock>-->
+                        <ToggleButton Width="60" Padding="3"  Margin="15,5,5,5" FontSize="15" FontWeight="Light"
+                     IsChecked="{Binding IsOperationsEnabled, Mode=TwoWay}" >
+                            <TextBlock Text="{Binding IsOperationsEnabled,Converter={StaticResource BooleanToStringConverter}}" Foreground="#231f20"></TextBlock>
+                        </ToggleButton>
+
+                    </StackPanel>
+                    <ItemsControl Margin="5,10,5,5"
+                    HorizontalAlignment="Stretch" 
+                    Grid.Row="6" 
+                    Visibility="{Binding Converter={StaticResource booleanToVisibilityConverter}, Path=IsOperationsEnabled}"
+                    ItemsSource="{Binding Functions}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Margin="0,0,7,0" Foreground="#231f20" BorderBrush="DarkGray"  Width="100" Command="{Binding ElementName=NodeEdit, Path=DataContext.DeleteFunction}" CommandParameter="{Binding}" Content="Remove"/>
+                                    <TextBox Grid.Column="1" VerticalAlignment="Center"  Height="30" Foreground="#231f20" HorizontalAlignment="Left"  Width="120" Text="{Binding Path=Name, Mode=TwoWay}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <Border Grid.Row="7"  HorizontalAlignment="Left" Margin="5" Height="30">
+                        <Button Width="100" Foreground="#231f20" Command="{Binding AddFunction}" BorderBrush="DarkGray"
+                             Visibility="{Binding Converter={StaticResource booleanToVisibilityConverter}, Path=IsOperationsEnabled}"
+                            CommandParameter="{Binding}" Content="Add"/>
+                    </Border>
+                </Grid>
+                <Grid Margin="0,35,0,0" Grid.Row="1" VerticalAlignment="Bottom">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="ListBox">
+                            <Setter Property="ItemsSource">
+                                <Setter.Value>
+                                    <local:ColorList/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="ItemsPanel">
+                                <Setter.Value>
+                                    <ItemsPanelTemplate>
+                                        <local:CustomGrid ColumnCount="5"/>
+                                    </ItemsPanelTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="ItemTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <Border BorderBrush="Black" BorderThickness="2">
+                                            <Rectangle Width="35" Height="35" Fill="{Binding}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="ItemContainerStyle">
+                                <Setter.Value>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                    </Style>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Grid.Resources>
+                    <Rectangle HorizontalAlignment="Stretch" Height="1" Fill="#FF553D8C" />
+                    <TextBlock Margin="0,15,0,15" Foreground="#231f20" FontWeight="Light" FontSize="25" Grid.Row="1" Text="Color"/>
+                    <ListBox Background="Transparent" Margin="-25,0,0,0" HorizontalAlignment="Center" Grid.Row="2" SelectedValue="{Binding Background, Mode=TwoWay}"></ListBox>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

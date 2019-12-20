@@ -1,0 +1,973 @@
+﻿<UserControl x:Class="WorkFlowEditor.ProcessAutomationDiagram"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:SyncDiagram="http://schemas.syncfusion.com/wpf"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+       xmlns:local="clr-namespace:WorkFlowEditor"
+      xmlns:localControls="clr-namespace:Syncfusion.UI.Xaml.Diagram.Controls;assembly=Syncfusion.SfDiagram.Wpf"
+       xmlns:shared="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=Syncfusion.Shared.Wpf" 
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+     xmlns:menu="clr-namespace:Syncfusion;assembly=Syncfusion.SfRadialMenu.Wpf"
+      xmlns:panels="clr-namespace:Syncfusion.UI.Xaml.Diagram.Panels;assembly=Syncfusion.SfDiagram.Wpf"
+      mc:Ignorable="d">
+    <UserControl.Resources>
+        <Color x:Key="AppBarItemPointerOverBackgroundThemeBrush4">#c9c9c9</Color>
+        <SyncDiagram:ObjectToTypeConverter x:Key="objectToTypeConverter" />
+        <local:VisibilityConverter x:Key="VisibilityConverter" />
+        <local:VisibilityConverter1 x:Key="VisibilityConverter1" />
+
+        <Style x:Key="AppBarButtonStyleStart1" TargetType="ButtonBase">
+            <Setter Property="Foreground" Value="{StaticResource AppBarItemForegroundThemeBrush}" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="AutomationProperties.ItemType" Value="App Bar Button" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ButtonBase">
+                        <Grid x:Name="RootGrid"
+                              Width="50"
+                              Background="Transparent">
+                            <StackPanel Margin="0,5,0,5" VerticalAlignment="Top">
+                                <Grid Width="40"
+                                      Height="40"
+                                      Margin="0,0,0,5"
+                                      HorizontalAlignment="Center">
+                                    <TextBlock x:Name="BackgroundGlyph"
+                                               Margin="-4,-19,0,0"
+                                               FontFamily="Segoe UI Symbol"
+                                               FontSize="53.333"
+                                               Foreground="Transparent"
+                                               Text="" />
+                                    <TextBlock x:Name="OutlineGlyph"
+                                               Margin="-4,-19,0,0"
+                                               FontFamily="Segoe UI Symbol"
+                                               FontSize="53.333"
+                                               Foreground="Transparent"
+                                               Text="" />
+                                    <local:ContentPresenters x:Name="Content"
+                                                      Margin="-3,-1,0,0"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                </Grid>
+                                <TextBlock x:Name="TextLabel"
+                                           Width="50"
+                                           MaxHeight="32"
+                                           Margin="0,-10,2,0"
+                                           FontSize="12"
+                                           Foreground="#FF616161"
+                                           Text="{TemplateBinding AutomationProperties.Name}"
+                                           TextAlignment="Center"
+                                           TextTrimming="WordEllipsis" />
+                            </StackPanel>
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ApplicationViewStates">
+                                    <VisualState x:Name="FullScreenLandscape"/>
+                                    <VisualState x:Name="Filled"/>
+                                    <VisualState x:Name="FullScreenPortrait">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="60"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Snapped">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="60"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="BackgroundGlyph" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <DiscreteColorKeyFrame KeyTime="0" Value="{StaticResource AppBarItemPointerOverBackgroundThemeBrush4}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarItemPointerOverForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>-->
+
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="OutlineGlyph" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <DiscreteColorKeyFrame KeyTime="0" Value="{StaticResource AppBarItemForegroundThemeColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="BackgroundGlyph" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <DiscreteColorKeyFrame KeyTime="0" Value="{StaticResource AppBarItemForegroundThemeColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarItemPressedForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>-->
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="OutlineGlyph" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <DiscreteColorKeyFrame KeyTime="0" Value="{StaticResource AppBarItemDisabledForegroundThemeBrush}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)">
+                                                <DiscreteColorKeyFrame KeyTime="0" Value="{StaticResource AppBarItemDisabledForegroundThemeBrush}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarItemDisabledForegroundThemeBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>-->
+                                        </Storyboard>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="PointerFocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetName="OutlineGlyph" Storyboard.TargetProperty="Opacity"/>
+                                            <ColorAnimation Storyboard.TargetName="BackgroundGlyph" To="{StaticResource AppBarItemForegroundThemeColor}" 
+                                                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"></ColorAnimation>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundCheckedGlyph" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Indeterminate"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+        <Style x:Key="MyAppBarButtonStyle" TargetType="ButtonBase">
+            <!--<Setter Property="Foreground" Value="Black" />-->
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FontFamily" Value="Segoe UI Symbol" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="AutomationProperties.ItemType" Value="App Bar Button" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ButtonBase">
+                        <Grid x:Name="RootGrid"
+                              Width="40"
+                              Height="40"
+                              Margin="2"
+                              Background="Transparent">
+                            <StackPanel Margin="0,-12,0,11" VerticalAlignment="Top">
+                                <Grid Width="40"
+                                      Height="40"
+                                      Margin="0,0,0,5"
+                                      HorizontalAlignment="Center">
+                                    <TextBlock x:Name="OutlineGlyph1"
+                                               Margin="2,-22,0,-.5"
+                                               FontFamily="Segoe UI Symbol"
+                                               FontSize="53.336"
+                                               Foreground="{StaticResource AppBarItemBackgroundThemeBrush}"
+                                               Text="" />
+                                    <TextBlock x:Name="BackgroundGlyph"
+                                               Margin="-4,-19,0,0"
+                                               FontFamily="Segoe UI Symbol"
+                                               FontSize="53.333"
+                                              Foreground="White"
+                                               Text="" />
+                                    <TextBlock x:Name="OutlineGlyph"
+                                               Margin="-4,-19,0,0"
+                                               FontFamily="Segoe UI Symbol"
+                                               FontSize="53.333"
+                                               Foreground="#FF000000"
+                                               Text="" />
+                                    <ContentPresenter x:Name="Content"
+                                                      Margin="-1,-1,0,0"
+                                                      HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                </Grid>
+
+                            </StackPanel>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ApplicationViewStates">
+                                    <VisualState x:Name="FullScreenLandscape"/>
+                                    <VisualState x:Name="Filled"/>
+                                    <VisualState x:Name="FullScreenPortrait">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="60"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Snapped">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Width">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="60"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="BackgroundGlyph" To="{StaticResource AppBarItemPointerOverBackgroundThemeBrush}" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"></ColorAnimation>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetName="OutlineGlyph" To="{StaticResource AppBarItemPressedForegroundThemeBrush}" 
+                                                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"></ColorAnimation>
+                                            <ColorAnimation Storyboard.TargetName="BackgroundGlyph" To="{StaticResource AppBarItemPressedForegroundThemeBrush}" 
+                                                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"></ColorAnimation>
+                                        </Storyboard>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+
+                                            <ColorAnimation Storyboard.TargetName="OutlineGlyph" To="{StaticResource AppBarItemDisabledForegroundThemeBrush}" 
+                                                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"></ColorAnimation>
+                                            <ColorAnimation Storyboard.TargetName="BackgroundGlyph" To="{StaticResource AppBarItemDisabledForegroundThemeBrush}" 
+                                                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"></ColorAnimation>
+
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+
+                                    <VisualState x:Name="Unfocused" />
+                                    <VisualState x:Name="PointerFocused" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetName="OutlineGlyph" Storyboard.TargetProperty="Opacity"/>
+                                            <ColorAnimation Storyboard.TargetName="BackgroundGlyph" To="{StaticResource AppBarItemForegroundThemeColor}" 
+                                                            Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)"></ColorAnimation>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundCheckedGlyph" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Indeterminate"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PathBasedAppBarButtonStyle"
+               BasedOn="{StaticResource MyAppBarButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Path Width="18"
+                              Height="18"
+                              Margin="0 0 2 0"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Data="{Binding Path=Content,
+                                             RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                              Fill="{Binding Path=Foreground,
+                                             RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                              RenderTransformOrigin="0.5,0.5"
+                              Stretch="Uniform" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="StartAppBarButtonStyle"
+               BasedOn="{StaticResource AppBarButtonStyleStart1}"
+               TargetType="ButtonBase">
+            <Setter Property="AutomationProperties.AutomationId" Value="EditAppBarButton" />
+            <Setter Property="AutomationProperties.Name" Value="Start" />
+        </Style>
+
+        <Style x:Key="EndAppBarButtonStyle"
+               BasedOn="{StaticResource AppBarButtonStyleStart1}"
+               TargetType="ButtonBase">
+            <Setter Property="AutomationProperties.AutomationId" Value="EditAppBarButton" />
+            <Setter Property="AutomationProperties.Name" Value="End" />
+        </Style>
+
+        <Style x:Key="TaskAppBarButtonStyle"
+               BasedOn="{StaticResource AppBarButtonStyleStart1}"
+               TargetType="ButtonBase">
+            <Setter Property="AutomationProperties.AutomationId" Value="EditAppBarButton" />
+            <Setter Property="AutomationProperties.Name" Value="Task" />
+        </Style>
+
+        <Style x:Key="EditAppBarButtonStyle"
+               BasedOn="{StaticResource MyAppBarButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="AutomationProperties.AutomationId" Value="EditAppBarButton" />
+            <Setter Property="AutomationProperties.Name" Value="Edit" />
+            <Setter Property="Content" Value="" />
+        </Style>
+
+        <Style x:Key="DecisonAppBarButtonStyle"
+               BasedOn="{StaticResource AppBarButtonStyleStart1}"
+               TargetType="ButtonBase">
+            <Setter Property="AutomationProperties.AutomationId" Value="EditAppBarButton" />
+            <Setter Property="AutomationProperties.Name" Value="Decision" />
+            <Setter Property="Content" Value="" />
+        </Style>
+
+        <Style x:Key="SaveAppBarButtonStyle"
+               BasedOn="{StaticResource AppBarButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="AutomationProperties.AutomationId" Value="SaveAppBarButton" />
+            <Setter Property="AutomationProperties.Name" Value="Save" />
+            <Setter Property="Content" Value="" />
+        </Style>
+
+        <Style x:Key="Data-EditAppBarButtonStyle"
+               BasedOn="{StaticResource PathBasedAppBarButtonStyle}"
+               TargetType="ButtonBase">
+            <Setter Property="AutomationProperties.Name" Value=""/>
+            <Setter Property="AutomationProperties.AutomationId" Value="Data-EditAppBarButton" />
+            <Setter Property="Content" Value="M0,44.439791L18.98951,54.569246 0.47998798,62.66881z M17.428029,12.359973L36.955557,23.568769 21.957478,49.686174 20.847757,46.346189 15.11851,45.756407 14.138656,42.166935 8.5292659,41.966761 6.9493899,38.037481 2.4399572,38.477377z M26.812517,0.0009765625C27.350616,-0.012230873,27.875986,0.10826397,28.348372,0.3782568L42.175028,8.3180408C43.85462,9.2780154,44.234529,11.777948,43.02482,13.89789L41.375219,16.767812 21.460039,5.3381228 23.10964,2.4582005C23.979116,0.941679,25.437378,0.034730911,26.812517,0.0009765625z" />
+        </Style>
+
+        <SolidColorBrush x:Key="BlueSelectionBrush" Color="#FF565656" />
+
+        <Style x:Key="NullThumb" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template" Value="{x:Null}" />
+        </Style>
+        <!--  visiostyle  -->
+        <Style x:Key="LeftResizer" TargetType="localControls:DiagramThumb">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Width="3"
+                                       Margin="-3,-3,0,-3"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Stretch"
+                                       Fill="{StaticResource BlueSelectionBrush}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="TopResizer" TargetType="localControls:DiagramThumb">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Height="3"
+                                       Margin="-3,-3,-3,0"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Top"
+                                       Fill="{StaticResource BlueSelectionBrush}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="RightResizer" TargetType="localControls:DiagramThumb">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Width="3"
+                                       Margin="0,-3,-3,-3"
+                                       HorizontalAlignment="Right"
+                                       VerticalAlignment="Stretch"
+                                       Fill="{StaticResource BlueSelectionBrush}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="BottomResizer" TargetType="localControls:DiagramThumb">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate>
+                            <Rectangle Height="3"
+                                       Margin="-3,0,-3,-3"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Bottom"
+                                       Fill="{StaticResource BlueSelectionBrush}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="SourceThumb" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Ellipse Width="10"
+                                 Height="10"
+                                 Margin="-10,0,-5,0"
+                                 Fill="{StaticResource BlueSelectionBrush}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TargetThumb" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Ellipse Width="10"
+                                 Height="10"
+                                 Margin="-10,0,-5,0"
+                                 Fill="{StaticResource BlueSelectionBrush}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <SolidColorBrush x:Key="PathStrokeThemeBrush" Color="#FF000000" />
+
+        <Style x:Key="RotatorThumbStyle" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="localControls:DiagramThumb">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Ellipse Fill="Blue" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="SelectorQuickCommandForegroundThumbBrush" Color="White"/>
+
+        <Style TargetType="SyncDiagram:QuickCommand">
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Foreground" Value="{StaticResource SelectorQuickCommandForegroundThumbBrush}"/>
+            <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="20"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="SyncDiagram:QuickCommand">
+                        <Border x:Name="QuickCommand" 
+        BorderBrush="{TemplateBinding BorderBrush}"
+        BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid  x:Name="RootGrid" Background="White">
+                                <Path Width="40" Height="40" Data="{Binding DataContext.Shape,RelativeSource={RelativeSource TemplatedParent}}" 
+                                 Style="{Binding DataContext.ShapeStyle,RelativeSource={RelativeSource TemplatedParent}}" 
+                                   Stretch="Fill" x:Name="BackgroundGlyph"/>
+                                <ContentPresenter 
+                              Content="{Binding DataContext.Content,RelativeSource={RelativeSource TemplatedParent}}" 
+                              ContentTemplate="{Binding DataContext.ContentTemplate,RelativeSource={RelativeSource TemplatedParent}}"  
+                              x:Name="Content" RenderTransformOrigin="0.5,0.5" Tag="{TemplateBinding Foreground}" >
+                                </ContentPresenter>
+                            </Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ColorAnimation To="Transparent"
+                            Storyboard.TargetName="BackgroundGlyph"
+                            Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation To="Black"
+                            Storyboard.TargetName="BackgroundGlyph"
+                            Storyboard.TargetProperty="(Path.Fill).(SolidColorBrush.Color)"/>
+                                            <ColorAnimation To="Black"
+                            Storyboard.TargetName="Content"
+                            Storyboard.TargetProperty="(ContentPresenter.Tag).(SolidColorBrush.Color)"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="drawQucikCommandTemplate">
+            <Viewbox>
+                <Grid Unloaded="Grid_Unloaded_1"
+                                            MouseEnter="Grid_MouseEnter"
+                                              MouseLeave="Grid_MouseLeave"
+                                              MouseLeftButtonDown="Grid_MouseLeftButtonDown"
+                                              MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                    <Grid Width="40"
+                                                  Height="40"
+                                                  Visibility="Visible">
+                        <Ellipse x:Name="ellipse"
+                                                         Fill="{Binding fillbrush}"
+                                                         Stroke="#FF000000"
+                                                         StrokeThickness="1.5"
+                                                         Visibility="Visible" />
+                    </Grid>
+                    <Path Width="18"
+                                                  Height="18"
+                                                  Margin="0 0 0 0"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Data="M5.9442482,39.851C9.2254944,39.851 11.887001,42.515145 11.887001,45.7964 11.887001,49.077756 9.2254944,51.738001 5.9442482,51.738001 2.6602631,51.738001 0,49.077756 0,45.7964 0,42.515145 2.6602631,39.851 5.9442482,39.851z M54.571699,39.574002C59.779954,39.574002 64,43.792891 64,49.000002 64,54.207113 59.779954,58.426003 54.571699,58.426003 49.365844,58.426003 45.146999,54.207113 45.146999,49.000002 45.146999,43.792891 49.365844,39.574002 54.571699,39.574002z M17.059084,38.473003L17.907999,39.9143 13.223015,42.668002 12.374001,41.226706z M36.32003,38.019001L44.646997,42.765482 43.087067,45.504003 34.763999,40.757521z M26.5662,26.613002C31.077789,26.613002 34.738,30.273369 34.738,34.789052 34.738,39.300835 31.077789,42.961002 26.5662,42.961002 22.05341,42.961002 18.391998,39.300835 18.391998,34.789052 18.391998,30.273369 22.05341,26.613002 26.5662,26.613002z M25.125999,18.207001L28.005999,18.207001 28.005999,25.313002 25.125999,25.313002z M26.5662,0C31.077789,0 34.738,3.6602287 34.738,8.1759319 34.738,12.687735 31.077789,16.348001 26.5662,16.348001 22.05341,16.348001 18.391998,12.687735 18.391998,8.1759319 18.391998,3.6602287 22.05341,0 26.5662,0z"
+                                                  Fill="#FF000000"
+                                                  RenderTransformOrigin="0.5,0.5"
+                                                  Stretch="Uniform" />
+                </Grid>
+            </Viewbox>
+        </DataTemplate>
+
+        <DataTemplate x:Key="editQuickCommand">
+            <Viewbox>
+                <Button Click="Button_Click_3" Style="{StaticResource EditAppBarButtonStyle}" Unloaded="Button_Unload_3"  />
+            </Viewbox>
+        </DataTemplate>
+
+        <Style x:Key="selector" TargetType="SyncDiagram:Selector">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <panels:SelectorPanel x:Name="PART_SelectorPanel">
+                            <panels:SelectorPanel.Resources>
+                                <Style x:Key="pathStyle" TargetType="Shape">
+                                    <Setter Property="StrokeThickness" Value="1" />
+                                    <Setter Property="Stroke" Value="White" />
+                                </Style>
+                            </panels:SelectorPanel.Resources>
+                            <Rectangle Stretch="Fill"
+                                       StrokeDashArray="2,2"
+                                       Style="{StaticResource pathStyle}" />
+                            <Line X1="0"
+                                  X2="0"
+                                  Y1="0"
+                                  Y2="0" />
+                            <localControls:DiagramThumb x:Name="PART_TopLeft"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top"
+                                                        Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_Top"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Top"
+                                                        Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_TopRight"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Top"
+                                                        Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_Left"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Stretch"
+                                                        Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_Right"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Stretch"
+                                                        Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_BottomLeft"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Bottom"
+                                                        Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_Bottom"
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Bottom"
+                                                        Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_BottomRight"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_Pivot" Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_Rotator" Style="{StaticResource NullThumb}" />
+                            <localControls:DiagramThumb x:Name="PART_SourceThumb"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top"
+                                                        Style="{StaticResource SourceThumb}"
+                                                        Visibility="Collapsed" />
+                            <localControls:DiagramThumb x:Name="PART_TargetThumb"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Top"
+                                                        Style="{StaticResource TargetThumb}"
+                                                        Visibility="Collapsed" />
+
+                            <!--<Grid Margin="-60">
+                                <local:SelectorItem Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Top"
+                                                    Visibility="{Binding SelectedObject,
+                                                                         Converter={StaticResource VisibilityConverter},
+                                                                         Mode=TwoWay}">
+                                    <Viewbox>
+                                        <Button Click="Button_Click_3" Style="{StaticResource EditAppBarButtonStyle}" Unloaded="Button_Unload_3"  />
+                                    </Viewbox>
+                                </local:SelectorItem>
+                            </Grid>-->
+                        </panels:SelectorPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="SyncDiagram:Connector" BasedOn="{StaticResource ConnectorBindingStyle}"></Style>
+        <Style TargetType="SyncDiagram:Node" BasedOn="{StaticResource NodeBindingStyle}"></Style>
+    </UserControl.Resources>
+
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!--SfDiagram-->
+        <local:AutomationDiagram x:Name="sfdiagram"  Background="Transparent"
+                                 Grid.Column="0"
+                                 Tool="ZoomPan,SingleSelect">
+            <!--Initialize Nodes-->
+            <local:AutomationDiagram.Nodes>
+                <SyncDiagram:DiagramCollection />
+            </local:AutomationDiagram.Nodes>
+            <!--Initialize Connectors-->
+            <local:AutomationDiagram.Connectors>
+                <SyncDiagram:DiagramCollection />
+            </local:AutomationDiagram.Connectors>
+        </local:AutomationDiagram>
+
+        <shared:ToolBarAdv ToolBarName="Standard" Height="38" Margin="0,1,0,0" GripperVisibility="Collapsed" HorizontalAlignment="Stretch"
+              VerticalAlignment="Top" Background="#e8e8e7" BorderBrush="#d6d6d4" >
+            <Button shared:ToolBarAdv.Label="Back" Margin="16,0,10,2"  Background="Transparent" BorderBrush="Transparent" Command="{Binding Back}" ToolTip="Back">
+
+                <Grid  MouseLeftButtonUp="Back_Clicked">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Uniform">
+                        <Grid>
+                            <Path Data="M1.5030002,7.3949997 L1.414,7.4839999 1.5030002,7.5730001 z M7.4840001,0 L8.1910003,0.70700026 1.8969999,7.001 18,7.001 18,8.0009999 1.9310001,8.0009999 8.2070001,14.277 7.5000004,14.984 0,7.4839999 z" Fill="#FF565858" HorizontalAlignment="Center" Width="68"
+                          Height="68"  Stretch="Uniform" VerticalAlignment="Center" />
+                        </Grid>
+                    </Viewbox>
+                    <TextBlock HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center"  Text="Back" Grid.Column="1"></TextBlock>
+
+                </Grid>
+            </Button>
+            <Button shared:ToolBarAdv.Label="Execute" ToolTip="Execute" Margin="0,0,10,2" BorderBrush="Transparent" IsEnabled="{Binding IsItemEnabled}" Background="Transparent" Command="{Binding Play}" Width="98">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Uniform">
+                        <Grid>
+                            <Path Data="F1M179,10.7389L179,25.2609L192.646,18.6459z M178,26.9999L178,8.9999L194.646,18.6459z" Fill="#FF565858"  Stretch="Fill"  HorizontalAlignment="Center"  UseLayoutRounding="False" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Viewbox>
+
+                    <TextBlock HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center"  Text="Execute" Grid.Column="1" ></TextBlock>
+
+                </Grid>
+            </Button>
+            <Button shared:ToolBarAdv.Label="Delete" ToolTip="Delete"  Margin="0,0,10,2" BorderBrush="Transparent" IsEnabled="{Binding IsItemEnabled}" Background="Transparent" Command="{Binding Delete}" CommandParameter="{Binding SelectedObject}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Uniform">
+                        <Grid>
+                            <Path Data="M11,6.1030006 L12,6.1030006 L12,15.000001 L11,15.000001 z M8,6.1030006 L9,6.1030006 L9,15.000001 L8,15.000001 z M5,6.1030006 L6,6.1030006 L6,15.000001 L5,15.000001 z M3,3.9999998 L3,18 L14,18 L14,3.9999998 z M6,1 L6,3 L11,3 L11,1 z M5,0 L12,0 L12,3 L17,3 L17,3.9999998 L15,3.9999998 L15,19 L1.9999999,19 L1.9999999,3.9999998 L0,3.9999998 L0,3 L5,3 z"
+                                  Fill="#FF565858" HorizontalAlignment="Center" Width="68"
+                          Height="68"  Stretch="Uniform" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Viewbox>
+                    <TextBlock HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center" Grid.Column="1" Text="Delete"></TextBlock>
+                 </Grid>
+            </Button>
+            <Button shared:ToolBarAdv.Label="Clear" ToolTip="Clear"   Margin="0,0,10,2" BorderBrush="Transparent" IsEnabled="{Binding IsItemEnabled}" Background="Transparent" VerticalAlignment="Bottom" Command="{Binding Clear}" CommandParameter="{Binding SelectedObject}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Uniform">
+                        <Grid >
+                            <Path Data="M4.1640049,9.047998 L1.4140025,12.148998 5.2030073,15.570999 8.1640083,15.570999 9.4919969,13.945999 z M11.17901,1.414 L4.9115292,8.3338469 6.9725515,10.26342 10.273009,13.210999 16.57801,6.5709999 z M11.17901,0 L17.992009,6.5709999 10.685777,14.194318 9.464862,15.571 17.992009,15.571 17.992009,16.571 4.9920088,16.571 4.7890054,16.570998 0,12.148998 3.4639753,8.3930354 3.4530102,8.3829998 z"
+                                  Fill="#FF565858" Stretch="Fill" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                        </Grid>
+                    </Viewbox>
+                    <TextBlock HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center" Grid.Column="1" Text="Clear"></TextBlock>
+
+                </Grid>
+            </Button>
+        </shared:ToolBarAdv>
+
+
+        <Grid Grid.Column="1" Background="#f2f2f2">
+            <Grid x:Name="NodeContentEditor"
+                      Width="320"
+                      Background="#f2f2f2"
+                      Visibility="Collapsed">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform></ScaleTransform>
+                        <TranslateTransform></TranslateTransform>
+                        <RotateTransform></RotateTransform>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Grid.Resources>
+                    <Storyboard x:Key="PropertyEditor_Storyboard_Visible">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NodeContentEditor" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="350" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NodeContentEditor" Storyboard.TargetProperty="(UIElement.Opacity)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Key="PropertyEditor_Storyboard_Collapse">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NodeContentEditor" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="350">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CubicEase />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NodeContentEditor" Storyboard.TargetProperty="(UIElement.Opacity)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+                <local:PropertyEditor />
+            </Grid>
+
+            <Grid x:Name="NodeValueEditor"
+                      Width="320"
+                      Background="#f2f2f2"
+                      Visibility="Collapsed">
+                <Grid.RenderTransform>
+                    <TransformGroup >
+                        <ScaleTransform></ScaleTransform>
+                        <TranslateTransform></TranslateTransform>
+                        <RotateTransform></RotateTransform>
+                    </TransformGroup>
+                </Grid.RenderTransform>
+                <Grid.Resources>
+                    <Storyboard x:Key="PropertyEditor_Storyboard_Visible">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NodeValueEditor" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="350" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NodeValueEditor" Storyboard.TargetProperty="(UIElement.Opacity)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="1">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                    <Storyboard x:Key="PropertyEditor_Storyboard_Collapse">
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NodeValueEditor" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="350">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CubicEase />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="NodeContentEditor" Storyboard.TargetProperty="(UIElement.Opacity)">
+                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
+                            <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                <EasingDoubleKeyFrame.EasingFunction>
+                                    <CircleEase />
+                                </EasingDoubleKeyFrame.EasingFunction>
+                            </EasingDoubleKeyFrame>
+                        </DoubleAnimationUsingKeyFrames>
+                    </Storyboard>
+                </Grid.Resources>
+                <local:ValueEditor />
+            </Grid>
+        </Grid>
+
+        <Grid Margin="25,40"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Background="#A5FFFFFF"
+              x:Name="backButton"
+              MouseLeftButtonUp="Back_Clicked">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="1"
+                       Margin="7"
+                       VerticalAlignment="Center"
+                       FontSize="25"
+                       Foreground="Black"
+                       Text="{Binding CurrentlyLoaded}" />
+        </Grid>
+
+        <!--Radial Menu to Add Nodes-->
+        <SyncDiagram:SfRadialMenu x:Name="radialMenu" FocusVisualStyle="{x:Null}"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           RadiusX="110"
+                           RadiusY="110"
+                           RimBackground="#48b3b6"
+                           Visibility="Collapsed">
+            <SyncDiagram:SfRadialMenu.Icon>
+                <Grid Background="Transparent">
+                    <Path Data="F1M517.7891,336.9434C515.0491,336.9274,512.8381,334.6874,512.8561,331.9434C512.8741,329.2004,515.1111,326.9894,517.8561,327.0074C520.5991,327.0234,522.8101,329.2654,522.7911,332.0084C522.7711,334.7554,520.5361,336.9634,517.7891,336.9434 M527.4341,332.0354C527.4391,331.5154,527.3881,331.0054,527.3111,330.5074L529.3911,328.8484C528.8561,326.8534,527.8251,325.0664,526.4281,323.6264L523.9421,324.5654C523.1571,323.9154,522.2641,323.3944,521.2951,323.0194L520.8991,320.3954C519.9421,320.1404,518.9391,319.9864,517.8991,319.9794C516.8601,319.9734,515.8571,320.1124,514.8901,320.3564L514.4651,322.9754C513.4921,323.3404,512.5891,323.8464,511.7951,324.4904L509.3211,323.5194C507.9081,324.9394,506.8551,326.7124,506.2921,328.7034L508.3521,330.3864C508.2691,330.8834,508.2161,331.3944,508.2101,331.9144C508.2061,332.4394,508.2551,332.9474,508.3341,333.4464L506.2501,335.1024C506.7891,337.0954,507.8201,338.8874,509.2151,340.3264L511.7011,339.3864C512.4861,340.0354,513.3831,340.5554,514.3521,340.9314L514.7411,343.5564C515.7021,343.8124,516.7061,343.9644,517.7441,343.9724C518.7831,343.9754,519.7871,343.8394,520.7511,343.5974L521.1821,340.9734C522.1521,340.6094,523.0541,340.1014,523.8511,339.4654L526.3211,340.4354C527.7351,339.0114,528.7871,337.2384,529.3521,335.2504L527.2911,333.5674C527.3761,333.0674,527.4281,332.5604,527.4341,332.0354" Fill="#FF186D68" Height="25" Stretch="Fill" Width="25" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                </Grid>
+            </SyncDiagram:SfRadialMenu.Icon>
+
+            <SyncDiagram:SfRadialMenuItem x:Name="End"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center" 
+                                   Click="SfRadialMenuItem_Click_1">
+                <SyncDiagram:SfRadialMenuItem.Header>
+                    <Button x:Name="Ends" FocusVisualStyle="{x:Null}" 
+                            Width="47" 
+                            Height="80" Margin="0,21,0,0"
+                            BorderBrush="Transparent"
+                            Background="Transparent"
+                            Click="Button_Click_2"
+                            Style="{StaticResource EndAppBarButtonStyle}">
+                        <Viewbox Width="18"
+                                 Height="18"
+                                 Stretch="Fill">
+                            <Path Width="16"
+                                  Height="16"
+                                  Data="F1M409.0596,357.5312C409.0596,362.1352,405.3276,365.8672,400.7236,365.8672C396.1206,365.8672,392.3876,362.1352,392.3876,357.5312C392.3876,352.9272,396.1206,349.1952,400.7236,349.1952C405.3276,349.1952,409.0596,352.9272,409.0596,357.5312"
+                                  Fill="#FFC63232"
+                                  Stretch="Fill" />
+                        </Viewbox>
+
+                    </Button>
+
+                </SyncDiagram:SfRadialMenuItem.Header>
+            </SyncDiagram:SfRadialMenuItem>
+
+            <SyncDiagram:SfRadialMenuItem x:Name="Task1"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Click="SfRadialMenuItem_Click_1">
+                <SyncDiagram:SfRadialMenuItem.Header>
+                    <Button x:Name="Tasks" FocusVisualStyle="{x:Null}"
+                            Width="47"
+                            Height="80" Margin="0,2,0,-50"
+                            Click="Button_Click_2"
+                           BorderBrush="Transparent"
+                            Background="Transparent"
+                          Style="{StaticResource TaskAppBarButtonStyle}"
+                            >
+                        <Viewbox Width="18"
+                                 Height="18"
+                                 Stretch="Fill">
+                            <Path Data="F1M20,60L35,60L35,45L20,45z M36,61L19,61L19,44L36,44z" Fill="#FF3FBDEC" Height="17" Stretch="Fill" Width="17" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                        </Viewbox>
+                    </Button>
+                </SyncDiagram:SfRadialMenuItem.Header>
+            </SyncDiagram:SfRadialMenuItem>
+
+            <SyncDiagram:SfRadialMenuItem x:Name="Start"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Click="SfRadialMenuItem_Click_1">
+                <SyncDiagram:SfRadialMenuItem.Header>
+                    <Button x:Name="Starts" FocusVisualStyle="{x:Null}"
+                            Width="47"
+                            Height="80" Margin="0,21,0,0"
+                            Click="Button_Click_2"
+                             BorderBrush="Transparent"
+                            Background="Transparent"
+                             Style="{StaticResource StartAppBarButtonStyle}"
+                           >
+                        <Viewbox Width="18"
+                                 Height="18"
+                                 Stretch="Fill">
+                            <Path Width="16"
+                                  Height="16"
+                                  Data="F1M407.4766,229.2988C407.4766,233.9028,403.7446,237.6348,399.1406,237.6348C394.5376,237.6348,390.8046,233.9028,390.8046,229.2988C390.8046,224.6948,394.5376,220.9628,399.1406,220.9628C403.7446,220.9628,407.4766,224.6948,407.4766,229.2988"
+                                  Fill="#FF70C923"
+                                  Stretch="Fill" />
+                        </Viewbox>
+                    </Button>
+
+                </SyncDiagram:SfRadialMenuItem.Header>
+            </SyncDiagram:SfRadialMenuItem>
+
+            <SyncDiagram:SfRadialMenuItem x:Name="Decision"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                <SyncDiagram:SfRadialMenuItem.Header>
+                    <Button x:Name="Decisions" FocusVisualStyle="{x:Null}"
+                            Width="47"
+                            Height="80" Margin= "0,0,0,30"
+                            Click="Button_Click_2"
+                             BorderBrush="Transparent"
+                            Background="Transparent"
+                             Style="{StaticResource DecisonAppBarButtonStyle}"
+                            >
+                        <Viewbox Width="23"
+                                 Height="23"
+                                 Stretch="Fill">
+                            <Path Data="F1M19.3207,25L27.9997,33.679L36.6797,25L27.9997,16.321z M27.9997,35L17.9997,25L27.9997,15L37.9997,25z" Fill="#FF3FBDEC" Height="20" Stretch="Fill" Width="20" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+                        </Viewbox>
+                    </Button>
+                </SyncDiagram:SfRadialMenuItem.Header>
+            </SyncDiagram:SfRadialMenuItem>
+        </SyncDiagram:SfRadialMenu>
+
+    </Grid>
+</UserControl>
