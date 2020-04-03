@@ -1,0 +1,107 @@
+﻿<Window x:Class="Snapping.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Snapping"
+        mc:Ignorable="d"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        Icon="App.ico"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        Title="Snapping" WindowState="Maximized">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="SnapToObject" MethodName="GetValues" ObjectType="{x:Type System:Enum}" >
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:SnapToObject"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <local:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+
+    </Window.Resources>
+    <Window.DataContext>
+        <local:SnappingViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="350"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Properties Panel Labels-->
+        <Border x:Name="propertyPanel" Grid.Column="1" Background="#F4F4F4">
+            <StackPanel  Margin="20,20,20,0"  >
+                <Label Content="Properties" BorderBrush="Transparent" FontSize="18" FontFamily="Segoe UI" 
+                       Foreground="Black" FontWeight="Bold"  Margin="0,0,10,0"/>
+                <Rectangle HorizontalAlignment="Stretch" Fill="#dddddd" Height="1.3"  
+                           Grid.Row="1" Grid.Column="1" Margin="7,5,10,0"></Rectangle>
+                <CheckBox x:Name="showGridlines" Margin="15,15,0,0"  
+                          FontSize="15" Command="{Binding ShowGridlinesCommand, Mode=TwoWay}" 
+                          CommandParameter="{Binding IsChecked, ElementName=showGridlines}" 
+                          Content="Show Gridlines" IsChecked="True"  >
+                </CheckBox>
+                <CheckBox x:Name="snappingToGridlines" Margin="15,15,0,10" 
+                          FontSize="15"
+                          Command="{Binding SnappingToGridlinesCommand, Mode=TwoWay}" 
+                          CommandParameter="{Binding IsChecked, ElementName=snappingToGridlines}" 
+                          Content="Snapping To Gridlines" IsChecked="True"  >
+                </CheckBox>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="140"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+
+                    <Label Margin="10,5,0,0"  Grid.Row="0" Grid.Column="0" 
+                           Background="Transparent" BorderBrush="Transparent" FontSize="15"
+                           Foreground="Black" Content="Snapping Objects"/>
+                    <Label Margin="10,5,0,0"  Grid.Row="1" Grid.Column="0" 
+                           Background="Transparent" BorderBrush="Transparent" FontSize="15"
+                           Foreground="Black" Content="Snapping Interval"/>
+                    <Label Margin="10,5,0,0"  Grid.Row="2" Grid.Column="0" 
+                           Background="Transparent" BorderBrush="Transparent" FontSize="15"
+                           Foreground="Black"  Content="Snapping Angle"/>
+                    <Label Margin="10,5,0,0"  Grid.Row="3" Grid.Column="0" 
+                           Background="Transparent" BorderBrush="Transparent" FontSize="15"
+                           Foreground="Black" Content="Snapping Line Color"/>
+                    <Label Margin="10,5,0,0"  Grid.Row="4" Grid.Column="0" 
+                           Background="Transparent" BorderBrush="Transparent" FontSize="15"
+                           Foreground="Black" Content="Line Thickness"/>
+
+                    <ComboBox  x:Name="snapToObject" SelectedIndex="22"  Margin="0,10,0,10" Grid.Row="0" Grid.Column="1" 
+                               ItemsSource="{Binding Source={StaticResource SnapToObject}}" 
+                               SelectedItem="{Binding SnapToObjectValue}"/>
+                    <syncfusion:UpDown Margin="0,10,0,10" Grid.Row="1" Grid.Column="1" 
+                                       Value="{Binding SnapIntervalChanged, Mode=TwoWay}"  />
+                    <syncfusion:UpDown Margin="0,10,0,10" Grid.Row="2" Grid.Column="1" 
+                                       Value="{Binding ElementName=Diagram , Path=DataContext.SnapAngleChanged, Mode=TwoWay}"  />
+                    <syncfusion:ColorPickerPalette Margin="0,10,0,10" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left"
+                                                   Width="60" Height="25"
+                                                   Color="{Binding ElementName=Diagram, Path=DataContext.Strokecolor, Mode=TwoWay, Converter={StaticResource ColorToBrushConverter}}" />
+                    <syncfusion:UpDown Margin="0,10,0,10" Grid.Row="4" Grid.Column="1"  
+                                       Value="{Binding ElementName=Diagram , Path=DataContext.Strokethickness, Mode=TwoWay}"  
+                                       FontSize="11pt" FontFamily="Segoe UI" Foreground="Black" FontWeight="Bold"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+        <syncfusion:SfDiagram x:Name="Diagram"  Grid.Column="0"
+                              Nodes="{Binding Nodes}"
+                              Connectors="{Binding Connectors}"
+                              HorizontalRuler="{Binding HorizontalRuler}"
+                              VerticalRuler="{Binding VerticalRuler}"
+                              PortVisibility="{Binding PortVisibility}"
+                              SnapSettings="{Binding SnapSettings}"
+                              SelectedItems="{Binding SelectedItems}">
+        </syncfusion:SfDiagram>
+    </Grid>
+</Window>

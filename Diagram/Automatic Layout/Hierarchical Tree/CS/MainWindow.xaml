@@ -1,0 +1,172 @@
+﻿<Window x:Class="AutomaticLayout_HierarchicalLayout.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+ 	    xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:diagramcontrol="clr-namespace:Syncfusion.UI.Xaml.Diagram;assembly=Syncfusion.SfDiagram.WPF"
+        xmlns:local="clr-namespace:AutomaticLayout_HierarchicalLayout"
+        Icon="App.ico"  
+        WindowState="Maximized"
+        Width="1000" Height="650"
+        Title="Hierarchical Tree"        
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <!--Style for Connector-->
+            <Style TargetType="Syncfusion:Connector">
+                <Setter Property="ConnectorGeometryStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="Black"  />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="TargetDecoratorStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="#4f4f4f"  />
+                            <Setter Property="Stretch" Value="Fill" />
+                            <Setter Property="Fill" Value="#4f4f4f"  />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--Style for Node-->
+            <Style TargetType="Syncfusion:Node">
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Border  Background="{Binding Path=_Color}" BorderBrush="{Binding Path=_Color}" 
+                             Width="120" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Margin="5" TextWrapping="Wrap" FontSize="12" Foreground="#ffffff"
+                                 Text="{Binding Path=Name}" FontFamily="Segoe UI"  VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="UnitHeight" Value="40"/>
+                <Setter Property="UnitWidth" Value="120"/>
+            </Style>
+
+            <!--Style for DoubleTextBox-->
+            <Style TargetType="Syncfusion:DoubleTextBox">
+                <Setter Property="Foreground" Value="#333333"></Setter>
+                <Setter Property="FontWeight" Value="Regular"></Setter>
+                <Setter Property="FontSize" Value="10pt"></Setter>
+                <Setter Property="FontFamily" Value="Segoe UI"></Setter>
+                <Setter Property="Width" Value="80"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+                <Setter Property="MaxLength" Value="6"></Setter>
+            </Style>
+
+            <!--Style for TextBlock-->
+            <Style TargetType="TextBlock">
+                <Setter Property="Foreground" Value="#333333"></Setter>
+                <Setter Property="FontWeight" Value="Regular"></Setter>
+                <Setter Property="FontSize" Value="10pt"></Setter>
+                <Setter Property="FontFamily" Value="Segoe UI"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            </Style>
+
+            <!-- Initializes the employee collection-->
+            <local:Employees x:Key="employees">
+                <local:Employee EmpId = "1" ParentId="" Name="Plant Manager" _Color = "#034d6d"/>
+                <local:Employee EmpId = "2" ParentId = "1" Name = "Production Manager" _Color = "#1b80c6"/>
+                <local:Employee EmpId = "3" ParentId = "1" Name = "Administrative Officer" _Color = "#1b80c6"/>
+                <local:Employee EmpId = "4" ParentId = "1" Name = "Maintenance Manager" _Color = "#1b80c6"/>
+                <local:Employee EmpId = "5" ParentId = "2" Name = "Control Room" _Color = "#3dbfc9"/>
+                <local:Employee EmpId = "6" ParentId = "2" Name = "Plant Operator" _Color = "#3dbfc9"/>
+                <local:Employee EmpId = "7" ParentId = "4" Name = "Electrical Supervisor" _Color = "#3dbfc9"/>
+                <local:Employee EmpId = "8" ParentId = "4" Name = "Mechanical Supervisor" _Color = "#3dbfc9"/>
+                <local:Employee EmpId = "9" ParentId = "5" Name = "Foreman" _Color = "#2bb28e"/>
+                <local:Employee EmpId = "10" ParentId = "6" Name = "Foreman" _Color = "#2bb28e"/>
+                <local:Employee EmpId = "11" ParentId = "7" Name = "Craft Personnel" _Color = "#2bb28e"/>
+                <local:Employee EmpId = "12" ParentId = "7" Name = "Craft Personnel" _Color = "#2bb28e"/>
+                <local:Employee EmpId = "13" ParentId = "8" Name = "Craft Personnel" _Color = "#2bb28e"/>
+                <local:Employee EmpId = "14" ParentId = "8" Name = "Craft Personnel" _Color = "#2bb28e"/>
+                <local:Employee EmpId = "15" ParentId = "9" Name = "Craft Personnel" _Color = "#76d13b"/>
+                <local:Employee EmpId = "16" ParentId = "9" Name = "Craft Personnel" _Color = "#76d13b"/>
+                <local:Employee EmpId = "17" ParentId = "10" Name = "Craft Personnel" _Color = "#76d13b"/>
+            </local:Employees>
+            
+            <!--Initializes the DataSourceSettings -->
+            <Syncfusion:DataSourceSettings x:Key="DataSourceSettings" DataSource="{StaticResource employees}"
+                               ParentId="ParentId" Id="EmpId"/>
+            <Syncfusion:DirectedTreeLayout x:Name="DirectedTreeLayout" x:Key="treeLayout" HorizontalSpacing="30" VerticalSpacing="50" Orientation="TopToBottom" Type="Hierarchical" SpaceBetweenSubTrees="20" />
+
+            <Syncfusion:LayoutManager x:Key="layoutManager" Layout="{StaticResource treeLayout}"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <Syncfusion:DiagramViewModel x:Name="Diagram"
+                                     Tool="ZoomPan"
+                                     DefaultConnectorType="Orthogonal"
+                                     Menu="{x:Null}" 
+                                     LayoutManager="{StaticResource layoutManager}"
+                                     DataSourceSettings="{StaticResource DataSourceSettings}">
+            <Syncfusion:DiagramViewModel.PageSettings>
+                <diagramcontrol:PageSettings PageBorderBrush="Transparent" PageBackground="White"/>
+            </Syncfusion:DiagramViewModel.PageSettings>
+            <Syncfusion:DiagramViewModel.ScrollSettings>
+                <Syncfusion:ScrollSettings ScrollLimit="Diagram"/>
+            </Syncfusion:DiagramViewModel.ScrollSettings>
+        </Syncfusion:DiagramViewModel>
+    </Window.DataContext>
+    
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Initialize Diagram-->
+
+        <Syncfusion:SfDiagram DefaultConnectorType="{Binding DefaultConnectorType}" 
+                      Constraints="{Binding Constraints}" 
+                      Nodes="{Binding Nodes}" 
+                      Connectors="{Binding Connectors}" 
+                      DataSourceSettings="{Binding DataSourceSettings}"
+                      LayoutManager="{Binding LayoutManager}"
+                      Tool="{Binding Tool}"
+                      Menu="{Binding Menu}">
+        </Syncfusion:SfDiagram>
+
+        <!--To represent HorizontalSpacing,VerticalSpacing and SpaceBetweenSubTrees-->
+        <Border Margin="3,0,0,0" Background="White" Grid.Column="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="130"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35" ></RowDefinition>
+                    <RowDefinition Height="45" ></RowDefinition>
+                    <RowDefinition Height="45"></RowDefinition>
+
+                </Grid.RowDefinitions>
+
+                <TextBlock Margin="10,10,0,0" Grid.Row="0" Grid.ColumnSpan="2" Text="Properties" Foreground="#0075C0" 
+                     FontWeight="Bold" FontSize="13pt"/>
+
+                <TextBlock Margin="10,5,0,0"  Grid.Row="1" Grid.Column="0" Text="HorizontalSpacing"  
+                           Height="25" VerticalAlignment="Center"/>
+                <Syncfusion:DoubleTextBox MinValue="20" Margin="5,5,0,0" Grid.Row="1" Grid.Column="1" 
+                                          Value="{Binding ElementName=Diagram,  Path= LayoutManager.Layout.HorizontalSpacing, Mode=TwoWay}"
+                                          Text="30" />
+                
+                <TextBlock Margin="10,5,0,0" Grid.Row="2" Grid.Column="0" Text="VerticalSpacing"
+                           VerticalAlignment="Center" Height="25"/>
+                <Syncfusion:DoubleTextBox MinValue="50"  Margin="5,5,0,0" Grid.Row="2" Grid.Column="1"
+                                          Value="{Binding ElementName= Diagram, Path=LayoutManager.Layout.VerticalSpacing, Mode=TwoWay}"
+                                          Text="50" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window >

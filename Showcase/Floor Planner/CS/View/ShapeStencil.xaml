@@ -1,0 +1,237 @@
+﻿<Grid x:Class="FloorPlanner.ShapeStencil"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:FloorPlanner"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:stencil="clr-namespace:Syncfusion.UI.Xaml.Diagram.Stencil;assembly=Syncfusion.SfDiagram.Wpf"
+       xmlns:panels="clr-namespace:Syncfusion.UI.Xaml.Diagram.Panels;assembly=Syncfusion.SfDiagram.Wpf"
+      xmlns:util="clr-namespace:Syncfusion.UI.Xaml.Diagram.Utility;assembly=Syncfusion.SfDiagram.Wpf"
+      mc:Ignorable="d">
+    <Grid.Resources>
+        <util:VisibilityToBoolConverter x:Key="VisibilityToBoolConverter"/>
+        <SolidColorBrush x:Key="SymbolPressedBackgroundThemeBrush" Color="#eaeaea"/>
+
+        <SolidColorBrush x:Key="SymbolGroupBorderThemeBrush" Color="#808080"></SolidColorBrush>
+        <SolidColorBrush x:Key="SymbolGroupBackgroundExpandThemeBrush" Color="#f2f2f2"></SolidColorBrush>
+        <SolidColorBrush x:Key="ExpanderPathFillThemeBrush" Color="#000000"></SolidColorBrush>
+
+        <SolidColorBrush x:Key="SymbolGroupHeaderForgroundThemeBrush" Color="#231f20"></SolidColorBrush>
+        <SolidColorBrush x:Key="SymbolGroupBackgroundThemeBrush" Color="#ffffff"></SolidColorBrush>
+        <SolidColorBrush x:Key="SymbolGroupHeaderBackgroundThemeBrush" Color="#f2f2f2"></SolidColorBrush>
+
+        <Style TargetType="stencil:SymbolGroup">
+            <Setter Property="FontFamily" Value="Segoe UI Light"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="{StaticResource SymbolGroupHeaderForgroundThemeBrush}"/>
+            <Setter Property="Background" Value="{StaticResource SymbolGroupBackgroundThemeBrush}"></Setter>
+            <Setter Property="BorderBrush" Value="#C4C2C2"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <panels:WrapPanel/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <stencil:Header>
+                            <stencil:Header.Template>
+                                <ControlTemplate TargetType="stencil:Header">
+                                    <Grid>
+                                        <Border x:Name="header" Background="{StaticResource SymbolGroupHeaderBackgroundThemeBrush}" BorderBrush="{StaticResource SymbolGroupBorderThemeBrush}" BorderThickness="0,0,0,1">
+                                            <ContentPresenter Margin="10" Content="{Binding}"/>
+                                        </Border>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualState x:Name="Normal">
+                                                </VisualState>
+                                                <VisualState x:Name="Expanded">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="header" Storyboard.TargetProperty="Background">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SymbolGroupBackgroundExpandThemeBrush}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Collapsed">
+                                                    <Storyboard>
+                                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="header" Storyboard.TargetProperty="Background">
+                                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SymbolGroupHeaderBackgroundThemeBrush}"/>
+                                                        </ObjectAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
+                                    </Grid>
+                                </ControlTemplate>
+                            </stencil:Header.Template>
+                        </stencil:Header>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="stencil:SymbolGroup">
+                        <Border
+    Background="{TemplateBinding Background}"
+    BorderBrush="{TemplateBinding BorderBrush}"
+    BorderThickness="{TemplateBinding BorderThickness}">
+                            <StackPanel>
+                                <Grid x:Name="rootgrid">
+                                    <ContentPresenter x:Name="PART_Header" Content="{TemplateBinding Header}"
+              ContentTemplate="{TemplateBinding HeaderTemplate}">
+                                    </ContentPresenter>
+                                    <Path HorizontalAlignment="Right" x:Name="path1" VerticalAlignment="Center" Margin="0,0,20,0"  Data="M454.165,177.507L422.165,212.46 390.165,177.507 454.165,177.507z"  Stretch="Uniform" Fill="{StaticResource ExpanderPathFillThemeBrush}" Width="15" Height="15" RenderTransformOrigin="0.5,0.5">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform/>
+                                                <SkewTransform/>
+                                                <RotateTransform/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Grid>
+                                <ItemsPresenter RenderTransformOrigin="0.5,0.5" x:Name="symbolgroup" Visibility="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay,Converter={StaticResource VisibilityToBoolConverter}}">
+                                    <ItemsPresenter.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </ItemsPresenter.RenderTransform>
+                                    <!--<ItemsPresenter.Transitions>
+                                    <TransitionCollection>
+                                        <EdgeUIThemeTransition Edge="Bottom"></EdgeUIThemeTransition>
+                                    </TransitionCollection>
+                                </ItemsPresenter.Transitions>-->
+                                </ItemsPresenter>
+                            </StackPanel>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Expanded">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="path1">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="180"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <!--<PopInThemeAnimation Storyboard.TargetName="symbolgroup"></PopInThemeAnimation>-->
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Collapsed">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="path1">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="180"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <!--<PopOutThemeAnimation Storyboard.TargetName="symbolgroup"></PopOutThemeAnimation>-->
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="stencil:Symbol">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="80" />
+            <Setter Property="Padding" Value="25, 15, 25, 15" />
+            <Setter Property="Margin" Value="6"></Setter>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="#2d2d2d"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="stencil:Symbol">
+                        <Grid Background="Transparent">
+                            <Border x:Name="symbolborder"
+  Padding="{TemplateBinding Padding}"
+  Background="{TemplateBinding Background}"
+  BorderBrush="{TemplateBinding BorderBrush}"
+  BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter Content="{TemplateBinding Content}"
+                ContentTemplate="{TemplateBinding ContentTemplate}"/>
+                            </Border>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="symbolborder" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SymbolPressedBackgroundThemeBrush}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <local:SymbolCollection x:Key="shapescollection">
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="Sqaure"
+                                       SymbolTemplate="{StaticResource Sqaure}" />
+       
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="Star"
+                                       SymbolTemplate="{StaticResource Star}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="FlowChart_Start"
+                                       SymbolTemplate="{StaticResource FlowChart_Start}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="FlowChart_Predefined"
+                                       SymbolTemplate="{StaticResource FlowChart_Predefined}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="FlowChart_Card"
+                                       SymbolTemplate="{StaticResource FlowChart_Card}" />          
+
+         
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="Plus"
+                                       SymbolTemplate="{StaticResource Plus}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="Heptagon"
+                                       SymbolTemplate="{StaticResource Heptagon}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="InternalStorage"
+                                       SymbolTemplate="{StaticResource InternalStorage}" />
+
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="LoopLimit"
+                                       SymbolTemplate="{StaticResource LoopLimit}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="ManualInput"
+                                       SymbolTemplate="{StaticResource ManualInput}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="CircleWithCross"
+                                       SymbolTemplate="{StaticResource CircleWithCross}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="Star6"
+                                       SymbolTemplate="{StaticResource Star6}" />
+            <local:FloorPlanSymbolItem GroupName="Basic Shapes"
+                                       Symbol="Star7"
+                                       SymbolTemplate="{StaticResource Star7}" />
+        </local:SymbolCollection>
+    </Grid.Resources>
+
+    <Grid Background="#f2f2f2">
+        <stencil:Stencil  x:Name="stencil" SymbolSource="{StaticResource shapescollection}">
+            <stencil:Stencil.SymbolGroups>
+                <stencil:SymbolGroups>
+                    <stencil:SymbolGroupProvider MappingName="GroupName" />
+                </stencil:SymbolGroups>
+            </stencil:Stencil.SymbolGroups>
+        </stencil:Stencil>
+    </Grid>
+</Grid>

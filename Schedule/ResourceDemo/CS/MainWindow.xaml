@@ -1,0 +1,156 @@
+﻿<Window
+    x:Class="ResourceDemo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:ResourceDemo"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    Title="Resource in WPF Scheduler"
+    Icon="App.ico"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ObjectDataProvider
+            x:Key="scheduleViews"
+            MethodName="GetValues"
+            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ScheduleType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <Style TargetType="syncfusion:MonthViewItemHeader">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="syncfusion:MonthViewItemHeader">
+                        <Grid>
+                            <Border Background="{Binding BackgroundBrush}" BorderThickness="2">
+                                <StackPanel Orientation="Vertical">
+                                    <Image
+                                        Width="64"
+                                        Height="64"
+                                        Source="{Binding ResourceImageUri}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="15"
+                                        Foreground="White"
+                                        Text="{Binding DisplayName}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="syncfusion:TimeLineViewItemHeader">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="syncfusion:TimeLineViewItemHeader">
+                        <Grid>
+                            <Border Background="{Binding BackgroundBrush}" BorderThickness="2">
+                                <StackPanel Orientation="Vertical">
+                                    <Image
+                                        Width="64"
+                                        Height="64"
+                                        Source="{Binding ResourceImageUri}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="15"
+                                        Foreground="White"
+                                        Text="{Binding DisplayName}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="syncfusion:DayViewItemHeader">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="syncfusion:DayViewItemHeader">
+                        <Grid>
+                            <Border
+                                Padding="5"
+                                Background="{Binding BackgroundBrush}"
+                                BorderBrush="White"
+                                BorderThickness="3">
+                                <StackPanel Orientation="Vertical">
+                                    <Image
+                                        Width="64"
+                                        Height="64"
+                                        Source="{Binding ResourceImageUri}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        Foreground="White"
+                                        Text="{Binding DisplayName}" />
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="5">
+        <syncfusion:SfSchedule
+            x:Name="Schedule1"
+            Appointments="{Binding Appointments}"
+            DayHeaderOrder="{Binding HeaderOrder}"
+            IntervalHeight="40"
+            IsHighLightWorkingHours="True"
+            Resource="Doctors"
+            ScheduleType="Week"
+            TimeInterval="OneHour"
+            WorkEndHour="18"
+            WorkStartHour="9">
+            <syncfusion:SfSchedule.ScheduleResourceTypeCollection>
+                <syncfusion:ResourceType TypeName="Doctors">
+                    <local:CustomResource
+                        BackgroundBrush="#FFC13E70"
+                        DisplayName="Dr.Jacob John, M.D "
+                        ResourceName="Dr.Jacob" />
+                    <local:CustomResource
+                        BackgroundBrush="#FF00ABA9"
+                        DisplayName="Dr.Darsy Jane, M.D"
+                        ResourceName="Dr.Darsy" />
+                </syncfusion:ResourceType>
+            </syncfusion:SfSchedule.ScheduleResourceTypeCollection>
+        </syncfusion:SfSchedule>
+
+        <StackPanel
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <ComboBox
+                Margin="5"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Source={StaticResource scheduleViews}}"
+                SelectedValue="{Binding ElementName=Schedule1, Path=ScheduleType}" />
+            <RadioButton
+                Name="OrderByResource"
+                Margin="5"
+                Command="{Binding HeaderOrderCommand}"
+                CommandParameter="OrderByResource"
+                Style="{StaticResource ResourceOrderButtonStyle}" />
+            <RadioButton
+                Name="OrderByDate"
+                Margin="5"
+                Command="{Binding HeaderOrderCommand}"
+                CommandParameter="OrderByDate"
+                IsChecked="True"
+                Style="{StaticResource DateOrderButtonStyle}" />
+        </StackPanel>
+    </Grid>
+</Window>

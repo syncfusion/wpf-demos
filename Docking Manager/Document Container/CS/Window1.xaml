@@ -1,0 +1,364 @@
+﻿<!--Window for applying custom skins-->
+<Window x:Class="DocumentContainerDemo_2008.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"                              
+    WindowStartupLocation="CenterScreen"  
+    WindowState="Normal" Icon="App.ico" 
+    x:Name="window1" Height="830" Width="900" xmlns:local="clr-namespace:DocumentContainerDemo_2008" 
+    Title="Document Container" >
+   
+    <!--Defining Root Grid's resources-->
+    <Grid Name="mygrid">
+        <!--Grid Definition with 3 rows and 3 columns-->
+        <Grid.RowDefinitions>
+            <RowDefinition ToolTip="Header" Height="Auto"/>
+            <RowDefinition ToolTip="properties" Height="Auto"/>
+            <RowDefinition ToolTip="controls" Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+       
+        <Border Grid.ColumnSpan="2" Name="Menuborder" Grid.Row="0" >
+            <!--Grid Definition with 3 columns for Menu Area-->
+            <Grid  VerticalAlignment="Center" Name="MenuGrid" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal"  Name="stackPanel"
+                            FocusManager.IsFocusScope="True" 
+                            DockPanel.Dock="Right" 
+                            Margin="4,0,0,2">
+                    <!--Minimize Button-->
+                    <Button Name="minimize"  
+                            Visibility="{Binding Path=IsEnabled, 
+                            RelativeSource={RelativeSource Self}, 
+                            Converter={StaticResource BooleanToVisibility}}"  
+							Command="{x:Static syncfusion:DocumentContainer.MinimizeDocumentCommand}"  
+                            CommandTarget="{Binding Path=ActiveDocument, ElementName=DocContainer}">
+                        <Image Source="{StaticResource minimizeBlue}" Height="16" Width="16"></Image>
+                    </Button>
+
+                    <!--Restore Button-->
+                    <Button Name="Restore" Visibility="Collapsed" Command="{x:Static syncfusion:DocumentContainer.RestoreDocumentCommand}" 
+                            CommandTarget="{Binding Path=ActiveDocument, ElementName=DocContainer}">
+                        <Image Source="{StaticResource restoreBlue}" Height="16" Width="16"></Image>
+                    </Button>
+
+                    <!--Close Button-->
+                    <Button Name="Close1" Visibility="{Binding Path=IsEnabled, 
+                            RelativeSource={RelativeSource Self}, 
+                            Converter={StaticResource BooleanToVisibility}}"
+							Command="{x:Static syncfusion:DocumentContainer.HideDocumentCommand}" 
+                            CommandTarget="{Binding Path=ActiveDocument, ElementName=DocContainer}">
+                        <Image Source="{StaticResource closeBlue}" Height="16" Width="16"></Image>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Properties Area -->
+        <Rectangle   
+                  Stroke="#FFCCCCCC" 
+                  Margin="3" Grid.Column="1" 
+                  Grid.RowSpan="2" Grid.Row="2" />
+        <Rectangle Stroke="#FFCCCCCC" 
+                Height="1"
+                  Grid.ColumnSpan="3" Grid.Row="1" />
+
+        <Border  Grid.Row="2" Grid.Column="1" Margin="5" Name="GroupbarBorder" >
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <!-- SkinPicker for changing the skin of window -->
+                    <StackPanel Orientation="Horizontal" Margin="2">
+                        <Image  Width="16" Height="16" Margin="0,0,5,0" />
+                        <TextBlock Text="Document Container Properties" FontWeight="Bold" FontSize="12"/>
+                    </StackPanel>
+                    <Line Stroke="#FFCCCCCC" X1="290" X2="0" Y1="3" Y2="3" HorizontalAlignment="Left" 
+                          VerticalAlignment="Bottom" Margin="0,2,0,0" StrokeThickness="1"></Line>
+
+
+                    <StackPanel  Margin="18, 18, 18, 8" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock  FontSize="12" Grid.Column="0">Visual Style</TextBlock>
+                            <local:SkinCombo Margin="2,0,-2,2" Grid.Column="1"></local:SkinCombo>
+                        </Grid>
+                    </StackPanel>
+
+
+                    <GroupBox  Margin="18, 8" >
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Container Mode" Margin="2,0,0,0" FontWeight="Bold" FontSize="12"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <StackPanel Margin="2" Orientation="Vertical">
+                            <!--Enable/Disable the OwnChildren Property-->
+                            <RadioButton Content="MDI" Name="MDI" IsChecked="True" Click="mode_Click"/>
+                            <!--Enable/Disable the Enable Scroll Property-->
+                            <RadioButton Content="TDI" Name="TDI" Click="mode_Click"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox  Margin="18, 8" >
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Window Switchers" Margin="2,0,0,0" FontWeight="Bold" FontSize="12"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Name="WindowSwitchers" Margin="2" Orientation="Vertical">
+                                <RadioButton Content="Immediate" Name="immediate" IsChecked="True" Click="windowswitchers_Click"/>
+                                <RadioButton Content="List" Name="list" Click="windowswitchers_Click"/>
+                                <RadioButton Content="QuickTabs" Name="quickTabs" Click="windowswitchers_Click"/>
+                                <RadioButton Content="VistaFlip" Name="vistaFlip" Click="windowswitchers_Click"/>
+                                <RadioButton Content="VS2005" Name="VS2005" Click="windowswitchers_Click"/>
+                            </StackPanel>
+                            <Image Grid.Column="1" Width="15" Height="15" Source="Image/notification.png" VerticalAlignment="Top" HorizontalAlignment="Right" ToolTip="Press Ctrl + Tab to see this behaviour"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox  Margin="18, 8" >
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Window Options" Margin="2,0,0,0" FontWeight="Bold" FontSize="12"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <StackPanel Margin="2" Orientation="Vertical">
+                            <CheckBox Content="Can Close" Name="chkCanClose" IsChecked="True"/>
+                            <CheckBox Content="Can Maximize" Name="chkCanMaximize" IsEnabled="False" IsChecked="True"/>
+                            <CheckBox Content="Can Minimize" Name="chkCanMinimize" IsEnabled="False" IsChecked="True"/>
+                            <CheckBox Content="Can Resize" Name="chkCanResize" IsEnabled="False" IsChecked="True"/>
+                            <CheckBox Content="Show TabItem Context Menu" Name="TabItemContextMenu" IsChecked="True"/>
+                            <CheckBox Content="Show TabList Context Menu" Name="TablistContextMenu" IsChecked="True"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox  Margin="18, 8" >
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="MDI Layout" Margin="2,0,0,0" FontWeight="Bold" FontSize="12"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <StackPanel Name="layout" Margin="2" Orientation="Vertical">
+                            <Button Content="Cascade" Margin="3" Name="Cascade" IsEnabled="False" Click="Layout_Click"/>
+                            <Button Content="Horizontal" Margin="3" IsEnabled="False" Name="THorizontal" Click="Layout_Click"/>
+                            <Button Content="Vertical" Margin="3" IsEnabled="False" Name="TVertical" Click="Layout_Click"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox  Margin="18, 8, 18, 18">
+                        <GroupBox.Header>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="State Persistence" Margin="2,0,0,0" FontWeight="Bold" FontSize="12"/>
+                            </StackPanel>
+                        </GroupBox.Header>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2.0*"/>
+                                    <ColumnDefinition Width="1.0*"/>
+                                    <ColumnDefinition Width="1.0*"/>
+                                    <ColumnDefinition Width="1.0*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock  FontSize="12" Grid.Row="0" Grid.Column="0">BIN</TextBlock>
+                                <!--Save it to Bin-->
+                                <Button Margin="3" Name="Binsave" Grid.Row="0" Grid.Column="1" Content="Save" Click="OnSaveToBinStateClick"/>
+                                <!--Load it from a Bin-->
+                                <Button Margin="3" Name="Binload" Grid.Row="0" Grid.Column="2" Content="Load" IsEnabled="False" Click="OnLoadFromBinStateClick"/>
+
+                                <TextBlock  FontSize="12" Grid.Row="1" Grid.Column="0" >IS</TextBlock>
+                                <!--Save it to the Isolated Storage-->
+                                <Button Margin="3" Name="Issave" Grid.Row="1" Grid.Column="1" Content="Save" Click="OnSaveStateToIsoStorageClick"/>
+                                <!--Load it from the Isolated Storage-->
+                                <Button Margin="3" Name = "Isload" Grid.Row="1" Grid.Column="2" Content="Load" IsEnabled="False" Click="OnLoadStateFromIsoStorageClick"/>
+
+                                <TextBlock  FontSize="12" Grid.Row="2" Grid.Column="0">Registry</TextBlock>
+                                <!--Save it to the Registry-->
+                                <Button Margin="3" Name="save1" Grid.Row="2" Grid.Column="1" Content="Save" Click="OnSaveToRegStateClick"/>
+                                <!--Load it from the Registry-->
+                                <Button Margin="3" Name="Load1" Grid.Row="2" Grid.Column="2" Content="Load" IsEnabled="False" Click="OnLoadFromRegStateClick"/>
+
+                                <TextBlock  FontSize="12" Grid.Row="3" Grid.Column="0">XML</TextBlock>
+                                <!--Save it to a XML File-->
+                                <Button Margin="3" Name="xmlsave" Grid.Row="3" Grid.Column="1" Content="Save" Click="OnSaveToXMLStateClick"/>
+                                <!--Load it from a XML File-->
+                                <Button Margin="3" Name="xmlload"  Grid.Row="3" Grid.Column="2"  Content="Load" IsEnabled="False" Click="OnLoadFromXMLStateClick"/>
+                            </Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <!--Reset the State-->
+                                <Button Name="resetstate" Width="90" Content="Reset State" Margin="25,5,5,5" Click="OnResetStateClick"/>
+                                <!--Delete all the state-->
+                                <Button Name="deletestate" Width="90" Content="Delete All states" Margin="5" Click="deletestate_Click"/>
+                            </StackPanel>
+                            <CheckBox Name="BinFormatterRadio" Margin="5" Content="Use Binary or SOAP Formatter"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <Border Grid.Row="2" Grid.Column="0" >
+            <!--Document Container implementation-->
+            <syncfusion:DocumentContainer 
+                Name="DocContainer" FlowDirection="LeftToRight" 
+               CanMDIMinimize="{Binding Path=IsChecked, ElementName=chkCanMinimize, Mode=TwoWay}"
+               CanMDIMaximize="{Binding Path=IsChecked, ElementName=chkCanMaximize, Mode=TwoWay}"
+               AllowMDIResize="{Binding Path=IsChecked, ElementName=chkCanResize, Mode=TwoWay}"
+	           DelayPreviewTime="0:0:0.200"   
+               PersistState="False"
+	           ToolWindowsListHeader="VS2005 Demo"
+	           DocumentListHeader="Document Container"
+	           DocumentDescription="Sample Document"
+	           Mode="MDI"
+               ShowTabItemContextMenu="{Binding Path=IsChecked, ElementName=TabItemContextMenu, Mode=TwoWay}"
+               ShowTabListContextMenu="{Binding Path=IsChecked, ElementName=TablistContextMenu, Mode=TwoWay}"                       
+	          >
+                <syncfusion:DocumentContainer.Icon>
+                    <ImageBrush ImageSource="document.png"/>
+                </syncfusion:DocumentContainer.Icon>
+
+                <!--Customized Header Template-->
+                <syncfusion:DocumentContainer.ToolWindowsListHeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <ContentPresenter Content="{Binding}" Margin="0,10,0,0"
+											  TextBlock.FontWeight="UltraBold" 
+											  TextBlock.FontSize="14"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </syncfusion:DocumentContainer.ToolWindowsListHeaderTemplate>
+                <syncfusion:DocumentContainer.DocumentListHeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <ContentPresenter Content="{Binding}" Margin="0,10,0,0"
+											  TextBlock.FontWeight="UltraBold" 											 
+                                               TextBlock.FontSize="14"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </syncfusion:DocumentContainer.DocumentListHeaderTemplate>
+                <syncfusion:DocumentContainer.DocumentDescriptionTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Image Source="/Image/synclogo.png" HorizontalAlignment="Left" Width="150"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </syncfusion:DocumentContainer.DocumentDescriptionTemplate>
+                <!--TDI/MDI Children elements of the Document Container-->
+                <FlowDocumentScrollViewer  
+                    syncfusion:DocumentContainer.MDIWindowState="Normal"  Name="firstdoc"                                               
+                    syncfusion:DocumentContainer.MDIBounds="90,90,450,450"
+                    syncfusion:DocumentContainer.CanClose="{Binding Path=IsChecked, 
+                    ElementName=chkCanClose, Mode=TwoWay}"
+                    VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="Document Container Window"
+                    syncfusion:DocumentContainer.Header="Document Container">
+                    <FlowDocument FontFamily="Calibri" FontSize="13" TextAlignment="Left">
+                        <Paragraph FontWeight="Bold" FontSize="15" TextAlignment="Center">
+                            Syncfusion WPF Document Container</Paragraph>
+                        <Paragraph>This  sample exhibits the special features 
+                                of the Syncfusion Document Container Control for 
+                                Windows Presentation Foundation(WPF).
+                        </Paragraph>
+                        <Paragraph>View this document to experience the features of the 
+                                Document Container.Document Container supports both TDI and MDI.
+                        </Paragraph>
+                        <Paragraph>On certain occasions, users may need the data to be contained in 
+                                the traditional MDI(Multiple Document Interface) and others where constant 
+                                comparison needs to be made between the documents requires a 
+                                TDI(Tabbed Document Interface).</Paragraph>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+                <FlowDocumentScrollViewer  
+                       syncfusion:DocumentContainer.MDIWindowState="Normal"  Name="seconddoc"
+                       syncfusion:DocumentContainer.MDIBounds="60,60,450,450" 
+                       syncfusion:DocumentContainer.CanClose="{Binding Path=IsChecked, 
+                        ElementName=chkCanClose, Mode=TwoWay}"
+                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                       syncfusion:DocumentContainer.TabCaptionToolTip=" To show the features of DocumentContainer"
+                       syncfusion:DocumentContainer.Header="Features" >
+                    <FlowDocument FontFamily="Calibri" FontSize="13" TextAlignment="Left" >
+                        <Paragraph FontWeight="Bold"  FontSize="15" TextAlignment="Center">Document 
+                                Container-Features</Paragraph>
+                        <Paragraph>Document container comes with a set of features. They include
+                        </Paragraph>
+                        <List>
+                            <ListItem>
+                                <Paragraph>Provides options for both MDI and TDI container Mode
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>Various window switching styles. Ctrl+tab could be used 
+                                    to easily navigate through the windows</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>Skins Support</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>State Persistence. Document container can be used to 
+                                    load, save data in IS, BIN and in XML</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>Huge set of properties, methods and events for easy 
+                                    customization</Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph>Document container can be resized and moved using the keyboard.
+                                </Paragraph>
+                            </ListItem>
+
+                        </List>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer >
+                <FlowDocumentScrollViewer  
+                        syncfusion:DocumentContainer.MDIWindowState="Normal" Name="ThirdDoc"
+                        syncfusion:DocumentContainer.MDIBounds="30,30,450,450" 
+                        syncfusion:DocumentContainer.CanClose="{Binding Path=IsChecked, 
+                        ElementName=chkCanClose, Mode=TwoWay}"
+                        VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"
+                        syncfusion:DocumentContainer.Header="Window 1" >
+                    <FlowDocument FontFamily="Calibri" FontSize="13" TextAlignment="Left">
+                        <Paragraph>For ease of navigation, users can switch between the MDI and TDI modes.
+                        </Paragraph>
+                        <Paragraph>Most users prefers keyboard to mouse navigation. Thus, to 
+                            satisfy all users, syncfusion Document Container is boosted by 
+                            Window Switcher(CTRL+TAB keys) for smooth, fine and flexible navigation 
+                            between interfaced windows. syncfusion ships five different modes of window 
+                            switchers.
+                        </Paragraph>
+                        <Paragraph>
+                            Hold down the CTRL key  and use the TAB keystroke repeatedly to 
+                            experience active switchers in effect.
+                        </Paragraph>
+                    </FlowDocument>
+                </FlowDocumentScrollViewer>
+            </syncfusion:DocumentContainer>
+        </Border>
+    </Grid>
+</Window>
+ 

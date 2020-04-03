@@ -1,0 +1,62 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:GroupbarOutlookDemo">
+
+
+    <Style TargetType="{x:Type local:SearchTextBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:SearchTextBox}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="10"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" x:Name="PART_MainTextBox" Text="{TemplateBinding Text}" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}"/>
+                            <TextBox Grid.Column="0" FontStyle="Italic" Opacity="0.4" x:Name="PART_WaterMarkTextBox" Text="{TemplateBinding WaterMarkText}"/>
+                            <Button x:Name="_search" Grid.Column="1"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsWaterMarkTextVisible" Value="True">
+                            <Setter TargetName="PART_WaterMarkTextBox" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsWaterMarkTextVisible" Value="False">
+                            <Setter TargetName="PART_WaterMarkTextBox" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:PopupDropDown}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:PopupDropDown}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="90*"/>
+                                <ColumnDefinition Width="10*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="PART_Label" Grid.Column="0"/>
+                            <ToggleButton x:Name="PART_PopupButton" />
+                            <Popup PlacementTarget="{Binding ElementName=PART_PopupButton}" IsOpen="{Binding ElementName=PART_PopupButton, Path=IsChecked, Mode=TwoWay}" StaysOpen="False">
+                                <ListBox x:Name="PART_ListBox" ItemsSource="{TemplateBinding ItemsSource}">
+                                    
+                                </ListBox>
+                            </Popup>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

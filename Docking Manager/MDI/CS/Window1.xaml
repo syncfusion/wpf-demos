@@ -1,0 +1,341 @@
+<!--Window for applying custom skins-->
+<Window 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:self="clr-namespace:DockingDemo"
+    x:Class="DockingDemo.Window1" Loaded="window1_Loaded" 
+    WindowStartupLocation="CenterScreen" Style="{StaticResource windowStyle}"
+    x:Name="window1" Icon="App.ico"
+    Title="MDI Demo" Height="700" Width="800">
+
+
+	<!--Defining Root Grid-->
+	<Grid Name="mygrid">
+		<Grid.RowDefinitions>
+			<RowDefinition ToolTip="Header" Height="55"/>
+			<RowDefinition ToolTip="Control Demo" Height="8.5*"/>
+		</Grid.RowDefinitions>
+		<!--Header Panel-->
+		<Grid Name="MenuGrid" VerticalAlignment="Stretch" Grid.Row="0">
+			<!-- SkinPicker for changing the skin of window -->
+			
+            <self:SkinCombo VerticalAlignment="Top" HorizontalAlignment="Stretch" ></self:SkinCombo>
+			<!--Menu Area-->
+			<Menu SnapsToDevicePixels="True" VerticalAlignment="Bottom"
+                           HorizontalContentAlignment="Stretch">
+				<!--Windows Menu-->
+				<MenuItem Margin="2,0,0,0" Header="Windows" Name="windows" >
+					<MenuItem Header="Container Mode"  >
+						<MenuItem Name="ContainerModeMDI" Header="MDI" 
+                                          IsChecked="True" Click="ContainerMode_Click"/>
+						<MenuItem Name="ContainerModeTDI" Header="TDI" 
+                                           Click="ContainerMode_Click"/>
+					</MenuItem>
+					<!-- Switchers menu -->
+					<MenuItem Header="Switchers"  Name="WindowSwitchers">
+						<MenuItem Header="Immediate" IsCheckable="True" 
+                                          IsChecked="True" Click="windowswitchers_Click" Name="it"/>
+						<MenuItem Header="List"  IsCheckable="True" 
+                                          Click="windowswitchers_Click" Name="list"/>
+						<MenuItem Header="QuickTabs" IsCheckable="True"  
+                                          Click="windowswitchers_Click" Name="quick" />
+						<MenuItem Header="VS2005" IsCheckable="True" 
+                                          Click="windowswitchers_Click"  Name="vs"/>
+						<MenuItem Header="VistaFlip" IsCheckable="True" 
+                                          Click="windowswitchers_Click" Name="vista"/>
+					</MenuItem>
+				</MenuItem>
+			</Menu>
+			<!-- Buttons -->
+			<StackPanel HorizontalAlignment="Right" VerticalAlignment="Bottom"  Orientation="Horizontal" FocusManager.IsFocusScope="True" 
+                                DockPanel.Dock="Right" Margin="4,0,0,0">
+				<!-- Minimize button -->
+				<Button Name="minimize"  
+                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self},
+                                Converter={StaticResource BooleanToVisibility}}"  
+							    Command="{x:Static syncfusion:DocumentContainer.MinimizeDocumentCommand}" 
+                                CommandTarget="{Binding Path=ActiveWindow, ElementName=DockingManager}">
+					<Image Source="{StaticResource minimizeBlue}" Height="16" Width="16">
+					</Image>
+				</Button>
+				<!-- Restore button -->
+				<Button Name="Restore" BorderThickness="1" BorderBrush="Black" 
+                                Visibility="{Binding Path=IsEnabled, RelativeSource={RelativeSource Self},
+                                Converter={StaticResource BooleanToVisibility}}"
+							    Command="{x:Static syncfusion:DocumentContainer.RestoreDocumentCommand}" 
+                                CommandTarget="{Binding Path=ActiveWindow, ElementName=DockingManager}">
+					<Image Source="{StaticResource restoreBlue}" Height="16" Width="16">
+					</Image>
+				</Button>
+				<!-- Close button -->
+				<Button Name="Close1"  Visibility="{Binding Path=IsEnabled, 
+                            RelativeSource={RelativeSource Self}, 
+                            Converter={StaticResource BooleanToVisibility}}"
+							Command="{x:Static syncfusion:DocumentContainer.HideDocumentCommand}" 
+                            CommandTarget="{Binding Path=ActiveWindow, ElementName=DockingManager}">
+					<Image Source="{StaticResource closeBlue}" Height="16" Width="16">
+					</Image>
+				</Button>
+			</StackPanel>
+		</Grid>
+		<!-- Docking Window Area -->
+		<Border Grid.Row="1" BorderThickness="2" BorderBrush="#67FFFFFF">
+
+			<!-- Initializing Docking Manager-->
+			<syncfusion:DockingManager x:Name="DockingManager"  
+                                       SwitchMode="Immediate" 
+                                       IsVS2010DraggingEnabled="True"
+                                       syncfusion:DockingManager.AnimationDelay="00:00:00.200" 
+                                       PersistState="False" UseDocumentContainer="True"
+                                       WindowVisibilityChanged="DockingManager_WindowVisibilityChanged" 
+                                       WindowActivated="DockingManager_WindowActivated" 
+                                       LayoutUpdated="DockingManager_LayoutUpdated"
+                                       WindowDeactivated="DockingManager_WindowDeactivated" 
+                                       WindowDragEnd="DockingManager_WindowDragEnd" 
+                                       WindowDragStart="DockingManager_WindowDragStart" 
+                                       BeforeContextMenuOpen="DockingManager_BeforeContextMenuOpen" 
+                                       AutoHideAnimationStart="DockingManager_AutoHideAnimationStart" 
+                                       AutoHideAnimationStop="DockingManager_AutoHideAnimationStop" 
+                                       ContainerMode="MDI" Height="Auto">
+
+				<!-- Customized Header Template-->
+				<syncfusion:DockingManager.HeaderTemplate>
+					<DataTemplate>
+						<DockPanel LastChildFill="True" >
+							<TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" 
+                                       VerticalAlignment="Center" Margin="5,0,0,0" />
+						</DockPanel>
+					</DataTemplate>
+				</syncfusion:DockingManager.HeaderTemplate>
+				<syncfusion:DockingManager.Icon>
+					<ImageBrush ImageSource="Images/DocIO.gif"/>
+				</syncfusion:DockingManager.Icon>
+
+				<!-- Dock window For the FindResult-->
+                <TreeView Name="FindResult" ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}"
+                              syncfusion:DocumentContainer.TabCaptionToolTip="check the result" 
+                              syncfusion:DockingManager.Header="Find Results" 
+                              syncfusion:DockingManager.CanClose="True" 
+		                      syncfusion:DockingManager.SideInDockedMode="Bottom"            
+                              syncfusion:DockingManager.DesiredWidthInFloatingMode="350"
+                              syncfusion:DockingManager.DesiredWidthInDockedMode="350"
+                              syncfusion:DockingManager.DesiredHeightInDockedMode="150"  
+                              syncfusion:DocumentContainer.MDIBounds="30,30,300,300">
+					<!-- Customized Header Template-->
+					<syncfusion:DockingManager.Icon>
+						<ImageBrush ImageSource="Images/Sample.gif"/>
+					</syncfusion:DockingManager.Icon>
+					<TextBlock >Find Results 0 , Not Found.</TextBlock>
+				</TreeView>
+
+				<!--Dock Window For ErrorList -->
+
+                <TreeView Name="ErrorList" ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}"
+			        syncfusion:DockingManager.Header="Event Log"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="To show the list of errors"
+			        syncfusion:DockingManager.CanDrag="True"
+			        syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                    syncfusion:DockingManager.TargetNameInDockedMode="FindResult"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300">
+
+					<syncfusion:DockingManager.Icon>
+						<ImageBrush ImageSource="Images\XlsIO.gif"/>
+					</syncfusion:DockingManager.Icon>
+					<ScrollViewer VerticalScrollBarVisibility ="Auto" Name ="Scroll">
+						<StackPanel Name="evntlog" Orientation="Vertical"></StackPanel>
+					</ScrollViewer>
+				</TreeView>
+
+				<!-- Dock Window For Solution Explorer -->
+
+				<TreeView BorderThickness="0"   FlowDirection="LeftToRight" ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}"
+                              HorizontalContentAlignment="Left" Name="solutionExp" 
+                              syncfusion:DocumentContainer.TabCaptionToolTip="Non-Hierarchical view of all 
+                              Items in the solution" syncfusion:DockingManager.Header="Solution Explorer" 
+                              syncfusion:DockingManager.SideInDockedMode="Right" 
+                              syncfusion:DockingManager.DesiredWidthInDockedMode="200" 
+                              syncfusion:DocumentContainer.MDIBounds="30,30,300,300">
+					<syncfusion:DockingManager.Icon>
+						<ImageBrush ImageSource="Images\Grid.gif"/>
+					</syncfusion:DockingManager.Icon>
+					<TreeViewItem IsExpanded="true"  Header="Solution 'DockingDemo' (1 project)">
+						<TreeViewItem Header="DockingDemo" IsExpanded="true"  >
+							<TreeViewItem Header="Properties"  >
+								<TreeViewItem Header="AssemblyInfo.cs"  />
+								<TreeViewItem Header="Resources.resx" />
+								<TreeViewItem Header="Resources1.resx" />
+								<TreeViewItem Header="Settings.settings"  />
+							</TreeViewItem>
+							<TreeViewItem Header="References" />
+							<TreeViewItem Header="Images" />
+							<TreeViewItem Header="App.xaml" IsExpanded="true"  >
+								<TreeViewItem Header="App.xaml.cs"  />
+							</TreeViewItem>
+							<TreeViewItem Header="Window1.xaml" IsExpanded="true">
+								<TreeViewItem Header="Window1.xaml.cs"  />
+							</TreeViewItem>
+						</TreeViewItem>
+					</TreeViewItem>
+				</TreeView>
+
+				<!-- Tabbed Dock Window-->
+				<!-- Dock window for Properties -->
+                <TreeView syncfusion:DockingManager.Header="Properties" Name="Properties" ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}"
+                    syncfusion:DockingManager.CanDrag="True" 
+                    syncfusion:DockingManager.SideInDockedMode="Tabbed"   
+                    syncfusion:DockingManager.TargetNameInDockedMode ="solutionExp"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="200"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="To display the properties"
+                    syncfusion:DockingManager.DesiredHeightInDockedMode="150"   
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300">
+				</TreeView>
+				<!-- Dock window for ToolBox -->
+                <TreeView Name="toolbox" syncfusion:DockingManager.SideInDockedMode="Left" ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}"
+                     syncfusion:DockingManager.Header="Toolbox" 
+                     syncfusion:DocumentContainer.TabCaptionToolTip="ToolBox"
+                     syncfusion:DockingManager.DesiredWidthInDockedMode="200"  
+                      syncfusion:DocumentContainer.MDIBounds="30,30,300,300"></TreeView>
+
+				<!--Document Area-->
+				<!-- Window1 tab -->
+				<Border  syncfusion:DocumentContainer.TabCaptionToolTip="Dockingmanager Window" 
+                         syncfusion:DockingManager.State="Document" syncfusion:DockingManager.Header="Window1" 
+                         syncfusion:DocumentContainer.MDIBounds="30,30,300,300">
+					<FlowDocumentScrollViewer  HorizontalScrollBarVisibility="Auto" 
+                                               VerticalScrollBarVisibility="Auto">
+						<FlowDocument FontFamily="Calibri" FontSize="14.5" TextAlignment="Left">
+							<Paragraph>For ease of navigation, users can switch between the TDI and MDI modes.
+							</Paragraph>
+							<Paragraph>
+								Most users prefers keyboard to mouse navigation. Thus, 
+                                to satisfy all users, syncfusion Document Container is boosted 
+                                by Window Switcher(CTRL+TAB keys) for smooth, fine and flexible 
+                                navigation between interfaced windows. syncfusion ships five different 
+                                modes of window switchers.Hold down the CTRL key  and use the TAB 
+                                keystroke repeatedly to experience active switchers in effect.
+							</Paragraph>
+						</FlowDocument>
+					</FlowDocumentScrollViewer>
+				</Border>
+				<!-- Document container tab -->
+				<Border syncfusion:DockingManager.State="Document" 
+                        syncfusion:DocumentContainer.TabCaptionToolTip="Documentcontainer Window" 
+                        syncfusion:DockingManager.Header="Document Container" 
+                        syncfusion:DocumentContainer.MDIBounds="0,0,300,300" >
+					<FlowDocumentScrollViewer  HorizontalScrollBarVisibility="Auto" 
+                                               VerticalScrollBarVisibility="Auto" >
+						<FlowDocument FontFamily="Calibri" FontSize="14.5" TextAlignment="Left">
+							<Paragraph FontSize="24" FontFamily="Cambria" FontWeight="Bold" >
+								WPF DocumentContainer</Paragraph>
+							<Paragraph>This application is designed to highlight the features of the 
+                                WPF Docking Manager integrated with the Document Container library for 
+                                Windows Presentation Foundation (WPF). This document can be displayed 
+                                as a TDI or MDI. Use the properties such as ContainerMode and ContainerStyle 
+                                which include certain relevant events.
+							</Paragraph>
+						</FlowDocument>
+					</FlowDocumentScrollViewer>
+				</Border>
+				<!-- Docking manager tab -->
+				<Border  syncfusion:DocumentContainer.TabCaptionToolTip="Dockingmanager Window" 
+                         syncfusion:DockingManager.State="Document" 
+                         syncfusion:DockingManager.Header="Docking Manager" 
+                         syncfusion:DocumentContainer.MDIBounds="30,30,300,300">
+					<FlowDocumentScrollViewer  HorizontalScrollBarVisibility="Auto" 
+                                               VerticalScrollBarVisibility="Auto" >
+						<FlowDocument FontFamily="Calibri" 
+                                      FontSize="14.5" TextAlignment="Left">
+							<Paragraph FontSize="24"
+                                       FontFamily="Cambria"  FontWeight="Bold" >
+								WPF Docking Manager
+							</Paragraph>
+							<Paragraph FontSize="15" FontFamily="Calibri">
+								The Docking Manager application is designed to highlight the features 
+                                of the WPF Docking Manager library for Windows Presentation Foundation (WPF). 
+                                Executable and  full source code are provided to  view the integration of the 
+                                library into your applications. This document contains features and other 
+                                controls to demonstrate most window and layout features. View features of 
+                                Docking Manager using the properties window.
+							</Paragraph>
+							<Paragraph FontSize="15" FontFamily="Calibri">
+								The Docking Manager follows an architecture that allows controls to be 
+                                docked to any part of the window. It has been broadly designed based on  
+                                docking features present in Visual Studio 2005. The Docking Manager works 
+                                on top of all the controls placed inside its tree. It handles the window 
+                                layout for the user automatically and places controls.  Like the DockPanel 
+                                control , It also uses attached properties to set the controls as docked 
+                                controls or docked windows. The docked windows can be placed as a group of 
+                                logically related docked controls.
+							</Paragraph>
+							<Paragraph FontSize="18" FontFamily="Cambria" FontWeight="Bold">
+								Features
+							</Paragraph>
+							<List MarkerStyle="Square">
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Docked windows are 
+                                        dockable to any part inside the main window.</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">User can drag the 
+                                        docked window and create grouped docked windows or arrange 
+                                        in the most logical fashion manner.</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Docked windows can 
+                                        be resized using the splitter that appears when the window is 
+                                        docked.</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Serialize the state of 
+                                        docked windows in isolated storage / any user defined location.
+									</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">There are several default 
+                                        skins available for changing the visual styles of the docked windows.
+									</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Docked windows can be 
+                                        float.</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Docked windows can be 
+                                        tabbed.</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">
+										Set tabalignment to docked windows.</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Set closing mode to tabbed 
+                                        docked windows.</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">
+										Customize the look and feel of docked windows by overriding the 
+                                        default templates.
+									</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Control the behavior of 
+                                        docked windows,</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Closing of docked window 
+                                        can be set by using CanClose property.</Paragraph>
+								</ListItem>
+								<ListItem>
+									<Paragraph FontSize="15" FontFamily="Calibri">Dragging of docked window 
+                                        can be set by using CanDrag property.</Paragraph>
+								</ListItem>
+							</List>
+						</FlowDocument>
+					</FlowDocumentScrollViewer>
+				</Border>
+			</syncfusion:DockingManager>
+		</Border>
+	</Grid>
+</Window>
+        

@@ -1,0 +1,130 @@
+<!--Window for applying custom skins-->
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" xmlns:local="clr-namespace:StatePersistence" 
+    x:Class="StatePersistence.Window1" x:Name="window1"
+    WindowStartupLocation="CenterScreen" Icon="App.ico" Foreground="#FF1E1E1E" FontFamily="Segoe UI"
+    Title="State Persistence" Height="537" Width="668">
+
+    <!--Defining Root Grid -->
+    <Grid Name="mygrid">
+        <Grid.RowDefinitions>
+            <RowDefinition ToolTip="properties" Height="48"/>
+            <RowDefinition ToolTip="controls" Height="8.5*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Name="MenuGrid" VerticalAlignment="Stretch" Grid.Row="0">
+            <!-- SkinPicker for changing the skin of window -->
+
+            <local:SkinCombo VerticalAlignment="Top" HorizontalAlignment="Stretch" ></local:SkinCombo>
+            <!--Menu Area-->
+            <Menu SnapsToDevicePixels="True" VerticalAlignment="Bottom"
+                           HorizontalContentAlignment="Stretch">
+                <!--Persist State Menu-->
+                <MenuItem Header="Save Layout" >
+                    <MenuItem x:Name="SaveXMlFormat" Header="XML Format With Binary" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=SaveXMlFormat}">
+                    </MenuItem>
+                    <MenuItem x:Name="SaveXMlFormatSoap" Header="XML Format With SOAP" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=SaveXMlFormatSoap}">
+                    </MenuItem>
+                    <MenuItem x:Name="SaveBinaryFormat" Header="Binary Format With Binary" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=SaveBinaryFormat}">
+                    </MenuItem>
+                    <MenuItem x:Name="SaveBinaryFormatSoap" Header="Binary Format With SOAP" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=SaveBinaryFormatSoap}">
+                    </MenuItem>
+                </MenuItem>
+
+                <MenuItem Header="Load Layout" >
+                    <MenuItem x:Name="LoadXMlFormat" Header="XML Format With Binary" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=LoadXMlFormat}">
+                    </MenuItem>
+                    <MenuItem x:Name="LoadXMlFormatSoap" Header="XML Format With SOAP" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=LoadXMlFormatSoap}">
+                    </MenuItem>
+                    <MenuItem x:Name="LoadBinaryFormat" Header="Binary Format With Binary" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=LoadBinaryFormat}">
+                    </MenuItem>
+                    <MenuItem x:Name="LoadBinaryFormatSoap" Header="Binary Format With SOAP" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=LoadBinaryFormatSoap}">
+                    </MenuItem>
+                </MenuItem>
+
+                <MenuItem Header="Pre-Saved Layout" >
+                    <MenuItem x:Name="layout1" Header="Layout1" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=layout1}">
+                    </MenuItem>
+                    <MenuItem x:Name="layout2" Header="Layout2" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=layout2}">
+                    </MenuItem>
+                    <MenuItem x:Name="layout3" Header="Layout3" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=layout3}">
+                    </MenuItem>
+                </MenuItem>
+
+                <MenuItem x:Name="resetLayout" Header="Reset Layout" Command="{Binding SaveCommand}" CommandParameter="{Binding ElementName=resetLayout}">
+                </MenuItem>
+
+            </Menu>
+        </Grid>
+
+        <!-- Docking Manager Area -->
+        <syncfusion:DockingManager Grid.Row="1" x:Name="dockingManager" IsEnableHotTracking="True" 
+                            IsVS2010DraggingEnabled="True"   PersistState="False" AnimationDelay="00:00:00.03" UseDocumentContainer="True">
+            <!-- Toolbox dock window -->
+            <ContentControl Name="Toolbox"
+					  syncfusion:DockingManager.Header="Toolbox" 
+					  syncfusion:DockingManager.State="Dock" 
+                            HorizontalContentAlignment="Left"
+					  syncfusion:DockingManager.DesiredWidthInDockedMode="250"
+                      Content="{StaticResource ToolboxGroups}" >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images\Toolbox.png" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+
+
+            <!-- Docking dock window -->
+            <ContentControl Name="Docking"
+					  syncfusion:DockingManager.Header="MainWindow.xaml" 
+					  syncfusion:DockingManager.State="Document" 
+					   >
+                <syncfusion:EditControl x:Name="codeText1" Foreground="#FF1E1E1E" DocumentLanguage="XAML" FontSize="12" FontFamily="Segoe UI"/>
+            </ContentControl>
+
+
+            <!-- Features dock window -->
+            <ContentControl Name="Features"
+					  syncfusion:DockingManager.Header="MainWindow.xaml.cs" 
+					  syncfusion:DockingManager.State="Document" 
+					  >
+                <syncfusion:EditControl x:Name="codeText" Foreground="#FF1E1E1E" DocumentLanguage="CSharp" FontSize="12" FontFamily="Segoe UI"/>
+            </ContentControl>
+
+            <!-- SolutionExplorer dock window -->
+            <ContentControl Name="SolutionExplorer"  
+					  syncfusion:DockingManager.Header="Solution Explorer"
+					  syncfusion:DockingManager.SideInDockedMode="Right"
+					  syncfusion:DockingManager.DesiredWidthInDockedMode="300"
+                      Content="{StaticResource SolutionExplorerTree}"
+					  >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images\Solution.png" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+
+            <!-- FindResults dock window -->
+            <ContentControl Name="Properties"
+						   syncfusion:DockingManager.Header="Properties"
+						   syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                            syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer" >
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="Images\Properties.png" />
+                </syncfusion:DockingManager.Icon>
+                <syncfusion:PropertyGrid HorizontalAlignment="Stretch" 
+                                 Margin="0" 
+                                 VerticalAlignment="Stretch" x:Name="prop"                                
+                                 DefaultPropertyPath="Content" EnableGrouping="True"
+                                 BorderThickness="0"  DescriptionPanelVisibility="Collapsed">
+                    <syncfusion:PropertyGrid.SelectedObject>
+                        <local:Person/>
+                    </syncfusion:PropertyGrid.SelectedObject>
+
+                </syncfusion:PropertyGrid>
+            </ContentControl>
+        </syncfusion:DockingManager>
+    </Grid>
+
+</Window>
+    

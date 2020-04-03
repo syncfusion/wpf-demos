@@ -1,0 +1,190 @@
+﻿<sfutils:SampleWindow x:Class="OLAPClientConfiguration.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"   
+                      xmlns:viewModel="clr-namespace:OLAPClientConfiguration.ViewModel"
+                      xmlns:converter="clr-namespace:OLAPClientConfiguration.Converter"
+                      xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Client.Olap;assembly=Syncfusion.OlapClient.WPF"
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils" 
+                      sfshared:SkinStorage.VisualStyle="Metro"
+                      Title="OlapClient Configuration" Icon="App.ico" 
+                      WindowStartupLocation="CenterScreen" WindowState="Maximized"
+                      Width="900" Height="700" MinWidth="850" MinHeight="500">
+    <Grid>
+        <Grid.Resources>
+            <converter:BooleanVisibilityConverter x:Key="bool2visible"/>
+        </Grid.Resources>
+
+        <Grid.DataContext>
+            <viewModel:ViewModel/>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="OlapClient with report manipulations along with options including filtering, sorting and toggling sub-control's visibility." 
+                       Margin="5 0" Foreground="White" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="OlapClient" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+
+                <syncfusion:OlapClient x:Name="olapClient1" Margin="5"
+                                       ShowCubeSelector="{Binding Path=IsChecked,ElementName=chk_CubeSelector}"
+                                       ShowCubeDimensionBrowser="{Binding Path=IsChecked,ElementName=chk_CubeDimensionBrowser}"
+                                       ShowSearchBox="{Binding Path=IsChecked,ElementName=chk_SearchBox}"
+                                       ShowColumnAxisElementBuilder="{Binding Path=IsChecked,ElementName=chk_ColumnAxisElementBuilder}"
+                                       ShowRowAxisElementBuilder="{Binding Path=IsChecked,ElementName=chk_RowAxisElementBuilder}"
+                                       ShowSlicerAxisElementBuilder="{Binding Path=IsChecked,ElementName=chk_SlicerAxisElementBuilder}"
+                                       ShowToolBar="{Binding Path=IsChecked,ElementName=chk_OlapToolBar}"
+                                       ShowSubsetFilters="{Binding ElementName=chk_SubsetFilter, Path=IsChecked}"
+                                       OlapDataManager="{Binding ClientDataManager}"/>
+            </GroupBox>
+
+            <GridSplitter Name="spliterVertical" Grid.Column="0" Width="1" Margin="0 10 0 5" Background="#FF119EDA" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
+
+            <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Column="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Grid.Row="0" Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="OLAP Reports" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+                            </Grid.RowDefinitions>
+
+                            <Button Name="btn_NewReport" Grid.Row="0" Width="120" Content="New Report" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Command="{x:Static syncfusion:OlapClientCommands.NewReport}" CommandTarget="{Binding ElementName=olapClient1}"/>
+                            <Button Name="btn_LoadReport" Grid.Row="1" Width="120" Content="Load Report" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Command="{x:Static syncfusion:OlapClientCommands.LoadReport}" CommandTarget="{Binding ElementName=olapClient1}"/>
+                            <Button Name="btn_SaveReport" Grid.Row="2" Width="120" Content="Save Report" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                    Command="{x:Static syncfusion:OlapClientCommands.SaveReport}" CommandTarget="{Binding ElementName=olapClient1}"/>
+                            <Button Name="btn_AddReport" Grid.Row="3" Width="120" Content="Add Report" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Command="{x:Static syncfusion:OlapClientCommands.AddReport}" CommandTarget="{Binding ElementName=olapClient1}"/>
+                            <Button Name="btn_RemoveReport" Grid.Row="4" Width="120" Content="Remove Report" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Command="{x:Static syncfusion:OlapClientCommands.RemoveReport}" CommandTarget="{Binding ElementName=olapClient1}"/>
+                            <Button Name="btn_RenameReport" Grid.Row="5" Width="120" Content="Rename Report" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Command="{x:Static syncfusion:OlapClientCommands.RenameReport}" CommandTarget="{Binding ElementName=olapClient1}"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Control's Visibility" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Display Mode" VerticalAlignment="Center"/>
+                                <ComboBox x:Name="cmb_DisplayMode" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" 
+                                          ItemsSource="{Binding ClientDispModes}" SelectedIndex="0" 
+                                          SelectedItem="{Binding ElementName=olapClient1, Path=DisplayMode}"/>
+                            </Grid>
+
+                            <CheckBox Name="chk_CubeSelector" Grid.Row="1" IsChecked="True" Content="Show Cube Selector" VerticalAlignment="Center"/>
+                            <CheckBox Name="chk_CubeDimensionBrowser" Grid.Row="2" IsChecked="True" Content="Show Cube Dimension Browser" VerticalAlignment="Center"/>
+                            <CheckBox Name="chk_SearchBox" Grid.Row="3" IsChecked="True" Content="Show Search Box" VerticalAlignment="Center"
+                                      IsEnabled="{Binding ShowCubeDimensionBrowser, ElementName=olapClient1}"/>
+                            <CheckBox Name="chk_ColumnAxisElementBuilder" Grid.Row="4" IsChecked="True" Content="Show Column Axis Element Builder" VerticalAlignment="Center" Click="chk_AxisElementBuilder_Click"/>
+                            <CheckBox Name="chk_RowAxisElementBuilder" Grid.Row="5" IsChecked="True" Content="Show Row Axis Element Builder" VerticalAlignment="Center" Click="chk_AxisElementBuilder_Click"/>
+                            <CheckBox Name="chk_SlicerAxisElementBuilder" Grid.Row="6" IsChecked="True" Content="Show Slicer Axis Element Builder" VerticalAlignment="Center"/>
+                            <CheckBox Name="chk_OlapToolBar" Grid.Row="7" IsChecked="True" Content="Show Client Toolbar" VerticalAlignment="Center"/>
+                            <CheckBox Name="chk_ChatToolBar" Grid.Row="8" Content="Show Chart Toolbar" VerticalAlignment="Center"
+                                      IsEnabled="{Binding ElementName=olapClient1, Path=OlapChartTab.IsSelected}" 
+                                      IsChecked="{Binding ElementName=olapClient1, Path=OlapChartToolBar.Visibility, Converter={StaticResource bool2visible}}"/>
+                            <CheckBox Name="chk_GridToolBar" Grid.Row="9" Content="Show Grid Toolbar" VerticalAlignment="Center"
+                                      IsEnabled="{Binding ElementName=olapClient1, Path=OlapGridTab.IsSelected}" 
+                                      IsChecked="{Binding ElementName=olapClient1, Path=OlapGridToolBar.Visibility, Converter={StaticResource bool2visible}}"/>
+                            <CheckBox Name="chk_SubsetFilter" Grid.Row="10" IsChecked="True" Content="Show Subset Filters" VerticalAlignment="Center"/>
+                        </Grid>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="2" Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                        <GroupBox.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="Toolbar Option's Visibility" FontWeight="Bold"/>
+                            </DataTemplate>
+                        </GroupBox.HeaderTemplate>
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+
+                            <CheckBox x:Name="EnableConnectButton" Grid.Row="0" Content="Show Connect Option" VerticalAlignment="Center" 
+                                      IsChecked="{Binding ElementName=olapClient1, Path=ShowConnectOptionButton}"
+                                      IsEnabled="{Binding ElementName=olapClient1, Path=ShowToolBar}"/>
+                            <CheckBox x:Name="EnableLoadReport" Grid.Row="1" Content="Show Load Report Option" VerticalAlignment="Center" 
+                                      IsChecked="{Binding ElementName=olapClient1, Path=ShowLoadReportButton}"
+                                      IsEnabled="{Binding ElementName=olapClient1, Path=ShowToolBar}"/>
+                            <CheckBox x:Name="EnableSaveReport" Grid.Row="2" Content="Show Save Report Option" VerticalAlignment="Center" 
+                                      IsChecked="{Binding ElementName=olapClient1, Path=ShowSaveReportButton}"
+                                      IsEnabled="{Binding ElementName=olapClient1, Path=ShowToolBar}"/>
+                            <CheckBox x:Name="EnableShowExpanders" Grid.Row="3" Content="Show Expanders Option" VerticalAlignment="Center" 
+                                      IsChecked="{Binding ElementName=olapClient1, Path=ShowExpandersButton}"
+                                      IsEnabled="{Binding ElementName=olapClient1, Path=ShowToolBar}"/>
+                            <CheckBox x:Name="EnableReportList" Grid.Row="4" Content="Show Report List Option" VerticalAlignment="Center" 
+                                      IsChecked="{Binding ElementName=olapClient1, Path=ShowReportList}"
+                                      IsEnabled="{Binding ElementName=olapClient1, Path=ShowToolBar}"/>
+                            <CheckBox x:Name="EnableMdx" Grid.Row="5" Content="Show MDX Option" VerticalAlignment="Center" 
+                                      IsChecked="{Binding ElementName=olapClient1, Path=ShowMdxButton}"
+                                      IsEnabled="{Binding ElementName=olapClient1, Path=ShowToolBar}"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</sfutils:SampleWindow>

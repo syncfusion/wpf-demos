@@ -1,0 +1,192 @@
+﻿<Window x:Class="MultiSelectDemo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Multiselection" 
+        xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
+        WindowStartupLocation="CenterScreen" Icon="App.ico"
+        MinHeight="500" MinWidth="700" Height="550" Width="900"
+        xmlns:local="clr-namespace:MultiSelectDemo">
+
+    <Window.DataContext>
+        <local:MultiSelectViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Background="#2A4D72"
+              Height="50">
+            <Label Margin="10,0"
+                   Content="Email - Compose"                 
+                   VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left"
+                   Foreground="White"/>
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Margin="10,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Content="To"
+                   FontSize="20"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"/>
+            <Label Grid.Row="1"
+                   FontSize="20"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                Content="Cc"/>
+            <Label Grid.Row="2"
+                   FontSize="20"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Left"
+                Content="Bcc"/>
+            <Syncfusion:SfTextBoxExt  x:Name="autoComplete"  Grid.Column="1" Margin="10"
+                                  AutoCompleteMode="Suggest"
+                                  SearchItemPath="Name" 
+                                  ImageMemberPath="Image" 
+                                  MultiSelectMode="Token" 
+                                  TokensWrapMode="Wrap" 
+                                  Text="{Binding ToText,Mode=TwoWay}"
+                                  SelectedItem="{Binding ToSelectedItem , Mode=TwoWay}"
+                                  EnableAutoSize="True"
+                                  AutoCompleteSource="{Binding ContactData}"
+                                  VerticalAlignment="Center"  VerticalContentAlignment="Center"                              
+                              >
+
+                <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Height="40">
+                            <Image Source="{Binding Image}" Margin="2" Height="35" Stretch="Uniform" Width="35"/>
+                            <StackPanel  Margin="2"
+                                            Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" Margin="4,2,4,0" FontSize="12" Foreground="Black"/>
+                                <TextBlock Text="{Binding Email}" Margin="4,1,2,2" FontSize="10" Foreground="Gray"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                <Syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+                    <DataTemplate>
+                        <Label Content="No Results Found" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </Syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+            </Syncfusion:SfTextBoxExt>
+            <Syncfusion:SfTextBoxExt  x:Name="autoComplete1"  
+                                   HorizontalAlignment="Stretch" 
+                                   Grid.Row="1" Grid.Column="1" 
+                                   Margin="10"                                    
+                                  AutoCompleteMode="Suggest"
+                                  SearchItemPath="Name"
+                                  ImageMemberPath="Image" 
+                                  MultiSelectMode="Token" 
+                                  TokensWrapMode="Wrap"
+                                  Text="{Binding CcText,Mode=TwoWay}"
+                                  SelectedItem="{Binding CcSelectedItem,Mode=TwoWay}"
+                                  Height="36"   
+                                  AutoCompleteSource="{Binding ContactData}"                                        
+                                  VerticalAlignment="Center"                                
+                              >
+                <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Height="45">
+                            <Image Source="{Binding Image}" Margin="2" Height="35" Stretch="Uniform" Width="35"/>
+                            <StackPanel  Margin="2"
+                                            Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" Margin="4,4,4,0" FontSize="12" Foreground="Black"/>
+                                <TextBlock Text="{Binding Email}" Margin="4,1,2,0" FontSize="10" Foreground="Gray"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                <Syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+                    <DataTemplate>
+                        <Label Content="No Results Found" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </Syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+            </Syncfusion:SfTextBoxExt>
+
+            <Syncfusion:SfTextBoxExt  x:Name="autoComplete2" 
+                                   HorizontalAlignment="Stretch" 
+                                   Grid.Row="2" Grid.Column="1" 
+                                   Margin="10"                                   
+                                   AutoCompleteMode="Suggest"
+                                   SearchItemPath="Name"
+                                   ImageMemberPath="Image"
+                                   MultiSelectMode="Token"
+                                   TokensWrapMode="None"
+                                   Text="{Binding BccText,Mode=TwoWay}"
+                                   SelectedItem="{Binding BccSelectedItem,Mode=TwoWay}"
+                                   Watermark="WaterMark"
+                                   Height="36"
+                                   AutoCompleteSource="{Binding ContactData}"                                      
+                                   VerticalAlignment="Center" 
+                              >
+                <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Height="45">
+                            <Image Source="{Binding Image}" Margin="2" Height="35" Stretch="Uniform" Width="35"/>
+                            <StackPanel  Margin="2"
+                                            Orientation="Vertical">
+                                <TextBlock Text="{Binding Name}" Margin="4,4,4,0" FontSize="12" Foreground="Black"/>
+                                <TextBlock Text="{Binding Email}" Margin="4,1,2,0" FontSize="10" Foreground="Gray"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                <Syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+                    <DataTemplate>
+                        <Label Content="No Results Found" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </DataTemplate>
+                </Syncfusion:SfTextBoxExt.NoResultsFoundTemplate>
+            </Syncfusion:SfTextBoxExt>
+
+        </Grid>
+        <Grid Margin="10,0,10,0" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid Height="30" Margin="10,0,10,0" >
+                <TextBlock Margin="5,2" Text="Add a subject" VerticalAlignment="Center">
+                    <TextBlock.Style>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text, ElementName=subjectEntry}" Value="">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBox Height="30" Name="subjectEntry" Background="Transparent" VerticalAlignment="Center" VerticalContentAlignment="Center"                 
+                     FontSize="12"/>
+            </Grid>
+            <TextBox 
+                    FontSize="12" TextWrapping="Wrap" 
+                    AcceptsReturn="True" 
+                    VerticalScrollBarVisibility="Auto" 
+                    Grid.Row="1" Margin="10,0,10,0"
+                    Text="*Some Text*"/>
+            <Button Height="25" Width="80" Margin="10,0,10,0"
+                    FontSize="12" HorizontalAlignment="Right" Background="WhiteSmoke"
+                         HorizontalContentAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                    Grid.Row="2" 
+                    Content="Send" Command="{Binding ClickCommand}"/>
+        </Grid>
+    </Grid>
+
+</Window>

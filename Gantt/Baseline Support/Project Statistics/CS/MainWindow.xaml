@@ -1,0 +1,81 @@
+﻿<syncfusion:ChromelessWindow x:Class="ProjectStatistics.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:gantt="http://schemas.syncfusion.com/wpf"
+                             xmlns:local="clr-namespace:ProjectStatistics"
+                             xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title="Project Statistics"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Width="1300"
+                             Height="720"
+                             Icon="App.ico"
+                             WindowStartupLocation="CenterScreen">
+
+    <!--Window DataContext information-->
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:GanttViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <!--Window Resource information-->
+    <syncfusion:ChromelessWindow.Resources>
+        <LinearGradientBrush x:Key="gridViewbackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.08" Color="#FF119EDA" />
+            <GradientStop Offset="0.479" Color="#FF2C9ECE" />
+            <GradientStop Offset="0.973" Color="#FF119EDA" />
+        </LinearGradientBrush>
+    </syncfusion:ChromelessWindow.Resources>
+
+    <syncfusion:LayoutControl GridViewBackground="{StaticResource gridViewbackground}"
+                              HeaderDescriptionText="This sample shows the current statistics of the construction project in a separate window"
+                              HeaderText="Project Statistics"
+                              UserGuideUri="http://help.syncfusion.com/UG/User%20Interface/WPF/Gantt/default.htm#!documents/433projectstatistics.htm"
+                              LayoutMode="Metro">
+
+        <syncfusion:LayoutControl.GridView>
+            
+            <!--Gantt Control information-->
+            <gantt:GanttControl x:Name="Gantt"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                ItemsSource="{Binding TaskDetails}"
+                                ProjectName="Residential Construction (2500 sq.ft)"
+                                UseAutoUpdateHierarchy="False"
+                                VisualStyle="Metro"
+                                ShowBaseline="True">
+                <gantt:GanttControl.TaskAttributeMapping>
+                    <gantt:TaskAttributeMapping TaskIdMapping="Id"
+                                                TaskNameMapping="Name"
+                                                DurationMapping="Duration"
+                                                StartDateMapping="StDate"
+                                                FinishDateMapping="EndDate"
+                                                ChildMapping="ChildTask"
+                                                ProgressMapping="Complete"
+                                                PredecessorMapping="Predecessor"
+                                                ResourceInfoMapping="Resource"
+                                                CostMapping="Cost"
+                                                BaselineCostMapping="BaselineCost"
+                                                BaselineFinishMapping="BaselineEnd"
+                                                BaselineStartMapping="BaselineStart" />
+                </gantt:GanttControl.TaskAttributeMapping>
+            </gantt:GanttControl>
+        </syncfusion:LayoutControl.GridView>
+
+        <syncfusion:LayoutControl.UserOptionsView>
+            <syncfusion:UserOptions HeaderText="Options">
+                <Button Grid.Column="1"
+                        Width="Auto"
+                        Height="30"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        Command="local:ProjectStatisticsCommand.GetStatistics"
+                        CommandTarget="{Binding GridView,
+                                                RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                               AncestorType={x:Type syncfusion:LayoutControl}}}"
+                        Content="Get Statistics"
+                        Padding="3" />
+            </syncfusion:UserOptions>
+        </syncfusion:LayoutControl.UserOptionsView>
+
+    </syncfusion:LayoutControl>
+</syncfusion:ChromelessWindow>

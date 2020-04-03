@@ -1,0 +1,138 @@
+﻿<sfutils:SampleWindow x:Class="ZoomingandScrolling.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:syn="http://schemas.syncfusion.com/wpf"
+                      xmlns:vm="clr-namespace:ZoomingandScrolling.ViewModel"
+                      xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                      sfshared:SkinStorage.VisualStyle="Metro"
+                      Title="Zooming and Scrolling" Height="600" Width="800" Icon="App.ico"
+                      WindowStartupLocation="CenterScreen" WindowState="Maximized">
+
+    <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="cnv"/>
+        </Grid.Resources>
+
+        <Grid.DataContext>
+            <vm:ViewModel/>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#FF119EDA">
+            <TextBlock Text="OlapChart illustrates Zooming and Scrolling."
+                       Foreground="White" Margin="5 0" VerticalAlignment="Center"/>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Margin="5" Header="OlapChart" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <syn:OlapChart Name="olapchart1" Margin="5" OlapDataManager="{Binding DataManager}"
+                               ColorPalette="Metro" SeriesStrokeThickness="0"
+                               syn:ChartZoomingToolkit.ZoomingToolkitVisibility="Visible"
+                               syn:ChartZoomingToolkit.ZoomInButtonVisibility="{Binding IsChecked, ElementName=cbxZoomIn, Converter={StaticResource cnv}}"
+                               syn:ChartZoomingToolkit.ZoomOutButtonVisibility="{Binding IsChecked, ElementName=cbxZoomOut, Converter={StaticResource cnv}}"
+                               syn:ChartZoomingToolkit.ZoomCloseButtonVisibility="{Binding IsChecked, ElementName=cbxZoomClose, Converter={StaticResource cnv}}"
+                               syn:ChartZoomingToolkit.ZoomResetButtonVisibility="{Binding IsChecked, ElementName=cbxZoomReset, Converter={StaticResource cnv}}">
+                    <syn:OlapChart.PrimaryAxis>
+                        <syn:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes" />
+                    </syn:OlapChart.PrimaryAxis>
+                    <syn:OlapChart.Legend>
+                        <syn:ChartLegend Visibility="Visible" RowsCount="3" ColumnsCount="2" Background="Transparent"/>
+                    </syn:OlapChart.Legend>
+                    <syn:OlapChart.SecondaryAxis>
+                        <syn:ChartAxis LabelFormat="C"/>
+                    </syn:OlapChart.SecondaryAxis>
+                </syn:OlapChart>
+            </GroupBox>
+
+            <GridSplitter Grid.Column="0" Width="1" Margin="0 10 0 5" Background="#FF119EDA" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+
+            <GroupBox Grid.Column="1" Margin="5" Header="Properties" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <StackPanel Margin="5">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Margin" Value="5"/>
+                            <Setter Property="Width" Value="30"/>
+                            <Setter Property="Height" Value="30"/>
+                        </Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="IsEnabled" Value="{Binding IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.3"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Resources>
+
+                    <TextBlock Margin="0 10" Text="Zooming Buttons:" FontWeight="SemiBold"></TextBlock>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button CommandTarget="{Binding ElementName=olapchart1}"
+                                Command="{x:Static syn:ChartAreaCommands.ZoomIn}"
+                                ToolTip="Zoom In" ToolTipService.ShowOnDisabled="True">
+                            <Image Source="pack://application:,,,/Syncfusion.Chart.WPF;component//Resources/zoomin.png"/>
+                        </Button>
+
+                        <Button CommandTarget="{Binding ElementName=olapchart1}"
+                                Command="{x:Static syn:ChartAreaCommands.ZoomOut}"
+                                ToolTip="Zoom Out" ToolTipService.ShowOnDisabled="True">
+                            <Image Source="pack://application:,,,/Syncfusion.Chart.WPF;component//Resources/zoomout.png"/>
+                        </Button>
+
+                        <Button CommandTarget="{Binding ElementName=olapchart1}"
+                                Command="{x:Static syn:ChartAreaCommands.ZoomReset}"
+                                ToolTip="Reset" ToolTipService.ShowOnDisabled="True">
+                            <Image Source="pack://application:,,,/Syncfusion.Chart.WPF;component//Resources/zoomreset.png"/>
+                        </Button>
+
+                        <Button x:Name="btn_CancelZooming" CommandTarget="{Binding ElementName=olapchart1}"
+                                Command="{x:Static syn:ChartAreaCommands.CancelZooming}"
+                                ToolTip="Cancel Zooming" ToolTipService.ShowOnDisabled="True">
+                            <Image Source="pack://application:,,,/Syncfusion.Chart.WPF;component//Resources/close.png"/>
+                        </Button>
+
+                        <Button CommandTarget="{Binding ElementName=olapchart1}"
+                                Command="{x:Static syn:ChartAreaCommands.SwitchZooming}"
+                                ToolTip="Switch Zooming" ToolTipService.ShowOnDisabled="True">
+                            <Image Source="{x:Static syn:ChartResources.Actions}"/>
+                        </Button>
+                    </StackPanel>
+
+                    <TextBlock Margin="0 10" Text="Buttons Visibility:" FontWeight="SemiBold"/>
+
+                    <CheckBox Name="cbxZoomClose" Margin="0 10" Content="Enable Close Zooming Button" IsChecked="True"
+                              IsEnabled="{Binding IsEnabled, ElementName=btn_CancelZooming, Mode=TwoWay}"/>
+
+                    <CheckBox Name="cbxZoomIn" Margin="0 10" Content="Enable Zoom In Button" IsChecked="True"
+                              IsEnabled="{Binding IsEnabled, ElementName=btn_CancelZooming, Mode=TwoWay}"/>
+
+                    <CheckBox Name="cbxZoomOut" Margin="0 10" Content="Enable Zoom Out Button" IsChecked="True"
+                              IsEnabled="{Binding IsEnabled, ElementName=btn_CancelZooming, Mode=TwoWay}"/>
+
+                    <CheckBox Name="cbxZoomReset" Margin="0 10" Content="Enable Reset Zoom Button" IsChecked="True"
+                              IsEnabled="{Binding IsEnabled, ElementName=btn_CancelZooming, Mode=TwoWay}"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</sfutils:SampleWindow>
