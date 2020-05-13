@@ -1,0 +1,324 @@
+﻿<Window
+    x:Class="GettingStarted.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GettingStarted"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sync="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    Title="Sign Up"
+    Width="1150"
+    Height="660"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontFamily" Value="/Assets/Sync FontIcons.ttf#Sync FontIcons" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="15"></Setter>
+        </Style>
+        
+        <local:HasErrorConverter x:Key="HasErrorConverter" />
+        
+        <local:ErrorConverter x:Key="ErrorConverter" />
+
+        <ObjectDataProvider
+            x:Key="TextInputLayoutContainerTypes"
+            MethodName="GetValues"
+            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="sync:ContainerType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <local:SignUpViewModel />
+    </Window.DataContext>
+
+    <Grid VerticalAlignment="Center">
+        <Grid.Resources>
+            <Style TargetType="sync:SfTextInputLayout">
+                <Setter Property="Margin" Value="0,20,0,0" />
+                <Setter Property="HintFloatMode" Value="{Binding SelectedItem, ElementName=comboBoxHintFloatMode}" />
+                <Setter Property="ContainerType" Value="{Binding SelectedItem, ElementName=comboBoxContainerType}" />
+                <Setter Property="LeadingViewPosition" Value="Outside" />
+                <Setter Property="ErrorText" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=InputView.(Validation.Errors), Converter={StaticResource ErrorConverter}}" />
+                <Setter Property="HasError" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=InputView.(Validation.Errors), Converter={StaticResource HasErrorConverter}}" />
+            </Style>
+        </Grid.Resources>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="30" />
+            <ColumnDefinition Width="250" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Grid.ColumnSpan="4"
+                Margin="0,0,0,20"
+                FontSize="25"
+                FontWeight="Bold"
+                Foreground="#0d5fa3"
+                Text="Sign Up"
+                TextAlignment="Center" />
+
+            <StackPanel Grid.Row="1">
+                <sync:SfTextInputLayout
+                    x:Name="firstNameInputLayout"
+                    HelperText="Enter your name"
+                    Hint="First name">
+
+                    <sync:SfTextInputLayout.LeadingView>
+                        <Label
+                            VerticalAlignment="Center"
+                            Content="&#xe72a;"
+                            FontFamily="/Assets/Sync FontIcons.ttf#Sync FontIcons"
+                            FontSize="18"
+                            Foreground="{Binding ActiveForeground, ElementName=firstNameInputLayout}" />
+                    </sync:SfTextInputLayout.LeadingView>
+
+                    <TextBox MaxLength="15" Text="{Binding FirstName}" />
+                </sync:SfTextInputLayout>
+
+                <sync:SfTextInputLayout
+                    x:Name="phoneNumberInputLayout"
+                    Grid.Row="1"
+                    CharMaxLength="10"
+                    HelperText="Don't include country code"
+                    Hint="Phone number">
+
+                    <sync:SfTextInputLayout.LeadingView>
+                        <Label
+                            Content="&#xe766;"
+                            Foreground="{Binding ActiveForeground, ElementName=phoneNumberInputLayout}" />
+                    </sync:SfTextInputLayout.LeadingView>
+
+                    <TextBox MaxLength="10" Text="{Binding PhoneNumber}" />
+                </sync:SfTextInputLayout>
+
+                <sync:SfTextInputLayout
+                    x:Name="currentAddressInputLayout"
+                    Grid.Row="2"
+                    HelperText="Enter your address"
+                    Hint="Current address">
+
+                    <sync:SfTextInputLayout.LeadingView>
+                        <Label
+                            Content="&#xe757;"
+                            Foreground="{Binding ActiveForeground, ElementName=currentAddressInputLayout}" />
+                    </sync:SfTextInputLayout.LeadingView>
+
+                    <TextBox Text="{Binding CurrentAddress}" TextWrapping="Wrap" />
+                </sync:SfTextInputLayout>
+
+                <sync:SfTextInputLayout
+                    x:Name="emailInputLayout"
+                    Grid.Row="3"
+                    HelperText="Enter your email address"
+                    Hint="Email">
+
+                    <sync:SfTextInputLayout.LeadingView>
+                        <Label
+                            Content="&#xe725;"
+                            Foreground="{Binding ActiveForeground, ElementName=emailInputLayout}" />
+                    </sync:SfTextInputLayout.LeadingView>
+
+                    <TextBox Text="{Binding Mail}" />
+                </sync:SfTextInputLayout>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="1">
+                <sync:SfTextInputLayout
+                    x:Name="lastNameInputLayout"
+                    Grid.Row="0"
+                    HelperText="Enter your last name"
+                    Hint="Last name">
+
+                    <sync:SfTextInputLayout.LeadingView>
+                        <Label
+                            Content="&#xe72a;"
+                            Foreground="{Binding ActiveForeground, ElementName=lastNameInputLayout}" />
+                    </sync:SfTextInputLayout.LeadingView>
+
+                    <TextBox MaxLength="15" Text="{Binding LastName}" />
+                </sync:SfTextInputLayout>
+
+                <sync:SfTextInputLayout
+                    x:Name="altPhoneNumberInputLayout"
+                    Grid.Row="1"
+                    CharMaxLength="10"
+                    HelperText="Don't include country code"
+                    Hint="Alternate phone number">
+
+                    <sync:SfTextInputLayout.LeadingView>
+                        <Label
+                            Content="&#xe766;"
+                            Foreground="{Binding ActiveForeground, ElementName=altPhoneNumberInputLayout}" />
+                    </sync:SfTextInputLayout.LeadingView>
+
+                    <TextBox MaxLength="10" Text="{Binding AlternativePhoneNumber}" />
+                </sync:SfTextInputLayout>
+
+                <sync:SfTextInputLayout
+                    x:Name="permanentAddressInputLayout"
+                    Grid.Row="2"
+                    HelperText="Enter your permanent address"
+                    Hint="Permanent address">
+
+                    <sync:SfTextInputLayout.LeadingView>
+                        <Label
+                            Content="&#xe757;"
+                            Foreground="{Binding ActiveForeground, ElementName=permanentAddressInputLayout}" />
+                    </sync:SfTextInputLayout.LeadingView>
+
+                    <TextBox Text="{Binding PermanentAddress}" TextWrapping="Wrap" />
+                </sync:SfTextInputLayout>
+
+                <sync:SfTextInputLayout
+                    x:Name="altEmailInputLayout"
+                    Grid.Row="3"
+                    HelperText="Enter the alternate email address"
+                    Hint="Alternate email address">
+
+                    <sync:SfTextInputLayout.LeadingView>
+                        <Label
+                            Content="&#xe725;"
+                            Foreground="{Binding ActiveForeground, ElementName=altEmailInputLayout}" />
+                    </sync:SfTextInputLayout.LeadingView>
+
+                    <TextBox Text="{Binding AlternativeMail}" />
+                </sync:SfTextInputLayout>
+            </StackPanel>
+
+            <sync:SfTextInputLayout
+                x:Name="notesInputLayout"
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Hint="Notes">
+
+                <sync:SfTextInputLayout.LeadingView>
+                    <Label
+                        Content="&#xe747;"
+                        Foreground="{Binding ActiveForeground, ElementName=notesInputLayout}" />
+                </sync:SfTextInputLayout.LeadingView>
+
+                <TextBox
+                    Height="38"
+                    Text="{Binding Notes}"
+                    TextWrapping="Wrap" />
+            </sync:SfTextInputLayout>
+
+            <StackPanel
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Width="150"
+                    Height="35"
+                    HorizontalAlignment="Center"
+                    BorderThickness="0"
+                    Background="#0d5fa3"
+                    Foreground="White"
+                    Command="{Binding SubmitCommand}"
+                    Content="Submit"
+                    FontSize="16" />
+
+                <Button
+                    Width="150"
+                    Height="35"
+                    Background="#90979b"
+                    Margin="50,0,0,0"
+                    HorizontalAlignment="Right"
+                    BorderThickness="0"
+                    Foreground="White"
+                    Command="{Binding ResetCommand}"
+                    Content="Reset"
+                    FontSize="16" />
+            </StackPanel>
+        </Grid>
+
+        <Rectangle
+            Grid.Column="1"
+            Width="1"
+            Margin="0,0,0,25"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            Fill="Gray"
+            Opacity="0.5" />
+
+        <StackPanel Grid.Column="2">
+            <TextBlock
+                Margin="0,13,0,15"
+                FontSize="20"
+                FontWeight="Bold"
+                Foreground="#0d5fa3"
+                Text="Options" />
+
+
+            <Grid Margin="0,5,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Margin="10,5,3,3"
+                    FontSize="13"
+                    Text="Hint float mode" />
+
+                <ComboBox
+                    x:Name="comboBoxHintFloatMode"
+                    Grid.Column="1"
+                    BorderThickness="0"
+                    Margin="7,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    FontSize="13"
+                    ItemsSource="{Binding ComboBoxContent}"
+                    SelectedIndex="1" />
+            </Grid>
+
+            <Grid Margin="0,20,10,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Margin="10,5,3,3"
+                    FontSize="13"
+                    Text="Container type" />
+
+                <ComboBox
+                    x:Name="comboBoxContainerType"
+                    Grid.Column="1"
+                    BorderThickness="0"
+                    Margin="7,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    FontSize="13"
+                    ItemsSource="{Binding Source={StaticResource TextInputLayoutContainerTypes}}"
+                    SelectedIndex="0" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

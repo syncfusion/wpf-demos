@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="DockingManagerMVVMCaliburnMicro.ErrorListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             xmlns:shared="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=Syncfusion.Shared.Wpf" 
+             xmlns:grid="clr-namespace:Syncfusion.Windows.Controls.Grid;assembly=Syncfusion.Grid.Wpf"
+             xmlns:local="clr-namespace:DockingManagerMVVMCaliburnMicro"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:cal="http://www.caliburnproject.org">
+    
+    <UserControl.DataContext>
+        <local:ErrorListViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <shared:ToolBarTrayAdv Grid.Row="0" Margin="-5,-2,-2,-2" Background="Transparent">
+            <shared:ToolBarAdv  GripperVisibility="Collapsed" Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Left">
+                <ToggleButton Height="25" ToolTip="0 Errors" Margin="2">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Error}" Width="16" Height="16"/>
+                            <TextBlock Text="0 Errors" Margin="2,1,0,0"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <Separator/>
+                <ToggleButton Height="25" ToolTip="0 Warnings" Margin="1,0,0,0">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Warning}"/>
+                            <TextBlock Text="0 Warnings" Margin="2,1,0,0"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <Separator/>
+                <ToggleButton Height="25" ToolTip="0 Messages" Margin="1,0,0,0">
+                    <ToggleButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Message}"/>
+                            <TextBlock Text="0 Messages" Margin="2,1,0,0"/>
+                        </StackPanel>
+                    </ToggleButton.Content>
+                </ToggleButton>
+            </shared:ToolBarAdv>
+        </shared:ToolBarTrayAdv>
+        <grid:GridDataControl x:Name="grid" ShowAddNewRow="False" cal:Message.Attach="[Event Loaded] = [Action GridLoaded($datacontext)]" AutoPopulateColumns="False" VisualStyle="{Binding VisualStyle}" ColumnSizer="AutoOnLoadWithLastColumnFill"  HorizontalAlignment="Stretch" Grid.Row="1" ItemsSource="{Binding Items}">
+            <grid:GridDataControl.StyleManager>
+                <grid:GridDataStyleManager>
+                    <grid:GridDataStyleManager.RowAppearence>
+                        <grid:RowAppearence HighlightSelectionBackground="#FF3399FF" HighlightSelectionForeground="White" CurrentCellSelectionBackground="#FF3399FF" CurrentCellSelectionForeground="White"></grid:RowAppearence>
+                    </grid:GridDataStyleManager.RowAppearence>
+                </grid:GridDataStyleManager>
+            </grid:GridDataControl.StyleManager>
+            <grid:GridDataControl.VisibleColumns>
+                <grid:GridDataVisibleColumn MappingName="Number" HeaderText=""/>
+                <grid:GridDataVisibleColumn MappingName="Description" Width="1000"/>
+                <grid:GridDataVisibleColumn MappingName="File"/>
+                <grid:GridDataVisibleColumn MappingName="Line"/>
+                <grid:GridDataVisibleColumn MappingName="Column"/>
+                <grid:GridDataVisibleColumn MappingName="Project"/>
+            </grid:GridDataControl.VisibleColumns>
+        </grid:GridDataControl>
+    </Grid>
+</UserControl>

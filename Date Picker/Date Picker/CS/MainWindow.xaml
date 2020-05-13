@@ -1,0 +1,145 @@
+﻿<Window x:Class="DatePicker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:local="clr-namespace:DatePicker"  Icon="App.Ico"
+        WindowStartupLocation="CenterScreen"
+        Title="Date Picker" Height="500" Width="700">
+    <Window.Resources>
+        <local:DateToImageSourceConverter x:Key="datetoImage"/>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+        
+        <Style TargetType="syncfusion:SfDatePicker">
+            <Setter Property="Margin" Value="5,5,5,50"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        
+        <Style TargetType="syncfusion:SfDateSelector">
+            <Setter Property="Margin" Value="5,5,50,50"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="ShowCancelButton" Value="False"/>
+            <Setter Property="ShowDoneButton" Value="False"/>
+        </Style>        
+
+        <Style TargetType="syncfusion:SfDateSelector" x:Key="CustomDateSelector">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="ShowCancelButton" Value="True"/>
+            <Setter Property="ShowDoneButton" Value="True"/>
+            <Setter Property="Header" Value="Choose your date of birth"/>
+            <Setter Property="AccentBrush" Value="#FF1FAEFF"/>
+            <Setter Property="ShowCancelButton" Value="False"/>
+            <Setter Property="ShowDoneButton" Value="False"/>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontStyle="Italic"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="DayCellTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <Image Source="{Binding Path=DateTime, Converter={StaticResource datetoImage}, ConverterParameter='Day'}"
+                                   VerticalAlignment="Top" 
+                                   HorizontalAlignment="Right" 
+                                   Margin="5"
+                                   Stretch="Uniform" 
+                                   Width="16"/>
+                            <StackPanel HorizontalAlignment="Left" Margin="2" VerticalAlignment="Bottom">
+                                <TextBlock FontSize="20" Margin="0 0 0 -3" Text="{Binding DayNumber}"/>
+                                <TextBlock FontSize="12" FontWeight="Light" Text="{Binding DayName}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="MonthCellTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <Image Source="{Binding Path=DateTime, Converter={StaticResource datetoImage}, ConverterParameter='Month'}"
+                                   VerticalAlignment="Top" 
+                                   HorizontalAlignment="Right" 
+                                   Margin="5"
+                                   Stretch="Uniform" 
+                                   Width="16"/>
+                            <StackPanel HorizontalAlignment="Left" Margin="2" VerticalAlignment="Bottom">
+                                <TextBlock FontSize="20" Margin="0 0 0 -3" Text="{Binding MonthNumber}"/>
+                                <TextBlock FontSize="12" FontWeight="Light" Text="{Binding MonthName}"/>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Date Picker"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Date Picker (Freeform Editing)"/>
+        <TextBlock Grid.Row="0" Grid.Column="2" Text="Date Picker (No Dropdown)"/>
+
+        <syncfusion:SfDatePicker Grid.Row="1" Grid.Column="0" Name="default" Width="180" SetValueOnLostFocus="True"/>
+            <syncfusion:SfDatePicker Width="180" Grid.Row="1" Grid.Column="1" 
+                                 AllowInlineEditing="True"/>
+            <syncfusion:SfDatePicker Width="180" Grid.Row="1" Grid.Column="3" 
+                                 ShowDropDownButton="False"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Null Value With Watermark "/>
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="Value and Selector Formatting"/>
+            <TextBlock Grid.Row="2" Grid.Column="2" Text="Readonly"/>
+            <syncfusion:SfDatePicker Width="180" Grid.Row="3" Grid.Column="0" 
+                                 AllowNull="True" DateTime="{x:Null}">
+            <syncfusion:SfDatePicker.WatermarkTemplate>
+                <DataTemplate>
+                    <TextBlock Text="Choose your date of birth" Foreground="DimGray" FontStyle="Italic"/>
+                </DataTemplate>
+            </syncfusion:SfDatePicker.WatermarkTemplate>
+        </syncfusion:SfDatePicker>
+            <syncfusion:SfDatePicker Width="180" Grid.Row="3" Grid.Column="2" 
+                                 IsEnabled="False"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="0" Margin="5">
+                <TextBlock Margin="0" Padding="0" Text="Date Range"/>
+                <TextBlock Margin="0" Padding="0" Text="{Binding MinDate, StringFormat=' (dd MMM yy - '}"/>
+                <TextBlock Margin="0" Padding="0" Text="{Binding MaxDate, StringFormat='dd MMM yy)'}"/>
+            </StackPanel>
+            <TextBlock Grid.Row="4" Grid.Column="2" Text="Dropdown Height"/>
+
+            <syncfusion:SfDatePicker Width="180" Grid.Row="5" Grid.Column="0" 
+                                 MinDate="{Binding MinDate}"
+                                 MaxDate="{Binding MaxDate}"/>
+            <syncfusion:SfDatePicker Width="180" Grid.Row="3" Grid.Column="1"                            
+                                 SelectorFormatString="y/m/d"/>
+            <syncfusion:SfDatePicker Width="180" Grid.Row="5" Grid.Column="2" 
+                                 DropDownHeight="100"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="Custom Selector Template"/>
+
+            <syncfusion:SfDatePicker Width="180" Grid.Row="5" Grid.Column="1" 
+                                 AccentBrush="#FF1FAEFF"
+                                 SelectorStyle="{StaticResource CustomDateSelector}"/>
+    </Grid>
+</Window>
+
+

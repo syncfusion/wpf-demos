@@ -1,0 +1,216 @@
+﻿<!--Using Window for applying custom skins-->
+<syncfusion:ChromelessWindow x:Class="WizardSample.Window1" UseNativeChrome="True"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Style="{StaticResource windowStyle}"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" Icon="App.ico" WindowStartupLocation="CenterScreen"
+        xmlns:local="clr-namespace:WizardSample"        
+    Title="Wizard Control Demo" Height="584" Width="774" Name="window1" ResizeMode="NoResize">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncfusion:ChromelessWindow.DataContext>
+    
+        <!-- Root Grid -->
+	<Grid>
+	<!-- Wizard Control -->
+        
+		<syncfusion:WizardControl  SelectedPageChanged="wizardControl_SelectedPageChanged" Name="wizardControl"                                      
+                                       HelpText="{Binding ElementName=txtHelpText, Path=Text, Mode=TwoWay}"
+                                       CancelText="{Binding ElementName=txtCancelText, Path=Text, Mode=TwoWay}"
+                                       BackText="{Binding ElementName=txtBackText, Path=Text, Mode=TwoWay}" 
+                                       NextText="{Binding ElementName=txtNextText, Path=Text, Mode=TwoWay}"
+                                       FinishText="{Binding ElementName=txtFinishText, Path=Text, Mode=TwoWay}"
+                                       syncfusion:WizardControlHelpCommand.Command="{Binding Help}"
+                                       CancelVisible="{Binding ElementName=visiblecancelbutton,Path=IsChecked, Mode=TwoWay}"
+                                       CancelEnabled="{Binding ElementName=enablecancelbutton,Path=IsChecked, Mode=TwoWay}"
+                                       BackVisible="{Binding ElementName=visiblebackbutton,Path=IsChecked, Mode=TwoWay}" 
+                                       BackEnabled="{Binding ElementName=enablebackbutton,Path=IsChecked, Mode=TwoWay}"
+                                       HelpVisible="{Binding ElementName=visiblehelpbutton,Path=IsChecked, Mode=TwoWay}"
+                                       NextVisible="{Binding ElementName=visblenextbutton,Path=IsChecked, Mode=TwoWay}"
+                                       NextEnabled="{Binding ElementName=enablenextbutton,Path=IsChecked, Mode=TwoWay}"
+                                       FinishVisible="{Binding ElementName=visiblefinishbutton,Path=IsChecked, Mode=TwoWay}"
+                                       FinishEnabled="{Binding ElementName=enablefinishbutton,Path=IsChecked, Mode=TwoWay}"
+                                       CancelButtonCancelsWindow="{Binding ElementName=closewindowcancel,Path=IsChecked, Mode=TwoWay}"
+                                       FinishButtonClosesWindow="{Binding ElementName=closewindowfinish,Path=IsChecked, Mode=TwoWay}">
+			<!-- Welcome page -->
+            <syncfusion:WizardPage Name="wizPage1" Title="Welcome to the Installation Setup Wizard" PageType="Exterior" 
+                                       BannerImage="/Image/W_O-BG.png"  
+                                       Description="This will install Software on your computer." BackVisible="False"
+                                       CancelVisible="True" FinishVisible="False" HelpVisible="True"
+                                       NextPage="{Binding ElementName=wizPage2}">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock TextWrapping="Wrap" Margin="0,10,10,10" Text="It is recommended that you close all other applications before continuing."/>
+                    <TextBlock Margin="0,10,10,10" Text="Click Next to continue, or Cancel to exit Setup."/>
+                    <TextBlock Margin="0,10,10,10" Text="For more information, click Help."/>
+                </StackPanel>
+
+            </syncfusion:WizardPage>
+            <!-- License Agreement Page -->
+			<syncfusion:WizardPage Name="wizPage2" Title="License Agreement" Description="Please read the following important information before continuing" 
+                                   BackVisible="True" FinishVisible="False" NextEnabled="{Binding IsChecked,ElementName=RadioButton1}" BannerImage="/Image/W_O-BG.png" PageType="Exterior">
+				
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="7.0*"/>
+							<RowDefinition Height="1.5*"/>
+							<RowDefinition Height="1.5*"/>
+						</Grid.RowDefinitions>
+					<Border BorderBrush="#AAFFFFFF" BorderThickness="1" Margin="10">
+						<ScrollViewer VerticalScrollBarVisibility="Auto">
+							<StackPanel Orientation="Vertical">
+								<TextBlock Margin="10" TextWrapping="Wrap">You must accept the terms of this agreement before continuing with the installation</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">THIS SOFTWARE LICENSE IS A LEGAL AGREEMENT (the "AGREEMENT") BETWEEN YOU, ("YOU", "YOUR", OR "CUSTOMER"), AND SYNCFUSION, INC., A DELAWARE CORPORATION WITH ITS PRINCIPAL PLACE OF BUSINESS LOCATED AT 9001 Aerial Center Parkway, SUITE 110, Morrisville, NC 27560 ("SYNCFUSION").</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">1. This Agreement contains the entire understanding of Syncfusion and Customer and supersedes all prior written or oral communications between the parties with respect to the subject matter hereof.  This Agreement does not operate as an acceptance of any conflicting terms and conditions and shall prevail over any conflicting provisions of any purchase order of Customer or any other instruments.  By clicking the “YES” button below, Customer acknowledges that it has reviewed the terms and conditions of this Agreement and agrees to be legally bound thereby.</TextBlock>
+								
+								<TextBlock Margin="10" TextWrapping="Wrap">2. Licensed Product means, collectively, the Licensed Program(s) and Documentation.
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">3. Licensed Program(s) means the source code version or executable version of the Syncfusion software as appropriate, as well as any updates or new versions that may be delivered by Syncfusion to Customer during the term of this license.
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">4. The license fee (“License Fee”) is the aggregate of the fees for the Licensed Program(s) selected by Customer.</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">5. Term and Termination: Subject to the limitations herein, the term of the license set forth in this Agreement is perpetual.  The license shall be for a period commencing upon the date of shipment of the Licensed Product and continuing until such time as Customer discontinues use of the Licensed Product on the Computer System or this Agreement is terminated, but otherwise without limitation as to duration.
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">6. Syncfusion shall have the right to terminate Customer’s license if Customer fails to pay any required license fee(s) or otherwise fails to comply with the license terms and conditions set forth herein.  Syncfusion shall give written notice to Customer of such default, and if such default has not been remedied within thirty (30) days after such notice, the license granted hereunder shall terminate.
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">7. Warranty: Upon installation on the Computer System the Licensed Program(s) will perform in all material respects in accordance with the specifications in the Documentation for a period of sixty (60) days.  Customer’s sole remedy for any defect in the Licensed Program(s) communicated to Syncfusion within the foregoing period shall be to terminate this Agreement in the event that Syncfusion fails to cure such defect within forty-five (45) days after Syncfusion has received written notice from Customer specifying the defect.  Any modification or attempted modification of the Licensed Product by Customer or any failure by Customer to implement any improvements or updates to the Licensed Product as supplied by Syncfusion shall void this warranty.  Syncfusion shall not be responsible for any defect in, or caused by, any additions or modifications to the Licensed Product by Customer.
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">8. Patent and Copyright Indemnification: Syncfusion shall defend any action, suit or proceeding brought against Customer in so far as it is based on a claim that the Licensed Product delivered hereunder infringes any United States patent or copyright issued or registered, as of the date of this Agreement.  Indemnification hereunder shall be contingent upon Customer providing prompt notice of such claim in writing, and upon Customer granting Syncfusion full authority, information and assistance (at Syncfusion’s expense) for the defense of such claim.  Syncfusion shall pay all damages and costs awarded therein against Customer, but shall not be responsible for any compromise made without its consent.  Syncfusion may, at its option and expense, replace or modify the Licensed Product so that infringement will not exist or refund to Customer prepaid License Fees on a pro-rata basis.  Notwithstanding the foregoing, Syncfusion’s indemnification hereunder shall not extend to any infringement or claim thereof which is based upon: (i) the combination of the Licensed Product delivered hereunder with any software or device not supplied by Syncfusion; (ii) specifications provided to Syncfusion; or (iii) modifications to the Licensed Product not performed by Syncfusion.
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">9. Maintenance and Support: Maintenance and Support services subscriptions are available from Syncfusion for an additional charge.  Maintenance and Support services subscriptions are provided in accordance with the terms of Syncfusion’s then-current support and maintenance policies.  A current version of those policies is available from Syncfusion upon request.  In the event that Customer declines to purchase and initiate Maintenance and Support services subscriptions at the time of installation of the Licensed Program, or in the event that Customer allows Maintenance and Support service coverage to lapse for any period of time, Customer agrees that: (i) Maintenance and Support service fees will be due, upon the resumption of Maintenance and Support services, for any period during which Customer declined to purchase Maintenance and Support services; or (ii) Customer must pay an upgrade fee to update the License Program(s) to the then-latest version.  Failure to maintain a Maintenance and Support services subscription will limit Customer’s right to use the Licensed Programs to create modified binaries for Customer’s product(s) as set forth in Section 4.2(f).
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">10. Proprietary Rights: Information and data supplied by either party to the other party may include confidential or proprietary information.  Confidential or proprietary information (“Confidential Information”) means any information or data (including without limitation any formula, pattern, compilation, program, device, method, technique, or process) that is disclosed by one party (the “Disclosing Party”) to the other party (the “Receiving Party”) pursuant to this Agreement.  Confidential Information of Syncfusion includes, but is not limited to, the terms of this Agreement, the Licensed Product, the structure, organization, design, algorithms, methods, templates, data models, data structures, flow charts, logic flow, and screen displays associated with the Licensed Program(s), the Documentation, and pricing information.  Confidential Information of Customer includes, but is not limited to, Customer data and Customer’s financial and business information.  Confidential Information shall not include information that either party can demonstrate: (i) at the time of disclosure is in the public domain or is otherwise available to the Receiving Party other than on a confidential basis; (ii) after disclosure, becomes a part of the public domain by publication or otherwise through no fault of the Receiving Party; (iii) was disclosed to the Receiving Party by a third party not under an obligation of confidentiality to the Disclosing Party; or (iv) is or has been independently developed by the Receiving Party (as evidenced by the Receiving Party’s written records) without access to any Confidential Information of the Disclosing Party.</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">11. Notice: Any notice or other communication given hereunder shall be in writing.  Notice shall be considered delivered and effective upon receipt when sent by U.S. Mail, postage prepaid, or certified mail, return receipt requested, addressed to the parties as set forth above.  Either party, upon written notice to the other, may change any name or address to which future notice shall be sent.
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap">IF YOU DO NOT AGREE WITH THE ABOVE TERMS AND CONDITIONS, DO NOT DOWNLOAD OR INSTALL THE LICENSED PRODUCT.
+								</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap"><Underline>YES</Underline>I agree to be bound by the terms and conditions of this License Agreement.</TextBlock>
+								<TextBlock Margin="10" TextWrapping="Wrap"><Underline>No</Underline>I decline to be bound by the terms and conditions of this License Agreement.</TextBlock>
+							</StackPanel>
+						</ScrollViewer>
+					</Border>
+						<RadioButton Name="RadioButton1" Margin="10,20,10,10" VerticalAlignment="Bottom" Grid.Row="1" >I accept the agreement</RadioButton>
+						<RadioButton Name="RadioButton2" Margin="10" VerticalAlignment="Top" Grid.Row="2" IsChecked="True">I do not accept the agreement</RadioButton>
+					</Grid>
+				
+			</syncfusion:WizardPage>
+
+			<!-- Profile Page -->
+			<syncfusion:WizardPage Name="wizPage3" Title="Profile" FinishVisible="False" NextEnabled="{Binding IsEnable}" 
+                                       Description="Please complete this form. All fields are required"  BannerImage="/Image/W_O-BG.png" PageType="Exterior">
+				<StackPanel Orientation="Vertical" Margin="20,20,20,20">
+					
+					<TextBlock Text="User Name :" Margin="0,50,0,0" ></TextBlock>
+					<TextBox Name="txtName" Margin="0,10,0,0" Text="{Binding Name,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+					<TextBlock Text="Organization :" Margin="0,10,0,0"></TextBlock>
+                    <TextBox Name="txtOrg" Margin="0,10,0,0" Text="{Binding Organisation,UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+					<TextBlock Text="Unlock Key : (Enter 16 digit key and press ENTER):" Margin="0,10,0,0"></TextBlock>
+                    <syncfusion:MaskedTextBox Height="21.96"  Name="maskedTextBox" Margin="0,10,0,0" Mask="0000-0000-0000-0000" 
+                                               Text="{Binding Key,UpdateSourceTrigger=PropertyChanged}"
+                                               syncfusion:MaskedTextBoxValidatedCommand.Command="{Binding TextValidate}"
+                                               syncfusion:MaskedTextBoxValueChangedCommand.Command="{Binding TextChanged}"/>
+
+                </StackPanel>
+			</syncfusion:WizardPage>
+			
+			<!-- Skin Page -->
+			<syncfusion:WizardPage Name="wizPage7" Title="Skin" FinishVisible="False"
+                                       Description="Select the skin"  BannerImage="/Image/W_O-BG.png" PageType="Exterior">
+				<GroupBox Header="Skin selection" Margin="25,0,5,0">
+                    <StackPanel Margin=" 5 8 5 0">
+                        <RadioButton  Content="Belnd" Checked="RadioButton_Checked" Margin="4"/>
+                        <RadioButton  Content="Lime" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Metro" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office2010Black" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office2010Blue" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office2010Silver" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office2013DarkGray" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office2013LightGray" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office2013White" Checked="RadioButton_Checked" IsChecked="True"  Margin="4"/>
+                        <RadioButton  Content="Office2016Blue" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office2016DarkGray" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office2016White" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Office365" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="Saffron" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="VisualStudio2013" Checked="RadioButton_Checked"  Margin="4"/>
+                        <RadioButton  Content="VisualStudio2015" Checked="RadioButton_Checked"  Margin="4"/>
+                    </StackPanel>
+                </GroupBox>
+			</syncfusion:WizardPage>
+
+			<!-- Feature Page -->
+			<syncfusion:WizardPage Name="wizPage4" Title="{Binding ElementName=txtPageName, Path=Text, Mode=TwoWay}" FinishVisible="False"
+                                       Description="{Binding ElementName=txtPageDesc, Path=Text, Mode=TwoWay}"  BannerImage="/Image/W_O-BG.png" PageType="Exterior">
+				<Grid>
+					<Grid.RowDefinitions>
+
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="2.7*" />
+						<ColumnDefinition Width="7.3*" />
+					</Grid.ColumnDefinitions>
+
+					<Label Content="Page Title :" Grid.Row="0" Grid.Column="0" ></Label>
+					<TextBox Name="txtPageName" Grid.Row="0" Grid.Column="1" Height="23"  Text="Features"></TextBox>
+					<Label Content="Page Description :" Grid.Row="1" Grid.Column="0" ></Label>
+					<TextBox Name="txtPageDesc" Grid.Row="1" Grid.Column="1" Height="23" Text="Select features for installation"></TextBox>
+					<Label Content="Help Text :" Grid.Row="3" Grid.Column="0" ></Label>
+					<TextBox Name="txtHelpText" Grid.Row="3" Grid.Column="1" Height="23" Text="Help"></TextBox>
+					<Label Content="Cancel Text :" Grid.Row="4" Grid.Column="0" ></Label>
+					<TextBox Name="txtCancelText" Grid.Row="4" Grid.Column="1" Height="23" Text="Cancel"></TextBox>
+					<Label Content="Back Text :" Grid.Row="5" Grid.Column="0" ></Label>
+					<TextBox Name="txtBackText" Grid.Row="5" Grid.Column="1" Height="23"  Text="Back"></TextBox>
+					<Label Content="Next Text :" Grid.Row="6" Grid.Column="0" ></Label>
+					<TextBox Name="txtNextText" Grid.Row="6" Grid.Column="1" Height="23" Text="Next"></TextBox>
+					<Label Content="Finish Text :" Grid.Row="7" Grid.Column="0" ></Label>
+					<TextBox Name="txtFinishText" Grid.Row="7" Grid.Column="1" Height="23"  Text="Finish"></TextBox>
+					<StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2">
+
+						<StackPanel Margin="5,5,0,0" Orientation="Vertical">
+							<CheckBox Margin="0,5,0,0" Name="visiblehelpbutton" IsChecked="True">Visible Help Button</CheckBox>
+							<CheckBox Margin="0,5,0,0" Name="visiblecancelbutton" IsChecked="True">Visible Cancel Button</CheckBox>
+							<CheckBox Margin="0,5,0,0" Name="enablecancelbutton" IsChecked="True">Enable Cancel Button</CheckBox>
+							<CheckBox Margin="0,5,0,0" Name="visiblebackbutton" IsChecked="True">Visible Back Button</CheckBox>
+							<CheckBox Margin="0,5,0,0" Name="enablebackbutton" IsChecked="True">Enable Back Button</CheckBox>
+							<CheckBox Margin="0,5,0,0" Name="visblenextbutton" IsChecked="True">Visible Next Button</CheckBox>
+
+						</StackPanel>
+						<StackPanel Margin="10,5,0,0" Orientation="Vertical">
+
+							<CheckBox Margin="5,5,0,0" Name="enablenextbutton" IsChecked="True">Enable Next Button</CheckBox>
+							<CheckBox Margin="5,5,0,0" Name="visiblefinishbutton" IsChecked="True">Visible Finish Button</CheckBox>
+							<CheckBox Margin="5,5,0,0" Name="enablefinishbutton" IsChecked="True">Enable Finish Button</CheckBox>
+							<CheckBox Margin="5,5,0,0" Name="closewindowcancel" IsChecked="False">Close Window on Cancel</CheckBox>
+							<CheckBox Margin="5,5,0,0" Name="closewindowfinish" IsChecked="False">Close Window on Finish</CheckBox>
+						</StackPanel>
+					</StackPanel>
+				</Grid>
+
+
+
+			</syncfusion:WizardPage>
+			<!-- Installation Page -->
+			<syncfusion:WizardPage Name="wizPage5" Title="Install Window" FinishVisible="False" 
+                                       Description="Installing..."  BannerImage="Image\W_O-BG.png" PageType="Exterior">
+				<StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                    <Button Name="btnProgress" HorizontalAlignment="Left" Content="Install" Width="100" Height="25" Margin="50,0,20,20" Command="{Binding Progress}"></Button>
+                    <ProgressBar Name="Pbar" Width="350" Height="20" Minimum="0" Maximum="0" Value="{Binding ProgressValue,UpdateSourceTrigger=PropertyChanged}" Margin="50,0,20,100"></ProgressBar>
+				</StackPanel>					
+			</syncfusion:WizardPage>
+			
+			<!-- Finish Page -->
+			<syncfusion:WizardPage Name="wizPage6" Title="Thank you" NextVisible="False"  CancelVisibility="Collapsed" BackVisibility="Collapsed"
+                                       Description="Thank you for this Installation"   BannerImage="Image\W_O-BG.png" PageType="Exterior">
+				<TextBlock Text=" Thank you " HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" FontSize="22"/>
+			</syncfusion:WizardPage>
+		</syncfusion:WizardControl>
+	</Grid>
+</syncfusion:ChromelessWindow>

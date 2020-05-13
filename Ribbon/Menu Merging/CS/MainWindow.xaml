@@ -1,0 +1,129 @@
+﻿<syncfusion:RibbonWindow x:Class="RibbonMenuMerging.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RibbonMenuMerging"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+        skin:SfSkinManager.VisualStyle="Office2016Colorful" Icon="App.ico" Office2010Icon="App.ico"
+        mc:Ignorable="d" 
+        Title="Menu Merging" WindowStartupLocation="CenterScreen" Height="550" Width="850">
+    <Window.Resources>
+        <local:BooltoSizeformConverter x:Key="sizeform"/>
+        <local:ItemDataTemplateSelector x:Key="selector"/>
+        <local:ImageConverter x:Key="image"/>
+        <local:ModeConverter x:Key="mode"/>
+        <ResourceDictionary x:Key="barStyle">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Syncfusion.Themes.Office2016Colorful.WPF;component/Tools/Ribbon/Ribbon.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        <DataTemplate x:Key="Ribbonbutton">
+            <syncfusion:RibbonButton Label="{Binding ItemHeader}" SizeForm="{Binding IsLarge, Converter={StaticResource sizeform}}" Command="{Binding Command}"  LargeIcon="{Binding Image,Converter={StaticResource image}}" SmallIcon="{Binding Image,Converter={StaticResource image}}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="Splitbutton">
+            <syncfusion:SplitButton Label="{Binding ItemHeader}" SizeForm="{Binding IsLarge, Converter={StaticResource sizeform}}"  LargeIcon="{Binding Image,Converter={StaticResource image}}" SmallIcon="{Binding Image,Converter={StaticResource image}}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="DropDownButton">
+            <syncfusion:DropDownButton Label="{Binding ItemHeader}" SizeForm="{Binding IsLarge, Converter={StaticResource sizeform}}"  LargeIcon="{Binding Image,Converter={StaticResource image}}" SmallIcon="{Binding Image,Converter={StaticResource image}}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="CheckBox">
+            <syncfusion:RibbonCheckBox Content="{Binding ItemHeader}" IsChecked="{Binding Checked}" SmallIcon="{Binding Image,Converter={StaticResource image}}"/>
+        </DataTemplate>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <syncfusion:Ribbon x:Name="_ribbon" VerticalAlignment="Top" ItemsSource="{Binding CustomRibbonTabs}" Grid.Row="0"  RibbonBarCollapseImage="App.ico">
+            <syncfusion:Ribbon.ItemContainerStyle>
+                <Style TargetType="{x:Type syncfusion:RibbonTab}">
+                    <Setter Property="Caption" Value="{Binding TabHeader}"></Setter>
+                    <Setter Property="ItemsSource" Value="{Binding CustomRibbonBars}"/>
+                    <Setter Property="ItemContainerStyle">
+                        <Setter.Value>
+                            <Style BasedOn="{StaticResource Office2013RibbonBarStyle}" TargetType="{x:Type syncfusion:RibbonBar}">
+                                <Setter Property="Header" Value="{Binding BarHeader}"/>
+                                <Setter Property="ItemsSource" Value="{Binding CustomRibbonItems}"/>
+                                <Setter Property="ItemTemplateSelector" Value="{StaticResource selector}"/>
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </syncfusion:Ribbon.ItemContainerStyle>
+        </syncfusion:Ribbon>
+
+        <syncfusion:DocumentContainer x:Name="doc" Grid.Row="1" Mode="{Binding DocMode}" MDIParentRibbon="{Binding ElementName=_ribbon}">
+            <ContentPresenter syncfusion:DocumentContainer.Header="Document 1" syncfusion:DocumentContainer.MDIBounds="150,100,400,250">
+                <ContentPresenter.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <syncfusion:Ribbon x:Name="child1" Margin="0,25,0,0" VerticalAlignment="Top" ItemsSource="{Binding CustomChild1RibbonTabs}" Grid.Row="0" >
+                            <syncfusion:Ribbon.ItemContainerStyle>
+                                <Style TargetType="{x:Type syncfusion:RibbonTab}">
+                                    <Setter Property="Caption" Value="{Binding TabHeader}"></Setter>
+                                    <Setter Property="ItemsSource" Value="{Binding CustomChild1RibbonBars}"/>
+                                    <Setter Property="ItemContainerStyle">
+                                        <Setter.Value>
+                                            <Style BasedOn="{StaticResource Office2013RibbonBarStyle}" TargetType="{x:Type syncfusion:RibbonBar}">
+                                                <Setter Property="Header" Value="{Binding BarHeader}"/>
+                                                <Setter Property="ItemsSource" Value="{Binding CustomRibbonItems}"/>
+                                                <Setter Property="ItemTemplateSelector" Value="{StaticResource selector}"/>
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </syncfusion:Ribbon.ItemContainerStyle>
+                         </syncfusion:Ribbon>
+
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Click to Unmerge" TextDecorations="Underline" FontSize="45" PreviewMouseDown="TextBlock_PreviewMouseDown"/>
+                        </StackPanel>
+                    </Grid>
+                </ContentPresenter.Content>
+            </ContentPresenter>
+
+            <ContentPresenter syncfusion:DocumentContainer.Header="Document 2" syncfusion:DocumentContainer.MDIBounds="10,10,400,250">
+                <ContentPresenter.Content>
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <syncfusion:Ribbon x:Name="child2" Margin="0,25,0,0" VerticalAlignment="Top"  ItemsSource="{Binding CustomChild2RibbonTabs}" Grid.Row="0" SelectedTabOnMerge="SelectedTab" >
+                            <syncfusion:Ribbon.ItemContainerStyle>
+                                <Style TargetType="{x:Type syncfusion:RibbonTab}">
+                                    <Setter Property="Caption" Value="{Binding TabHeader}"></Setter>
+                                    <Setter Property="MergeOrder" Value="{Binding MergeOrder}"></Setter>
+                                    <Setter Property="ItemsSource" Value="{Binding CustomChild2RibbonBars}"/>
+                                    <Setter Property="ItemContainerStyle">
+                                        <Setter.Value>
+                                            <Style BasedOn="{StaticResource Office2013RibbonBarStyle}" TargetType="{x:Type syncfusion:RibbonBar}">
+                                                <Setter Property="Header" Value="{Binding BarHeader}"/>
+                                                <Setter Property="ItemsSource" Value="{Binding CustomRibbonItems}"/>
+                                                <Setter Property="ItemTemplateSelector" Value="{StaticResource selector}"/>
+                                            </Style>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </syncfusion:Ribbon.ItemContainerStyle>
+                        </syncfusion:Ribbon>
+                        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Click to Unmerge" TextDecorations="Underline" FontSize="45" PreviewMouseDown="TextBlock_PreviewMouseDown_1"/>
+                        </StackPanel>
+                    </Grid>
+                </ContentPresenter.Content>
+            </ContentPresenter>
+
+        </syncfusion:DocumentContainer>
+
+    </Grid>
+</syncfusion:RibbonWindow>
