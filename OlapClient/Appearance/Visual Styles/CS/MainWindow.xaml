@@ -1,0 +1,57 @@
+﻿<sfutils:SampleWindow x:Class="Visual_Styles.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:viewModel="clr-namespace:Visual_Styles.ViewModel"
+    xmlns:behavior="clr-namespace:Visual_Styles.Behavior"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Client.Olap;assembly=Syncfusion.OlapClient.WPF"
+    xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+    WindowStartupLocation="CenterScreen" Name ="mainWindow"
+    Title="Visual Styles" Icon="App.ico" Width="900" Height="630" MinWidth="500" MinHeight="500">
+    <Grid >
+        <Grid.DataContext>
+            <viewModel:ViewModel />
+        </Grid.DataContext>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Visual Styles" FontFamily="Segoe UI" FontSize="25 px" FontWeight="Bold" VerticalAlignment="Center"/>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Background="#FF119EDA" Margin="-10,0">
+            <TextBlock Text="Customization of visual theme in the OlapClient." FontFamily="Segoe UI" Margin="16,3,0,0" Foreground="White" x:Name="description"/>
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="79*"/>
+                <ColumnDefinition Width="140"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Name="chartgrpBox" Grid.Row="1" Grid.Column="0" Header="OlapClient" Margin="5,5,5,5" BorderThickness=".5">
+                <Grid Margin="5,5,5,5">
+                    <Grid.Background>
+                        <ImageBrush ImageSource="Images/simply-green-502085.jpeg"/>
+                    </Grid.Background>
+                <syncfusion:OlapClient  Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="olapClient1"
+                               OlapDataManager="{Binding ClientDataManager}">
+                    <i:Interaction.Behaviors>
+                        <behavior:ClientLoadedBehavior />
+                    </i:Interaction.Behaviors>
+                </syncfusion:OlapClient>
+                </Grid>
+            </GroupBox>
+            <GridSplitter Width="3" Name="spliterVertical"   Margin="3,10,-1,10" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
+            <Grid Grid.Column="1">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Name="grpBox1" Grid.Row="1" BorderThickness=".5" Header="Properties" Margin="5" Width="120" HorizontalAlignment="Left"  VerticalAlignment="Top">
+                    <ComboBox  Margin="5"  x:Name="ThemeSelectionBox" SelectionChanged="ThemeSelectionBox_SelectionChanged" ItemsSource="{Binding OlapClientVisualStyles}" SelectedIndex="1" />
+                </GroupBox>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</sfutils:SampleWindow>

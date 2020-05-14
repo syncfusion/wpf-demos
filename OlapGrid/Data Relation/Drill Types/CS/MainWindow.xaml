@@ -1,0 +1,50 @@
+﻿<sfutils:SampleWindow x:Class="DrillTypes.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+                      xmlns:olapgrid="clr-namespace:Syncfusion.Windows.Grid.Olap;assembly=Syncfusion.OlapGrid.WPF"
+                      xmlns:viewModel="clr-namespace:DrillTypes.ViewModel"
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                      sfshared:SkinStorage.VisualStyle="Metro"
+                      Title="Drill Types" Icon="App.ico" Height="700" Width="850" MinHeight="500" MinWidth="600"
+                      WindowState="Maximized" WindowStartupLocation="CenterScreen">
+
+    <Grid>
+        <Grid.DataContext>
+            <viewModel:ViewModel />
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="#FF119EDA" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="5 0" Foreground="White">OlapGrid supports various states of drill types (Drill Member / Drill Position) based on the level of reports.</TextBlock>
+
+            <Grid Grid.Column="1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock FontWeight="SemiBold" VerticalAlignment="Center" Foreground="White" Margin="5 0">Choose a Drill Type:</TextBlock>
+                    <RadioButton Name="rBtn1" GroupName="drillSelection" Content="Drill Member" Foreground="White" VerticalAlignment="Center" Margin="2 0 2 0" 
+                                 Command="{Binding DrillSelectionCommand}" CommandParameter="{Binding ElementName=rBtn1, Path=Content}" IsChecked="True" />
+                    <RadioButton Name="rBtn2" GroupName="drillSelection" Content="Drill Position" Foreground="White" VerticalAlignment="Center" Margin="2 0 5 0" 
+                                 Command="{Binding DrillSelectionCommand}" CommandParameter="{Binding ElementName=rBtn2, Path=Content}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <GroupBox Header="OlapGrid" Grid.Row="1" BorderThickness="1" VerticalAlignment="Stretch" BorderBrush="DarkGray" Margin="5,5,5,5">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <olapgrid:OlapGrid Name="olapgrid1" Margin="5" OlapDataManager="{Binding GridDataManager}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </GroupBox>
+    </Grid>
+</sfutils:SampleWindow>

@@ -1,0 +1,76 @@
+﻿<layout:SampleLayoutWindow x:Class="PolarChart.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        xmlns:local="clr-namespace:PolarChart" 
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        UserOptionsVisibility="Collapsed"
+        Title="Polar" >
+    <Grid>
+        
+        <Grid.DataContext>
+            <local:PolarChartViewModel/>
+        </Grid.DataContext>
+        
+        <Grid.Resources>
+            
+            <Style x:Key="lineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="#353535"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+            
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Text="{Binding LabelContent}" 
+                           Foreground="Black"  FontSize="16"/>
+            </DataTemplate>
+
+        </Grid.Resources>
+        
+        <chart:SfChart x:Name="polarChart" AreaBorderThickness="0" 
+                       Background="White" Margin="24,22,0,0" >
+            
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis ShowTrackBallInfo="True" 
+                                    EdgeLabelsDrawingMode="Fit" IsHitTestVisible="False"
+                                    MajorTickLineStyle="{StaticResource lineStyle}"  
+                                    MinorTickLineStyle="{StaticResource lineStyle}" 
+                                    MajorGridLineStyle="{StaticResource lineStyle}" 
+                                    MinorGridLineStyle="{StaticResource lineStyle}" 
+                                    AxisLineStyle="{StaticResource lineStyle}"         
+                                    TickLineSize="10" 
+                                    LabelTemplate="{StaticResource labelTemplate}" />
+            </chart:SfChart.PrimaryAxis>
+            
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis EdgeLabelsDrawingMode="Fit" 
+                                     MajorTickLineStyle="{StaticResource lineStyle}" 
+                                     MinorTickLineStyle="{StaticResource lineStyle}" 
+                                     MajorGridLineStyle="{StaticResource lineStyle}" 
+                                     MinorGridLineStyle="{StaticResource lineStyle}" 
+                                     AxisLineStyle="{StaticResource lineStyle}"         
+                                     SmallTicksPerInterval="1" TickLineSize="10" 
+                                     SmallTickLineSize="6" 
+                                     LabelTemplate="{StaticResource labelTemplate}"/>
+            </chart:SfChart.SecondaryAxis>
+            
+            <chart:PolarSeries x:Name="series1"  ItemsSource="{Binding PlantDetails}"  
+                               Label="Amount Spent" DrawType="Area" IsClosed="True" 
+                               XBindingPath="Direction" YBindingPath="Tree" 
+                               StrokeThickness="2" ShowTooltip="True" 
+                               chart:ChartTooltip.EnableAnimation="True"/>
+            <chart:PolarSeries x:Name="series2" Interior="LightGreen" 
+                               ItemsSource="{Binding PlantDetails}" 
+                               Label="Amount Allotted"  IsClosed="True"  
+                               DrawType="Area" XBindingPath="Direction" 
+                               YBindingPath="Weed" StrokeThickness="2" 
+                               ShowTooltip="True" chart:ChartTooltip.EnableAnimation="True"/>
+            <chart:PolarSeries x:Name="series3" Interior="#FFF29632" 
+                               ItemsSource="{Binding PlantDetails}" Label="Amount Spent"
+                               DrawType="Area" IsClosed="True"  XBindingPath="Direction" 
+                               YBindingPath="Flower" StrokeThickness="2" ShowTooltip="True" 
+                               chart:ChartTooltip.EnableAnimation="True"/>
+            
+        </chart:SfChart>
+    </Grid>
+</layout:SampleLayoutWindow>

@@ -1,0 +1,197 @@
+﻿<syncfusion:ChromelessWindow x:Class="DetailsViewTemplateDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:DetailsViewTemplateDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             xmlns:interactivity="http://schemas.microsoft.com/expression/2010/interactivity"
+                             Icon="App.ico"
+                             syncfusion:LayoutControl.SetMetroMode="True">
+    <syncfusion:ChromelessWindow.Resources>
+        <local:ViewModel x:Key="viewmodel" />                
+        <local:ImageConverter x:Key="ImageConverter"/>
+        <DataTemplate x:Key="DetailsViewTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="125"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Row="0"
+                       Grid.Column="0" Grid.RowSpan="2"
+                       Margin="5" Height="150"
+                       HorizontalAlignment="Left" 
+                       Source="{Binding Path=Data.CustomerID, Converter={StaticResource ImageConverter}}" />
+                <Label Grid.Column="1" Grid.Row="0"
+                       HorizontalAlignment="Left"
+                       Margin="25,0,0,0"
+                       Content="Order Details"
+                       FontWeight="Bold" />
+                <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Product Name :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.ProductName}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Quantity :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.Quantity}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Unit Price :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.UnitPrice, StringFormat='{}{0:C}'}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Discount :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.Discount, StringFormat='{}{0:P}'}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Freight :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.Freight, StringFormat='{}{0:c}'}"/>
+                    </StackPanel>
+                </StackPanel>
+                <Label Grid.Column="2" Grid.Row="0"
+                       HorizontalAlignment="Left"
+                       Margin="25,0,0,0"
+                       Content="Shipping Details"
+                       FontWeight="Bold" />
+                <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Order Date :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.OrderDate, StringFormat=d}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Shipped Date :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.ShippedDate, StringFormat=d}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Ship Address :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.ShipAddress}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Ship Postal Code :"/>
+                        <TextBlock
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.ShipPostalCode, StringFormat=hh\\:mm}"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label 
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           FontWeight="SemiBold"
+                           Content="Delivery Delay :"/>
+                        <TextBlock 
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center" Margin="5"
+                               Text="{Binding Data.DeliveryDelay, StringFormat=dd\\:hh}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid DataContext="{StaticResource viewmodel}">
+        <syncfusion:LayoutControl HeaderDescriptionText="This sample showcases the SfDataGrid with a DetailsView template."
+                                  HeaderText="DetailsView Template"
+                                  LayoutMode="Metro"
+                                  UserOptionsVisibility="Collapsed">
+            <syncfusion:LayoutControl.GridView>
+                <syncfusion:SfDataGrid Name="dataGrid"
+                                       AutoGenerateColumns="False"                                    
+                                       ItemsSource="{Binding OrderList}"
+                                       ColumnSizer="Star" 
+                                       AllowDeleting="True"
+                                       AllowFiltering="True"
+                                       AllowSorting="True"
+                                       AllowGrouping="True"
+                                       ShowGroupDropArea="True">
+                    <interactivity:Interaction.Behaviors>
+                        <local:SfDataGridBehavior />
+                    </interactivity:Interaction.Behaviors>
+                    <syncfusion:SfDataGrid.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="/Syncfusion.SfGrid.WPF;component/Styles/Styles.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </syncfusion:SfDataGrid.Resources>
+                    <syncfusion:SfDataGrid.DetailsViewDefinition>
+                        <syncfusion:TemplateViewDefinition HeightMode="ViewPort" RowTemplate="{StaticResource DetailsViewTemplate}"/>
+                    </syncfusion:SfDataGrid.DetailsViewDefinition>
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn HeaderText="Order ID" MappingName="OrderID" />
+                        <syncfusion:GridTextColumn HeaderText="Customer ID" MappingName="CustomerID"/>
+                        <syncfusion:GridTextColumn MappingName="ProductName" HeaderText="Product Name"/>
+                        <syncfusion:GridNumericColumn HeaderText="Quantity"
+                                                      MappingName="Quantity"
+                                                      SetCellBoundValue="True"
+                                                      NumberDecimalDigits="0"/>
+                        <syncfusion:GridCurrencyColumn HeaderText="Freight" MappingName="Freight" DisplayBinding="{Binding Path=Freight}"/>
+                        <syncfusion:GridCheckBoxColumn MappingName="IsClosed" HeaderText="Is Closed" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+            </syncfusion:LayoutControl.GridView>
+        </syncfusion:LayoutControl>
+    </Grid>
+</syncfusion:ChromelessWindow>

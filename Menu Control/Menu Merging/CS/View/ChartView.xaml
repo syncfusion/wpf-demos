@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="MenuMerging.ChartView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+             d:DesignHeight="300" d:DesignWidth="300" xmlns:local="clr-namespace:MenuMerging">
+    <Grid>
+        <Image Source="/Images/3.jpg" Grid.RowSpan="4" Stretch="Fill" />
+        <Rectangle Fill="White" Opacity="0.5"/>
+        <syncfusion:SfChart HorizontalAlignment="Center" Background="Transparent"
+                          VerticalAlignment="Top" x:Name="chart"
+                          Grid.Row="1" >           
+            <syncfusion:SfChart.Legend>
+                <syncfusion:ChartLegend  />
+            </syncfusion:SfChart.Legend>
+           
+        
+                <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:CategoryAxis Header="Product" PositionPath="ProductId" ContentPath="ProductName" LabelsSource="{Binding Products}" />
+                </syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis Header="Price in USD" EdgeLabelsDrawingMode="Shift" Minimum="0" Maximum="100" />
+                </syncfusion:SfChart.SecondaryAxis>
+            <syncfusion:ColumnSeries Interior="Green" Label="2010" XBindingPath="ProductId" YBindingPath="Price2010,Price2000" ItemsSource="{Binding Products}" ></syncfusion:ColumnSeries>
+            <syncfusion:ColumnSeries Label="2000" Interior="LightGreen" XBindingPath="ProductId" YBindingPath="Price2000,Price2010" ItemsSource="{Binding Products}"  ></syncfusion:ColumnSeries>
+        </syncfusion:SfChart>
+    </Grid>
+</UserControl>

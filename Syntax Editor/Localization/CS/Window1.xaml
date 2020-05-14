@@ -1,0 +1,124 @@
+﻿<Window x:Class="SyntaxHighlight.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:lib="clr-namespace:System;assembly=mscorlib" 
+    Title="الموقع عرض" Height="710" Width="750"
+    Icon="App.ico" WindowStartupLocation="CenterScreen" Style="{StaticResource windowStyle}">
+
+
+    <!--Merging Shared Skin Manager ResourceDictionary-->
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.Shared.WPF;component/SkinManager/SkinManager.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <!--Window Content-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Menu bound to built - in RoutedUICommands -->
+        <Menu BorderBrush="LightGray" BorderThickness="0,0,1,2" Grid.ColumnSpan="2">
+            <MenuItem Header="ملف" Background="Transparent" Width="{Binding}">
+                <MenuItem Command="{x:Static syncfusion:EditCommands.New}" Header="الجديد" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Open}" Header="افتح" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Save}" Header="حفظ" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Print}" Header="طباعة" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.PrintPreview}" Header="معاينة طباعة" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Header="ىخرج" Click="MenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="تصحيح" Background="Transparent" Width="{Binding}">
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Undo}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Redo}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Cut}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Copy}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Paste}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Command="{x:Static syncfusion:EditCommands.SelectAll}" CommandTarget="{Binding ElementName=Edit1}"/>
+                <MenuItem Header="يحل محل و تجد">
+                    <MenuItem Command="{x:Static syncfusion:EditCommands.Find}" CommandTarget="{Binding ElementName=Edit1}"/>
+                    <MenuItem Command="{x:Static syncfusion:EditCommands.Replace}" CommandTarget="{Binding ElementName=Edit1}"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="خيارات">
+                <MenuItem Header="التبويب يقبل" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=AcceptsTab}"/>
+                <MenuItem Header="يحدد مكن" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=EnableOutlining}"/>
+                <MenuItem Header="فقطجاهز هو" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=IsReadOnly}"/>
+                <MenuItem Header="رقم خط تبين" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=ShowLineNumber}"/>
+                <MenuItem Header="قائمة طعام سياق الكلام افتراضي تبين" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=ShowDefaultContextMenu}"/>
+                <MenuItem Header="إرجاع يقبل" IsCheckable="True" IsChecked="{Binding ElementName=Edit1, Path=AcceptsReturn}"/>
+            </MenuItem>
+        </Menu>
+        <ToolBar Grid.Row="1" Grid.ColumnSpan="1"  Margin="-1,0,0,0">
+            <Button ToolTip="الجديد" Command="{x:Static syncfusion:EditCommands.New}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/new.gif"/>
+            </Button>
+            <Button ToolTip="افتح" Command="{x:Static syncfusion:EditCommands.Open}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/open.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Button ToolTip="حفظ" Command="{x:Static syncfusion:EditCommands.Save}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Save.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Separator/>
+            <Button ToolTip="يقطع" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Cut}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Cut.png"/>
+            </Button>
+            <Button ToolTip="نسخ" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Copy}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Copy.png"/>
+            </Button>
+            <Button ToolTip="معجون" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Paste}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Paste.png"/>
+            </Button>
+            <Separator/>
+            <Button ToolTipService.ShowOnDisabled="True"  ToolTip="تراجع" Command="{x:Static syncfusion:EditCommands.Undo}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/undo.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Button ToolTipService.ShowOnDisabled="True"  ToolTip="الإعادة" Command="{x:Static syncfusion:EditCommands.Redo}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/redo.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+
+            <Separator/>
+            <Button ToolTip="تخفيضالمسافة البادئة" Command="{x:Static syncfusion:EditCommands.DecreaseIndent}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/decreaseindent.png"/>
+            </Button>
+            <Button ToolTip="المسافة البادئة زيادة" Command="{x:Static syncfusion:EditCommands.IncreaseIndent}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/increaseindent.png"/>
+            </Button>
+            <Separator/>
+            <Button ToolTip="خط تعليق" Command="{x:Static syncfusion:EditCommands.CommentSelection}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/comment.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Button ToolTip="خطوط غير تعليق" Command="{x:Static syncfusion:EditCommands.UncommentSelection}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/uncomment.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Separator/>
+            <Button ToolTip="طباعة" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.Print}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Print16.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Button ToolTip="معاينة طباعة" ToolTipService.ShowOnDisabled="True"  Command="{x:Static syncfusion:EditCommands.PrintPreview}" CommandTarget="{Binding ElementName=Edit1}">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/PrintPreview16.png" MaxHeight="16" MaxWidth="16"/>
+            </Button>
+            <Separator/>
+            <syncfusion:SplitButtonAdv  x:Name="linebackcolor" Grid.Column="1" Margin="2" 
+                                                    SmallIcon="{x:Null}" Label="خط تيار تسليط الضوء" DropDownClosed="linebackcolor_DropDownClosed"
+                                                    >
+                <syncfusion:ColorPickerPalette Name="colorpicker" IsExpanded="True" ColorChanged="colorpicker_ColorChanged" MoreColorOptionVisibility="Collapsed"/>
+            </syncfusion:SplitButtonAdv>
+        </ToolBar>
+
+        <!-- Adding EditControl to the application -->
+        <Border BorderThickness="1" BorderBrush="Gray" Grid.Row="2" >
+            <syncfusion:EditControl Name="Edit1" Background="White" Margin="0"
+                            FontFamily="{Binding ElementName=fontlst,Path=SelectedItem}"  FontSize="{Binding ElementName=fontsze,Path=SelectedItem}" 
+                            Foreground="Black" ShowLineNumber="True" EnableIntellisense="False">
+            </syncfusion:EditControl>
+        </Border>
+
+    </Grid>
+</Window>

@@ -1,0 +1,454 @@
+﻿<Window x:Class="DockingManagerTouchDemo_2010.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow"  Style="{StaticResource WindowStyle}"
+        WindowStyle="None" AllowsTransparency="True" 
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" syncfusion:SkinStorage.EnableOptimization="False" syncfusion:SkinStorage.EnableTouch="True" Icon="App.ico"
+        syncfusion:SkinStorage.VisualStyle="Transparent" xmlns:local="clr-namespace:DockingManagerTouchDemo_2010">
+    <Window.DataContext>
+        <local:Viewmodel />
+    </Window.DataContext>
+    <i:Interaction.Behaviors>
+        <local:MainWindowBehavior/>
+    </i:Interaction.Behaviors>
+    <Grid>
+        
+        
+
+        <Grid Name="mainscreen" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+           
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock  Margin="10,2" FontSize="30" FontWeight="Bold">Touch Style Demo</TextBlock>
+                <syncfusion:ComboBoxAdv x:Name="combo" SelectionChanged="combo_SelectionChanged" Grid.Column="1" SelectedIndex="9">
+                    <syncfusion:ComboBoxItemAdv Content="Default"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="Office2007Blue"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="Office2007Black"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="Office2007Silver"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="Office2010Blue"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="Office2010Black"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="Office2010Silver"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="VS2010"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="Transparent"></syncfusion:ComboBoxItemAdv>
+                    <syncfusion:ComboBoxItemAdv Content="Metro"></syncfusion:ComboBoxItemAdv>
+
+                   
+                </syncfusion:ComboBoxAdv>
+            </Grid>
+            <syncfusion:DockingManager  Grid.Row="1" Grid.Column="1" Name="dockingManager1" IsVS2010DraggingEnabled="True" 
+                                    UseDocumentContainer="True" >
+
+
+                <Grid Name="Month" syncfusion:DockingManager.Header="Current high weather" syncfusion:DockingManager.SideInDockedMode="Right" 
+                  syncfusion:DockingManager.DesiredHeightInDockedMode="250" syncfusion:DockingManager.DesiredWidthInDockedMode="500">
+                    <Grid  HorizontalAlignment="Center" VerticalAlignment="Center">
+
+                        <Grid Name="rainfall" Opacity="0.0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid  Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                                <TextBlock Text="High Rainfall" FontSize="20" VerticalAlignment="Top" />
+                                <TextBlock Text="Chennai" FontSize="30" VerticalAlignment="Top" Margin="0,30,0,0"/>
+                                <TextBlock  Text="10" FontSize="40"  Margin="0,100,0,0"/>
+                                <TextBlock FontSize="15" VerticalAlignment="Top" Margin="40,100,0,0">
+                            <Run Typography.Variants="Superscript">cm</Run>
+                                </TextBlock>
+                            </Grid>
+                            <Image Margin="10,0,0,0" Grid.Row="0" Grid.Column="1" Source="/Images/rainy.png" Stretch="Uniform"/>
+                        </Grid>
+                        <Grid Name="temperature" Opacity="0.0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid  Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                                <TextBlock Text=" High Temperature" FontSize="20" VerticalAlignment="Top" />
+                                <TextBlock Text="Madagascar" FontSize="30" VerticalAlignment="Top" Margin="0,30,0,0"/>
+                                <TextBlock  Text="38" FontSize="40"  Margin="0,100,0,0"/>
+                                <TextBlock FontSize="15" VerticalAlignment="Top" Margin="40,100,0,0">
+                            <Run Typography.Variants="Superscript">o</Run>
+                                </TextBlock>
+                            </Grid>
+                            <Image Margin="10,0,0,0" Grid.Row="0" Grid.Column="1" Source="/Images/sunny.png" Stretch="Uniform"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+
+                <Grid Name="Tonight" syncfusion:DockingManager.Header="Tonight" syncfusion:DockingManager.SideInDockedMode="Top"  syncfusion:DockingManager.TargetNameInDockedMode="Month"
+                  syncfusion:DockingManager.DesiredHeightInDockedMode="218" syncfusion:DockingManager.DesiredWidthInDockedMode="200">
+                    <Grid Width="175" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Name="TemperatureToNight" Text="23" FontSize="38"/>
+                            <TextBlock FontSize="15">
+                            <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Name="WeatherToNight" Grid.Row="0" Grid.Column="1" Source="Images/rainy1.png" Stretch="Uniform" Height="60" Width="60"/>
+                        <TextBlock Name="ConditionToNight" Grid.Row="1" Grid.ColumnSpan="2" Text="Light Showers" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+
+
+
+                <Grid syncfusion:DockingManager.Header="Tomorrow Night" syncfusion:DockingManager.DesiredWidthInDockedMode="200" syncfusion:DockingManager.SideInDockedMode="Right" syncfusion:DockingManager.TargetNameInDockedMode="Tonight"
+                  syncfusion:DockingManager.DesiredHeightInDockedMode="218">
+                    <Grid Width="175" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Name="TemperatureTomoNight" Text="24" FontSize="38"/>
+                            <TextBlock FontSize="15">
+                            <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Name="WeatherTomoNight" Grid.Row="0" Grid.Column="1" Source="Images/Showers _ Clear.jpg" Stretch="Uniform" Height="60" Width="60"/>
+                        <TextBlock Name="ConditionTomoNight" Grid.Row="1" Grid.ColumnSpan="2" Text="Showers Clear" FontSize="26" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Grid>
+
+
+
+                <ContentControl syncfusion:DocumentContainer.Header="Beijing" syncfusion:DockingManager.State="Document">
+                    <Grid Width="350" HorizontalAlignment="Left" Margin="20 0 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Right Now" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="42" FontSize="80" TextAlignment="Center"/>
+                            <TextBlock FontSize="30">
+                                <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Grid.Row="1" Grid.Column="1" Source="/Images/sunny.png" Stretch="Uniform"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Latitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="41.15" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Longitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="64.98" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Feels Like:" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="40" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Humidity" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="6" FontSize="28"/>
+                        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Data provided by National Weather Station" FontSize="18"/>
+                        <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Text="Last Updated Two Hours Ago" FontSize="18"/>
+                    </Grid>
+                </ContentControl>
+                <ContentControl syncfusion:DocumentContainer.Header="Madagascar"  syncfusion:DockingManager.State="Document">
+                    <Grid Width="350" HorizontalAlignment="Left" Margin="20 0 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Right Now" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="38" FontSize="80" TextAlignment="Center"/>
+                            <TextBlock FontSize="30">
+                                <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Grid.Row="1" Grid.Column="1" Source="/Images/sunny.png" Stretch="Uniform"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Latitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="15.21" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Longitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="71.12" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Feels Like:" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="30" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Humidity" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="10" FontSize="28"/>
+                        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Data provided by National Weather Station" FontSize="18"/>
+                        <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Text="Last Updated Two Hours Ago" FontSize="18"/>
+                    </Grid>
+                </ContentControl>
+                <ContentControl syncfusion:DocumentContainer.Header="New York"  syncfusion:DockingManager.State="Document">
+                    <Grid Width="350" HorizontalAlignment="Left" Margin="20 0 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Right Now" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="34" FontSize="80" TextAlignment="Center"/>
+                            <TextBlock FontSize="30">
+                                <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Grid.Row="1" Grid.Column="1" Source="/Images/cloudy.png" Stretch="Uniform"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Latitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="171.35" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Longitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="274.94" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Feels Like:" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="31" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Humidity" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="8" FontSize="28"/>
+                        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Data provided by National Weather Station" FontSize="18"/>
+                        <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Text="Last Updated Two Hours Ago" FontSize="18"/>
+                    </Grid>
+                </ContentControl>
+                <ContentControl syncfusion:DocumentContainer.Header="London"  syncfusion:DockingManager.State="Document">
+                    <Grid Width="350" HorizontalAlignment="Left" Margin="20 0 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Right Now" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="24" FontSize="80" TextAlignment="Center"/>
+                            <TextBlock FontSize="30">
+                                <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Grid.Row="1" Grid.Column="1" Source="/Images/rainy.png" Stretch="Uniform"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Latitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="341.151" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Longitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="456.928" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Feels Like:" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="20" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Humidity" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="14" FontSize="28"/>
+                        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Data provided by National Weather Station" FontSize="18"/>
+                        <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Text="Last Updated Two Hours Ago" FontSize="18"/>
+                    </Grid>
+                </ContentControl>
+                <ContentControl syncfusion:DocumentContainer.Header="Brussels"  syncfusion:DockingManager.State="Document">
+                    <Grid Width="350" HorizontalAlignment="Left" Margin="20 0 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Right Now" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="27" FontSize="80" TextAlignment="Center"/>
+                            <TextBlock FontSize="30">
+                                <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Grid.Row="1" Grid.Column="1" Source= "/Images/cloudy.png" Stretch="Uniform"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Latitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="81.11" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Longitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="94.48" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Feels Like:" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="24" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Humidity" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="11" FontSize="28"/>
+                        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Data provided by National Weather Station" FontSize="18"/>
+                        <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Text="Last Updated Two Hours Ago" FontSize="18"/>
+                    </Grid>
+                </ContentControl>
+                <ContentControl syncfusion:DocumentContainer.Header="New Delhi"  syncfusion:DockingManager.State="Document">
+                    <Grid Width="350" HorizontalAlignment="Left" Margin="20 0 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Right Now" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="26" FontSize="80" TextAlignment="Center"/>
+                            <TextBlock FontSize="30">
+                                <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Grid.Row="1" Grid.Column="1" Source="/Images/cloudy.png" Stretch="Uniform"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Latitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="81.44" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Longitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="66.94" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Feels Like:" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="22" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Humidity" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="9" FontSize="28"/>
+                        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Data provided by National Weather Station" FontSize="18"/>
+                        <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Text="Last Updated Two Hours Ago" FontSize="18"/>
+                    </Grid>
+                </ContentControl>
+                <ContentControl syncfusion:DocumentContainer.Header="Chennai"  syncfusion:DockingManager.State="Document">
+                    <Grid Width="350" HorizontalAlignment="Left" Margin="20 0 0 0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="120"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Right Now" FontSize="30" HorizontalAlignment="Left" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock Text="26" FontSize="80" TextAlignment="Center"/>
+                            <TextBlock FontSize="30">
+                                <Run Typography.Variants="Superscript">o</Run>
+                            </TextBlock>
+                        </StackPanel>
+                        <Image Grid.Row="1" Grid.Column="1" Source="/Images/rainy.png" Stretch="Uniform"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Latitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="61.15" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Longitude:" FontSize="28"/>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="64.98" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Feels Like:" FontSize="28"/>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="28" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Humidity" FontSize="28"/>
+                        <TextBlock Grid.Row="5" Grid.Column="1" Text="9" FontSize="28"/>
+                        <TextBlock Grid.Row="6" Grid.ColumnSpan="2" Text="Data provided by National Weather Station" FontSize="18"/>
+                        <TextBlock Grid.Row="7" Grid.ColumnSpan="2" Text="Last Updated Two Hours Ago" FontSize="18"/>
+                    </Grid>
+                </ContentControl>
+
+
+
+            </syncfusion:DockingManager>
+        </Grid>
+
+        <Grid Name="splasscreen" Width="950" Height="575">
+            <Grid Name="Screen1" Height="0" Width="0" Background="Orange">
+                <Image Name="img" Margin="150,150,150,150"></Image>
+            </Grid>
+            <Grid Name="Screen2" Height="140" Width="200" Background="Orange">
+                <Image Name="img1" Margin="15,15,15,15"></Image>
+            </Grid>
+        </Grid>
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Weather Report" Grid.Column="0" VerticalAlignment="Center" FontSize="20" />
+            <syncfusion:ComboBoxAdv x:Name="combo"  Grid.Column="1" SelectedIndex="9">
+                <syncfusion:ComboBoxItemAdv Content="Default"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Office2007Blue"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Office2007Black"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Office2007Silver"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Office2010Blue"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Office2010Black"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Office2010Silver"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Blend"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="VS2010"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Metro"></syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv Content="Transparent"></syncfusion:ComboBoxItemAdv>
+            </syncfusion:ComboBoxAdv>
+        </Grid>
+            <syncfusion:TabControlExt ItemsSource="{Binding ModelItems}" Grid.Row="1"
+                                  CloseButtonType="Hide" ShowTabItemContextMenu="False"
+                                  ShowTabListContextMenu="False">
+            <syncfusion:TabControlExt.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Header}"/>
+                </DataTemplate>
+            </syncfusion:TabControlExt.ItemTemplate>
+            <syncfusion:TabControlExt.ContentTemplate>
+                <DataTemplate>
+                    <local:Weather BorderBrush="{Binding ElementName=options, Path=BorderBrush}" x:Name="weather"/>
+                </DataTemplate>
+            </syncfusion:TabControlExt.ContentTemplate>
+        </syncfusion:TabControlExt>-->
+ 
+    
+    </Grid>
+</Window>

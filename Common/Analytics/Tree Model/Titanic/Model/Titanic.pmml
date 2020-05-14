@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="RPart Decision Tree Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-07 10:27:51</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="6">
+  <DataField name="Survived" optype="categorical" dataType="string">
+   <Value value="died"/>
+   <Value value="survived"/>
+  </DataField>
+  <DataField name="Class" optype="categorical" dataType="string">
+   <Value value="1st"/>
+   <Value value="2nd"/>
+   <Value value="3rd"/>
+  </DataField>
+  <DataField name="Sex" optype="categorical" dataType="string">
+   <Value value="female"/>
+   <Value value="male"/>
+  </DataField>
+  <DataField name="Age" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0.333299994" rightMargin="80"/>
+  </DataField>
+  <DataField name="Siblings" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0" rightMargin="5"/>
+  </DataField>
+  <DataField name="Children" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="0" rightMargin="6"/>
+  </DataField>
+ </DataDictionary>
+ <TreeModel modelName="RPart_Model" functionName="classification" algorithmName="rpart" splitCharacteristic="binarySplit" missingValueStrategy="defaultChild" noTrueChildStrategy="returnLastPrediction">
+  <MiningSchema>
+   <MiningField name="Survived" usageType="predicted"/>
+   <MiningField name="Class" usageType="active"/>
+   <MiningField name="Sex" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Siblings" usageType="active"/>
+   <MiningField name="Children" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Survived" optype="categorical" dataType="string" feature="predictedValue"/>
+   <OutputField name="Probability_died" optype="continuous" dataType="double" feature="probability" value="died"/>
+   <OutputField name="Probability_survived" optype="continuous" dataType="double" feature="probability" value="survived"/>
+  </Output>
+  <Node id="1" score="died" recordCount="837" defaultChild="2">
+   <True/>
+   <ScoreDistribution value="died" recordCount="485" confidence="0.579450418160096"/>
+   <ScoreDistribution value="survived" recordCount="352" confidence="0.420549581839904"/>
+   <Node id="2" score="died" recordCount="522" defaultChild="4">
+    <CompoundPredicate booleanOperator="surrogate">
+     <SimpleSetPredicate field="Sex" booleanOperator="isIn">
+      <Array n="1" type="string">&quot;male&quot;</Array>
+     </SimpleSetPredicate>
+     <SimplePredicate field="Children" operator="lessThan" value="0.5"/>
+     <SimplePredicate field="Age" operator="greaterOrEqual" value="5.5"/>
+    </CompoundPredicate>
+    <ScoreDistribution value="died" recordCount="411" confidence="0.78735632183908"/>
+    <ScoreDistribution value="survived" recordCount="111" confidence="0.21264367816092"/>
+    <Node id="4" score="died" recordCount="487">
+     <CompoundPredicate booleanOperator="surrogate">
+      <SimplePredicate field="Age" operator="greaterOrEqual" value="9.5"/>
+      <SimplePredicate field="Siblings" operator="lessThan" value="3.5"/>
+     </CompoundPredicate>
+     <ScoreDistribution value="died" recordCount="398" confidence="0.817248459958932"/>
+     <ScoreDistribution value="survived" recordCount="89" confidence="0.182751540041068"/>
+    </Node>
+    <Node id="5" score="survived" recordCount="35" defaultChild="10">
+     <CompoundPredicate booleanOperator="surrogate">
+      <SimplePredicate field="Age" operator="lessThan" value="9.5"/>
+      <SimplePredicate field="Siblings" operator="greaterOrEqual" value="3.5"/>
+     </CompoundPredicate>
+     <ScoreDistribution value="died" recordCount="13" confidence="0.371428571428571"/>
+     <ScoreDistribution value="survived" recordCount="22" confidence="0.628571428571429"/>
+     <Node id="10" score="died" recordCount="12">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimplePredicate field="Siblings" operator="greaterOrEqual" value="2.5"/>
+       <SimpleSetPredicate field="Class" booleanOperator="isIn">
+        <Array n="1" type="string">&quot;3rd&quot;</Array>
+       </SimpleSetPredicate>
+      </CompoundPredicate>
+      <ScoreDistribution value="died" recordCount="12" confidence="1"/>
+      <ScoreDistribution value="survived" recordCount="0" confidence="0"/>
+     </Node>
+     <Node id="11" score="survived" recordCount="23">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimplePredicate field="Siblings" operator="lessThan" value="2.5"/>
+       <SimpleSetPredicate field="Class" booleanOperator="isIn">
+        <Array n="2" type="string">&quot;1st&quot; &quot;2nd&quot;</Array>
+       </SimpleSetPredicate>
+      </CompoundPredicate>
+      <ScoreDistribution value="died" recordCount="1" confidence="0.0434782608695652"/>
+      <ScoreDistribution value="survived" recordCount="22" confidence="0.956521739130435"/>
+     </Node>
+    </Node>
+   </Node>
+   <Node id="3" score="survived" recordCount="315" defaultChild="6">
+    <CompoundPredicate booleanOperator="surrogate">
+     <SimpleSetPredicate field="Sex" booleanOperator="isIn">
+      <Array n="1" type="string">&quot;female&quot;</Array>
+     </SimpleSetPredicate>
+     <SimplePredicate field="Children" operator="greaterOrEqual" value="0.5"/>
+     <SimplePredicate field="Age" operator="lessThan" value="5.5"/>
+    </CompoundPredicate>
+    <ScoreDistribution value="died" recordCount="74" confidence="0.234920634920635"/>
+    <ScoreDistribution value="survived" recordCount="241" confidence="0.765079365079365"/>
+    <Node id="6" score="died" recordCount="119" defaultChild="12">
+     <CompoundPredicate booleanOperator="surrogate">
+      <SimpleSetPredicate field="Class" booleanOperator="isIn">
+       <Array n="1" type="string">&quot;3rd&quot;</Array>
+      </SimpleSetPredicate>
+      <SimplePredicate field="Age" operator="lessThan" value="18.75"/>
+      <SimplePredicate field="Siblings" operator="greaterOrEqual" value="2.5"/>
+      <SimplePredicate field="Children" operator="greaterOrEqual" value="2.5"/>
+     </CompoundPredicate>
+     <ScoreDistribution value="died" recordCount="61" confidence="0.512605042016807"/>
+     <ScoreDistribution value="survived" recordCount="58" confidence="0.487394957983193"/>
+     <Node id="12" score="died" recordCount="11">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimplePredicate field="Age" operator="greaterOrEqual" value="38.5"/>
+       <SimplePredicate field="Children" operator="greaterOrEqual" value="2.5"/>
+      </CompoundPredicate>
+      <ScoreDistribution value="died" recordCount="9" confidence="0.818181818181818"/>
+      <ScoreDistribution value="survived" recordCount="2" confidence="0.181818181818182"/>
+     </Node>
+     <Node id="13" score="survived" recordCount="108" defaultChild="26">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimplePredicate field="Age" operator="lessThan" value="38.5"/>
+       <SimplePredicate field="Children" operator="lessThan" value="2.5"/>
+      </CompoundPredicate>
+      <ScoreDistribution value="died" recordCount="52" confidence="0.481481481481482"/>
+      <ScoreDistribution value="survived" recordCount="56" confidence="0.518518518518518"/>
+      <Node id="26" score="died" recordCount="12">
+       <SimplePredicate field="Siblings" operator="greaterOrEqual" value="2.5"/>
+       <ScoreDistribution value="died" recordCount="9" confidence="0.75"/>
+       <ScoreDistribution value="survived" recordCount="3" confidence="0.25"/>
+      </Node>
+      <Node id="27" score="survived" recordCount="96">
+       <SimplePredicate field="Siblings" operator="lessThan" value="2.5"/>
+       <ScoreDistribution value="died" recordCount="43" confidence="0.447916666666667"/>
+       <ScoreDistribution value="survived" recordCount="53" confidence="0.552083333333333"/>
+      </Node>
+     </Node>
+    </Node>
+    <Node id="7" score="survived" recordCount="196">
+     <CompoundPredicate booleanOperator="surrogate">
+      <SimpleSetPredicate field="Class" booleanOperator="isIn">
+       <Array n="2" type="string">&quot;1st&quot; &quot;2nd&quot;</Array>
+      </SimpleSetPredicate>
+      <SimplePredicate field="Age" operator="greaterOrEqual" value="18.75"/>
+      <SimplePredicate field="Siblings" operator="lessThan" value="2.5"/>
+      <SimplePredicate field="Children" operator="lessThan" value="2.5"/>
+     </CompoundPredicate>
+     <ScoreDistribution value="died" recordCount="13" confidence="0.0663265306122449"/>
+     <ScoreDistribution value="survived" recordCount="183" confidence="0.933673469387755"/>
+    </Node>
+   </Node>
+  </Node>
+ </TreeModel>
+</PMML>

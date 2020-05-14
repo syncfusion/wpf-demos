@@ -1,0 +1,139 @@
+﻿<Window x:Class="Button_Controls.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"    
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" x:Name="mainWindow"
+        xmlns:local="clr-namespace:Button_Controls"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"   
+        xmlns:visualStyle="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+        visualStyle:SfSkinManager.VisualStyle="{Binding ElementName=StylesComboBox, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        xmlns:Syncfusion="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+        Title="Buttons Demo" Icon="Images/App.ico" Height="652" Width="1169" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <ObjectDataProvider x:Key="Themes" MethodName="GetValues" ObjectType="{x:Type sys:Enum}" >
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="visualStyle:VisualStyles"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <DataTemplate x:Key="DefaultTemplate">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding Path=ImagePath}" Margin="2" Width="20" Height="20"></Image>
+                <TextBlock Text="{Binding Path=Name}" Margin="2"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Syncfusion:TextBlock TextAlignment="Center" FontSize="16" Width="140" Grid.Column="1" Grid.Row="3" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Span FontWeight="SemiBold">Button</Span>
+        </Syncfusion:TextBlock>
+        <Syncfusion:TextBlock TextAlignment="Center" FontSize="16" Grid.Column="2" Grid.Row="3" Height="30" VerticalAlignment="Center">
+            <Span FontWeight="SemiBold">DropDownButton</Span>
+        </Syncfusion:TextBlock>
+        <Syncfusion:TextBlock TextAlignment="Center" FontSize="16" Width="140" Grid.Column="3" Grid.Row="3" Height="30" VerticalAlignment="Center">
+            <Span FontWeight="SemiBold">SplitButton</Span>
+        </Syncfusion:TextBlock>
+        <Syncfusion:TextBlock TextAlignment="Center" HorizontalAlignment="Left" TextWrapping="Wrap" FontSize="16" FontWeight="Thin" Grid.Column="0" Grid.Row="0" Margin="10,5,0,0" Grid.ColumnSpan="5"
+                   Text="The following sample demonstrates the default functionalities of Button, DropDownButton, SplitButton and it's customization."/>
+        <Syncfusion:TextBlock TextAlignment="Left" FontSize="16" Width="142" Grid.Column="0" Grid.Row="4" Height="30"  VerticalAlignment="Center">
+            <Span FontWeight="SemiBold">SizeMode :</Span> Small
+        </Syncfusion:TextBlock>
+        <syncfusion:ButtonAdv VerticalAlignment="Center" SizeMode="Small" SmallIcon="Images\usersmall.png" LargeIcon="Images\userlarge.png" Name="SmallButton"
+                              Tag="Small" Height="26" Width="26" Grid.Column="1" Grid.Row="4" Label="Button" Command="{Binding ButtonCommand}"  />
+        <syncfusion:DropDownButtonAdv x:Name="dropDownButtonAdv" SizeMode="Small" SmallIcon="Images\flagsmall.png" LargeIcon="Images\flaglarge.png"
+                                     Height="26" Width="36" Grid.Column="2" Grid.Row="4" Label="Country">
+            <ListBox  Name="SmallDropDown" ItemsSource="{Binding Path=CountryDetails}" ItemTemplate="{StaticResource DefaultTemplate}" BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=DropDownCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </syncfusion:DropDownButtonAdv>
+        <syncfusion:SplitButtonAdv x:Name="splitButtonAdv" SizeMode="Small" SmallIcon="Images\color.png" LargeIcon="Images\color.png" 
+                                   Height="26" Width="36" Grid.Column="3" Grid.Row="4" Label="Colors" Command="{Binding ButtonCommand }">
+            <ListBox Name="SmallSplit" ItemsSource="{Binding Path=ColorDetails}" ItemTemplate="{StaticResource DefaultTemplate}" BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=DropDownCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </syncfusion:SplitButtonAdv>
+        <TextBlock FontSize="16" Width="142" Grid.Column="0" Grid.Row="5" Height="30"><Span FontWeight="SemiBold">SizeMode : </Span> Normal</TextBlock>
+        <syncfusion:ButtonAdv SizeMode="Normal" SmallIcon="Images\usersmall.png" LargeIcon="Images\userlarge.png" Name="NormalButton"
+                              Tag="Normal" Height="26" Width="150" Grid.Column="1" Grid.Row="5" Label="Button" Command="{Binding ButtonCommand }"/>
+        <syncfusion:DropDownButtonAdv  SizeMode="Normal" SmallIcon="Images\flagsmall.png" LargeIcon="Images\flaglarge.png"
+                                   Height="26" Width="150" Grid.Column="2" Grid.Row="5" Label="Country">
+            <ListBox Name="NormalDropDown" ItemsSource="{Binding Path=CountryDetails}" ItemTemplate="{StaticResource DefaultTemplate}" BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=DropDownCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </syncfusion:DropDownButtonAdv>
+        <syncfusion:SplitButtonAdv SizeMode="Normal" SmallIcon="Images\color.png" LargeIcon="Images\color.png" x:Name="NormalSplitButton"
+                                  Height="26" Width="150" Grid.Column="3" Grid.Row="5" Label="Colors"  Command="{Binding ButtonCommand }">
+            <ListBox Name="NormalSplit" ItemsSource="{Binding Path=ColorDetails}" ItemTemplate="{StaticResource DefaultTemplate}" BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=DropDownCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </syncfusion:SplitButtonAdv>
+        <TextBlock FontSize="16" Width="142" Grid.Column="0" Grid.Row="6" Height="30"><Span FontWeight="SemiBold">SizeMode : </Span> Large</TextBlock>
+        <syncfusion:ButtonAdv SizeMode="Large" SmallIcon="Images\usersmall.png" LargeIcon="Images\userlarge.png" x:Name="LargeButton"
+                             Height="60" Width="60" Grid.Column="1" Grid.Row="6" Label="Button" Command="{Binding ButtonCommand}" />
+        <syncfusion:DropDownButtonAdv  SizeMode="Large" SmallIcon="Images\flagsmall.png" LargeIcon="Images\flaglarge.png"
+                                    Height="60" Width="60" Grid.Column="2" Grid.Row="6" Label="Country">
+            <ListBox Name="LargeDropDown" ItemsSource="{Binding Path=CountryDetails}" ItemTemplate="{StaticResource DefaultTemplate}" BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=DropDownCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </syncfusion:DropDownButtonAdv>
+        <syncfusion:SplitButtonAdv SizeMode="Large" SmallIcon="Images\color.png" LargeIcon="Images\color.png" x:Name="LargeSplitButton"
+                                   Height="60" Width="60" Grid.Column="3" Grid.Row="6" Label="Colors" Command="{Binding ButtonCommand }">
+            <ListBox Name="LargeSplit" ItemsSource="{Binding Path=ColorDetails}" ItemTemplate="{StaticResource DefaultTemplate}" BorderThickness="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=DropDownCommand}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListBox>
+        </syncfusion:SplitButtonAdv>
+        <Grid Grid.Column="3" Grid.Row="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Syncfusion:TextBlock TextAlignment="Right" Text="Select Theme : " FontSize="16" FontWeight="SemiBold" Width="111"/>
+                <ComboBox Width="135" SelectedIndex="18" 
+                           Grid.Row="2" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,0,25"  x:Name="StylesComboBox" ItemsSource="{Binding Source={StaticResource ResourceKey=Themes}}">
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

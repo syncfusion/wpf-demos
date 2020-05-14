@@ -1,0 +1,473 @@
+﻿<Window x:Class="GettingStarted_Export.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"       
+        xmlns:local="clr-namespace:GettingStarted_Export"             
+        Icon="App.ico"
+        Title="Export" WindowState="Maximized"              
+        xmlns:ViewModel="clr-namespace:GettingStarted_Export.ViewModel"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <System:String x:Key="Rectangle">
+            M0,0 L0,1 1,1 1,0z
+        </System:String>
+        <System:String x:Key="Decision">
+            M 0,20 L 30 0 L 60,20 L 30,40 Z
+        </System:String>
+        <System:String x:Key="Ellipse">
+            M305.772,123.75C305.772,191.819095416645,237.434535075173,247,153.136,247C68.837464924827,247,0.5,191.819095416645,0.5,123.75C0.5,55.6809045833547,68.837464924827,0.5,153.136,0.5C237.434535075173,0.5,305.772,55.6809045833547,305.772,123.75z
+        </System:String>
+        <!--<ObjectDataProvider x:Key="ExportTypes" MethodName="GetValues" ObjectType="{x:Type System:Enum}" >
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Syncfusion:ExportType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>-->
+        <ViewModel:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        <DataTemplate x:Key="ViewTemplate">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Foreground="Black" Background="White" TextWrapping="Wrap" >
+                    <Run Text="{Binding Path=Content, Mode=TwoWay}"></Run>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <Window.DataContext>
+        <ViewModel:DiagramVM>
+            <!--Create Node and Connection for FlowChart-->
+            <ViewModel:DiagramVM.Nodes>
+                <Syncfusion:NodeCollection>
+                    <Syncfusion:NodeViewModel ID="SourceDocument" 
+                                              UnitWidth="135" 
+                                              UnitHeight="50" 
+                                              OffsetX="295" 
+                                              OffsetY="220" 
+                                              Shape="{StaticResource Rectangle}" ShapeStyle="{StaticResource Nodeshapestyle}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Source Document"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel UnitWidth="100" 
+                                              UnitHeight="75" 
+                                              OffsetX="295" 
+                                              OffsetY="345" 
+                                              ID="CensusRecord"
+                                              Shape="{StaticResource Decision}" ShapeStyle="{StaticResource Nodeshapestyle1}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Census Record"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel ID="BooksandMagazine" 
+                                              UnitWidth="100" 
+                                              UnitHeight="75" 
+                                              OffsetX="295" 
+                                              OffsetY="470" 
+                                              Shape="{StaticResource Decision}" ShapeStyle="{StaticResource Nodeshapestyle1}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Books and Magazine"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel ID="RecordTemplate" 
+                                              UnitWidth="125" 
+                                              UnitHeight="50" 
+                                              OffsetX="495" 
+                                              OffsetY="345" 
+                                              Shape="{StaticResource Rectangle}" ShapeStyle="{StaticResource Nodeshapestyle}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Record Template"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel ID="TraditionalTemplate" 
+                                              UnitWidth="125" 
+                                              UnitHeight="50" 
+                                              OffsetX="495" 
+                                              OffsetY="470" 
+                                              Shape="{StaticResource Rectangle}" ShapeStyle="{StaticResource Nodeshapestyle}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Traditional Template"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel ID="NonTraditional" 
+                                              UnitWidth="135" 
+                                              UnitHeight="50" 
+                                              OffsetX="295" 
+                                              OffsetY="570" 
+                                              Shape="{StaticResource Rectangle}" ShapeStyle="{StaticResource Nodeshapestyle}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Non Traditional"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+
+                    <!--Create Node and Connection for RadialTree Layout-->
+
+                    <Syncfusion:NodeViewModel ID="Radial1" 
+                                              UnitWidth="125" 
+                                              UnitHeight="50" 
+                                              OffsetX="1012" 
+                                              OffsetY="423" 
+                                              ShapeStyle="{StaticResource Nodeshapestyle2}" Shape="{StaticResource Ellipse}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Health Fitness"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel ID="Radial2" 
+                                              UnitWidth="125" 
+                                              UnitHeight="75" 
+                                              OffsetX="1012" 
+                                              OffsetY="298" 
+                                              ShapeStyle="{StaticResource Nodeshapestyle3}" Shape="{StaticResource Ellipse}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Diet"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel ID="Radial3" 
+                                              UnitWidth="125" 
+                                              UnitHeight="75" 
+                                              OffsetX="1152" 
+                                              OffsetY="373" 
+                                              ShapeStyle="{StaticResource Nodeshapestyle3}" Shape="{StaticResource Ellipse}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Flexibility"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+
+                    <Syncfusion:NodeViewModel ID="Radial4" 
+                                              UnitWidth="125" 
+                                              UnitHeight="75" 
+                                              OffsetX="1145" 
+                                              OffsetY="548" 
+                                              ShapeStyle="{StaticResource Nodeshapestyle3}" Shape="{StaticResource Ellipse}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Muscular Endurance"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel ID="Radial5" 
+                                              UnitWidth="125" 
+                                              UnitHeight="75" 
+                                              OffsetX="865" 
+                                              OffsetY="380" 
+                                              ShapeStyle="{StaticResource Nodeshapestyle3}" Shape="{StaticResource Ellipse}" >
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Cardiovascular Strength" TextHorizontalAlignment="Center"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                    <Syncfusion:NodeViewModel ID="Radial6" 
+                                              UnitWidth="125" 
+                                              UnitHeight="75" 
+                                              OffsetX="912" 
+                                              OffsetY="548" 
+                                              ShapeStyle="{StaticResource Nodeshapestyle3}" Shape="{StaticResource Ellipse}">
+                        <Syncfusion:NodeViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel Content="Muscular Strength"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:NodeViewModel.Annotations>
+                    </Syncfusion:NodeViewModel>
+
+                </Syncfusion:NodeCollection>
+            </ViewModel:DiagramVM.Nodes>
+
+            <ViewModel:DiagramVM.Connectors>
+                <Syncfusion:ConnectorCollection>
+                    <Syncfusion:ConnectorViewModel SourceNodeID="SourceDocument" 
+                                                   TargetNodeID="CensusRecord"/>
+
+
+                    <Syncfusion:ConnectorViewModel SourceNodeID="CensusRecord"  
+                                                   TargetNodeID="BooksandMagazine">
+                        <Syncfusion:ConnectorViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel RotationReference="Page" Content="No" ViewTemplate="{StaticResource ViewTemplate}"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:ConnectorViewModel.Annotations>
+                    </Syncfusion:ConnectorViewModel>
+
+                    <Syncfusion:ConnectorViewModel SourceNodeID="CensusRecord" 
+                                                   TargetNodeID="RecordTemplate">
+                        <Syncfusion:ConnectorViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel RotationReference="Page" Content="Yes" ViewTemplate="{StaticResource ViewTemplate}"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:ConnectorViewModel.Annotations>
+                    </Syncfusion:ConnectorViewModel>
+
+                    <Syncfusion:ConnectorViewModel SourceNodeID="BooksandMagazine" 
+                                                   TargetNodeID="TraditionalTemplate">
+                        <Syncfusion:ConnectorViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel RotationReference="Page" Content="No" ViewTemplate="{StaticResource ViewTemplate}"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:ConnectorViewModel.Annotations>
+                    </Syncfusion:ConnectorViewModel>
+
+                    <Syncfusion:ConnectorViewModel SourceNodeID="BooksandMagazine" 
+                                                   TargetNodeID="NonTraditional">
+                        <Syncfusion:ConnectorViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel RotationReference="Page" Content="Yes" ViewTemplate="{StaticResource ViewTemplate}"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:ConnectorViewModel.Annotations>
+                    </Syncfusion:ConnectorViewModel>
+
+
+                    <!--RadialTree Layout-->
+                    <Syncfusion:ConnectorViewModel SourceNodeID="Radial1" 
+                                                   TargetNodeID="Radial2"/>
+
+
+                    <Syncfusion:ConnectorViewModel SourceNodeID="Radial1" 
+                                                   TargetNodeID="Radial3">
+                        <Syncfusion:ConnectorViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel RotationReference="Page" Content="No" ViewTemplate="{StaticResource ViewTemplate}"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:ConnectorViewModel.Annotations>
+                    </Syncfusion:ConnectorViewModel>
+
+                    <Syncfusion:ConnectorViewModel SourceNodeID="Radial1" 
+                                                   TargetNodeID="Radial4" >
+                        <Syncfusion:ConnectorViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel RotationReference="Page" Content="Yes" ViewTemplate="{StaticResource ViewTemplate}"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:ConnectorViewModel.Annotations>
+                    </Syncfusion:ConnectorViewModel>
+
+                    <Syncfusion:ConnectorViewModel SourceNodeID="Radial1" 
+                                                   TargetNodeID="Radial5">
+                        <Syncfusion:ConnectorViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel RotationReference="Page" Content="No" Margin="5,0,0,0" ViewTemplate="{StaticResource ViewTemplate}"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:ConnectorViewModel.Annotations>
+                    </Syncfusion:ConnectorViewModel>
+
+                    <Syncfusion:ConnectorViewModel SourceNodeID="Radial1" 
+                                                   TargetNodeID="Radial6">
+                        <Syncfusion:ConnectorViewModel.Annotations>
+                            <Syncfusion:AnnotationCollection>
+                                <Syncfusion:AnnotationEditorViewModel RotationReference="Page" Content="Yes" ViewTemplate="{StaticResource ViewTemplate}"/>
+                            </Syncfusion:AnnotationCollection>
+                        </Syncfusion:ConnectorViewModel.Annotations>
+                    </Syncfusion:ConnectorViewModel>
+                </Syncfusion:ConnectorCollection>
+            </ViewModel:DiagramVM.Connectors>
+            <!--Initializing ScrollSettings for DiagramViewModel-->
+            <ViewModel:DiagramVM.ScrollSettings>
+                <Syncfusion:ScrollSettings ScrollLimit="Diagram"/>
+            </ViewModel:DiagramVM.ScrollSettings>
+            <!--Initializing PageSettings for DiagramViewModel-->
+            <ViewModel:DiagramVM.PageSettings>
+                <Syncfusion:PageSettings PageWidth="793.5" 
+                                         PageHeight="1122.5" 
+                                         PageOrientation="Portrait" 
+                                         ShowPageBreaks="True" 
+                                         MultiplePage="True" 
+                                         PrintMargin="94.5">
+                    <Syncfusion:PageSettings.Unit>
+                        <Syncfusion:LengthUnit Unit="Pixels"/>
+                    </Syncfusion:PageSettings.Unit>
+                </Syncfusion:PageSettings>
+            </ViewModel:DiagramVM.PageSettings>
+            <!--Initializing ExportSettings for DiagramViewModel-->
+            <ViewModel:DiagramVM.ExportSettings>
+                <Syncfusion:ExportSettings ExportBackground="White" ExportMode="PageSettings" />
+            </ViewModel:DiagramVM.ExportSettings>
+        </ViewModel:DiagramVM>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+        <!--Initialize Diagram-->
+        <Syncfusion:SfDiagram Background="White" 
+                          x:Name="diagram" 
+                          Grid.Column="0" 
+                          Tool="None" 
+                          DefaultConnectorType="Line"                    
+                          PageSettings="{Binding PageSettings}"
+                          Nodes="{Binding Nodes}"
+                          Connectors="{Binding Connectors}"
+                          ScrollSettings="{Binding ScrollSettings}"
+                          ExportSettings="{Binding ExportSettings}"/>
+
+        <Border Margin="3,0,0,0" Background="#F4F4F4" Grid.Column="1">
+            <Grid >
+                <Grid Margin="10" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="5"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                        <RowDefinition Height="50"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Grid.Row="0" 
+                               Grid.Column="0" 
+                               HorizontalAlignment="Left" 
+                               VerticalAlignment="Center" 
+                               Text="Export" FontSize="24" 
+                               Margin="7,5,5,0" Foreground="Black" 
+                               FontFamily="Segoe UI"/>
+                    
+                    <Rectangle HorizontalAlignment="Stretch" Fill="#dddddd" Height="1.3" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="7,0,5,0" ></Rectangle>
+                    
+                    <TextBlock Grid.Row="2" 
+                               Grid.Column="0" 
+                               Margin="7,-10,5,5" 
+                               HorizontalAlignment="Left" 
+                               VerticalAlignment="Center" 
+                               Text="File Format" 
+                               Foreground="#191919" 
+                               FontSize="15" 
+                               FontFamily="Segoe UI"/>
+                    <ComboBox HorizontalAlignment="Left" 
+                              x:Name="fileformat" 
+                              SelectedIndex="0" 
+                              ItemsSource="{Binding ExportTypes}"
+                              SelectedItem="{Binding ExportType}" 
+                              Margin="0,-10,0,0" 
+                              Width="70" 
+                              Foreground="#4d4d4d" 
+                              VerticalAlignment="Center"
+                      Grid.Row="2" Grid.Column="1">
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="3" 
+                               Grid.Column="0" 
+                               Name="ExportBackground" 
+                               HorizontalAlignment="Left" 
+                               VerticalAlignment="Center" 
+                               Margin="7,-15,5,5" 
+                               Text="Export Background" 
+                               Foreground="#191919" 
+                               FontSize="15" 
+                               FontFamily="Segoe UI"/>
+                    <Syncfusion:ColorPickerPalette Grid.Row="3" Margin="-45,-20,0,0" Width="70" Height="30" Grid.Column="1" Color="{Binding ElementName=diagram, Path=DataContext.ExportSettings.ExportBackground, Mode=TwoWay, Converter={StaticResource ColorToBrushConverter}}"/>
+
+                    <TextBlock Grid.Row="4" 
+                               Grid.Column="0" 
+                               Name="ExportMode" 
+                               HorizontalAlignment="Left" 
+                               VerticalAlignment="Center" 
+                               Margin="7,-30,5,5" 
+                               Text="Export Mode" 
+                               Foreground="#191919" 
+                               FontSize="15" 
+                               FontFamily="Segoe UI"/>
+                    <Grid Grid.Row="4" Margin="0,0,30,0" Grid.Column="1" Height="40">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <RadioButton Background="Transparent" Grid.Row="0" GroupName="Mode" Content="Content" Command="{Binding ModeCommand}" CommandParameter="Content"/>
+                        <RadioButton Background="Transparent" Grid.Row="1" Margin="0,4,0,0" IsChecked="True" GroupName="Mode" Content="PageSettings" Command="{Binding ModeCommand}" CommandParameter="PageSettings"/>
+                    </Grid>
+
+                    <TextBlock Grid.Row="5" 
+                               Grid.Column="0" 
+                               Grid.ColumnSpan="2"
+                               Name="Clip" 
+                               HorizontalAlignment="Left" 
+                               VerticalAlignment="Center" 
+                               Margin="7,-10,5,5" 
+                               Text="Clip" 
+                               Foreground="#191919" 
+                               FontSize="18" 
+                               FontFamily="Segoe UI"/>
+
+                    <Grid Grid.Row="6" Grid.Column="0" Margin="7,-10,5,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="X" Grid.Column="0" Grid.Row="0" FontSize="12"/>
+                        <TextBox x:Name="X" Text="{Binding Clip_X, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="20"/>
+                        <Label Content="Width" Grid.Column="0" Grid.Row="1" FontSize="12"/>
+                        <TextBox x:Name="Width" Text="{Binding Clip_Width, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="0,5,0,0" Height="20"/>
+                    </Grid>
+
+                    <Grid Grid.Row="6" Grid.Column="1" Margin="-15,-10,0,5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Y" Grid.Column="0" Grid.Row="0" FontSize="12"/>
+                        <TextBox x:Name="Y" Text="{Binding Clip_Y, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="20"/>
+                        <Label Content="Height" Grid.Column="0" Grid.Row="1" FontSize="12"/>
+                        <TextBox x:Name="Height" Text="{Binding Clip_Height, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Margin="0,5,0,0" Height="20"/>
+                    </Grid>
+
+                    <Button Margin="7,5,5,5" 
+                            Grid.Row="7" 
+                            Width="110" 
+                            Grid.Column="0" 
+                            Content="Export" 
+                            Command="{Binding ElementName=diagram,Path=DataContext.ExportCommand,Mode=TwoWay}" 
+                            FontWeight="Normal" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            FontFamily="Segoe UI" 
+                            FontSize="18" 
+                            Foreground="#4d4d4d" 
+                            BorderThickness="1" 
+                            Background="#d3d3d3" 
+                            BorderBrush="#666666">
+                    </Button>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

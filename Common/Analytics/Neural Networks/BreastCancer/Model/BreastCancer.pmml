@@ -1,0 +1,325 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="Neural Network PMML Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-06 11:06:36</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="10">
+  <DataField name="Indicator" optype="categorical" dataType="string">
+   <Value value="0"/>
+   <Value value="1"/>
+  </DataField>
+  <DataField name="Hormonal_Therapy" optype="categorical" dataType="string">
+   <Value value="no"/>
+   <Value value="yes"/>
+  </DataField>
+  <DataField name="Age" optype="continuous" dataType="double"/>
+  <DataField name="Menopausal_Status" optype="categorical" dataType="string">
+   <Value value="Pre"/>
+   <Value value="Post"/>
+  </DataField>
+  <DataField name="Tumor_Size" optype="continuous" dataType="double"/>
+  <DataField name="Tumor_Grade" optype="categorical" dataType="string">
+   <Value value="I"/>
+   <Value value="II"/>
+   <Value value="III"/>
+  </DataField>
+  <DataField name="Positive_Nodes" optype="continuous" dataType="double"/>
+  <DataField name="Progesterone" optype="continuous" dataType="double"/>
+  <DataField name="Estrogen_Receptor" optype="continuous" dataType="double"/>
+  <DataField name="Survival_Time" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <NeuralNetwork modelName="NeuralNet_model" functionName="classification" numberOfLayers="3" activationFunction="logistic">
+  <MiningSchema>
+   <MiningField name="Indicator" usageType="predicted"/>
+   <MiningField name="Hormonal_Therapy" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Menopausal_Status" usageType="active"/>
+   <MiningField name="Tumor_Size" usageType="active"/>
+   <MiningField name="Tumor_Grade" usageType="active"/>
+   <MiningField name="Positive_Nodes" usageType="active"/>
+   <MiningField name="Progesterone" usageType="active"/>
+   <MiningField name="Estrogen_Receptor" usageType="active"/>
+   <MiningField name="Survival_Time" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Indicator" feature="predictedValue"/>
+   <OutputField name="Probability_0" optype="continuous" dataType="double" feature="probability" value="0"/>
+   <OutputField name="Probability_1" optype="continuous" dataType="double" feature="probability" value="1"/>
+  </Output>
+  <NeuralInputs numberOfInputs="10">
+   <NeuralInput id="1">
+    <DerivedField name="derivedNI_Hormonal_Therapyyes" optype="continuous" dataType="double">
+     <NormDiscrete field="Hormonal_Therapy" value="yes"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="2">
+    <DerivedField name="derivedNI_Age" optype="continuous" dataType="double">
+     <FieldRef field="Age"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="3">
+    <DerivedField name="derivedNI_Menopausal_StatusPost" optype="continuous" dataType="double">
+     <NormDiscrete field="Menopausal_Status" value="Post"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="4">
+    <DerivedField name="derivedNI_Tumor_Size" optype="continuous" dataType="double">
+     <FieldRef field="Tumor_Size"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="5">
+    <DerivedField name="derivedNI_Tumor_GradeII" optype="continuous" dataType="double">
+     <NormDiscrete field="Tumor_Grade" value="II"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="6">
+    <DerivedField name="derivedNI_Tumor_GradeIII" optype="continuous" dataType="double">
+     <NormDiscrete field="Tumor_Grade" value="III"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="7">
+    <DerivedField name="derivedNI_Positive_Nodes" optype="continuous" dataType="double">
+     <FieldRef field="Positive_Nodes"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="8">
+    <DerivedField name="derivedNI_Progesterone" optype="continuous" dataType="double">
+     <FieldRef field="Progesterone"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="9">
+    <DerivedField name="derivedNI_Estrogen_Receptor" optype="continuous" dataType="double">
+     <FieldRef field="Estrogen_Receptor"/>
+    </DerivedField>
+   </NeuralInput>
+   <NeuralInput id="10">
+    <DerivedField name="derivedNI_Survival_Time" optype="continuous" dataType="double">
+     <FieldRef field="Survival_Time"/>
+    </DerivedField>
+   </NeuralInput>
+  </NeuralInputs>
+  <NeuralLayer numberOfNeurons="15">
+   <Neuron id="11" bias="0.558030967712313">
+    <Con from="1" weight="0.00971730974059779"/>
+    <Con from="2" weight="-0.283993663547648"/>
+    <Con from="3" weight="0.0436668608303878"/>
+    <Con from="4" weight="-0.551863596875331"/>
+    <Con from="5" weight="-0.684381751859062"/>
+    <Con from="6" weight="0.462800620843996"/>
+    <Con from="7" weight="-0.156082599759769"/>
+    <Con from="8" weight="-0.463364385661994"/>
+    <Con from="9" weight="-0.0331616827101448"/>
+    <Con from="10" weight="-0.530945555816654"/>
+   </Neuron>
+   <Neuron id="12" bias="0.587679344949031">
+    <Con from="1" weight="0.504192613068874"/>
+    <Con from="2" weight="1.85069329129494"/>
+    <Con from="3" weight="0.440691752113818"/>
+    <Con from="4" weight="-0.552167959268341"/>
+    <Con from="5" weight="-0.138768488777861"/>
+    <Con from="6" weight="-0.667808432654759"/>
+    <Con from="7" weight="-0.614921746646206"/>
+    <Con from="8" weight="2.92364974658339"/>
+    <Con from="9" weight="1.79094250251256"/>
+    <Con from="10" weight="-2.00567827055297"/>
+   </Neuron>
+   <Neuron id="13" bias="0.194714570537113">
+    <Con from="1" weight="-0.00732312330370464"/>
+    <Con from="2" weight="0.0665928746872465"/>
+    <Con from="3" weight="-0.282413867633774"/>
+    <Con from="4" weight="0.3236396133364"/>
+    <Con from="5" weight="0.527035484755166"/>
+    <Con from="6" weight="-0.0915700726963635"/>
+    <Con from="7" weight="0.107419547893096"/>
+    <Con from="8" weight="0.403408635831398"/>
+    <Con from="9" weight="-1.45925523893601"/>
+    <Con from="10" weight="0.771943883640366"/>
+   </Neuron>
+   <Neuron id="14" bias="0.416057710861787">
+    <Con from="1" weight="-0.0959363006055355"/>
+    <Con from="2" weight="-0.488873335113749"/>
+    <Con from="3" weight="-0.133731459733099"/>
+    <Con from="4" weight="-0.605289861653"/>
+    <Con from="5" weight="0.431087870337069"/>
+    <Con from="6" weight="0.10734836673364"/>
+    <Con from="7" weight="0.19730877187103"/>
+    <Con from="8" weight="0.0864108741749078"/>
+    <Con from="9" weight="0.0982771894894541"/>
+    <Con from="10" weight="-0.470123196067288"/>
+   </Neuron>
+   <Neuron id="15" bias="-0.143048492604835">
+    <Con from="1" weight="-0.163096154946834"/>
+    <Con from="2" weight="-0.5972704622667"/>
+    <Con from="3" weight="0.590025567886713"/>
+    <Con from="4" weight="0.0715744300834477"/>
+    <Con from="5" weight="-0.103321681236829"/>
+    <Con from="6" weight="0.607790925446898"/>
+    <Con from="7" weight="0.502233288429264"/>
+    <Con from="8" weight="-0.131583979785044"/>
+    <Con from="9" weight="0.397371588518313"/>
+    <Con from="10" weight="-0.447776360028916"/>
+   </Neuron>
+   <Neuron id="16" bias="-0.394123307153067">
+    <Con from="1" weight="0.40507609049648"/>
+    <Con from="2" weight="-0.722190404801715"/>
+    <Con from="3" weight="-0.0844327172435209"/>
+    <Con from="4" weight="0.169039759579481"/>
+    <Con from="5" weight="0.210126646147916"/>
+    <Con from="6" weight="0.449593878662768"/>
+    <Con from="7" weight="-0.329856387926691"/>
+    <Con from="8" weight="-0.148819981180483"/>
+    <Con from="9" weight="-0.0650164600909209"/>
+    <Con from="10" weight="-0.250052983934318"/>
+   </Neuron>
+   <Neuron id="17" bias="2.39294405161115">
+    <Con from="1" weight="1.65291208228102"/>
+    <Con from="2" weight="-1.34662436053348"/>
+    <Con from="3" weight="-0.385121213662875"/>
+    <Con from="4" weight="2.4829635868118"/>
+    <Con from="5" weight="2.72833558861034"/>
+    <Con from="6" weight="0.59165207163305"/>
+    <Con from="7" weight="-1.44555409039941"/>
+    <Con from="8" weight="0.0392185006314049"/>
+    <Con from="9" weight="0.1029003455226"/>
+    <Con from="10" weight="-0.054694119789463"/>
+   </Neuron>
+   <Neuron id="18" bias="-0.198612921731547">
+    <Con from="1" weight="0.0541193720884621"/>
+    <Con from="2" weight="0.213168454123661"/>
+    <Con from="3" weight="-0.0681808441411704"/>
+    <Con from="4" weight="0.64590996587649"/>
+    <Con from="5" weight="0.191129071358591"/>
+    <Con from="6" weight="0.56388636296615"/>
+    <Con from="7" weight="-0.503196481382474"/>
+    <Con from="8" weight="0.259772977419198"/>
+    <Con from="9" weight="0.575364737445488"/>
+    <Con from="10" weight="0.136448775790632"/>
+   </Neuron>
+   <Neuron id="19" bias="-0.272542558066358">
+    <Con from="1" weight="0.355610133604265"/>
+    <Con from="2" weight="0.435287856418762"/>
+    <Con from="3" weight="-0.517580524503374"/>
+    <Con from="4" weight="-0.843652293360439"/>
+    <Con from="5" weight="0.445909507069793"/>
+    <Con from="6" weight="0.279813087443406"/>
+    <Con from="7" weight="-0.558738817145263"/>
+    <Con from="8" weight="-0.165191447757607"/>
+    <Con from="9" weight="-0.0157212979993433"/>
+    <Con from="10" weight="0.60797590735122"/>
+   </Neuron>
+   <Neuron id="20" bias="-1.45406334643863">
+    <Con from="1" weight="0.556059262115008"/>
+    <Con from="2" weight="-0.602003675087655"/>
+    <Con from="3" weight="0.739669417344676"/>
+    <Con from="4" weight="-0.117621421528093"/>
+    <Con from="5" weight="0.260475525979381"/>
+    <Con from="6" weight="-1.27855713439521"/>
+    <Con from="7" weight="-3.59609063852117"/>
+    <Con from="8" weight="0.507543360791934"/>
+    <Con from="9" weight="1.02480458034314"/>
+    <Con from="10" weight="0.0330283336729007"/>
+   </Neuron>
+   <Neuron id="21" bias="-0.623727697392137">
+    <Con from="1" weight="-0.456333683318537"/>
+    <Con from="2" weight="-0.466829552104782"/>
+    <Con from="3" weight="0.163384097014822"/>
+    <Con from="4" weight="0.0933115518596369"/>
+    <Con from="5" weight="0.27448252397113"/>
+    <Con from="6" weight="-0.459137768728581"/>
+    <Con from="7" weight="0.314102992491603"/>
+    <Con from="8" weight="-0.279816208662822"/>
+    <Con from="9" weight="0.165275155601142"/>
+    <Con from="10" weight="-0.65103391702189"/>
+   </Neuron>
+   <Neuron id="22" bias="0.418289460859489">
+    <Con from="1" weight="-0.0712503015890878"/>
+    <Con from="2" weight="-2.16390322901101"/>
+    <Con from="3" weight="-0.0981196525446591"/>
+    <Con from="4" weight="-0.0665008792611679"/>
+    <Con from="5" weight="0.270515380741777"/>
+    <Con from="6" weight="0.175281188561344"/>
+    <Con from="7" weight="0.574707551035532"/>
+    <Con from="8" weight="-1.55216036355089"/>
+    <Con from="9" weight="0.0494095880234591"/>
+    <Con from="10" weight="0.97196079443743"/>
+   </Neuron>
+   <Neuron id="23" bias="0.33918815087527">
+    <Con from="1" weight="-0.42511128578335"/>
+    <Con from="2" weight="-0.577121552638709"/>
+    <Con from="3" weight="-0.00607090843841429"/>
+    <Con from="4" weight="0.364359192224219"/>
+    <Con from="5" weight="0.173604065831751"/>
+    <Con from="6" weight="-0.538526557153091"/>
+    <Con from="7" weight="-0.14788029147312"/>
+    <Con from="8" weight="-0.400636216625571"/>
+    <Con from="9" weight="-0.427711561275646"/>
+    <Con from="10" weight="-0.460649556666613"/>
+   </Neuron>
+   <Neuron id="24" bias="0.0702331714071244">
+    <Con from="1" weight="0.326951554281285"/>
+    <Con from="2" weight="1.46884926038508"/>
+    <Con from="3" weight="-0.763887753910877"/>
+    <Con from="4" weight="-2.55470104687441"/>
+    <Con from="5" weight="-0.0666480090811202"/>
+    <Con from="6" weight="0.0172692497059005"/>
+    <Con from="7" weight="1.52438154171694"/>
+    <Con from="8" weight="0.346123206186458"/>
+    <Con from="9" weight="0.279855583783653"/>
+    <Con from="10" weight="-0.117759476652756"/>
+   </Neuron>
+   <Neuron id="25" bias="0.129463597591547">
+    <Con from="1" weight="-0.583523539749573"/>
+    <Con from="2" weight="0.280799583641887"/>
+    <Con from="3" weight="0.667974103733405"/>
+    <Con from="4" weight="0.0517126080355276"/>
+    <Con from="5" weight="0.343061634608476"/>
+    <Con from="6" weight="-0.533374388487576"/>
+    <Con from="7" weight="-0.335656896290162"/>
+    <Con from="8" weight="0.342872257511745"/>
+    <Con from="9" weight="0.255283931758113"/>
+    <Con from="10" weight="-0.00105577937634637"/>
+   </Neuron>
+  </NeuralLayer>
+  <NeuralLayer numberOfNeurons="1">
+   <Neuron id="26" bias="-1.29321019405967">
+    <Con from="11" weight="0.463640051902801"/>
+    <Con from="12" weight="-0.284664575800126"/>
+    <Con from="13" weight="-1.2182033661394"/>
+    <Con from="14" weight="0.516957122273743"/>
+    <Con from="15" weight="0.735477223066345"/>
+    <Con from="16" weight="-0.363066289776397"/>
+    <Con from="17" weight="2.19161753861104"/>
+    <Con from="18" weight="-1.07070296654776"/>
+    <Con from="19" weight="3.48774249498988"/>
+    <Con from="20" weight="-2.23635499314968"/>
+    <Con from="21" weight="0.691441342121186"/>
+    <Con from="22" weight="1.76550966193254"/>
+    <Con from="23" weight="0.556924743624404"/>
+    <Con from="24" weight="0.886565380116987"/>
+    <Con from="25" weight="-0.720183730107519"/>
+   </Neuron>
+  </NeuralLayer>
+  <NeuralLayer numberOfNeurons="2" activationFunction="threshold" threshold="0.5">
+   <Neuron id="27" bias="1.0">
+    <Con from="26" weight="-1.0"/>
+   </Neuron>
+   <Neuron id="28" bias="0.0">
+    <Con from="26" weight="1.0"/>
+   </Neuron>
+  </NeuralLayer>
+  <NeuralOutputs numberOfOutputs="2">
+   <NeuralOutput outputNeuron="27">
+    <DerivedField name="derivedNO_Indicator" optype="continuous" dataType="double">
+     <NormDiscrete field="Indicator" value="0"/>
+    </DerivedField>
+   </NeuralOutput>
+   <NeuralOutput outputNeuron="28">
+    <DerivedField name="derivedNO_Indicator" optype="continuous" dataType="double">
+     <NormDiscrete field="Indicator" value="1"/>
+    </DerivedField>
+   </NeuralOutput>
+  </NeuralOutputs>
+ </NeuralNetwork>
+</PMML>
