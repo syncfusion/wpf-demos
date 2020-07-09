@@ -1,0 +1,97 @@
+﻿<sfutils:SampleWindow x:Class="MdxQuery.MainWindow"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                      xmlns:local="clr-namespace:MdxQuery"
+                      xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+                      xmlns:sfutils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                      sfshared:SkinStorage.VisualStyle="Metro"                  
+                      Title="MDX Query" x:Name="window1" Icon="App.ico"  Height="650" Width="850" MinHeight="200" MinWidth="200"
+                      WindowStartupLocation="CenterScreen" WindowState="Maximized">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="OlapChart supports the manipulation of reports using MDX query."
+                       VerticalAlignment="Center" Foreground="White" Margin="5,0,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent">
+            <Grid.DataContext>
+                <local:ViewModel/>
+            </Grid.DataContext>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Grid.Column="0" Header="OlapChart" Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <!--Adding Chart-->
+                <syncfusion:OlapChart Name="olapchart1" Margin="5" ChartType="{Binding OlapChartType}" OlapDataManager="{Binding DataManager}" 
+                                      Background="Transparent"  ColorPalette="Metro" SeriesStrokeThickness="0">
+                    <syncfusion:OlapChart.PrimaryAxis>
+                        <syncfusion:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes"/>
+                    </syncfusion:OlapChart.PrimaryAxis>
+                    <syncfusion:OlapChart.SecondaryAxis>
+                        <syncfusion:ChartAxis LabelFormat="C"/>
+                    </syncfusion:OlapChart.SecondaryAxis>
+                    <syncfusion:OlapChart.Legend>
+                        <syncfusion:ChartLegend Background="Transparent" RowsCount="{Binding RowCount}"/>
+                    </syncfusion:OlapChart.Legend>
+                </syncfusion:OlapChart>
+            </GroupBox>
+
+            <GridSplitter Grid.Column="0" Width="1" Margin="0 10 0 5" Background="#FF119EDA" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+
+            <GroupBox Grid.Column="1" VerticalAlignment="Stretch" Header="Properties" BorderThickness="1" BorderBrush="DarkGray" Margin="5">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+                <StackPanel Margin="5">
+                    <TextBlock Margin="0 10" Text="Series Type:" FontWeight="SemiBold"/>
+                    <RadioButton Name="rbtnColumn" GroupName="SeriesType" Margin="0 10" Content="Column" IsChecked="True" 
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtnColumn, Path=Content}"/>
+                    <RadioButton Name="rbtnStackingColumn" GroupName="SeriesType" Margin="0 10" Content="Stacking Column" 
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtnStackingColumn, Path=Content}"/>
+                    <RadioButton Name="rbtStackingColumn100" GroupName="SeriesType" Margin="0 10" Content="Stacking Column 100" 
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtStackingColumn100, Path=Content}"/>
+
+                    <TextBlock Margin="0 10" Text="Report Type:" FontWeight="SemiBold"/>
+
+                    <ComboBox x:Name="cmbReport" Height="25" Margin="0 10" SelectedItem="{Binding SelectedMDX,Mode=TwoWay}">
+                        <sys:String>Simple Dimensions</sys:String>
+                        <sys:String>Hierarchy and Levels</sys:String>
+                        <sys:String>Multiple Series Dimensions</sys:String>
+                        <sys:String>Multiple Measures in Series</sys:String>
+                        <sys:String>Slicing by Dimensions</sys:String>
+                        <sys:String>Slicing by Measures</sys:String>
+                        <sys:String>Filtered Dimensions</sys:String>
+                    </ComboBox>
+
+                    <CheckBox Name="chkAllowMdx" Margin="0 10" Content="Allow MDX to OlapReport Parse"
+                              IsChecked="{Binding AllowMdxToOlapReportParse,Mode=TwoWay}"/>
+
+                    <CheckBox Name="chkAllMember" Margin="0 10" Content="Show All Member" 
+                              IsChecked="{Binding ShowLevelTypeAll,Mode=TwoWay}" 
+                              IsEnabled="{Binding ElementName=chkAllowMdx, Path=IsChecked}"/>
+
+                    <Button Margin="0 10" Width="180" Height="25" HorizontalAlignment="Center" Command="{Binding ShowMDXCommand}" Content="Show MDX Editor"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</sfutils:SampleWindow>

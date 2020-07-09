@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="CoxPH Survival Regression Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-06 15:21:45</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="4">
+  <DataField name="survival" optype="continuous" dataType="double"/>
+  <DataField name="Maintenance_Status" optype="categorical" dataType="string"/>
+  <DataField name="Survival_Time" optype="continuous" dataType="double"/>
+  <DataField name="Censoring_Status" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <GeneralRegressionModel modelType="CoxRegression" modelName="CoxPH_Survival_Regression_Model" functionName="regression" algorithmName="coxph" endTimeVariable="Survival_Time" statusVariable="Censoring_Status">
+  <MiningSchema>
+   <MiningField name="survival" usageType="predicted"/>
+   <MiningField name="Maintenance_Status" usageType="active"/>
+   <MiningField name="Survival_Time" usageType="active"/>
+   <MiningField name="Censoring_Status" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_hazard" feature="predictedValue"/>
+   <OutputField name="SurvivalProbability" feature="transformedValue">
+    <Apply function="exp">
+     <Apply function="*">
+      <Constant>-1.0</Constant>
+      <FieldRef field="Predicted_hazard"/>
+     </Apply>
+    </Apply>
+   </OutputField>
+  </Output>
+  <ParameterList>
+   <Parameter name="p0" label="Maintenance_StatusNonmaintained" referencePoint="0.521739130434783"/>
+  </ParameterList>
+  <FactorList>
+   <Predictor name="Maintenance_Status"/>
+  </FactorList>
+  <CovariateList/>
+  <PPMatrix>
+   <PPCell value="Nonmaintained" predictorName="Maintenance_Status" parameterName="p0"/>
+  </PPMatrix>
+  <ParamMatrix>
+   <PCell parameterName="p0" df="1" beta="0.915532575014718"/>
+  </ParamMatrix>
+  <BaseCumHazardTables maxTime="161">
+   <BaselineCell time="5" cumHazard="0.0812474179599717"/>
+   <BaselineCell time="8" cumHazard="0.17421067267947"/>
+   <BaselineCell time="9" cumHazard="0.226246179640148"/>
+   <BaselineCell time="12" cumHazard="0.280017080300855"/>
+   <BaselineCell time="13" cumHazard="0.338674896856656"/>
+   <BaselineCell time="16" cumHazard="0.338674896856656"/>
+   <BaselineCell time="18" cumHazard="0.408810083512794"/>
+   <BaselineCell time="23" cumHazard="0.561796220656738"/>
+   <BaselineCell time="27" cumHazard="0.64899287143167"/>
+   <BaselineCell time="28" cumHazard="0.64899287143167"/>
+   <BaselineCell time="30" cumHazard="0.756534672753084"/>
+   <BaselineCell time="31" cumHazard="0.885578311160185"/>
+   <BaselineCell time="33" cumHazard="1.02584868447246"/>
+   <BaselineCell time="34" cumHazard="1.20506992056653"/>
+   <BaselineCell time="43" cumHazard="1.40670442763183"/>
+   <BaselineCell time="45" cumHazard="1.69995308287326"/>
+   <BaselineCell time="48" cumHazard="2.50610907951114"/>
+   <BaselineCell time="161" cumHazard="2.50610907951114"/>
+  </BaseCumHazardTables>
+ </GeneralRegressionModel>
+</PMML>

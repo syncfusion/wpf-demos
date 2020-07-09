@@ -1,0 +1,108 @@
+﻿<syncfusion:ChromelessWindow x:Class="GettingStarted.MainWindow"     UseNativeChrome="True"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf" Title="Getting Started"
+                                      syncfusion:SkinStorage.VisualStyle="Metro" WindowState="Maximized" 
+                              xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF"
+        xmlns:local="clr-namespace:GettingStarted"  ResizeMode="CanResizeWithGrip" WindowStartupLocation="CenterScreen"
+      >
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:NavigationDrawerProperties />
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.Resources>
+        <Style x:Key="listboxitemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Top"/>
+            <Setter Property ="Foreground" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot" Background="{TemplateBinding Background}" 
+                HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                VerticalAlignment="{TemplateBinding VerticalAlignment}" 
+                BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border x:Name="brd" BorderBrush="#aeb1f6" Width="Auto" BorderThickness="0 0 0 1">
+                                <ContentPresenter x:Name="ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}" />
+                            </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </syncfusion:ChromelessWindow.Resources>
+
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+            <Button x:Name="button"  Canvas.ZIndex="5" Grid.Column="0" BorderBrush="Transparent" Height="45" Width="50" Background="Transparent"  Click="Button_Click">
+                <Path Data="M3.507019,20.166L28.493011,20.166C30.429993,20.166 32,21.734998 32,23.672008 32,25.609994 30.429993,27.180001 28.493011,27.180001L3.507019,27.180001C1.5710144,27.180001 0,25.609994 0,23.672008 0,21.734998 1.5710144,20.166 3.507019,20.166z M3.507019,10.082999L28.493011,10.082999C30.429993,10.082999 32,11.653006 32,13.590992 32,15.528002 30.429993,17.098985 28.493011,17.098985L3.507019,17.098985C1.5710144,17.098985 0,15.528002 0,13.590992 0,11.653006 1.5710144,10.082999 3.507019,10.082999z M3.507019,0L28.493011,0C30.429993,-8.7618901E-08 32,1.5710131 32,3.5080233 32,5.4460097 30.429993,7.0140015 28.493011,7.0140015L3.507019,7.0140015C1.5710144,7.0140015 0,5.4460097 0,3.5080233 0,1.5710131 1.5710144,-8.7618901E-08 3.507019,0z" Stretch="Uniform" Fill="#FF262626" Width="26" Height="26" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5"/>
+            </Button>
+        </Grid>
+        <syncfusion:SfNavigationDrawer Grid.Column="0"  x:Name="drawer" Grid.Row="1" DrawerWidth="300" Transition="{Binding SlideTransition,Mode=TwoWay}" Position="{Binding SlidePosition,Mode=TwoWay}"  TouchThreshold="35">
+            <syncfusion:SfNavigationDrawer.DrawerHeaderView>
+                <Grid Background="#1aa1d6" Height="150">
+                    <Image Source="/Assets/NavigationDrawer/User.png" x:Name="image" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 5" />
+                    <TextBlock x:Name="name" HorizontalAlignment="Center" FontSize="15" Padding="0 5 0 5" Foreground="White" VerticalAlignment="Bottom"/>
+                </Grid>
+            </syncfusion:SfNavigationDrawer.DrawerHeaderView>
+            <syncfusion:SfNavigationDrawer.DrawerFooterView>
+                <Grid Background="#1aa1d6" Height="50">
+                    <TextBlock x:Name="footer" Text="Log out" HorizontalAlignment="Center" FontSize="15" Padding="0 5 0 5" Foreground="White" VerticalAlignment="Center"/>
+                </Grid>
+            </syncfusion:SfNavigationDrawer.DrawerFooterView>
+            <syncfusion:SfNavigationDrawer.DrawerContentView>
+                <Border Background="White" BorderBrush="#FF5D63EE" BorderThickness="0.4">
+                    <ListBox x:Name="list" ItemsSource="{Binding Contents}" Background="Transparent" ItemContainerStyle="{StaticResource listboxitemStyle}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="{Binding Image}" Grid.Column="0" x:Name="image" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Width="30" Margin="5" />
+                                    <TextBlock  Text="{Binding Name}" Padding="10" Grid.Column="1"  TextAlignment="Center" FontSize="20" Foreground="Black" Margin="5"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </syncfusion:SfNavigationDrawer.DrawerContentView>
+        </syncfusion:SfNavigationDrawer>
+        <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Margin="50">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Position" Margin="10 5" Grid.Row="0"/>
+            <ComboBox Grid.Row="1" Margin="10 5" Name="slideposition" Loaded="slideposition_Loaded" SelectionChanged="slideposition_SelectionChanged"
+                  SelectedItem="{Binding SlidePosition,Mode=TwoWay}" >
+            </ComboBox>
+            <TextBlock Text="Transition" Margin="10 5" Grid.Row="2"/>
+            <ComboBox Grid.Row="3" Margin="10 5"  Name="slidetransition" Loaded="slidetransition_Loaded"
+                  SelectedItem="{Binding SlideTransition,Mode=TwoWay}" >
+            </ComboBox>
+        </Grid>
+
+    </Grid>
+
+</syncfusion:ChromelessWindow>

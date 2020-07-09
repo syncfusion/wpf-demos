@@ -1,0 +1,67 @@
+﻿<syncfusion:ChromelessWindow
+    x:Class="TabControlExtConfigurationDemo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    Icon="App.ico" UseNativeChrome="True"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:local="clr-namespace:TabControlExtConfigurationDemo" 
+    Title="Getting Started"
+    Width="850"  FontSize="13" 
+    Height="530" MinWidth="400" FontFamily="Calibri"
+    WindowStartupLocation="CenterScreen">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncfusion:ChromelessWindow.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.Themes.MaterialLight.WPF;component/TabControlExt/TabControlExt.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <syncfusion:TabControlExt ItemsSource="{Binding ModelItems}" x:Name="Tab" 
+                                      AllowDragDrop="{Binding AllowDragDrop}" EnableLabelEdit="{Binding EnableLabelEdit}" TabItemLayout="{Binding TabItemLayout}"
+                                      ShowTabListContextMenu="{Binding ShowTabListContextMenu}" TabScrollButtonVisibility="{Binding TabScrollButtonVisibility}" 
+                                      TabStripPlacement="{Binding TabStripPlacement}" TabScrollStyle="{Binding TabScrollStyle}" TabItemSize="{Binding TabItemSize}" 
+                                      ShowTabItemContextMenu="{Binding ShowTabItemContextMenu}" RotateTextWhenVertical="{Binding RotateTextWhenVertical}"
+                                      syncfusion:TabControlExtSelectionChangedCommand.Command="{Binding SelectionChanged}" CloseButtonType="{Binding CloseButtonType}"
+                                      syncfusion:TabControlExtSelectionChangedCommand.CommandParameter="{Binding Path=SelectedItem.Header,RelativeSource={RelativeSource Self}}">
+                <syncfusion:TabControlExt.ItemContainerStyle>
+                    <Style TargetType="syncfusion:TabItemExt" BasedOn="{StaticResource SyncfusionTabItemExtStyle }" >
+                        <Setter Property="CanClose" Value="{Binding CanClose, Mode=TwoWay}"/>
+                        <Setter Property="ShowPin" Value="{Binding ShowPin, Mode=TwoWay}"/>
+                        <Setter Property="AllowPin" Value="{Binding AllowPin, Mode=TwoWay}"/>
+                        <Setter Property="CloseButtonState" Value="{Binding CloseButtonState, Mode=TwoWay}"/>
+                    </Style>
+                </syncfusion:TabControlExt.ItemContainerStyle>
+                <syncfusion:TabControlExt.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Header}"/>
+                    </DataTemplate>
+                </syncfusion:TabControlExt.ItemTemplate>
+                <syncfusion:TabControlExt.EditHeaderTemplate>
+                    <DataTemplate>
+                        <TextBox Text="{Binding Header, Mode=TwoWay}"/>
+                    </DataTemplate>
+                </syncfusion:TabControlExt.EditHeaderTemplate>
+                <syncfusion:TabControlExt.ContentTemplate>
+                    <DataTemplate>
+                        <local:Weather BorderBrush="{Binding ElementName=options, Path=BorderBrush}"/>
+                    </DataTemplate>
+                </syncfusion:TabControlExt.ContentTemplate>
+            </syncfusion:TabControlExt>
+        </Grid>
+
+
+        <Grid Grid.Column="1">
+            <local:PropertyView Tag="{Binding ElementName=Tab, Path=SelectedItem}"/>
+        </Grid>
+    </Grid>
+</syncfusion:ChromelessWindow>
+

@@ -1,0 +1,84 @@
+﻿<layout:SampleLayoutWindow x:Class="VisualStyles.MainWindow"
+                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                           xmlns:local="clr-namespace:VisualStyles"
+                           xmlns:kanban="clr-namespace:Syncfusion.UI.Xaml.Kanban;assembly=Syncfusion.SfKanban.WPF"
+                           xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+                           UserOptionsVisibility="Visible"
+                           ResizeMode="CanResizeWithGrip"
+                           WindowState="Maximized"
+                           WindowStartupLocation="CenterScreen"
+                           Title="Visual Styles">
+    
+        <layout:SampleLayoutWindow.DataContext>
+            <local:TaskDetails />
+        </layout:SampleLayoutWindow.DataContext>
+
+    <Grid>
+
+        <kanban:SfKanban x:Name="Kanban" Margin="10"
+                         ItemsSource="{Binding Tasks}"
+                         AutoGenerateColumns="False">
+            <kanban:SfKanban.IndicatorColorPalette>
+                <kanban:ColorMapping Color="#FFECB93C"
+                                     Key="High"></kanban:ColorMapping>
+                <kanban:ColorMapping Color="#FF57B94C"
+                                     Key="Normal"></kanban:ColorMapping>
+                <kanban:ColorMapping Color="#FF5187C6"
+                                     Key="Low"></kanban:ColorMapping>
+            </kanban:SfKanban.IndicatorColorPalette>
+
+            <kanban:KanbanColumn Categories="Open,Postponed"
+                                 Title="To Do" />
+
+            <kanban:KanbanColumn Categories="InProgress"
+                                 Title="In Progress"
+                                 MaximumLimit="2"
+                                 IsExpanded="True">
+                <kanban:KanbanColumn.ErrorBarSettings>
+                    <kanban:ErrorBarSettings MinValidationColor="Yellow"
+                                             MaxValidationColor="Red" />
+                </kanban:KanbanColumn.ErrorBarSettings>
+
+            </kanban:KanbanColumn>
+            <kanban:KanbanColumn Categories="Review"
+                                 Title="For Review"
+                                 MaximumLimit="5">
+                <kanban:KanbanColumn.ErrorBarSettings>
+                    <kanban:ErrorBarSettings MinValidationColor="Yellow"
+                                             MaxValidationColor="Red" />
+                </kanban:KanbanColumn.ErrorBarSettings>
+            </kanban:KanbanColumn>
+            <kanban:KanbanColumn Categories="Closed,Closed NoChanges,Won't Fix"
+                                 Title="Done"
+                                 MinimumLimit="2"
+                                 MaximumLimit="10"
+                                 AllowDrag="False">
+
+                <kanban:KanbanColumn.ErrorBarSettings>
+                    <kanban:ErrorBarSettings MinValidationColor="Yellow"
+                                             MaxValidationColor="Red" />
+                </kanban:KanbanColumn.ErrorBarSettings>
+            </kanban:KanbanColumn>
+        </kanban:SfKanban>
+        </Grid>
+
+
+        <layout:SampleLayoutWindow.UserOptionsLayout>
+        <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBlock Text="Themes" Height="25" Width="80" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                       FontWeight="SemiBold"></TextBlock>
+            <ComboBox x:Name="ThemeSelector"
+                      SelectedIndex="0"
+                      HorizontalAlignment="Right"
+                      VerticalAlignment="Top"
+                      Height="25" BorderThickness="1"
+                      Width="150"
+                      Margin="5,5,20,5"
+                      ItemsSource="{Binding KanbanThemes}"
+                      SelectionChanged="Selector_OnSelectionChanged">
+            </ComboBox>
+        </StackPanel>
+            </layout:SampleLayoutWindow.UserOptionsLayout>
+    
+</layout:SampleLayoutWindow>

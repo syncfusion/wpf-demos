@@ -1,0 +1,194 @@
+﻿<Window x:Class="Getting_Started_Serialization.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Getting_Started_Serialization"
+        xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"        
+        xmlns:ViewModel="clr-namespace:Getting_Started_Serialization.Viewmodel"
+        xmlns:Stencil="clr-namespace:Syncfusion.UI.Xaml.Diagram.Stencil;assembly=Syncfusion.SfDiagram.Wpf"
+        xmlns:skinmanager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+        skinmanager:SfSkinManager.VisualStyle="MaterialLight"
+        mc:Ignorable="d"
+        Title="Serialization" WindowState="Maximized" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="Syncfusion:Node">
+            <Setter Property="ShapeStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="{Binding Path= Fillcolor, Mode=TwoWay}"/>
+                        <Setter Property="Stroke" Value="{Binding Path= Strokecolor, Mode=TwoWay}"/>
+                        <Setter Property="Stretch" Value="Fill"/>
+                        <Setter Property="StrokeThickness" Value="2"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Path" x:Key="SymbolTargetDecoratorStyle">
+            <Setter Property="Fill" Value="Black"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="Path" x:Key="SymbolConnectorGeometryStyle">
+            <Setter Property="Stroke" Value="Black"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+        </Style>
+
+        <Style TargetType="Path" x:Key="ConnectorGeometryStyle">
+            <Setter Property="Stroke" Value="#797979"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+        </Style>
+        
+        <Style TargetType="Path" x:Key="TargetDecoratorStyle">
+                <Setter Property="Fill" Value="#797979"/>
+                <Setter Property="StrokeThickness" Value="1"/>                
+            </Style>
+            
+        <ViewModel:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <ViewModel:SerializationViewModel x:Name="diagram"/>
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Syncfusion:ToolBarAdv>
+            <Button Name="NewButton" Width="70"  Height="30" IsEnabled="True" ToolTip="New Document" Command="{Binding NewCommand}" Cursor="Hand"  Style="{StaticResource WPFGlyphButtonStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="M2,2.000001 L2,14.000007 12,14.000007 12,5.0010033 9.9999809,5.0010033 C9.4470024,5.0010033 8.9999809,4.5530052 8.9999809,4.0010033 L8.9999809,2.000001 z M0,0 L10.414,0 14,3.5860016 14,16.000008 0,16.000008 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" 
+                              Height="16"  
+                              Width="14"
+                              Stretch="Fill"/>
+                    <TextBlock Text="New" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Button>
+
+            <!--Save button-->
+            <Button Name="SaveButton" Width="70"  Height="30"  IsEnabled="True"  ToolTip="Save Document" Command="{Binding SaveCommand}" Cursor="Hand" Style="{StaticResource WPFGlyphButtonStyle}">
+                <StackPanel Orientation="Horizontal">
+                <Path Data="M7,8.8899994 C5.5250244,8.8899994 4.3330078,10.079987 4.3330078,11.556 4.3330078,13.031998 5.5250244,14.222992 7,14.222992 8.4760132,14.222992 9.6660156,13.031998 9.6660156,11.556 9.6660156,10.079987 8.4760132,8.8899994 7,8.8899994 z M2,2 L2,5 9,5 9,2 z M1.7770386,0 L10.444031,0 14,3.5559998 14,14.222992 C14,15.200989 13.199036,16 12.222046,16 L1.7770386,16 C0.79101563,16 0,15.200989 0,14.222992 L0,1.7779999 C0,0.80099487 0.79101563,0 1.7770386,0 z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="16"
+                              Stretch="Fill" 
+                              Width="14"/>
+                    <TextBlock Text="Save" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Button>
+
+            <!--Load button-->
+            <Button Name="OpenButton" Width="70"  Height="30"  IsEnabled="True" ToolTip="Open document"  Command="{Binding LoadCommand}" Cursor="Hand" Style="{StaticResource WPFGlyphButtonStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="M4.2269996,4.2919953 L17.998994,4.2919953 14.687995,13.008 1.2630012,13.008 z M0,0 L5.230007,0 6.2759965,2.5020059 14.676,2.5020059 14.674001,3.2690042 3.5720037,3.2690042 0.26000953,13.008 0,13.008 z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="13.008"
+                              Canvas.Left="0"
+                              Stretch="Fill"
+                              Canvas.Top="3.095"
+                              Width="17.999" />
+                    <TextBlock Text="Load" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <Syncfusion:ToolBarItemSeparator/>
+            <Button IsEnabled="{Binding Enabled}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <Syncfusion:ColorPickerPalette IsEnabled="{Binding Enabled}" Color="{Binding ElementName=diagram, Path=Fillcolor, Mode=TwoWay, Converter={StaticResource ColorToBrushConverter}}" Width="60" Height="24" ToolTip="Fill Color"/>
+                    <Label Content="Fill Color"/>
+                </StackPanel>
+            </Button>
+            <Button IsEnabled="{Binding Enabled}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <Syncfusion:ColorPickerPalette IsEnabled="{Binding Enabled}" Color="{Binding ElementName=diagram, Path=Strokecolor, Mode=TwoWay, Converter={StaticResource ColorToBrushConverter}}" Width="60" Height="24" ToolTip="Stroke Color"/>
+                    <Label Content="Stroke Color"/>
+                </StackPanel>
+            </Button>
+        </Syncfusion:ToolBarAdv>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="210"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Stencil:Stencil x:Name="stencil" 
+                             Grid.Column="0" 
+                             ExpandMode="ZeroOrMore" >
+                <Stencil:Stencil.SymbolSource>
+                    <ViewModel:SymbolCollection>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Process}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Decision}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="37" UnitWidth="94" Shape="{StaticResource Terminator}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Sort}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Document}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource MultiDocument}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource DirectData}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="94" UnitWidth="94" Shape="{StaticResource SequentialData}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource PaperTap}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="75" UnitWidth="75" Shape="{StaticResource SummingJunction}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="75" UnitWidth="75" Shape="{StaticResource Or}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource InternalStorage}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource PredefinedProcess}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="75" UnitWidth="75" Shape="{StaticResource Extract}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="75" UnitWidth="75" Shape="{StaticResource Merge}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="75" UnitWidth="75" Shape="{StaticResource OffPageReference}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="94" UnitWidth="94" Shape="{StaticResource SequentialAccessStorage}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="45" UnitWidth="45" Shape="{StaticResource Delay}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource StoredData}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="45" UnitWidth="45" Shape="{StaticResource Display}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource ManualOperation}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Data}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="35" UnitWidth="35" Shape="{StaticResource OnPageReference}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Prepration}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource PunchedCard}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Card}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource LoopLimit}"  Key="FlowShapes"/>
+                        <ViewModel:CustomNode Fillcolor="Transparent" Strokecolor="Black" UnitHeight="56" UnitWidth="94" Shape="{StaticResource ManualInput}"  Key="FlowShapes"/>
+
+
+                        <Syncfusion:ConnectorViewModel SourcePoint="0,0" TargetPoint="60,60" Key="Connectors" TargetDecoratorStyle="{StaticResource SymbolTargetDecoratorStyle}" ConnectorGeometryStyle="{StaticResource SymbolConnectorGeometryStyle}"/>
+                        <Syncfusion:ConnectorViewModel SourcePoint="0,0" TargetPoint="60,60" Key="Connectors" TargetDecoratorStyle="{StaticResource SymbolTargetDecoratorStyle}" ConnectorGeometryStyle="{StaticResource SymbolConnectorGeometryStyle}">
+                            <Syncfusion:ConnectorViewModel.Segments>
+                                <Syncfusion:ConnectorSegments>
+                                    <Syncfusion:StraightSegment></Syncfusion:StraightSegment>
+                                </Syncfusion:ConnectorSegments>
+                            </Syncfusion:ConnectorViewModel.Segments>
+                        </Syncfusion:ConnectorViewModel>
+                        <Syncfusion:ConnectorViewModel SourcePoint="0,0" TargetPoint="60,60" Key="Connectors" TargetDecoratorStyle="{StaticResource SymbolTargetDecoratorStyle}" ConnectorGeometryStyle="{StaticResource SymbolConnectorGeometryStyle}">
+                            <Syncfusion:ConnectorViewModel.Segments>
+                                <Syncfusion:ConnectorSegments>
+                                    <Syncfusion:CubicCurveSegment></Syncfusion:CubicCurveSegment>
+                                </Syncfusion:ConnectorSegments>
+                            </Syncfusion:ConnectorViewModel.Segments>
+                        </Syncfusion:ConnectorViewModel>
+                        <Syncfusion:ConnectorViewModel SourcePoint="0,0" TargetPoint="60,60" Key="Connectors" TargetDecoratorStyle="{StaticResource SymbolTargetDecoratorStyle}" ConnectorGeometryStyle="{StaticResource SymbolConnectorGeometryStyle}">
+                            <Syncfusion:ConnectorViewModel.Segments>
+                                <Syncfusion:ConnectorSegments>
+                                    <Syncfusion:QuadraticCurveSegment></Syncfusion:QuadraticCurveSegment>
+                                </Syncfusion:ConnectorSegments>
+                            </Syncfusion:ConnectorViewModel.Segments>
+                        </Syncfusion:ConnectorViewModel>
+                    </ViewModel:SymbolCollection>
+                </Stencil:Stencil.SymbolSource>
+                <Stencil:Stencil.SymbolGroups>
+                    <Stencil:SymbolGroups>
+                        <!--Separate groups based on the key-->
+                        <Stencil:SymbolGroupProvider MappingName="Key"/>
+                    </Stencil:SymbolGroups>
+                </Stencil:Stencil.SymbolGroups>
+            </Stencil:Stencil>
+            <Syncfusion:SfDiagram Grid.Column="1"
+                                  Nodes="{Binding Nodes}"
+                                  Connectors="{Binding Connectors}"
+                                  SelectedItems="{Binding SelectedItems}"
+                                  SnapSettings="{Binding SnapSettings}"
+                                  HorizontalRuler="{Binding HorizontalRuler}"
+                                  VerticalRuler="{Binding VerticalRuler}"
+                                  ItemAddedCommand="{Binding ItemAddedCommand}"
+                                  ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                                  ItemUnSelectedCommand="{Binding ItemUnSelectedCommand}"/>
+        </Grid>        
+    </Grid>
+</Window>

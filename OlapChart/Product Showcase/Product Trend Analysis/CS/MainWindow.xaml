@@ -1,0 +1,48 @@
+﻿<samplUtils:SampleWindow x:Class="ProductTrendAnalysis.MainWindow"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                         xmlns:action="clr-namespace:ProductTrendAnalysis.Action"
+                         xmlns:vm="clr-namespace:ProductTrendAnalysis.ViewModel"      
+                         xmlns:samplUtils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                         xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF" 
+                         sfshared:SkinStorage.VisualStyle="Metro"                     
+                         Title="Product Trend Analysis" Icon="App.Ico" MinHeight="640" MinWidth="800" 
+                         WindowState="Maximized" WindowStartupLocation="CenterScreen">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <action:ReportCustomization TargetName="olapChartLine" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.DataContext>
+            <vm:ViewModel/>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="Comparative analysis on sales of accessories and clothing over the first 9 weeks of year 2004." 
+                       Foreground="White" VerticalAlignment="Center" Margin="5 0"/>
+        </StackPanel>
+
+        <syncfusion:OlapChart Name="olapChartLine" Grid.Row="1" Margin="5" ChartType="Line" 
+                              OlapDataManager="{Binding DataManager}" VisualStyle="Metro" ColorPalette="Metro">
+            <syncfusion:OlapChart.SecondaryAxis>
+                <syncfusion:ChartAxis LabelFormat="C" IsAutoSetRange="False" Range="0,12000" />
+            </syncfusion:OlapChart.SecondaryAxis>
+            <syncfusion:OlapChart.PrimaryAxis>
+                <syncfusion:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes"  Header="Week Of Year" />
+            </syncfusion:OlapChart.PrimaryAxis>
+            <syncfusion:OlapChart.Legend>
+                <syncfusion:ChartLegend Background="Transparent" />
+            </syncfusion:OlapChart.Legend>
+        </syncfusion:OlapChart>
+    </Grid>
+</samplUtils:SampleWindow>

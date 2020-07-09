@@ -1,0 +1,82 @@
+﻿<Application x:Class="GanttProperties.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Chart="clr-namespace:Syncfusion.Windows.Controls.Gantt.Chart;assembly=Syncfusion.Gantt.Wpf"
+             xmlns:local="clr-namespace:GanttStripLine"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <local:CustomStyleSelector x:Key="styleselector" />
+
+        <local:CustomTemplateSelector x:Key="tempselector" />
+        
+        <DataTemplate x:Key="SplDays">
+            <TextBlock Text="{TemplateBinding Content}" Foreground="White" />
+        </DataTemplate>
+
+        <LinearGradientBrush x:Key="BackgroundBrush">
+            <GradientStop Offset="0" Color="#F9F991" />
+            <GradientStop Offset="1" Color="#F9F991" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="CustomBrush" Opacity="0.5">
+            <GradientStop Offset="0" Color="Pink" />
+            <GradientStop Offset="0.5" Color="White" />
+            <GradientStop Offset="1" Color="Pink" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="customStyleBrush">
+            <GradientStop Offset="0" Color="#ABB80AC2" />
+            <GradientStop Offset="0.1" Color="#ABC731D0" />
+            <GradientStop Offset="0.2" Color="#ABD45BDC" />
+            <GradientStop Offset="0.3" Color="#ABE190E7" />
+            <GradientStop Offset="0.4" Color="#ABECC1F0" />
+            <GradientStop Offset="0.5" Color="#FFF3D1ED" />
+            <GradientStop Offset="0.6" Color="#ABECC1F0" />
+            <GradientStop Offset="0.7" Color="#ABE190E7" />
+            <GradientStop Offset="0.8" Color="#ABD45BDC" />
+            <GradientStop Offset="0.9" Color="#ABC731D0" />
+            <GradientStop Offset="1" Color="#ABB80AC2" />
+        </LinearGradientBrush>
+
+        <DataTemplate x:Key="temp">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="..\..\Images\team.png">
+                    <Image.LayoutTransform>
+                        <RotateTransform Angle="90" />
+                    </Image.LayoutTransform>
+                </Image>
+                <TextBlock HorizontalAlignment="Center" Text="{TemplateBinding Content}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="customTemplate">
+            <TextBlock Foreground="Maroon" Text="{TemplateBinding Content}"  />
+        </DataTemplate>
+
+        <Style x:Key="strip" TargetType="Chart:StripLine">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Chart:StripLine">
+                        <Border Background="{StaticResource customStyleBrush}"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                ClipToBounds="False"
+                                SnapsToDevicePixels="False">
+                            <ContentPresenter x:Name="PART_InnerContent"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              ClipToBounds="False"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              SnapsToDevicePixels="False">
+                                <ContentPresenter.LayoutTransform>
+                                    <RotateTransform Angle="-90" />
+                                </ContentPresenter.LayoutTransform>
+                            </ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,62 @@
+﻿<syncfusion:ChromelessWindow 
+    x:Class="ExportasImage_2008.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:local="clr-namespace:ExportasImage_2008"
+	syncfusion:SkinStorage.VisualStyle="Metro"
+    syncfusion:SkinStorage.MetroBrush="White"
+    Icon="{Binding WindowIcon}"
+                             Title="Export as Image" Height="300" Width="320"
+         WindowState="Normal" WindowStyle="SingleBorderWindow" 
+    ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel/>
+    </syncfusion:ChromelessWindow.DataContext>
+    <Grid>
+      <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Image Name="image1" Source="{Binding BackgroundImage}" Grid.Row="0" VerticalAlignment="Top" Height="82"/>
+        <TextBlock Margin="3" TextAlignment="Justify" TextWrapping="Wrap" Grid.Row="1">Essential Pdf Viewer supports exporting of PDF pages as raster image. Click the button to Export all or selected pages in PNG format.</TextBlock>
+        <GroupBox Margin="25,10,25,0" Grid.Row="2" VerticalAlignment="Center" Header="Page Range">
+            <StackPanel>
+                <RadioButton GroupName="pageRange" x:Name="allRadioBtn" 
+                             Margin="10,10,2,0" IsChecked="True" HorizontalAlignment="Left" Content="All"></RadioButton>
+                <StackPanel Margin="10,10,2,0" VerticalAlignment="Center" HorizontalAlignment="Left" Orientation="Horizontal">
+                    <RadioButton GroupName="pageRange" x:Name="rangeRadioButton" 
+                                 VerticalAlignment="Center" HorizontalAlignment="Left" Content="Pages:"></RadioButton>
+                    <StackPanel x:Name="rangeStackPanel" Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Margin="35,0,2,0" Text="From: " x:Name="TextFrom"
+                                   IsEnabled="{Binding ElementName=rangeRadioButton,Path=IsChecked}"/>
+                        <ComboBox Margin="0,0,2,0" Width="40" 
+                                  x:Name="comboBoxFrom" Height="20" 
+                                  SelectedItem="{Binding StartPageNumber}"
+                                  IsEnabled="{Binding ElementName=rangeRadioButton,Path=IsChecked}"
+                                  ItemsSource="{Binding PageNumbers}"/>
+                        <TextBlock VerticalAlignment="Center" Margin="5,0,2,0" Text="To: " 
+                                   x:Name="TextTo" IsEnabled="{Binding ElementName=rangeRadioButton,
+                            Path=IsChecked}"/>
+                        <ComboBox Width="40" x:Name="comboBoxTo" Height="20"
+                                  IsEnabled="{Binding ElementName=rangeRadioButton,Path=IsChecked}"
+                                  SelectedItem="{Binding EndPageNumber}"
+                                  ItemsSource="{Binding PageNumbers}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Grid.Row="3" Margin="0,13,20,0" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Height="20"
+                    Command="{Binding ExportCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                AncestorType={x:Type Window}}}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center">Export</TextBlock>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</syncfusion:ChromelessWindow>
