@@ -1,0 +1,408 @@
+﻿<Window
+    x:Class="GroupBarDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:orientation="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:visibility="clr-namespace:System.Windows;assembly=PresentationCore"
+    xmlns:visualMode="clr-namespace:Syncfusion.Windows.Tools;assembly=Syncfusion.Tools.Wpf"
+    x:Name="window"
+    Title="Drag and Drop"
+    Width="1200"
+    Height="750"
+    skinManager:SfSkinManager.VisualStyle="Metro"
+    FontFamily="Calibri"
+    Icon="App.ico"
+    WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ObjectDataProvider
+            x:Key="Orientation"
+            MethodName="GetValues"
+            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="orientation:Orientation" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="VisualMode"
+            MethodName="GetValues"
+            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="visualMode:VisualMode" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="DragItemVisibility"
+            MethodName="GetValues"
+            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="visibility:Visibility" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <syncfusion:GroupBar
+            Name="firstGroupBar"
+            Margin="10"
+            DragItemVisibility="{Binding Path=SelectedItem, ElementName=dragItemVisibility}"
+            DragMarkerBrush="Red"
+            ItemHeaderHeight="28"
+            Orientation="{Binding ElementName=orientationTypes, Path=SelectedItem, Mode=TwoWay}"
+            VisualMode="{Binding Path=SelectedItem, ElementName=visualModeTypes}">
+            <syncfusion:GroupBarItem
+                Name="silverLightProducts"
+                HeaderImageSource="/Images/silverlight.png"
+                HeaderText="Silverlight Products"
+                IsExpanded="True"
+                IsSelected="True"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <syncfusion:GroupViewItem
+                        Name="inbox"
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/gauge.png"
+                        Text="Gauge-Silverlight"
+                        TextHorizontalAlignment="Left"
+                        ToolTip="Gauge-Silverlight" />
+                    <syncfusion:GroupViewItem
+                        Name="outbox"
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/xlsio.png"
+                        Text="XlsIo-Silverlight"
+                        TextHorizontalAlignment="Left"
+                        ToolTip="XlsIo-Silverlight" />
+                    <syncfusion:GroupViewItem
+                        Name="sentItems"
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/grid.png"
+                        Text="Grid-Silverlight"
+                        TextHorizontalAlignment="Left"
+                        ToolTip="Grid-Silverlight" />
+                    <syncfusion:GroupViewItem
+                        Name="spam"
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/pdf.png"
+                        Text="Pdf-Silverlight"
+                        TextHorizontalAlignment="Left"
+                        ToolTip="Pdf-Silverlight" />
+                    <syncfusion:GroupViewItem
+                        Name="trash"
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/tools.png"
+                        Text="Tools-Silverlight"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Tools-Silverlight" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                Name="wpfProducts"
+                HeaderImageSource="/Images/wpf.png"
+                HeaderText="WPF Products"
+                IsAnimating="False"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Name="groupview2" Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        Name="wpfInbox"
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/edit.png"
+                        Text="Edit-WPF"
+                        TextHorizontalAlignment="Left"
+                        ToolTip="Edit-WPF" />
+                    <syncfusion:GroupViewItem
+                        Name="wpfOutbox"
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/tools.png"
+                        Text="Tools-WPF"
+                        TextHorizontalAlignment="Left"
+                        ToolTip="Tools-WPF" />
+                    <syncfusion:GroupViewItem
+                        Name="wpfRead"
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/docio.png"
+                        Text="DocIO-WPF"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="DocIO-WPF" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                Name="business"
+                HeaderImageSource="/Images/business-intelligence.png"
+                HeaderText="Business Intelligence"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/grid.png"
+                        Text="OLAP Grid"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="OLAP Grid" />
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/chart.png"
+                        Text="OLAP Chart"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="OLAP Chart" />
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/gauge.png"
+                        Text="OLAP Gauge"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="OLAP Gauge" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                Name="contacts"
+                HeaderImageSource="/Images/aspnet-mvc.png"
+                HeaderText="ASP.Net MVC Products"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/grid.png"
+                        Text="Grid-MVC"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Grid-MVC" />
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/tools.png"
+                        Text="Tools-MVC"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Tools-MVC" />
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/chart.png"
+                        Text="Chart-MVC"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Chart-MVC" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                Name="task"
+                HeaderImageSource="/Images/windows-forms.png"
+                HeaderText="Windows Forms"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/tools.png"
+                        Text="Tools-Windows"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Tools-Windows" />
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/edit.png"
+                        Text="Edit-Windows"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Edit-Windows" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+        </syncfusion:GroupBar>
+        <syncfusion:GroupBar
+            Name="secondGroupBar"
+            Grid.Column="1"
+            Margin="10"
+            DragItemVisibility="{Binding Path=SelectedItem, ElementName=secondGroupBarDragItemVisibility}"
+            DragMarkerBrush="Blue"
+            ItemHeaderHeight="28"
+            Orientation="{Binding ElementName=orientationTypes, Path=SelectedItem, Mode=TwoWay}"
+            VisualMode="{Binding Path=SelectedItem, ElementName=visualModeTypes}">
+            <syncfusion:GroupBarItem
+                Name="secondGroupBarItem"
+                HeaderImageSource="/Images/silverlight.png"
+                HeaderText="Silverlight Products"
+                IsExpanded="True"
+                IsSelected="True"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Name="secondGroupBarsGroupView" Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/pdf.png"
+                        Text="Pdf-Silverlight"
+                        TextHorizontalAlignment="Left"
+                        ToolTip="Pdf-Silverlight" />
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/tools.png"
+                        Text="Tools-Silverlight"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Tools-Silverlight" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                HeaderImageSource="/Images/wpf.png"
+                HeaderText="WPF Products"
+                IsAnimating="False"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/edit.png"
+                        Text="Edit-WPF"
+                        TextHorizontalAlignment="Left"
+                        ToolTip="Edit-WPF" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                HeaderImageSource="/Images/business-intelligence.png"
+                HeaderText="Business Intelligence"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/gauge.png"
+                        Text="OLAP Gauge"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="OLAP Gauge" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                HeaderImageSource="/Images/aspnet-mvc.png"
+                HeaderText="ASP.Net MVC Products"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/grid.png"
+                        Text="Grid-MVC"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Grid-MVC" />
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/tools.png"
+                        Text="Tools-MVC"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Tools-MVC" />
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/chart.png"
+                        Text="Chart-MVC"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Chart-MVC" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                HeaderImageSource="/Images/windows-forms.png"
+                HeaderText="Windows Forms"
+                ShowInGroupBar="True">
+                <syncfusion:GroupView Orientation="{Binding Path=SelectedItem, ElementName=groupViewOrientationTypes}">
+                    <syncfusion:GroupViewItem
+                        ImageHorizontalAlignment="Right"
+                        ImageSource="/Images/tools.png"
+                        Text="Tools-Windows"
+                        TextHorizontalAlignment="Left"
+                        TextVerticalAlignment="Bottom"
+                        ToolTip="Tools-Windows" />
+                </syncfusion:GroupView>
+            </syncfusion:GroupBarItem>
+        </syncfusion:GroupBar>
+        <Grid
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Margin="20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="GroupBar Orientation" />
+            <ComboBox
+                Name="orientationTypes"
+                Grid.Column="1"
+                Width="130"
+                Margin="5"
+                ItemsSource="{Binding Source={StaticResource ResourceKey=Orientation}}"
+                SelectedIndex="1" />
+            <TextBlock
+                Grid.Row="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="GroupView Orientation" />
+            <ComboBox
+                Name="groupViewOrientationTypes"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="130"
+                Margin="5"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Source={StaticResource ResourceKey=Orientation}}"
+                SelectedIndex="1" />
+            <TextBlock
+                Grid.Row="2"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="Visual Mode" />
+            <ComboBox
+                Name="visualModeTypes"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="130"
+                Margin="5"
+                ItemsSource="{Binding Source={StaticResource ResourceKey=VisualMode}}"
+                SelectedIndex="0" />
+            <TextBlock
+                Grid.Row="3"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="GroupBar 1 - Drag Item Visibility" />
+            <ComboBox
+                Name="dragItemVisibility"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="130"
+                Margin="5"
+                ItemsSource="{Binding Source={StaticResource ResourceKey=DragItemVisibility}}"
+                SelectedIndex="0" />
+
+            <TextBlock
+                Grid.Row="5"
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="GroupBar 2 - Drag Item Visibility" />
+            <ComboBox
+                Name="secondGroupBarDragItemVisibility"
+                Grid.Row="5"
+                Grid.Column="1"
+                Width="130"
+                Margin="5"
+                ItemsSource="{Binding Source={StaticResource ResourceKey=DragItemVisibility}}"
+                SelectedIndex="0" />
+        </Grid>
+    </Grid>
+</Window>
+

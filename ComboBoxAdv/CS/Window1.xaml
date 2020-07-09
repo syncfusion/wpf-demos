@@ -1,0 +1,162 @@
+﻿<Window
+    schema:Class="ComboBoxAdv_Demo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:schema="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:expression="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:ComboBoxAdv_Demo"
+    xmlns:markupCompatibility="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    Title="ComboBox"
+    Width="750"
+    Height="600"
+    skinManager:SfSkinManager.VisualStyle="{Binding ElementName=comboVisualStyle, Path=SelectedValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    Icon="Images/App.ico"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    markupCompatibility:Ignorable="expression">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <ObjectDataProvider
+            schema:Key="Themes"
+            MethodName="GetValues"
+            ObjectType="{schema:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <schema:Type TypeName="skinManager:VisualStyles" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label
+                Margin="10"
+                Content="Choose Theme"
+                FontWeight="Bold" />
+            <syncfusion:ComboBoxAdv
+                schema:Name="comboVisualStyle"
+                Grid.Row="1"
+                Width="250"
+                Margin="10"
+                ItemsSource="{Binding Source={StaticResource Themes}}"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectedIndex="18" />
+        </Grid>
+        <Grid HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label
+                Margin="10"
+                Content="Single Selection"
+                FontWeight="Bold" />
+            <syncfusion:ComboBoxAdv
+                Grid.Row="1"
+                Width="250"
+                Margin="10"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Collection}"
+                SelectedIndex="1" />
+        </Grid>
+        <Grid
+            Grid.Row="1"
+            Grid.Column="2"
+            HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label
+                Margin="10"
+                Content="Multi Selection"
+                FontWeight="Bold" />
+            <syncfusion:ComboBoxAdv
+                Grid.Row="1"
+                Width="250"
+                Margin="10"
+                AllowMultiSelect="True"
+                AllowSelectAll="True"
+                DisplayMemberPath="Name"
+                EnableOKCancel="True"
+                ItemsSource="{Binding Collection}"
+                SelectedItems="{Binding DefaultSelectedItemCollection}" />
+        </Grid>
+        <Grid Grid.Row="1" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label
+                Margin="10"
+                Content="Delimiter character"
+                FontWeight="Bold" />
+            <syncfusion:ComboBoxAdv
+                Grid.Row="1"
+                Width="250"
+                Margin="10"
+                AllowMultiSelect="True"
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding DelimiterCollection}"
+                SelectedItems="{Binding DelimiterSelectedItemCollection}"
+                SelectedValueDelimiter="," />
+        </Grid>
+        <Grid
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label
+                Margin="10"
+                Content="Watermark"
+                FontWeight="Bold" />
+            <syncfusion:ComboBoxAdv
+                Grid.Row="1"
+                Width="250"
+                Margin="10"
+                DefaultText="Select countries..."
+                DisplayMemberPath="Name"
+                ItemsSource="{Binding Collection}" />
+        </Grid>
+        <Grid Grid.Row="2" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Label
+                Margin="10"
+                Content="Right To Left"
+                FontWeight="Bold" />
+            <syncfusion:ComboBoxAdv
+                Grid.Row="1"
+                Width="250"
+                Margin="10"
+                FlowDirection="RightToLeft">
+                <syncfusion:ComboBoxItemAdv Content="المملكة المتحدة" IsSelected="True" />
+                <syncfusion:ComboBoxItemAdv Content="كندا" />
+                <syncfusion:ComboBoxItemAdv Content="ألمانيا" />
+                <syncfusion:ComboBoxItemAdv Content="الهند" />
+                <syncfusion:ComboBoxItemAdv Content="الولايات المتحدة الامريكية" />
+            </syncfusion:ComboBoxAdv>
+        </Grid>
+    </Grid>
+</Window>

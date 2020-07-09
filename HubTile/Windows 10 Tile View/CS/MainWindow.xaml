@@ -1,0 +1,63 @@
+﻿<Window
+    x:Class="HubTile_Data_Binding.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:HubTile_Data_Binding"
+    xmlns:shared="clr-namespace:Syncfusion.Windows.Controls;assembly=Syncfusion.SfShared.Wpf"
+    xmlns:skinmanager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    x:Name="window"
+    Title="Windows 10 Tile View"
+    Width="700"
+    Height="600"
+    skinmanager:SfSkinManager.VisualStyle="MaterialLight"
+    Icon="App.ico"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:ImageConverter x:Key="Image" />
+        <DataTemplate x:Key="Content">
+            <TextBlock Text="{Binding SecondraryContent}" />
+        </DataTemplate>
+    </Window.Resources>
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    <Grid HorizontalAlignment="Center">
+        <ListView
+            x:Name="List"
+            Margin="10"
+            BorderBrush="White"
+            ItemsSource="{Binding Items}"
+            ScrollViewer.VerticalScrollBarVisibility="Disabled">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <syncfusion:SfHubTile
+                        Background="{Binding Background}"
+                        Foreground="White"
+                        Header="{Binding Header}"
+                        ImageSource="{Binding ImageSource, Converter={StaticResource Image}}"
+                        Interval="{Binding Interval}"
+                        TilePressDuration="00:00:00">
+                        <syncfusion:SfHubTile.HubTileTransitions>
+                            <shared:SlideTransition />
+                        </syncfusion:SfHubTile.HubTileTransitions>
+                        <syncfusion:SfHubTile.SecondaryContent>
+                            <Grid>
+                                <TextBlock
+                                    Margin="10"
+                                    Text="{Binding SecondraryContent}"
+                                    TextWrapping="Wrap" />
+                            </Grid>
+                        </syncfusion:SfHubTile.SecondaryContent>
+                    </syncfusion:SfHubTile>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel VerticalAlignment="Center" Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListView>
+    </Grid>
+</Window>

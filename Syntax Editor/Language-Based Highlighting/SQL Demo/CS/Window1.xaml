@@ -1,0 +1,218 @@
+﻿<Window
+    x:Class="SqlDemo.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:SqlDemo"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    x:Name="window"
+    Title="SQL Editor"
+    Width="750"
+    Height="600"
+    skinManager:SfSkinManager.VisualStyle="Office2016Colorful"
+    Icon="App.ico"
+    WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu
+            Grid.ColumnSpan="2"
+            BorderBrush="LightGray"
+            BorderThickness="1">
+            <MenuItem
+                Width="{Binding}"
+                Background="Transparent"
+                Header="_File">
+                <MenuItem Command="{x:Static syncfusion:EditCommands.New}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Open}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Save}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.SaveAs}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem
+                    Command="{Binding ExitCommand}"
+                    CommandParameter="{Binding ElementName=window}"
+                    Header="Exit" />
+            </MenuItem>
+            <MenuItem
+                Width="{Binding}"
+                Background="Transparent"
+                Header="_Edit">
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Undo}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Redo}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Cut}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Copy}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Paste}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.SelectAll}" CommandTarget="{Binding ElementName=editSQL}" />
+                <MenuItem Header="Find and Replace">
+                    <MenuItem Command="{x:Static syncfusion:EditCommands.Find}" CommandTarget="{Binding ElementName=editSQL}" />
+                    <MenuItem Command="{x:Static syncfusion:EditCommands.Replace}" CommandTarget="{Binding ElementName=editSQL}" />
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Options">
+                <MenuItem
+                    Header="Accepts Tab"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editSQL, Path=AcceptsTab}" />
+                <MenuItem
+                    Header="Is ReadOnly"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editSQL, Path=IsReadOnly}" />
+                <MenuItem
+                    Header="Show Line Number"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editSQL, Path=ShowLineNumber}" />
+                <MenuItem
+                    Header="Show Default Context Menu"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editSQL, Path=ShowDefaultContextMenu}" />
+            </MenuItem>
+        </Menu>
+        <ToolBar
+            Grid.Row="1"
+            Grid.ColumnSpan="1"
+            Margin="-1">
+            <Button
+                Command="{x:Static syncfusion:EditCommands.New}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="New">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/new.gif" />
+            </Button>
+            <Button
+                Command="{x:Static syncfusion:EditCommands.Open}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Open">
+                <Image
+                    MaxWidth="16"
+                    MaxHeight="16"
+                    Source="/Syncfusion.Edit.Wpf;component/Resources/open.png" />
+            </Button>
+            <Button
+                Command="{x:Static syncfusion:EditCommands.Save}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Save">
+                <Image
+                    MaxWidth="16"
+                    MaxHeight="16"
+                    Source="/Syncfusion.Edit.Wpf;component/Resources/Save.png" />
+            </Button>
+            <Separator />
+            <Button
+                Command="{x:Static syncfusion:EditCommands.Cut}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Cut"
+                ToolTipService.ShowOnDisabled="True">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Cut.png" />
+            </Button>
+            <Button
+                Command="{x:Static syncfusion:EditCommands.Copy}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Copy"
+                ToolTipService.ShowOnDisabled="True">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Copy.png" />
+            </Button>
+            <Button
+                Command="{x:Static syncfusion:EditCommands.Paste}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Paste"
+                ToolTipService.ShowOnDisabled="True">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/Paste.png" />
+            </Button>
+            <Separator />
+            <Button
+                Command="{x:Static syncfusion:EditCommands.Undo}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Undo"
+                ToolTipService.ShowOnDisabled="True">
+                <Image
+                    MaxWidth="16"
+                    MaxHeight="16"
+                    Source="/Syncfusion.Edit.Wpf;component/Resources/undo.png" />
+            </Button>
+            <Button
+                Command="{x:Static syncfusion:EditCommands.Redo}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Redo"
+                ToolTipService.ShowOnDisabled="True">
+                <Image
+                    MaxWidth="16"
+                    MaxHeight="16"
+                    Source="/Syncfusion.Edit.Wpf;component/Resources/redo.png" />
+            </Button>
+            <Separator />
+            <ComboBox
+                Name="fontlist"
+                Grid.Column="1"
+                Width="120"
+                Margin="3"
+                ItemsSource="{x:Static Fonts.SystemFontFamilies}"
+                SelectedItem="{Binding SelectedFont}"
+                ToolTip="Font" />
+            <ComboBox
+                Name="fontsize"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="3"
+                SelectedIndex="2"
+                ToolTip="Font size">
+                <system:Double>10</system:Double>
+                <system:Double>12</system:Double>
+                <system:Double>13</system:Double>
+                <system:Double>14</system:Double>
+                <system:Double>15</system:Double>
+                <system:Double>16</system:Double>
+                <system:Double>17</system:Double>
+                <system:Double>18</system:Double>
+                <system:Double>20</system:Double>
+            </ComboBox>
+            <Separator />
+            <Button
+                Command="{x:Static syncfusion:EditCommands.DecreaseIndent}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Decrease indent">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/decreaseindent.png" />
+            </Button>
+            <Button
+                Command="{x:Static syncfusion:EditCommands.IncreaseIndent}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Increase indent">
+                <Image Source="/Syncfusion.Edit.Wpf;component/Resources/increaseindent.png" />
+            </Button>
+            <Separator />
+            <Button
+                Command="{x:Static syncfusion:EditCommands.CommentSelection}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Comment out the selected lines">
+                <Image
+                    MaxWidth="16"
+                    MaxHeight="16"
+                    Source="/Syncfusion.Edit.Wpf;component/Resources/comment.png" />
+            </Button>
+            <Button
+                Command="{x:Static syncfusion:EditCommands.UncommentSelection}"
+                CommandTarget="{Binding ElementName=editSQL}"
+                ToolTip="Uncomment the selected lines">
+                <Image
+                    MaxWidth="16"
+                    MaxHeight="16"
+                    Source="/Syncfusion.Edit.Wpf;component/Resources/uncomment.png" />
+            </Button>
+        </ToolBar>
+        <syncfusion:EditControl
+            Name="editSQL"
+            Grid.Row="2"
+            Background="White"
+            DocumentLanguage="{Binding Path=Language}"
+            DocumentSource="{Binding Path=DocumentSource}"
+            EnableIntellisense="False"
+            FindResultsTabVisibility="Auto"
+            FontFamily="{Binding ElementName=fontlist, Path=SelectedItem}"
+            FontSize="{Binding ElementName=fontsize, Path=SelectedItem}"
+            IsFindResultsTabClosed="False" />
+    </Grid>
+</Window>

@@ -1,0 +1,75 @@
+﻿<syncfusion:ChromelessWindow x:Class="Predecessors.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:gantt="http://schemas.syncfusion.com/wpf"
+                             xmlns:local="clr-namespace:Predecessors"
+                             xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Title="Predecessors"
+                             syncfusion:LayoutControl.SetMetroMode="True"
+                             Width="1300"
+                             Height="720"
+                             Icon="App.ico"
+                             WindowStartupLocation="CenterScreen">
+
+    <!--  Window DataContext information  -->
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <!--  Window Resource Information  -->
+    <syncfusion:ChromelessWindow.Resources>
+        <LinearGradientBrush x:Key="gridViewbackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.08" Color="#FF119EDA" />
+            <GradientStop Offset="0.479" Color="#FF2C9ECE" />
+            <GradientStop Offset="0.973" Color="#FF119EDA" />
+        </LinearGradientBrush>
+    </syncfusion:ChromelessWindow.Resources>
+
+    <syncfusion:LayoutControl GridViewBackground="{StaticResource gridViewbackground}"
+                              HeaderDescriptionText="This sample showcases how to set relationships between tasks in the Gantt control"
+                              HeaderText="Predecessors"
+                              LayoutMode="Metro"
+                              UserGuideUri="http://help.syncfusion.com/UG/User%20Interface/WPF/Gantt/default.htm#!documents/42dependencyrelation.htm">
+        <syncfusion:LayoutControl.GridView>
+
+            <!--  Gantt Control information  -->
+            <gantt:GanttControl x:Name="Gantt"
+                                ItemsSource="{Binding TaskDetails}"
+                                UseAutoUpdateHierarchy="False"
+                                VisualStyle="Metro"
+                                ValidationMode="Auto">
+                <gantt:GanttControl.TaskAttributeMapping>
+                    <gantt:TaskAttributeMapping TaskIdMapping="Id"
+                                                TaskNameMapping="Name"
+                                                StartDateMapping="StDate" 
+                                                ChildMapping="ChildTask"
+                                                FinishDateMapping="EndDate"
+                                                DurationMapping="Duration"                                           
+                                                ProgressMapping="Complete"
+                                                PredecessorMapping="Predecessor"
+                                                ResourceInfoMapping="Resource"/>
+                </gantt:GanttControl.TaskAttributeMapping>
+            </gantt:GanttControl>
+        </syncfusion:LayoutControl.GridView>
+
+        <syncfusion:LayoutControl.UserOptionsView>
+            <syncfusion:UserOptions HeaderText="Options">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Width="Auto"
+                               Margin="0,5,5,5"
+                               VerticalAlignment="Center"
+                               Text="Predecessor Validation:" />
+                    <ComboBox x:Name="validationModeComboBox"
+                              Width="90"
+                              Height="25"
+                              Margin="0,5,5,5"
+                              VerticalAlignment="Top"
+                              ItemsSource="{Binding ValidationMode}"
+                              SelectedIndex="0" 
+			      SelectionChanged="ValidationModeComboBox_SelectionChanged"/>
+                </StackPanel>
+            </syncfusion:UserOptions>
+        </syncfusion:LayoutControl.UserOptionsView>
+    </syncfusion:LayoutControl>
+</syncfusion:ChromelessWindow>

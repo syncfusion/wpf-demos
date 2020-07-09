@@ -1,0 +1,78 @@
+﻿<Window x:Class="TemplateCustomization.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStartupLocation="CenterScreen"
+        xmlns:LoopingSelector="clr-namespace:Syncfusion.Windows.Controls;assembly=Syncfusion.SfShared.Wpf"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" Icon="App.Ico"
+        xmlns:local="clr-namespace:TemplateCustomization"
+        xmlns:Input="using:Syncfusion.Windows.Controls.Input"
+        Title="Template Customization" Height="520" Width="580">
+    <Window.Resources>
+        <Style TargetType="LoopingSelector:LoopingSelector">
+        </Style>
+        <local:MeridienCellTemplateSelector x:Key="MeridienCellSelector"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontSize" Value="16"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <syncfusion:SfTimeSelector  Margin="10" x:Name="time" 
+                                BorderThickness="2"
+                                HorizontalAlignment="Center"
+                                Height="420" VerticalAlignment="Center" SelectorItemHeight="70" SelectorItemWidth="80"
+                                ShowCancelButton="False"
+                                ShowDoneButton="False"
+                                MeridiemCellTemplateSelector="{StaticResource MeridienCellSelector}"   >
+
+            <syncfusion:SfTimeSelector.Style>
+                <Style TargetType="syncfusion:SfTimeSelector">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Choose Time" 
+                                           VerticalAlignment="Top"
+                                           Margin="5"
+                                           FontSize="22"
+                                           />
+                                </StackPanel>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    
+                    <Setter Property="MinuteCellTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding MinuteNumber}" 
+                                               FontWeight="Light"
+                                               VerticalAlignment="Bottom" 
+                                               FontSize="28"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    
+                    <Setter Property="HourCellTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding HourNumber}" 
+                                               VerticalAlignment="Bottom" 
+                                               FontWeight="Light"
+                                               FontSize="28"/>
+                                </Grid>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </syncfusion:SfTimeSelector.Style>
+        </syncfusion:SfTimeSelector>
+    </Grid>
+</Window>

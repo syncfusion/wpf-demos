@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="Multinomial Logistic Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-06 16:33:07</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="5">
+  <DataField name="Survived" optype="categorical" dataType="string">
+   <Value value="died"/>
+   <Value value="survived"/>
+  </DataField>
+  <DataField name="Sex" optype="categorical" dataType="string">
+   <Value value="female"/>
+   <Value value="male"/>
+  </DataField>
+  <DataField name="Age" optype="continuous" dataType="double"/>
+  <DataField name="Siblings" optype="continuous" dataType="double"/>
+  <DataField name="Children" optype="continuous" dataType="double"/>
+ </DataDictionary>
+ <RegressionModel modelName="multinom_Model" functionName="classification" algorithmName="multinom" normalizationMethod="softmax">
+  <MiningSchema>
+   <MiningField name="Survived" usageType="predicted"/>
+   <MiningField name="Sex" usageType="active"/>
+   <MiningField name="Age" usageType="active"/>
+   <MiningField name="Siblings" usageType="active"/>
+   <MiningField name="Children" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Survived" feature="predictedValue"/>
+   <OutputField name="Probability_died" optype="continuous" dataType="double" feature="probability" value="died"/>
+   <OutputField name="Probability_survived" optype="continuous" dataType="double" feature="probability" value="survived"/>
+  </Output>
+  <RegressionTable intercept="1.37615581580561" targetCategory="survived">
+   <NumericPredictor name="Age" exponent="1" coefficient="-0.00730648853348623"/>
+   <NumericPredictor name="Siblings" exponent="1" coefficient="-0.223961101197477"/>
+   <NumericPredictor name="Children" exponent="1" coefficient="0.0407933926270147"/>
+   <CategoricalPredictor name="Sex" value="male" coefficient="-2.47316203400225"/>
+  </RegressionTable>
+  <RegressionTable intercept="0.0" targetCategory="died"/>
+ </RegressionModel>
+</PMML>

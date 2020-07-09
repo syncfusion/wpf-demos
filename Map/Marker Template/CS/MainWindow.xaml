@@ -1,0 +1,94 @@
+﻿<SampleLayout:SampleLayoutWindow x:Class="MarkerTemplate.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MarkerTemplate"
+        mc:Ignorable="d"
+        UserOptionsVisibility="Collapsed"
+        xmlns:SampleLayout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        ResizeMode="CanResize"  WindowStartupLocation="CenterScreen"  
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+        Title="Marker Template">
+    <Grid Margin="20">
+
+        <Grid.DataContext>
+            <local:ViewModel></local:ViewModel>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock  Grid.Row="0" Text=" Average weather in cities of Australia" 
+                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" FontWeight="SemiBold">
+            
+        </TextBlock>
+        
+        <syncfusion:SfMap Grid.Row="1"  EnablePan="False" EnableZoom="False">
+
+            <syncfusion:SfMap.Layers>
+                <syncfusion:ShapeFileLayer Background="White"  Markers="{Binding DataMarkers}" 
+                                           
+                                           Uri="MarkerTemplate.ShapeFiles.australia.shp" >
+                    <syncfusion:ShapeFileLayer.MarkerTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <Image Height="40" Width="40" Source="{Binding Data.ImageSource}"></Image>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Data.Name}">
+                                        <Run Text=" : "></Run>
+                                    </TextBlock>
+                                    <TextBlock Text="{Binding Data.Temperature}">
+                                         <Run Text=" °C"></Run>
+                                    </TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </syncfusion:ShapeFileLayer.MarkerTemplate>
+
+                    <syncfusion:ShapeFileLayer.ItemsTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent">
+                                <TextBlock Text=""/>
+                            </Border>
+                        </DataTemplate>
+                    </syncfusion:ShapeFileLayer.ItemsTemplate>
+
+                    <syncfusion:ShapeFileLayer.ShapeSettings>
+
+                        <syncfusion:ShapeSetting ColorPalette="CustomPalette">
+
+                            <syncfusion:ShapeSetting.CustomColors>
+                                <syncfusion:MapColorPalette FillBrush="#42C4E2"/>
+
+                                <syncfusion:MapColorPalette FillBrush="#88DB46"/>
+
+                                <syncfusion:MapColorPalette FillBrush="#5F9EA0"/>
+
+                                <syncfusion:MapColorPalette FillBrush="#C08AF8"/>
+
+                                <syncfusion:MapColorPalette FillBrush="#52BACC"/>
+
+                                <syncfusion:MapColorPalette FillBrush="#F4CE2F"/>
+
+                                <syncfusion:MapColorPalette FillBrush="#6986ED"/>
+
+                            </syncfusion:ShapeSetting.CustomColors>
+
+                            <syncfusion:ShapeSetting.FillSetting>
+
+                                <syncfusion:ShapeFillSetting AutoFillColors="True"/>
+
+                            </syncfusion:ShapeSetting.FillSetting>
+
+                        </syncfusion:ShapeSetting>
+
+                    </syncfusion:ShapeFileLayer.ShapeSettings>                  
+
+                </syncfusion:ShapeFileLayer>
+            </syncfusion:SfMap.Layers>
+        </syncfusion:SfMap>
+    </Grid>
+</SampleLayout:SampleLayoutWindow>

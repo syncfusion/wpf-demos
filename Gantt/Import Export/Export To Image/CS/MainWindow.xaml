@@ -1,0 +1,120 @@
+﻿<sync:ChromelessWindow x:Class="ExportToImage.MainWindow"
+                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                       xmlns:gchart="clr-namespace:Syncfusion.Windows.Controls.Gantt.Chart;assembly=Syncfusion.Gantt.Wpf"
+                       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                       xmlns:local="clr-namespace:ExportToImage"
+                       xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                       xmlns:sync="http://schemas.syncfusion.com/wpf"
+                       Title="Essential Gantt"
+                       Width="1300"
+                       Height="720"
+                       Icon="App.ico"
+                       sync:LayoutControl.SetMetroMode="True"
+                       WindowStartupLocation="CenterScreen">
+
+    <i:Interaction.Behaviors>
+        <local:ExportBehavior />
+    </i:Interaction.Behaviors>
+
+    <!--  Window Data Context Defination  -->
+    <sync:ChromelessWindow.DataContext>
+        <local:ViewModel />
+    </sync:ChromelessWindow.DataContext>
+
+    <!--  Window Resource Information  -->
+    <sync:ChromelessWindow.Resources>
+        <LinearGradientBrush x:Key="gridViewbackground" StartPoint="0.5,0" EndPoint="0.5,1">
+            <GradientStop Offset="0.08" Color="#FF119EDA" />
+            <GradientStop Offset="0.479" Color="#FF2C9ECE" />
+            <GradientStop Offset="0.973" Color="#FF119EDA" />
+        </LinearGradientBrush>
+    </sync:ChromelessWindow.Resources>
+
+    <sync:LayoutControl GridViewBackground="{StaticResource gridViewbackground}"
+                        HeaderDescriptionText="This sample illustrates how to export the Gantt Chart Region as image."
+                        HeaderText="Export To Image"
+                        LayoutMode="Metro">
+
+        <sync:LayoutControl.GridView>
+            <TabControl x:Name="TabControl">
+                <TabItem Header="Project Gantt">
+                    <!--  Gantt Control Information  -->
+                    <sync:GanttControl x:Name="Gantt"
+                                       ItemsSource="{Binding TaskCollection}"
+                                       ResourceCollection="{Binding ResourceCollection}"
+                                       VisualStyle="Metro">
+                        <sync:GanttControl.TaskAttributeMapping>
+                            <sync:TaskAttributeMapping ChildMapping="Child"
+                                                       DurationMapping="Duration"
+                                                       StartDateMapping="StartDate"
+                                                       FinishDateMapping="FinishDate"
+                                                       MileStoneMapping="IsMileStone"
+                                                       ProgressMapping="Progress"
+                                                       PredecessorMapping="Predecessor"
+                                                       ResourceInfoMapping="Resources"
+                                                       TaskIdMapping="TaskId"
+                                                       TaskNameMapping="TaskName" />
+                        </sync:GanttControl.TaskAttributeMapping>
+                    </sync:GanttControl>
+                </TabItem>
+                <TabItem Header="Resource View Gantt">
+                    <sync:GanttControl x:Name="ResourceGantt"
+                                       ItemsSource="{Binding TeamDetails}"
+                                       ShowChartLines="False"
+                                       ShowDateWithTime="True"
+                                       ShowNonWorkingHoursBackground="False"
+                                       VisualStyle="Office2010Silver">
+                        <i:Interaction.Behaviors>
+                            <local:GridCustomizationBehavior />
+                        </i:Interaction.Behaviors>
+                        <sync:GanttControl.TaskAttributeMapping>
+                            <sync:TaskAttributeMapping TaskNameMapping="Name"
+                                                StartDateMapping="StartDate" 
+                                                ChildMapping="SubItems"
+                                                FinishDateMapping="FinishDate"
+                                                ProgressMapping="Progress"
+                                                InLineTaskMapping="InLineItems"
+                                                      
+                                                        />
+                        </sync:GanttControl.TaskAttributeMapping>
+                        <sync:GanttControl.Resources>
+                            <Style BasedOn="{StaticResource TaskNode}" TargetType="gchart:GanttNode" />
+                            <Style BasedOn="{StaticResource HeaderNode}" TargetType="gchart:HeaderNode" />
+                        </sync:GanttControl.Resources>
+                    </sync:GanttControl>
+                </TabItem>
+            </TabControl>
+        </sync:LayoutControl.GridView>
+
+        <sync:LayoutControl.UserOptionsView>
+            <sync:UserOptions HeaderText="Export Options">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Margin="5" Orientation="Horizontal">
+                        <TextBlock Margin="5" Text="Region :" />
+                        <ComboBox x:Name="ExpOption"
+                                  Width="100"
+                                  Height="Auto"
+                                  Margin="5"
+                                  SelectedIndex="0">
+                            <ComboBoxItem>Full Region</ComboBoxItem>
+                            <ComboBoxItem>Visible Region</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <Button x:Name="ExportBtn"
+                            Grid.Row="1"
+                            Width="80"
+                            Height="25"
+                            Margin="40,5,5,5"
+                            HorizontalAlignment="Left"
+                            Content="Export" />
+                </Grid>
+            </sync:UserOptions>
+        </sync:LayoutControl.UserOptionsView>
+    </sync:LayoutControl>
+</sync:ChromelessWindow>

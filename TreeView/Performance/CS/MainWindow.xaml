@@ -1,0 +1,62 @@
+﻿<Window
+    x:Class="PerformanceDemo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:local="clr-namespace:PerformanceDemo"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Title="Performance"
+    Width="700"
+    Height="600"
+    skin:SfSkinManager.VisualStyle="MaterialLight"
+    Icon="App.ico"
+    WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+
+    <Grid>
+        <syncfusion:SfTreeView
+            x:Name="treeView"
+            Margin="10"
+            FocusVisualStyle="{x:Null}"
+            LoadOnDemandCommand="{Binding TreeViewOnDemandCommand}"
+            Visibility="Collapsed" FullRowSelect="True">
+            <syncfusion:SfTreeView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Header}" 
+                               VerticalAlignment="Center"/>
+                </DataTemplate>
+            </syncfusion:SfTreeView.ItemTemplate>
+        </syncfusion:SfTreeView>
+
+        <syncfusion:SfBusyIndicator
+            x:Name="loadingIndicator"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            AnimationType="DotCircle"
+            IsBusy="False" />
+
+        <Button
+            x:Name="loadingBtn"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Command="{Binding ClickCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}}"
+            Visibility="Visible">
+            <Button.Effect>
+                <DropShadowEffect BlurRadius="2" ShadowDepth="0" />
+            </Button.Effect>
+            <Grid>
+                <TextBlock
+                    Margin="10,2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Text="Generate 100K RootNodes" />
+            </Grid>
+        </Button>
+
+    </Grid>
+</Window>

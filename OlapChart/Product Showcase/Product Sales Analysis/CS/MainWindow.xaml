@@ -1,0 +1,53 @@
+﻿<samplUtils:SampleWindow x:Class="SalesOfProductsAnalysis.MainWindow"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                         xmlns:samplUtils="clr-namespace:SampleUtils;assembly=Syncfusion.OlapSampleUtils"
+                         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                         xmlns:action="clr-namespace:SalesOfProductsAnalysis.Action"
+                         xmlns:vm="clr-namespace:SalesOfProductsAnalysis.ViewModel"
+                         xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF" 
+                         sfshared:SkinStorage.VisualStyle="Metro"                     
+                         Title="Product Sales Analysis" Icon="App.Ico" MinHeight="640" MinWidth="800" Height="640" Width="1020" 
+                         WindowState="Maximized" WindowStartupLocation="CenterScreen">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <action:ReportCustomization TargetName="olapChart" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.DataContext>
+            <vm:ViewModel/>
+        </Grid.DataContext>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Background="#FF119EDA">
+            <TextBlock Text="Product sales analysis over years." 
+                       Foreground="White" VerticalAlignment="Center" Margin="5 0 0 0"/>
+            <ComboBox Name="comboBoxYear" Margin="10 0" Width="120" Height="25" SelectedIndex="0" VerticalAlignment="Center">
+                <ComboBoxItem>FY 2004</ComboBoxItem>
+                <ComboBoxItem>FY 2005</ComboBoxItem>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <action:ReportCustomization TargetName="olapChart" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+        </StackPanel>
+
+        <syncfusion:OlapChart x:Name="olapChart" Grid.Row="1" Margin="5" OlapDataManager="{Binding DataManager}" ChartType="Bar" ColorPalette="Metro">
+            <syncfusion:OlapChart.PrimaryAxis>
+                <syncfusion:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes" />
+            </syncfusion:OlapChart.PrimaryAxis>
+            <syncfusion:OlapChart.SecondaryAxis>
+                <syncfusion:ChartAxis LabelFormat="C"/>
+            </syncfusion:OlapChart.SecondaryAxis>
+        </syncfusion:OlapChart>
+    </Grid>
+</samplUtils:SampleWindow>

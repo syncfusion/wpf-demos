@@ -1,0 +1,229 @@
+﻿<ContentControl x:Class="PortfolioAnalyzer.AccountsModule.AccountsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Commands="clr-namespace:Microsoft.Practices.Composite.Presentation.Commands;assembly=Microsoft.Practices.Composite.Presentation"
+    xmlns:local="clr-namespace:PortfolioAnalyzer.Infrastructure;assembly=PortfolioAnalyzer.Infrastructure"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:cal="http://www.codeplex.com/CompositeWPF"
+    Name="Accounts" FontFamily="Verdana"
+    syncfusion:DockingManager.Header="Account" Margin="2"
+    syncfusion:DockingManager.State="Dock"
+    syncfusion:DockingManager.DesiredWidthInDockedMode="180"
+    syncfusion:DockingManager.SideInDockedMode="Left">
+    <ContentControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/PortfolioAnalyzer.Infrastructure;component/Brushes.xaml"/>
+                <ResourceDictionary Source="/PortfolioAnalyzer.Infrastructure;component/CustomTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:SmartValueConverter x:Key="smartValueConverter" />
+            <!--Template for the ListBoxItem-->
+            <DataTemplate x:Key="ListItem">
+                <Grid  Name="outergrid" Height="200" Margin="0,0,0,-50" > 
+                            <Grid.Resources>
+                                <Style TargetType="syncfusion:CircularScaleLabel">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="syncfusion:CircularScaleLabel">
+                                                <Grid>
+                                                    <TextBlock Text="{Binding Content}" Foreground="{Binding Foreground}" FontSize="{Binding LabelFontSize}" Margin="0,15,0,0" />
+                                                    <!--Customized Label Position-->
+                                                </Grid>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Grid.Resources>
+                            <syncfusion:SfCircularGauge Name="gauge1" Margin="10"   >
+                                <syncfusion:SfCircularGauge.Scales>
+                                    <syncfusion:CircularScale  RimStrokeThickness="40"   TickShape="Triangle"
+                                           FontSize="10" FontWeight="SemiBold"  RangePointerPosition="Cross" TickLength="0" LabelOffset="-0.18" LabelPosition="Custom"
+                                                               Interval="10000000" EndValue="10000000" StartValue="00000"  EnableSmartLabels="True"
+                                           MinorTicksPerInterval="0"  BindRangeStrokeToLabels="False" BindRangeStrokeToTicks="False" TickStrokeThickness="1.5" SmallTickStrokeThickness="1.5"
+                                          StartAngle="180" SweepAngle="180"  >
+                                        <syncfusion:CircularScale.Pointers>
+                                            <syncfusion:CircularPointer PointerType="RangePointer"  RangePointerStrokeThickness="40" Value="{Binding OpenBalance, Mode=TwoWay}" />
+                                        </syncfusion:CircularScale.Pointers>
+                                    </syncfusion:CircularScale>
+                                </syncfusion:SfCircularGauge.Scales>
+                            </syncfusion:SfCircularGauge>
+                    <TextBlock  Foreground="Black" FontSize="20" FontFamily="Segoe UI" HorizontalAlignment="Center"  FontWeight="Bold"  Text="{Binding OpenBalance, Converter={StaticResource smartValueConverter}}"  VerticalAlignment="Center"  Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding AccountName}" FontSize="12" FontFamily="Segoe UI" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,60" />
+                </Grid>
+            </DataTemplate>
+            <Style TargetType="{x:Type ScrollViewer}">
+                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                            <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Rectangle x:Name="Corner" Grid.Column="1" Grid.Row="1"/>
+                                <ScrollContentPresenter Margin="{TemplateBinding Padding}" x:Name="PART_ScrollContentPresenter" Grid.Column="0" Grid.Row="0" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False"/>
+                                <ScrollBar Width="12" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Cursor="Arrow" x:Name="PART_VerticalScrollBar" Grid.Column="1" Grid.Row="0" ViewportSize="{TemplateBinding ViewportHeight}" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Value="{Binding Path=VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" AutomationProperties.AutomationId="VerticalScrollBar"/>
+                                <ScrollBar Height="12" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Cursor="Arrow" x:Name="PART_HorizontalScrollBar" Grid.Column="0" Grid.Row="1" Orientation="Horizontal" ViewportSize="{TemplateBinding ViewportWidth}" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Value="{Binding Path=HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" AutomationProperties.AutomationId="HorizontalScrollBar"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style   TargetType="{x:Type ScrollBar}">
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Stylus.IsPressAndHoldEnabled"  Value="false"/>
+                <Setter Property="Stylus.IsFlicksEnabled" Value="false"/>
+                <Setter Property="Width"    Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"/>
+                <Setter Property="MinWidth" Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,0">
+                                <Grid Name="Bg" Background="{TemplateBinding Background}"  SnapsToDevicePixels="true">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                                        <RowDefinition Height="0.00001*"/>
+                                        <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}"/>
+                                    </Grid.RowDefinitions>
+                                    <RepeatButton Name="UpButton"  Command="{x:Static ScrollBar.LineUpCommand}"/>
+                                    <Track Grid.Row="1" Name="PART_Track" IsEnabled="{TemplateBinding IsMouseOver}" IsDirectionReversed="true">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton  Command="{x:Static ScrollBar.PageUpCommand}"/>
+                                        </Track.DecreaseRepeatButton>
+                                        
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton  Command="{x:Static ScrollBar.PageDownCommand}"/>
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                    <RepeatButton Name="DownButton"  Grid.Row="2"  Command="{x:Static ScrollBar.LineDownCommand}" />
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter TargetName="Bg" Property="Opacity"  Value="0.7"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="Orientation"   Value="Horizontal">
+                        <Setter Property="Width"  Value="Auto"/>
+                        <Setter Property="MinWidth" Value="0"/>
+                        <Setter Property="Height" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
+                        <Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                                    <Grid Name="Bg" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                            <ColumnDefinition Width="0.00001*"/>
+                                            <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}"/>
+                                        </Grid.ColumnDefinitions>
+                                        <RepeatButton Name="LeftButton"  IsEnabled="{TemplateBinding IsMouseOver}" Command="{x:Static ScrollBar.LineLeftCommand}"/>
+                                        <Track Grid.Column="1" Name="PART_Track" IsEnabled="{TemplateBinding IsMouseOver}">
+                                            <Track.DecreaseRepeatButton>
+                                                <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}"/>
+                                            </Track.DecreaseRepeatButton>
+                                            <Track.IncreaseRepeatButton>
+                                                <RepeatButton  Command="{x:Static ScrollBar.PageRightCommand}"/>
+                                            </Track.IncreaseRepeatButton>
+                                        </Track>
+                                        <RepeatButton Name="RightButton" Grid.Column="2"  IsEnabled="{TemplateBinding IsMouseOver}"  Command="{x:Static ScrollBar.LineRightCommand}"/>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsEnabled"  Value="false">
+                                            <Setter TargetName="Bg" Property="Opacity" Value="0.7"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style  TargetType="{x:Type ListBox}">
+                <Setter Property="BorderThickness" Value="1"/>
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+                <!--<Setter Property="ScrollViewer.PanningMode" Value="Both"/>-->
+                <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBox}">
+                            <Border x:Name="Bd" Padding="0"  BorderThickness="0" SnapsToDevicePixels="true">
+                                <ScrollViewer Focusable="false" Padding="0,0,-3,0">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ScrollViewer>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="false">
+                                </Trigger>
+                                <Trigger Property="IsGrouping" Value="true">
+                                    <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style  TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Padding" Value="2"/>
+                <Setter Property="Margin" Value="2,2,3,2"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border x:Name="Bd"  BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                <ContentPresenter Margin="{TemplateBinding Padding}" TextBlock.Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="syncfusion:SkinStorage.EnableTouch" Value="False"/>
+                                        <Condition Property="IsSelected" Value="False"/>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                </MultiTrigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="true"/>
+                                        <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                </MultiTrigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="{StaticResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                </Trigger>
+                                <Trigger Property="syncfusion:SkinStorage.EnableTouch" Value="True">
+                                    <Setter Property="Padding" Value="1,9"/>
+                                    <Setter Property="FontSize" Value="18"/>
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </ContentControl.Resources>
+    
+    <Grid Name="grid">
+        <!--ListBox for displaying the accounts-->
+        <ListBox Padding="0" Margin="-2" ItemTemplate="{StaticResource ListItem}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"  x:Name="list" ItemsSource="{Binding Accounts}"  SelectedItem="{Binding Path=SelectedAccount, Mode=TwoWay}" BorderThickness="0" SelectedIndex="1" >
+          
+        </ListBox>
+    </Grid>
+</ContentControl>

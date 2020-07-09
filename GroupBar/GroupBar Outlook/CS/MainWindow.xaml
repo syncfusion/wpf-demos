@@ -1,0 +1,148 @@
+﻿<Window
+    x:Class="GroupbarOutlookDemo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+    xmlns:listCollection="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:local="clr-namespace:GroupbarOutlookDemo"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    x:Name="mainWindow"
+    Title="GroupBar Outlook"
+    Width="1200"
+    Height="650"
+    skinManager:SfSkinManager.VisualStyle="{Binding ElementName=comboVisualStyle, Path=SelectedValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    Icon="App.ico"
+    WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+    <Grid x:Name="rootGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="4*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <syncfusion:GroupBar
+            Name="groupBar"
+            Grid.RowSpan="2"
+            AllowCollapse="True"
+            FlowDirection="LeftToRight"
+            IsEnabledContextMenu="True"
+            Orientation="Vertical"
+            SaveOriginalState="True"
+            TextAlignment="Left"
+            VisualMode="StackMode">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="SelectedTabChanged">
+                    <interactivity:InvokeCommandAction Command="{Binding GroupBarTabChangedCommand}" CommandParameter="{Binding ElementName=mainWindow}" />
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+            <syncfusion:GroupBarItem
+                Name="groupBarItem"
+                HeaderImageSource="/Images/mail.png"
+                HeaderText="Mailbox"
+                IsSelected="True"
+                ShowInGroupBar="True">
+                <syncfusion:TreeViewAdv
+                    AllowDragDrop="False"
+                    LineBrush="White"
+                    SelectedTreeItem="{Binding DataContext.SelectedTreeViewItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
+                    <syncfusion:TreeViewItemAdv
+                        Header="customer@support.com"
+                        IsExpanded="True"
+                        ItemsSource="{Binding Path=TreeViewDetails}" />
+                </syncfusion:TreeViewAdv>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                Name="contacts"
+                HeaderImageSource="/Images/Spam.png"
+                HeaderText="Contacts"
+                ShowInGroupBar="True">
+                <syncfusion:TreeViewAdv AnimationType="None" LineBrush="White">
+                    <syncfusion:TreeViewItemAdv Header="MyContacts" IsExpanded="True">
+                        <syncfusion:TreeViewItemAdv Header="Contacts" IsSelected="True" />
+                        <syncfusion:TreeViewItemAdv Header="Suggested Contacts" />
+                    </syncfusion:TreeViewItemAdv>
+                </syncfusion:TreeViewAdv>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                Name="task"
+                HeaderImageSource="/Images/Tasks.png"
+                HeaderText="Tasks"
+                ShowInGroupBar="True">
+                <syncfusion:TreeViewAdv AnimationType="None" LineBrush="White">
+                    <syncfusion:TreeViewItemAdv Header="My Tasks" IsExpanded="True">
+                        <syncfusion:TreeViewItemAdv Header="Tasks" IsSelected="True" />
+                        <syncfusion:TreeViewItemAdv Header="ToAddress do lists" />
+                    </syncfusion:TreeViewItemAdv>
+                </syncfusion:TreeViewAdv>
+            </syncfusion:GroupBarItem>
+            <syncfusion:GroupBarItem
+                Name="notes"
+                HeaderImageSource="/Images/Notes.png"
+                HeaderText="Notes"
+                ShowInGroupBar="True">
+                <syncfusion:TreeViewAdv AnimationType="None" LineBrush="White">
+                    <syncfusion:TreeViewItemAdv Header="My Notes" IsExpanded="True">
+                        <syncfusion:TreeViewItemAdv Header="Notes" IsSelected="True" />
+                    </syncfusion:TreeViewItemAdv>
+                </syncfusion:TreeViewAdv>
+            </syncfusion:GroupBarItem>
+        </syncfusion:GroupBar>
+        <GridSplitter
+            x:Name="splitter"
+            Grid.RowSpan="2"
+            Grid.Column="1"
+            Width="5"
+            HorizontalAlignment="Stretch"
+            FocusVisualStyle="{x:Null}" />
+        <StackPanel
+            Grid.Column="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                Text="Visual Styles" />
+            <ComboBox
+                x:Name="comboVisualStyle"
+                Width="130"
+                Margin="5"
+                SelectedIndex="14">
+                <ComboBox.ItemsSource>
+                    <listCollection:ArrayList>
+                        <system:String>Default</system:String>
+                        <system:String>Blend</system:String>
+                        <system:String>Lime</system:String>
+                        <system:String>Saffron</system:String>
+                        <system:String>Metro</system:String>
+                        <system:String>Office2010Black</system:String>
+                        <system:String>Office2010Blue</system:String>
+                        <system:String>Office2010Silver</system:String>
+                        <system:String>Office2013DarkGray</system:String>
+                        <system:String>Office2013LightGray</system:String>
+                        <system:String>Office2013White</system:String>
+                        <system:String>Office2016Colorful</system:String>
+                        <system:String>Office2016DarkGray</system:String>
+                        <system:String>Office2016White</system:String>
+                        <system:String>Office365</system:String>
+                        <system:String>VisualStudio2013</system:String>
+                        <system:String>VisualStudio2015</system:String>
+                    </listCollection:ArrayList>
+                </ComboBox.ItemsSource>
+            </ComboBox>
+        </StackPanel>
+        <ContentControl
+            x:Name="selectedControlContent"
+            Grid.Row="2"
+            Grid.Column="2">
+            <local:MailView />
+        </ContentControl>
+    </Grid>
+</Window>

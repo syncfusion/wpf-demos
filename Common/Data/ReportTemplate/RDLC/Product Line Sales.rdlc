@@ -1,0 +1,1724 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <Description>Adventure Works top five sales people and stores. This report illustrates a dataset with queries containing the TOP clause. It also illustrates the use of tables, charts, parameters, calculated fields, and drillthrough links.</Description>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="AdventureWorks">
+      <ConnectionProperties>
+        <DataProvider>SQLCe</DataProvider>
+        <ConnectString></ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:DataSourceID>54afed67-d321-47d4-b394-d019252ddfff</rd:DataSourceID>
+      <rd:SecurityType>Windows</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="TopEmployees">
+      <Fields>
+        <Field Name="LastName">
+          <DataField>LastName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FirstName">
+          <DataField>FirstName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="EmployeeID">
+          <DataField>EmployeeID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="SaleAmount">
+          <DataField>SaleAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="FullName">
+          <Value>=Fields!LastName.Value &amp; ", " &amp; Fields!FirstName.Value</Value>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>AdventureWorks</DataSourceName>
+        <CommandText>select top(5) FirstName, LastName, sum(SaleAmount) as SaleAmount 
+from product_TopEmployeesView where ProductSubcategoryID=@ProductSubcategory and ProductCategoryID=@ProductCategory and OrderDate&gt;@StartDate and OrderDate&lt;@EndDate
+group by FirstName, LastName, ProductCategoryID, ProductSubcategoryID
+order by SaleAmount desc</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@ProductCategory">
+            <Value>=Parameters!ProductCategory.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductSubcategory">
+            <Value>=Parameters!ProductSubcategory.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@StartDate">
+            <Value>=Parameters!StartDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@EndDate">
+            <Value>=Parameters!EndDate.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <Timeout>30</Timeout>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="ProductCategories">
+      <Fields>
+        <Field Name="ProductCategoryID">
+          <DataField>ProductCategoryID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>AdventureWorks</DataSourceName>
+        <CommandText>SELECT DISTINCT ProductCategoryID, Name
+FROM        Production_ProductCategory
+ORDER BY    Name</CommandText>
+        <Timeout>30</Timeout>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="TopCustomers">
+      <Fields>
+        <Field Name="StoreName">
+          <DataField>StoreName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SaleAmount">
+          <DataField>SaleAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="ProductSubcategoryID">
+          <DataField>ProductSubcategoryID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ProductCategoryID">
+          <DataField>ProductCategoryID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>AdventureWorks</DataSourceName>
+        <CommandText>select top(5) StoreName, sum(SaleAmount) as SaleAmount 
+from product_TopCustomersView where ProductSubcategoryID=@ProductSubcategory and ProductCategoryID=@ProductCategory and OrderDate&gt;@StartDate and OrderDate&lt;@EndDate
+group by StoreName, ProductCategoryID, ProductSubcategoryID
+order by SaleAmount desc</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@ProductSubcategory">
+            <Value>=Parameters!ProductSubcategory.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@StartDate">
+            <Value>=Parameters!StartDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@EndDate">
+            <Value>=Parameters!EndDate.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ProductCategory">
+            <Value>=Parameters!ProductCategory.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <Timeout>30</Timeout>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+    <DataSet Name="ProductSubcategories">
+      <Fields>
+        <Field Name="ProductSubcategoryID">
+          <DataField>ProductSubcategoryID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ProductCategoryID">
+          <DataField>ProductCategoryID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>AdventureWorks</DataSourceName>
+        <CommandText>SELECT      ProductSubcategoryID, ProductCategoryID, Name
+FROM        Production_ProductSubcategory
+WHERE       (ProductCategoryID = @ProductCategory)</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@ProductCategory">
+            <Value>=Parameters!ProductCategory.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <Timeout>30</Timeout>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Rectangle Name="TopEmployees">
+            <ReportItems>
+              <Tablix Name="TopEmployeesTable">
+                <TablixBody>
+                  <TablixColumns>
+                    <TablixColumn>
+                      <Width>2.01042in</Width>
+                    </TablixColumn>
+                    <TablixColumn>
+                      <Width>1.17708in</Width>
+                    </TablixColumn>
+                  </TablixColumns>
+                  <TablixRows>
+                    <TablixRow>
+                      <Height>0.25in</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="FullName_Label">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>Employee Name</Value>
+                                      <Style>
+                                        <FontFamily>Segoe UI Semibold</FontFamily>
+                                        <Color>#3e425d</Color>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                    <LineHeight>15pt</LineHeight>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <ZIndex>3</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>#f2f5fc</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>#d5dceb</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="SaleAmountEmp_Label">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>Sales*</Value>
+                                      <Style>
+                                        <FontFamily>Segoe UI Semibold</FontFamily>
+                                        <Color>#3e425d</Color>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                    <LineHeight>15pt</LineHeight>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>#f2f5fc</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>#d5dceb</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>0.25in</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="FullName">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!FullName.Value</Value>
+                                      <Style>
+                                        <FontFamily>Segoe UI</FontFamily>
+                                        <Color>#333333</Color>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>#f6f6f6</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>=IIf(RowNumber("TopEmployeesTable") Mod 2=0,"#f6f6f6","White")</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="SaleAmountEmp">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Sum(Fields!SaleAmount.Value)</Value>
+                                      <Style>
+                                        <FontFamily>Segoe UI</FontFamily>
+                                        <Format>c</Format>
+                                        <Color>#333333</Color>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Right</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Style>
+                                <Border>
+                                  <Color>#f6f6f6</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>=IIf(RowNumber("TopEmployeesTable") Mod 2=0,"#f6f6f6","White")</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>4pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                  </TablixRows>
+                </TablixBody>
+                <TablixColumnHierarchy>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixColumnHierarchy>
+                <TablixRowHierarchy>
+                  <TablixMembers>
+                    <TablixMember>
+                      <KeepWithGroup>After</KeepWithGroup>
+                      <KeepTogether>true</KeepTogether>
+                    </TablixMember>
+                    <TablixMember>
+                      <Group Name="TopEmployeesTable_Group1" />
+                      <TablixMembers>
+                        <TablixMember>
+                          <KeepWithGroup>After</KeepWithGroup>
+                          <KeepTogether>true</KeepTogether>
+                        </TablixMember>
+                      </TablixMembers>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixRowHierarchy>
+                <DataSetName>TopEmployees</DataSetName>
+                <Top>0.325in</Top>
+                <Left>0.05in</Left>
+                <Height>0.5in</Height>
+                <Width>3.1875in</Width>
+                <Style>
+                  <Border>
+                    <Color>#d5dceb</Color>
+                    <Style>Solid</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Tablix>
+              <Chart Name="TopEmployeesChart">
+                <ChartCategoryHierarchy>
+                  <ChartMembers>
+                    <ChartMember>
+                      <Group Name="TopEmployeesChart_EmployeeName">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!FullName.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <Label>=Fields!FullName.Value</Label>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </ChartMember>
+                  </ChartMembers>
+                </ChartCategoryHierarchy>
+                <ChartSeriesHierarchy>
+                  <ChartMembers>
+                    <ChartMember>
+                      <Label>Sale Amount</Label>
+                    </ChartMember>
+                  </ChartMembers>
+                </ChartSeriesHierarchy>
+                <ChartData>
+                  <ChartSeriesCollection>
+                    <ChartSeries Name="Series1">
+                      <ChartDataPoints>
+                        <ChartDataPoint>
+                          <ChartDataPointValues>
+                            <Y>=Sum(Fields!SaleAmount.Value)/1000</Y>
+                          </ChartDataPointValues>
+                          <ChartDataLabel>
+                            <Style>
+                              <FontFamily>Segoe UI</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <Format>C</Format>
+                            </Style>
+                            <UseValueAsLabel>true</UseValueAsLabel>
+                          </ChartDataLabel>
+                          <ActionInfo>
+                            <Actions>
+                              <Action>
+                                <Drillthrough>
+                                  <ReportName>Employee Sales Summary</ReportName>
+                                  <Parameters>
+                                    <Parameter Name="EmpID">
+                                      <Value>=Fields!EmployeeID.Value</Value>
+                                    </Parameter>
+                                    <Parameter Name="ReportMonth">
+                                      <Value>=Month(Parameters!EndDate.Value)</Value>
+                                    </Parameter>
+                                    <Parameter Name="ReportYear">
+                                      <Value>=Year(Parameters!EndDate.Value)</Value>
+                                    </Parameter>
+                                  </Parameters>
+                                </Drillthrough>
+                              </Action>
+                            </Actions>
+                          </ActionInfo>
+                          <Style>
+                            <Color>#ff8000</Color>
+                          </Style>
+                          <ChartMarker>
+                            <Size>6pt</Size>
+                            <Style />
+                          </ChartMarker>
+                        </ChartDataPoint>
+                      </ChartDataPoints>
+                      <Type>Bar</Type>
+                      <Style />
+                      <ChartEmptyPoints>
+                        <Style />
+                        <ChartMarker>
+                          <Style />
+                        </ChartMarker>
+                        <ChartDataLabel>
+                          <Style />
+                        </ChartDataLabel>
+                      </ChartEmptyPoints>
+                      <CustomProperties>
+                        <CustomProperty>
+                          <Name>PointWidth</Name>
+                          <Value>0.6</Value>
+                        </CustomProperty>
+                      </CustomProperties>
+                      <ValueAxisName>Primary</ValueAxisName>
+                      <CategoryAxisName>Primary</CategoryAxisName>
+                      <ChartSmartLabel>
+                        <CalloutLineColor>Black</CalloutLineColor>
+                        <MinMovingDistance>0pt</MinMovingDistance>
+                      </ChartSmartLabel>
+                    </ChartSeries>
+                  </ChartSeriesCollection>
+                </ChartData>
+                <ChartAreas>
+                  <ChartArea Name="Default">
+                    <ChartCategoryAxes>
+                      <ChartAxis Name="Primary">
+                        <Style>
+                          <Border>
+                            <Style>None</Style>
+                            <Width>0.75pt</Width>
+                          </Border>
+                          <FontFamily>Segoe UI</FontFamily>
+                          <FontSize>8pt</FontSize>
+                        </Style>
+                        <ChartAxisTitle>
+                          <Caption />
+                          <Style>
+                            <FontSize>8pt</FontSize>
+                          </Style>
+                        </ChartAxisTitle>
+                        <Margin>True</Margin>
+                        <ChartMajorGridLines>
+                          <Enabled>False</Enabled>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.75pt</Width>
+                            </Border>
+                          </Style>
+                          <Interval>NaN</Interval>
+                          <IntervalOffset>1</IntervalOffset>
+                        </ChartMajorGridLines>
+                        <ChartMinorGridLines>
+                          <Enabled>False</Enabled>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.75pt</Width>
+                            </Border>
+                          </Style>
+                          <Interval>NaN</Interval>
+                        </ChartMinorGridLines>
+                        <ChartMajorTickMarks>
+                          <Type>None</Type>
+                        </ChartMajorTickMarks>
+                        <ChartMinorTickMarks>
+                          <Type>None</Type>
+                        </ChartMinorTickMarks>
+                        <Minimum>NaN</Minimum>
+                        <Maximum>NaN</Maximum>
+                        <PreventFontShrink>true</PreventFontShrink>
+                        <PreventFontGrow>true</PreventFontGrow>
+                        <IncludeZero>false</IncludeZero>
+                        <ChartAxisScaleBreak>
+                          <Style />
+                        </ChartAxisScaleBreak>
+                      </ChartAxis>
+                      <ChartAxis Name="Secondary">
+                        <Style>
+                          <FontSize>8pt</FontSize>
+                        </Style>
+                        <ChartAxisTitle>
+                          <Caption />
+                          <Style>
+                            <FontSize>8pt</FontSize>
+                          </Style>
+                        </ChartAxisTitle>
+                        <CrossAt>NaN</CrossAt>
+                        <Location>Opposite</Location>
+                        <Minimum>NaN</Minimum>
+                        <Maximum>NaN</Maximum>
+                        <ChartAxisScaleBreak>
+                          <Style />
+                        </ChartAxisScaleBreak>
+                      </ChartAxis>
+                    </ChartCategoryAxes>
+                    <ChartValueAxes>
+                      <ChartAxis Name="Primary">
+                        <Visible>False</Visible>
+                        <Style>
+                          <Border>
+                            <Style>None</Style>
+                            <Width>0.75pt</Width>
+                          </Border>
+                          <Format>$#,###</Format>
+                        </Style>
+                        <ChartAxisTitle>
+                          <Caption />
+                          <Style>
+                            <FontFamily>Verdana</FontFamily>
+                            <FontSize>8pt</FontSize>
+                          </Style>
+                        </ChartAxisTitle>
+                        <Margin>True</Margin>
+                        <ChartMajorGridLines>
+                          <Enabled>False</Enabled>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.75pt</Width>
+                            </Border>
+                          </Style>
+                          <Interval>NaN</Interval>
+                        </ChartMajorGridLines>
+                        <ChartMinorGridLines>
+                          <Enabled>False</Enabled>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.75pt</Width>
+                            </Border>
+                          </Style>
+                          <Interval>NaN</Interval>
+                        </ChartMinorGridLines>
+                        <ChartMajorTickMarks>
+                          <Type>None</Type>
+                        </ChartMajorTickMarks>
+                        <ChartMinorTickMarks>
+                          <Type>None</Type>
+                        </ChartMinorTickMarks>
+                        <Scalar>true</Scalar>
+                        <HideLabels>true</HideLabels>
+                        <PreventFontShrink>true</PreventFontShrink>
+                        <PreventFontGrow>true</PreventFontGrow>
+                        <IncludeZero>false</IncludeZero>
+                        <ChartAxisScaleBreak>
+                          <Style />
+                        </ChartAxisScaleBreak>
+                      </ChartAxis>
+                      <ChartAxis Name="Secondary">
+                        <Style>
+                          <FontSize>8pt</FontSize>
+                        </Style>
+                        <ChartAxisTitle>
+                          <Caption />
+                          <Style>
+                            <FontSize>8pt</FontSize>
+                          </Style>
+                        </ChartAxisTitle>
+                        <CrossAt>NaN</CrossAt>
+                        <Location>Opposite</Location>
+                        <Minimum>NaN</Minimum>
+                        <Maximum>NaN</Maximum>
+                        <ChartAxisScaleBreak>
+                          <Style />
+                        </ChartAxisScaleBreak>
+                      </ChartAxis>
+                    </ChartValueAxes>
+                    <ChartThreeDProperties>
+                      <ProjectionMode>Perspective</ProjectionMode>
+                      <Shading>Simple</Shading>
+                      <WallThickness>15</WallThickness>
+                      <Clustered>true</Clustered>
+                    </ChartThreeDProperties>
+                    <Style>
+                      <Border>
+                        <Style>None</Style>
+                        <Width>0.75pt</Width>
+                      </Border>
+                      <BackgroundColor>#f6f6f6</BackgroundColor>
+                    </Style>
+                  </ChartArea>
+                </ChartAreas>
+                <ChartLegends>
+                  <ChartLegend Name="Default">
+                    <Hidden>true</Hidden>
+                    <Style>
+                      <Border>
+                        <Width>0.75pt</Width>
+                      </Border>
+                      <FontFamily>Segoe UI Semibold</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                    <Position>RightCenter</Position>
+                    <Layout>Column</Layout>
+                    <ChartLegendTitle>
+                      <Caption />
+                      <Style>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                    </ChartLegendTitle>
+                    <AutoFitTextDisabled>true</AutoFitTextDisabled>
+                  </ChartLegend>
+                </ChartLegends>
+                <Palette>Excel</Palette>
+                <ChartBorderSkin>
+                  <Style>
+                    <BackgroundColor>Gray</BackgroundColor>
+                    <BackgroundGradientType>None</BackgroundGradientType>
+                    <Color>White</Color>
+                  </Style>
+                </ChartBorderSkin>
+                <ChartNoDataMessage Name="NoDataMessage">
+                  <Caption>No Data Available</Caption>
+                  <Style>
+                    <BackgroundGradientType>None</BackgroundGradientType>
+                    <TextAlign>General</TextAlign>
+                    <VerticalAlign>Top</VerticalAlign>
+                  </Style>
+                </ChartNoDataMessage>
+                <DataSetName>TopEmployees</DataSetName>
+                <Top>0.325in</Top>
+                <Left>3.25in</Left>
+                <Height>2.375in</Height>
+                <Width>3.625in</Width>
+                <ZIndex>1</ZIndex>
+                <CustomProperties>
+                  <CustomProperty>
+                    <Name>__Upgraded2005__</Name>
+                    <Value>__Upgraded2005__</Value>
+                  </CustomProperty>
+                </CustomProperties>
+                <Style>
+                  <Border>
+                    <Color>Silver</Color>
+                    <Style>Solid</Style>
+                  </Border>
+                  <BackgroundColor>#f6f6f6</BackgroundColor>
+                </Style>
+              </Chart>
+              <Textbox Name="Textbox4">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>* Sales Amount in USD</Value>
+                        <Style>
+                          <FontFamily>Segoe UI</FontFamily>
+                          <FontSize>8pt</FontSize>
+                          <Color>#333333</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style />
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox4</rd:DefaultName>
+                <Top>0.89444in</Top>
+                <Left>0.06958in</Left>
+                <Height>0.25in</Height>
+                <Width>1.6875in</Width>
+                <ZIndex>2</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="TopEmployeesHeader">
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>Top Employees</Value>
+                        <Style>
+                          <FontFamily>Segoe UI Semibold</FontFamily>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <LineHeight>22pt</LineHeight>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <Height>0.26944in</Height>
+                <Width>7.0573in</Width>
+                <ZIndex>3</ZIndex>
+                <Style>
+                  <Border>
+                    <Color>#3c4570</Color>
+                    <Style>Solid</Style>
+                  </Border>
+                  <BackgroundColor>#3c4570</BackgroundColor>
+                  <VerticalAlign>Middle</VerticalAlign>
+                  <PaddingLeft>6pt</PaddingLeft>
+                </Style>
+              </Textbox>
+            </ReportItems>
+            <DataElementOutput>ContentsOnly</DataElementOutput>
+            <Top>2.125in</Top>
+            <Left>0.0625in</Left>
+            <Height>2.75in</Height>
+            <Width>7.04688in</Width>
+            <Style>
+              <Border>
+                <Color>#3c4570</Color>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Rectangle>
+          <Image Name="logo">
+            <Source>Embedded</Source>
+            <Value>wholelogolft_lowres</Value>
+            <MIMEType>image/jpeg</MIMEType>
+            <Sizing>Fit</Sizing>
+            <Left>0.0625in</Left>
+            <Height>1.05209in</Height>
+            <Width>2.77083in</Width>
+            <ZIndex>1</ZIndex>
+            <Style />
+          </Image>
+          <Rectangle Name="Banner">
+            <ReportItems>
+              <Textbox Name="CategorySelection">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=Parameters!ProductCategory.Label</Value>
+                        <Style>
+                          <FontFamily>Segoe UI Semibold</FontFamily>
+                          <FontSize>12pt</FontSize>
+                          <FontWeight>Normal</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                      <TextRun>
+                        <Value>(</Value>
+                        <Style>
+                          <FontFamily>Segoe UI Semibold</FontFamily>
+                          <FontSize>12pt</FontSize>
+                          <FontWeight>Normal</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                      <TextRun>
+                        <Value>=Parameters!ProductSubcategory.Label</Value>
+                        <Style>
+                          <FontFamily>Segoe UI Semibold</FontFamily>
+                          <FontSize>12pt</FontSize>
+                          <FontWeight>Normal</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                      <TextRun>
+                        <Value>)</Value>
+                        <Style>
+                          <FontFamily>Segoe UI Semibold</FontFamily>
+                          <FontSize>12pt</FontSize>
+                          <FontWeight>Normal</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Right</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <Top>0.07153in</Top>
+                <Left>0.05in</Left>
+                <Height>0.25in</Height>
+                <Width>6.95in</Width>
+                <Style>
+                  <PaddingLeft>5pt</PaddingLeft>
+                  <PaddingTop>3pt</PaddingTop>
+                  <PaddingBottom>3pt</PaddingBottom>
+                </Style>
+              </Textbox>
+            </ReportItems>
+            <DataElementOutput>ContentsOnly</DataElementOutput>
+            <Top>1.25in</Top>
+            <Left>0.0625in</Left>
+            <Height>0.39306in</Height>
+            <Width>7.04688in</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border />
+              <BackgroundColor>#3c4570</BackgroundColor>
+            </Style>
+          </Rectangle>
+          <Rectangle Name="TopStores">
+            <ReportItems>
+              <Tablix Name="TopStoresTable">
+                <TablixBody>
+                  <TablixColumns>
+                    <TablixColumn>
+                      <Width>2.03125in</Width>
+                    </TablixColumn>
+                    <TablixColumn>
+                      <Width>1.15625in</Width>
+                    </TablixColumn>
+                  </TablixColumns>
+                  <TablixRows>
+                    <TablixRow>
+                      <Height>0.25in</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="StoreName_Label">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>Store Name</Value>
+                                      <Style>
+                                        <FontFamily>Segoe UI Semibold</FontFamily>
+                                        <Color>#3e425d</Color>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <ZIndex>3</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>#f2f5fc</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>#d5dceb</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="SaleAmountStore_Label">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>Sales*</Value>
+                                      <Style>
+                                        <FontFamily>Segoe UI Semibold</FontFamily>
+                                        <Color>#3e425d</Color>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>#f2f5fc</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>#d5dceb</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                    <TablixRow>
+                      <Height>0.25in</Height>
+                      <TablixCells>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="StoreName">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!StoreName.Value</Value>
+                                      <Style>
+                                        <FontFamily>Segoe UI</FontFamily>
+                                        <Color>#333333</Color>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>#f6f6f6</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>=IIf(RowNumber("TopStoresTable") Mod 2=0,"#f6f6f6","White")</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                        <TablixCell>
+                          <CellContents>
+                            <Textbox Name="SaleAmountStore">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!SaleAmount.Value</Value>
+                                      <Style>
+                                        <FontFamily>Segoe UI</FontFamily>
+                                        <Format>c</Format>
+                                        <Color>#333333</Color>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Right</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Style>
+                                <Border>
+                                  <Color>#f6f6f6</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>=IIf(RowNumber("TopStoresTable") Mod 2=0,"#f6f6f6","White")</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>4pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </CellContents>
+                        </TablixCell>
+                      </TablixCells>
+                    </TablixRow>
+                  </TablixRows>
+                </TablixBody>
+                <TablixColumnHierarchy>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixColumnHierarchy>
+                <TablixRowHierarchy>
+                  <TablixMembers>
+                    <TablixMember>
+                      <KeepWithGroup>After</KeepWithGroup>
+                      <KeepTogether>true</KeepTogether>
+                    </TablixMember>
+                    <TablixMember>
+                      <Group Name="TopStoresTable_Details_Group">
+                        <DataElementName>Detail</DataElementName>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!SaleAmount.Value</Value>
+                          <Direction>Descending</Direction>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixMembers>
+                        <TablixMember />
+                      </TablixMembers>
+                      <DataElementName>Detail_Collection</DataElementName>
+                      <DataElementOutput>Output</DataElementOutput>
+                      <KeepTogether>true</KeepTogether>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixRowHierarchy>
+                <DataSetName>TopCustomers</DataSetName>
+                <Top>0.3125in</Top>
+                <Left>0.0375in</Left>
+                <Height>0.5in</Height>
+                <Width>3.1875in</Width>
+                <Style>
+                  <Border>
+                    <Color>#d5dceb</Color>
+                    <Style>Solid</Style>
+                  </Border>
+                </Style>
+              </Tablix>
+              <Chart Name="TopStoresChart">
+                <ChartCategoryHierarchy>
+                  <ChartMembers>
+                    <ChartMember>
+                      <Group Name="TopStoresChart_StoreName">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!StoreName.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <Label>=Fields!StoreName.Value</Label>
+                      <DataElementOutput>Output</DataElementOutput>
+                    </ChartMember>
+                  </ChartMembers>
+                </ChartCategoryHierarchy>
+                <ChartSeriesHierarchy>
+                  <ChartMembers>
+                    <ChartMember>
+                      <Label>Sale Amount</Label>
+                    </ChartMember>
+                  </ChartMembers>
+                </ChartSeriesHierarchy>
+                <ChartData>
+                  <ChartSeriesCollection>
+                    <ChartSeries Name="Series1">
+                      <ChartDataPoints>
+                        <ChartDataPoint>
+                          <ChartDataPointValues>
+                            <Y>=Sum(Fields!SaleAmount.Value)/1000</Y>
+                          </ChartDataPointValues>
+                          <ChartDataLabel>
+                            <Style>
+                              <FontFamily>Segoe UI</FontFamily>
+                              <FontSize>8pt</FontSize>
+                              <FontWeight>Normal</FontWeight>
+                              <Format>C</Format>
+                            </Style>
+                          </ChartDataLabel>
+                          <Style>
+                            <Border>
+                              <Color>Black</Color>
+                            </Border>
+                          </Style>
+                          <ChartMarker>
+                            <Style />
+                          </ChartMarker>
+                        </ChartDataPoint>
+                      </ChartDataPoints>
+                      <Type>Shape</Type>
+                      <Style />
+                      <ChartEmptyPoints>
+                        <Style />
+                        <ChartMarker>
+                          <Style />
+                        </ChartMarker>
+                        <ChartDataLabel>
+                          <Style />
+                        </ChartDataLabel>
+                      </ChartEmptyPoints>
+                      <ValueAxisName>Primary</ValueAxisName>
+                      <CategoryAxisName>Primary</CategoryAxisName>
+                      <ChartSmartLabel>
+                        <CalloutLineColor>Black</CalloutLineColor>
+                        <MinMovingDistance>0pt</MinMovingDistance>
+                      </ChartSmartLabel>
+                    </ChartSeries>
+                  </ChartSeriesCollection>
+                </ChartData>
+                <ChartAreas>
+                  <ChartArea Name="Default">
+                    <ChartCategoryAxes>
+                      <ChartAxis Name="Primary">
+                        <Style>
+                          <Border>
+                            <Style>None</Style>
+                            <Width>0.75pt</Width>
+                          </Border>
+                          <FontSize>8pt</FontSize>
+                        </Style>
+                        <ChartAxisTitle>
+                          <Caption />
+                          <Style>
+                            <FontSize>8pt</FontSize>
+                          </Style>
+                        </ChartAxisTitle>
+                        <Margin>True</Margin>
+                        <Interval>1</Interval>
+                        <ChartMajorGridLines>
+                          <Enabled>False</Enabled>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.75pt</Width>
+                            </Border>
+                          </Style>
+                          <Interval>NaN</Interval>
+                          <IntervalOffset>1</IntervalOffset>
+                        </ChartMajorGridLines>
+                        <ChartMinorGridLines>
+                          <Enabled>False</Enabled>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.75pt</Width>
+                            </Border>
+                          </Style>
+                          <Interval>NaN</Interval>
+                        </ChartMinorGridLines>
+                        <ChartMajorTickMarks>
+                          <Type>None</Type>
+                        </ChartMajorTickMarks>
+                        <ChartMinorTickMarks>
+                          <Type>None</Type>
+                        </ChartMinorTickMarks>
+                        <Minimum>NaN</Minimum>
+                        <Maximum>NaN</Maximum>
+                        <PreventFontShrink>true</PreventFontShrink>
+                        <PreventFontGrow>true</PreventFontGrow>
+                        <IncludeZero>false</IncludeZero>
+                        <ChartAxisScaleBreak>
+                          <Style />
+                        </ChartAxisScaleBreak>
+                      </ChartAxis>
+                      <ChartAxis Name="Secondary">
+                        <Style>
+                          <FontSize>8pt</FontSize>
+                        </Style>
+                        <ChartAxisTitle>
+                          <Caption />
+                          <Style>
+                            <FontSize>8pt</FontSize>
+                          </Style>
+                        </ChartAxisTitle>
+                        <CrossAt>NaN</CrossAt>
+                        <Location>Opposite</Location>
+                        <Minimum>NaN</Minimum>
+                        <Maximum>NaN</Maximum>
+                        <ChartAxisScaleBreak>
+                          <Style />
+                        </ChartAxisScaleBreak>
+                      </ChartAxis>
+                    </ChartCategoryAxes>
+                    <ChartValueAxes>
+                      <ChartAxis Name="Primary">
+                        <Style>
+                          <Border>
+                            <Style>None</Style>
+                            <Width>0.75pt</Width>
+                          </Border>
+                          <FontSize>8pt</FontSize>
+                          <Format>$#,###</Format>
+                        </Style>
+                        <ChartAxisTitle>
+                          <Caption>Sales (thousands)</Caption>
+                          <Style>
+                            <FontSize>8pt</FontSize>
+                          </Style>
+                        </ChartAxisTitle>
+                        <Margin>True</Margin>
+                        <ChartMajorGridLines>
+                          <Enabled>True</Enabled>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.75pt</Width>
+                            </Border>
+                          </Style>
+                          <Interval>NaN</Interval>
+                        </ChartMajorGridLines>
+                        <ChartMinorGridLines>
+                          <Enabled>False</Enabled>
+                          <Style>
+                            <Border>
+                              <Style>Solid</Style>
+                              <Width>0.75pt</Width>
+                            </Border>
+                          </Style>
+                          <Interval>NaN</Interval>
+                        </ChartMinorGridLines>
+                        <ChartMajorTickMarks>
+                          <Type>None</Type>
+                        </ChartMajorTickMarks>
+                        <ChartMinorTickMarks>
+                          <Type>None</Type>
+                        </ChartMinorTickMarks>
+                        <Scalar>true</Scalar>
+                        <PreventFontShrink>true</PreventFontShrink>
+                        <PreventFontGrow>true</PreventFontGrow>
+                        <IncludeZero>false</IncludeZero>
+                        <ChartAxisScaleBreak>
+                          <Style />
+                        </ChartAxisScaleBreak>
+                      </ChartAxis>
+                      <ChartAxis Name="Secondary">
+                        <Style>
+                          <FontSize>8pt</FontSize>
+                        </Style>
+                        <ChartAxisTitle>
+                          <Caption />
+                          <Style>
+                            <FontSize>8pt</FontSize>
+                          </Style>
+                        </ChartAxisTitle>
+                        <CrossAt>NaN</CrossAt>
+                        <Location>Opposite</Location>
+                        <Minimum>NaN</Minimum>
+                        <Maximum>NaN</Maximum>
+                        <ChartAxisScaleBreak>
+                          <Style />
+                        </ChartAxisScaleBreak>
+                      </ChartAxis>
+                    </ChartValueAxes>
+                    <ChartThreeDProperties>
+                      <ProjectionMode>Perspective</ProjectionMode>
+                      <Shading>Simple</Shading>
+                      <WallThickness>15</WallThickness>
+                      <Clustered>true</Clustered>
+                    </ChartThreeDProperties>
+                    <Style>
+                      <Border>
+                        <Style>None</Style>
+                        <Width>0.75pt</Width>
+                      </Border>
+                      <BackgroundColor>#f6f6f6</BackgroundColor>
+                    </Style>
+                  </ChartArea>
+                </ChartAreas>
+                <ChartLegends>
+                  <ChartLegend Name="Default">
+                    <Style>
+                      <Border>
+                        <Width>0.75pt</Width>
+                      </Border>
+                      <FontFamily>Segoe UI Semibold</FontFamily>
+                      <FontSize>8pt</FontSize>
+                    </Style>
+                    <Position>RightCenter</Position>
+                    <DockToChartArea>Default</DockToChartArea>
+                    <DockOutsideChartArea>true</DockOutsideChartArea>
+                    <ChartLegendTitle>
+                      <Caption />
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <FontSize>8pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                    </ChartLegendTitle>
+                    <AutoFitTextDisabled>true</AutoFitTextDisabled>
+                  </ChartLegend>
+                </ChartLegends>
+                <Palette>EarthTones</Palette>
+                <ChartBorderSkin>
+                  <Style>
+                    <BackgroundColor>Gray</BackgroundColor>
+                    <BackgroundGradientType>None</BackgroundGradientType>
+                    <Color>White</Color>
+                  </Style>
+                </ChartBorderSkin>
+                <ChartNoDataMessage Name="NoDataMessage">
+                  <Caption>No Data Available</Caption>
+                  <Style>
+                    <BackgroundGradientType>None</BackgroundGradientType>
+                    <TextAlign>General</TextAlign>
+                    <VerticalAlign>Top</VerticalAlign>
+                  </Style>
+                </ChartNoDataMessage>
+                <DataSetName>TopCustomers</DataSetName>
+                <Top>0.3125in</Top>
+                <Left>3.25in</Left>
+                <Height>2.875in</Height>
+                <Width>3.625in</Width>
+                <ZIndex>1</ZIndex>
+                <CustomProperties>
+                  <CustomProperty>
+                    <Name>__Upgraded2005__</Name>
+                    <Value>__Upgraded2005__</Value>
+                  </CustomProperty>
+                </CustomProperties>
+                <Style>
+                  <Border>
+                    <Color>Silver</Color>
+                    <Style>Solid</Style>
+                  </Border>
+                  <BackgroundColor>#f6f6f6</BackgroundColor>
+                </Style>
+              </Chart>
+              <Textbox Name="Textbox5">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>* Sales Amount in USD</Value>
+                        <Style>
+                          <FontFamily>Segoe UI</FontFamily>
+                          <FontSize>8pt</FontSize>
+                          <Color>#333333</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style />
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox4</rd:DefaultName>
+                <Top>0.88194in</Top>
+                <Left>0.06958in</Left>
+                <Height>0.25in</Height>
+                <Width>1.6875in</Width>
+                <ZIndex>2</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="TopStoresHeader">
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>Top Stores</Value>
+                        <Style>
+                          <FontFamily>Segoe UI Semibold</FontFamily>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <LineHeight>22pt</LineHeight>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <Height>0.25in</Height>
+                <Width>7.04688in</Width>
+                <ZIndex>3</ZIndex>
+                <Style>
+                  <Border>
+                    <Color>#3c4570</Color>
+                    <Style>Solid</Style>
+                  </Border>
+                  <BackgroundColor>#3c4570</BackgroundColor>
+                  <VerticalAlign>Middle</VerticalAlign>
+                  <PaddingLeft>6pt</PaddingLeft>
+                </Style>
+              </Textbox>
+            </ReportItems>
+            <DataElementOutput>ContentsOnly</DataElementOutput>
+            <Top>5in</Top>
+            <Left>0.0625in</Left>
+            <Height>3.22917in</Height>
+            <Width>7.04688in</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Color>#3c4570</Color>
+                <Style>Solid</Style>
+              </Border>
+            </Style>
+          </Rectangle>
+          <Textbox Name="TopEmployeesHeader2">
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Product Line Sales</Value>
+                    <Style>
+                      <FontFamily>Segoe UI Semibold</FontFamily>
+                      <FontSize>22pt</FontSize>
+                      <Color>#3c4570</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style>
+                  <TextAlign>Right</TextAlign>
+                  <LineHeight>22pt</LineHeight>
+                </Style>
+              </Paragraph>
+            </Paragraphs>
+            <Top>0.21875in</Top>
+            <Left>4.25in</Left>
+            <Height>0.47917in</Height>
+            <Width>2.85938in</Width>
+            <ZIndex>4</ZIndex>
+            <Style>
+              <Border>
+                <Color>#3c4570</Color>
+                <Style>None</Style>
+              </Border>
+              <BackgroundColor>White</BackgroundColor>
+              <PaddingLeft>6pt</PaddingLeft>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox1">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=FormatDateTime(Parameters!StartDate.Value,DateFormat.ShortDate)+"  through"</Value>
+                    <Style>
+                      <FontFamily>Segoe UI Semibold</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <Format>d</Format>
+                      <Color>#3c4570</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>1.74667in</Top>
+            <Left>4.25in</Left>
+            <Height>0.25in</Height>
+            <Width>1.80188in</Width>
+            <ZIndex>5</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox2">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>=FormatDateTime(Parameters!EndDate.Value,DateFormat.ShortDate)+" "</Value>
+                    <Style>
+                      <FontFamily>Segoe UI Semibold</FontFamily>
+                      <FontSize>12pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <Format>d</Format>
+                      <Color>#3c4570</Color>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox1</rd:DefaultName>
+            <Top>1.74667in</Top>
+            <Left>6.05188in</Left>
+            <Height>0.25in</Height>
+            <Width>1.06792in</Width>
+            <ZIndex>6</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+        </ReportItems>
+        <Height>8.29167in</Height>
+        <Style>
+          <Border>
+            <Color>White</Color>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>7.20313in</Width>
+      <Page>
+        <PageFooter>
+          <Height>0.39583in</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="FooterDate">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Now()</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <Format>D</Format>
+                        <Color>SlateBlue</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.125in</Top>
+              <Left>4.85938in</Left>
+              <Height>0.25in</Height>
+              <Width>2.25in</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <BackgroundColor>White</BackgroundColor>
+              </Style>
+            </Textbox>
+            <Textbox Name="FooterCompany">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Adventure Works Cycles</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <Color>SlateBlue</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.125in</Top>
+              <Left>0.0625in</Left>
+              <Height>0.25in</Height>
+              <Width>2.25in</Width>
+              <ZIndex>1</ZIndex>
+              <Style />
+            </Textbox>
+            <Textbox Name="FooterURL">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>www.adventure-works.com</Value>
+                      <Style>
+                        <FontFamily>Segoe UI</FontFamily>
+                        <Color>SlateBlue</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <ActionInfo>
+                <Actions>
+                  <Action>
+                    <Hyperlink>http://www.adventure-works.com</Hyperlink>
+                  </Action>
+                </Actions>
+              </ActionInfo>
+              <Top>0.125in</Top>
+              <Left>2.45in</Left>
+              <Height>0.25in</Height>
+              <Width>2.25in</Width>
+              <ZIndex>2</ZIndex>
+              <Style />
+            </Textbox>
+            <Line Name="line1">
+              <Top>0.0625in</Top>
+              <Left>0.0625in</Left>
+              <Height>0in</Height>
+              <Width>7.04688in</Width>
+              <ZIndex>3</ZIndex>
+              <Style>
+                <Border>
+                  <Color>Firebrick</Color>
+                  <Style>Solid</Style>
+                </Border>
+              </Style>
+            </Line>
+          </ReportItems>
+          <Style />
+        </PageFooter>
+        <PageWidth>10in</PageWidth>
+        <LeftMargin>0.75in</LeftMargin>
+        <RightMargin>0.75in</RightMargin>
+        <TopMargin>0.5in</TopMargin>
+        <BottomMargin>0.5in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="ProductCategory">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Category:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>ProductCategories</DataSetName>
+          <ValueField>ProductCategoryID</ValueField>
+          <LabelField>Name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="ProductSubcategory">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>2</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Subcategory:</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>ProductSubcategories</DataSetName>
+          <ValueField>ProductSubcategoryID</ValueField>
+          <LabelField>Name</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+    <ReportParameter Name="StartDate">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>07/20/2001 00:00:00</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Start Date:</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="EndDate">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>12/31/2003 00:00:00</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>End Date:</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <EmbeddedImages>
+    <EmbeddedImage Name="tires">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="wholelogolft_lowres">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <Language>en-US</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportID>8bb0f3dc-34b8-41e3-8f56-4cbe21b0c93f</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>

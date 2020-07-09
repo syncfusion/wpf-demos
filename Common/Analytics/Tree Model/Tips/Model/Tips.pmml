@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<PMML version="4.3" xmlns="http://www.dmg.org/PMML-4_3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.dmg.org/PMML-4_3 http://www.dmg.org/pmml/v4-3/pmml-4-3.xsd">
+ <Header copyright="Copyright (c) 2017 Syncfusion" description="RPart Decision Tree Model">
+  <Extension name="user" value="Syncfusion" extender="Rattle/PMML"/>
+  <Application name="Rattle/PMML" version="1.4"/>
+  <Timestamp>2017-11-07 10:20:21</Timestamp>
+ </Header>
+ <DataDictionary numberOfFields="7">
+  <DataField name="Tip_Amount" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="1" rightMargin="10"/>
+  </DataField>
+  <DataField name="Total_Bill" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="3.07" rightMargin="50.81"/>
+  </DataField>
+  <DataField name="Sex" optype="categorical" dataType="string">
+   <Value value="Female"/>
+   <Value value="Male"/>
+  </DataField>
+  <DataField name="Smoker" optype="categorical" dataType="string">
+   <Value value="No"/>
+   <Value value="Yes"/>
+  </DataField>
+  <DataField name="Day" optype="categorical" dataType="string">
+   <Value value="Fri"/>
+   <Value value="Sat"/>
+   <Value value="Sun"/>
+   <Value value="Thur"/>
+  </DataField>
+  <DataField name="Time" optype="categorical" dataType="string">
+   <Value value="Dinner"/>
+   <Value value="Lunch"/>
+  </DataField>
+  <DataField name="Size" optype="continuous" dataType="double">
+   <Interval closure="closedClosed" leftMargin="1" rightMargin="6"/>
+  </DataField>
+ </DataDictionary>
+ <TreeModel modelName="RPart_Model" functionName="regression" algorithmName="rpart" splitCharacteristic="binarySplit" missingValueStrategy="defaultChild" noTrueChildStrategy="returnLastPrediction">
+  <MiningSchema>
+   <MiningField name="Tip_Amount" usageType="predicted"/>
+   <MiningField name="Total_Bill" usageType="active"/>
+   <MiningField name="Sex" usageType="active"/>
+   <MiningField name="Smoker" usageType="active"/>
+   <MiningField name="Day" usageType="active"/>
+   <MiningField name="Time" usageType="active"/>
+   <MiningField name="Size" usageType="active"/>
+  </MiningSchema>
+  <Output>
+   <OutputField name="Predicted_Tip_Amount" optype="continuous" dataType="double" feature="predictedValue"/>
+  </Output>
+  <Node id="1" score="3.0105612244898" recordCount="196" defaultChild="2">
+   <True/>
+   <Node id="2" score="2.40708333333333" recordCount="120" defaultChild="4">
+    <CompoundPredicate booleanOperator="surrogate">
+     <SimplePredicate field="Total_Bill" operator="lessThan" value="20.47"/>
+     <SimplePredicate field="Size" operator="lessThan" value="2.5"/>
+     <SimpleSetPredicate field="Day" booleanOperator="isIn">
+      <Array n="3" type="string">&quot;Fri&quot; &quot;Sat&quot; &quot;Thur&quot;</Array>
+     </SimpleSetPredicate>
+    </CompoundPredicate>
+    <Node id="4" score="2.10792207792208" recordCount="77">
+     <CompoundPredicate booleanOperator="surrogate">
+      <SimplePredicate field="Total_Bill" operator="lessThan" value="16.28"/>
+      <SimplePredicate field="Size" operator="lessThan" value="2.5"/>
+     </CompoundPredicate>
+    </Node>
+    <Node id="5" score="2.94279069767442" recordCount="43">
+     <CompoundPredicate booleanOperator="surrogate">
+      <SimplePredicate field="Total_Bill" operator="greaterOrEqual" value="16.28"/>
+      <SimplePredicate field="Size" operator="greaterOrEqual" value="2.5"/>
+     </CompoundPredicate>
+    </Node>
+   </Node>
+   <Node id="3" score="3.96342105263158" recordCount="76" defaultChild="6">
+    <CompoundPredicate booleanOperator="surrogate">
+     <SimplePredicate field="Total_Bill" operator="greaterOrEqual" value="20.47"/>
+     <SimplePredicate field="Size" operator="greaterOrEqual" value="2.5"/>
+     <SimpleSetPredicate field="Day" booleanOperator="isIn">
+      <Array n="1" type="string">&quot;Sun&quot;</Array>
+     </SimpleSetPredicate>
+    </CompoundPredicate>
+    <Node id="6" score="3.76030303030303" recordCount="66" defaultChild="12">
+     <SimplePredicate field="Total_Bill" operator="lessThan" value="39.075"/>
+     <Node id="12" score="3.38931034482759" recordCount="29">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimpleSetPredicate field="Day" booleanOperator="isIn">
+        <Array n="2" type="string">&quot;Fri&quot; &quot;Sat&quot;</Array>
+       </SimpleSetPredicate>
+       <SimpleSetPredicate field="Smoker" booleanOperator="isIn">
+        <Array n="1" type="string">&quot;Yes&quot;</Array>
+       </SimpleSetPredicate>
+       <SimplePredicate field="Size" operator="lessThan" value="2.5"/>
+       <SimplePredicate field="Total_Bill" operator="lessThan" value="22.755"/>
+       <SimpleSetPredicate field="Sex" booleanOperator="isIn">
+        <Array n="1" type="string">&quot;Female&quot;</Array>
+       </SimpleSetPredicate>
+      </CompoundPredicate>
+     </Node>
+     <Node id="13" score="4.05108108108108" recordCount="37" defaultChild="26">
+      <CompoundPredicate booleanOperator="surrogate">
+       <SimpleSetPredicate field="Day" booleanOperator="isIn">
+        <Array n="2" type="string">&quot;Sun&quot; &quot;Thur&quot;</Array>
+       </SimpleSetPredicate>
+       <SimpleSetPredicate field="Smoker" booleanOperator="isIn">
+        <Array n="1" type="string">&quot;No&quot;</Array>
+       </SimpleSetPredicate>
+       <SimplePredicate field="Size" operator="greaterOrEqual" value="2.5"/>
+       <SimplePredicate field="Total_Bill" operator="greaterOrEqual" value="22.755"/>
+       <SimpleSetPredicate field="Sex" booleanOperator="isIn">
+        <Array n="1" type="string">&quot;Male&quot;</Array>
+       </SimpleSetPredicate>
+      </CompoundPredicate>
+      <Node id="26" score="3.76807692307692" recordCount="26">
+       <SimplePredicate field="Total_Bill" operator="lessThan" value="29.2"/>
+      </Node>
+      <Node id="27" score="4.72" recordCount="11">
+       <SimplePredicate field="Total_Bill" operator="greaterOrEqual" value="29.2"/>
+      </Node>
+     </Node>
+    </Node>
+    <Node id="7" score="5.304" recordCount="10">
+     <SimplePredicate field="Total_Bill" operator="greaterOrEqual" value="39.075"/>
+    </Node>
+   </Node>
+  </Node>
+ </TreeModel>
+</PMML>
