@@ -1,0 +1,369 @@
+﻿<Window
+    x:Class="CustomizationDemo.CustomEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CustomizationDemo"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sfInput="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
+    xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    x:Name="customEditor"
+    Title="Custom Editor"
+    Width="830"
+    Height="530"
+    syncfusion:SkinStorage.VisualStyle="Metro"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+        </Style>
+
+        <Style TargetType="syncfusion:DateTimeEdit">
+            <Setter Property="Pattern" Value="ShortDate" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="BorderBrush" Value="DarkGray" />
+            <Setter Property="BorderThickness" Value="0.5" />
+            <Setter Property="Margin" Value="5,0,5,5" />
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="5,0,5,5" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="600" />
+        </Grid.ColumnDefinitions>
+        <ScrollViewer
+            x:Name="scroll"
+            Background="LightGray"
+            VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock
+                    Margin="2"
+                    FontSize="24"
+                    Foreground="#757575"
+                    Text="Details" />
+
+                <TextBlock
+                    Height="25"
+                    Margin="5"
+                    Foreground="Black"
+                    Text="When" />
+
+                <syncfusion:DateTimeEdit
+                    x:Name="editstartmonth"
+                    Height="25"
+                    Margin="5,0,5,5"
+                    DateTime="{Binding Appointment.StartTime, Mode=OneWay}"
+                    Pattern="ShortDate" />
+
+                <TextBlock
+                    Height="25"
+                    Margin="5"
+                    Foreground="Black"
+                    Text="Start" />
+
+                <shared:DateTimeEdit
+                    x:Name="editstarttime"
+                    Height="25"
+                    Margin="5,0,5,5"
+                    DateTime="{Binding Appointment.StartTime, Mode=OneWay}"
+                    IsButtonPopUpEnabled="False"
+                    IsVisibleRepeatButton="True"
+                    Pattern="ShortTime" />
+
+                <TextBlock
+                    Height="25"
+                    Margin="5"
+                    Foreground="Black"
+                    Text="How Long" />
+                <syncfusion:DateTimeEdit
+                    x:Name="editendmonth"
+                    Height="25"
+                    Margin="5,0,5,5"
+                    DateTime="{Binding Appointment.EndTime, Mode=OneWay}"
+                    Pattern="ShortDate" />
+
+                <TextBlock
+                    Height="25"
+                    Margin="5"
+                    Foreground="Black"
+                    Text="End" />
+                <shared:DateTimeEdit
+                    x:Name="editendtime"
+                    Height="25"
+                    Margin="5,0,5,5"
+                    DateTime="{Binding Appointment.EndTime, Mode=OneWay}"
+                    IsButtonPopUpEnabled="False"
+                    IsVisibleRepeatButton="True"
+                    Pattern="ShortTime" />
+
+                <TextBlock
+                    Height="25"
+                    Margin="5"
+                    Foreground="Black"
+                    Text="Where" />
+                <sfInput:SfTextBoxExt
+                    x:Name="where"
+                    Height="25"
+                    Margin="5,0,5,5"
+                    Text="{Binding Appointment.Location, Mode=OneWay}" />
+
+                <StackPanel x:Name="showmorepanel">
+                    <TextBlock Margin="5" Text="Reminder" />
+                    <ComboBox
+                        x:Name="reminder"
+                        Height="25"
+                        Margin="5,0,5,5"
+                        SelectedItem="{Binding Appointment.ReminderTime, Mode=OneWay}" />
+
+                    <TextBlock
+                        Height="25"
+                        Margin="5"
+                        Foreground="Black"
+                        Text="Appointment Type" />
+                    <ComboBox
+                        x:Name="apptype"
+                        Height="25"
+                        Margin="5,0,5,5"
+                        SelectedItem="{Binding Appointment.AppointmentType, Mode=OneWay}" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <Border Grid.Column="1">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="0.1*" />
+                    <RowDefinition Height="0.8*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.6*" />
+                    <ColumnDefinition Width="0.4*" />
+                </Grid.ColumnDefinitions>
+                <sfInput:SfTextBoxExt
+                    x:Name="sub"
+                    VerticalAlignment="Center"
+                    BorderThickness="0"
+                    FontFamily="Segoe UI"
+                    FontSize="23"
+                    FontWeight="ExtraLight"
+                    Foreground="#666666"
+                    Text="{Binding Appointment.Subject, Mode=OneWay}"
+                    TextWrapping="Wrap">
+                    <sfInput:SfTextBoxExt.WatermarkTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                FontFamily="Segoe UI"
+                                Foreground="#666666"
+                                Text="Add a Subject" />
+                        </DataTemplate>
+                    </sfInput:SfTextBoxExt.WatermarkTemplate>
+                </sfInput:SfTextBoxExt>
+                <StackPanel
+                    Grid.Column="1"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <Button
+                        x:Name="save"
+                        Margin="5,0"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="save_Click"
+                        FontFamily="Segoe UI">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Grid
+                                        Width="40"
+                                        Height="40"
+                                        Visibility="Visible">
+                                        <Path
+                                            Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z"
+                                            Fill="#FF008299"
+                                            Stretch="Fill"
+                                            Visibility="Visible" />
+                                    </Grid>
+                                    <Path
+                                        Width="18"
+                                        Height="18"
+                                        Data="M8.1099597,36.94997L8.1099597,41.793968 39.213959,41.793968 39.213959,36.94997z M12.42,0.049999889L18.4,0.049999889 18.4,12.252 12.42,12.252z M0,0L7.9001866,0 7.9001866,14.64218 39.210766,14.64218 39.210766,0 47.401001,0 47.401001,47.917 0,47.917z"
+                                        Fill="#FF008299"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        Stretch="Uniform">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <TransformGroup.Children>
+                                                    <RotateTransform Angle="0" />
+                                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                </TransformGroup.Children>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <Grid>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Foreground="Blue">
+                                        Save
+                                    </TextBlock>
+                                </Grid>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button
+                        x:Name="delete"
+                        Margin="5,0"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="delete_Click">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Grid
+                                        Width="40"
+                                        Height="40"
+                                        Visibility="Visible">
+                                        <Path
+                                            Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z"
+                                            Fill="#FF008299"
+                                            Stretch="Fill"
+                                            Visibility="Visible" />
+                                    </Grid>
+                                    <Path
+                                        Width="20"
+                                        Height="20"
+                                        Data="M19.670455,40.069317C17.150371,40.069317 15.270318,40.079327 13.450203,40.119242 12.660266,41.18928 11.890227,42.799215 12.640247,44.119122 13.77028,46.119062 17.09031,45.419132 19.610395,45.419132 19.620404,43.049208 19.650434,42.359287 19.670455,40.069317z M23.450458,38.229406C22.65051,39.849354 21.670505,41.279242 20.860425,42.879169 21.690402,44.4592 22.500482,46.059128 23.450458,47.529055 23.460467,46.899069 23.390519,46.089157 23.510518,45.419132 26.250577,45.779106 28.140639,44.819174 28.210588,42.559233 28.240619,41.45929 27.670657,40.789267 27.290643,39.959335 26.04061,39.929306 24.660571,40.02928 23.510518,39.909288 23.470477,39.369265 23.580466,38.679344 23.450458,38.229406z M9.0800973,32.669515C9.5001518,33.129461 10.220141,33.289492 10.640196,33.749437 10.210131,34.849503 8.9101712,35.849472 9.0201594,37.099436 9.0800973,37.789356 9.5700999,38.399323 9.8901769,38.989393 10.610166,40.349339 11.490193,42.019209 12.210181,43.149181 12.070164,42.549223 12.32017,41.999191 12.42027,41.479309 13.470224,39.879259 14.31021,38.069378 15.400326,36.499355 15.850289,36.73946 16.240314,37.029369 16.700286,37.259342 15.960277,35.769398 15.12029,34.229527 14.320221,32.669515 12.570176,32.669515 10.820131,32.669515 9.0800973,32.669515z M28.91068,31.419552C27.370601,32.339568 25.830524,33.249453 24.260537,34.129433 24.890557,35.419432 25.640576,36.639366 26.370576,37.959394 27.170644,39.429321 28.260638,40.939285 28.420676,42.879169 28.930577,41.88921 29.490649,41.00923 30.10065,39.959335 30.510696,39.259283 31.610698,37.819386 31.660749,36.939405 31.700668,36.229467 31.310641,35.859482 31.020719,35.30945 30.390697,34.16947 29.55071,32.399503 28.91068,31.419552z M17.566842,24.825841C17.512416,24.825675 17.456939,24.826972 17.400376,24.829784 15.430234,24.919747 14.740276,26.889659 13.940207,28.229707 13.450203,29.049628 12.9602,29.839643 12.640247,30.509545 14.200222,31.379514 15.750311,32.259493 17.290389,33.149481 18.330333,31.259522 19.430335,29.419612 20.530461,27.589711 19.929826,26.243175 19.254037,24.830997 17.566842,24.825841z M22.258088,24.823308C20.863288,24.818495 19.412925,24.879709 18.590348,24.879709 19.190339,25.119692 19.570354,25.509695 19.88042,26.01969 20.760448,27.419672 21.640475,29.349668 22.420524,30.779556 22.040509,31.129521 21.440396,31.269532 21.070392,31.639516 22.980476,31.60961 24.670581,31.689564 26.210538,31.689564 27.100574,30.139561 27.990611,28.579672 28.91068,27.049688 28.260638,27.289671 27.830573,27.739731 27.180534,27.959695 26.560521,27.189698 26.300628,26.039708 25.720534,25.319759 25.290591,24.769727 23.870511,24.849803 22.850467,24.829784 22.655469,24.82603 22.457347,24.823995 22.258088,24.823308z M1.1399545,16.869939L39.540954,16.869939 36.790885,48.939045C36.790885,51.368904,34.900821,53.33894,32.560674,53.33894L8.3300787,53.33894C6.0000631,53.33894,4.0999905,51.368904,4.0999907,48.939045z M12.990022,2.4988995C12.210021,2.4988995 11.58002,3.1386185 11.58002,3.9382658 11.58002,4.7379141 12.210021,5.3776331 12.990022,5.3776331L27.690047,5.3776331C28.470048,5.3776331 29.090049,4.7379141 29.090049,3.9382658 29.090049,3.1386185 28.470048,2.4988995 27.690047,2.4988995z M12.710021,0L27.970048,0C30.24005,0,32.100055,1.7092466,32.450055,3.9382658L34.89006,3.9382658C38.090064,3.9382658,40.680068,6.7170429,40.680068,10.145535L40.680068,12.684417C40.680068,13.074246,40.640067,13.454078,40.58007,13.833911L0.10000002,13.833911C0.030000329,13.454078,2.3841858E-07,13.074246,0,12.684417L0,10.145535C2.3841858E-07,6.7170429,2.5900046,3.9382658,5.8000094,3.9382658L8.230014,3.9382658C8.5800148,1.7092466,10.440018,0,12.710021,0z"
+                                        Fill="#FF008299"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        Stretch="Uniform">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <TransformGroup.Children>
+                                                    <RotateTransform Angle="0" />
+                                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                </TransformGroup.Children>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <Grid>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Foreground="Blue">
+                                        Delete
+                                    </TextBlock>
+                                </Grid>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                    <Button
+                        x:Name="close"
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Click="close_Click">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Grid
+                                        Width="40"
+                                        Height="40"
+                                        Visibility="Visible">
+                                        <Path
+                                            Data="M50.5,4.7500001C25.232973,4.75 4.75,25.232973 4.7500001,50.5 4.75,75.767029 25.232973,96.25 50.5,96.25 75.767029,96.25 96.25,75.767029 96.25,50.5 96.25,25.232973 75.767029,4.75 50.5,4.7500001z M50.5,0C78.390381,0 101,22.609621 101,50.5 101,78.390381 78.390381,101 50.5,101 22.609621,101 0,78.390381 0,50.5 0,22.609621 22.609621,0 50.5,0z"
+                                            Fill="#FF0000"
+                                            Stretch="Fill"
+                                            Visibility="Visible" />
+                                    </Grid>
+                                    <Path
+                                        Width="16"
+                                        Height="16"
+                                        Data="F1M54.0573,47.8776L38.1771,31.9974 54.0547,16.1198C55.7604,14.4141 55.7604,11.6511 54.0573,9.94531 52.3516,8.23962 49.5859,8.23962 47.8802,9.94531L32.0026,25.8229 16.1224,9.94531C14.4167,8.23962 11.6511,8.23962 9.94794,9.94531 8.24219,11.6511 8.24219,14.4141 9.94794,16.1198L25.8255,32 9.94794,47.8776C8.24219,49.5834 8.24219,52.3477 9.94794,54.0534 11.6511,55.7572 14.4167,55.7585 16.1224,54.0534L32.0026,38.1745 47.8802,54.0534C49.5859,55.7585 52.3516,55.7572 54.0573,54.0534 55.7604,52.3477 55.763,49.5834 54.0573,47.8776z"
+                                        Fill="#FF0000"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        Stretch="Uniform">
+                                        <Path.RenderTransform>
+                                            <TransformGroup>
+                                                <TransformGroup.Children>
+                                                    <RotateTransform Angle="0" />
+                                                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                </TransformGroup.Children>
+                                            </TransformGroup>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                </Grid>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <Button.ToolTip>
+                            <ToolTip>
+                                <Grid>
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="13"
+                                        Foreground="Blue">
+                                        Close
+                                    </TextBlock>
+                                </Grid>
+                            </ToolTip>
+                        </Button.ToolTip>
+                    </Button>
+                </StackPanel>
+                <Border
+                    Grid.Row="1"
+                    Grid.ColumnSpan="2"
+                    VerticalAlignment="Center"
+                    BorderBrush="#666666"
+                    BorderThickness="0,1,0,0" />
+
+                <sfInput:SfTextBoxExt
+                    x:Name="notes"
+                    Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    VerticalAlignment="Top"
+                    BorderThickness="0"
+                    FontFamily="Segoe UI"
+                    FontSize="18"
+                    FontWeight="ExtraLight"
+                    Foreground="#666666"
+                    Text="{Binding Appointment.Notes}"
+                    TextWrapping="Wrap">
+                    <sfInput:SfTextBoxExt.WatermarkTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                FontFamily="Segoe UI"
+                                Foreground="#666666"
+                                Text="Notes" />
+                        </DataTemplate>
+                    </sfInput:SfTextBoxExt.WatermarkTemplate>
+                </sfInput:SfTextBoxExt>
+            </Grid>
+        </Border>
+    </Grid>
+
+</Window>

@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="WeatherAnalysis.GridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WeatherAnalysis"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sync="http://schemas.syncfusion.com/wpf"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <local:TemperatureFormatConverter x:Key="temperatureFormatConverter" />
+        <local:HumidityFormatConverter x:Key="humidityFormatConverter" />
+        <local:OutlookConverter x:Key="outlookConverter" />
+
+        <DataTemplate x:Key="windTemplate">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center"
+                           FontFamily="Segoe UI"
+                           FontSize="16"
+                           FontWeight="Light"
+                           Text="{Binding Temperature}" />
+                <TextBlock VerticalAlignment="Center"
+                           FontFamily="Segoe UI"
+                           FontSize="16"
+                           FontWeight="Light"
+                           Text="Mph" />
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <sync:SfDataGrid AllowSorting="False"
+                     AutoGenerateColumns="False"
+                     Background="White"
+                     BorderThickness="0"
+                     ColumnSizer="Star"
+                     HeaderRowHeight="35"
+                     ScrollViewer.PanningMode="Both"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ItemsSource="{Binding Data}"
+                     RowHeight="65"
+                     SelectionMode="None">
+        <sync:SfDataGrid.Columns>
+
+            <sync:GridTextColumn DisplayBinding="{Binding Time, StringFormat=t}" MappingName="Time" />
+
+            <sync:GridTemplateColumn HeaderText="Sky Condition" MappingName="SkyCondition">
+                <sync:GridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Image Source="{Binding SkyCondition, Converter={StaticResource outlookConverter}}" />
+                    </DataTemplate>
+                </sync:GridTemplateColumn.CellTemplate>
+            </sync:GridTemplateColumn>
+
+            <sync:GridTemplateColumn MappingName="Temperature">
+                <sync:GridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI"
+                                   FontSize="28"
+                                   FontWeight="Light"
+                                   Text="{Binding Temperature,
+                                                  Converter={StaticResource temperatureFormatConverter}}" />
+                    </DataTemplate>
+                </sync:GridTemplateColumn.CellTemplate>
+            </sync:GridTemplateColumn>
+
+            <sync:GridTemplateColumn HeaderText="Humidity" MappingName="SkyCondition">
+                <sync:GridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI"
+                                   FontSize="16"
+                                   FontWeight="Light"
+                                   Text="{Binding SkyCondition}" />
+                    </DataTemplate>
+                </sync:GridTemplateColumn.CellTemplate>
+            </sync:GridTemplateColumn>
+
+            <sync:GridTemplateColumn CellTemplate="{StaticResource windTemplate}" MappingName="Wind" />
+
+            <sync:GridTemplateColumn HeaderText="Dew Point" MappingName="DewPoint">
+                <sync:GridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI"
+                                   FontSize="16"
+                                   FontWeight="Light"
+                                   Text="{Binding Humidity,
+                                                  Converter={StaticResource temperatureFormatConverter},
+                                                  ConverterParameter=Approx}" />
+                    </DataTemplate>
+                </sync:GridTemplateColumn.CellTemplate>
+            </sync:GridTemplateColumn>
+
+            <sync:GridTemplateColumn HeaderText="Pressure" MappingName="Humidity">
+                <sync:GridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Segoe UI"
+                                   FontSize="16"
+                                   FontWeight="Light"
+                                   Text="{Binding Humidity,
+                                                  Converter={StaticResource humidityFormatConverter}}" />
+                    </DataTemplate>
+                </sync:GridTemplateColumn.CellTemplate>
+            </sync:GridTemplateColumn>
+
+        </sync:SfDataGrid.Columns>
+    </sync:SfDataGrid>
+</UserControl>

@@ -1,0 +1,307 @@
+﻿<layout:SampleLayoutWindow x:Class="AxisConfiguration.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+        xmlns:local="clr-namespace:AxisConfiguration" ResizeMode="CanResizeWithGrip"
+        xmlns:layout="clr-namespace:Syncfusion.Windows.SampleLayout;assembly=Syncfusion.Chart.Wpf.SampleLayout"
+        UserOptionsVisibility="Visible" 
+        WindowStartupLocation="CenterScreen"
+        Title="Features">
+    <Grid >
+        
+        <Grid.DataContext>
+            <local:CategoryDataViewModel/>
+        </Grid.DataContext>
+        
+        <Grid.Resources>
+
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock Text="{Binding LabelContent}" FontSize="12" />
+            </DataTemplate>
+
+            <Style x:Key="axisLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="#FFBCBEC0"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+
+            <Style x:Key="gridLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="Gray"/>
+                <Setter Property="StrokeThickness" Value="0.2"/>
+            </Style>
+
+            <Style x:Key="majorTickLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="#FFBCBEC0"/>
+                <Setter Property="StrokeThickness" Value="1"/>
+            </Style>
+
+        </Grid.Resources>
+        
+        <chart:SfChart x:Name="columnChart" Margin="15" AreaBorderThickness="0" VerticalAlignment="Center">
+            
+            <chart:SfChart.Header>
+                <TextBlock FontSize="20" 
+                           Margin="0,-10,0,5">Production Details</TextBlock>
+            </chart:SfChart.Header>
+            
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis x:Name="categoryAxis"
+                                    Header="Product" 
+                                    IsInversed="{Binding ElementName=isInversed, Path=IsChecked, Mode=TwoWay}" 
+                                    LabelPlacement="{Binding ElementName=labelPlacement, Path=SelectedItem, Mode=TwoWay}"
+                                    LabelRotationAngle="0"
+                                    LabelsPosition="{Binding ElementName=labelPosition, Path=SelectedItem, Mode=TwoWay}"
+                                    OpposedPosition="{Binding ElementName=opposedPosition, Path=IsChecked, Mode=TwoWay}"
+                                    LabelsIntersectAction="{Binding ElementName=labelIntersectAction, Path=SelectedItem, Mode=TwoWay}"
+                                    TickLinesPosition="{Binding ElementName=tickPosition, Path=SelectedItem, Mode=TwoWay}"
+                                    Visibility="{Binding ElementName=axisVisibility, Path=SelectedItem, Mode=TwoWay}"
+                                    EnableScrollBar="{Binding ElementName=enableScroll, Path=IsChecked, Mode=TwoWay}"
+                                    EnableTouchMode="{Binding ElementName=enableTouch, Path=IsChecked, Mode=TwoWay}"
+                                    LabelExtent="0" TickLineSize="6" 
+                                     HeaderPosition="{Binding ElementName=headerPosition, Path=SelectedItem, Mode=TwoWay}"
+                                     ShowAxisNextToOrigin="{Binding ElementName=showNextToOrgin,Path=IsChecked,Mode=TwoWay}"
+                                    LabelTemplate="{StaticResource labelTemplate }" 
+					                AxisLineStyle="{StaticResource axisLineStyle}"
+                                    MajorTickLineStyle="{StaticResource majorTickLineStyle}"
+					                MajorGridLineStyle="{StaticResource gridLineStyle}"
+                                    EdgeLabelsDrawingMode="{Binding ElementName=edgeLabel, Path=SelectedItem, Mode=TwoWay}">
+                </chart:CategoryAxis>
+            </chart:SfChart.PrimaryAxis>
+            
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis x:Name="numericalAxis" Header="Percentage (%)" 
+                                     IsInversed="{Binding ElementName=isInversed1, Path=IsChecked, Mode=TwoWay}" 
+                                     LabelRotationAngle="0"
+                                     LabelsPosition="{Binding ElementName=labelPosition1, Path=SelectedItem, Mode=TwoWay}"
+                                     OpposedPosition="{Binding ElementName=opposedPosition1, Path=IsChecked, Mode=TwoWay}"
+                                     RangePadding="{Binding ElementName=rangePadding, Path=SelectedItem, Mode=TwoWay}"
+                                     LabelsIntersectAction="{Binding ElementName=labelsIntersectAction1, Path=SelectedItem, Mode=TwoWay}"
+                                     TickLinesPosition="{Binding ElementName=tickPosition1, Path=SelectedItem, Mode=TwoWay}"
+                                     Visibility="{Binding ElementName=axisVisibility1, Path=SelectedItem, Mode=TwoWay}"
+                                     EnableScrollBar="{Binding ElementName=enableScroll1, Path=IsChecked, Mode=TwoWay}"
+                                     EnableTouchMode="{Binding ElementName=enableTouch1, Path=IsChecked, Mode=TwoWay}"
+                                     LabelExtent="0" 
+                                     HeaderPosition="{Binding ElementName=headerPosition1, Path=SelectedItem, Mode=TwoWay}"
+                                     ShowAxisNextToOrigin="{Binding ElementName=showNextToOrgin1,Path=IsChecked,Mode=TwoWay}"
+                                     EdgeLabelsDrawingMode="{Binding ElementName=edgeLabel1, Path=SelectedItem, Mode=TwoWay}"
+                                     LabelTemplate="{StaticResource labelTemplate }" 
+					                 AxisLineStyle="{StaticResource axisLineStyle}"
+                                     MajorTickLineStyle="{StaticResource majorTickLineStyle}"
+					                 MajorGridLineStyle="{StaticResource gridLineStyle}"/>
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:ColumnSeries EnableAnimation="True" Palette="Metro" 
+                                ItemsSource="{Binding CategoricalDatas}"  
+                                XBindingPath="Category" YBindingPath="Value" 
+                                Label="First" >
+                <chart:ColumnSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo AdornmentsPosition="TopAndBottom" 
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center" 
+                                              ShowLabel="True" ShowMarker="True">
+                        <chart:ChartAdornmentInfo.LabelTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding}" Foreground="White"  FontSize="20"/>
+                                </Grid>
+                            </DataTemplate>
+                        </chart:ChartAdornmentInfo.LabelTemplate>
+                    </chart:ChartAdornmentInfo>
+                </chart:ColumnSeries.AdornmentsInfo>
+            </chart:ColumnSeries>
+
+        </chart:SfChart>
+        
+    </Grid>
+    <layout:SampleLayoutWindow.UserOptionsLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.DataContext>
+                <local:CategoryDataViewModel/>
+            </Grid.DataContext>
+            <Expander Header="PrimaryAxis" IsExpanded="False">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Is Inversed"/>
+                    <CheckBox Grid.Row="0" Grid.Column="1" Name="isInversed" IsChecked="False" />
+
+                    <TextBlock  Name="customRange" Grid.Row="1" Grid.Column="0" Text="LabelRotationAngle" />
+                    <Slider Name="labelsRotation" Grid.Row="1" Grid.Column="1" 
+                            Minimum="0" Maximum="360"
+                            Value="{Binding ElementName=categoryAxis, Path=LabelRotationAngle, Mode=TwoWay}"/>
+
+                    <TextBlock  Grid.Row="2" Grid.Column="0" Text="LabelPosition" />
+                    <ComboBox Name="labelPosition" Grid.Row="2"  Grid.Column="1" IsEditable="False" FontSize="13"
+                              SelectedIndex="1" ItemsSource="{Binding LabelPosition}"/>
+
+                    <TextBlock  Grid.Row="3" Grid.Column="0" Text="Opposed Position"/>
+                    <CheckBox Name="opposedPosition" Grid.Row="3" Grid.Column="1" IsChecked="False"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Label Placement"/>
+                    <ComboBox Grid.Row="4" Grid.Column="1" Name="labelPlacement" IsEditable="False" FontSize="13"
+                              SelectedIndex="1" ItemsSource="{Binding DrawingMode}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="LabelIntersectAction"/>
+                    <ComboBox Grid.Row="5" Grid.Column="1" Name="labelIntersectAction" IsEditable="False" FontSize="13"
+                              SelectedIndex="1" ItemsSource="{Binding LabelsIntersectAction}"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="TickLinesPosition"/>
+                    <ComboBox Name="tickPosition" Grid.Row="6" Grid.Column="1" IsEditable="False" FontSize="13"
+                              SelectedIndex="1" ItemsSource="{Binding LabelPosition}"/>
+
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Axis Visibility"/>
+                    <ComboBox Name="axisVisibility" Grid.Row="7" Grid.Column="1" IsEditable="False" FontSize="13"
+                              SelectedIndex="0" ItemsSource="{Binding AxisVisibility}"/>
+
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Enable Scrollbar"></TextBlock>
+                    <CheckBox Name="enableScroll" Grid.Row="8" Grid.Column="1" IsChecked="False"/>
+
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Enable TouchMode"></TextBlock>
+                    <CheckBox Name="enableTouch" Grid.Row="9" Grid.Column="1" IsChecked="False"/>
+
+                    <TextBlock Grid.Row="10" Grid.Column="0" Text="Label Extent"/>
+                    <Slider Name="labelExtent" Grid.Row="10" Grid.Column="1" 
+                            Minimum="0" Maximum="100" 
+                            Value="{Binding ElementName=categoryAxis, Path=LabelExtent, Mode=TwoWay}"/>
+                    
+                    <TextBlock Grid.Row="11" Grid.Column="0" Text="TickLine Size"/>
+                    <Slider Name="tickLineSize" Grid.Row="11" Grid.Column="1" 
+                            Minimum="6" Maximum="10" 
+                            Value="{Binding ElementName=categoryAxis, Path=TickLineSize, Mode=TwoWay}"/>
+                    
+                    <TextBlock Grid.Row="12" Grid.Column="0" Text="EdgeLabel DrawingMode"/>
+                    <ComboBox Name="edgeLabel" Grid.Row="12" Grid.Column="1" IsEditable="False" FontSize="13"
+                              SelectedIndex="0" ItemsSource="{Binding EdgeLabelsDrawingMode}"/>
+
+                    <TextBlock Grid.Row="13" Grid.Column="0" Text="Origin"/>
+                    <Slider Name="origin" Grid.Column="1" Grid.Row="13" Minimum="0" Maximum="70"
+                            Value="{Binding ElementName=categoryAxis,Path=Origin,Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="14" Grid.Column="0" Text="ShowAxisNextToOrgin"></TextBlock>
+                    <CheckBox Name="showNextToOrgin" Grid.Row="14" Grid.Column="1" IsChecked="False"/>
+
+                    <TextBlock Grid.Row="15" Grid.Column="0" Text="HeaderPosition"></TextBlock>
+                    <ComboBox Grid.Column="1" Grid.Row="15"  Name="headerPosition"   SelectedIndex="0" FontSize="13" IsEditable="False"
+                              ItemsSource="{Binding AxisHeaderPosition}"/>
+                </Grid>
+            </Expander>
+        <Expander Grid.Row="1" IsExpanded="False" Header="SecondaryAxis">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0"  Text="Is Inversed"/>
+                    <CheckBox Grid.Row="0" Grid.Column="1" Name="isInversed1" IsChecked="False" />
+
+                    <TextBlock   Grid.Row="1" Grid.Column="0" Text="LabelRotationAngle" />
+                    <Slider Name="labelsRotation1" Grid.Row="1" Grid.Column="1" 
+                            Minimum="0" Maximum="360" 
+                            Value="{Binding ElementName=numericalAxis, Path=LabelRotationAngle, Mode=TwoWay}"/>
+
+                    <TextBlock  Grid.Row="2" Grid.Column="0" Text="LabelPosition" />
+                    <ComboBox Name="labelPosition1" Grid.Row="2"  Grid.Column="1" IsEditable="False" FontSize="13"
+                              SelectedIndex="1" ItemsSource="{Binding LabelPosition}"/>
+
+                    <TextBlock  Grid.Row="3" Grid.Column="0" Text="Opposed Position"/>
+                    <CheckBox Name="opposedPosition1" Grid.Row="3" Grid.Column="1" IsChecked="False"/>
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Range Padding"/>
+                    <ComboBox Grid.Row="4" Grid.Column="1" Name="rangePadding" IsEditable="False" FontSize="13"
+                              SelectedIndex="1" ItemsSource="{Binding RangePadding}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="LabelIntersectAction"/>
+                    <ComboBox Grid.Row="5" Grid.Column="1" Name="labelsIntersectAction1" IsEditable="False" FontSize="13"
+                              SelectedIndex="1" ItemsSource="{Binding LabelsIntersectAction}"/>
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="TickLinesPosition"/>
+                    <ComboBox Name="tickPosition1" Grid.Row="6" Grid.Column="1" IsEditable="False" FontSize="13"
+                              SelectedIndex="1" ItemsSource="{Binding LabelPosition}"/>
+
+                    <TextBlock Grid.Row="7" Grid.Column="0" Text="Axis Visibility"/>
+                    <ComboBox Name="axisVisibility1" Grid.Row="7" Grid.Column="1" IsEditable="False" FontSize="13"
+                              SelectedIndex="0" ItemsSource="{Binding AxisVisibility}"/>
+
+                    <TextBlock Grid.Row="8" Grid.Column="0" Text="Enable Scrollbar"></TextBlock>
+                    <CheckBox Name="enableScroll1" Grid.Row="8" Grid.Column="1" IsChecked="False"/>
+
+                    <TextBlock Grid.Row="9" Grid.Column="0" Text="Enable TouchMode"></TextBlock>
+                    <CheckBox Name="enableTouch1" Grid.Row="9" Grid.Column="1" IsChecked="False"/>
+
+                    <TextBlock Grid.Row="10" Grid.Column="0" Text="Label Extent"/>
+                    <Slider Name="labelExtent1" Grid.Row="10" Grid.Column="1" 
+                            Minimum="0" Maximum="100" 
+                            Value="{Binding ElementName=numericalAxis, Path=LabelExtent, Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="11" Grid.Column="0" Text="TickLine Size"/>
+                    <Slider Name="tickLineSize1" Grid.Row="11" Grid.Column="1" 
+                            Minimum="6" Maximum="10" 
+                            Value="{Binding ElementName=numericalAxis, Path=TickLineSize, Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="12" Grid.Column="0" Text="EdgeLabel DrawingMode"/>
+                    <ComboBox Name="edgeLabel1" Grid.Row="12" Grid.Column="1" IsEditable="False" FontSize="13"
+                              SelectedIndex="0" ItemsSource="{Binding EdgeLabelsDrawingMode}"/>
+                    <TextBlock Grid.Row="13" Grid.Column="0" Text="Origin"/>
+                    <Slider Name="origin1" Grid.Column="1" Grid.Row="13" 
+                            Value="{Binding ElementName=numericalAxis,Path=Origin,Mode=TwoWay}"/>
+
+                    <TextBlock Grid.Row="14" Grid.Column="0" Text="ShowAxisNextToOrgin"></TextBlock>
+                    <CheckBox Name="showNextToOrgin1" Grid.Row="14" Grid.Column="1" IsChecked="False"/>
+
+                    <TextBlock Grid.Row="15" Grid.Column="0" Text="HeaderPosition"></TextBlock>
+                    <ComboBox Grid.Column="1" Grid.Row="15"  Name="headerPosition1"   SelectedIndex="0" FontSize="13" IsEditable="False"
+                              ItemsSource="{Binding AxisHeaderPosition}"/>
+                </Grid>
+            </Expander>
+        </Grid>
+    </layout:SampleLayoutWindow.UserOptionsLayout>
+</layout:SampleLayoutWindow>

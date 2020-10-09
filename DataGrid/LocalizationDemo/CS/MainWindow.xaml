@@ -1,0 +1,58 @@
+﻿<syncfusion:ChromelessWindow x:Class="LocalizationDemo.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:local="clr-namespace:LocalizationDemo"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+							 xmlns:syncfusionskin ="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+							 syncfusionskin:SfSkinManager.VisualStyle="MaterialLight"
+                             Title="Localization"
+                             Icon="/LocalizationDemo;component/Resources/App.ico"
+                             WindowStartupLocation="CenterScreen">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:OrderInfoViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="140" />
+        </Grid.ColumnDefinitions>
+        <syncfusion:SfDataGrid Margin="5" x:Name="dataGrid"
+                                   AllowFiltering="True"
+                                   AllowGrouping="True"
+                                   AutoGenerateColumns="False"
+                                   ColumnSizer="Star"
+                                   GroupCaptionTextFormat="'{ColumnName} : {Key} - {ItemsCount} Artikel'"
+                                   GroupDropAreaText="Ziehen Sie eine Spaltenüberschrift Sie hier, um nach dieser Spalte Gruppe"
+                                   IsGroupDropAreaExpanded="True"
+                                   ItemsSource="{Binding OrdersDetails}"
+                                   NavigationMode="Row"
+                                   ShowGroupDropArea="True">
+
+            <syncfusion:SfDataGrid.Columns>
+
+                <syncfusion:GridTextColumn HeaderText="Bestellen ID"
+                                               MappingName="OrderID"
+                                               TextAlignment="Right" />
+                <syncfusion:GridTextColumn HeaderText="Auftraggeber ID" MappingName="CustomerID" />
+                <syncfusion:GridTextColumn HeaderText="Mitarbeiter ID"
+                                               MappingName="EmployeeID"
+                                               TextAlignment="Right" />
+                <syncfusion:GridTextColumn HeaderText="Verschiffen Stadt" MappingName="ShipCity" />
+                <syncfusion:GridTextColumn HeaderText="Verschiffen Land" MappingName="ShipCountry" />
+                <syncfusion:GridTextColumn DisplayBinding="{Binding Path=Freight,
+                                                                        StringFormat='{}{0:C}'}"
+                                               HeaderText="Frachtkosten"
+                                               TextAlignment="Right" />
+
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+        <StackPanel Margin="5" Grid.Column="1">
+            <TextBlock Text="Print Option" FontWeight="Bold"/>
+            <Button Margin="10,5,5,5"
+                                    Command="local:Commands.PrintPreview"
+                                    CommandTarget="{Binding ElementName=dataGrid}"
+                                    Content="Print Preview"
+                                    ToolTip="Shows the Print Preview" />
+                </StackPanel>
+    </Grid>
+</syncfusion:ChromelessWindow>

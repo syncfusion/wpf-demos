@@ -1,0 +1,210 @@
+﻿<Window
+    x:Class="CustomizationDemo.Reminder"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Reminder"
+    Width="470"
+    Height="340"
+    BorderBrush="LightGray"
+    BorderThickness="1"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="230" />
+            <RowDefinition Height="55" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition Width="0.6*" />
+            </Grid.ColumnDefinitions>
+            <Grid
+                Name="backgroundGrid"
+                Grid.Column="0"
+                Width="16"
+                Height="16"
+                Margin="10,0,0,0"
+                HorizontalAlignment="Left"
+                Visibility="Visible">
+                <Path
+                    Width="16"
+                    Height="16"
+                    Margin="0,0,0,0"
+                    Data="M24.0459,1.9940863C22.090275,1.9940867 20.500435,3.7837088 20.500435,5.9828703 20.500435,6.1765296 20.516533,6.3649871 20.544119,6.5493176L20.566452,6.6729229 21.214073,6.5807907C22.010324,6.4840838 22.830551,6.4340002 23.671194,6.4340002 24.791801,6.4340002 25.895575,6.5230377 26.969215,6.6929114L27.504127,6.7882234 27.547319,6.5493176C27.574993,6.3649871 27.591267,6.1765296 27.591267,5.9828703 27.591267,3.7837088 26.001427,1.9940867 24.0459,1.9940863z M24.0459,0C26.98259,0 29.364,2.6789484 29.364,5.9828703 29.364,6.3631696 29.325602,6.7308398 29.264404,7.0909998L28.877613,7.0909998 29.328443,7.2080796C35.709423,8.9988019 40.523598,13.706933 40.523598,19.33026 40.523598,21.050928 40.106197,22.693295 39.350994,24.196766 38.85799,29.539064 38.904289,37.866304 43.231216,41.710627 49.871159,47.612917 48.025444,52.03993 47.287838,53.515001L26.629612,53.515001 24.924,53.515001 24.924,58.230986 25.194012,58.329767C26.253155,58.777498 26.997999,59.825701 26.997999,61.047651 26.997999,62.677813 25.673832,64.000002 24.046049,64.000002 22.416367,64.000002 21.094,62.677813 21.094,61.047651 21.094,59.825701 21.837831,58.777498 22.897268,58.329767L23.167,58.231127 23.167,53.515001 21.464781,53.515001 0.80445221,53.515001C0.066837148,52.03993 -1.7768643,47.612917 4.8625169,41.710627 9.6535063,37.450312 9.1963033,27.6856 8.5694999,22.580198 8.2367983,21.541218 8.0603571,20.453138 8.0603571,19.33026 8.0603571,13.706933 12.115521,8.9988019 18.165386,7.2080796L18.817469,7.0300756 18.785555,6.8193915C18.748995,6.5462154 18.727001,6.2680947 18.727001,5.9828703 18.727001,2.6789484 21.108511,0 24.0459,0z"
+                    Fill="#FF292929"
+                    RenderTransformOrigin="0.5,0.5"
+                    Stretch="Uniform" />
+            </Grid>
+            <TextBlock
+                x:Name="count"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Foreground="Gray"
+                Text="{Binding ReminderAppointmentCollection.Count}" />
+            <TextBlock
+                Grid.Column="1"
+                Margin="3,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                FontSize="15"
+                Foreground="Gray"
+                Text="Reminder(s)" />
+            <Grid
+                Grid.Column="1"
+                Margin="0,5,15,0"
+                HorizontalAlignment="Right"
+                MouseDown="Grid_MouseDown">
+                <Line
+                    Stroke="Gray"
+                    StrokeThickness="2.5"
+                    X1="0"
+                    X2="10"
+                    Y1="5"
+                    Y2="15" />
+                <Line
+                    Stroke="Gray"
+                    StrokeThickness="2.5"
+                    X1="0"
+                    X2="10"
+                    Y1="15"
+                    Y2="5" />
+            </Grid>
+        </Grid>
+        <Rectangle
+            Grid.Row="1"
+            Width="470"
+            Height="1"
+            Stroke="LightGray" />
+        <ListBox
+            x:Name="listbox"
+            Grid.Row="2"
+            Margin="10"
+            ItemsSource="{Binding ReminderAppCollection}"
+            SelectedIndex="0"
+            SelectionChanged="ListBox_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="5,7">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="150" />
+                            <ColumnDefinition Width="190" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid
+                            Name="backgroundGrid"
+                            Grid.Column="0"
+                            Width="35"
+                            Height="35"
+                            Margin="2,0,0,0">
+                            <Image Source="/CustomizationDemo;component/Assets/ReminderIcon.png" />
+                        </Grid>
+                        <TextBlock
+                            x:Name="Subject"
+                            Grid.Column="1"
+                            Margin="20,0,0,0"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe UI"
+                            FontSize="18"
+                            FontWeight="ExtraLight"
+                            Text="{Binding Subject}" />
+                        <Grid x:Name="Time" Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="4*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="4*" />
+                                <RowDefinition Height="4*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe UI"
+                                FontWeight="Light"
+                                Text="Start" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                FontFamily="Segoe UI"
+                                FontWeight="Light"
+                                Text="End" />
+                            <TextBlock
+                                x:Name="Start"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="2"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="Gray"
+                                Text="{Binding StartTime}" />
+
+                            <TextBlock
+                                x:Name="End"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Margin="2"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                Foreground="Gray"
+                                Text="{Binding EndTime}" />
+                        </Grid>
+                        <Grid
+                            Grid.Column="3"
+                            Margin="0,5,15,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            MouseDown="Remind_MouseDown">
+                            <Line
+                                Stroke="Gray"
+                                StrokeThickness="2.5"
+                                X1="0"
+                                X2="10"
+                                Y1="5"
+                                Y2="15" />
+                            <Line
+                                Stroke="Gray"
+                                StrokeThickness="2.5"
+                                X1="0"
+                                X2="10"
+                                Y1="15"
+                                Y2="5" />
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Grid Grid.Row="3" Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="0.3*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                x:Name="DismissAll"
+                Grid.Row="1"
+                Grid.Column="2"
+                Width="100"
+                Height="30"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Right"
+                Background="White"
+                BorderBrush="#808080"
+                Click="DismissAll_Click"
+                FontFamily="Segoe UI"
+                FontWeight="Normal"
+                IsCancel="True">
+                Dismiss All
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

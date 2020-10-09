@@ -1,0 +1,71 @@
+﻿<Window
+    x:Class="DataBinding.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DataBinding"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    Title="Data Binding in WPF Scheduler"
+    Icon="App.ico"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <local:ViewModel />
+    </Window.DataContext>
+
+    <Window.Resources>
+        <ObjectDataProvider
+            x:Key="scheduleViews"
+            MethodName="GetValues"
+            ObjectType="{x:Type system:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="syncfusion:ScheduleType" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <Grid>
+        <syncfusion:SfSchedule
+            x:Name="Schedule"
+            IsHighLightWorkingHours="True"
+            Resource="Doctors"
+            ScheduleType="WorkWeek"
+            ShowNonWorkingHours="False"
+            WorkEndHour="18"
+            WorkStartHour="9">
+
+            <syncfusion:SfSchedule.AppointmentMapping>
+                <syncfusion:ScheduleAppointmentMapping
+                    AppointmentBackgroundMapping="Color"
+                    DisplayNameMapping="DisplayName"
+                    EndTimeMapping="To"
+                    IsRecursiveMapping="IsRecursive"
+                    RecurrenceRuleMapping="RecurrenceRule"
+                    ResourceCollectionMapping="ResourceCollection"
+                    ResourceNameMapping="ResourceName"
+                    StartTimeMapping="From"
+                    SubjectMapping="EventName"
+                    TypeNameMapping="TypeName" />
+            </syncfusion:SfSchedule.AppointmentMapping>
+            <syncfusion:SfSchedule.ItemsSource>
+                <Binding Path="Events" />
+            </syncfusion:SfSchedule.ItemsSource>
+            <syncfusion:SfSchedule.ScheduleResourceTypeCollection>
+                <syncfusion:ResourceType TypeName="Doctors">
+                    <local:Event DisplayName="Dr.Jacob John, M.D" ResourceName="Dr.Jacob" />
+                    <local:Event DisplayName="Dr.Darsy Mascio, M.D" ResourceName="Dr.Darsy" />
+                </syncfusion:ResourceType>
+            </syncfusion:SfSchedule.ScheduleResourceTypeCollection>
+        </syncfusion:SfSchedule>
+        <StackPanel
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <ComboBox
+                Margin="5"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Source={StaticResource scheduleViews}}"
+                SelectedValue="{Binding ElementName=Schedule, Path=ScheduleType}" />
+        </StackPanel>
+    </Grid>
+</Window>

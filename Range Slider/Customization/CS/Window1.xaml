@@ -1,0 +1,466 @@
+﻿<Window
+    x:Class="CustomizationDemo.Window2"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:CustomizationDemo"
+    xmlns:sblayout="clr-namespace:SampleLayout.WPF;assembly=Syncfusion.SampleLayout.WPF"
+    xmlns:sfshared="http://schemas.syncfusion.com/wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Title="RangeSlider Customization"
+    Width="710"
+    Height="600"
+    FontFamily="Calibri"
+    FontSize="13"
+    Icon="App.ico"
+    WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <Style
+                x:Key="RectangleInactiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Height" Value="3" />
+                <Setter Property="Fill" Value="#a8a8a8" />
+                <Setter Property="RadiusX" Value="2" />
+                <Setter Property="RadiusY" Value="2" />
+            </Style>
+            <Style
+                x:Key="SmallRectangleInactiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Height" Value="15" />
+                <Setter Property="Fill" Value="#efefef" />
+            </Style>
+            <Style
+                x:Key="RoundRectangleInactiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Height" Value="2" />
+                <Setter Property="Fill" Value="#b3b3b3" />
+            </Style>
+            <Style
+                x:Key="ColorInactiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Width" Value="2" />
+                <Setter Property="Fill" Value="#ededed" />
+            </Style>
+            <Style
+                x:Key="GradientColorInactiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Width" Value="5" />
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Offset="0.0" Color="#e1e1e1" />
+                            <GradientStop Offset="0.5" Color="LightGray" />
+                            <GradientStop Offset="1.0" Color="#e1e1e1" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="RadiusX" Value="3" />
+                <Setter Property="RadiusY" Value="3" />
+            </Style>
+            <Style
+                x:Key="RectangleActiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Height" Value="3" />
+                <Setter Property="Fill" Value="#505050" />
+            </Style>
+            <Style
+                x:Key="SmallRectangleActiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Height" Value="15" />
+                <Setter Property="Fill" Value="#0997b0" />
+            </Style>
+            <Style
+                x:Key="RoundRectangleActiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Height" Value="2" />
+                <Setter Property="Fill" Value="#b3b3b3" />
+            </Style>
+            <Style
+                x:Key="ColorActiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Width" Value="2" />
+                <Setter Property="Fill" Value="#fe7d20" />
+            </Style>
+            <Style
+                x:Key="GradientColorActiveTrackStyle"
+                TargetType="Rectangle">
+                <Setter Property="Width" Value="5" />
+                <Setter Property="Fill">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Offset="0.0" Color="#fccf96" />
+                            <GradientStop Offset="0.5" Color="#fe9996" />
+                            <GradientStop Offset="0.1" Color="#fc84a5" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style
+                x:Key="StickThumbStyle"
+                TargetType="Thumb">
+                <Setter Property="Width" Value="20" />
+                <Setter Property="Height" Value="25" />
+                <Setter Property="Background" Value="#ffffff" />
+                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="BorderBrush" Value="#d8458a" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Thumb">
+                            <Canvas
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                ClipToBounds="True">
+                                <Border
+                                    Width="{TemplateBinding Width}"
+                                    Height="{TemplateBinding Height}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="2"
+                                    CornerRadius="1" />
+                                <Line
+                                    Stroke="#6b2d98"
+                                    StrokeThickness="2"
+                                    X1="8"
+                                    X2="8"
+                                    Y1="7"
+                                    Y2="19" />
+                                <Line
+                                    Stroke="#6b2d98"
+                                    StrokeThickness="2"
+                                    X1="12.5"
+                                    X2="12.5"
+                                    Y1="7"
+                                    Y2="19" />
+                            </Canvas>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style
+                x:Key="RectangleThumbStyle"
+                TargetType="Thumb">
+                <Setter Property="Width" Value="15" />
+                <Setter Property="Height" Value="15" />
+                <Setter Property="Background" Value="#7cb7f9" />
+                <Setter Property="BorderBrush" Value="#7cb7f9" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Thumb">
+                            <Grid
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="True">
+                                <Path
+                                    x:Name="grip"
+                                    Data="M 0,12 C0,12 5.5,18 5.5,18 5.5,18 11,12 11,12 11,12 11,0 11,0 11,0 0,0 0,0 0,0 0,12 0,12 z"
+                                    Fill="{TemplateBinding Background}"
+                                    Stretch="Fill"
+                                    Stroke="{TemplateBinding BorderBrush}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style
+                x:Key="RoundedThumbStyle"
+                TargetType="Thumb">
+                <Setter Property="Width" Value="10" />
+                <Setter Property="Height" Value="20" />
+                <Setter Property="Background" Value="#15d7ff" />
+                <Setter Property="BorderBrush" Value="#15d7ff" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Thumb">
+                            <Grid>
+                                <Border
+                                    Width="{TemplateBinding Width}"
+                                    Height="{TemplateBinding Height}"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="5" />
+                                <Rectangle Height="20" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style
+                x:Key="RoundedCornerThumbStyle"
+                TargetType="Thumb">
+                <Setter Property="Width" Value="13" />
+                <Setter Property="Height" Value="13" />
+                <Setter Property="Background" Value="#fe7d20" />
+                <Setter Property="BorderBrush" Value="#fe7d20" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Thumb">
+                            <Border
+                                x:Name="ThumbBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="12" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style
+                x:Key="GradientRoundedCornerThumbStyle"
+                TargetType="Thumb">
+                <Setter Property="Width" Value="13" />
+                <Setter Property="Height" Value="13" />
+                <Setter Property="Background" Value="#ffffff" />
+                <Setter Property="BorderBrush">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Offset="0.0" Color="#fccf96" />
+                            <GradientStop Offset="0.5" Color="#fe9996" />
+                            <GradientStop Offset="0.1" Color="#fc84a5" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Thumb">
+                            <Border
+                                x:Name="ThumbBorder"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="2"
+                                CornerRadius="12" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="RectangleTooltipStyle" TargetType="ToolTip">
+                <Setter Property="Background" Value="#7cb7f9" />
+                <Setter Property="Foreground" Value="#ffffff" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Grid>
+                                <Path
+                                    Width="40"
+                                    Height="30"
+                                    Margin="0,1,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M1,0 L15,0 C15.553,0 16,0.44800001 16,1 L16,10.511001 C16,11.063001 15.553,11.511001 15,11.511001 L10.173,11.511001 8,14 5.8150001,11.511001 1,11.511001 C0.44800001,11.511001 0,11.063001 0,10.511001 L0,1 C0,0.44800001 0.44800001,0 1,0 z"
+                                    Fill="{TemplateBinding Background}"
+                                    Stretch="Fill" />
+                                <TextBlock
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{TemplateBinding Content}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="SmallRectangleTooltipStyle" TargetType="ToolTip">
+                <Setter Property="Background" Value="#d8458a" />
+                <Setter Property="Foreground" Value="#ffffff" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Grid>
+                                <Path
+                                    Width="40"
+                                    Height="30"
+                                    Margin="0,1,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M1,0 L15,0 C15.553,0 16,0.44800001 16,1 L16,10.511001 C16,11.063001 15.553,11.511001 15,11.511001 L10.173,11.511001 8,14 5.8150001,11.511001 1,11.511001 C0.44800001,11.511001 0,11.063001 0,10.511001 L0,1 C0,0.44800001 0.44800001,0 1,0 z"
+                                    Fill="{TemplateBinding Background}"
+                                    Stretch="Fill" />
+                                <TextBlock
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{TemplateBinding Content}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="RoundRectangleTooltipStyle" TargetType="ToolTip">
+                <Setter Property="Background" Value="#15d7ff" />
+                <Setter Property="Foreground" Value="#ffffff" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Grid x:Name="grid">
+                                <Path
+                                    Width="40"
+                                    Height="30"
+                                    Margin="0,1,0,0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M1,0 L15,0 C15.553,0 16,0.44800001 16,1 L16,10.511001 C16,11.063001 15.553,11.511001 15,11.511001 L10.173,11.511001 8,14 5.8150001,11.511001 1,11.511001 C0.44800001,11.511001 0,11.063001 0,10.511001 L0,1 C0,0.44800001 0.44800001,0 1,0 z"
+                                    Fill="{TemplateBinding Background}"
+                                    Stretch="Fill" />
+                                <TextBlock
+                                    Margin="0,0,0,5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Text="{TemplateBinding Content}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <StackPanel>
+        <StackPanel
+            Margin="0,50,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="Normal"
+                Text="Thumb Customization" />
+            <syncfusion:SfRangeSlider
+                Width="500"
+                Margin="50,25,0,0"
+                ActiveTrackStyle="{StaticResource RectangleActiveTrackStyle}"
+                InactiveTrackStyle="{StaticResource RectangleInactiveTrackStyle}"
+                Maximum="100"
+                ThumbToolTipPlacement="TopLeft"
+                Minimum="0"
+                Orientation="Horizontal"
+                RangeEnd="80"
+                RangeStart="20"
+                ShowCustomLabels="True"
+                ShowRange="True"
+                ShowValueLabels="False"
+                ThumbStyle="{StaticResource RectangleThumbStyle}"
+                TickPlacement="None"
+                ToolTipStyle="{StaticResource RectangleTooltipStyle}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,30,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="Normal"
+                Text="Track Customization" />
+            <syncfusion:SfRangeSlider
+                Width="500"
+                Margin="50,25,0,0"
+                ActiveTrackStyle="{StaticResource SmallRectangleActiveTrackStyle}"
+                InactiveTrackStyle="{StaticResource SmallRectangleInactiveTrackStyle}"
+                Maximum="1000"
+                Minimum="0"
+                Orientation="Horizontal"
+                RangeEnd="800"
+                RangeStart="200"
+                ShowRange="True"
+                ShowValueLabels="False"
+                ThumbStyle="{StaticResource StickThumbStyle}"
+                TickPlacement="None"
+                ToolTipStyle="{StaticResource SmallRectangleTooltipStyle}" />
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,30,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Vertical">
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                FontWeight="Normal"
+                Text="Tick Customization" />
+            <syncfusion:SfRangeSlider
+                Width="500"
+                Margin="50,25,0,0"
+                ActiveTrackStyle="{StaticResource RoundRectangleActiveTrackStyle}"
+                InactiveTrackStyle="{StaticResource RoundRectangleInactiveTrackStyle}"
+                Maximum="100"
+                Minimum="0"
+                Orientation="Horizontal"
+                ShowRange="False"
+                ShowValueLabels="False"
+                SnapsTo="Ticks"
+                ThumbStyle="{StaticResource RoundedThumbStyle}"
+                TickFrequency="20"
+                TickLength="3"
+                TickPlacement="Outside"
+                TickStroke="#606060"
+                TickStrokeThickness="2"
+                ToolTipStyle="{StaticResource RoundRectangleTooltipStyle}"
+                Value="20" />
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Margin="0,20,60,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <TextBlock FontWeight="Normal" Text="Active and Inactive color" />
+                <syncfusion:SfRangeSlider
+                    Width="30"
+                    Height="280"
+                    Margin="0,15,0,0"
+                    ActiveTrackStyle="{StaticResource ColorActiveTrackStyle}"
+                    InactiveTrackStyle="{StaticResource ColorInactiveTrackStyle}"
+                    Maximum="100"
+                    Minimum="0"
+                    Orientation="Vertical"
+                    RangeEnd="80"
+                    RangeStart="40"
+                    ShowRange="True"
+                    ShowValueLabels="False"
+                    ThumbStyle="{StaticResource RoundedCornerThumbStyle}"
+                    ThumbToolTipPlacement="None"
+                    TickPlacement="None"
+                    ToolTipStyle="{StaticResource SmallRectangleTooltipStyle}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                Margin="138,20,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <TextBlock FontWeight="Normal" Text="Gradient color" />
+                <syncfusion:SfRangeSlider
+                    Width="30"
+                    Height="280"
+                    Margin="0,15,0,0"
+                    ActiveTrackStyle="{StaticResource GradientColorActiveTrackStyle}"
+                    InactiveTrackStyle="{StaticResource GradientColorInactiveTrackStyle}"
+                    Maximum="100"
+                    Minimum="0"
+                    Orientation="Vertical"
+                    RangeEnd="80"
+                    RangeStart="40"
+                    ShowRange="True"
+                    ShowValueLabels="False"
+                    ThumbStyle="{StaticResource GradientRoundedCornerThumbStyle}"
+                    ThumbToolTipPlacement="None"
+                    TickPlacement="None"
+                    ToolTipStyle="{StaticResource SmallRectangleTooltipStyle}" />
+            </StackPanel>
+        </Grid>
+    </StackPanel>
+</Window>

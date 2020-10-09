@@ -1,0 +1,56 @@
+﻿<syncfusion:ChromelessWindow x:Class="OnDemandLoading.MainWindow"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:I="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                             xmlns:local="clr-namespace:OnDemandLoading"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+							 xmlns:syncfusionskin ="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+ 							 syncfusionskin:SfSkinManager.VisualStyle="MaterialLight"
+                             Title="On-demand Loading"
+                             WindowStartupLocation="CenterScreen"
+                             Icon="App.ico">
+
+    <Grid>        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="160"/>
+        </Grid.ColumnDefinitions>        
+        <syncfusion:SfTreeGrid  Margin="5" Name="treeGrid"
+                                       AutoExpandMode="RootNodesExpanded"
+                                       AutoGenerateColumns="False"
+                                       ItemsSource="{Binding EmployeeDetails}">
+            <syncfusion:SfTreeGrid.DataContext>
+                <local:ViewModel />
+            </syncfusion:SfTreeGrid.DataContext>
+
+            <I:Interaction.Behaviors>
+                <local:RequestTreeItemsBehavior />
+            </I:Interaction.Behaviors>
+
+            <syncfusion:SfTreeGrid.Columns>
+                <syncfusion:TreeGridTextColumn HeaderText="First Name" MappingName="FirstName" />
+                <syncfusion:TreeGridTextColumn HeaderText="Employee ID"
+                                                       MappingName="ID"
+                                                       TextAlignment="Left" />
+
+                <syncfusion:TreeGridTextColumn HeaderText="Last Name" MappingName="LastName" />
+                <syncfusion:TreeGridTextColumn MappingName="Title" />
+                <syncfusion:TreeGridCurrencyColumn MappingName="Salary" />
+                <syncfusion:TreeGridTextColumn HeaderText="Reports To" MappingName="ReportsTo" />
+            </syncfusion:SfTreeGrid.Columns>
+
+        </syncfusion:SfTreeGrid>
+        
+        <StackPanel x:Name="StkPanel" Margin="5" Grid.Column="1" Orientation="Vertical">
+            <Label Content="Options" FontWeight="Bold" FontSize="12"/>
+            <Button Margin="10,5,5,5"
+                                Command="local:ExpandCommand.ExpandAll"
+                                CommandTarget="{Binding ElementName=treeGrid}"
+                                Content="Expand All Nodes" />
+            <Button Margin="10,5,5,5"
+                                Command="local:CollapseCommand.CollapseAll"
+                                CommandTarget="{Binding ElementName=treeGrid}"
+                                Content="Collapse All Nodes" />
+        </StackPanel>
+    </Grid>
+</syncfusion:ChromelessWindow>

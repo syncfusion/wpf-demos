@@ -1,0 +1,92 @@
+﻿<Window x:Class="StickyNotes.Notes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:local="clr-namespace:StickyNotes" AllowsTransparency="True" 
+        Icon="App.ico" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" WindowStyle="None" ResizeMode="CanMinimize">
+
+    <Window.DataContext>
+        <local:Notes_ViewModel/>
+    </Window.DataContext>
+
+    <Border x:Name="Root" Height="240" Width="245" MinHeight="180" MinWidth="185" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="2">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="0" BlurRadius="4" />
+        </Border.Effect>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border MouseLeftButtonDown="Border_PreviewMouseLeftButtonDown" x:Name="Title" Background="{Binding TitleBrush , Mode=TwoWay}" >
+                <Grid>
+                    <Button Click="NewNoteButton_Click" HorizontalAlignment="Left" Margin="8 3 3 3" FontSize="15" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        <TextBlock Text="+" FontWeight="Bold" FontSize="17"  Margin="0 -3 0 0"/>
+                    </Button>
+                    <Button x:Name="delete" Click="DeleteNoteButton_Click" HorizontalAlignment="Right" Margin="3 3 8 3">
+                        <Grid>
+                            <Path Stretch="Fill"  RenderOptions.BitmapScalingMode="Fant" Fill="Black" Height="8" Width="10" Data="M47.8317,5.73066C43.816,5.21059 34.8831,10.3883 26.3086,17.1984 19.0678,9.46398 11.3897,3.52298 7.04777,4.29591 -3.02971,6.09029 3.83965,13.5215 3.83965,13.5215 9.40324,12.9805 15.6891,16.37 21.6103,21.1324 12.6882,28.9932 5.32519,37.8826 6.1805,42.6875 7.97487,52.765 15.4061,45.8956 15.4061,45.8956 14.7628,39.2784 19.6725,31.6398 25.8501,24.809 35.9208,34.1793 44.0046,45.9471 44.0046,45.9471 44.5972,41.3725 37.7975,30.4172 29.6104,20.8802 38.334,12.2538 47.8317,5.73066 47.8317,5.73066z"/>
+                        </Grid>
+                    </Button>
+                </Grid>
+            </Border>
+            <Border Grid.Row="1" x:Name="content"  Background="{Binding ContentBrush, Mode=TwoWay}" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Syncfusion:SfRichTextBoxAdv Margin="5" x:Name="richTextBoxAdv" LayoutType="Continuous" EnableMiniToolBar="False" OverridesDocumentBackground="True" Foreground="#000000" AllowDrop="True">
+                        <Syncfusion:SfRichTextBoxAdv.ContextMenu>
+                            <ContextMenu >
+                                <MenuItem Header="Cut" Command="Syncfusion:SfRichTextBoxAdv.CutCommand"/>
+                                <MenuItem Header="Copy" Command="Syncfusion:SfRichTextBoxAdv.CopyCommand"/>
+                                <MenuItem Header="Paste" Command="Syncfusion:SfRichTextBoxAdv.PasteCommand"/>
+                                <Separator/>
+                                <MenuItem Header="Blue" Command="local:Notes_ViewModel.SkinCommand" CommandParameter="Blue">
+                                    <MenuItem.Icon>
+                                        <Image Source="Assets/Blue.png"  Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Green" Command="local:Notes_ViewModel.SkinCommand" CommandParameter="Green">
+                                    <MenuItem.Icon>
+                                        <Image Source="Assets/Green.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Pink" Command="local:Notes_ViewModel.SkinCommand" CommandParameter="Pink" >
+                                    <MenuItem.Icon>
+                                        <Image Source="Assets/Pink.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Purple" Command="local:Notes_ViewModel.SkinCommand" CommandParameter="Purple">
+                                    <MenuItem.Icon>
+                                        <Image Source="Assets/Purple.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="White" Command="local:Notes_ViewModel.SkinCommand" CommandParameter="White" >
+                                    <MenuItem.Icon>
+                                        <Image Source="Assets/White.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Yellow" Command="local:Notes_ViewModel.SkinCommand" CommandParameter="Yellow" >
+                                    <MenuItem.Icon>
+                                        <Image Source="Assets/Yellow.png" Width="16" Height="16"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Syncfusion:SfRichTextBoxAdv.ContextMenu>
+                    </Syncfusion:SfRichTextBoxAdv>
+                    <Thumb HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="1" Grid.Row="1" Cursor="SizeNWSE" DragDelta="Thumb_DragDelta">
+                        <Thumb.Template>
+                            <ControlTemplate TargetType="Thumb">
+                                <Border>
+                                    <ResizeGrip Foreground="Black" />
+                                </Border>
+                            </ControlTemplate>
+                        </Thumb.Template>
+                    </Thumb>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

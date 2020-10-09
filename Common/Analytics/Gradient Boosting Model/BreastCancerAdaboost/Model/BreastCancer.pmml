@@ -1,0 +1,2067 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PMML xmlns="http://www.dmg.org/PMML-4_2" version="4.2">
+    <Header>
+        <Application name="JPMML-Converter" version="1.0-SNAPSHOT"/>
+        <Timestamp>2017-11-07T09:14:55Z</Timestamp>
+    </Header>
+    <DataDictionary>
+        <DataField name="Indicator" optype="continuous" dataType="double"/>
+        <DataField name="Hormonal_Therapy" optype="categorical" dataType="string">
+            <Value value="no"/>
+            <Value value="yes"/>
+        </DataField>
+        <DataField name="Age" optype="continuous" dataType="double"/>
+        <DataField name="Menopausal_Status" optype="categorical" dataType="string">
+            <Value value="Pre"/>
+            <Value value="Post"/>
+        </DataField>
+        <DataField name="Tumor_Size" optype="continuous" dataType="double"/>
+        <DataField name="Tumor_Grade" optype="continuous" dataType="double"/>
+        <DataField name="Positive_Nodes" optype="continuous" dataType="double"/>
+        <DataField name="Progesterone" optype="continuous" dataType="double"/>
+        <DataField name="Estrogen_Receptor" optype="continuous" dataType="double"/>
+        <DataField name="Survival_Time" optype="continuous" dataType="double"/>
+    </DataDictionary>
+    <MiningModel functionName="regression">
+        <MiningSchema>
+            <MiningField name="Indicator" usageType="target"/>
+            <MiningField name="Hormonal_Therapy" usageType="active"/>
+            <MiningField name="Age" usageType="active"/>
+            <MiningField name="Menopausal_Status" usageType="active"/>
+            <MiningField name="Tumor_Size" usageType="active"/>
+            <MiningField name="Tumor_Grade" usageType="active"/>
+            <MiningField name="Positive_Nodes" usageType="active"/>
+            <MiningField name="Progesterone" usageType="active"/>
+            <MiningField name="Estrogen_Receptor" usageType="active"/>
+            <MiningField name="Survival_Time" usageType="active"/>
+        </MiningSchema>
+        <Output>
+            <OutputField name="adaBoostValue" feature="predictedValue"/>
+            <OutputField name="probability_1" optype="continuous" dataType="double" feature="transformedValue">
+                <Apply function="/">
+                    <Constant dataType="double">1</Constant>
+                    <Apply function="+">
+                        <Constant dataType="double">1</Constant>
+                        <Apply function="exp">
+                            <Apply function="*">
+<Constant dataType="double">-2</Constant>
+<FieldRef field="adaBoostValue"/>
+                            </Apply>
+                        </Apply>
+                    </Apply>
+                </Apply>
+            </OutputField>
+            <OutputField name="probability_0" optype="continuous" dataType="double" feature="transformedValue">
+                <Apply function="-">
+                    <Constant dataType="double">1</Constant>
+                    <FieldRef field="probability_1"/>
+                </Apply>
+            </OutputField>
+        </Output>
+        <Targets>
+            <Target field="Indicator" rescaleConstant="-0.08215152564563814"/>
+        </Targets>
+        <Segmentation multipleModelMethod="sum">
+            <Segment id="1">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.831638331094658E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.792062122519419E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="620"/>
+                        </Node>
+                        <Node id="3" score="-3.5922330097087316E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="620"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="2">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.4212071380390634E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.70452102882908E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626"/>
+                        </Node>
+                        <Node id="3" score="-3.264313133702174E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="3">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.674504212340357E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.675217832189401E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="634.5"/>
+                        </Node>
+                        <Node id="3" score="-3.0486630359351046E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="634.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="4">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.512237155481651E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="9.095340022702644E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="565"/>
+                        </Node>
+                        <Node id="3" score="-2.706311886425106E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="565"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="5">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="9.84334957293479E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.814941803967675E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1060.5"/>
+                        </Node>
+                        <Node id="3" score="-3.9894009811340263E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1060.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="6">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.150829316660953E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.411785394868047E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="823"/>
+                        </Node>
+                        <Node id="3" score="-4.376954502758223E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="823"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="7">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.458242758612103E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.095010003326216E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="649"/>
+                        </Node>
+                        <Node id="3" score="-3.411400904620823E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="649"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="8">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.897750646882554E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.978268310390062E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="595"/>
+                        </Node>
+                        <Node id="3" score="-3.740970151909738E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="595"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="9">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.467530974073292E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.393216188606733E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="613.5"/>
+                        </Node>
+                        <Node id="3" score="-2.933824884923664E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="613.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="10">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="3.754658520934627E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.4811349770381917E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1202.5"/>
+                        </Node>
+                        <Node id="3" score="-5.498727476741346E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1202.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="11">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.013647594395559E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.1853703766194E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626.5"/>
+                        </Node>
+                        <Node id="3" score="-4.035773924295087E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="12">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="4.9373445321891704E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.270041488302418E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="736"/>
+                        </Node>
+                        <Node id="3" score="-2.8207635530719255E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="736"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="13">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.5928876158387866E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.5982704747321324E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1166.5"/>
+                        </Node>
+                        <Node id="3" score="-5.484844909742012E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1166.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="14">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0630212969673314E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.902251319572269E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="756.5"/>
+                        </Node>
+                        <Node id="3" score="-3.591429801191155E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="756.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="15">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="3.038878783752438E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.770269200074931E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="644"/>
+                        </Node>
+                        <Node id="3" score="-2.307506574041889E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="644"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="16">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.745185462141599E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.731820912038165E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="613.5"/>
+                        </Node>
+                        <Node id="3" score="-3.305920607772259E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="613.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="17">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="6.0547920300701356E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.877738142025022E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="649"/>
+                        </Node>
+                        <Node id="3" score="-2.686542211500153E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="649"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="18">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.368524141968477E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.099022474984373E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="595"/>
+                        </Node>
+                        <Node id="3" score="-3.2226508247077534E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="595"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="19">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.6885704209656363E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="9.010955037510977E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="606.5"/>
+                        </Node>
+                        <Node id="3" score="-2.9236993996493646E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="606.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="20">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.883226108446989E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.486497985651146E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="614"/>
+                        </Node>
+                        <Node id="3" score="-2.9507593065329656E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="614"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="21">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.987015290321488E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.077493538420009E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="796.5"/>
+                        </Node>
+                        <Node id="3" score="-4.1206527172230447E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="796.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="22">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="3.6814179082586424E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.061585725086891E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="650.5"/>
+                        </Node>
+                        <Node id="3" score="-2.6421372272280365E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="650.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="23">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.635592578570147E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.874528484026533E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="595.5"/>
+                        </Node>
+                        <Node id="3" score="-3.559462053539129E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="595.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="24">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.353651608673925E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.577863952042234E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="891.5"/>
+                        </Node>
+                        <Node id="3" score="-3.920509734466725E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="891.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="25">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.1380136243848246E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="9.183541667489238E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="565"/>
+                        </Node>
+                        <Node id="3" score="-3.005319529640884E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="565"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="26">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.48646560954456E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.989127781990764E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626"/>
+                        </Node>
+                        <Node id="3" score="-3.534764680900814E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="27">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="9.354944554138996E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.208372148109686E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="927"/>
+                        </Node>
+                        <Node id="3" score="-4.4633566449075947E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="927"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="28">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.0854320222423515E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.0780244645530585E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1164.5"/>
+                        </Node>
+                        <Node id="3" score="-5.311971947142086E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1164.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="29">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="2.436191060580816E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.30701813227373E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="856"/>
+                        </Node>
+                        <Node id="3" score="-4.254011344640446E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="856"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="30">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.4887250398779876E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.453823874362087E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="718"/>
+                        </Node>
+                        <Node id="3" score="-3.120484794002729E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="718"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="31">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.982355119454145E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.399949952994539E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="732.5"/>
+                        </Node>
+                        <Node id="3" score="-3.534116751741819E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="732.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="32">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.702154767545389E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.360300210818474E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="643.5"/>
+                        </Node>
+                        <Node id="3" score="-3.283726414282056E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="643.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="33">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.772117807782164E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.694570768413961E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626"/>
+                        </Node>
+                        <Node id="3" score="-3.261580096544518E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="34">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.7113057216903267E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.778356015245944E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="905.5"/>
+                        </Node>
+                        <Node id="3" score="-3.366761671677114E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="905.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="35">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.6306641264266156E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.579070553778464E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="968"/>
+                        </Node>
+                        <Node id="3" score="-5.132413188322775E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="968"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="36">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.0939503186656225E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.23990620820759E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1160"/>
+                        </Node>
+                        <Node id="3" score="-6.023120012387356E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1160"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="37">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.499228947599365E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.464006391086898E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="715.5"/>
+                        </Node>
+                        <Node id="3" score="-4.697623412880314E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="715.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="38">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="2.1700533160669855E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.696474623086587E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="735.5"/>
+                        </Node>
+                        <Node id="3" score="-3.1122247463360065E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="735.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="39">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.1940095545078245E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.898724784789011E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="624.5"/>
+                        </Node>
+                        <Node id="3" score="-3.3528188875314935E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="624.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="40">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="4.534931779176274E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.271745708673758E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="734.5"/>
+                        </Node>
+                        <Node id="3" score="-2.6654946818963467E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="734.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="41">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.733340425621866E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.046345130921024E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="595.5"/>
+                        </Node>
+                        <Node id="3" score="-2.556529109537227E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="595.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="42">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="9.183934238177564E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.073666855045975E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1228"/>
+                        </Node>
+                        <Node id="3" score="-4.913569286677989E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1228"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="43">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="2.979749363765894E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.147321106355464E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1281.5"/>
+                        </Node>
+                        <Node id="3" score="-5.104616179383236E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1281.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="44">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.1258855475332235E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.502045196106309E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="733"/>
+                        </Node>
+                        <Node id="3" score="-3.389404522901965E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="733"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="45">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.350479569622372E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.657052010951078E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="868.5"/>
+                        </Node>
+                        <Node id="3" score="-4.3085985520628005E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="868.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="46">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="6.545311441721016E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.99826823818117E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="625"/>
+                        </Node>
+                        <Node id="3" score="-2.4818565730609383E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="625"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="47">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.877090750873114E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.684310559046245E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="736"/>
+                        </Node>
+                        <Node id="3" score="-3.2909857848755544E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="736"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="48">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.6784380435258156E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.475981450609612E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1301"/>
+                        </Node>
+                        <Node id="3" score="-5.878665172850268E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1301"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="49">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.311366737314633E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.776085414396062E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1214.5"/>
+                        </Node>
+                        <Node id="3" score="-6.137197769249536E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1214.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="50">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.0999726087813563E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.733560431630804E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626"/>
+                        </Node>
+                        <Node id="3" score="-3.6690871314753814E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="51">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.852013114125144E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.093337152041267E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="620"/>
+                        </Node>
+                        <Node id="3" score="-3.1891445514714746E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="620"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="52">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="3.926264452398216E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.365011094830793E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="607.5"/>
+                        </Node>
+                        <Node id="3" score="-2.47447456881659E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="607.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="53">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.5211798092421075E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.905025000090557E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1073.5"/>
+                        </Node>
+                        <Node id="3" score="-4.5857775807179804E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1073.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="54">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.752065283898328E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.657684819785751E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="627.5"/>
+                        </Node>
+                        <Node id="3" score="-2.90351058021477E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="627.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="55">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.4781613065842173E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.182785533691363E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="620.5"/>
+                        </Node>
+                        <Node id="3" score="-3.0614748408497257E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="620.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="56">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.0054217803274092E-7">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.841617114801942E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626.5"/>
+                        </Node>
+                        <Node id="3" score="-3.06639595638355E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="57">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="3.6001750741573755E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.977177711526869E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="625.5"/>
+                        </Node>
+                        <Node id="3" score="-1.9614027452657503E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="625.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="58">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.76929701009932E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.175975875043622E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="750"/>
+                        </Node>
+                        <Node id="3" score="-2.9173854496154886E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="750"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="59">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.724252770922814E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.839893565744447E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="649.5"/>
+                        </Node>
+                        <Node id="3" score="-3.7214026928203425E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="649.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="60">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="6.0656128382668655E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.095494442681411E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626.5"/>
+                        </Node>
+                        <Node id="3" score="-3.1368815681239733E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="61">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.549208611444739E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.7340432790191555E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="963"/>
+                        </Node>
+                        <Node id="3" score="-4.906829633832347E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="963"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="62">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.713561178321489E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.3299900720368E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="565.5"/>
+                        </Node>
+                        <Node id="3" score="-2.800668013385437E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="565.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="63">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.333451855577841E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.62646804502574E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="564.5"/>
+                        </Node>
+                        <Node id="3" score="-3.099545344452391E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="564.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="64">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.9568274980750033E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.323061942386457E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="565"/>
+                        </Node>
+                        <Node id="3" score="-2.775644163795623E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="565"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="65">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.3084638441146514E-7">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.282804034895673E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="731.5"/>
+                        </Node>
+                        <Node id="3" score="-3.450501474000573E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="731.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="66">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-9.070849146429838E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.858680650751695E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="961.5"/>
+                        </Node>
+                        <Node id="3" score="-5.015192879986692E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="961.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="67">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.274853670307474E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.470883069926117E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626"/>
+                        </Node>
+                        <Node id="3" score="-3.897881688704787E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="68">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.336317312934715E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="9.005053452670641E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="614.5"/>
+                        </Node>
+                        <Node id="3" score="-3.209868917466768E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="614.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="69">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="6.044777611984685E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.130055755853323E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="650.5"/>
+                        </Node>
+                        <Node id="3" score="-2.4988533706179664E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="650.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="70">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.205200032465488E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.53848169958836E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="732.5"/>
+                        </Node>
+                        <Node id="3" score="-3.258595460611929E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="732.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="71">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.682713178998695E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.689922176792549E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="965"/>
+                        </Node>
+                        <Node id="3" score="-5.280377940178935E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="965"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="72">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2079990547106018E-4">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.823411930012059E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="650.5"/>
+                        </Node>
+                        <Node id="3" score="-4.3471799979778345E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="650.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="73">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.867048398677153E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.882727389146533E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="644"/>
+                        </Node>
+                        <Node id="3" score="-2.675878416277543E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="644"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="74">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.719167911181984E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.298137526670113E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="641"/>
+                        </Node>
+                        <Node id="3" score="-3.7871156869034774E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="641"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="75">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.899088209252432E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.2710319729878166E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1220.5"/>
+                        </Node>
+                        <Node id="3" score="-5.055070844416499E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1220.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="76">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-4.102391856958864E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.547236324456054E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="613.5"/>
+                        </Node>
+                        <Node id="3" score="-3.196056928087638E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="613.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="77">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-3.444653293749375E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.137078430532541E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="891"/>
+                        </Node>
+                        <Node id="3" score="-4.0211105341909296E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="891"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="78">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.1345570394949601E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.861080191651254E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626.5"/>
+                        </Node>
+                        <Node id="3" score="-2.9025790960069016E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="79">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-2.9331630135098595E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.780069794954864E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="627.5"/>
+                        </Node>
+                        <Node id="3" score="-3.448903760313171E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="627.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="80">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.2465547482489104E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.601221024355873E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="733"/>
+                        </Node>
+                        <Node id="3" score="-3.7168947799064974E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="733"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="81">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="2.0517443803015642E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.322746562285873E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1165.5"/>
+                        </Node>
+                        <Node id="3" score="-5.32011465178307E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1165.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="82">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="4.063479834808291E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.219082155666243E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="627.5"/>
+                        </Node>
+                        <Node id="3" score="-2.538149820106638E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="627.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="83">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.3352696955371742E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.821089240261194E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="650.5"/>
+                        </Node>
+                        <Node id="3" score="-2.527849852462523E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="650.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="84">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-6.51819535096251E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.475951355949464E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="683.5"/>
+                        </Node>
+                        <Node id="3" score="-3.342218941389753E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="683.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="85">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="2.4907985428765644E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.2879487724217335E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1281.5"/>
+                        </Node>
+                        <Node id="3" score="-5.681871800269592E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1281.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="86">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.7041985844136914E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.928183822203477E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="626.5"/>
+                        </Node>
+                        <Node id="3" score="-2.845773004413045E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="626.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="87">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="5.115648578637164E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.332493841115531E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="613.5"/>
+                        </Node>
+                        <Node id="3" score="-2.1208453852795777E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="613.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="88">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2452099507144063E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.964922087766616E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="732.5"/>
+                        </Node>
+                        <Node id="3" score="-3.4228180443062584E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="732.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="89">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.156719564360408E-6">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.178138641602278E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="607.5"/>
+                        </Node>
+                        <Node id="3" score="-3.09655835542458E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="607.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="90">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-5.0054158538251766E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.1036085015482113E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1220.5"/>
+                        </Node>
+                        <Node id="3" score="-6.236859726476541E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1220.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="91">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="2.5166334906714333E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.048772241639959E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="736"/>
+                        </Node>
+                        <Node id="3" score="-2.874867289623814E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="736"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="92">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.1963234019752685E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.570703121739558E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1227.5"/>
+                        </Node>
+                        <Node id="3" score="-5.592575162781413E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1227.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="93">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-8.794874590683266E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="6.661881646827569E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="715.5"/>
+                        </Node>
+                        <Node id="3" score="-3.989330389334675E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="715.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="94">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="2.4522807031750347E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.004957862253266E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="756.5"/>
+                        </Node>
+                        <Node id="3" score="-3.2848530432489503E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="756.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="95">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.2399572866825054E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="5.579735630881763E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="963"/>
+                        </Node>
+                        <Node id="3" score="-4.31154533441383E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="963"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="96">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="4.412078212974398E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="4.8440198829837513E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1052.5"/>
+                        </Node>
+                        <Node id="3" score="-3.4187917944275456E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1052.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="97">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-7.508151275846291E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="2.602286844933998E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="1466"/>
+                        </Node>
+                        <Node id="3" score="-6.585212559767039E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="1466"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="98">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="1.570341426125935E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="7.118702672533993E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="735.5"/>
+                        </Node>
+                        <Node id="3" score="-3.3620510483366856E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="735.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="99">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="-1.5590024328543013E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.027361350714464E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="613.5"/>
+                        </Node>
+                        <Node id="3" score="-2.9102663407780773E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="613.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+            <Segment id="100">
+                <True/>
+                <TreeModel functionName="regression" splitCharacteristic="multiSplit">
+                    <MiningSchema>
+                        <MiningField name="Survival_Time" usageType="active"/>
+                    </MiningSchema>
+                    <Node id="1">
+                        <True/>
+                        <Node id="4" score="8.225825406714354E-5">
+                            <SimplePredicate field="Survival_Time" operator="isMissing"/>
+                        </Node>
+                        <Node id="2" score="8.309052022155661E-4">
+                            <SimplePredicate field="Survival_Time" operator="lessThan" value="613.5"/>
+                        </Node>
+                        <Node id="3" score="-1.697253528706182E-4">
+                            <SimplePredicate field="Survival_Time" operator="greaterOrEqual" value="613.5"/>
+                        </Node>
+                    </Node>
+                </TreeModel>
+            </Segment>
+        </Segmentation>
+    </MiningModel>
+</PMML>

@@ -1,0 +1,53 @@
+﻿<shared:ChromelessWindow x:Class="DataPagingDemo.MainWindow"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:datapager="clr-namespace:Syncfusion.UI.Xaml.Controls.DataPager;assembly=Syncfusion.SfGrid.WPF"
+                         xmlns:grid="clr-namespace:Syncfusion.Windows.Controls.Grid;assembly=Syncfusion.SampleLayout"
+                         xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+                         xmlns:local="clr-namespace:DataPagingDemo"
+                         xmlns:shared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.Wpf"
+                         xmlns:syncfusion="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF"
+                         xmlns:syncfusionskin ="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+					     syncfusionskin:SfSkinManager.VisualStyle="MaterialLight"
+                         Icon="App.ico"
+                         WindowStartupLocation="CenterScreen"
+                         Title="On-Demand Paging">
+    <interactivity:Interaction.Behaviors>
+        <local:OnDemandLoadBehavior />
+    </interactivity:Interaction.Behaviors>
+
+    <Grid>
+        <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <syncfusion:SfDataGrid x:Name="dataGrid" Margin="5"
+                                       AllowFiltering="False"
+                                       AllowResizingColumns="True"
+                                       AutoGenerateColumns="True"
+                                       ColumnSizer="Star"
+                                       ItemsSource="{Binding Path=PagedSource,
+                                                             ElementName=sfDataPager}"
+                                       NavigationMode="Row"
+                                       RowHeight="24.5">
+                    <syncfusion:SfDataGrid.Columns>
+                        <syncfusion:GridTextColumn MappingName="EmployeeID" HeaderText="Employee ID" />
+                        <syncfusion:GridTextColumn MappingName="Name" />
+                        <syncfusion:GridTextColumn MappingName="Title" />
+                        <syncfusion:GridTextColumn MappingName="ContactID" HeaderText="Contact ID" TextAlignment="Right" />
+                        <syncfusion:GridTextColumn DisplayBinding="{Binding Path=BirthDate,
+                                                                            StringFormat=d}"
+                                                   TextAlignment="Right" HeaderText="Birth Date"/>
+                        <syncfusion:GridTextColumn MappingName="Gender" />
+                        <syncfusion:GridTextColumn MappingName="SickLeaveHours" HeaderText="Sick Leave Hours" TextAlignment="Right" />
+                    </syncfusion:SfDataGrid.Columns>
+                </syncfusion:SfDataGrid>
+                <datapager:SfDataPager x:Name="sfDataPager"
+                                       Grid.Row="1"
+                                       Height="50"
+                                       NumericButtonCount="10"
+                                       UseOnDemandPaging="True" 
+                                       PageCount="100"
+                                       PageSize="18"/>
+            </Grid>
+</shared:ChromelessWindow>
