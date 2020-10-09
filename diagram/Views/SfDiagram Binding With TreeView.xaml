@@ -1,0 +1,128 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.diagramdemo.wpf.Views.SfDiagram_Binding_With_TreeView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    mc:Ignorable="d" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+    d:DesignHeight="450" d:DesignWidth="800">
+    <democommon:DemoControl.DataContext>
+        <viewmodel:SfDiagram_Binding_With_TreeView_ViewModel/>
+    </democommon:DemoControl.DataContext>
+    <democommon:DemoControl.Resources>
+        
+            <!--Style to the TreeviewAdvItem-->
+            <Style TargetType="syncfusion:TreeViewItemAdv" x:Key="ItemContainerStyle">
+                <Setter Property="IsExpanded" Value="True"/>
+                <Setter Property="Margin" Value="2"/>
+            </Style>
+
+            <!--Style to the Connector -->
+            <Style TargetType="syncfusion:Connector">
+                <Setter Property="ConnectorGeometryStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="CornflowerBlue"/>
+                            <Setter Property="StrokeThickness" Value="1"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="TargetDecoratorStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="CornflowerBlue"/>
+                            <Setter Property="StrokeThickness" Value="1"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--Style to the Node-->
+            <Style TargetType="syncfusion:Node">
+                <Setter Property="Width" Value="135"/>
+                <Setter Property="Height" Value="40"/>
+                <Setter Property="ShapeStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="CornflowerBlue"/>
+                            <Setter Property="Stretch" Value="Fill"/>
+                            <Setter Property="Stroke" Value="WhiteSmoke"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ContentTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <Border Width="135" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Transparent">
+                                <TextBlock Margin="5" TextWrapping="Wrap" FontSize="12" Foreground="White" Background="Transparent" 
+                                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!--HierarchicalDataTemplate-->
+            <HierarchicalDataTemplate x:Key="treeTemplate" ItemsSource="{Binding SubItems}">
+                <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </HierarchicalDataTemplate>
+    </democommon:DemoControl.Resources>
+    
+    <Grid x:Name="GridRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="9.3*"/>
+        </Grid.RowDefinitions>
+
+        <!--Properties area-->
+        <Grid Grid.ColumnSpan="2" x:Name="PropertyRowPanel" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                <!--Add Button-->
+                <Button Margin="10,0,0,0" Content="Add Node" Name="Add" Width="100" Height="30" Command="{Binding AddNode}"/>
+                <!--Delete Button-->
+                <Button Margin="10,0,0,0" Content="Delete Node" Name="Delete" Width="100" Height="30" Command="{Binding DeleteNode}"/>
+
+                <!--Title-->
+                <TextBlock Margin="500,0,0,0" FontWeight="Normal"  FontSize="32" 
+                           Text="SfDiagram Binding With TreeView"  HorizontalAlignment="Right" VerticalAlignment="Center" />
+                <Path Margin="20,0,0,0" Data="M27.573,21.885726 C26.039659,21.885726 24.796639,23.128786 24.796639,24.662178 L24.796639,37.3311 C24.796639,38.864491 26.039659,40.107552 27.573,40.107552 L40.064701,40.107552 C41.598042,40.107552 42.841061,38.864491 42.841061,37.3311 L42.841061,24.662178 C42.841061,23.128786 41.598042,21.885726 40.064701,21.885726 z M3.9060001,2.3436508 C2.9710598,2.3436508 2.2131386,3.1015863 2.2131386,4.0365477 L2.2131386,11.76122 C2.2131386,12.69618 2.9710598,13.454117 3.9060001,13.454117 L11.522699,13.454117 C12.457641,13.454117 13.21556,12.69618 13.21556,11.76122 L13.21556,4.0365477 C13.21556,3.1015863 12.457641,2.3436508 11.522699,2.3436508 z M2.7341995,0 L12.8898,0 C14.399857,0 15.624,1.2241688 15.624,2.7342587 L15.624,12.737741 C15.624,14.247831 14.399857,15.472 12.8898,15.472 L8.75,15.472 8.75,29.653 21.167,29.653 21.167,22.526347 C21.167,20.049711 23.174645,18.042 25.6512,18.042 L42.306801,18.042 C44.783356,18.042 46.791,20.049711 46.791,22.526347 L46.791,38.932653 C46.791,41.40929 44.783356,43.417 42.306801,43.417 L25.6512,43.417 C23.174645,43.417 21.167,41.40929 21.167,38.932653 L21.167,32.403 7.3190002,32.403 C6.5596085,32.403 5.9440002,31.787392 5.9440002,31.028 5.9440002,30.933076 5.953619,30.840399 5.9719353,30.75089 L6,30.641743 6,15.472 2.7341995,15.472 C1.2241421,15.472 0,14.247831 0,12.737741 L0,2.7342587 C0,1.2241688 1.2241421,0 2.7341995,0 z" Fill="#FF8FABCA" HorizontalAlignment="Right" Height="39.417"  Stretch="Fill"  VerticalAlignment="Center" Width="46.791"/>
+
+            </StackPanel>
+        </Grid>
+
+        <!--TreeViewAdv Control-->
+        <syncfusion:TreeViewAdv HorizontalAlignment="Center" 
+                                VerticalAlignment="Stretch"
+                                Grid.Row="1" Name="treeViewAdv"
+                                ItemsSource="{Binding Datas}"
+                                AllowMultiSelect="False"
+                                ItemTemplate="{StaticResource treeTemplate}"
+                                ShowRootLines="False" 
+                                SelectedTreeItem ="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ItemContainerStyle="{StaticResource ItemContainerStyle}"/>
+
+        <!--SfDiagram Control-->
+        <syncfusion:SfDiagram Grid.Row="1" Grid.Column="1"
+                              ItemAddedCommand="{Binding ItemAddedCommand}"
+                              ItemDeletingCommand="{Binding ItemDeletingCommand}"
+                              ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                              Tool="{Binding Tool}"
+                              Nodes="{Binding Nodes}"
+                              Connectors="{Binding Connectors}"
+                              DefaultConnectorType="{Binding DefaultConnectorType}"
+                              PageSettings="{Binding PageSettings}"
+                              SelectedItems="{Binding SelectedItems}"
+                              LayoutManager="{Binding LayoutManager}"
+                              DataSourceSettings="{Binding DataSourceSettings}">
+        </syncfusion:SfDiagram>
+    </Grid>
+</democommon:DemoControl>

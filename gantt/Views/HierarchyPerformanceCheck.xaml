@@ -1,0 +1,115 @@
+﻿<democommon:DemoControl
+    x:Class=" syncfusion.ganttdemos.wpf.HierarchyPerformanceCheck"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interact="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.ganttdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="auto"
+    Height="auto"
+    Background="White"
+    Foreground="Black">
+
+    <interact:Interaction.Behaviors>
+        <local:HierarchyPerformanceCheckBehavior />
+    </interact:Interaction.Behaviors>
+
+    <democommon:DemoControl.DataContext>
+        <local:HierarchyPerformanceCheckViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Border>
+        <syncfusion:GanttControl
+            x:Name="gantt"
+            ItemsSource="{Binding TaskCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ShowAddNewColumn="False">
+            <syncfusion:GanttControl.TaskAttributeMapping>
+                <syncfusion:TaskAttributeMapping
+                    ChildMapping="Child"
+                    DurationMapping="Duration"
+                    FinishDateMapping="FinishDate"
+                    ProgressMapping="Progress"
+                    StartDateMapping="StartDate"
+                    TaskIdMapping="TaskId"
+                    TaskNameMapping="TaskName" />
+            </syncfusion:GanttControl.TaskAttributeMapping>
+        </syncfusion:GanttControl>
+    </Border>
+
+    <democommon:DemoControl.Options>
+        <Grid
+            Height="Auto"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                Margin="5,5,0,0"
+                VerticalAlignment="Center"
+                FontSize="14"
+                Text="Src Creation : " />
+            <TextBlock
+                x:Name="SrcTime"
+                Grid.Column="1"
+                Height="25"
+                Margin="5,5,0,0"
+                VerticalAlignment="Center"
+                Text="{Binding TimeTaken, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5,5,0,0"
+                VerticalAlignment="Center"
+                FontSize="14"
+                Text="Loading Time : " />
+            <TextBlock
+                x:Name="TimeTxt"
+                Grid.Row="1"
+                Grid.Column="1"
+                Height="25"
+                Margin="5,5,0,0"
+                VerticalAlignment="Center"
+                Text="{Binding LoadedTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                Margin="5,5,0,0"
+                VerticalAlignment="Center"
+                FontSize="14"
+                Text="Items : " />
+            <syncfusion:UpDown
+                x:Name="IntBox"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="65"
+                Height="25"
+                Margin="5,5,0,0"
+                IsScrollingOnCircle="True"
+                MaxValue="500000"
+                MinValue="100"
+                NumberDecimalDigits="0"
+                Step="10"
+                Value="{Binding NoOfItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button
+                x:Name="Load"
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Width="60"
+                Margin="5,10"
+                Command="{Binding LoadData}"
+                Content="load" />
+        </Grid>
+    </democommon:DemoControl.Options>
+
+</democommon:DemoControl>

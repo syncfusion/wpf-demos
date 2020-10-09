@@ -1,0 +1,307 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.navigationdemos.wpf.NavigationDrawerView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interaction="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.navigationdemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    OptionsTitle="PROPERTIES"
+    mc:Ignorable="d">
+
+    <democommon:DemoControl.DataContext>
+        <local:NavigationDrawerViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <interaction:Interaction.Behaviors>
+        <local:NavigationDrawerBehaviors />
+    </interaction:Interaction.Behaviors>
+
+    <democommon:DemoControl.Resources>
+        <democommon:EnumDisplayNameConverter x:Key="EnumDisplayNameConverter" />
+        <SolidColorBrush x:Key="SelectedColor" Color="#22661FFF" />
+        <SolidColorBrush x:Key="SelectedTextColor" Color="#661FFF" />
+        <SolidColorBrush x:Key="MouseOverColor" Color="#22000000" />
+        <Style x:Key="listboxitemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="Foreground" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border
+                            x:Name="LayoutRoot"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <Border
+                                x:Name="brd"
+                                Width="Auto"
+                                BorderBrush="Transparent"
+                                BorderThickness="0,0,0,1">
+                                <ContentPresenter
+                                    x:Name="ContentPresenter"
+                                    Margin="{TemplateBinding Padding}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </Border>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource MouseOverColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SelectedColor}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+        <WrapPanel>
+            <Grid
+                Margin="5"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Margin="0,10,0,0"
+                    FontWeight="Bold"
+                    Text="Position" />
+                <ComboBox
+                    Name="slideposition"
+                    Grid.Row="1"
+                    Margin="0,10,0,0"
+                    ItemsSource="{democommon:EnumValuesExtension Type=syncfusion:Position}"
+                    SelectedItem="{Binding SlidePosition, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <TextBlock
+                    Grid.Row="2"
+                    Margin="0,15,0,0"
+                    FontWeight="Bold"
+                    Text="Transition" />
+                <ComboBox
+                    Name="slidetransition"
+                    Grid.Row="3"
+                    Margin="0,10,0,0"
+                    ItemsSource="{democommon:EnumValuesExtension Type=syncfusion:Transition}"
+                    SelectedItem="{Binding SlideTransition, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </WrapPanel>
+    </democommon:DemoControl.Options>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <syncfusion:SfNavigationDrawer
+            x:Name="drawer"
+            Grid.Row="1"
+            DrawerHeight="350"
+            DrawerWidth="256"
+            Position="{Binding SlidePosition, Mode=TwoWay}"
+            TouchThreshold="35"
+            Transition="{Binding SlideTransition, Mode=TwoWay}">
+            <syncfusion:SfNavigationDrawer.DrawerHeaderView>
+                <Border BorderBrush="Gray" BorderThickness="0.4">
+                    <StackPanel Height="100" Background="White">
+                        <Image
+                            x:Name="image"
+                            Width="40"
+                            Height="40"
+                            Margin="5,5,0,5"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Source="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle14.png" />
+                        <TextBlock
+                            x:Name="name"
+                            Padding="5,0,0,5"
+                            VerticalAlignment="Bottom"
+                            FontSize="17"
+                            FontWeight="Bold"
+                            Foreground="Black"
+                            Text="Johnson Martin" />
+                        <TextBlock
+                            x:Name="email"
+                            Padding="5,0,0,5"
+                            VerticalAlignment="Bottom"
+                            FontSize="15"
+                            Foreground="Black"
+                            Text="johnson_martin08@gmail.com" />
+                    </StackPanel>
+                </Border>
+            </syncfusion:SfNavigationDrawer.DrawerHeaderView>
+            <syncfusion:SfNavigationDrawer.DrawerContentView>
+                <Border BorderBrush="Gray">
+                    <Grid Background="White">
+                        <ListBox
+                            x:Name="list"
+                            Padding="0,8,0,0"
+                            Background="White"
+                            ItemContainerStyle="{StaticResource listboxitemStyle}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Height="30" Margin="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="35" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Path
+                                            Width="20"
+                                            Height="20"
+                                            Margin="5"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Center"
+                                            Data="{Binding PathData}"
+                                            Fill="{Binding FontColor}"
+                                            Stretch="Uniform" />
+                                        <TextBlock
+                                            x:Name="textblock"
+                                            Grid.Column="1"
+                                            Margin="5"
+                                            Padding="10"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="16"
+                                            Foreground="{Binding TextColor}"
+                                            Text="{Binding MenuItem}"
+                                            TextAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </Border>
+            </syncfusion:SfNavigationDrawer.DrawerContentView>
+            <syncfusion:SfNavigationDrawer.DrawerFooterView>
+                <Border
+                    Background="#FF2B579A"
+                    BorderBrush="Gray"
+                    BorderThickness="0.4">
+                    <Grid Height="35" Margin="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="35" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Path
+                            Width="20"
+                            Height="20"
+                            Margin="5"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Data="M13.999999,3.9500002 L13.999999,6.1740026 C6.9100033,9.6210015 1.9999996,16.870002 1.9999994,25.263 1.9999996,36.973998 11.537993,46.500999 23.261992,46.500999 34.984984,46.500999 44.522002,36.973998 44.522002,25.263 44.522002,17.057998 39.834014,9.9390023 32.999999,6.4029992 L32.999999,4.1650004 C40.975005,7.8540032 46.522002,15.920997 46.522002,25.263 46.522002,38.076003 36.088011,48.500999 23.261992,48.500999 10.436004,48.500999 -2.0709092E-07,38.076003 0,25.263 -2.0709092E-07,15.735 5.7700039,7.5329964 13.999999,3.9500002z M21.999999,0 L23.999999,0 23.999999,22.999999 21.999999,22.999999z"
+                            Fill="White"
+                            Stretch="Uniform" />
+                        <Label
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            Content="Log Out"
+                            FontSize="16"
+                            Foreground="White" />
+                    </Grid>
+                </Border>
+            </syncfusion:SfNavigationDrawer.DrawerFooterView>
+            <syncfusion:SfNavigationDrawer.ContentView>
+                <Border BorderBrush="Gray" BorderThickness="0.4">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Background="#FF2B579A">
+                            <Button
+                                x:Name="button"
+                                Grid.Column="0"
+                                Width="46"
+                                Height="43"
+                                Margin="0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                BorderBrush="Transparent">
+                                <Path
+                                    Width="20"
+                                    Height="16"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M0.00072099878,11 L16,11 16,13 0.00072099878,13 z M0.00072099878,6 L16,6 16,8 0.00072099878,8 z M0.00072099878,1 L16,1 16,3 0.00072099878,3 z"
+                                    Fill="White"
+                                    Stretch="Fill" />
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=drawer, Path=IsOpen}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Label
+                                x:Name="headerLabel"
+                                Height="45"
+                                HorizontalAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Content="Inbox"
+                                FontSize="20"
+                                Foreground="White" />
+                        </Grid>
+                        <Grid
+                            x:Name="contentView"
+                            Grid.Row="1"
+                            Background="#f0f0f0" />
+                    </Grid>
+                </Border>
+            </syncfusion:SfNavigationDrawer.ContentView>
+        </syncfusion:SfNavigationDrawer>
+
+    </Grid>
+
+</democommon:DemoControl>

@@ -1,0 +1,92 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.diagramdemo.wpf.Views.Constraints"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    mc:Ignorable="d" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"   
+    xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+    d:DesignHeight="450" d:DesignWidth="800" OptionsSize="200">
+    <democommon:DemoControl.Resources>
+
+        <DataTemplate x:Key="Node">
+            <Label Content="Use NodeConstraints to restrict end-users from performing certain operations on Node." Height="60" FontSize="24" FontFamily="Segoe UI" FontWeight="DemiBold" Foreground="#323232" Background="Transparent"></Label>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Connector">
+            <Label Content="Use ConnectorConstraints to restrict end-users from performing certain operations on Connector." Height="60" FontSize="24" FontFamily="Segoe UI" FontWeight="DemiBold" Foreground="#323232" Background="Transparent"></Label>
+        </DataTemplate>
+
+
+        <Style TargetType="Path" x:Key="ConstraintsNodeStyle">
+            <Setter Property="Fill" Value="Transparent"/>
+            <Setter Property="Stretch" Value="Fill"/>
+            <Setter Property="Stroke" Value="Transparent"/>
+            <Setter Property="StrokeThickness" Value="0"/>
+        </Style>
+
+        <Style TargetType="Path" x:Key="DefaultStyle">
+            <Setter Property="Fill" Value="#C7E6FF"/>
+            <Setter Property="StrokeThickness" Value="1"/>
+            <Setter Property="Stretch" Value="Fill"/>
+            <Setter Property="Stroke" Value="#1587FF"/>
+        </Style>
+
+        <Style TargetType="syncfusion:Connector">
+            <Setter Property="ConnectorGeometryStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="#1587FF"></Setter>
+                        <Setter Property="StrokeThickness" Value="1"></Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TargetDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="#1587FF"></Setter>
+                        <Setter Property="StrokeThickness" Value="1"></Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </democommon:DemoControl.Resources>
+    <Grid>
+        <syncfusion:SfDiagram Grid.Column="0"
+                              x:Name="Diagram"
+                              Constraints="{Binding Constraints}"
+                              Nodes="{Binding Nodes}"
+                              Connectors="{Binding Connectors}" 
+                              SelectedItems="{Binding SelectedItems}"
+                              ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                              Loaded="SfDiagram_Loaded">
+            <syncfusion:SfDiagram.SnapSettings>
+                <syncfusion:SnapSettings SnapConstraints="All" SnapToObject="All"/>
+            </syncfusion:SfDiagram.SnapSettings>
+            <syncfusion:SfDiagram.HorizontalRuler>
+                <syncfusion:Ruler Orientation="Horizontal"/>
+            </syncfusion:SfDiagram.HorizontalRuler>
+            <syncfusion:SfDiagram.VerticalRuler>
+                <syncfusion:Ruler Orientation="Vertical"/>
+            </syncfusion:SfDiagram.VerticalRuler>
+        </syncfusion:SfDiagram>
+    </Grid>
+    <democommon:DemoControl.Options>
+        <!-- Properties Panel for Graph Constraints-->
+        <Border>
+            <StackPanel Background="Transparent">
+                <Label Margin="0,0,0,10" Content="Diagram Constraints" FontSize="16" FontWeight="DemiBold"/>
+                <Rectangle HorizontalAlignment="Stretch" Fill="#dddddd" Height="1.3" Margin="5,-11,20,0"></Rectangle>
+                <CheckBox Content="Zooming" IsChecked="{Binding Zoom ,Mode=TwoWay}" VerticalContentAlignment="Center" Margin="5,20,0,0" FontSize="14"/>
+                <CheckBox Content="Undo/Redo" IsChecked="{Binding UndoRedo ,Mode=TwoWay}" VerticalContentAlignment="Center" Margin="5,20,0,0" FontSize="14"/>
+                <CheckBox Content="Editing" IsChecked="{Binding Edit ,Mode=TwoWay}" VerticalContentAlignment="Center" Margin="5,20,0,0" FontSize="14"/>
+                <CheckBox Content="Context Menu" IsChecked="{Binding Menus ,Mode=TwoWay}" VerticalContentAlignment="Center" Margin="5,20,0,0" FontSize="14"/>
+                <CheckBox Content="Selectable" IsChecked="{Binding Select ,Mode=TwoWay}" VerticalContentAlignment="Center" Margin="5,20,0,0" FontSize="14"/>
+                <CheckBox Content="Draggable" IsChecked="{Binding Drag ,Mode=TwoWay}" VerticalContentAlignment="Center" Margin="5,20,0,0" FontSize="14"/>
+            </StackPanel>
+        </Border>
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>

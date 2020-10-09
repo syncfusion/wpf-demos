@@ -1,0 +1,302 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.propertygriddemos.wpf.CategoryEditorDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.propertygriddemos.wpf"
+    xmlns:shared="http://schemas.syncfusion.com/wpf"
+    xmlns:str="clr-namespace:System.Windows;assembly=PresentationCore"
+    xmlns:syncfusion="clr-namespace:Syncfusion.Windows.PropertyGrid;assembly=Syncfusion.PropertyGrid.Wpf"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    OptionsSize="Auto">
+
+    <democommon:DemoControl.Resources>
+        <local:FontWeightConverter x:Key="fontweightConverter" />
+        <local:SelectedIndexToVisibility x:Key="VisibilityConverter" />
+        <x:Array x:Key="visibilitylist" Type="{x:Type Visibility}">
+            <Visibility>Visible</Visibility>
+            <Visibility>Collapsed</Visibility>
+        </x:Array>
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.DataContext>
+        <local:CategoryEditorViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Options>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Button Panel Visibility" />
+                <ComboBox
+                    Name="button"
+                    Grid.Column="1"
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    ItemsSource="{StaticResource visibilitylist}"
+                    SelectedItem="{Binding ElementName=propertygrid, Path=ButtonPanelVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock
+                    Grid.Row="1"
+                    Margin="5"
+                    Text="Search Box Visibility" />
+                <ComboBox
+                    Name="search"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="5"
+                    ItemsSource="{StaticResource visibilitylist}"
+                    SelectedItem="{Binding ElementName=propertygrid, Path=SearchBoxVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <TextBlock
+                    Grid.Row="2"
+                    Margin="5"
+                    Text="Description Panel Visibility" />
+                <ComboBox
+                    Name="description"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="5"
+                    ItemsSource="{StaticResource visibilitylist}"
+                    SelectedItem="{Binding ElementName=propertygrid, Path=DescriptionPanelVisibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <GroupBox
+                    Grid.Row="3"
+                    Grid.ColumnSpan="2"
+                    Margin="5">
+                    <GroupBox.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" Text="Selected Object" />
+                        </StackPanel>
+                    </GroupBox.Header>
+                    <Grid Margin="10">
+                        <Grid
+                            x:Name="Grid"
+                            MaxWidth="250"
+                            Margin="3">
+                            <TextBlock
+                                x:Name="textblock"
+                                HorizontalAlignment="Center"
+                                FontStyle="Italic"
+                                Text="Textblock bound to Property Grid. The properties in textblock can be modified using Property grid, which is shown in Categorized mode."
+                                TextAlignment="Left"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </ScrollViewer>
+    </democommon:DemoControl.Options>
+
+    <Grid
+        MaxWidth="600"
+        MaxHeight="600"
+        Margin="20">
+        <syncfusion:PropertyGrid
+            x:Name="propertygrid"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ButtonPanelVisibility="Visible"
+            DefaultPropertyPath="Content"
+            DescriptionPanelVisibility="Collapsed"
+            DisableAnimationOnObjectSelection="True"
+            EnableGrouping="True"
+            SearchBoxVisibility="Visible"
+            SelectedObject="{Binding ElementName=textblock}"
+            SortDirection="Ascending">
+            <syncfusion:PropertyGrid.CategoryEditors>
+                <syncfusion:CategoryEditor
+                    Category=".Text"
+                    Description="This is text"
+                    DisplayName="Text Properties">
+                    <syncfusion:CategoryEditor.Properties>
+                        <syncfusion:CategoryEditorProperty Name="FontFamily" />
+                        <syncfusion:CategoryEditorProperty Name="FontStyle" />
+                        <syncfusion:CategoryEditorProperty Name="FontSize" />
+                        <syncfusion:CategoryEditorProperty Name="FontWeight" />
+                        <syncfusion:CategoryEditorProperty Name="TextAlignment" />
+                    </syncfusion:CategoryEditor.Properties>
+                    <syncfusion:CategoryEditor.EditorTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <local:FontFamilyComboBox Margin="5" SelectedValue="{Binding Path=CategoryValueProperties[FontFamily].Value, Mode=TwoWay}" />
+                                <shared:DoubleTextBox
+                                    Grid.Column="1"
+                                    Margin="5"
+                                    MaxValue="35790"
+                                    MinValue="0"
+                                    Value="{Binding Path=CategoryValueProperties[FontSize].Value, Mode=TwoWay}" />
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Margin="5"
+                                    HorizontalAlignment="Left"
+                                    Orientation="Horizontal">
+                                    <ToggleButton
+                                        Margin="5"
+                                        FontWeight="Bold"
+                                        IsChecked="{Binding Path=CategoryValueProperties[FontWeight].Value, Mode=TwoWay, Converter={StaticResource fontweightConverter}, ConverterParameter=bold}">
+                                        <Image Source="/syncfusion.demoscommon.wpf;component/Assets/ToolBarIcons/Bold.png" />
+                                    </ToggleButton>
+                                    <ToggleButton
+                                        Margin="5"
+                                        FontStyle="Italic"
+                                        FontWeight="SemiBold"
+                                        IsChecked="{Binding Path=CategoryValueProperties[FontStyle].Value, Mode=TwoWay, Converter={StaticResource fontweightConverter}, ConverterParameter=italic}">
+                                        <Image Source="/syncfusion.demoscommon.wpf;component/Assets/ToolBarIcons/Italic.png" />
+                                    </ToggleButton>
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Margin="5"
+                                    HorizontalAlignment="Right"
+                                    Orientation="Horizontal">
+                                    <ToggleButton
+                                        Margin="5"
+                                        FontWeight="Bold"
+                                        IsChecked="{Binding Path=CategoryValueProperties[TextAlignment].Value, Mode=TwoWay, Converter={StaticResource fontweightConverter}, ConverterParameter=left}"
+                                        IsThreeState="False">
+                                        <Image Source="/syncfusion.demoscommon.wpf;component/Assets/ToolBarIcons/AlignTextLeft.png" />
+                                    </ToggleButton>
+                                    <ToggleButton
+                                        Margin="5"
+                                        FontStyle="Italic"
+                                        FontWeight="SemiBold"
+                                        IsChecked="{Binding Path=CategoryValueProperties[TextAlignment].Value, Mode=TwoWay, Converter={StaticResource fontweightConverter}, ConverterParameter=center}">
+                                        <Image Source="/syncfusion.demoscommon.wpf;component/Assets/ToolBarIcons/AlignTextCenter.png" />
+                                    </ToggleButton>
+                                    <ToggleButton
+                                        Margin="5"
+                                        FontStyle="Italic"
+                                        FontWeight="SemiBold"
+                                        IsChecked="{Binding Path=CategoryValueProperties[TextAlignment].Value, Mode=TwoWay, Converter={StaticResource fontweightConverter}, ConverterParameter=right}">
+                                        <Image Source="/syncfusion.demoscommon.wpf;component/Assets/ToolBarIcons/AlignTextRight.png" />
+                                    </ToggleButton>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:CategoryEditor.EditorTemplate>
+                </syncfusion:CategoryEditor>
+                <syncfusion:CategoryEditor Category=".Brushes" DisplayName="Brush Properties">
+                    <syncfusion:CategoryEditor.Properties>
+                        <syncfusion:CategoryEditorProperty Name="Background" />
+                        <syncfusion:CategoryEditorProperty Name="Foreground" />
+                        <syncfusion:CategoryEditorProperty Name="OpacityMask" />
+                    </syncfusion:CategoryEditor.Properties>
+                    <syncfusion:CategoryEditor.EditorTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <ListBox
+                                    x:Name="list"
+                                    BorderBrush="Transparent"
+                                    SelectedIndex="0">
+
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="80"
+                                            Margin="5"
+                                            Text="Foreground" />
+                                        <Rectangle
+                                            Width="25"
+                                            Height="15"
+                                            Margin="5"
+                                            Fill="{Binding Path=CategoryValueProperties[Foreground].Value}"
+                                            Stroke="Black" />
+                                    </StackPanel>
+
+
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="80"
+                                            Margin="5"
+                                            Text="Background" />
+                                        <Rectangle
+                                            Width="25"
+                                            Height="15"
+                                            Margin="5"
+                                            Fill="{Binding Path=CategoryValueProperties[Background].Value}"
+                                            Stroke="Black" />
+                                    </StackPanel>
+
+
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="80"
+                                            Margin="5"
+                                            Text="OpacirtyMask" />
+                                        <Rectangle
+                                            Width="25"
+                                            Height="15"
+                                            Margin="5"
+                                            Fill="{Binding Path=CategoryValueProperties[OpacityMask].Value}"
+                                            Stroke="Black" />
+                                    </StackPanel>
+
+
+                                </ListBox>
+
+                                <shared:ColorEdit
+                                    Grid.Row="1"
+                                    Brush="{Binding Path=CategoryValueProperties[Foreground].Value, Mode=TwoWay}"
+                                    EnableToolTip="False"
+                                    IsGradientPropertyEnabled="False"
+                                    Visibility="{Binding ElementName=list, Path=SelectedIndex, Converter={StaticResource VisibilityConverter}, ConverterParameter=Foreground}" />
+
+
+                                <shared:ColorEdit
+                                    Grid.Row="1"
+                                    Brush="{Binding Path=CategoryValueProperties[Background].Value, Mode=TwoWay}"
+                                    EnableToolTip="False"
+                                    IsGradientPropertyEnabled="False"
+                                    Visibility="{Binding ElementName=list, Path=SelectedIndex, Converter={StaticResource VisibilityConverter}, ConverterParameter=Background}" />
+
+
+                                <shared:ColorEdit
+                                    Grid.Row="1"
+                                    Brush="{Binding Path=CategoryValueProperties[OpacityMask].Value, Mode=TwoWay}"
+                                    EnableToolTip="False"
+                                    IsGradientPropertyEnabled="False"
+                                    Visibility="{Binding ElementName=list, Path=SelectedIndex, Converter={StaticResource VisibilityConverter}, ConverterParameter=OpacityMask}" />
+
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:CategoryEditor.EditorTemplate>
+                </syncfusion:CategoryEditor>
+            </syncfusion:PropertyGrid.CategoryEditors>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Loaded">
+                    <i:InvokeCommandAction Command="{Binding LoadCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=shared:PropertyGrid}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </syncfusion:PropertyGrid>
+    </Grid>
+</democommon:DemoControl>

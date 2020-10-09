@@ -1,0 +1,75 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.datagriddemos.wpf.FilterStatusBarDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.datagriddemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    DataContext="{DynamicResource viewmodel}">
+
+    <democommon:DemoControl.Resources>
+        <local:OrderInfoViewModel x:Key="viewmodel" />
+    </democommon:DemoControl.Resources>
+
+    <Grid x:Name="status" DataContext="{StaticResource viewmodel}">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/syncfusion.datagriddemos.wpf;component/Resources/Generic.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <syncfusion:SfDataGrid
+            x:Name="sfgrid"
+            Margin="5"
+            AllowEditing="True"
+            AllowFiltering="True"
+            AutoGenerateColumns="False"
+            ColumnSizer="Star"
+            FilterRowPosition="FixedTop"
+            ItemsSource="{Binding OrderList}"
+            LiveDataUpdateMode="AllowDataShaping"
+            ShowGroupDropArea="True"
+            ShowRowHeader="True">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridNumericColumn
+                    HeaderText="Order ID"
+                    MappingName="OrderID"
+                    NumberDecimalDigits="0" />
+                <syncfusion:GridTextColumn HeaderText="Customer ID" MappingName="CustomerID" />
+                <syncfusion:GridMaskColumn
+                    HeaderText="Contact Number"
+                    MappingName="ContactNumber"
+                    Mask="(99)-9999"
+                    TextAlignment="Right" />
+                <syncfusion:GridComboBoxColumn
+                    HeaderText="Product Name"
+                    ItemsSource="{Binding ComboBoxItemsSource, Source={StaticResource viewmodel}}"
+                    MappingName="ProductName" />
+                <syncfusion:GridCurrencyColumn
+                    CurrencyDecimalDigits="0"
+                    HeaderText="Unit Price"
+                    MappingName="UnitPrice" />
+                <syncfusion:GridNumericColumn
+                    HeaderText="Quantity"
+                    MappingName="Quantity"
+                    NumberDecimalDigits="0" />
+                <syncfusion:GridPercentColumn HeaderText="Discount" MappingName="Freight" />
+                <syncfusion:GridDateTimeColumn
+                    HeaderText="Order Date"
+                    MappingName="OrderDate"
+                    TextAlignment="Right" />
+                <syncfusion:GridCheckBoxColumn HeaderText="Closed" MappingName="IsShipped" />
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+
+        <local:FilterStatusBar
+            x:Name="FilterStatusBar"
+            Grid.Row="1"
+            DataGrid="{Binding ElementName=sfgrid, UpdateSourceTrigger=PropertyChanged}" />
+    </Grid>
+</democommon:DemoControl>

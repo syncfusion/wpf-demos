@@ -1,0 +1,143 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.pivotgriddemos.wpf.HyperlinkCell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.pivotgriddemos.wpf"
+    xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    sfshared:SkinStorage.VisualStyle="Metro"
+    OptionsSize="300" Background="White">
+
+    <democommon:DemoControl.DataContext>
+        <local:ProductSalesViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+        <!--  PivotGrid control  -->
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="150" />
+            </Grid.RowDefinitions>
+
+            <syncfusion:PivotGridControl
+                    x:Name="pivotGrid1"
+                    Margin="5"
+                    AllowSelection="False"
+                    ItemSource="{Binding ProductSalesData}"
+                    ShowGroupingBar="False">
+                <syncfusion:PivotGridControl.PivotRows>
+                    <syncfusion:PivotItem
+                            FieldHeader="Product"
+                            FieldMappingName="Product"
+                            TotalHeader="Total" />
+                    <syncfusion:PivotItem
+                            FieldHeader="Date"
+                            FieldMappingName="Date"
+                            TotalHeader="Total" />
+                </syncfusion:PivotGridControl.PivotRows>
+                <syncfusion:PivotGridControl.PivotColumns>
+                    <syncfusion:PivotItem
+                            FieldHeader="Country"
+                            FieldMappingName="Country"
+                            TotalHeader="Total" />
+                </syncfusion:PivotGridControl.PivotColumns>
+                <syncfusion:PivotGridControl.PivotCalculations>
+                    <syncfusion:PivotComputationInfo
+                            CalculationName="Total"
+                            Description="Summation of values"
+                            FieldName="Amount"
+                            Format="C"
+                            SummaryType="DoubleTotalSum" />
+                    <syncfusion:PivotComputationInfo
+                            CalculationName="Total"
+                            Description="Summation of values"
+                            FieldName="Quantity"
+                            Format="#,##0" />
+                </syncfusion:PivotGridControl.PivotCalculations>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="HyperlinkCellClick">
+                            <local:HyperlinkCellClickAction  TargetObject="{Binding ElementName=LstBoxHyperlinkCellClickEventArgs}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </syncfusion:PivotGridControl>
+
+            <GroupBox
+                    Grid.Row="1"
+                    Margin="5"
+                    BorderBrush="DarkGray"
+                    BorderThickness="1"
+                    Header="Hyperlink Cell Click Event Arguments">
+                <GroupBox.HeaderTemplate>
+                    <DataTemplate>
+                        <TextBlock FontWeight="Bold" Text="{Binding}" />
+                    </DataTemplate>
+                </GroupBox.HeaderTemplate>
+
+                <ListBox x:Name="LstBoxHyperlinkCellClickEventArgs" Margin="5" />
+            </GroupBox>
+        </Grid>
+    </Grid>
+
+    <democommon:DemoControl.Options>
+        <syncfusion:TabControlExt
+                Margin="5"
+                BorderBrush="DarkGray"
+                BorderThickness="1"
+                CloseButtonType="Hide"
+                EnableLabelEdit="False"
+                FontSize="12"
+                ShowTabListContextMenu="False">
+            <syncfusion:TabItemExt Header="Pivot Schema Designer">
+                <syncfusion:PivotSchemaDesigner
+                        Name="SchemaDesigner"
+                        Margin="2"/>
+            </syncfusion:TabItemExt>
+
+            <syncfusion:TabItemExt Header="Properties">
+                <StackPanel Margin="5">
+                    <CheckBox
+                            x:Name="ColumnHeaderCellBox"
+                            Margin="0,10"
+                            Content="Enable Column Header Hyperlink" 
+                            IsChecked="{Binding Path=ColumnHeaderCellStyle.IsHyperlinkCell, ElementName=pivotGrid1, Mode=TwoWay}" />
+                    <CheckBox
+                            x:Name="RowHeaderCellBox"
+                            Margin="0,10"
+                            Content="Enable Row Header Hyperlink"
+                            IsChecked="{Binding Path=RowHeaderCellStyle.IsHyperlinkCell, ElementName=pivotGrid1, Mode=TwoWay}" />
+                    <CheckBox
+                            x:Name="SummaryHeaderSBox"
+                            Margin="0,10"
+                            Content="Enable Summary Header Hyperlink"
+                            IsChecked="{Binding Path=SummaryHeaderStyle.IsHyperlinkCell, ElementName=pivotGrid1, Mode=TwoWay}" />
+                    <CheckBox
+                            x:Name="SummaryCellBox"
+                            Margin="0,10"
+                            Content="Enable Summary Cell Hyperlink"
+                            IsChecked="{Binding Path=SummaryCellStyle.IsHyperlinkCell, ElementName=pivotGrid1, Mode=TwoWay}" />
+                    <CheckBox
+                            x:Name="ValueCellBox"
+                            Margin="0,10"
+                            Content="Enable Value Cell Hyperlink"
+                            IsChecked="{Binding Path=ValueCellStyle.IsHyperlinkCell, ElementName=pivotGrid1, Mode=TwoWay}" />
+                    <Button
+                            x:Name="Clear"
+                            Width="150"
+                            Height="25"
+                            Margin="0,10"
+                            Content="Clear List Box">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <local:CheckboxUncheckedAction TargetObject="{Binding ElementName=LstBoxHyperlinkCellClickEventArgs}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </StackPanel>
+            </syncfusion:TabItemExt>
+        </syncfusion:TabControlExt>
+    </democommon:DemoControl.Options>
+
+</democommon:DemoControl>

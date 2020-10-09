@@ -1,0 +1,197 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.editordemos.wpf.ColorPickerPaletteDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.editordemos.wpf"
+    xmlns:shared="clr-namespace:Syncfusion.Windows.Tools;assembly=Syncfusion.Shared.Wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="Auto"
+    Height="Auto">
+    <democommon:DemoControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVisiblityConverter" />
+        <shared:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+        <BitmapImage x:Key="ColorPickerPaletteIcon" UriSource="/syncfusion.demoscommon.wpf;component/Assets/ToolBarIcons/Label.png" />
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.DataContext>
+        <local:ColorPickerPaletteViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Options>
+        <Grid HorizontalAlignment="Right">
+            <WrapPanel>
+                <StackPanel>
+                    <TextBlock
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Text="Appearance" />
+                    <StackPanel Margin="0,5,0,0" Orientation="Vertical">
+                        <CheckBox
+                            Name="ThemePanel"
+                            Grid.Row="2"
+                            Margin="3"
+                            Background="Transparent"
+                            Content="Theme Panel"
+                            IsChecked="{Binding ThemePanelVisibility, Mode=TwoWay}" />
+                        <CheckBox
+                            Name="StandardColorPanel"
+                            Grid.Row="3"
+                            Margin="3"
+                            Background="Transparent"
+                            Content="StandardColorPanel"
+                            IsChecked="{Binding StandardPanelVisibility, Mode=TwoWay}" />
+                        <CheckBox
+                            Name="RecentColorPanel"
+                            Grid.Row="3"
+                            Margin="3"
+                            Background="Transparent"
+                            Content="RecentColorPanel"
+                            IsChecked="{Binding RecentlyUsedPanelVisibility, Mode=TwoWay}" />
+                        <CheckBox
+                            Name="MoreColorOption"
+                            Grid.Row="3"
+                            Margin="3"
+                            Background="Transparent"
+                            Content="MoreColorOption"
+                            IsChecked="{Binding MoreColorOptionVisibility, Mode=TwoWay}" />
+                        <CheckBox
+                            Name="StandardTab"
+                            Grid.Row="3"
+                            Margin="3"
+                            Background="Transparent"
+                            Content="Standard Tab"
+                            IsChecked="{Binding IsStandardTabVisible, Mode=TwoWay}" />
+                        <CheckBox
+                            Name="CustomTab"
+                            Grid.Row="3"
+                            Margin="3"
+                            Background="Transparent"
+                            Content="Custom Colors Tab"
+                            IsChecked="{Binding IsCustomTabVisible, Mode=TwoWay}" />
+                    </StackPanel>
+                    <TextBlock
+                        Margin="0,10,0,0"
+                        FontSize="12"
+                        FontWeight="Bold"
+                        Text="Pallete Theme" />
+                    <StackPanel
+                        Margin="0,5,0,0"
+                        HorizontalAlignment="Stretch"
+                        Orientation="Horizontal">
+                        <syncfusion:ComboBoxAdv
+                            Name="cmbothemecolors"
+                            Width="150"
+                            Margin="3"
+                            SelectedItem="{Binding PaletteTheme, Mode=TwoWay}">
+                            <syncfusion:PaletteTheme>Office</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Apex</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Aspect</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Civic</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Equity</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Flow</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Foundary</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Grayscale</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Median</syncfusion:PaletteTheme>
+                            <syncfusion:PaletteTheme>Metro</syncfusion:PaletteTheme>
+                        </syncfusion:ComboBoxAdv>
+                    </StackPanel>
+                </StackPanel>
+            </WrapPanel>
+        </Grid>
+    </democommon:DemoControl.Options>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4*" />
+            <RowDefinition Height="20" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="1.15*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid
+            Grid.Row="1"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <StackPanel>
+                <TextBlock
+                    Margin="3"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Text="Selected Color" />
+                <Rectangle
+                    Width="70"
+                    Height="70"
+                    Fill="{Binding SelectedColor, Converter={StaticResource ColorToBrushConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    Stretch="Uniform" />
+            </StackPanel>
+        </Grid>
+
+        <Grid
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+            <StackPanel>
+                <Label
+                    Grid.Row="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Expanded Mode"
+                    FontWeight="Bold" />
+                <syncfusion:ColorPickerPalette
+                    x:Name="ColorPickerPalette1"
+                    MinHeight="30"
+                    Margin="2"
+                    Icon="{StaticResource ColorPickerPaletteIcon}"
+                    IconSize="18,18"
+                    IsCustomTabVisible="{Binding IsCustomTabVisible, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    IsExpanded="True"
+                    IsStandardTabVisible="{Binding IsStandardTabVisible, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    MoreColorOptionVisibility="{Binding MoreColorOptionVisibility, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    RecentlyUsedPanelVisibility="{Binding RecentlyUsedPanelVisibility, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    StandardPanelVisibility="{Binding StandardPanelVisibility, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    ThemePanelVisibility="{Binding ThemePanelVisibility, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    Themes="{Binding PaletteTheme}"
+                    Color="{Binding SelectedColor, Mode=TwoWay}" />
+            </StackPanel>
+        </Grid>
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top">
+            <StackPanel>
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Content="Default Mode"
+                    FontWeight="Bold" />
+                <syncfusion:ColorPickerPalette
+                    x:Name="ColorPickerPalette2"
+                    Width="70"
+                    MinHeight="30"
+                    Margin="0,5"
+                    Icon="{StaticResource ColorPickerPaletteIcon}"
+                    IconSize="18,18"
+                    IsCustomTabVisible="{Binding IsCustomTabVisible, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    IsStandardTabVisible="{Binding IsStandardTabVisible, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    MoreColorOptionVisibility="{Binding MoreColorOptionVisibility, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    RecentlyUsedPanelVisibility="{Binding RecentlyUsedPanelVisibility, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    StandardPanelVisibility="{Binding StandardPanelVisibility, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    ThemePanelVisibility="{Binding ThemePanelVisibility, Converter={StaticResource BoolToVisiblityConverter}, UpdateSourceTrigger=PropertyChanged}"
+                    Themes="{Binding PaletteTheme}"
+                    Color="{Binding SelectedColor, Mode=TwoWay}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</democommon:DemoControl>

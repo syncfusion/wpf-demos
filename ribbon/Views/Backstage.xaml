@@ -1,0 +1,351 @@
+﻿<syncfusion:RibbonWindow
+    x:Class="syncfusion.ribbondemos.wpf.Backstage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.ribbondemos.wpf"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    x:Name="mainWindow"
+    Title="Backstage Demo"
+    Width="1100"
+    Height="800"
+    WindowState="Maximized"
+    Icon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/App.ico"
+    Office2010Icon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/App.ico"
+    WindowStartupLocation="CenterScreen">
+    <syncfusion:RibbonWindow.Resources>
+        <syncfusion:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    </syncfusion:RibbonWindow.Resources>
+    <syncfusion:RibbonWindow.DataContext>
+        <local:BackstageViewModel />
+    </syncfusion:RibbonWindow.DataContext>
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/PathIcon.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <syncfusion:Ribbon
+            Name="mainRibbon"
+            local:BackstageViewModel.Ribbon="{Binding ElementName=mainRibbon}"
+            BackStageColor="{Binding ElementName=backColor, Path=Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
+            BackStageHeader="File"
+            IsBackStageVisible="True">
+            <syncfusion:Ribbon.QuickAccessToolBar>
+                <syncfusion:QuickAccessToolBar>
+                    <syncfusion:RibbonButton SizeForm="ExtraSmall" IconTemplate="{StaticResource Save}">                    
+                    </syncfusion:RibbonButton>
+                    <syncfusion:RibbonButton SizeForm="ExtraSmall" IconTemplate="{StaticResource Bold}">
+                    </syncfusion:RibbonButton>
+                    <syncfusion:RibbonButton SizeForm="ExtraSmall" IconTemplate="{StaticResource Copy}">
+                    </syncfusion:RibbonButton>
+                </syncfusion:QuickAccessToolBar>
+            </syncfusion:Ribbon.QuickAccessToolBar>
+            <syncfusion:Ribbon.BackStage>
+                <syncfusion:Backstage x:Name="ribbonBackStage" syncfusion:Ribbon.KeyTip="B">
+                    <syncfusion:BackstageTabItem syncfusion:Ribbon.KeyTip="I" Header="Info">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <local:Information x:Name="informationView" />
+                            <Grid Grid.Row="1" Margin="20,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock FontWeight="Bold" VerticalAlignment="Center" Text="Backstage Color: " />
+                                <syncfusion:ColorPickerPalette
+                                        Grid.Column="1"
+                                        x:Name="backColor"
+                                        Width="50"
+                                        Height="30"
+                                        IsExpanded="False"
+                                        MoreColorOptionVisibility="Collapsed"
+                                        RecentlyUsedPanelVisibility="Collapsed"
+                                        Themes="Metro"
+                                        AutomaticColor="#FF0179FF"
+                                        Color="#FF0179FF"/>
+                            </Grid>
+                        </Grid>
+                    </syncfusion:BackstageTabItem>
+                    <syncfusion:BackstageTabItem syncfusion:Ribbon.KeyTip="R" Header="Recent">
+                        <local:Recent x:Name="recentView" />
+                    </syncfusion:BackstageTabItem>
+                    <syncfusion:BackstageTabItem syncfusion:Ribbon.KeyTip="N" Header="New">
+                        <local:New x:Name="newView" />
+                    </syncfusion:BackstageTabItem>
+                    <syncfusion:BackStageSeparator />
+                    <syncfusion:BackStageCommandButton
+                        syncfusion:Ribbon.KeyTip="A"
+                        Command="{Binding SaveAsCommand}"
+                        Header="Save As"
+                        IconTemplate="{StaticResource Save}" />
+                    <syncfusion:BackStageCommandButton
+                        syncfusion:Ribbon.KeyTip="E"
+                        Command="{Binding OpenCommand}"
+                        Header="Open"
+                        Icon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/Open32.png" />
+                    <syncfusion:BackStageCommandButton
+                        syncfusion:Ribbon.KeyTip="C"
+                        Command="{Binding CloseCommand}"
+                        Header="Close"
+                        IconTemplate="{StaticResource CloseTab}" />
+                    <syncfusion:BackStageSeparator />
+                    <syncfusion:BackstageTabItem syncfusion:Ribbon.KeyTip="P" Header="Print">
+                        <local:Print x:Name="printView" />
+                    </syncfusion:BackstageTabItem>
+                    <syncfusion:BackStageSeparator Position="Bottom"/>
+                    <syncfusion:BackstageTabItem syncfusion:Ribbon.KeyTip="H" Position="Bottom" Header="Help">
+                        <local:Help x:Name="helpView" />
+                    </syncfusion:BackstageTabItem>
+                    <syncfusion:BackStageCommandButton
+                        VerticalAlignment="Bottom" Position="Bottom"
+                        syncfusion:Ribbon.KeyTip="X"
+                        Command="{Binding ExitCommand}"
+                        CommandParameter="{Binding ElementName=mainWindow}"
+                        Header="Exit" />
+                </syncfusion:Backstage>
+            </syncfusion:Ribbon.BackStage>
+            <syncfusion:Ribbon.ApplicationMenu>
+                <syncfusion:ApplicationMenu />
+            </syncfusion:Ribbon.ApplicationMenu>
+            <syncfusion:RibbonTab Caption="Home">
+                <syncfusion:RibbonBar
+                    Name="ribbonFormatBar"
+                    syncfusion:Ribbon.KeyTip="FN"
+                    Header="Clipboard">
+                    <syncfusion:RibbonButton
+                        Margin="1"
+                        Command="ApplicationCommands.Paste"
+                        Label="Paste"
+                        SizeForm="Large"
+                        IconTemplate="{StaticResource Paste}">
+                    </syncfusion:RibbonButton>
+                    <syncfusion:RibbonButton
+                        HorizontalAlignment="Left"
+                        Command="ApplicationCommands.Cut"
+                        Label="Cut"
+                        SizeForm="Small"
+                        IconTemplate="{StaticResource Cut}">
+                    </syncfusion:RibbonButton>
+                    <syncfusion:RibbonButton
+                        HorizontalAlignment="Left"
+                        Command="ApplicationCommands.Copy"
+                        Label="Copy"
+                        SizeForm="Small"
+                        IconTemplate="{StaticResource Copy}">
+                    </syncfusion:RibbonButton>
+                    <syncfusion:RibbonButton
+                        Command="local:RibbonCommand.ButtonCommand"
+                        Label="Format Painter"
+                        SizeForm="Small"
+                        IconTemplate="{StaticResource FormatPainter}">
+                    </syncfusion:RibbonButton>
+                </syncfusion:RibbonBar>
+                <syncfusion:RibbonBar
+                    Name="barFont"
+                    Header="Font"
+                    IsLargeButtonPanel="False">
+                    <syncfusion:ButtonPanel SeparatorVisibility="Collapsed">
+                        <syncfusion:RibbonComboBox
+                            Name="ribbonFontName"
+                            Width="110"
+                            syncfusion:Ribbon.KeyTip="FF"
+                            DisplayMemberPath="FontFamily"
+                            IsEditable="True"
+                            ItemsSource="{Binding FontFamilyList}"
+                            SelectedIndex="0">
+                            <interactivity:Interaction.Triggers>
+                                <interactivity:EventTrigger EventName="SelectionChanged">
+                                    <interactivity:InvokeCommandAction Command="local:RibbonCommand.RibbonComboBoxCommand" CommandParameter="{Binding ElementName=ribbonFontName, Path=SelectedIndex}" />
+                                </interactivity:EventTrigger>
+                            </interactivity:Interaction.Triggers>
+                        </syncfusion:RibbonComboBox>
+                        <syncfusion:RibbonComboBox
+                            Name="ribbonFontSize"
+                            Width="40"
+                            DisplayMemberPath="FontSize"
+                            IsEditable="True"
+                            ItemsSource="{Binding FontSizeList}"
+                            SelectedIndex="0">
+                            <interactivity:Interaction.Triggers>
+                                <interactivity:EventTrigger EventName="SelectionChanged">
+                                    <interactivity:InvokeCommandAction Command="local:RibbonCommand.RibbonComboBoxCommand" CommandParameter="{Binding ElementName=ribbonFontSize, Path=SelectedIndex}" />
+                                </interactivity:EventTrigger>
+                            </interactivity:Interaction.Triggers>
+                        </syncfusion:RibbonComboBox>
+                    </syncfusion:ButtonPanel>
+                    <syncfusion:ButtonPanel Height="24">
+                        <syncfusion:RibbonButton
+                            Name="ribbonIndentButton"
+                            Command="EditingCommands.IncreaseFontSize"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource IncreaseFontSize}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            Command="EditingCommands.DecreaseFontSize"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource DecreaseFontSize}">
+                        </syncfusion:RibbonButton>
+                    </syncfusion:ButtonPanel>
+                    <syncfusion:ButtonPanel Height="24" SeparatorVisibility="Collapsed">
+                        <syncfusion:RibbonButton
+                            Name="ribbonBoldButton"
+                            Command="EditingCommands.ToggleBold"
+                            IsToggle="True"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource Bold}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            Name="ribbonItalicButton"
+                            Command="EditingCommands.ToggleItalic"
+                            IsToggle="True"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource Italics}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            Name="ribbonUnderlineButton"
+                            Command="EditingCommands.ToggleUnderline"
+                            IsToggle="True"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource Underline}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            Name="strikeButton"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource ClearFormatting}">
+                        </syncfusion:RibbonButton>
+                    </syncfusion:ButtonPanel>
+                    <syncfusion:ButtonPanel Height="24" SeparatorVisibility="Collapsed">
+                        <syncfusion:SplitButton SizeForm="ExtraSmall" IconTemplate="{StaticResource FontColor}">
+                            <syncfusion:ColorPickerPalette x:Name="fontColorPicker" Color="Black" IsExpanded="True" />
+                        </syncfusion:SplitButton>
+                        <syncfusion:SplitButton SizeForm="ExtraSmall" IconTemplate="{StaticResource TextHighlight}">
+                            <syncfusion:ColorPickerPalette
+                                x:Name="highlightColorPicker"
+                                IsExpanded="True"
+                                Color="White" />
+                        </syncfusion:SplitButton>
+                        <syncfusion:SplitButton
+                                Name="formatShading"
+                                syncfusion:Ribbon.KeyTip="FS"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource Shading}">
+                            <syncfusion:ColorPickerPalette
+                                    x:Name="shadingColorPicker"
+                                    Margin="3"
+                                    IsExpanded="True"
+                                    Color="White" />
+                        </syncfusion:SplitButton>
+                        <syncfusion:SplitButton
+                                Name="formatBorder"
+                                syncfusion:Ribbon.KeyTip="BF"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource FormatBorder}">
+                            <ListBox BorderThickness="0">
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="SelectionChanged">
+                                        <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+                                <ListBoxItem Margin="5">Full Border</ListBoxItem>
+                                <ListBoxItem Margin="5">Half Border</ListBoxItem>
+                                <ListBoxItem Margin="5">Inside Border</ListBoxItem>
+                                <ListBoxItem Margin="5">Outside Border</ListBoxItem>
+                            </ListBox>
+                        </syncfusion:SplitButton>
+                    </syncfusion:ButtonPanel>
+                </syncfusion:RibbonBar>
+                <syncfusion:RibbonBar Header="Backstage">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <syncfusion:RibbonCheckBox Content="Cancel Backstage Opening" IsChecked="{Binding CancelBackStageOpeningInHomeTab}" />
+                        <syncfusion:RibbonButton
+                            x:Name="openBackstage"
+                            Grid.Row="1"
+                            Padding="2,0"
+                            Height="30"
+                            Width="95"
+                            HorizontalAlignment="Left"
+                            Command="{Binding Path=HomeTabOpenBackstageCommand}"
+                            SizeForm="Small" SmallIcon="{x:Null}"
+                            Label="Open Backstage" />
+                    </Grid>
+                </syncfusion:RibbonBar>
+            </syncfusion:RibbonTab>
+            <syncfusion:RibbonTab Caption="Insert">
+                <syncfusion:RibbonBar Header="Pages">
+                    <syncfusion:RibbonButton
+                        Command="local:RibbonCommand.ButtonCommand"
+                        Label="Cover Page"
+                        LargeIcon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/CoverPage32.png"
+                        SizeForm="Large" />
+                    <syncfusion:RibbonButton
+                        Command="local:RibbonCommand.ButtonCommand"
+                        Label="BlankPage"
+                        SizeForm="Large" 
+                        IconTemplate="{StaticResource BlankPage}">
+                    </syncfusion:RibbonButton>
+                    <syncfusion:RibbonButton
+                        Command="local:RibbonCommand.ButtonCommand"
+                        Label="PageBreak"
+                        IconTemplate="{StaticResource PageBreak}"
+                        SizeForm="Large" >
+                    </syncfusion:RibbonButton>
+                </syncfusion:RibbonBar>
+                <syncfusion:RibbonBar Header="Illustrations">
+                    <syncfusion:RibbonButton
+                        Command="local:RibbonCommand.ButtonCommand"
+                        Label="Picture"
+                        SizeForm="Large"
+                        IconTemplate="{StaticResource Picture}">
+                    </syncfusion:RibbonButton>
+                </syncfusion:RibbonBar>
+                <syncfusion:RibbonBar Header="Backstage">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+                        <syncfusion:RibbonCheckBox Content="Cancel Backstage Opening" IsChecked="{Binding CancelBackStageOpeningInInsertTab}" />
+                        <syncfusion:RibbonButton
+                            x:Name="openSecondBackStage"
+                            Grid.Row="1"
+                            Padding="2,0"
+                            Height="30"
+                            Width="95"
+                            HorizontalAlignment="Left"
+                            Command="{Binding Path=InsertTabOpenBackstageCommand}"
+                            SizeForm="Small" SmallIcon="{x:Null}"
+                            Label="Open Backstage" />
+                    </Grid>
+                </syncfusion:RibbonBar>
+            </syncfusion:RibbonTab>
+        </syncfusion:Ribbon>
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <RichTextBox
+                    x:Name="Editor"
+                    Margin="100,10"
+                    Padding="50"
+                    local:BackstageViewModel.DocumentContent="{Binding FileContent, Mode=OneWay}"
+                    AcceptsTab="True"
+                    Background="{Binding ElementName=highlightColorPicker, Path=Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
+                    Foreground="{Binding ElementName=fontColorPicker, Path=Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}" />
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</syncfusion:RibbonWindow>

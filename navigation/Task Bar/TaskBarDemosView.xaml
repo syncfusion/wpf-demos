@@ -1,0 +1,223 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.navigationdemos.wpf.TaskBarDemosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:orientation="clr-namespace:System.Windows.Controls;assembly=PresentationFramework"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:viewModel="clr-namespace:syncfusion.navigationdemos.wpf">
+    <democommon:DemoControl.DataContext>
+        <viewModel:TaskBarViewModel />
+    </democommon:DemoControl.DataContext>
+    <democommon:DemoControl.Options>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="5"
+                FontWeight="Bold"
+                Text="Orientation" />
+            <ComboBox
+                x:Name="orientationType"
+                Grid.Row="1"
+                Width="150"
+                Margin="5,5,5,18"
+                HorizontalAlignment="Left"
+                FontWeight="Normal"
+                ItemsSource="{democommon:EnumValuesExtension Type=orientation:Orientation}"
+                SelectedIndex="1" />
+            <TextBlock
+                Grid.Row="2"
+                Margin="5"
+                FontWeight="Bold"
+                Text="Group Width" />
+            <syncfusion:UpDown
+                x:Name="increaseTaskBarWidth"
+                Grid.Row="3"
+                Width="150"
+                Margin="5,5,5,18"
+                HorizontalAlignment="Left"
+                MaxValue="1000"
+                MinValue="500"
+                TextAlignment="Left"
+                ZeroColor="Black"
+                Value="{Binding ElementName=taskBar, Path=GroupWidth}" />
+            <CheckBox
+                x:Name="showHeader"
+                Grid.Row="4"
+                Margin="5,5,5,18"
+                Tag="Header"
+                Content="Show item header"
+                IsEnabled="{Binding IsChecked, ElementName=expandTaskBarHeader}"
+                IsChecked="True">
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="Click">
+                        <viewModel:ShowHeaderBehavior TargetObject="{Binding ElementName=taskBar}" />
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+            </CheckBox>
+            <CheckBox
+                x:Name="expandTaskBarHeader"
+                Grid.Row="5"
+                Margin="5"
+                Tag="Expand"
+                Content="Expand items"
+                IsEnabled="{Binding IsChecked, ElementName=showHeader}"
+                IsChecked="True"/>
+        </Grid>
+    </democommon:DemoControl.Options>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="250" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <syncfusion:TaskBar
+                x:Name="taskBar"
+                Margin="5"
+                HorizontalAlignment="Left"
+                syncfusion:TaskBar.IsOpened="{Binding ElementName=expandTaskBarHeader, Path=IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                BorderThickness="1"
+                GroupWidth="500"
+                GroupOrientation="{Binding ElementName=orientationType, Path=SelectedItem, Mode=TwoWay}"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                SelectedItem="{Binding TaskBarSelectedItem, Mode=TwoWay}">
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="SelectedItemChanged">
+                        <interactivity:InvokeCommandAction Command="{Binding TaskBarItemChanged}"/>
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+                <syncfusion:TaskBarItem
+                    Name="firstItem"
+                    Margin="5"
+                    HorizontalContentAlignment="Left">
+                    <syncfusion:TaskBarItem.Header>
+                        <DockPanel>
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="/syncfusion.navigationdemos.wpf;component/Assets/TaskBar/empdetail.png" />
+                            <StackPanel Margin="5,0,0,0">
+                                <TextBlock FontFamily="Calibri" FontSize="11">Employee Personal Details</TextBlock>
+                            </StackPanel>
+                        </DockPanel>
+                    </syncfusion:TaskBarItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Margin="5">
+                            <TextBlock Margin="2" Text="Name : Alicia Mendez" />
+                            <TextBlock Margin="2" Text="Date Of Birth : 06-03-1981" />
+                            <TextBlock Margin="2" Text="Gender : Female" />
+                            <TextBlock Margin="2" Text="Position : System Administrator" />
+                            <TextBlock Margin="2" Text="Date Of Joining : 16-12-2003" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="5">
+                            <TextBlock
+                                Margin="2"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                Employee Photo
+                            </TextBlock>
+                            <Image
+                                Height="180"
+                                Margin="2"
+                                VerticalAlignment="Top"
+                                Source="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle16.png" />
+                        </StackPanel>
+                    </Grid>
+                </syncfusion:TaskBarItem>
+                <syncfusion:TaskBarItem
+                    Name="secondItem"
+                    Margin="5">
+                    <syncfusion:TaskBarItem.Header>
+                        <DockPanel>
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="/syncfusion.navigationdemos.wpf;component/Assets/TaskBar/mysalary.png" />
+                            <StackPanel Margin="5,0,0,0">
+                                <TextBlock FontFamily="Calibri" FontSize="11">Employee Salary Details</TextBlock>
+                            </StackPanel>
+                        </DockPanel>
+                    </syncfusion:TaskBarItem.Header>
+                    <StackPanel>
+                        <TextBlock Margin="2">Basic : $6000.00</TextBlock>
+                        <TextBlock Margin="2">HRA   : $1000.00</TextBlock>
+                        <TextBlock Margin="2">TA    : $1000.00</TextBlock>
+                        <TextBlock Margin="2">Professional Tax     : $1000.00</TextBlock>
+                        <TextBlock Margin="2">Net Salary: $7000.00</TextBlock>
+                    </StackPanel>
+                </syncfusion:TaskBarItem>
+                <syncfusion:TaskBarItem
+                    Name="thirdItem"
+                    Margin="5">
+                    <syncfusion:TaskBarItem.Header>
+                        <DockPanel>
+                            <Image
+                                Width="16"
+                                Height="16"
+                                Source="/syncfusion.navigationdemos.wpf;component/Assets/TaskBar/feedback.png" />
+                            <StackPanel Margin="5,0,0,0">
+                                <TextBlock FontFamily="Calibri" FontSize="11">Employee Feedback Details</TextBlock>
+                            </StackPanel>
+                        </DockPanel>
+                    </syncfusion:TaskBarItem.Header>
+                    <StackPanel>
+                        <TextBlock Margin="2">Month : March, 2001</TextBlock>
+                        <TextBlock Margin="2">Feedback : Good Worker</TextBlock>
+                        <TextBlock Margin="2">Posted By : George</TextBlock>
+                        <TextBlock Margin="2">Date Posted : April 2, 2007</TextBlock>
+                        <TextBlock Margin="2" />
+                    </StackPanel>
+                </syncfusion:TaskBarItem>
+            </syncfusion:TaskBar>
+        </Grid>
+        <Border
+            Grid.Row="1"
+            Margin="5"
+            BorderBrush="LightGray"
+            BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Margin="5,0,0,0"
+                    FontWeight="Bold"
+                    Text="Events" />
+                <ListBox
+                    Grid.Row="1"
+                    Margin="0,3,0,0"
+                    BorderThickness="0"
+                    ItemsSource="{Binding Path=EventLog}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Margin="5,3,0,0">
+                                            <ContentPresenter />
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Grid>
+        </Border>
+    </Grid>
+</democommon:DemoControl>

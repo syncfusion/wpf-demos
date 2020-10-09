@@ -1,0 +1,126 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.mapdemos.wpf.BubbleVisualization"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.mapdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="auto"
+    Height="auto">
+
+    <democommon:DemoControl.DataContext>
+        <local:BubbleViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+        <syncfusion:SfMap x:Name="map" Margin="10">
+            <syncfusion:SfMap.Layers>
+                <syncfusion:ShapeFileLayer
+                    EnableSelection="False"
+                    ItemsSource="{Binding Countries}"
+                    LegendHeader="Population Percent"
+                    LegendPositionX="30" 
+                    LegendPositionY="155" 
+                    LegendType="Bubbles"
+                    LegendVisibility="Visible"
+                    ShapeIDPath="Country"
+                    ShapeIDTableField="NAME"
+                    Uri="/syncfusion.mapdemos.wpf;component/Assets/Map/Data/world1.shp">
+                    <syncfusion:ShapeFileLayer.BubbleMarkerSetting>
+                        <syncfusion:BubbleMarkerSetting
+                            AutoFillColor="False"
+                            ColorValuePath="Percent"
+                            MinSize="15"
+                            Opacity="0.6"
+                            StrokeThickness="0"
+                            ValuePath="Percent">
+                            <syncfusion:BubbleMarkerSetting.ColorMappings>
+                                <syncfusion:RangeColorMapping
+                                    Color="#2E769F"
+                                    From="4"
+                                    To="20" />
+                                <syncfusion:RangeColorMapping
+                                    Color="#D84444"
+                                    From="2"
+                                    To="4" />
+                                <syncfusion:RangeColorMapping
+                                    Color="#816F28"
+                                    From="1"
+                                    To="2" />
+                                <syncfusion:RangeColorMapping
+                                    Color="#7F38A0"
+                                    From="0"
+                                    To="1" />
+                            </syncfusion:BubbleMarkerSetting.ColorMappings>
+
+                            <syncfusion:BubbleMarkerSetting.ToolTipSettings>
+                                <syncfusion:ToolTipSetting Margin="8" ValuePath="Country">
+                                    <syncfusion:ToolTipSetting.ToolTipTemplate>
+                                        <DataTemplate>
+                                            <Border CornerRadius="5">
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                        <RowDefinition />
+                                                    </Grid.RowDefinitions>
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        FontSize="14"
+                                                        Foreground="White"
+                                                        Text="{Binding Data.Country}" />
+                                                    <Rectangle
+                                                        Grid.Row="1"
+                                                        Height="1"
+                                                        Margin="0,5,0,5"
+                                                        Stroke="White" />
+                                                    <Grid Grid.Row="2">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock
+                                                            HorizontalAlignment="Center"
+                                                            FontSize="14"
+                                                            Foreground="White"
+                                                            Text="Population : " />
+                                                        <TextBlock
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Center"
+                                                            FontSize="14"
+                                                            Foreground="White"
+                                                            Text="{Binding Data.Percent, StringFormat={}{0} %}" />
+                                                    </Grid>
+
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </syncfusion:ToolTipSetting.ToolTipTemplate>
+                                </syncfusion:ToolTipSetting>
+                            </syncfusion:BubbleMarkerSetting.ToolTipSettings>
+
+                        </syncfusion:BubbleMarkerSetting>
+                    </syncfusion:ShapeFileLayer.BubbleMarkerSetting>
+                    <syncfusion:ShapeFileLayer.ItemsTemplate>
+                        <DataTemplate>
+                            <Border Background="Transparent">
+                                <TextBlock
+                                    FontFamily="Segoe UI"
+                                    FontSize="12"
+                                    Foreground="#FF333333"
+                                    Text="" />
+                            </Border>
+                        </DataTemplate>
+                    </syncfusion:ShapeFileLayer.ItemsTemplate>
+                    <syncfusion:ShapeFileLayer.ShapeSettings>
+                        <syncfusion:ShapeSetting
+                            ShapeFill="#E5E5E5"
+                            ShapeStroke="#C1C1C1"
+                            ShapeStrokeThickness="0.5"
+                            ShapeValuePath="Population" />
+                    </syncfusion:ShapeFileLayer.ShapeSettings>
+                </syncfusion:ShapeFileLayer>
+            </syncfusion:SfMap.Layers>
+        </syncfusion:SfMap>
+    </Grid>
+</democommon:DemoControl>

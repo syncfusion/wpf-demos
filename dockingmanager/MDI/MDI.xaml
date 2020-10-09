@@ -1,0 +1,568 @@
+<democommon:DemoControl
+    x:Class="syncfusion.dockingmanagerdemos.wpf.MDI"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.dockingmanagerdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+
+    <democommon:DemoControl.DataContext>
+        <local:MDIViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <democommon:BooleanToVisibilityConverter x:Key="BooleanToVisibility" />
+        <Style x:Key="TreeViewItemFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Width" Value="19" />
+            <Setter Property="Height" Value="13" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border
+                            Width="19"
+                            Height="13"
+                            Background="Transparent">
+                            <Border
+                                Width="9"
+                                Height="9"
+                                BorderBrush="#FF7898B5"
+                                BorderThickness="1"
+                                CornerRadius="1"
+                                SnapsToDevicePixels="true">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Offset=".2" Color="White" />
+                                        <GradientStop Offset="1" Color="#FFC0B7A6" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Path
+                                    x:Name="ExpandPath"
+                                    Margin="1,1,1,1"
+                                    Data="M 0 2 L 0 3 L 2 3 L 2 5 L 3 5 L 3 3 L 5 3 L 5 2 L 3 2 L 3 0 L 2 0 L 2 2 Z"
+                                    Fill="Black" />
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="ExpandPath" Property="Data" Value="M 0 2 L 0 3 L 5 3 L 5 2 Z" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TreeViewItemContainerStyle" TargetType="{x:Type TreeViewItem}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="1,0,0,0" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource TreeViewItemFocusVisual}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" MinWidth="19" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <ToggleButton
+                                x:Name="Expander"
+                                ClickMode="Press"
+                                IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                Style="{StaticResource ExpandCollapseToggleStyle}" />
+                            <Border
+                                x:Name="Bd"
+                                Grid.Column="1"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                SnapsToDevicePixels="true">
+                                <ContentPresenter
+                                    x:Name="PART_Header"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    ContentSource="Header"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                            <ItemsPresenter
+                                x:Name="ItemsHost"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Grid.ColumnSpan="2" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsExpanded" Value="false">
+                                <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true" />
+                                    <Condition Property="IsSelectionActive" Value="false" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            </Trigger>
+
+                            <DataTrigger Binding="{Binding Path=IsLoaded, RelativeSource={RelativeSource Self}}" Value="True">
+                                <Setter Property="HorizontalContentAlignment" Value="{Binding Path=HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                                <Setter Property="VerticalContentAlignment" Value="{Binding Path=VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <local:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+    </democommon:DemoControl.Resources>
+
+    <!--  Defining Root Grid  -->
+    <Grid Name="mygrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" ToolTip="Header" />
+            <RowDefinition ToolTip="Control Demo" />
+        </Grid.RowDefinitions>
+        <!--  Header Panel  -->
+        <Grid
+            Name="MenuGrid"
+            Grid.Row="0"
+            VerticalAlignment="Stretch">
+            <!--  Menu Area  -->
+            <Menu
+                VerticalAlignment="Bottom"
+                HorizontalContentAlignment="Stretch"
+                SnapsToDevicePixels="True">
+                <!--  Windows Menu  -->
+                <MenuItem Header="Switch Mode">
+                    <MenuItem
+                        Command="{Binding SwitchModeChangeAction}"
+                        CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="Immediate"
+                        IsChecked="{Binding SwitchMode, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Immediate}" />
+                    <MenuItem
+                        Command="{Binding SwitchModeChangeAction}"
+                        CommandParameter="{Binding Header, Mode=OneWay, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="List"
+                        IsChecked="{Binding SwitchMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=List}" />
+                    <MenuItem
+                        Command="{Binding SwitchModeChangeAction}"
+                        CommandParameter="{Binding Header, Mode=OneWay, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="QuickTabs"
+                        IsChecked="{Binding SwitchMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=QuickTabs}" />
+                    <MenuItem
+                        Command="{Binding SwitchModeChangeAction}"
+                        CommandParameter="{Binding Header, Mode=OneWay, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="VS2005"
+                        IsChecked="{Binding SwitchMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=VS2005}" />
+                    <MenuItem
+                        Command="{Binding SwitchModeChangeAction}"
+                        CommandParameter="{Binding Header, Mode=OneWay, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="VistaFlip"
+                        IsChecked="{Binding SwitchMode, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=VistaFlip}" />
+                </MenuItem>
+            </Menu>
+        </Grid>
+        <!--  Docking Window Area  -->
+        <Border
+            Grid.Row="1"
+            BorderBrush="{DynamicResource BorderAlt}"
+            BorderThickness="0,1,0,1">
+
+            <!--  Initializing Docking Manager  -->
+            <syncfusion:DockingManager
+                x:Name="DockingManager"
+                Height="Auto"
+                syncfusion:DockingManager.AnimationDelay="00:00:00.200"
+                ContainerMode="MDI"
+                EnableMouseHoverBackground="False"
+                IsVS2010DraggingEnabled="True"
+                PersistState="False"
+                SwitchMode="{Binding SwitchMode, Mode=TwoWay}"
+                UseDocumentContainer="True">
+                <!--  Customized Header Template  -->
+                <syncfusion:DockingManager.HeaderTemplate>
+                    <DataTemplate>
+                        <DockPanel LastChildFill="True">
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding}"
+                                TextTrimming="CharacterEllipsis" />
+                        </DockPanel>
+                    </DataTemplate>
+                </syncfusion:DockingManager.HeaderTemplate>
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/DocIO.gif" />
+                </syncfusion:DockingManager.Icon>
+
+                <!--  Dock window For the FindResult  -->
+                <TreeView
+                    Name="FindResult"
+                    syncfusion:DockingManager.CanClose="True"
+                    syncfusion:DockingManager.DesiredHeightInDockedMode="150"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="350"
+                    syncfusion:DockingManager.DesiredWidthInFloatingMode="350"
+                    syncfusion:DockingManager.Header="Find Results"
+                    syncfusion:DockingManager.SideInDockedMode="Bottom"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="check the result"
+                    ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}">
+                    <!--  Customized Header Template  -->
+                    <syncfusion:DockingManager.Icon>
+                        <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/Sample.gif" />
+                    </syncfusion:DockingManager.Icon>
+                    <TextBlock>Find Results 0 , Not Found.</TextBlock>
+                </TreeView>
+
+                <!--  Dock Window For ErrorList  -->
+
+                <TreeView
+                    Name="ErrorList"
+                    syncfusion:DockingManager.CanDrag="True"
+                    syncfusion:DockingManager.Header="Event Log"
+                    syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                    syncfusion:DockingManager.TargetNameInDockedMode="FindResult"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="To show the list of errors"
+                    ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}">
+
+                    <syncfusion:DockingManager.Icon>
+                        <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/XlsIO.gif" />
+                    </syncfusion:DockingManager.Icon>
+                    <ScrollViewer Name="Scroll" VerticalScrollBarVisibility="Auto">
+                        <StackPanel Name="evntlog" Orientation="Vertical" />
+                    </ScrollViewer>
+                </TreeView>
+
+                <!--  Dock Window For Solution Explorer  -->
+
+                <TreeView
+                    Name="solutionExp"
+                    HorizontalContentAlignment="Left"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="200"
+                    syncfusion:DockingManager.Header="Solution Explorer"
+                    syncfusion:DockingManager.SideInDockedMode="Right"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="Non-Hierarchical view of all                                Items in the solution"
+                    BorderThickness="0"
+                    FlowDirection="LeftToRight"
+                    ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}">
+                    <syncfusion:DockingManager.Icon>
+                        <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/Grid.gif" />
+                    </syncfusion:DockingManager.Icon>
+                    <TreeViewItem Header="Solution 'DockingDemo' (1 project)" IsExpanded="true">
+                        <TreeViewItem Header="DockingDemo" IsExpanded="true">
+                            <TreeViewItem Header="Properties">
+                                <TreeViewItem Header="AssemblyInfo.cs" />
+                                <TreeViewItem Header="Resources.resx" />
+                                <TreeViewItem Header="Resources1.resx" />
+                                <TreeViewItem Header="Settings.settings" />
+                            </TreeViewItem>
+                            <TreeViewItem Header="References" />
+                            <TreeViewItem Header="Images" />
+                            <TreeViewItem Header="App.xaml" IsExpanded="true">
+                                <TreeViewItem Header="App.xaml.cs" />
+                            </TreeViewItem>
+                            <TreeViewItem Header="Window1.xaml" IsExpanded="true">
+                                <TreeViewItem Header="Window1.xaml.cs" />
+                            </TreeViewItem>
+                        </TreeViewItem>
+                    </TreeViewItem>
+                </TreeView>
+
+                <!--  Tabbed Dock Window  -->
+                <!--  Dock window for Properties  -->
+                <TreeView
+                    Name="Properties"
+                    syncfusion:DockingManager.CanDrag="True"
+                    syncfusion:DockingManager.DesiredHeightInDockedMode="150"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="200"
+                    syncfusion:DockingManager.Header="Properties"
+                    syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                    syncfusion:DockingManager.TargetNameInDockedMode="solutionExp"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="To display the properties"
+                    ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}" />
+                <!--  Dock window for ToolBox  -->
+                <TreeView
+                    Name="toolbox"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="200"
+                    syncfusion:DockingManager.Header="Toolbox"
+                    syncfusion:DockingManager.SideInDockedMode="Left"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="ToolBox"
+                    ItemContainerStyle="{StaticResource TreeViewItemContainerStyle}" />
+
+                <!--  Document Area  -->
+                <!--  Window1 tab  -->
+                <Border
+                    syncfusion:DockingManager.Header="Window1"
+                    syncfusion:DockingManager.State="Document"
+                    syncfusion:DocumentContainer.MDIBounds="0,0,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="Dockingmanager Window">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBox
+                                Margin="5"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                For ease of navigation, users can switch between the TDI and MDI modes.
+                            </TextBox>
+                            <TextBox
+                                Margin="5,10"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                Most users prefers keyboard to mouse navigation. Thus,
+                                to satisfy all users, syncfusion Document Container is boosted
+                                by Window Switcher(CTRL+TAB keys) for smooth, fine and flexible
+                                navigation between interfaced windows. syncfusion ships five different
+                                modes of window switchers.Hold down the CTRL key  and use the TAB
+                                keystroke repeatedly to experience active switchers in effect.
+                            </TextBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+                <!--  Document container tab  -->
+                <Border
+                    syncfusion:DockingManager.Header="Document Container"
+                    syncfusion:DockingManager.State="Document"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="Documentcontainer Window">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBox
+                                Margin="5"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                WPF DocumentContainer
+                            </TextBox>
+                            <TextBox
+                                Margin="5,10"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                This application is designed to highlight the features of the
+                                WPF Docking Manager integrated with the Document Container library for
+                                Windows Presentation Foundation (WPF). This document can be displayed
+                                as a TDI or MDI. Use the properties such as ContainerMode and ContainerStyle
+                                which include certain relevant events.
+                            </TextBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+                <!--  Docking manager tab  -->
+                <Border
+                    syncfusion:DockingManager.Header="Docking Manager"
+                    syncfusion:DockingManager.State="Document"
+                    syncfusion:DocumentContainer.MDIBounds="60,60,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="Dockingmanager Window">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBox
+                                Margin="5"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                WPF Docking Manager
+                            </TextBox>
+                            <TextBox
+                                Margin="5,10"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                The Docking Manager application is designed to highlight the features
+                                of the WPF Docking Manager library for Windows Presentation Foundation (WPF).
+                                Executable and  full source code are provided to  view the integration of the
+                                library into your applications. This document contains features and other
+                                controls to demonstrate most window and layout features. View features of
+                                Docking Manager using the properties window.
+                            </TextBox>
+                            <TextBox
+                                Margin="5,10"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                The Docking Manager follows an architecture that allows controls to be
+                                docked to any part of the window. It has been broadly designed based on
+                                docking features present in Visual Studio 2005. The Docking Manager works
+                                on top of all the controls placed inside its tree. It handles the window
+                                layout for the user automatically and places controls.  Like the DockPanel
+                                control , It also uses attached properties to set the controls as docked
+                                controls or docked windows. The docked windows can be placed as a group of
+                                logically related docked controls.
+                            </TextBox>
+                            <TextBox
+                                Margin="5,10"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                Features
+                            </TextBox>
+                            <ListBox>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Docked windows are
+                                        dockable to any part inside the main window.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        User can drag the
+                                        docked window and create grouped docked windows or arrange
+                                        in the most logical fashion manner.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Docked windows can
+                                        be resized using the splitter that appears when the window is
+                                        docked.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Serialize the state of
+                                        docked windows in isolated storage / any user defined location.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        There are several default
+                                        skins available for changing the visual styles of the docked windows.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Docked windows can be
+                                        float.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Docked windows can be
+                                        tabbed.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Set tabalignment to docked windows.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Set closing mode to tabbed
+                                        docked windows.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Customize the look and feel of docked windows by overriding the
+                                        default templates.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Control the behavior of
+                                        docked windows,
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Closing of docked window
+                                        can be set by using CanClose property.
+                                    </TextBox>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <TextBox
+                                        BorderThickness="0"
+                                        IsReadOnly="True"
+                                        TextWrapping="Wrap">
+                                        Dragging of docked window
+                                        can be set by using CanDrag property.
+                                    </TextBox>
+                                </ListBoxItem>
+                            </ListBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+            </syncfusion:DockingManager>
+        </Border>
+    </Grid>
+</democommon:DemoControl>
