@@ -1,0 +1,210 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.navigationdemos.wpf.MenuGettingStartedDemosView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.navigationdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+	Background="White">
+    <democommon:DemoControl.DataContext>
+        <local:MenuGettingStartedViewModel />
+    </democommon:DemoControl.DataContext>
+    <democommon:DemoControl.Resources>
+        <DataTemplate x:Key="MenuItemTemplate">
+            <TextBlock Text="{Binding MenuItemName}" />
+        </DataTemplate>
+        <HierarchicalDataTemplate
+            x:Key="ItemGroup1Template"
+            ItemTemplate="{StaticResource MenuItemTemplate}"
+            ItemsSource="{Binding MenuItems}">
+            <TextBlock Text="{Binding MenuItemName}" />
+        </HierarchicalDataTemplate>
+        <HierarchicalDataTemplate
+            x:Key="ItemGroupTemplate"
+            ItemTemplate="{StaticResource ItemGroup1Template}"
+            ItemsSource="{Binding MenuItems}">
+            <TextBlock Text="{Binding MenuItemName}" />
+        </HierarchicalDataTemplate>
+    </democommon:DemoControl.Resources>
+    <democommon:DemoControl.Options>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Margin="5"
+                FontWeight="Bold"
+                Text="Options" />
+            <TextBlock
+                Grid.Row="1"
+                Margin="5"
+                FontWeight="Bold"
+                Text="Expand Mode" />
+            <syncfusion:ComboBoxAdv
+                x:Name="expandMode"
+                Grid.Row="2"
+                Width="150"
+                Margin="5,5,5,15"
+                HorizontalAlignment="Left"
+                SelectedIndex="0">
+                <syncfusion:ComboBoxItemAdv>ExpandOnClick</syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv>ExpandOnMouseOver</syncfusion:ComboBoxItemAdv>
+            </syncfusion:ComboBoxAdv>
+            <TextBlock
+                Grid.Row="3"
+                Margin="5"
+                FontWeight="Bold"
+                Text="Orientation" />
+            <syncfusion:ComboBoxAdv
+                x:Name="menuOrientation"
+                Grid.Row="4"
+                Width="150"
+                Margin="5,5,5,15"
+                HorizontalAlignment="Left"
+                SelectedIndex="0">
+                <syncfusion:ComboBoxItemAdv>Horizontal</syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv>Vertical</syncfusion:ComboBoxItemAdv>
+            </syncfusion:ComboBoxAdv>
+            <TextBlock
+                Grid.Row="5"
+                Margin="5"
+                FontWeight="Bold"
+                Text="Popup Animation type" />
+            <syncfusion:ComboBoxAdv
+                x:Name="popupAnimationType"
+                Grid.Row="6"
+                Width="150"
+                Margin="5"
+                HorizontalAlignment="Left"
+                SelectedIndex="1">
+                <syncfusion:ComboBoxItemAdv>None</syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv>Slide</syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv>Scroll</syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv>Fade</syncfusion:ComboBoxItemAdv>
+                <syncfusion:ComboBoxItemAdv>Custom</syncfusion:ComboBoxItemAdv>
+            </syncfusion:ComboBoxAdv>
+        </Grid>
+    </democommon:DemoControl.Options>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <syncfusion:MenuAdv
+            x:Name="MenuAdv"
+            MinHeight="30"
+            Padding="5,5,0,0"
+            ExpandMode="{Binding ElementName=expandMode, Path=SelectedItem.Content}"
+            ItemTemplate="{StaticResource ItemGroupTemplate}"
+            ItemsSource="{Binding MenuModel}"
+            Orientation="{Binding ElementName=menuOrientation, Path=SelectedItem.Content}"
+            PopUpAnimationType="{Binding ElementName=popupAnimationType, Mode=TwoWay, Path=SelectedItem.Content}">
+            <syncfusion:MenuAdv.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type syncfusion:MenuItemAdv}}" TargetType="{x:Type syncfusion:MenuItemAdv}">
+                    <Setter Property="Icon" Value="{Binding ImagePath}" />
+                    <Setter Property="InputGestureText" Value="{Binding GestureText}" />
+                    <Setter Property="Command" Value="{Binding MenuItemClickCommand}" />
+                    <Setter Property="CommandParameter" Value="{Binding MenuItemName}" />
+                    <Setter Property="IsCheckable" Value="{Binding IsCheckable}" />
+                    <Setter Property="CheckIconType" Value="{Binding CheckIconType}" />
+                </Style>
+            </syncfusion:MenuAdv.ItemContainerStyle>
+        </syncfusion:MenuAdv>
+        <RichTextBox
+            Grid.Row="1"
+            Margin="10"
+            Padding="20"
+            AcceptsTab="True"
+            FontSize="14">
+            <FlowDocument FontFamily="Calibri">
+                <Paragraph
+                    FontFamily="Cambria"
+                    FontSize="16"
+                    FontWeight="Bold">
+                    <Run Text="WPF Menu (MenuAdv) Overview" />
+                </Paragraph>
+                <Paragraph>
+                    <Run Text="A MenuAdv control allows the hierarchal organization of elements that are associated with commands and event handlers. This control contains a collection of MenuItemAdv, which can be expanded to display additional MenuItemAdv's or to perform a specific action when being clicked." />
+                </Paragraph>
+                <List MarkerStyle="Square">
+                    <ListItem>
+                        <Paragraph x:Name="pointOne">
+                            <Run Text="Binding and DataTemplate support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointTwo">
+                            <Run Text="Command Binding and Command Target support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointThree">
+                            <Run Text="Orientation support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointFour">
+                            <Run Text="Expand Modes support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointFive">
+                            <Run Text="Icon support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointSix">
+                            <Run Text="Check Box and Radio Button support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointSeven">
+                            <Run Text="Keyboard Navigation support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointEight">
+                            <Run Text="MenuItemSeparator" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointNine">
+                            <Run Text="Animation support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointTen">
+                            <Run Text="Scroll support" />
+                        </Paragraph>
+                    </ListItem>
+                    <ListItem>
+                        <Paragraph x:Name="pointEleven">
+                            <Run Text="Blendability" />
+                        </Paragraph>
+                    </ListItem>
+                </List>
+            </FlowDocument>
+        </RichTextBox>
+        <TextBlock
+            Grid.Row="2"
+            Margin="5"
+            FontWeight="Bold"
+            Text="Events" />
+        <ListView
+            Grid.Row="3"
+            BorderBrush="LightGray"
+            BorderThickness="1"
+            ItemsSource="{Binding Path=EventLog}" />
+    </Grid>
+</democommon:DemoControl>

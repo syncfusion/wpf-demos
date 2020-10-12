@@ -1,0 +1,113 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.diagramdemo.wpf.Views.HierarchicalLayoutWithMultipleRoot"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    mc:Ignorable="d" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf" 
+    xmlns:model="clr-namespace:syncfusion.diagramdemo.wpf.Model"
+    d:DesignHeight="450" d:DesignWidth="800">
+    <democommon:DemoControl.Resources>
+        <!--Style for Connector-->
+        <Style TargetType="syncfusion:Connector">
+            <Setter Property="ConnectorGeometryStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="Black"  />
+                        <Setter Property="StrokeThickness" Value="1" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TargetDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="#4f4f4f"  />
+                        <Setter Property="Stretch" Value="Fill" />
+                        <Setter Property="Fill" Value="#4f4f4f"  />
+                        <Setter Property="StrokeThickness" Value="1" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--Style for Node-->
+        <Style TargetType="syncfusion:Node">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Border  Background="{Binding Path=_Color}" BorderBrush="{Binding Path=_Color}" 
+                             Width="110" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Margin="5" TextWrapping="Wrap" FontSize="14" Foreground="#ffffff"
+                                 Text="{Binding Path=Name}" FontFamily="Segoe UI"  VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center"/>
+                        </Border>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="UnitHeight" Value="40"/>
+            <Setter Property="UnitWidth" Value="110"/>
+        </Style>
+
+
+        <!-- Initializes the employee collection-->
+        <model:HierarchicalLayoutModels x:Key="employees">
+            <model:HierarchicalLayoutModel EmpId = "1" ParentId = "" Name = "Production Manager" _Color = "#1b80c6"/>
+            <model:HierarchicalLayoutModel EmpId = "2" ParentId = "1" Name = "Control Room" _Color = "#3dbfc9"/>
+            <model:HierarchicalLayoutModel EmpId = "3" ParentId = "1" Name = "Plant Operator" _Color = "#3dbfc9"/>
+            <model:HierarchicalLayoutModel EmpId = "4" ParentId = "2" Name = "Foreman" _Color = "#2bb28e"/>
+            <model:HierarchicalLayoutModel EmpId = "5" ParentId = "3" Name = "Foreman" _Color = "#2bb28e"/>
+            <model:HierarchicalLayoutModel EmpId = "6" ParentId = "4" Name = "Craft Personnel" _Color = "#76d13b"/>
+            <model:HierarchicalLayoutModel EmpId = "7" ParentId = "4" Name = "Craft Personnel" _Color = "#76d13b"/>
+            <model:HierarchicalLayoutModel EmpId = "8" ParentId = "5" Name = "Craft Personnel" _Color = "#76d13b"/>
+            <model:HierarchicalLayoutModel EmpId = "21" ParentId = "5" Name = "Craft Personnel" _Color = "#76d13b"/>
+
+            <model:HierarchicalLayoutModel EmpId = "9" ParentId = "" Name = "Administrative Officer" _Color = "#1b80c6"/>
+            <model:HierarchicalLayoutModel EmpId="10" ParentId="9" Name="Security Supervisor" _Color="#3dbfc9"/>
+            <model:HierarchicalLayoutModel EmpId="11" ParentId="9" Name="HR Supervisor" _Color="#3dbfc9"/>
+            <model:HierarchicalLayoutModel EmpId="12" ParentId="9" Name="Reception Supervisor" _Color="#3dbfc9"/>
+            <model:HierarchicalLayoutModel EmpId="13" ParentId="10" Name="Securities" _Color="#2bb28e"/>
+            <model:HierarchicalLayoutModel EmpId="14" ParentId="11" Name="HR officer" _Color="#2bb28e"/>
+            <model:HierarchicalLayoutModel EmpId="15" ParentId="12" Name="Receptionist" _Color="#2bb28e"/>
+
+
+            <model:HierarchicalLayoutModel EmpId = "16" ParentId = "" Name = "Maintenance Manager" _Color = "#1b80c6"/>
+            <model:HierarchicalLayoutModel EmpId = "17" ParentId = "16" Name = "Electrical Supervisor" _Color = "#3dbfc9"/>
+            <model:HierarchicalLayoutModel EmpId = "18" ParentId = "16" Name = "Mechanical Supervisor" _Color = "#3dbfc9"/>
+            <model:HierarchicalLayoutModel EmpId = "19" ParentId = "17" Name = "Craft Personnel" _Color = "#2bb28e"/>
+            <model:HierarchicalLayoutModel EmpId = "20" ParentId = "18" Name = "Craft Personnel" _Color = "#2bb28e"/>
+
+        </model:HierarchicalLayoutModels>
+
+        <!--Initializes the DataSourceSettings -->
+        <syncfusion:DataSourceSettings x:Key="DataSourceSettings" DataSource="{StaticResource employees}"
+                               ParentId="ParentId" Id="EmpId"/>
+        <syncfusion:DirectedTreeLayout x:Name="DirectedTreeLayout" x:Key="treeLayout" HorizontalSpacing="40" VerticalSpacing="50" Orientation="TopToBottom" Type="Hierarchical" SpaceBetweenSubTrees="20" />
+
+        <syncfusion:LayoutManager x:Key="layoutManager" Layout="{StaticResource treeLayout}"/>
+
+    </democommon:DemoControl.Resources>
+    <Grid>
+        <syncfusion:SfDiagram x:Name="Diagram"
+                              Tool="ZoomPan"
+                              DefaultConnectorType="Orthogonal"
+                              Menu="{x:Null}" 
+                              LayoutManager="{StaticResource layoutManager}"
+                              DataSourceSettings="{StaticResource DataSourceSettings}">
+            <syncfusion:SfDiagram.Nodes>
+                <syncfusion:NodeCollection/>
+            </syncfusion:SfDiagram.Nodes>
+            <syncfusion:SfDiagram.Connectors>
+                <syncfusion:ConnectorCollection/>
+            </syncfusion:SfDiagram.Connectors>
+            <syncfusion:SfDiagram.PageSettings>
+                <syncfusion:PageSettings PageBorderBrush="Transparent" PageBackground="White"/>
+            </syncfusion:SfDiagram.PageSettings>
+            <syncfusion:SfDiagram.ScrollSettings>
+                <syncfusion:ScrollSettings ScrollLimit="Diagram"/>
+            </syncfusion:SfDiagram.ScrollSettings>
+        </syncfusion:SfDiagram>        
+    </Grid>
+</democommon:DemoControl>

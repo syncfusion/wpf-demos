@@ -1,0 +1,113 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.treegriddemos.wpf.SortingDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.treegriddemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    >
+
+    <democommon:DemoControl.DataContext>
+        <local:EmployeeInfoViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <democommon:EnumDisplayNameConverter x:Key="enumDisplayNameConverter" />
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+        <StackPanel Orientation="Vertical">
+            <CheckBox
+                x:Name="CkbAllowSort"
+                Margin="5"
+                Content="Allow Sort"
+                IsChecked="True" />
+            <CheckBox
+                x:Name="CkbEnableTriStateSorting"
+                Margin="5"
+                Content="Allow TriState Sorting"
+                IsChecked="True" />
+
+            <CheckBox
+                x:Name="CkbShowSortNumbers"
+                Margin="5"
+                Content="Show Sort Numbers"
+                IsChecked="False" />
+            <TextBlock
+                Margin="5"
+                FontSize="12"
+                FontWeight="Bold"
+                Text="Sort Click Action" />
+            <ComboBox
+                x:Name="CmbSortClickAction"
+                Margin="5"
+                ItemsSource="{democommon:EnumValuesExtension Type=syncfusion:SortClickAction}"
+                SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Converter={StaticResource enumDisplayNameConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock
+                Margin="5"
+                FontSize="12"
+                FontWeight="Bold"
+                Text="Allow Sort for Columns :" />
+
+            <CheckBox
+                x:Name="CkbSalary"
+                Margin="5"
+                Content="Allow Sort Salary Column"
+                IsChecked="True" />
+
+            <CheckBox
+                x:Name="CkbTitle"
+                Margin="5"
+                Content="Allow Sort Title Column"
+                IsChecked="True" />
+
+        </StackPanel>
+    </democommon:DemoControl.Options>
+
+    <Grid>
+        <syncfusion:SfTreeGrid
+            Name="treeGrid"
+            Margin="5"
+            AllowSorting="{Binding IsChecked, ElementName=CkbAllowSort}"
+            AllowTriStateSorting="{Binding IsChecked, ElementName=CkbEnableTriStateSorting}"
+            AutoExpandMode="RootNodesExpanded"
+            AutoGenerateColumns="False"
+            ChildPropertyName="ReportsTo"
+            ColumnSizer="Star"
+            ExpanderColumn="FirstName"
+            ItemsSource="{Binding EmployeeList}"
+            ParentPropertyName="ID"
+            SelfRelationRootValue="-1"
+            ShowSortNumbers="{Binding IsChecked, ElementName=CkbShowSortNumbers}"
+            SortClickAction="{Binding SelectedValue, ElementName=CmbSortClickAction}">
+            <syncfusion:SfTreeGrid.Columns>
+                <syncfusion:TreeGridTextColumn HeaderText="First Name" MappingName="FirstName" />
+                <syncfusion:TreeGridNumericColumn HeaderText="Employee ID" MappingName="ID" NumberDecimalDigits="0"/>
+                <syncfusion:TreeGridTextColumn HeaderText="Last Name" MappingName="LastName" />
+                <syncfusion:TreeGridTextColumn
+                    AllowSorting="{Binding Source={x:Reference CkbTitle}, Path=IsChecked, Mode=TwoWay}"
+                    HeaderText="Title"
+                    MappingName="Title" />
+                <syncfusion:TreeGridCurrencyColumn
+                    AllowSorting="{Binding Source={x:Reference CkbSalary}, Path=IsChecked, Mode=TwoWay}"
+                    CurrencyDecimalDigits="0"
+                    CurrencyGroupSeparator=","
+                    CurrencyGroupSizes="3"
+                    MappingName="Salary" />
+
+                <syncfusion:TreeGridNumericColumn HeaderText="Reports To" MappingName="ReportsTo" NumberDecimalDigits="0"/>
+            </syncfusion:SfTreeGrid.Columns>
+
+            <syncfusion:SfTreeGrid.SortColumnDescriptions>
+                <syncfusion:SortColumnDescription ColumnName="ID" />
+            </syncfusion:SfTreeGrid.SortColumnDescriptions>
+        </syncfusion:SfTreeGrid>
+    </Grid>
+</democommon:DemoControl>

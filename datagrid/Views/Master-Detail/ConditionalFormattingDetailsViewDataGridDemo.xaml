@@ -1,0 +1,193 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.datagriddemos.wpf.ConditionalFormattingDetailsViewDataGridDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.datagriddemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:syncfusionskin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    syncfusionskin:SfSkinManager.VisualStyle="Office2019Colorful"
+    Background="#F5F5F5"
+    OptionsSize="210">
+
+    <democommon:DemoControl.DataContext>
+        <local:ConditionalFormattingDetailsViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.Themes.Office2019Colorful.WPF;component/SfDataGrid/SfDataGrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:StyleConverterforQuantity x:Key="quantitystyle" />
+            <local:StyleConverterforUnitPrice x:Key="unitpricestyle" />
+
+            <LinearGradientBrush x:Key="Brush1">
+                <GradientStop Offset="0" Color="White" />
+                <GradientStop Offset="1" Color="#FED06A" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="Brush2">
+                <GradientStop Offset="0" Color="White" />
+                <GradientStop Offset="1" Color="#B5AC99" />
+            </LinearGradientBrush>
+        </ResourceDictionary>
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+        <StackPanel>
+            <TextBlock
+                Margin="5"
+                FontWeight="Bold"
+                Text="Legend" />
+            <StackPanel Orientation="Horizontal">
+                <Border
+                    Width="25"
+                    Height="25"
+                    Margin="5"
+                    BorderThickness=".2">
+                    <Rectangle
+                        Width="25"
+                        Height="25"
+                        Fill="{StaticResource Brush1}" />
+                </Border>
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Quantity is less than 6"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Border
+                    Width="25"
+                    Height="25"
+                    Margin="5"
+                    BorderThickness=".2">
+                    <Rectangle
+                        Width="25"
+                        Height="25"
+                        Fill="{StaticResource Brush2}" />
+                </Border>
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="UnitPrice is greater than 50"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </StackPanel>
+    </democommon:DemoControl.Options>
+
+    <Grid>
+        <syncfusion:SfDataGrid
+            x:Name="dataGrid"
+            Margin="5"
+            AllowEditing="True"
+            AutoGenerateColumns="False"
+            HideEmptyGridViewDefinition="True"
+            ItemsSource="{Binding Path=OrdersDetails}"
+            NavigationMode="Cell"
+            ShowGroupDropArea="True">
+            <interactivity:Interaction.Behaviors>
+                <local:DataGridDetailsViewBehavior />
+            </interactivity:Interaction.Behaviors>
+            <syncfusion:SfDataGrid.DetailsViewDefinition>
+                <syncfusion:GridViewDefinition RelationalColumn="OrderDetails">
+                    <syncfusion:GridViewDefinition.DataGrid>
+                        <syncfusion:SfDataGrid
+                            x:Name="FirstDetailsViewGrid"
+                            AllowEditing="True"
+                            AutoGenerateColumns="False"
+                            LiveDataUpdateMode="AllowDataShaping">
+                            <syncfusion:SfDataGrid.Columns>
+
+                                <syncfusion:GridNumericColumn
+                                    AllowEditing="False"
+                                    HeaderText="Order ID"
+                                    MappingName="OrderID" />
+                                <syncfusion:GridNumericColumn
+                                    MappingName="Discount"
+                                    NumberDecimalDigits="0"
+                                    SetCellBoundValue="True">
+                                    <syncfusion:GridNumericColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <ProgressBar
+                                                    x:Name="progressBar"
+                                                    Background="Transparent"
+                                                    BorderThickness="0"
+                                                    Maximum="100"
+                                                    Minimum="0"
+                                                    Visibility="Visible"
+                                                    Value="{Binding Path=Value, StringFormat='\{0\}%'}" />
+                                                <TextBlock
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    Text="{Binding Path=Value, StringFormat='\{0\}%'}"
+                                                    TextAlignment="Center" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </syncfusion:GridNumericColumn.CellTemplate>
+                                </syncfusion:GridNumericColumn>
+                                <syncfusion:GridTextColumn HeaderText="Customer ID" MappingName="CustomerID" />
+                                <syncfusion:GridCurrencyColumn
+                                    CurrencySymbol="$"
+                                    HeaderText="Unit Price"
+                                    MappingName="UnitPrice"
+                                    TextAlignment="Right">
+                                    <syncfusion:GridCurrencyColumn.CellStyle>
+                                        <Style BasedOn="{StaticResource SyncfusionGridCellStyle}" TargetType="{x:Type syncfusion:GridCell}">
+                                            <Setter Property="Background" Value="{Binding Content.Text, RelativeSource={RelativeSource Self}, Converter={StaticResource unitpricestyle}}" />
+                                            <Setter Property="BorderBrush" Value="#E0E0E0" />
+                                        </Style>
+                                    </syncfusion:GridCurrencyColumn.CellStyle>
+                                </syncfusion:GridCurrencyColumn>
+
+                                <syncfusion:GridNumericColumn MappingName="Quantity" NumberDecimalDigits="0">
+                                    <syncfusion:GridNumericColumn.CellStyle>
+                                        <Style BasedOn="{StaticResource SyncfusionGridCellStyle}" TargetType="{x:Type syncfusion:GridCell}">
+                                            <Setter Property="Background" Value="{Binding Content.Text, RelativeSource={RelativeSource Self}, Converter={StaticResource quantitystyle}}" />
+                                            <Setter Property="BorderBrush" Value="#E0E0E0" />
+                                        </Style>
+                                    </syncfusion:GridNumericColumn.CellStyle>
+                                </syncfusion:GridNumericColumn>
+
+
+                                <syncfusion:GridTextColumn HeaderText="Customer Area" MappingName="ShipCity" />
+                                <syncfusion:GridTextColumn
+                                    HeaderText="Product ID"
+                                    MappingName="ProductID"
+                                    TextAlignment="Right" />
+                                <syncfusion:GridDateTimeColumn
+                                    HeaderText="Order Date"
+                                    MappingName="OrderDate"
+                                    TextAlignment="Right" />
+                            </syncfusion:SfDataGrid.Columns>
+                        </syncfusion:SfDataGrid>
+                    </syncfusion:GridViewDefinition.DataGrid>
+                </syncfusion:GridViewDefinition>
+            </syncfusion:SfDataGrid.DetailsViewDefinition>
+
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridNumericColumn
+                    HeaderText="Order ID"
+                    MappingName="OrderID"
+                    NumberDecimalDigits="0" />
+                <syncfusion:GridTextColumn HeaderText="Customer ID" MappingName="CustomerID" />
+                <syncfusion:GridTextColumn HeaderText="Ship City" MappingName="ShipCity" />
+                <syncfusion:GridTextColumn HeaderText="Ship Country" MappingName="ShipCountry" />
+                <syncfusion:GridDateTimeColumn
+                    Width="200"
+                    HeaderText="Shipping Date"
+                    MappingName="ShippedDate"
+                    TextAlignment="Right" />
+
+
+                <syncfusion:GridCurrencyColumn
+                    CurrencySymbol="$"
+                    MappingName="Freight"
+                    TextAlignment="Right" />
+                <syncfusion:GridCheckBoxColumn HeaderText="Closed" MappingName="IsShipped" />
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+    </Grid>
+</democommon:DemoControl>

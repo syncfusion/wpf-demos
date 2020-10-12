@@ -1,0 +1,188 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.datagriddemos.wpf.CutCopyPasteDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.datagriddemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <democommon:DemoControl.Resources>
+        <local:OrderInfoViewModel x:Key="viewmodel" />
+        <democommon:EnumDisplayNameConverter x:Key="enumDisplayNameConverter" />
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+        <WrapPanel>
+            <StackPanel Margin="5">
+                <TextBlock
+                    Margin="5"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Text="Selection Unit" />
+                <ComboBox
+                    x:Name="SelectionUnit"
+                    Width="150"
+                    Margin="5"
+                    ItemsSource="{democommon:EnumValuesExtension Type=syncfusion:GridSelectionUnit}"
+                    SelectedIndex="0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Converter={StaticResource enumDisplayNameConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock
+                    Margin="5"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Text="Selection Mode" />
+                <ComboBox
+                    x:Name="cmbSelectionMode"
+                    Width="150"
+                    Margin="5"
+                    ItemsSource="{democommon:EnumValuesExtension Type=syncfusion:GridSelectionMode}"
+                    SelectedIndex="3">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Converter={StaticResource enumDisplayNameConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock
+                    Margin="5"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Text="Copy Option" />
+                <syncfusion:ComboBoxAdv
+                    x:Name="CopyOptionComboBox"
+                    Width="150"
+                    Margin="5"
+                    AllowMultiSelect="True"
+                    ItemsSource="{democommon:EnumValues Type=syncfusion:GridCopyOption}"
+                    SelectedItems="{Binding ComboboxSelectedItem, Mode=TwoWay}" />
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock
+                    Margin="5"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Text="Paste Option" />
+                <syncfusion:ComboBoxAdv
+                    x:Name="PasteOptionComboBox"
+                    Width="150"
+                    Margin="5"
+                    AllowMultiSelect="True"
+                    ItemsSource="{democommon:EnumValues Type=syncfusion:GridPasteOption}"
+                    SelectedIndex="1" />
+            </StackPanel>
+
+            <StackPanel Margin="5">
+                <TextBlock
+                    Margin="5"
+                    FontSize="12"
+                    FontWeight="Bold"
+                    Text="Clipboard Content" />
+                <Border BorderBrush="LightGray" BorderThickness="1">
+                    <TextBox
+                        x:Name="Clipboardcontent"
+                        Width="150"
+                        Height="100"
+                        Margin="5"
+                        IsReadOnly="True"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                </Border>
+            </StackPanel>
+        </WrapPanel>
+    </democommon:DemoControl.Options>
+
+    <Grid DataContext="{StaticResource viewmodel}">
+        <syncfusion:SfDataGrid
+            x:Name="datagrid"
+            Margin="5"
+            AllowEditing="True"
+            AllowGrouping="True"
+            AutoExpandGroups="True"
+            AutoGenerateColumns="False"
+            ColumnSizer="Star"
+            ItemsSource="{Binding OrderList}"
+            LiveDataUpdateMode="AllowDataShaping"
+            SelectionMode="{Binding SelectedValue, ElementName=cmbSelectionMode}"
+            SelectionUnit="{Binding SelectedValue, ElementName=SelectionUnit}"
+            ShowGroupDropArea="True"
+            ShowRowHeader="True">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridNumericColumn
+                    HeaderText="Order ID"
+                    MappingName="OrderID"
+                    NumberDecimalDigits="0" />
+                <syncfusion:GridTemplateColumn HeaderText="Customer ID" MappingName="CustomerID">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Padding="2,0"
+                                VerticalAlignment="Center"
+                                FontStyle="Italic"
+                                FontWeight="SemiBold"
+                                Text="{Binding CustomerID}" />
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+                    <syncfusion:GridTemplateColumn.EditTemplate>
+                        <DataTemplate>
+                            <Grid
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                FocusManager.FocusedElement="{Binding ElementName=textBox}">
+                                <TextBox
+                                    x:Name="textBox"
+                                    Padding="2,0"
+                                    FontStyle="Italic"
+                                    FontWeight="SemiBold"
+                                    Text="{Binding CustomerID, Mode=TwoWay}" />
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.EditTemplate>
+                </syncfusion:GridTemplateColumn>
+                <syncfusion:GridMaskColumn
+                    HeaderText="Contact Number"
+                    MappingName="ContactNumber"
+                    Mask="(99)-9999"
+                    TextAlignment="Right" />
+                <syncfusion:GridComboBoxColumn
+                    HeaderText="Product Name"
+                    ItemsSource="{Binding Path=ComboBoxItemsSource, Source={StaticResource viewmodel}}"
+                    MappingName="ProductName" />
+                <syncfusion:GridNumericColumn
+                    HeaderText="Quantity"
+                    MappingName="Quantity"
+                    NumberDecimalDigits="0" />
+                <syncfusion:GridCurrencyColumn
+                    CurrencyDecimalDigits="0"
+                    HeaderText="UnitPrice"
+                    MappingName="UnitPrice" />
+                <syncfusion:GridPercentColumn HeaderText="Discount" MappingName="Freight" />
+                <syncfusion:GridDateTimeColumn
+                    HeaderText="Order Date"
+                    MappingName="OrderDate"
+                    TextAlignment="Right" />
+                <syncfusion:GridTimeSpanColumn
+                    HeaderText="Delivery Time"
+                    MappingName="DeliveryDelay"
+                    TextAlignment="Right" />
+                <syncfusion:GridCheckBoxColumn HeaderText="Closed" MappingName="IsShipped" />
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+    </Grid>
+    <interactivity:Interaction.Behaviors>
+        <local:CopyPasteBehaviour />
+    </interactivity:Interaction.Behaviors>
+</democommon:DemoControl>

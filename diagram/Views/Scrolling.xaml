@@ -1,0 +1,179 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.diagramdemo.wpf.Views.Scrolling"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    mc:Ignorable="d" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"    
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=syncfusion.SfSkinManager.WPF"
+    xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+    d:DesignHeight="450" d:DesignWidth="800" OptionsSize="320">    
+    <democommon:DemoControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--Initialize Shapes-->
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BasicShapes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="syncfusion:Node">
+                <Setter Property="ShapeStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="CornflowerBlue"/>
+                            <Setter Property="Stroke" Value="WhiteSmoke"/>
+                            <Setter Property="Stretch" Value="Fill"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="syncfusion:Connector">
+                <Setter Property="ConnectorGeometryStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="Black"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="TargetDecoratorStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="Black"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <viewmodel:ScrollingViewModel x:Key="DataContext" x:Name="DiagramVM"/>
+            
+        </ResourceDictionary>
+    </democommon:DemoControl.Resources>    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <syncfusion:Stencil x:Name="stencil" 
+                             Grid.Column="0" 
+                             ExpandMode="One">
+            <syncfusion:Stencil.Categories>
+                <syncfusion:StencilCategoryCollection>
+                    <syncfusion:StencilCategory Title="Basic Shapes" Keys="{StaticResource BasicShapes}"/>
+                    <syncfusion:StencilCategory Title="Flow Shapes" Keys="{StaticResource FlowShapes}"/>
+                </syncfusion:StencilCategoryCollection>
+            </syncfusion:Stencil.Categories>
+            <syncfusion:Stencil.SymbolGroups>
+                <syncfusion:SymbolGroups>
+                    <syncfusion:SymbolGroupProvider MappingName="Key"/>
+                </syncfusion:SymbolGroups>
+            </syncfusion:Stencil.SymbolGroups>
+        </syncfusion:Stencil>
+
+        <syncfusion:SfDiagram Grid.Column="1"
+                              x:Name="Diagram"
+                              DataContext="{StaticResource DataContext}"
+                              Nodes="{Binding Nodes}"
+                              Connectors="{Binding Connectors}"
+                              SelectedItems="{Binding SelectedItems}"
+                              PageSettings="{Binding PageSettings}"
+                              SnapSettings="{Binding SnapSettings}"
+                              ScrollSettings="{Binding ScrollSettings}"
+                              HorizontalRuler="{Binding HorizontalRuler}"
+                              VerticalRuler="{Binding VerticalRuler}"
+                              SelectorChangedCommand="{Binding SelectorChangedCommand}"/>
+    </Grid>
+    <democommon:DemoControl.OptionsTitle>
+        Properties
+    </democommon:DemoControl.OptionsTitle>
+    <democommon:DemoControl.Options>
+        <StackPanel Margin="20,20,0,0">
+            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="100"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Text="Scroll settings" FontWeight="Bold" Grid.Row="0" Grid.Column="0" Margin="10,12,0,0"/>
+                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ElementName=Diagram, Path=DataContext.Settings}" SelectedItem="{Binding Path=DataContext.SelectedSetting, ElementName=Diagram}" Margin="0,5,0,0"/>
+                
+                <TextBlock Text="Limit" Grid.Row="1" FontWeight="Bold" Grid.Column="0" Margin="10,12,0,0"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Path=DataContext.Limits, ElementName=Diagram}" SelectedItem="{Binding Path=DataContext.SelectedLimit,ElementName=Diagram}" Margin="0,5,0,0"/>
+
+                <TextBlock Text="Scrollable Area" Grid.Row="2" FontWeight="Bold" Grid.Column="0" Margin="10,20,0,0" IsEnabled="{Binding ElementName=Diagram, Path=DataContext.AreaEnabled}"/>
+                <Grid Grid.Row="3" Grid.Column="0" IsEnabled="{Binding Path=DataContext.AreaEnabled, ElementName=Diagram}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="X" Grid.Column="0" Grid.Row="0" Margin="10,14,0,0" FontWeight="SemiBold"/>
+                    <TextBox x:Name="X" Text="{Binding Path=DataContext.AreaX,ElementName=Diagram, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="20"/>
+                    <Label Content="Y" Grid.Column="0" Grid.Row="1" Margin="10,14,0,0" FontWeight="SemiBold"/>
+                    <TextBox x:Name="Y" Text="{Binding ElementName=Diagram, Path=DataContext.AreaY, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="20"/>
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="1" IsEnabled="{Binding ElementName=Diagram, Path=DataContext.AreaEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Width" Grid.Column="0" Grid.Row="0" Margin="10,14,0,0" FontWeight="SemiBold"/>
+                    <TextBox x:Name="Width_TextBox" Text="{Binding ElementName=Diagram, Path=DataContext.AreaWidth, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="20"/>
+                    <Label Content="Height" Grid.Column="0" Grid.Row="1" Margin="10,14,0,0" FontWeight="SemiBold"/>
+                    <TextBox x:Name="Height_TextBox" Text="{Binding ElementName=Diagram, Path=DataContext.AreaHeight, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="20"/>
+                </Grid>
+                
+                <TextBlock Text="AutoScroll border" Grid.Row="4" FontWeight="Bold" Grid.Column="0" Margin="10,10,0,0" IsEnabled="{Binding ElementName=Diagram, Path=DataContext.BorderEnabled}"/>
+                <Grid Grid.Row="5" Grid.Column="0" IsEnabled="{Binding ElementName=Diagram, Path=DataContext.BorderEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Left" Grid.Column="0" Grid.Row="0" Margin="10,14,0,0" FontWeight="SemiBold"/>
+                    <TextBox x:Name="Left" Text="{Binding ElementName=Diagram, Path=DataContext.BorderLeft, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="20"/>
+                    <Label Content="Right" Grid.Column="0" Grid.Row="1" Margin="10,14,0,0" FontWeight="SemiBold"/>
+                    <TextBox x:Name="Right" Text="{Binding ElementName=Diagram, Path=DataContext.BorderRight, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="20"/>
+                </Grid>
+                <Grid Grid.Row="5" Grid.Column="1" IsEnabled="{Binding ElementName=Diagram, Path=DataContext.BorderEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Top" Grid.Column="0" Grid.Row="0" Margin="10,14,0,0" FontWeight="SemiBold"/>
+                    <TextBox x:Name="Top" Text="{Binding ElementName=Diagram, Path=DataContext.BorderTop, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="20"/>
+                    <Label Content="Bottom" Grid.Column="0" Grid.Row="1" Margin="10,14,0,0" FontWeight="SemiBold"/>
+                    <TextBox x:Name="Bottom" Text="{Binding ElementName=Diagram, Path=DataContext.BorderBottom, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="20"/>
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>

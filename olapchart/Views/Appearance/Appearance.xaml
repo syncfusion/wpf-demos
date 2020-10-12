@@ -1,0 +1,308 @@
+﻿<democommon:DemoControl x:Class="syncfusion.olapchartdemos.wpf.Appearance"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:syncfusion.olapchartdemos.wpf"
+             mc:Ignorable="d" OptionsSize="520" Background="White"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"  
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"           
+             xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF" 
+             sfshared:SkinStorage.VisualStyle="Metro"           
+             xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf">
+    
+    <democommon:DemoControl.DataContext>
+        <local:ChartAppearanceViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <local:VisiblityConverter x:Key="VisbilityValue"/>
+    </democommon:DemoControl.Resources>
+    
+    <Grid>
+        <GroupBox Header="OlapChart" Margin="5">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <!--Adding Chart-->
+            <syncfusion:OlapChart Name="olapchart1" Margin="5" Background="Transparent" BorderBrush="LightGray" BorderThickness="1"
+                                      ColorPalette="Metro" SeriesStrokeThickness="0"
+                                      OlapDataManager="{Binding DataManager}" >
+                <syncfusion:OlapChart.SecondaryAxis>
+                    <syncfusion:ChartAxis LabelForeground="DodgerBlue" LabelFontFamily="{Binding ElementName=combo_fontStyle, Path=SelectedItem}" LabelFormat="C"/>
+                </syncfusion:OlapChart.SecondaryAxis>
+                <syncfusion:OlapChart.PrimaryAxis>
+                    <syncfusion:OlapChartAxis LabelForeground="DodgerBlue" LabelFontFamily="{Binding ElementName=combo_fontStyle, Path=SelectedItem}" RangeCalculationMode="AdjustAcrossChartTypes"/>
+                </syncfusion:OlapChart.PrimaryAxis>
+                <syncfusion:OlapChart.Legend>
+                    <syncfusion:ChartLegend x:Name="chartLegend" RowsCount="3" ColumnsCount="2" Background="Transparent" CheckBoxVisibility="{Binding ShowLegendCheckBox}" Visibility="{Binding ShowLegend}" />
+                </syncfusion:OlapChart.Legend>
+            </syncfusion:OlapChart>
+        </GroupBox>
+    </Grid>
+
+    <democommon:DemoControl.Options>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Margin="5" Header="Border Properties" BorderThickness="1" BorderBrush="DarkGray">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel Margin="5 7">
+                        <TextBlock Margin="0 5" Text="Chart-Border Width"/>
+                        <ComboBox x:Name="comboChartWidth" Height="25" Margin="0 5" SelectedIndex="1">
+                            <ComboBoxItem>0</ComboBoxItem>
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                            <ComboBoxItem>4</ComboBoxItem>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <TextBlock Margin="0 5" Text="Chart-Border Color"/>
+                        <ComboBox x:Name="comboChartColor" Height="25" Margin="0 5" 
+                                  ItemsSource="{Binding ColorCollection}" SelectedValue="LightGray">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <TextBlock Margin="0 5" Text="Series-Border Width"/>
+                        <ComboBox x:Name="comboSeriesBorderWidth" Height="25" Margin="0 5" SelectedIndex="0">
+                            <ComboBoxItem>0</ComboBoxItem>
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                            <ComboBoxItem>4</ComboBoxItem>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <TextBlock Margin="0 5" Text="Series-Border Color"/>
+                        <ComboBox x:Name="comboSeriesborderColor" Height="25" Margin="0 5" 
+                                  ItemsSource="{Binding ColorCollection}" SelectedValue="DarkGray">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart  TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Margin="5" Header="GridLine Properties" BorderThickness="1" BorderBrush="DarkGray">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel Margin="5 7">
+                        <CheckBox x:Name="GridHorizontalCheckBox1" Margin="0 7" IsChecked="True">
+                            <CheckBox.Content >
+                                <TextBlock Text="Horizontal GridLines" Grid.Column="0"></TextBlock>
+                            </CheckBox.Content>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
+                        <CheckBox Name="GridVerticalCheckBox1" Margin="0 7" IsChecked="True">
+                            <CheckBox.Content>
+                                <TextBlock Text="Vertical GridLines" Grid.Column="0"></TextBlock>
+                            </CheckBox.Content>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Grid.Row="2" Margin="5" Header="Legend Properties" BorderThickness="1" BorderBrush="DarkGray">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel Margin="5 7">
+                        <CheckBox x:Name="checkBox_ShowLegend" Margin="0 7" Content="Show Legend" 
+                                      IsChecked="{Binding ElementName=chartLegend, Path=Visibility,Mode=TwoWay,Converter={StaticResource VisbilityValue}}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
+                        <CheckBox x:Name="checkBox_ShowCheck" Margin="0 7" Content="Show Check Box" 
+                                      IsEnabled="{Binding Path=IsChecked, ElementName=checkBox_ShowLegend}" 
+                                      IsChecked="{Binding ElementName=chartLegend, Path=CheckBoxVisibility, Mode=TwoWay, Converter={StaticResource VisbilityValue}}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Grid.Row="3" Margin="5" Header="Series Properties" BorderThickness="1" BorderBrush="DarkGray">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel Margin="5 7">
+                        <TextBlock Margin="0 10" Text="Palette"></TextBlock>
+                        <ComboBox Name="SeriesPalette" Height="25" Margin="0 5"
+                                      ItemsSource="{Binding PaletteCollection}" SelectedIndex="23">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <GroupBox Margin="5" BorderThickness="1" BorderBrush="DarkGray">
+                    <GroupBox.Header>
+                        <CheckBox x:Name="chkclr" Content="Enable Background Colors" FontWeight="Bold">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </CheckBox>
+                    </GroupBox.Header>
+
+                    <StackPanel Margin="5 7">
+                        <TextBlock Margin="0 5" Text="Gradient Style" IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}" />
+                        <ComboBox x:Name="combo_GradientStyle" Height="25" Margin="0 5"
+                                  IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}" SelectedIndex="0">
+                            <ComboBoxItem Content="Horizontal"/>
+                            <ComboBoxItem Content="Vertical"/>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <TextBlock Margin="0 5" Text="Chart Control Gradient:" FontWeight="SemiBold"/>
+
+                        <TextBlock Margin="0 5" Text="Start Color" IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}"/>
+                        <ComboBox x:Name="combo_StartColor" Height="25" Margin="0 5"
+                                  ItemsSource="{Binding ColorCollection}" SelectedIndex="1" 
+                                  IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <TextBlock Margin="0 5" Text="End Color" IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}"/>
+                        <ComboBox x:Name="combo_EndColor" Height="25" Margin="0 5"
+                                  ItemsSource="{Binding ColorCollection}" SelectedIndex="107" 
+                                  IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <TextBlock Margin="0 5" Text="Chart Interior Gradient:" FontWeight="SemiBold"/>
+                        <TextBlock Margin="0 5" Text="Start Color" IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}"/>
+                        <ComboBox x:Name="combo_InteriorStartColor" Height="25" Margin="0 5" 
+                                  ItemsSource="{Binding ColorCollection}" SelectedIndex="66" 
+                                  IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <TextBlock Margin="0 5" Text="End Color" IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}"/>
+                        <ComboBox x:Name="combo_InteriorEndColor" Height="25" Margin="0 5"
+                                  ItemsSource="{Binding ColorCollection}" SelectedIndex="59" 
+                                  IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+
+                        <TextBlock Margin="0 5" Text="Background Image" IsEnabled="{Binding ElementName=chkclr, Path=IsChecked}"/>
+                        <Button x:Name="button_Browse" Height="25" Margin="0 5" Content="Browse" HorizontalAlignment="Stretch"
+                                IsEnabled="{Binding Path=IsChecked, ElementName=chkclr}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Grid.Row="1" Margin="5" Header="TextBlock Properties" BorderThickness="1" BorderBrush="DarkGray">
+                    <GroupBox.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                        </DataTemplate>
+                    </GroupBox.HeaderTemplate>
+                    <StackPanel Margin="5 7">
+                        <TextBlock Margin="0 5" Text="Font Style"/>
+                        <ComboBox x:Name="combo_fontStyle" Height="25" Margin="0 5"
+                                      ItemsSource="{x:Static Fonts.SystemFontFamilies}" SelectedIndex="50"/>
+                        <TextBlock Margin="0 5" Text="Font Color"/>
+                        <ComboBox x:Name="combo_FontColor" Height="25" Margin="0 5"
+                                      ItemsSource="{Binding ColorCollection}" SelectedValue="DodgerBlue">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <local:AppearanceChart TargetObject="{Binding ElementName=olapchart1}" TargetName="olapchart1" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </ComboBox>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>

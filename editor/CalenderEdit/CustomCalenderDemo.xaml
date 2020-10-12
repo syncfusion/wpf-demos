@@ -1,0 +1,183 @@
+﻿<!--  Window for applying custom skins  -->
+<democommon:DemoControl
+    x:Class="syncfusion.editordemos.wpf.CustomCalenderDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interaction="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.editordemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    FontFamily="Calibri"
+    FontSize="13"
+    OptionsSize="300">
+    <democommon:DemoControl.Options>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid Name="Grid1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Margin="3"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Text="Brush Properties" />
+                <RadioButton
+                    Name="dncBack"
+                    Grid.Row="1"
+                    Margin="3"
+                    Click="dncBackRadio"
+                    FontWeight="Normal">
+                    Day Name Cell Background
+                </RadioButton>
+                <RadioButton
+                    Name="dncBor"
+                    Grid.Row="2"
+                    Margin="3"
+                    Click="dncBorRadio"
+                    FontWeight="Normal">
+                    Day Name Cell Border Brush
+                </RadioButton>
+                <RadioButton
+                    Name="dcBack"
+                    Grid.Row="3"
+                    Margin="3"
+                    Click="dcBackRadio"
+                    FontWeight="Normal"
+                    IsChecked="True">
+                    Day Cell Background
+                </RadioButton>
+                <RadioButton
+                    Name="dcBor"
+                    Grid.Row="4"
+                    Margin="3"
+                    Click="dcBorRadio"
+                    FontWeight="Normal">
+                    Day Cell Border Brush
+                </RadioButton>
+                <syncfusion:ColorEdit
+                    Name="colorEditor"
+                    Grid.Row="5"
+                    Margin="3"
+                    FontWeight="Normal" />
+                <TextBlock
+                    Grid.Row="6"
+                    Grid.ColumnSpan="2"
+                    Margin="3,10,3,3"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"
+                    Text="Border Properties" />
+                <RadioButton
+                    Name="dncBorThick"
+                    Grid.Row="7"
+                    Margin="3"
+                    Click="dncBorThickRadio"
+                    FontWeight="Normal"
+                    IsChecked="True">
+                    Day Name Cell Border Thickness
+                </RadioButton>
+                <RadioButton
+                    Name="dncCor"
+                    Grid.Row="8"
+                    Margin="3"
+                    Click="dncCornerRadio"
+                    FontWeight="Normal">
+                    Day Name Cell Corner Radius
+                </RadioButton>
+                <RadioButton
+                    Name="dcBorThick"
+                    Grid.Row="9"
+                    Margin="3"
+                    Click="dcBorThickRadio"
+                    FontWeight="Normal">
+                    Day Cell Border Thickness
+                </RadioButton>
+                <RadioButton
+                    Name="dcCor"
+                    Grid.Row="10"
+                    Margin="3"
+                    Click="dcCornerRadio"
+                    FontWeight="Normal">
+                    Day Cell Corner Radius
+                </RadioButton>
+                <Slider
+                    Name="slider"
+                    Grid.Row="11"
+                    Margin="3"
+                    FontWeight="Normal"
+                    Maximum="20"
+                    Minimum="1" />
+            </Grid>
+        </ScrollViewer>
+    </democommon:DemoControl.Options>
+
+    <democommon:DemoControl.Resources>
+        <!--  Template for Next and Previous Buttons in Calendar Control  -->
+        <ControlTemplate x:Key="NextButtonTemplate">
+            <Border Margin="0,0,0,-5">
+                <Button Command="syncfusion:CalendarEdit.NextCommand">
+                    <Button.Content>
+                        <Image
+                            Width="16"
+                            Height="16"
+                            VerticalAlignment="Center"
+                            Source="/syncfusion.editordemos.wpf;component/Assets/CalenderEdit/RightArrow.png" />
+                    </Button.Content>
+                </Button>
+            </Border>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="PrevButtonTemplate">
+            <Border Margin="0,0,0,-5">
+                <Button Command="syncfusion:CalendarEdit.PrevCommand">
+                    <Button.Content>
+                        <Image
+                            Width="16"
+                            Height="16"
+                            VerticalAlignment="Center"
+                            Source="/syncfusion.editordemos.wpf;component/Assets/CalenderEdit/LeftArrow.png" />
+                    </Button.Content>
+                </Button>
+            </Border>
+        </ControlTemplate>
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.DataContext>
+        <local:CustomCalenderViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <syncfusion:CalendarEdit
+        Name="calendarEdit"
+        Grid.Row="0"
+        Width="300"
+        Height="300"
+        HorizontalAlignment="Center"
+        BorderThickness="1"
+        FontSize="15"
+        NextScrollButtonTemplate="{StaticResource NextButtonTemplate}"
+        PreviousScrollButtonTemplate="{StaticResource PrevButtonTemplate}"
+        SpecialDates="{Binding specialDays, Mode=TwoWay}">
+        <interaction:Interaction.Triggers>
+            <interaction:EventTrigger EventName="MouseMove">
+                <interaction:InvokeCommandAction Command="{Binding CalendarEditMouseMove}" CommandParameter="{Binding ElementName=calendarEdit}" />
+            </interaction:EventTrigger>
+        </interaction:Interaction.Triggers>
+    </syncfusion:CalendarEdit>
+</democommon:DemoControl>

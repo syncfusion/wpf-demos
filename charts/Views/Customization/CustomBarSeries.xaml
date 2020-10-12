@@ -1,0 +1,108 @@
+﻿<UserControl
+    x:Class="syncfusion.chartdemos.wpf.CustomBarSeries"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="http://schemas.syncfusion.com/wpf"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Resources/CustomTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.DataContext>
+            <local:ViewModelBar />
+        </Grid.DataContext>
+        <Grid.Resources>
+
+            <Style x:Key="axisLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="#FFBCBEC0" />
+                <Setter Property="StrokeThickness" Value="1" />
+            </Style>
+
+            <Style x:Key="minorTickLineStyle" TargetType="Line">
+                <Setter Property="Stroke" Value="#FFBCBEC0" />
+                <Setter Property="StrokeThickness" Value="1" />
+            </Style>
+
+            <DataTemplate x:Key="labelTemplate">
+                <TextBlock
+                    Margin="5"
+                    FontSize="14"
+                    Text="{Binding Path=LabelContent}" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="labelTemplate1">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Margin="5"
+                        FontSize="14"
+                        Text="{Binding Path=LabelContent}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Text="Kmph" />
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate x:Key="headerTemplate">
+                <TextBlock
+                    Margin="5"
+                    FontSize="16"
+                    Text="{Binding}" />
+            </DataTemplate>
+
+        </Grid.Resources>
+        <chart:SfChart Margin="10,10,15,10" AreaBorderBrush="Transparent">
+
+            <chart:SfChart.Header>
+                <TextBlock
+                    Margin="80,10,0,10"
+                    HorizontalAlignment="Left"
+                    FontFamily="Segoe UI"
+                    FontSize="18"
+                    Text="Car Speed Comparison" />
+            </chart:SfChart.Header>
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis
+                    AxisLineStyle="{StaticResource axisLineStyle}"
+                    LabelTemplate="{StaticResource labelTemplate}"
+                    MajorTickLineStyle="{StaticResource minorTickLineStyle}"
+                    ShowGridLines="False" />
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    AxisLineStyle="{StaticResource axisLineStyle}"
+                    FontSize="10"
+                    Header="Acceleration Rate"
+                    HeaderTemplate="{StaticResource headerTemplate}"
+                    Interval="75"
+                    LabelTemplate="{StaticResource labelTemplate1}"
+                    MajorTickLineStyle="{StaticResource minorTickLineStyle}"
+                    Maximum="300"
+                    Minimum="0"
+                    ShowGridLines="False" />
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:BarSeries
+                CustomTemplate="{StaticResource BarTemplate}"
+                ItemsSource="{Binding}"
+                Label="Gross Salary"
+                LegendIcon="Pentagon"
+                SegmentSpacing="0.9"
+                XBindingPath="Month"
+                YBindingPath="Value1" />
+
+        </chart:SfChart>
+    </Grid>
+</UserControl>

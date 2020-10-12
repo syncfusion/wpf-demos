@@ -1,0 +1,575 @@
+﻿<Window x:Class="syncfusion.bpmneditor.wpf.BpmnEditorDemo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:syncfusion.bpmneditor.wpf"
+        mc:Ignorable="d"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+        xmlns:stencil="clr-namespace:Syncfusion.UI.Xaml.Diagram.Stencil;assembly=Syncfusion.SfDiagram.Wpf"
+        xmlns:viewmodel="clr-namespace:syncfusion.bpmneditor.wpf.ViewModel"
+        WindowState="Maximized"
+        Title="BpmnEditor"  Height="450" Width="800"
+        Icon="/syncfusion.bpmneditor.wpf;component/Asset/App.ico">
+    <Window.DataContext>
+        <viewmodel:BpmnEditorViewModel></viewmodel:BpmnEditorViewModel>
+    </Window.DataContext>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--Dictionary which contains the inbuilt shapes-->
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BasicShapes.xaml" />
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BindingStyle.xaml" />
+                <ResourceDictionary Source="/Syncfusion.Themes.Office2019Colorful.WPF;component/SfDiagram/SfDiagram.xaml" />
+                <ResourceDictionary Source="/Syncfusion.Themes.Office2019Colorful.WPF;component/Stencil/Stencil.xaml" />
+                <ResourceDictionary Source="/Syncfusion.Themes.Office2019Colorful.WPF;component/MSControl/Menu.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="stencil:Symbol" >
+                <Setter Property="Padding" Value="4" />
+                <Setter Property="BorderThickness" Value="1, 1, 1, 1" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="ToolTip" Value="{Binding ID}" />
+                <Setter Property="Width" Value="50" />
+                <Setter Property="Height" Value="50" />
+            </Style>
+            <Style TargetType="MenuItem" BasedOn="{StaticResource WPFMenuItemStyle}">
+                <Setter Property="IsChecked" Value="{Binding IsCheckable , Mode=TwoWay}"/>
+            </Style>
+            <!--Style for NodePort-->
+            <Style TargetType="syncfusion:NodePort">
+                <Setter Property="Shape" Value="{StaticResource Ellipse}"></Setter>
+                <Setter Property="ShapeStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="Black"/>
+                            <Setter Property="Stretch" Value="Fill"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <!--Style for Node-->
+            <Style TargetType="syncfusion:BpmnNode">
+                <Setter Property="ShapeStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="White"/>
+                            <Setter Property="Stretch" Value="Fill"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style TargetType="syncfusion:BpmnFlow">
+                <Setter Property="ConnectorGeometryStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="Black"/>
+                            <Setter Property="StrokeThickness" Value="1.5"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="TargetDecoratorStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="Black"/>
+                            <Setter Property="Fill" Value="Black"/>
+                            <Setter Property="Stretch" Value="Fill"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="45"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" VerticalAlignment="Center" Orientation="Horizontal" FocusManager.IsFocusScope="True" Focusable="True">
+            <Menu >
+                <!--File menu bar-->
+                <MenuItem Header="File" >
+                    <MenuItem Header="New" Command="{Binding NewCommand}"/>
+                    <MenuItem Header="Open..."  Command="{Binding LoadCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Save as..."  Command="{Binding SaveCommand}"/>
+                    <Separator />
+                    <MenuItem Header="Export"  Command="{Binding ExportCommand}"/>
+                    <MenuItem Header="Print"  Command="{Binding PrintCommand}"/>
+                </MenuItem>
+
+                <!--Edit menu bar-->
+                <MenuItem Header="Edit" >
+                    <MenuItem Header="Undo"  Command="syncfusion:DiagramCommands.Undo"/>
+                    <MenuItem Header="Redo" Command="syncfusion:DiagramCommands.Redo"/>
+                    <Separator/>
+                    <MenuItem Header="Cut"  Command="syncfusion:DiagramCommands.Cut"/>
+                    <MenuItem Header="Copy"  Command="syncfusion:DiagramCommands.Copy"/>
+                    <MenuItem Header="Paste"  Command="syncfusion:DiagramCommands.Paste"/>
+                    <Separator/>
+                    <MenuItem Header="Rotate Colockwise" IsEnabled="{Binding DataContext.IsItemSelected,ElementName=Diagram, Mode=TwoWay}" Command="{Binding RotateColockwiseCommand}"/>
+                    <MenuItem Header="Rotate Counter Colockwise" IsEnabled="{Binding DataContext.IsItemSelected,ElementName=Diagram, Mode=TwoWay}" Command="{Binding RotateCounterColockwiseCommand}"/>
+                    <MenuItem Header="Delete"  Command="syncfusion:DiagramCommands.Delete"/>
+                    <Separator/>
+                    <MenuItem Header="Bring into Front" Command="syncfusion:DiagramCommands.BringToFront"/>
+                    <MenuItem Header="Send to Back" Command="syncfusion:DiagramCommands.SendToBack"/>
+                </MenuItem>
+
+                <!--Design menu bar-->
+                <MenuItem Header="Design">
+                    <MenuItem Header="Orientation">
+                        <MenuItem Header="Landscape" IsCheckable="True" IsChecked="{Binding LandscapeProperty, Mode=TwoWay}" CommandParameter="Landscape" Command="{Binding OrientationCommand}"/>
+                        <MenuItem Header="Portrait" IsCheckable="True" IsChecked="{Binding PortraitProperty, Mode=TwoWay}" CommandParameter="Portrait" Command="{Binding OrientationCommand}"/>
+                    </MenuItem>
+                    <MenuItem Header="Size">
+                        <MenuItem Header="Letter" IsCheckable="True" IsChecked="{Binding LetterProperty, Mode=TwoWay}" CommandParameter="Letter" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="Folio" IsCheckable="True" IsChecked="{Binding FolioProperty, Mode=TwoWay}" CommandParameter="Folio" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="Legal" IsCheckable="True" IsChecked="{Binding LegalProperty, Mode=TwoWay}" CommandParameter="Legal" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="Ledger" IsCheckable="True" IsChecked="{Binding LedgerProperty, Mode=TwoWay}" CommandParameter="Ledger" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="A5" IsCheckable="True" IsChecked="{Binding A5Property, Mode=TwoWay}" CommandParameter="A5" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="A4" IsCheckable="True" IsChecked="{Binding A4Property, Mode=TwoWay}" CommandParameter="A4" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="A3" IsCheckable="True" IsChecked="{Binding A3Property, Mode=TwoWay}" CommandParameter="A3" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="A2" IsCheckable="True" IsChecked="{Binding A2Property, Mode=TwoWay}" CommandParameter="A2" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="A1" IsCheckable="True" IsChecked="{Binding A1Property, Mode=TwoWay}" CommandParameter="A1" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="A0" IsCheckable="True" IsChecked="{Binding A0Property, Mode=TwoWay}" CommandParameter="A20" Command="{Binding PageSizeCommand}"/>
+                        <MenuItem Header="Custom" IsCheckable="True" IsChecked="{Binding CustomProperty, Mode=TwoWay}" CommandParameter="Custom" Command="{Binding PageSizeCommand}"/>
+                    </MenuItem>
+                </MenuItem>
+
+                <!--Select menu bar-->
+                <MenuItem Header="Select">
+                    <MenuItem Header="Select All" Command="syncfusion:DiagramCommands.SelectAll"/>
+                    <MenuItem Header="Select All Nodes"  Command="{Binding SelectAllNodesCommand}"/>
+                    <MenuItem Header="Select All Connectors"  Command="{Binding SelectAllConnectorsCommand}"/>
+                    <MenuItem Header="Select None" Command="{Binding SelectNoneCommand}"/>
+                </MenuItem>
+
+                <!--Tools menu bar-->
+                <MenuItem Header="Tools" >
+                    <MenuItem x:Name="SelectionTool" Command="{Binding SelectToolCommand}" CommandParameter="{Binding SelectToolProperty, Mode=TwoWay}" IsChecked="{Binding SelectToolProperty, Mode=TwoWay}" Header="Selection Tool"  />
+                    <MenuItem x:Name="PanTool"  Command="{Binding PanToolCommand}" CommandParameter="{Binding PanToolProperty, Mode=TwoWay}"  IsChecked="{Binding PanToolProperty, Mode=TwoWay}" Header="Pan Tool"/>
+                    <MenuItem x:Name="DrawTool" IsCheckable="True" IsChecked="{Binding ConnectorToolProperty, Mode=TwoWay}" CommandParameter="{Binding DrawToolProperty, Mode=TwoWay}" Header="Connector Tool"/>
+                    <MenuItem Header="Connectors">
+                        <MenuItem Header="Straight" IsCheckable="True" IsChecked="{Binding StraightProperty, Mode=TwoWay}" CommandParameter="Straight" Command="{Binding ChangeConnectorTypeCommand}"/>
+                        <MenuItem Header="Orthogonal" IsCheckable="True" IsChecked="{Binding OrthogonalProperty, Mode=TwoWay}" CommandParameter="Orthogonal" Command="{Binding ChangeConnectorTypeCommand}"/>
+                        <MenuItem Header="Bezier" IsCheckable="True" IsChecked="{Binding BezierProperty, Mode=TwoWay}" CommandParameter="Bezier" Command="{Binding ChangeConnectorTypeCommand}"/>
+                    </MenuItem>
+                </MenuItem>
+
+                <!--View menu bar-->
+                <MenuItem Header="View">
+                    <MenuItem x:Name="ShowLines"  IsCheckable="True" IsChecked="True" Header="Show Lines"  CommandParameter="{Binding ElementName=ShowLines, Path=IsChecked}" Command="{Binding ShowLinesCommand}"/>
+                    <MenuItem x:Name="SnapToGrid" IsCheckable="True" IsChecked="True" Header="Snap To Grid"  CommandParameter="{Binding ElementName=SnapToGrid, Path=IsChecked}" Command="{Binding SnapToGridCommand}"/>
+                    <MenuItem x:Name="SnapToObject" IsCheckable="True" IsChecked="True" Header="Snap To Object"  CommandParameter="{Binding ElementName=SnapToObject, Path=IsChecked}" Command="{Binding SnapToObjectCommand}"/>
+                    <MenuItem x:Name="ShowRuler" IsCheckable="True" IsChecked="True" Header="Show Ruler"  CommandParameter="{Binding ElementName=ShowRuler, Path=IsChecked}" Command="{Binding ShowRulerCommand}"/>
+                    <MenuItem x:Name="ShowPageBreaks" IsCheckable="True" IsChecked="True" Header="Show Page Breaks"  CommandParameter="{Binding ElementName=ShowPageBreaks, Path=IsChecked}" Command="{Binding ShowPageBreaksCommand}"/>
+                    <Separator/>
+                    <MenuItem x:Name="FitToWidth" Header="Fit To Width" Command="{Binding FitToWidthCommand}"/>
+                    <MenuItem x:Name="FitToPage" Header="Fit To Page" Command="{Binding FitToPageCommand}"/>
+                    <MenuItem x:Name="ResetView"  Header="Reset View"  Command="syncfusion:DiagramCommands.Reset"/>
+                </MenuItem>
+
+            </Menu>
+        </StackPanel>
+
+        <!--Tools bar-->
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <syncfusion:ToolBarAdv Focusable="True" GripperVisibility="Collapsed" OverflowButtonVisibility="Collapsed" FocusManager.IsFocusScope="True" >
+                <!--New page button-->
+                <Button Name="NewButton" Width="30" Margin="4,0,4,0"  Height="30"  IsEnabled="True" ToolTip="New Diagram" Command="{Binding NewCommand}" Cursor="Hand" >
+                    <Path Data="M2,2.000001 L2,14.000007 12,14.000007 12,5.0010033 9.9999809,5.0010033 C9.4470024,5.0010033 8.9999809,4.5530052 8.9999809,4.0010033 L8.9999809,2.000001 z M0,0 L10.414,0 14,3.5860016 14,16.000008 0,16.000008 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" 
+                              Height="16"  
+                              Width="14"
+                              Stretch="Fill"/>
+                </Button>
+
+
+                <!--Open button-->
+                <Button Name="OpenButton" Width="30" Margin="4,0,4,0"  Height="30"  ToolTip="Open Diagram" IsEnabled="True"  Command="{Binding LoadCommand}" Cursor="Hand" >
+                    <Path Data="M4.2269996,4.2919953 L17.998994,4.2919953 14.687995,13.008 1.2630012,13.008 z M0,0 L5.230007,0 6.2759965,2.5020059 14.676,2.5020059 14.674001,3.2690042 3.5720037,3.2690042 0.26000953,13.008 0,13.008 z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="13.008"
+                              Canvas.Left="0"
+                              Stretch="Fill"
+                              Canvas.Top="3.095"
+                              Width="17.999" />
+                </Button>
+
+                <!--Save button-->
+                <Button Name="SaveButton" Width="30"  Height="30"  IsEnabled="True"  ToolTip="Save Diagram" Command="{Binding SaveCommand}" Cursor="Hand" >
+                    <Path Data="M7,8.8899994 C5.5250244,8.8899994 4.3330078,10.079987 4.3330078,11.556 4.3330078,13.031998 5.5250244,14.222992 7,14.222992 8.4760132,14.222992 9.6660156,13.031998 9.6660156,11.556 9.6660156,10.079987 8.4760132,8.8899994 7,8.8899994 z M2,2 L2,5 9,5 9,2 z M1.7770386,0 L10.444031,0 14,3.5559998 14,14.222992 C14,15.200989 13.199036,16 12.222046,16 L1.7770386,16 C0.79101563,16 0,15.200989 0,14.222992 L0,1.7779999 C0,0.80099487 0.79101563,0 1.7770386,0 z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="16"
+                              Stretch="Fill" 
+                              Width="14"/>
+                </Button>
+
+                <!--Print button-->
+                <Button Name="PrintButton" Width="30" Margin="4,0,4,0"  Height="30"  IsEnabled="True" ToolTip="Print Diagram" Command="{Binding PrintCommand}" Cursor="Hand" >
+                    <Path Data="M5,9.0000091 L5,12.000009 11,12.000009 11,9.0000091 z M12,6.0000091 L12,8.0000091 14,8.0000091 14,6.0000091 z M1.9940186,4.0000091 L14.005981,4.0000091 C15.106995,4.0000091 16,4.8870025 16,6.0059905 L16,11.000009 13,11.000009 13,14.000009 3,14.000009 3,11.000009 0,11.000009 0,6.0059905 C0,4.8979888 0.89501953,4.0000091 1.9940186,4.0000091 z M3.0000048,0 L13.000005,0 13.000005,3 3.0000048,3 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                              Height="16" 
+                              Stretch="Fill"
+                              Width="16"/>
+                </Button>
+
+                <!--Export button-->
+                <Button Name="ExportButton" Width="30" Margin="4,0,4,0" Height="30"  IsEnabled="True" ToolTip="Export Diagram" Command="{Binding ExportCommand}" Cursor="Hand" >
+                    <Path Data="M12.090863,1.4340035 L16.001002,4.7340004 12.020854,8.5639949 12.040874,6.5269961 C7.1097734,6.8580046 6.083745,10.999004 6.0837449,10.999004 5.1677049,3.9339988 12.069867,3.4710021 12.069867,3.4710021 z M0,0 L9.6149998,0 9.6149998,1.9999998 2,1.9999998 2,14 12,14 12,9.9999995 14,9.9999995 14,16 0,16 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="16"
+                              Stretch="Fill"
+                              Width="16"/>
+                </Button>
+
+                <!--Separator line-->
+                <syncfusion:ToolBarItemSeparator/>
+
+                <!--Undo button-->
+                <Button Name="UndoButton" Width="30" Margin="4,0,4,0"  Height="30" ToolTip="Undo"  Command="syncfusion:DiagramCommands.Undo" Cursor="Hand" >
+                    <Path Data="M5.4999974,0 L9.7419953,0 5.7420001,3.999997 14.119975,3.999997 C18.255961,3.9999969 21.619975,7.3640106 21.619975,11.499997 21.619975,15.636014 18.255961,18.999997 14.119975,18.999997 L12.619975,18.999997 12.619975,15.999997 14.119975,15.999997 C16.600993,15.999997 18.619975,13.981015 18.619975,11.499997 18.619975,9.0190094 16.600993,6.9999969 14.119975,6.9999969 L5.7419941,6.9999969 9.7419953,11 5.4999974,11 0,5.4999999 z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="16"  
+                              Stretch="Fill" 
+                              Width="14"/>
+                </Button>
+
+                <!--Redo button-->
+                <Button Name="RedoButton" Margin="4,0,4,0" Width="30"  Height="30" ToolTip="Redo" Command="syncfusion:DiagramCommands.Redo" Cursor="Hand" >
+                    <Path Data="M18.599991,0L25.265991,0 32,8.0000027 25.399994,15.800009 18.666,15.800009 23.465988,10.132999 12.132996,10.132999C7.9329987,10.132999 4.5329895,12.399999 4.5329895,16.599997 4.5329895,20.800012 6.7999878,23.066003 11,23.066003L12.332993,23.066003 12.332993,27.600001 11,27.600001C4.3329926,27.533015 0,23.266 0,16.533011 0,9.8000067 5.4659882,5.533007 12.132996,5.533007L23.199997,5.533007 18.53299,0.065994264z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                              Height="16" 
+                              Stretch="Fill"
+                              Width="16"/>
+                </Button>
+
+                <!--Separator line-->
+                <syncfusion:ToolBarItemSeparator/>
+
+                <!--Select Tool button-->
+                <ToggleButton Width="30" Height="30" Margin="4,0,4,0" x:Name="SelectToolButton"  ToolTip="Select Tool" Command="{Binding SelectToolCommand}" IsChecked="{Binding SelectToolProperty, Mode=TwoWay}" Cursor="Hand" >
+                    <Path Data="M0.003368373,6.0746803E-05C0.3473716,0.029698025 26.926584,10.868437 26.871051,11.526244 24.109041,12.977215 22.274026,14.137207 19.561088,15.649182 23.92502,20.14614 27.915052,23.758099 31.871027,28.112052L27.984998,32.00001C23.894014,27.924067 19.750053,23.942086 15.707103,19.780146 14.100116,22.252104 12.674098,24.720093 11.037081,27.210055 7.2341213,18.270154 3.898139,8.7682797 0.00014781381,0.0013815861 -0.00042262339,0.00026452165 0.00065947888,-0.00017228222 0.003368373,6.0746803E-05z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}"
+                              Height="16" 
+                              Stretch="Fill" 
+                              Width="14"/>
+                </ToggleButton>
+
+                <!--Pan Tool button-->
+                <ToggleButton Width="30" Height="30" Margin="4,0,4,0" x:Name="PanToolButton" ToolTip="Pan Tool" Command="{Binding PanToolCommand}" IsChecked="{Binding PanToolProperty, Mode=TwoWay}" Cursor="Hand" >
+                    <Path Data="M8.522,0 C9.089,0 9.5450001,0.44699955 9.545,1 L9.545,7.3339996 10.228,7.3339996 10.228,1.6669998 C10.228,1.1129999 10.684,0.66699982 11.25,0.66699982 11.815,0.66699982 12.272,1.1129999 12.272,1.6669998 L12.272,7.3339996 12.954,7.3339996 12.954,3.6669993 C12.954,3.1129999 13.411,2.6669998 13.978,2.6669998 14.543,2.6669998 15,3.1129999 15,3.6669993 L15,13.334 C15,14.799999 13.772,16 12.272,16 L7.2950001,16 C6.559,16 5.8630002,15.714 5.3530002,15.207 L0,9.8869996 C0,9.8869995 0.85900021,9.0659995 0.88600016,9.0539994 1.0360003,8.9269996 1.2210002,8.8599994 1.4250002,8.8599994 1.5750003,8.8599994 1.711,8.8999996 1.8340001,8.9669995 1.8610001,8.9739995 4.7720001,10.606 4.7720001,10.606 L4.7720001,2.6669998 C4.7720001,2.1129999 5.2290001,1.6669998 5.7950001,1.6669998 6.3610001,1.6669998 6.8180001,2.1129999 6.8180001,2.6669998 L6.8180001,7.3339996 7.5,7.3339996 7.5,1 C7.5000001,0.44699955 7.9570001,0 8.522,0 z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}" 
+                              Height="16"  
+                              Stretch="Fill" 
+                              Width="14"/>
+                </ToggleButton>
+
+
+
+                <ToggleButton Width="30" Height="30" Margin="4,0,4,0" x:Name="DrawConnectorButton" ToolTip="Connector Tool" Command="{Binding DrawConnectorCommand}" IsChecked="{Binding ConnectorToolProperty, Mode=TwoWay}" Cursor="Hand" >
+                    <Path  Data="M0,0 L9,0 9,15 16,15 16,16 8,16 8,1 0,1 z" 
+                                               Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type ToggleButton}}}" 
+                                               HorizontalAlignment="Left"
+                                               Height="16"  
+                                               Stretch="Fill"
+                                               VerticalAlignment="Top"
+                                               Width="16" />
+                </ToggleButton>
+                <!--Separator line-->
+                <syncfusion:ToolBarItemSeparator/>
+                <!--Connector type button-->
+                <Button x:Name="ConnectorButton" Margin="4,0,4,0" Height="30" Width="45" CommandParameter="{Binding ElementName=ConnectorButton}" Command="{Binding ButtonMenuOpeningCommand}"
+                                            ToolTip="Change connector type" >
+
+                    <Grid Height="25" Width="40">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="15"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" x:Name="Draw" >
+                            <Path Data="M13,25 L17,25 17,29 13,29 z M0,18 L4,18 4,22 0,22 z M19,17 L23,17 23,21 19,21 z M25,9 L29,9 29,13 25,13 z M7,8 L11,8 11,12 7,12 z M16,0 L20,0 20,4 16,4 z"
+                                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Margin="0.5" Stretch="Fill"/>
+                            <Path Data="M14,26 L14,27 14,28 14,29 17,29 17,26 z M1,19 L1,22 4,22 4,19 z M20,18 L20,21 23,21 23,18 z M0,18 L5,18 5,20 6,20 C8.2059994,20 10,21.794 10,24 10,25.653999 11.346,27 13,27 L13,25 18,25 18,30 13,30 13,28 C10.794,28 9,26.205999 9,24 9,22.346 7.6539993,21 6,21 L5,21 5,23 0,23 z M26,10 L26,13 29,13 29,10 z M8,8.9999999 L8,12 11,12 11,8.9999999 z M7,8.0000004 L12,8.0000004 12,9.9999999 16,9.9999999 16,19 19,19 19,17 24,17 24,22 19,22 19,20 15,20 15,11 12,11 12,13 7,13 z M17,1 L17,4 20,4 20,1 z M16,0 L21,0 21,4.2919755 25.707975,9.0000004 30,9.0000004 30,14 25,14 25,9.7060255 20.294026,5.0000005 16,5.0000005 z"
+                                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stretch="Fill"/>
+                        </Grid>
+                        <Path Grid.Column="1" Data="M18.999996,7.0000275 L25.999996,7.0000275 22.499996,11.000027 z" Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Width="7" Height="4" Stretch="Uniform"/>
+                    </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu HorizontalAlignment="Left" x:Name="ContextMenuConnector">
+                            <MenuItem Name="PART_LineMenuItem" CommandParameter="Straight"  IsCheckable="True" IsChecked="{Binding StraightProperty, Mode=TwoWay}"  Command="{Binding ChangeConnectorTypeCommand}" Header="Straight">
+                                <MenuItem.Icon>
+                                    <Path Data="M13.291,0 L13.998001,0.70699883 0.70700071,14.000999 0,13.293999 z"
+                                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"
+                                              Height="15.873"
+                                              Canvas.Left="30.975"
+                                              Stretch="Fill"
+                                              Canvas.Top="95.474"
+                                              Width="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem  CommandParameter="Orthogonal"  IsCheckable="True" IsChecked="{Binding OrthogonalProperty, Mode=TwoWay}" Command="{Binding ChangeConnectorTypeCommand}" Header="Orthogonal">
+                                <MenuItem.Icon>
+                                    <Path  Data="M0,0 L9,0 9,15 16,15 16,16 8,16 8,1 0,1 z" 
+                                               Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"
+                                               HorizontalAlignment="Left"
+                                               Height="16"  
+                                               Stretch="Fill"
+                                               VerticalAlignment="Top"
+                                               Width="16" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem  CommandParameter="Bezier"  IsCheckable="True" IsChecked="{Binding BezierProperty, Mode=TwoWay}" Command="{Binding ChangeConnectorTypeCommand}" Header="Bezier">
+                                <MenuItem.Icon>
+                                    <Path  Data="M0.5,0 C4.6359997,0 7.9999998,3.3639994 7.9999998,7.5 L7.9999998,8.5 C7.9999998,12.084 10.916,15 14.5,15 L15.5,15 C15.776,15 16,15.224 16,15.5 16,15.776 15.776,16 15.5,16 L14.5,16 C10.364,16 6.9999998,12.636 6.9999998,8.5 L6.9999998,7.5 C6.9999998,3.9159994 4.0839996,1 0.5,1 0.22399998,1 0,0.77600002 0,0.5 0,0.22399998 0.22399998,0 0.5,0 z"
+                                               Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type MenuItem}}}"
+                                               HorizontalAlignment="Left"
+                                               Height="16"
+                                               Stretch="Fill"
+                                               VerticalAlignment="Top"
+                                               Width="16"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+
+                <!--Seprator line-->
+                <syncfusion:ToolBarItemSeparator/>
+
+                <!--Cut button-->
+                <Button Margin="4,0,4,0" Width="30" Height="30" Cursor="Hand" ToolTip="Cut" Command="syncfusion:DiagramCommands.Cut" >
+                    <Path Data="M3.5,11 C2.6710205,11 2,11.671997 2,12.5 2,13.32901 2.6710205,14 3.5,14 4.3280029,14 4.9990234,13.32901 4.9990234,12.5 4.9990234,11.671997 4.3280029,11 3.5,11 z M3.5,2 C2.6710205,2 2,2.6719971 2,3.5 2,4.32901 2.6710205,5 3.5,5 4.3280029,5 4.9990234,4.32901 4.9990234,3.5 4.9990234,2.6719971 4.3280029,2 3.5,2 z M15.999023,1 L15.999023,2 11.004028,7 8.9990234,5 12.984009,1.0420227 z M3.4630127,0 C3.473999,0 3.4840088,0 3.4949951,0 L3.5,0 3.5040283,0 C3.5150146,0 3.5250244,0 3.5360107,0 5.3809814,0.020019531 6.8829956,1.4650269 6.992981,3.2870178 6.9979858,3.3580017 7.0010376,3.4290161 6.9990234,3.5 7.0289917,3.9390259 6.9990234,4.5 6.9990234,4.5 L16,14 16,14.996002 12.999023,14.996002 8,10 6.5270386,10.744019 C6.8270264,11.259003 6.9990234,11.858002 6.9990234,12.497009 L6.9990234,12.5 6.9990234,12.515015 C6.9910278,14.438019 5.4320068,15.996002 3.5079956,16 L3.5,16 3.4910278,16 C1.5629883,15.996002 0,14.431 0,12.5 0,10.567017 1.565979,9 3.5,9 4.0690308,9 4.6060181,9.1360168 5.0820313,9.3770142 L5.9990234,8 5.0809937,6.6230164 C4.6279907,6.8529968 4.117981,6.9869995 3.5780029,7 3.5510254,7.0010071 3.5250244,7.0020142 3.5,7.0020142 3.4450073,7.0020142 3.3920288,7 3.3380127,6.9970093 1.4940186,6.9130249 0.023010254,5.4030151 0,3.5440063 L0,3.5050049 0,3.5 0,3.4950256 0,3.4570007 C0.023010254,1.5559998 1.5620117,0.020019531 3.4630127,0 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="16" 
+                              Stretch="Fill" 
+                              Width="14"/>
+                </Button>
+                <!--Copy button-->
+                <Button Margin="4,0,4,0" Width="30" Height="30" Cursor="Hand" ToolTip="Copy" Command="syncfusion:DiagramCommands.Copy" >
+                    <Path Data="M4.9999907,4.9999969 L4.9999907,14.000006 14.002005,14.000006 13.999991,4.9999969 z M4.9999907,3.0000015 L13.999991,3.0000015 C15.103018,3.0000016 15.999991,3.8970026 15.999991,4.9999969 L15.999991,14.000006 C15.999991,15.10297 15.103018,16.000002 13.999991,16.000002 L4.9999907,16.000002 C3.8970244,16.000002 2.9999907,15.10297 2.9999908,14.000006 L2.9999908,4.9999969 C2.9999907,3.8970026 3.8970244,3.0000016 4.9999907,3.0000015 z M2,0 L12,0 12,1.9999952 2,1.9999952 2,12.999969 0,12.999969 0,1.9999952 C0,0.89699793 0.89700007,0 2,0 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="16" 
+                              Stretch="Fill"
+                              Width="14"/>
+
+                </Button>
+                <!--Paste button-->
+                <Button Width="30" Height="30" Cursor="Hand" ToolTip="Paste" Command="syncfusion:DiagramCommands.Paste" >
+                    <Path Data="M2,4.008001 L2,14.008004 12,14.008004 12,4.008001 11,4.008001 11,5.0080013 3,5.0080013 3,4.008001 z M6,2.0080007 L6,3.0080007 8.0000001,3.0080007 8.0000001,2.0080007 z M7,0 C9,0 9.039,2.0000005 9.0000001,2.0080007 L13,2.0080007 C13.557,2.0080006 14,2.4530007 14,3.0020008 L14,3.500001 14,15.006004 C14,15.563004 13.552,16.008004 12.998,16.008004 L12.5,16.008004 1.5580001,16.008004 0.99900007,16.008004 C0.44099998,16.008004 0,15.557004 0,15.001004 L0,3.0150008 C0,2.4580007 0.44699955,2.0080006 1,2.0070004 L5,2.0000006 C5,2.0000005 5,0 7,0 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                              Height="16"  
+                              Stretch="Fill" 
+                              Width="14"/>
+
+                </Button>
+                <!--Delete button-->
+                <Button Margin="4,0,4,0" Width="30" Height="30" Cursor="Hand" ToolTip="Delete" Command="syncfusion:DiagramCommands.Delete" >
+                    <Path Data="M0.99997647,3.9999937 L11.999976,3.9999937 11.999976,13.999994 C11.999976,15.103021 11.103004,15.999994 9.9999765,15.999994 L2.9999765,15.999994 C1.8970101,15.999994 0.99997646,15.103021 0.99997647,13.999994 z M3.9999998,0 L9.0000003,0 10,1.9999999 13,1.9999999 13,3 0,3 0,1.9999999 2.9999998,1.9999999 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                              Height="16" 
+                              Stretch="Fill" 
+                              Width="14"/>
+
+                </Button>
+                <syncfusion:ToolBarItemSeparator/>
+
+                <!--Rotate Clockwise button-->
+                <Button Width="30" Margin="4,0,4,0" Height="30" Cursor="Hand" ToolTip="Rotate Clockwise" IsEnabled="{Binding DataContext.IsItemSelected,ElementName=Diagram, Mode=TwoWay}" Command="{Binding RotateColockwiseCommand}"  >
+                    <Button.Content>
+                        <Grid x:Name="Clockwise_ribbon" HorizontalAlignment="Right" Height="15" VerticalAlignment="Top" Width="24" >
+                            <Path Data="M4,0 L6,0 6,1 7,1 7,2 8,2 8,3 7,3 7,4 6,4 6,5 4,5 4,4 5,4 5,3 3.5,3 C2.1209984,3 1,4.1210003 1,5.5 L1,7 0,7 0,5.5 C0,3.5699997 1.5699997,2 3.5,2 L5,2 5,1 4,1 z" 
+                                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                                      HorizontalAlignment="Left" 
+                                      Height="7" 
+                                      Margin="4,0,0,0" 
+                                      Stretch="Fill" 
+                                      VerticalAlignment="Top" 
+                                      Width="8"/>
+                            <Path Data="M0,0 L1.0000001,0 9.0000002,13.596 9.0000002,15 0,15 z" 
+                                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                                      HorizontalAlignment="Right" 
+                                      Stretch="Fill" 
+                                      Width="9"/>
+                            <Path Data="M12.999994,1.3943908 L2.2669296,7.9990516 12.999994,7.9990516 z M13.489747,8.7499619E-05 C13.576997,-0.001537323 13.664998,0.019461632 13.744998,0.06245923 13.902999,0.15145469 14,0.31844616 14,0.49943686 L14,8.4990263 C14,8.775012 13.776999,8.9990005 13.499997,8.9990005 L0.49991894,8.9990005 C0.27691746,8.9990005 0.079916,8.8510079 0.01891613,8.6350193 -0.042084694,8.4200301 0.047916412,8.190042 0.23891735,8.0730481 L13.238995,0.073458672 C13.315996,0.025961161 13.402496,0.0017123222 13.489747,8.7499619E-05 z" 
+                                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                                      Margin="0,6.001,10,0" 
+                                      Stretch="Fill"/>
+                        </Grid>
+                    </Button.Content>
+
+                </Button>
+
+                <!--Rotate Counter-Clockwise button-->
+                <Button Width="30" Height="30" Margin="4,0,4,0"  Cursor="Hand" ToolTip="Rotate Counter-Clockwise" IsEnabled="{Binding DataContext.IsItemSelected,ElementName=Diagram, Mode=TwoWay}" Command="{Binding RotateCounterColockwiseCommand}"  >
+                    <Button.Content>
+                        <Grid x:Name="Anticlockwise_ribbon" HorizontalAlignment="Right" Height="15" VerticalAlignment="Top" Width="24">
+                            <Path Data="M8,0 L9,0 9,15 0,15 0,13.596001 z" 
+                                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                                      HorizontalAlignment="Left" 
+                                      Stretch="Fill"
+                                      Width="9" />
+                            <Path Data="M2,0 L4,0 4,1 3,1 3,2 4.5,2 C6.4300003,2 8,3.5699997 8,5.5 L8,7 7,7 7,5.5 C7,4.1210022 5.8790016,3 4.5,3 L3,3 3,4 4,4 4,5 2,5 2,4 1,4 1,3 0,3 0,2 1,2 1,1 2,1 z" 
+                                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                                      HorizontalAlignment="Right" 
+                                      Height="7" Margin="0,0,4,0" 
+                                      Stretch="Fill" 
+                                      VerticalAlignment="Top" 
+                                      Width="8"/>
+                            <Path Data="M1.0000055,1.3943891 L1.0000055,7.9990505 11.733066,7.9990505 z M0.5101279,8.7460318E-05 C0.59750313,0.0017114733 0.6845035,0.025960248 0.76200515,0.07345843 L13.762077,8.0730442 C13.952076,8.1900428 14.042076,8.4200262 13.981076,8.6350187 13.920075,8.851004 13.724075,8.998999 13.500074,8.998999 L0.50000274,8.998999 C0.22400025,8.998999 0,8.7750114 0,8.4990247 L0,0.49943889 C0,0.31844847 0.098000109,0.15145729 0.25600201,0.062464979 0.33500284,0.019464154 0.4227528,-0.0015365738 0.5101279,8.7460318E-05 z" 
+                                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                                      Margin="10,6.001,0,0" 
+                                      Stretch="Fill" />
+                        </Grid>
+                    </Button.Content>
+
+                </Button>
+
+                <!--Separator line-->
+                <syncfusion:ToolBarItemSeparator/>
+
+                <!--Bring into Front button-->
+                <Button Cursor="Hand" Margin="4,0,4,0" ToolTip="Bring to front" Width="30" Height="30" Command="syncfusion:DiagramCommands.BringToFront"  >
+                    <Button.Content>
+                        <Grid x:Name="bring_to_front1" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="16">
+                            <Path Data="M573,201L562,201L562,190L573,190z" Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stretch="Fill" Margin="0,0,5,5"/>
+                            <Path Data="F1M578,206L567,206L567,203L569,203L569,204L576,204L576,197L575,197L575,195L578,195z" Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stretch="Fill" Margin="5,5,0,0"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+
+                <!--send to Front button-->
+                <Button  Cursor="Hand" Margin="4,0,4,0" ToolTip="Send to Back"  Width="30" Height="30" Command="syncfusion:DiagramCommands.SendToBack" >
+                    <Button.Content>
+                        <Grid x:Name="bring_to_Back1" HorizontalAlignment="Left" Height="16"  VerticalAlignment="Top" Width="16">
+                            <Path Data="F1M564,247L571,247L571,240L564,240z M573,249L562,249L562,238L573,238z" Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stretch="Fill" Margin="0,0,5,5"/>
+                            <Path Data="F1M578,254L567,254L567,251L575,251L575,243L578,243z" Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stretch="Fill" Margin="5,5,0,0"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+            </syncfusion:ToolBarAdv>
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="230"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <stencil:Stencil x:Name="stencil" 
+                             Grid.Column="0" 
+                             BorderThickness="0,1,1,1"  ExpandMode="All">
+                    <stencil:Stencil.Categories>
+                        <stencil:StencilCategoryCollection>
+                            <!--Specify the basic shapes category with title and resource key-->
+                            <stencil:StencilCategory Title="BPMN Shapes" Keys="{StaticResource BPMNEditorShapes}"/>
+                        </stencil:StencilCategoryCollection>
+                    </stencil:Stencil.Categories>
+                    <stencil:Stencil.SymbolGroups>
+                        <syncfusion:SymbolGroups>
+                            <!--Separate groups based on the key-->
+                            <syncfusion:SymbolGroupProvider MappingName="Key"/>
+                        </syncfusion:SymbolGroups>
+                    </stencil:Stencil.SymbolGroups>
+                </stencil:Stencil>
+            </Grid>
+
+            <syncfusion:SfDiagram BorderThickness="0,1,0,0"  x:Name="Diagram" Grid.Column="1" Nodes="{Binding Nodes}" MenuOpeningCommand="{Binding MenuOpenCommand}"
+                              Connectors="{Binding Connectors}" Groups="{Binding Groups}" MenuItemClickedCommand="{Binding MenuItemClickedCommand}"
+                              ScrollSettings="{Binding ScrollSettings}"
+                                  PageSettings="{Binding PageSettings}"
+                                  VerticalRuler="{Binding VerticalRuler}"
+                                  HorizontalRuler="{Binding HorizontalRuler}"
+                                  PrintingService="{Binding PrintingService}"
+                                  Constraints="{Binding Constraints}"
+                                  Tool="{Binding Tool,Mode=TwoWay}"
+                                  DefaultConnectorType="{Binding DefaultConnectorType,Mode=TwoWay}"
+                                  DrawingTool="{Binding DrawingTool,Mode=TwoWay}"
+                                  SelectedItems="{Binding SelectedItems}"
+                                  ExportSettings="{Binding ExportSettings}"
+                                  SnapSettings="{Binding SnapSettings}"
+                                  ViewPortChangedCommand="{Binding ViewPortChangedCommand}"
+                                  ItemAddedCommand="{Binding ItemAddedCommand}"
+                                  ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                                  ItemUnSelectedCommand="{Binding ItemUnSelectedCommand}"
+                                  PortVisibility="{Binding PortVisibility}"
+                                  Loaded="Diagram_Loaded"/>
+        </Grid>
+        <Grid Grid.Row="3" Focusable="True" FocusManager.IsFocusScope="True">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="PART_MinusZoomButton"
+                                                Grid.Column="1"
+                                                Width="30"
+                                                Height="30"
+                                                Command="{Binding ZoomOutCommand}"
+                                                HorizontalAlignment="Center"
+                        
+                        IsEnabled="{Binding ZoomOutEnabled}">
+                    <Path x:Name="minuspath"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center" 
+                                                  Width="12" 
+                                                  Height="12"
+                                                  Data="M3.9999886,7.0000038 L11.999989,7.0000038 11.999989,9.0000038 3.9999886,9.0000038 z M8,2 C4.6910095,2 2,4.6910095 2,8 2,11.309006 4.6910095,14 8,14 11.30899,14 14,11.309006 14,8 14,4.6910095 11.30899,2 8,2 z M8,0 C12.411011,0 16,3.5890045 16,8 16,12.410995 12.411011,16 8,16 3.5890198,16 0,12.410995 0,8 0,3.5890045 3.5890198,0 8,0 z"
+                                                  Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                                                  Stretch="Fill" 
+                                                  SnapsToDevicePixels="True"/>
+                </Button>
+                <Slider x:Name="PART_ZoomSlider"
+                    Width="150"
+                    Height="20"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Orientation="Horizontal"
+                    IsMoveToPointEnabled="True"
+                    Minimum="0.3" Maximum="3"
+                    TickFrequency="0.1"
+                    Value="{Binding CurrentZoom, Mode=TwoWay}"/>
+                <Button x:Name="PART_PlusZoomButton"
+                    Width="30"
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    Command="{Binding ZoomInCommand}"
+                        IsEnabled="{Binding ZoomInEnabled}"
+                        >
+                    <Path x:Name="pluspath"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center" 
+                      Width="12" 
+                      Height="12"
+                      Data="M6.9999886,4.0000038 L8.9999886,4.0000038 8.9999886,7.0000038 11.999989,7.0000038 11.999989,9.0000038 8.9999886,9.0000038 8.9999886,12.000004 6.9999886,12.000004 6.9999886,9.0000038 3.9999886,9.0000038 3.9999886,7.0000038 6.9999886,7.0000038 z M8,2 C4.6910095,2 2,4.6910095 2,8 2,11.309006 4.6910095,14 8,14 11.30899,14 14,11.309006 14,8 14,4.6910095 11.30899,2 8,2 z M8,0 C12.411011,0 16,3.5890045 16,8 16,12.410995 12.411011,16 8,16 3.5890198,16 0,12.410995 0,8 0,3.5890045 3.5890198,0 8,0 z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Stretch="Fill" 
+                      SnapsToDevicePixels="True"/>
+                </Button>
+
+                <TextBlock Margin="6,8,0,0" Width="40" Text="{Binding ZoomPercentageValue, Mode=TwoWay}" ToolTip="Zoom level"/>
+
+                <Button x:Name="PART_ButtonFitPage"
+                    Width="30"
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    Command="syncfusion:DiagramCommands.FitToPage" >
+                    <Path x:Name="fitopagepath"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center" 
+                      Width="12" 
+                      Height="12"
+                      Data="M10,10 L16,10 16,12 12,12 12,16 10,16 z M0,10 L6,10 6,16 4,16 4,12 0,12 z M10,0 L12,0 12,4 16,4 16,6 10,6 z M4,0 L6,0 6,6 0,6 0,4 4,4 z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Stretch="Fill" 
+                      SnapsToDevicePixels="True"
+                      />
+                </Button>
+                <TextBlock Width="15"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

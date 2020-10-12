@@ -1,0 +1,280 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.datagriddemos.wpf.StylingDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.datagriddemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:syncfusionskin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    syncfusionskin:SfSkinManager.VisualStyle="Office2019Colorful"
+    Background="#F5F5F5">
+
+    <democommon:DemoControl.DataContext>
+        <local:CountryInfoViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/Syncfusion.Themes.Office2019Colorful.WPF;component/SfDataGrid/SfDataGrid.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <local:NameToCurrencyConverter x:Key="nameToCurrencyConverter" />
+                <local:SelectionForegroundConverter x:Key="selectionForegroundConverter" />
+                <democommon:EmptyObjectToObjectConverter
+                    x:Key="sortDirectionToVisibilityConverter"
+                    CanConvertToTargetType="True"
+                    EmptyValue="Collapsed"
+                    NotEmptyValue="Visible" />
+
+                <Style BasedOn="{StaticResource SyncfusionGridHeaderCellControlStyle}" TargetType="syncfusion:GridHeaderCellControl">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="Padding" Value="10,3,3,3" />
+                    <Setter Property="FontFamily" Value="Segoe UI" />
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="Margin" Value="5,0,0,0" />
+                    <Setter Property="Foreground" Value="#FFFFFFFF" />
+                    <Setter Property="FontWeight" Value="Normal" />
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="syncfusion:GridHeaderCellControl">
+                                <Grid>
+                                    <Border BorderBrush="#FF777777" BorderThickness="0,0,1,0" />
+                                    <Border
+                                        Padding="{TemplateBinding Padding}"
+                                        Background="Transparent"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="0" MinWidth="{Binding Path=ColumnOptionsWidth, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="Center" />
+                                            <Grid Grid.Column="1">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="18" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Path
+                                                    Width="10.84"
+                                                    Height="9.87"
+                                                    Margin="5,0,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="F1M753.644,-13.0589L753.736,-12.9639 753.557,-12.7816 732.137,8.63641 732.137,29.7119 756.445,5.40851 764.094,-2.24384 764.275,-2.42352 771.834,5.1286 796.137,29.4372 796.137,8.36163 774.722,-13.0589 764.181,-23.5967 753.644,-13.0589z"
+                                                    Fill="#FFF5F8F1"
+                                                    Stretch="Fill"
+                                                    Visibility="{Binding Path=SortDirection, RelativeSource={RelativeSource TemplatedParent}, ConverterParameter=Ascending, Converter={StaticResource sortDirectionToVisibilityConverter}}">
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TransformGroup.Children>
+                                                                <RotateTransform Angle="0" />
+                                                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                            </TransformGroup.Children>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+
+                                                <Path
+                                                    Width="10.84"
+                                                    Height="9.87"
+                                                    Margin="5,0,0,0"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Data="F1M181.297,177.841L181.205,177.746 181.385,177.563 202.804,156.146 202.804,135.07 178.497,159.373 170.847,167.026 170.666,167.205 163.107,159.653 138.804,135.345 138.804,156.42 160.219,177.841 170.76,188.379 181.297,177.841z"
+                                                    Fill="#FFF5F8F1"
+                                                    Stretch="Fill"
+                                                    Visibility="{Binding Path=SortDirection, RelativeSource={RelativeSource TemplatedParent}, ConverterParameter=Decending, Converter={StaticResource sortDirectionToVisibilityConverter}}">
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <TransformGroup.Children>
+                                                                <RotateTransform Angle="0" />
+                                                                <ScaleTransform ScaleX="1" ScaleY="1" />
+                                                            </TransformGroup.Children>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    FontSize="10"
+                                                    Foreground="White"
+                                                    Text="{TemplateBinding SortNumber}"
+                                                    Visibility="{TemplateBinding SortNumberVisibility}" />
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+
+                </Style>
+
+                <!--  Row Style  -->
+                <Style BasedOn="{StaticResource SyncfusionVirtualizingCellsControlStyle}" TargetType="syncfusion:VirtualizingCellsControl">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="Gray" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="syncfusion:VirtualizingCellsControl">
+                                <Grid>
+                                    <Grid Background="#FF000000" Opacity="0.82" />
+                                    <Rectangle
+                                        x:Name="PART_CurrentFocusRow"
+                                        Margin="2"
+                                        StrokeDashArray="2,2"
+                                        StrokeThickness="1" />
+                                    <Border
+                                        Background="{TemplateBinding RowSelectionBrush}"
+                                        Clip="{TemplateBinding SelectionBorderClipRect}"
+                                        Visibility="{TemplateBinding SelectionBorderVisiblity}" />
+                                    <Border
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter Opacity="{Binding SelectionBorderVisiblity, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource selectionForegroundConverter}}" />
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <!--  Grid Cell Style  -->
+                <Style BasedOn="{StaticResource SyncfusionGridCellStyle}" TargetType="syncfusion:GridCell">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="BorderBrush" Value="#FF777777" />
+                    <Setter Property="BorderThickness" Value="0,0,1,1" />
+                    <Setter Property="Padding" Value="10,0,0,0" />
+                    <Setter Property="Foreground" Value="#FFFFFFFF" />
+                    <Setter Property="FontFamily" Value=" Segoe UI" />
+                    <Setter Property="FontSize" Value="16" />
+                </Style>
+
+                <Style TargetType="syncfusion:HeaderRowControl">
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="BorderBrush" Value="#FFCCCCCC" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="syncfusion:HeaderRowControl">
+                                <Grid>
+                                    <Grid Background="#FF7AA732" Opacity="0.78" />
+                                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter />
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ResourceDictionary>
+
+        </Grid.Resources>
+        <Image
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Source="/syncfusion.datagriddemos.wpf;component/Assets/datagrid/Population.jpg"
+            Stretch="UniformToFill" />
+        <syncfusion:SfDataGrid
+            x:Name="sfGrid"
+            Margin="5"
+            AutoGenerateColumns="False"
+            Background="Transparent"
+            BorderBrush="#FFB1B9B8"
+            BorderThickness="1"
+            ColumnSizer="Star"
+            FontFamily="Segoe UI"
+            HeaderRowHeight="32"
+            ItemsSource="{Binding CountryDetails}"
+            NavigationMode="Row"
+            RowHeight="32"
+            RowSelectionBrush="#FF010000">
+            <syncfusion:SfDataGrid.Resources>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontFamily" Value="Segoe UI" />
+                    <Setter Property="FontWeight" Value="Light" />
+                    <Setter Property="FontSize" Value="16" />
+                    <Setter Property="Foreground" Value="#FFFFFFFF" />
+                </Style>
+            </syncfusion:SfDataGrid.Resources>
+
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn MappingName="Country" />
+                <syncfusion:GridTextColumn MappingName="Capital" />
+                <syncfusion:GridTemplateColumn MappingName="Currency" MaximumWidth="120">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Path
+                                Width="25"
+                                Height="25"
+                                HorizontalAlignment="Center"
+                                Data="{Binding Currency, Converter={StaticResource nameToCurrencyConverter}}"
+                                Fill="#FFFFFFFF"
+                                Opacity="0.68"
+                                Stretch="Uniform" />
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+                </syncfusion:GridTemplateColumn>
+                <syncfusion:GridTemplateColumn
+                    HeaderText="Population (Count)"
+                    MappingName="Population"
+                    MinimumWidth="200">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock
+                                Foreground="#FFFFFFFF"
+                                Text="{Binding Population, StringFormat='{}#,##0'}"
+                                TextAlignment="Right" />
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+                </syncfusion:GridTemplateColumn>
+                <syncfusion:GridTextColumn
+                    DisplayBinding="{Binding Path=LiteracyRate, StringFormat='{}{0}%'}"
+                    HeaderText="Literacy Rate"
+                    MinimumWidth="200"
+                    TextAlignment="Right" />
+
+                <syncfusion:GridTemplateColumn
+                    Width="150"
+                    AllowSorting="False"
+                    HeaderText="Economy Rate"
+                    MappingName="EconomyRate">
+                    <syncfusion:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.Resources>
+                                    <Storyboard x:Key="chartAnimation">
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="chartControl" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </Grid.Resources>
+
+                                <Chart:SfLineSparkline
+                                    Padding="4"
+                                    ItemsSource="{Binding EconomyRate}"
+                                    MarkerVisibility="Visible"
+                                    YBindingPath="GrowthPercentage">
+                                    <Chart:SfLineSparkline.MarkerTemplateSelector>
+                                        <Chart:MarkerTemplateSelector
+                                            MarkerBrush="LightBlue"
+                                            MarkerHeight="8"
+                                            MarkerWidth="8" />
+                                    </Chart:SfLineSparkline.MarkerTemplateSelector>
+                                </Chart:SfLineSparkline>
+
+                            </Grid>
+                        </DataTemplate>
+                    </syncfusion:GridTemplateColumn.CellTemplate>
+                </syncfusion:GridTemplateColumn>
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+    </Grid>
+</democommon:DemoControl>

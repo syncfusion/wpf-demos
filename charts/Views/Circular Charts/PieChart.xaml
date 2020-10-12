@@ -1,0 +1,352 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.PieChartDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:PieChartViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </democommon:DemoControl.Resources>
+
+    <Grid>
+        <TabControl>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Default Pie" />
+                    </StackPanel>
+                </TabItem.Header>
+                <ContentControl x:Name="contentcontrol">
+                    <Grid>
+                        <Grid.Resources>
+
+                            <DataTemplate x:Key="legend">
+                                <StackPanel Orientation="Horizontal">
+                                    <Grid Margin="10,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Rectangle
+                                            Width="15"
+                                            Height="15"
+                                            Fill="{Binding Interior}" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="10,5,5,0"
+                                            FontSize="16"
+                                            Text="{Binding Item}" />
+                                    </Grid>
+                                </StackPanel>
+                            </DataTemplate>
+
+                        </Grid.Resources>
+
+                        <chart:SfChart
+                            x:Name="pieChart"
+                            Grid.RowSpan="2"
+                            Margin="10,10,5,10"
+                            HorizontalAlignment="Center"
+                            AreaBorderThickness="0">
+
+                            <chart:SfChart.Legend>
+                                <chart:ChartLegend
+                                    x:Name="ChartLegend1"
+                                    BorderThickness="1"
+                                    CornerRadius="0"
+                                    DockPosition="Right"
+                                    FontSize="15" />
+                            </chart:SfChart.Legend>
+
+                            <chart:SfChart.Header>
+                                <TextBlock
+                                    Margin="0,20,0,10"
+                                    FontFamily="Segoe UI"
+                                    FontSize="18">
+                                    Internet usage in World
+                                </TextBlock>
+                            </chart:SfChart.Header>
+
+                            <chart:PieSeries
+                                x:Name="pieSeries"
+                                chart:ChartTooltip.EnableAnimation="True"
+                                ColorModel="{StaticResource CustomColor}"
+                                ConnectorType="Bezier"
+                                EnableAnimation="True"
+                                EnableSmartLabels="True"
+                                GroupMode="Value"
+                                GroupTo="1000"
+                                ItemsSource="{Binding Data}"
+                                LabelPosition="OutsideExtended"
+                                Palette="Custom"
+                                PieCoefficient="0.7"
+                                ShowTooltip="True"
+                                XBindingPath="Country"
+                                YBindingPath="Count">
+                                <chart:PieSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        ConnectorHeight="80"
+                                        ShowConnectorLine="True"
+                                        ShowLabel="True"
+                                        UseSeriesPalette="True" />
+                                </chart:PieSeries.AdornmentsInfo>
+                            </chart:PieSeries>
+                        </chart:SfChart>
+                    </Grid>
+                </ContentControl>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Semi Pie" />
+                    </StackPanel>
+                </TabItem.Header>
+                <ContentControl x:Name="contentcontrol2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*" />
+                            <ColumnDefinition Width="2*" />
+                        </Grid.ColumnDefinitions>
+                        <WrapPanel Grid.Column="1" Orientation="Vertical">
+                            <TextBlock
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Text="OPTIONS" />
+                            <StackPanel Margin="10">
+                                <TextBlock FontSize="16" Text="Start Angle" />
+                                <Slider
+                                    x:Name="StartSlider"
+                                    Width="120"
+                                    Maximum="360"
+                                    Minimum="0"
+                                    Value="{Binding StartAngle, Mode=TwoWay}" />
+                            </StackPanel>
+                            <StackPanel Margin="10">
+                                <TextBlock FontSize="16" Text="End Angle" />
+                                <Slider
+                                    x:Name="EndSlider"
+                                    Width="120"
+                                    Maximum="360"
+                                    Minimum="0"
+                                    Value="{Binding EndAngle, Mode=TwoWay}" />
+                            </StackPanel>
+                        </WrapPanel>
+                        <chart:SfChart
+                            x:Name="PieChart"
+                            Grid.Column="0"
+                            AreaBorderThickness="0">
+
+                            <chart:SfChart.Header>
+                                <TextBlock
+                                    Margin="0,35,0,15"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontFamily="Seoge UI"
+                                    FontSize="18"
+                                    Text="Application Performance Metrics" />
+                            </chart:SfChart.Header>
+
+                            <chart:PieSeries
+                                x:Name="PieSeries"
+                                ColorModel="{StaticResource CustomColor}"
+                                ConnectorType="Bezier"
+                                EnableAnimation="True"
+                                EnableSmartLabels="True"
+                                EndAngle="{Binding EndAngle}"
+                                ItemsSource="{Binding Metrics}"
+                                LabelPosition="Outside"
+                                Palette="Custom"
+                                StartAngle="{Binding StartAngle}"
+                                XBindingPath="Utilization"
+                                YBindingPath="ResponseTime">
+                                <chart:PieSeries.AdornmentsInfo>
+                                    <chart:ChartAdornmentInfo
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        AdornmentsPosition="Bottom"
+                                        ConnectorHeight="37"
+                                        SegmentLabelContent="Percentage"
+                                        SegmentLabelFormat="##.#"
+                                        ShowConnectorLine="True"
+                                        ShowLabel="True"
+                                        UseSeriesPalette="True" />
+                                </chart:PieSeries.AdornmentsInfo>
+
+                            </chart:PieSeries>
+                        </chart:SfChart>
+                    </Grid>
+                </ContentControl>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Multiple Pie" />
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid x:Name="mainGrid">
+
+                    <Grid.Resources>
+                        <DataTemplate x:Key="labelTemplate1">
+                            <TextBlock
+                                Margin="5"
+                                FontSize="10"
+                                Foreground="White"
+                                Text="{Binding Item.Continent}" />
+                        </DataTemplate>
+
+                        <DataTemplate x:Key="labelTemplate2">
+                            <TextBlock
+                                Margin="5"
+                                FontSize="10"
+                                Foreground="White"
+                                Text="{Binding Item.Countries}" />
+                        </DataTemplate>
+
+                        <DataTemplate x:Key="labelTemplate3">
+                            <TextBlock
+                                Margin="5"
+                                FontSize="10"
+                                Foreground="White"
+                                Text="{Binding Item.States}" />
+                        </DataTemplate>
+                    </Grid.Resources>
+
+                    <chart:SfChart x:Name="pieChart1" AreaBorderThickness="0">
+                        <chart:SfChart.Header>
+                            <TextBlock
+                                Margin="0,35,0,15"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontFamily="Seoge UI"
+                                FontSize="18"
+                                Text="Most populated continents" />
+                        </chart:SfChart.Header>
+
+                        <chart:PieSeries
+                            x:Name="pieSeries1"
+                            EnableAnimation="True"
+                            EnableSmartLabels="False"
+                            ItemsSource="{Binding Population}"
+                            LabelPosition="Inside"
+                            Palette="Custom"
+                            PieCoefficient="1"
+                            Stroke="White"
+                            XBindingPath="Continent"
+                            YBindingPath="PopulationinContinents">
+                            <chart:PieSeries.ColorModel>
+                                <chart:ChartColorModel>
+                                    <chart:ChartColorModel.CustomBrushes>
+                                        <SolidColorBrush Color="#E94649" />
+                                        <SolidColorBrush Color="#0FB954" />
+                                        <SolidColorBrush Color="#005277" />
+                                    </chart:ChartColorModel.CustomBrushes>
+                                </chart:ChartColorModel>
+                            </chart:PieSeries.ColorModel>
+                            <chart:PieSeries.AdornmentsInfo>
+                                <chart:ChartAdornmentInfo
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    AdornmentsPosition="Bottom"
+                                    LabelTemplate="{StaticResource labelTemplate1}"
+                                    SegmentLabelContent="LabelContentPath"
+                                    ShowLabel="True" />
+                            </chart:PieSeries.AdornmentsInfo>
+                        </chart:PieSeries>
+
+                        <chart:PieSeries
+                            x:Name="pieSeries2"
+                            EnableAnimation="True"
+                            EnableSmartLabels="False"
+                            ItemsSource="{Binding Population}"
+                            LabelPosition="Inside"
+                            Palette="Custom"
+                            PieCoefficient="1"
+                            Stroke="White"
+                            XBindingPath="Countries"
+                            YBindingPath="PopulationinCountries">
+                            <chart:PieSeries.ColorModel>
+                                <chart:ChartColorModel>
+                                    <chart:ChartColorModel.CustomBrushes>
+                                        <SolidColorBrush Color="#E94649" />
+                                        <SolidColorBrush Color="#E94649" />
+                                        <SolidColorBrush Color="#0FB954" />
+                                        <SolidColorBrush Color="#0FB954" />
+                                        <SolidColorBrush Color="#005277" />
+                                        <SolidColorBrush Color="#005277" />
+                                    </chart:ChartColorModel.CustomBrushes>
+                                </chart:ChartColorModel>
+                            </chart:PieSeries.ColorModel>
+                            <chart:PieSeries.AdornmentsInfo>
+                                <chart:ChartAdornmentInfo
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    AdornmentsPosition="Bottom"
+                                    LabelTemplate="{StaticResource labelTemplate2}"
+                                    SegmentLabelContent="LabelContentPath"
+                                    ShowLabel="True" />
+                            </chart:PieSeries.AdornmentsInfo>
+                        </chart:PieSeries>
+                        <chart:PieSeries
+                            x:Name="pieSeries3"
+                            EnableAnimation="True"
+                            EnableSmartLabels="False"
+                            ItemsSource="{Binding Population}"
+                            Label="Medal in 2015"
+                            LabelPosition="Inside"
+                            Palette="Custom"
+                            PieCoefficient="1"
+                            Stroke="White"
+                            XBindingPath="States"
+                            YBindingPath="PopulationinStates">
+                            <chart:PieSeries.ColorModel>
+                                <chart:ChartColorModel>
+                                    <chart:ChartColorModel.CustomBrushes>
+                                        <SolidColorBrush Color="#E94649" />
+                                        <SolidColorBrush Color="#E94649" />
+                                        <SolidColorBrush Color="#E94649" />
+                                        <SolidColorBrush Color="#E94649" />
+                                        <SolidColorBrush Color="#0FB954" />
+                                        <SolidColorBrush Color="#0FB954" />
+                                        <SolidColorBrush Color="#0FB954" />
+                                        <SolidColorBrush Color="#0FB954" />
+                                        <SolidColorBrush Color="#005277" />
+                                        <SolidColorBrush Color="#005277" />
+                                        <SolidColorBrush Color="#005277" />
+                                        <SolidColorBrush Color="#005277" />
+                                    </chart:ChartColorModel.CustomBrushes>
+                                </chart:ChartColorModel>
+                            </chart:PieSeries.ColorModel>
+                            <chart:PieSeries.AdornmentsInfo>
+                                <chart:ChartAdornmentInfo
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    AdornmentsPosition="Bottom"
+                                    LabelTemplate="{StaticResource labelTemplate3}"
+                                    SegmentLabelContent="LabelContentPath"
+                                    ShowLabel="True" />
+                            </chart:PieSeries.AdornmentsInfo>
+                        </chart:PieSeries>
+                    </chart:SfChart>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+
+</democommon:DemoControl>

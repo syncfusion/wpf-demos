@@ -1,0 +1,240 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.diagramdemo.wpf.Views.Zooming_and_Panning"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    mc:Ignorable="d" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:model="clr-namespace:syncfusion.diagramdemo.wpf.Model"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf" 
+    xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+    d:DesignHeight="450" d:DesignWidth="800" OptionsSize="270">
+    <democommon:DemoControl.Resources>
+        <Style TargetType="syncfusion:Connector">
+            <Setter Property="ConnectorGeometryStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="Black"  />
+                        <Setter Property="StrokeThickness" Value="1" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TargetDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="#4f4f4f"  />
+                        <Setter Property="Stretch" Value="Fill" />
+                        <Setter Property="Fill" Value="#4f4f4f"  />
+                        <Setter Property="StrokeThickness" Value="1" />
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="ContentTemplateforNodeContent">
+            <Border Width="170" Height="50" BorderThickness="1" Background="White" 
+                    CornerRadius="6" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" >
+                        <Border Grid.Column="0"
+                                    VerticalAlignment="Stretch"
+                                    CornerRadius="6"
+                                    Padding="5">
+                            <Image HorizontalAlignment="Center"
+                                       Source="{Binding Path=ImageUrl}"
+                                       Stretch="Uniform" />
+                        </Border>
+
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="25" />
+                            <RowDefinition Height="25" />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock x:Name="Name"
+                                       Grid.Row="0"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                   Foreground="Black"
+                                       Text="{Binding Path=Name}"
+                                       TextAlignment="Left" />
+                        <TextBlock x:Name="Designation"
+                                       Grid.Row="1"
+                                       FontSize="11"
+                                   Foreground="Black"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       Text="{Binding Path=Designation}"
+                                       TextAlignment="Left" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <!--Style for Node-->
+        <Style TargetType="syncfusion:Node">
+            <Setter Property="ContentTemplate" Value="{StaticResource ContentTemplateforNodeContent}">
+            </Setter>
+            <Setter Property="UnitHeight" Value="50"/>
+            <Setter Property="UnitWidth" Value="170"/>
+        </Style>
+
+        <!-- Initializes the employee collection-->
+        <model:Employees x:Key="employees">
+            <model:Employee Name="Maria Anders" Designation="Managing Director" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle14.png" />            
+            <model:Employee Name="Ana Trujillo" Designation="Project Manager " ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle12.png" ReportingPerson="Maria Anders"/>
+            <model:Employee Name="Patricio Simpson" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle18.png" ReportingPerson="Ana Trujillo"/>
+            <model:Employee Name="Aria Cruz" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle0.png" ReportingPerson="Patricio Simpson"/>
+            <model:Employee Name="Antonio Moreno" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle17.png" ReportingPerson="Aria Cruz"/>
+            <model:Employee Name="Thomas Hardy" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle27.png" ReportingPerson="Antonio Moreno"/>
+            <model:Employee Name="Christina Berglund" Designation="S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle27.png" ReportingPerson="Thomas Hardy"/>
+            <model:Employee Name="Hanna Moos" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle27.png" ReportingPerson="Christina Berglund"/>
+            <model:Employee Name="Frédérique Citeaux" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle27.png" ReportingPerson="Christina Berglund"/>
+            <model:Employee Name="Martín Sommer" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle27.png" ReportingPerson="Thomas Hardy"/>
+            <model:Employee Name="Maria Larsson" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle11.png" ReportingPerson="Aria Cruz"/>
+            <model:Employee Name="Isabel de Castro" Designation="Project Manager" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle1.png" ReportingPerson="Maria Anders"/>
+            <model:Employee Name="Horst Batista" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle17.png" ReportingPerson="Wilson Holz"/>
+            <model:Employee Name="Lúcia Carvalho" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle27.png" ReportingPerson="Horst Batista"/>
+            <model:Employee Name="José Pedro Freyre" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle21.png" ReportingPerson="Lúcia Carvalho"/>
+            <model:Employee Name="André Fonseca" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle5.png" ReportingPerson="José Pedro Freyre"/>
+            <model:Employee Name="Paula Wilson" Designation="S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle0.png" ReportingPerson="André Fonseca"/>
+            <model:Employee Name="John Bergulfsen" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle17.png" ReportingPerson="André Fonseca"/>
+            <model:Employee Name="Jose Pavarotti" Designation="S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle17.png" ReportingPerson="André Fonseca"/>
+            <model:Employee Name="Miguel Angel Paolino" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle14.png" ReportingPerson="André Fonseca"/>
+            <model:Employee Name="Horst Kloss" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle1.png" ReportingPerson="André Fonseca"/>
+            <model:Employee Name="Wilson Holz" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle12.png" ReportingPerson="Isabel de Castro"/>
+            <model:Employee Name="Jytte Petersen" Designation="Project Manager" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle2.png" ReportingPerson="Maria Anders"/>
+            <model:Employee Name="Liz Nixon" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle26.png" ReportingPerson="Jytte Petersen"/>
+            <model:Employee Name="Liu Wong" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle29.png" ReportingPerson="Liz Nixon"/>
+            <model:Employee Name="Dominique Perrier" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle10.png" ReportingPerson="Liz Nixon"/>
+            <model:Employee Name="Annette Roulet" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle4.png" ReportingPerson="Dominique Perrier"/>
+            <model:Employee Name="Carlos González" Designation="SR" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle1.png" ReportingPerson="Annette Roulet"/>
+            <model:Employee Name="Felipe Izquierdo" Designation="SR" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle21.png" ReportingPerson="Carlos González"/>
+            <model:Employee Name="Yoshi Tannamuri" Designation="S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle5.png" ReportingPerson="Felipe Izquierdo"/>
+            <model:Employee Name="Fran Wilson" Designation="SR" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle17.png" ReportingPerson="Felipe Izquierdo"/>
+            <model:Employee Name="Jean Fresnière" Designation="S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle27.png" ReportingPerson="Felipe Izquierdo"/>
+            <model:Employee Name="Giovanni Rovelli" Designation="SR" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle26.png" ReportingPerson="Felipe Izquierdo"/>
+            <model:Employee Name="Renate Messner" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle11.png" ReportingPerson="Felipe Izquierdo"/>
+            <model:Employee Name="Jaime Yorres" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle27.png" ReportingPerson="Felipe Izquierdo"/>
+            <model:Employee Name="John Steel" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle17.png" ReportingPerson="Carlos González"/>
+            <model:Employee Name="Yvonne Moncada" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle17.png" ReportingPerson="Michael Suyama"/>
+            <model:Employee Name="Michael Suyama" Designation="S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle21.png" ReportingPerson="Liu Wong"/>
+            <model:Employee Name="Alexander Feuer" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle1.png" ReportingPerson="Michael Suyama"/>
+            <model:Employee Name="Art Braunschweiger" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle21.png" ReportingPerson="Michael Suyama"/>
+            <model:Employee Name="Pascale Cartrain" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle5.png" ReportingPerson="Michael Suyama"/>
+            <model:Employee Name="Mary Saveley" Designation="Project Manager" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle10.png" ReportingPerson="Maria Anders"/>
+            <model:Employee Name="Paul Henriot" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle21.png" ReportingPerson="Mary Saveley"/>
+            <model:Employee Name="Rita Müller" Designation="Project Trainee" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle23.png" ReportingPerson="Pirkko Koskitalo"/>
+            <model:Employee Name="Pirkko Koskitalo" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle8.png" ReportingPerson="Paul Henriot"/>
+            <model:Employee Name="Karl Jablonski" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle17.png" ReportingPerson="Pirkko Koskitalo"/>
+            <model:Employee Name="Paula Parente" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle5.png" ReportingPerson="Matti Karttunen"/>
+            <model:Employee Name="John Camino" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle21.png" ReportingPerson="Lúcia Carvalho"/>
+            <model:Employee Name="Matti Karttunen" Designation="Project Lead" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle0.png" ReportingPerson="Mary Saveley"/>
+            <model:Employee Name="Nancy" Designation="Senior S/w Engg" ImageUrl="/syncfusion.demoscommon.wpf;component/Assets/People/People_Circle29.png" ReportingPerson="Pirkko Koskitalo"/>
+        </model:Employees>
+
+        <!--Initializes the DataSourceSettings -->
+        <syncfusion:DataSourceSettings x:Key="DataSourceSettings" DataSource="{StaticResource employees}"
+                               ParentId="ReportingPerson" Id="Name"/>
+        <syncfusion:DirectedTreeLayout x:Name="DirectedTreeLayout" x:Key="treeLayout" HorizontalSpacing="30" VerticalSpacing="50" Orientation="TopToBottom" Type="Hierarchical" SpaceBetweenSubTrees="20" />
+
+        <syncfusion:LayoutManager x:Key="layoutManager" Layout="{StaticResource treeLayout}"/>
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.DataContext>
+        <viewmodel:ZoomingAndPanningViewModel x:Name="Diagram"
+                                     Menu="{x:Null}" 
+                                     LayoutManager="{StaticResource layoutManager}"
+                                     DataSourceSettings="{StaticResource DataSourceSettings}">
+        </viewmodel:ZoomingAndPanningViewModel>
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <syncfusion:ToolBarAdv Grid.Row="0" GripperVisibility="Collapsed" OverflowButtonVisibility="Collapsed">
+            <Button ToolTip="Zoom in" Command="{Binding ZoomInCommand}" Width="32" IsEnabled="{Binding ZoomInEnabled}"  Style="{StaticResource WPFGlyphButtonStyle}">
+                <Path Data="M7.0000014,3.4999861 C7.5530014,3.4999861 8.0000019,3.947986 8.0000019,4.4999863 L8.0000019,5.9999863 9.5000019,5.9999863 C10.053001,5.9999863 10.500002,6.4479863 10.500002,6.9999863 10.500002,7.5529863 10.053001,7.9999863 9.5000019,7.9999863 L8.0000019,7.9999863 8.0000019,9.4999858 C8.0000019,10.052986 7.5530014,10.499986 7.0000014,10.499986 6.4480014,10.499986 6.0000014,10.052986 6.0000014,9.4999858 L6.0000014,7.9999863 4.5000014,7.9999863 C3.9480016,7.9999863 3.5000017,7.5529863 3.5000017,6.9999863 3.5000017,6.4479863 3.9480016,5.9999863 4.5000014,5.9999863 L6.0000014,5.9999863 6.0000014,4.4999863 C6.0000014,3.947986 6.4480014,3.4999861 7.0000014,3.4999861 z M7,2.0000001 C4.2379761,2.0000001 2,4.2379762 2,7.0000001 2,9.761963 4.2379761,12 7,12 9.7620239,12 12,9.761963 12,7.0000001 12,4.2379762 9.7620239,2.0000001 7,2.0000001 z M7,0 C10.866028,1.471595E-07 14,3.1339723 14,7.0000001 14,8.5705492 13.482772,10.0203 12.609358,11.1882 L12.605331,11.193452 15.710085,14.289992 C16.103081,14.678991 16.10408,15.312988 15.716084,15.703987 L15.710085,15.709987 C15.521087,15.896986 15.266089,16.001986 15.000093,15.999986 14.734096,16.001986 14.479098,15.896986 14.2901,15.709987 L11.193596,12.605224 11.188227,12.60934 C10.020329,13.482762 8.5705738,14 7,14 3.1339722,14 0,10.865967 0,7.0000001 0,3.1339723 3.1339722,1.471595E-07 7,0 z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16"
+                      Stretch="Fill"
+                      Width="16.006"/>
+            </Button>
+            <Button ToolTip="Zoom out" Command="{Binding ZoomOutCommand}" Width="32" IsEnabled="{Binding ZoomOutEnabled}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <Path Data="M4.4999995,6 L9.4999996,6 C10.053,6 10.5,6.4480002 10.5,7.0000002 10.5,7.5530002 10.053,8.0000002 9.4999996,8.0000002 L4.4999995,8.0000002 C3.9479995,8.0000002 3.4999995,7.5530002 3.4999995,7.0000002 3.4999995,6.4480002 3.9479995,6 4.4999995,6 z M6.9999995,2 C4.2379994,2 2,4.2380004 2,7.0000002 2,9.7620002 4.2379994,12 6.9999995,12 9.7619996,12 12,9.7620002 12,7.0000002 12,4.2380004 9.7619996,2 6.9999995,2 z M6.9999995,0 C10.866,0 14,3.1340003 14,7.0000002 14,8.5705627 13.482767,10.020317 12.609349,11.188215 L12.605345,11.193438 15.710124,14.289997 C16.103125,14.679033 16.104101,15.313003 15.716105,15.703992 L15.710124,15.709974 C15.5211,15.896985 15.266098,16.002026 15.00011,16.000012 14.734122,16.002026 14.47912,15.896985 14.290096,15.709974 L11.193605,12.605217 11.188214,12.60935 C10.020316,13.482768 8.5705621,14 6.9999995,14 3.1339998,14 0,10.866 0,7.0000002 0,3.1340003 3.1339998,0 6.9999995,0 z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill" 
+                      Width="16.006"/>
+            </Button>
+            <syncfusion:ToolBarItemSeparator/>
+            <Button ToolTip="Pan" Command="{Binding PanCommand}" Width="32" IsEnabled="{Binding PanEnabled}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <Path Data="M8.522,0 C9.089,0 9.5450001,0.44699955 9.545,1 L9.545,7.3339996 10.228,7.3339996 10.228,1.6669998 C10.228,1.1129999 10.684,0.66699982 11.25,0.66699982 11.815,0.66699982 12.272,1.1129999 12.272,1.6669998 L12.272,7.3339996 12.954,7.3339996 12.954,3.6669993 C12.954,3.1129999 13.411,2.6669998 13.978,2.6669998 14.543,2.6669998 15,3.1129999 15,3.6669993 L15,13.334 C15,14.799999 13.772,16 12.272,16 L7.2950001,16 C6.559,16 5.8630002,15.714 5.3530002,15.207 L0,9.8869996 C0,9.8869995 0.85900021,9.0659995 0.88600016,9.0539994 1.0360003,8.9269996 1.2210002,8.8599994 1.4250002,8.8599994 1.5750003,8.8599994 1.711,8.8999996 1.8340001,8.9669995 1.8610001,8.9739995 4.7720001,10.606 4.7720001,10.606 L4.7720001,2.6669998 C4.7720001,2.1129999 5.2290001,1.6669998 5.7950001,1.6669998 6.3610001,1.6669998 6.8180001,2.1129999 6.8180001,2.6669998 L6.8180001,7.3339996 7.5,7.3339996 7.5,1 C7.5000001,0.44699955 7.9570001,0 8.522,0 z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16"
+                      Stretch="Fill"
+                      Width="15"/>
+            </Button>
+            <Button ToolTip="Select" Command="{Binding SelectCommand}" Width="32" IsEnabled="{Binding SelectEnabled}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <Path Data="M0.003368373,6.0746803E-05C0.3473716,0.029698025 26.926584,10.868437 26.871051,11.526244 24.109041,12.977215 22.274026,14.137207 19.561088,15.649182 23.92502,20.14614 27.915052,23.758099 31.871027,28.112052L27.984998,32.00001C23.894014,27.924067 19.750053,23.942086 15.707103,19.780146 14.100116,22.252104 12.674098,24.720093 11.037081,27.210055 7.2341213,18.270154 3.898139,8.7682797 0.00014781381,0.0013815861 -0.00042262339,0.00026452165 0.00065947888,-0.00017228222 0.003368373,6.0746803E-05z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16"
+                      Stretch="Fill"
+                      Width="16"/>
+            </Button>
+            <syncfusion:ToolBarItemSeparator/>
+            <Button ToolTip="Reset" Command="{Binding ResetCommand}" Width="32" IsEnabled="{Binding ResetEnabled}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <Path Data="M6.4999998,0 L6.4999998,3.0000014 C10.084,3.0000014 13,5.9160013 13,9.500001 13,13.084002 10.084,16.000001 6.4999998,16.000001 2.9160001,16.000001 0,13.084002 0,9.500001 L2.0000001,9.500001 C2.0000001,11.981002 4.0190001,14.000001 6.4999998,14.000001 8.9810002,14.000001 11,11.981002 11,9.500001 11,7.0190015 8.9810002,5.0000014 6.4999998,5.0000014 L6.4999998,7.8789997 2.561,3.9400005 z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill" 
+                      Width="13"/>
+            </Button>
+            <Button ToolTip="Fit to page" Command="{Binding FitToPageCommand}" Width="32" IsEnabled="{Binding FitToPageEnabled}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <Path Data="M1,1 L1,7.9300053 3.935976,4.9950218 3.935976,7 5.9999995,7 5.9999995,9 3.935976,9 3.935976,10.867013 1,7.9320285 1,15 7.9489765,15 5.011981,12.063023 6.9999995,12.063023 6.9999995,10 9,10 9,12.063023 10.884995,12.063023 7.9489994,15 15,15 15,7.9310353 12.063027,10.866978 12.063027,9 10,9 10,7&#xa;12.063027,7 12.063027,4.9949782 15,7.9309819 15,1 7.9499993,1 10.884995,3.9359765 9,3.9359765 9,6 6.9999995,6 6.9999995,3.9359765 5.011981,3.9359765 7.9479761,1 z M0,0 L16,0 16,16 0,16 z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill"
+                      Width="16"/>
+            </Button>
+            <syncfusion:ToolBarItemSeparator/>
+            <Button ToolTip="Bring into view" Command="{Binding BringintoViewCommand}" Width="32" CommandParameter="{Binding ElementName=SfDiagram}" IsEnabled="{Binding BringIntoViewEnabled}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <Path Data="M10.786001,15 L12.643003,15 12.643003,16 10.786001,16 z M7.072,15 L8.9290009,15 8.9290009,16 7.072,16 z M3.3579984,15 L5.2149992,15 5.2149992,16 3.3579984,16 z M15,14.5 L16,14.5 16,16 14.5,16 14.5,15 15,15 z M0,14.5 L1,14.5 1,15 1.5,15 1.5,16 0,16 z M15,10.786 L16,10.786 16,12.643 15,12.643 z M1,10 L1,10.785 1,12 3,12 3,11 2,11 2,10 z M0,7.0710001 L1,7.0710001 1,8.928 0,8.928 z M15,7.0709999 L16,7.0709999 16,8.928 15,8.928 z M2,7 L8,7 8,11 4,11 4,13 0,13 0,12.643 0,10.785 0,9 2,9 z M15,3.3569996 L16,3.3569996 16,5.2139997 15,5.2139997 z M0,3.3569994 L1,3.3569994 1,5.2139997 0,5.2139997 z M14.5,0 L16,0 16,1.5 15,1.5 15,1 14.5,1 z M10.786001,0 L12.643003,0 12.643003,1 10.786001,1 z M7.0709996,0 L8.9280005,0 8.9280005,1 7.0709996,1 z M3.3569977,0 L5.2139986,0 5.2139986,1 3.3569977,1 z M0,0 L1.5,0 1.5,1 1,1 1,1.5 0,1.5 z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16"
+                      Stretch="Fill"
+                      Width="16"/>
+            </Button>
+            <Button ToolTip="Bring into center" Command="{Binding BringintoCenterCommand}" Width="32" CommandParameter="{Binding ElementName=SfDiagram}" Style="{StaticResource WPFGlyphButtonStyle}">
+                <Path Data="M10.785999,15 L12.643999,15 12.643999,16 10.785999,16 z M7.0720005,15 L8.9300001,15 8.9300001,16 7.0720005,16 z M3.3570017,15 L5.215001,15 5.215001,16 3.3570017,16 z M15,14.5 L16,14.5 16,16 14.5,16 14.5,15 15,15 z M0,14.5 L1,14.5 1,15 1.5,15 1.5,16 0,16 z M15,10.786 L16.001,10.786 16.001,12.643 15,12.643 z M1,10 L1,10.785 1,12 3,12 3,10 z M0,9 L4,9 4,13 0,13 0,12.643 0,10.785 z M0,7.0710002 L1,7.0710002 1,8.928 0,8.928 z M15,7.071 L16.001,7.071 16.001,8.928 15,8.928 z M5,5.9999999 L11,5.9999999 11,10 5,10 z M15,3.3569996 L16.001,3.3569996 16.001,5.2139999 15,5.2139999 z M0,3.3569994 L1,3.3569994 1,5.2139999 0,5.2139999 z M14.5,0 L16,0 16,1.5 15,1.5 15,1 14.5,1 z M10.785999,0 L12.642998,0 12.642998,1 10.785999,1 z M7.0720003,0 L8.9289997,0 8.9289997,1 7.0720003,1 z M3.3570017,0 L5.214001,0 5.214001,1 3.3570017,1 z M0,0 L1.5,0 1.5,1 1,1 1,1.5 0,1.5 z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill" 
+                      Width="16.001"/>
+            </Button>
+        </syncfusion:ToolBarAdv>
+
+        <syncfusion:SfDiagram Grid.Row="1"
+                              x:Name="SfDiagram"
+                              Nodes="{Binding Nodes}" 
+                              Connectors="{Binding Connectors}" 
+                              DataSourceSettings="{Binding DataSourceSettings}"
+                              LayoutManager="{Binding LayoutManager}"
+                              Tool="{Binding Tool}"
+                              Menu="{Binding Menu}"
+                              SelectedItems="{Binding SelectedItems}"
+                              ViewPortChangedCommand="{Binding ViewPortChangedCommand}"/>
+    </Grid>
+</democommon:DemoControl>

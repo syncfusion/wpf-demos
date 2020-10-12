@@ -1,0 +1,2103 @@
+﻿<syncfusion:RibbonWindow
+    x:Class="syncfusion.ribbondemos.wpf.OptionTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.ribbondemos.wpf"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    x:Name="ribbonWindow"
+    Title="Untitled 1 - Ribbon Control"
+    Width="1200"
+    Height="700"
+    Icon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/App.ico"
+    IsGlassActive="False"
+    Office2010Icon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/syncfusion.png"
+    SnapsToDevicePixels="True"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized">
+    <syncfusion:RibbonWindow.DataContext>
+        <local:OptionTabViewModel />
+    </syncfusion:RibbonWindow.DataContext>
+    <syncfusion:RibbonWindow.Resources>
+            <syncfusion:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+            <syncfusion:RibbonContextMenu
+            x:Key="GalleryContextMenu"
+            x:Name="contextMenu"
+            ItemsSource="{Binding}">
+                <syncfusion:RibbonMenuItem
+                Command="local:RibbonCommand.ButtonCommand"
+                Header="Apply Style"
+                IconBarEnabled="True" />
+                <syncfusion:RibbonMenuItem
+                Command="{Binding RemoveStyleCommand}"
+                Header="Remove from Style Gallery"
+                IconBarEnabled="True" />
+                <Separator />
+                <syncfusion:RibbonMenuItem
+                Command="{Binding MinimizeRibbonCommand}"
+                Header="Minimize Ribbon"
+                IconBarEnabled="True" />
+            </syncfusion:RibbonContextMenu>
+    </syncfusion:RibbonWindow.Resources>
+    <syncfusion:RibbonWindow.StatusBar>
+        <syncfusion:RibbonStatusBar x:Name="ribbonStatusBar">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Margin="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">
+                    Page : 1
+                </TextBlock>
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">
+                    Section : 1
+                </TextBlock>
+                <TextBlock
+                    Grid.Column="2"
+                    Margin="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">
+                    Page 1 of 1
+                </TextBlock>
+                <TextBlock
+                    Grid.Column="3"
+                    Margin="10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type syncfusion:RibbonStatusBar}}}">
+                    English (U.S.)
+                </TextBlock>
+                <syncfusion:RibbonButton
+                    Grid.Column="5"
+                    VerticalAlignment="Center"
+                    Command="local:RibbonCommand.ButtonCommand"
+                    IsSelected="True"
+                    IsToggle="True"
+                    SizeForm="ExtraSmall">
+                    <syncfusion:RibbonButton.IconTemplate>
+                        <DataTemplate>
+                            <Path
+                         Width="16"
+                         Height="16"
+                         Data="M19.359018,15.650012C19.396017,15.665012,23.146002,17.212999,26.854986,16.332006L27.317984,18.276991C26.324987,18.512989 25.339993,18.605988 24.408997,18.605988 21.25301,18.605988 18.71702,17.548996 18.580021,17.491997z M11.697002,15.650012L12.477004,17.491997C12.340004,17.548996 9.8049974,18.605988 6.6489882,18.605988 5.7169857,18.605988 4.7319832,18.513988 3.7389803,18.276991L4.2019815,16.332006C7.906992,17.212999,11.660002,15.665012,11.697002,15.650012z M19.359018,11.650012C19.396017,11.665012,23.146002,13.211999,26.854986,12.332006L27.317984,14.276991C26.324987,14.512989 25.339993,14.605988 24.408997,14.605988 21.25301,14.605988 18.71702,13.548997 18.580021,13.491997z M11.697002,11.650012L12.477004,13.491997C12.340004,13.548997 9.8049974,14.605988 6.6489882,14.605988 5.7169857,14.605988 4.7319832,14.513988 3.7389803,14.276991L4.2019815,12.332006C7.906992,13.211999,11.660002,11.665012,11.697002,11.650012z M19.359018,7.650012C19.396017,7.6650119,23.146002,9.2119989,26.854986,8.3320065L27.317984,10.276991C26.324987,10.512989 25.339993,10.605988 24.408997,10.605988 21.25301,10.605988 18.71702,9.5489969 18.580021,9.4919968z M11.697002,7.650012L12.477004,9.4919968C12.340004,9.5489969 9.8049974,10.605988 6.6489882,10.605988 5.7169857,10.605988 4.7319832,10.513988 3.7389803,10.276991L4.2019815,8.3320065C7.906992,9.2119989,11.660002,7.6650119,11.697002,7.650012z M14.999994,2.791018L14.993829,2.7938824C12.465567,3.9590192,7.1699924,5.8726907,2,4.4349637L2,20.836847C3.6468868,21.792995,9.5094147,24.682388,14.869985,20.98365L14.999994,20.891203z M16.999994,2.7909093L16.999994,20.891201 17.129986,20.98365C22.489674,24.682388,28.353172,21.792995,30,20.836847L30,4.4349637C24.833469,5.8726907,19.535452,3.9590192,17.006395,2.7938824z M15.999023,0L16.506042,0.29699469C16.582031,0.34100088,24.177002,4.7209725,30.626038,2.1129904L32,1.5599856 32,21.926834 31.559021,22.223829C31.476013,22.280836 23.312012,27.667788 16,22.632822 13.677002,24.232817 11.265991,24.77981 9.0560303,24.77981 4.3140259,24.77981 0.49804688,22.262831 0.44104004,22.223829L0,21.926834 0,1.5599856 1.3740234,2.1129904C7.842041,4.7259774,15.416992,0.34301501,15.493042,0.29699469z"
+                         Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                         Stretch="Uniform" />
+                        </DataTemplate>
+                    </syncfusion:RibbonButton.IconTemplate>
+                </syncfusion:RibbonButton>
+                <syncfusion:RibbonButton
+                    Grid.Column="6"
+                    VerticalAlignment="Center"
+                    Command="local:RibbonCommand.ButtonCommand"
+                    IsToggle="True"
+                    SizeForm="ExtraSmall">
+                    <syncfusion:RibbonButton.IconTemplate>
+                        <DataTemplate>
+                            <Path
+                         x:Name="Printlayout"
+                         Width="16"
+                         Height="16"
+                         Data="M3,11 L13,11 13,12 3,12 z M3,9 L13,9 13,10 3,10 z M3,7 L13,7 13,8 3,8 z M3,5 L13,5 13,6 3,6 z M3,3 L13,3 13,4 3,4 z M1,1 L1,15 15,15 15,1 z M0,0 L16,0 16,16 0,16 z"
+                         Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                         Stretch="Fill" />
+                        </DataTemplate>
+                    </syncfusion:RibbonButton.IconTemplate>
+                </syncfusion:RibbonButton>
+                <syncfusion:RibbonButton
+                    Grid.Column="7"
+                    VerticalAlignment="Center"
+                    Command="local:RibbonCommand.ButtonCommand"
+                    IsToggle="True"
+                    SizeForm="ExtraSmall" >
+                    <syncfusion:RibbonButton.IconTemplate>
+                        <DataTemplate>
+                            <Path
+                         x:Name="Weblayout"
+                         Width="16"
+                         Height="16"
+                         Data="M8.3709489,9.9345857 L8.3456518,9.9839116 C8.1241924,10.442851 8.000003,10.957188 8.000003,11.5 8.000003,13.43 9.5700027,15 11.500003,15 11.680941,15 11.858714,14.986201 12.032327,14.959601 L12.199086,14.929742 12.198637,14.90944 C12.189066,14.507524 12.112504,12.899856 11.500004,12.899856 11.018754,12.899856 10.868364,12.238197 10.821366,11.824659 L10.819817,11.81 10.788681,11.810419 C9.8929302,11.781582 8.9195472,10.667202 8.3926679,9.9639551 z M3.0000025,9.0000001 L6.6070038,9.0000001 C6.4440037,9.3170005 6.3120037,9.6510002 6.2120038,10 L3.0000025,10 z M12.19823,8.0701047 L12.197335,8.0918628 C12.182916,8.4033471 12.090631,9.4000951 11.500006,9.4000951 10.95313,9.4000951 11.123418,10.807053 11.224089,11.422597 L11.224921,11.427576 11.25938,11.423426 C12.059183,11.331148 13.724161,11.325381 14.794333,12.622665 L14.808311,12.64021 14.842393,12.539681 C14.944808,12.211094 15.000003,11.861876 15.000003,11.5 15.000003,9.8112499 13.797972,8.3981248 12.204515,8.0712301 z M11.500003,7.0000001 C13.981003,7.0000001 16.000003,9.0190002 16.000003,11.5 16.000003,13.981 13.981003,16 11.500003,16 9.019003,16 7.000003,13.981 7.000003,11.5 7.000003,9.0190002 9.019003,7.0000001 11.500003,7.0000001 z M3.0000044,7.0000001 L8.3480045,7.0000001 C7.9430047,7.285 7.5760046,7.62 7.2610046,8.0000001 L3.0000044,8.0000001 z M3.000003,5.0000001 L10.000003,5.0000001 10.000003,6.0000001 3.000003,6.0000001 z M3.000003,3.0000001 L10.000003,3.0000001 10.000003,4.0000001 3.000003,4.0000001 z M0,0 L12.999999,0 12.999999,6.2130128 C12.677001,6.1220094 12.343001,6.057007 11.999999,6.024994 L11.999999,0.99999995 1.0000004,0.99999995 1.0000004,12 6.0249993,12 C6.0560013,12.343994 6.1209999,12.677002 6.2119996,13 L0,13 z"
+                         Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                         Stretch="Fill" />
+                        </DataTemplate>
+                    </syncfusion:RibbonButton.IconTemplate>
+                </syncfusion:RibbonButton>
+            </Grid>
+        </syncfusion:RibbonStatusBar>
+    </syncfusion:RibbonWindow.StatusBar>
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/PathIcon.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid x:Name="ribbonGrid">
+            <syncfusion:Ribbon
+                Name="mainRibbon"
+                local:OptionTabViewModel.Ribbon="{Binding ElementName=mainRibbon}"
+                syncfusion:Ribbon.IsAutoSizeFormEnabled="True"
+                BackStageCornerImageVisibility="Collapsed"
+                BackStageHeader="File"
+                EnableMoreCommands="True"
+                OptionTabs="{Binding OptionTabsCollection}">
+                <syncfusion:Ribbon.TabPanelItem>
+                    <syncfusion:RibbonButton SizeForm="ExtraSmall" SmallIcon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/Smile16.png" />
+                </syncfusion:Ribbon.TabPanelItem>
+                <syncfusion:Ribbon.BackStage>
+                    <syncfusion:Backstage Name="ribbonBackStage">
+                        <syncfusion:BackStageCommandButton Command="local:RibbonCommand.ButtonCommand" Header="Save" />
+                        <syncfusion:BackStageCommandButton Command="{Binding SaveAsCommand}" Header="Save As" />
+                        <syncfusion:BackStageCommandButton Command="{Binding OpenCommand}" Header="Open" />
+                        <syncfusion:BackStageCommandButton Command="{Binding CloseCommand}" Header="Close" />
+                        <syncfusion:BackstageTabItem Header="Info">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        Margin="10"
+                                        FontFamily="Segoe UI"
+                                        FontSize="25"
+                                        Text="Info" />
+                                    <Grid Grid.Row="1" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <syncfusion:RibbonButton
+                                            Width="87"
+                                            Height="80"
+                                            Margin="5"
+                                            BorderBrush="#FFA1A2A4"
+                                            BorderThickness="1"
+                                            Command="local:RibbonCommand.ButtonCommand"
+                                            Label="Security"
+                                            SizeForm="Large"
+                                            SnapsToDevicePixels="True"
+                                            IconTemplate="{StaticResource Security}">
+                                        </syncfusion:RibbonButton>
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            VerticalAlignment="Top">
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                FontWeight="Bold"
+                                                Text="Permissions" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                Text="Any one can open, copy and change any part of this document."
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="2" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <syncfusion:RibbonButton
+                                            Width="87"
+                                            Height="80"
+                                            Margin="5"
+                                            BorderBrush="#FFA1A2A4"
+                                            BorderThickness="1"
+                                            Command="local:RibbonCommand.ButtonCommand"
+                                            Label="Sharing"
+                                            SizeForm="Large"
+                                            SnapsToDevicePixels="True"
+                                            IconTemplate="{StaticResource Sharing}">
+                                        </syncfusion:RibbonButton>
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            VerticalAlignment="Top">
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                FontWeight="Bold"
+                                                Text="Prepare for Sharing" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                Text="Before sharing the file be aware that it contains author's name."
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="3" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <syncfusion:RibbonButton
+                                            Width="87"
+                                            Height="80"
+                                            Margin="5"
+                                            BorderBrush="#FFA1A2A4"
+                                            BorderThickness="1"
+                                            Command="local:RibbonCommand.ButtonCommand"
+                                            Label="Versions"
+                                            SizeForm="Large"
+                                            SnapsToDevicePixels="True" 
+                                            IconTemplate="{StaticResource Versions}">
+                                        </syncfusion:RibbonButton>
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            VerticalAlignment="Top">
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                FontWeight="Bold"
+                                                Text="Manage Versions" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                Text="There are no previous versions of this file"
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                                <Border
+                                    Grid.Column="1"
+                                    Margin="15"
+                                    HorizontalAlignment="Left"
+                                    BorderBrush="#FFBCBCBC"
+                                    BorderThickness="0.5" />
+                                <Grid Grid.Column="2">
+                                    <Button
+                                        Margin="20,10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Command="{Binding ReturnToEditorCommand}">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Grid>
+                                                                <Border
+                                                                    x:Name="buttonBorder"
+                                                                    Background="Gray"
+                                                                    Opacity="0.1">
+                                                                    <Border.BitmapEffect>
+                                                                        <BlurBitmapEffect />
+                                                                    </Border.BitmapEffect>
+                                                                </Border>
+                                                                <ContentPresenter Margin="3" />
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter TargetName="buttonBorder" Property="Opacity" Value="0.5" />
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                        <Image
+                                            Width="400"
+                                            Height="300"
+                                            Source="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/return.png"
+                                            Stretch="Fill" />
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </syncfusion:BackstageTabItem>
+                        <syncfusion:BackstageTabItem Header="Help">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        Margin="10"
+                                        FontFamily="Segoe UI"
+                                        FontSize="20"
+                                        Text="Syncfusion User Interface Help" />
+                                    <Grid Grid.Row="2" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <syncfusion:RibbonButton
+                                            Width="87"
+                                            Height="80"
+                                            Margin="5"
+                                            BorderBrush="#FFA1A2A4"
+                                            BorderThickness="1"
+                                            Command="local:RibbonCommand.HelpCommand"
+                                            Label="Online Help"
+                                            SizeForm="Large"
+                                            SnapsToDevicePixels="True" 
+                                            IconTemplate="{StaticResource Help}">
+                                        </syncfusion:RibbonButton>
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            VerticalAlignment="Top">
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                FontWeight="Bold"
+                                                Text="Online Help" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                Text="UG documents helps understanding the usage of our Syncfusion UI components."
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid Grid.Row="4" Margin="10">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <syncfusion:RibbonButton
+                                            Width="87"
+                                            Height="80"
+                                            Margin="5"
+                                            BorderBrush="#FFA1A2A4"
+                                            BorderThickness="1"
+                                            Command="local:RibbonCommand.GettingStartedCommand"
+                                            Label="Getting Started"
+                                            SizeForm="Large"
+                                            SnapsToDevicePixels="True" 
+                                            IconTemplate="{StaticResource GettingStarted}">
+                                        </syncfusion:RibbonButton>
+                                        <StackPanel
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            VerticalAlignment="Top">
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                FontWeight="Bold"
+                                                Text="Getting Started" />
+                                            <TextBlock
+                                                Grid.Column="1"
+                                                Margin="3"
+                                                Text="A complete information on Syncfusion Ribbon control and its usage."
+                                                TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Grid>
+                                <Border
+                                    Grid.Column="1"
+                                    Margin="15"
+                                    HorizontalAlignment="Left"
+                                    BorderBrush="#FFBCBCBC"
+                                    BorderThickness="0.5" />
+                                <Grid Grid.Column="2">
+                                    <Button
+                                        Margin="20,10"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Top"
+                                        Command="{Binding ReturnToEditorCommand}">
+                                        <Button.Style>
+                                            <Style TargetType="Button">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="Button">
+                                                            <Grid>
+                                                                <Border
+                                                                    x:Name="buttonBorder"
+                                                                    Background="Gray"
+                                                                    Opacity="0.1">
+                                                                    <Border.BitmapEffect>
+                                                                        <BlurBitmapEffect />
+                                                                    </Border.BitmapEffect>
+                                                                </Border>
+                                                                <ContentPresenter Margin="3" />
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter TargetName="buttonBorder" Property="Opacity" Value="0.5" />
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Button.Style>
+                                        <Image
+                                            Width="400"
+                                            Height="300"
+                                            Source="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/return.png"
+                                            Stretch="Fill" />
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </syncfusion:BackstageTabItem>
+                        <syncfusion:BackStageCommandButton
+                            Command="{Binding BackStageExitCommand}"
+                            CommandParameter="{Binding ElementName=ribbonWindow}"
+                            Header="Exit" />
+                    </syncfusion:Backstage>
+                </syncfusion:Ribbon.BackStage>
+                <syncfusion:Ribbon.QuickAccessToolBar>
+                    <syncfusion:QuickAccessToolBar>
+                        <syncfusion:QuickAccessToolBar.QATMenuItems>
+                            <syncfusion:RibbonButton syncfusion:RibbonCommandManager.SynchronizedItem="Save" Label="Save" />
+                            <syncfusion:RibbonButton syncfusion:RibbonCommandManager.SynchronizedItem="Quick Print" Label="Quick Print" />
+                            <syncfusion:RibbonButton syncfusion:RibbonCommandManager.SynchronizedItem="Print Preview" Label="Print Preview" />
+                            <syncfusion:RibbonButton syncfusion:RibbonCommandManager.SynchronizedItem="Undo" Label="Undo" />
+                            <syncfusion:RibbonButton syncfusion:RibbonCommandManager.SynchronizedItem="Redo" Label="Redo" />
+                            <syncfusion:RibbonButton syncfusion:RibbonCommandManager.SynchronizedItem="Paste" Label="Paste" />
+                        </syncfusion:QuickAccessToolBar.QATMenuItems>
+                        <syncfusion:RibbonButton
+                            syncfusion:RibbonCommandManager.SynchronizedItem="Undo"
+                            Command="ApplicationCommands.Undo"
+                            Label="Undo"
+                            SizeForm="ExtraSmall"
+                            ToolTip="Undo" 
+                            IconTemplate="{StaticResource Undo}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            syncfusion:RibbonCommandManager.SynchronizedItem="Redo"
+                            Command="ApplicationCommands.Redo"
+                            Label="Redo"
+                            SizeForm="ExtraSmall"
+                            ToolTip="Redo" 
+                            IconTemplate="{StaticResource Redo}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            syncfusion:RibbonCommandManager.SynchronizedItem="Save"
+                            Command="ApplicationCommands.Save"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource Save}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            syncfusion:RibbonCommandManager.SynchronizedItem="Quick Print"
+                            Label="QuickPrint"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource QuickPrint}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            syncfusion:RibbonCommandManager.SynchronizedItem="Print Preview"
+                            Label="PrintPreview"
+                            SizeForm="ExtraSmall"
+                            IconTemplate="{StaticResource PrintLayout}" />
+                    </syncfusion:QuickAccessToolBar>
+                </syncfusion:Ribbon.QuickAccessToolBar>
+                <syncfusion:RibbonTab
+                    syncfusion:Ribbon.KeyTip="H"
+                    Caption="Home"
+                    IsChecked="True">
+                    <syncfusion:RibbonBar
+                        Name="formatBarClipBoard"
+                        syncfusion:Ribbon.KeyTip="FN"
+                        syncfusion:Ribbon.ShowInMoreCommands="False"
+                        IconTemplate="{StaticResource Paste}"
+                        Header="Clipboard">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:RibbonButton
+                            syncfusion:Ribbon.KeyTip="CP"
+                            syncfusion:RibbonCommandManager.SynchronizedItem="Paste"
+                            Command="ApplicationCommands.Paste"
+                            Label="Paste"
+                            SizeForm="Large" 
+                            IconTemplate="{StaticResource Paste}">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Paste (Ctrl+V)">
+                                    <TextBlock
+                                        Width="130"
+                                        HorizontalAlignment="Left"
+                                        Foreground="#FF4C4C4C"
+                                        Text="Paste the contents of clipboard."
+                                        TextWrapping="Wrap" />
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            x:Name="cut"
+                            HorizontalAlignment="Left"
+                            syncfusion:Ribbon.KeyTip="CT"
+                            Command="ApplicationCommands.Cut"
+                            Label="Cut"
+                            SizeForm="Small"
+                            IconTemplate="{StaticResource Cut}">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Cut (Ctrl+X)">
+                                    <TextBlock
+                                        Width="130"
+                                        HorizontalAlignment="Left"
+                                        Text="Cut the selection and put it on the clipboard."
+                                        TextWrapping="Wrap" />
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            x:Name="copy"
+                            HorizontalAlignment="Left"
+                            syncfusion:Ribbon.KeyTip="CY"
+                            Command="ApplicationCommands.Copy"
+                            Label="Copy"
+                            SizeForm="Small"
+                            IconTemplate="{StaticResource Copy}">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Copy (Ctrl+C)">
+                                    <TextBlock
+                                        Width="130"
+                                        HorizontalAlignment="Left"
+                                        Foreground="#FF4C4C4C"
+                                        Text="Copy the selection and put it on the clipboard."
+                                        TextWrapping="Wrap" />
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            x:Name="formatPainter"
+                            syncfusion:Ribbon.KeyTip="CR"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Format Painter"
+                            SizeForm="Small"
+                            IconTemplate="{StaticResource FormatPainter}">
+                            <syncfusion:RibbonButton.ToolTip>
+                                <syncfusion:ScreenTip Description="Format painter (Ctrl+Shift+C)" HelpText="Press F1 for more help.">
+                                    <TextBlock
+                                        Width="175"
+                                        HorizontalAlignment="Left"
+                                        Foreground="#FF4C4C4C"
+                                        TextWrapping="Wrap">
+                                        <Run Text="Copy formatting from one place and apply it to another." />
+                                        <LineBreak />
+                                        <LineBreak />
+                                        <Run Text="Double-click this button to apply the same formatting to multiple places in the document." />
+                                    </TextBlock>
+                                </syncfusion:ScreenTip>
+                            </syncfusion:RibbonButton.ToolTip>
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar
+                        Name="barFont"
+                        syncfusion:Ribbon.KeyTip="HF"
+                        Header="Font"
+                        IsLargeButtonPanel="False"
+                        KeyTipOnCollapsed="ZF">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:ButtonPanel SeparatorVisibility="Collapsed">
+                            <syncfusion:RibbonComboBox
+                                Name="fontFamilyComboBox"
+                                Width="110"
+                                syncfusion:Ribbon.KeyTip="FF"
+                                syncfusion:Ribbon.ShowInMoreCommands="False"
+                                DisplayMemberPath="FontFamily"
+                                IsEditable="True"
+                                ItemsSource="{Binding FontFamilyList}"
+                                SelectedIndex="0">
+                                <syncfusion:RibbonComboBox.ToolTip>
+                                    <syncfusion:ScreenTip Description="Font (Ctrl+Shift+F)">
+                                        <TextBlock
+                                            Width="165"
+                                            HorizontalAlignment="Left"
+                                            Foreground="#FF4C4C4C"
+                                            Text="Change the font face."
+                                            TextWrapping="Wrap" />
+                                    </syncfusion:ScreenTip>
+                                </syncfusion:RibbonComboBox.ToolTip>
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="SelectionChanged">
+                                        <interactivity:InvokeCommandAction Command="local:RibbonCommand.RibbonComboBoxCommand" CommandParameter="{Binding ElementName=fontFamilyComboBox, Path=SelectedIndex}" />
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+                            </syncfusion:RibbonComboBox>
+                            <syncfusion:RibbonComboBox
+                                Name="fontSizeComboBox"
+                                Width="40"
+                                syncfusion:Ribbon.KeyTip="FZ"
+                                syncfusion:Ribbon.ShowInMoreCommands="False"
+                                DisplayMemberPath="FontSize"
+                                IsEditable="True"
+                                ItemsSource="{Binding FontSizeList}"
+                                SelectedIndex="4">
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="SelectionChanged">
+                                        <interactivity:InvokeCommandAction Command="local:RibbonCommand.RibbonComboBoxCommand" CommandParameter="{Binding ElementName=fontSizeComboBox, Path=SelectedIndex}" />
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+                            </syncfusion:RibbonComboBox>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel Height="24" SeparatorVisibility="Collapsed">
+                            <syncfusion:RibbonButton
+                                Name="increaseFontSize"
+                                syncfusion:Ribbon.KeyTip="IF"
+                                Command="EditingCommands.IncreaseFontSize"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource IncreaseFontSize}">
+                            </syncfusion:RibbonButton>
+                            <syncfusion:RibbonButton
+                                Name="decreaseFontSize"
+                                syncfusion:Ribbon.KeyTip="DF"
+                                Command="EditingCommands.DecreaseFontSize"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource DecreaseFontSize}">
+                            </syncfusion:RibbonButton>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel Height="24">
+                            <syncfusion:RibbonButton
+                                Name="formatBold"
+                                syncfusion:Ribbon.KeyTip="B"
+                                Command="EditingCommands.ToggleBold"
+                                IsSelected="{Binding IsFormatBoldSelected}"
+                                IsToggle="True"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource Bold}">
+                            </syncfusion:RibbonButton>
+                            <syncfusion:RibbonButton
+                                Name="formatItalic"
+                                syncfusion:Ribbon.KeyTip="I"
+                                Command="EditingCommands.ToggleItalic"
+                                IsSelected="{Binding IsFormatItalicSelected}"
+                                IsToggle="True"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource Italics}">
+                            </syncfusion:RibbonButton>
+                            <syncfusion:RibbonButton
+                                Name="formatUnderLine"
+                                syncfusion:Ribbon.KeyTip="U"
+                                Command="EditingCommands.ToggleUnderline"
+                                IsSelected="{Binding IsFormatUnderLineSelected}"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource Underline}">
+                            </syncfusion:RibbonButton>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel Height="24" SeparatorVisibility="Collapsed">
+                            <syncfusion:SplitButton
+                                x:Name="textHighlight"
+                                syncfusion:Ribbon.KeyTip="TH"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource TextHighlight}">
+                                <syncfusion:ColorPickerPalette
+                                    x:Name="highlightColorPicker"
+                                    IsExpanded="True"
+                                    Color="White" />
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton
+                                x:Name="fontColor"
+                                syncfusion:Ribbon.KeyTip="FC"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource FontColor}">
+                                <syncfusion:ColorPickerPalette x:Name="fontColoPicker" IsExpanded="True" />
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton
+                                Name="formatShading"
+                                syncfusion:Ribbon.KeyTip="FS"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource Shading}">
+                                <syncfusion:ColorPickerPalette
+                                    x:Name="shadingColorPicker"
+                                    Margin="3"
+                                    IsExpanded="True"
+                                    Color="White" />
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton
+                                Name="formatBorder"
+                                syncfusion:Ribbon.KeyTip="BF"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource FormatBorder}">
+                                <ListBox BorderThickness="0">
+                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:EventTrigger EventName="SelectionChanged">
+                                            <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                        </interactivity:EventTrigger>
+                                    </interactivity:Interaction.Triggers>
+                                    <ListBoxItem Margin="5">Full Border</ListBoxItem>
+                                    <ListBoxItem Margin="5">Half Border</ListBoxItem>
+                                    <ListBoxItem Margin="5">Inside Border</ListBoxItem>
+                                    <ListBoxItem Margin="5">Outside Border</ListBoxItem>
+                                </ListBox>
+                            </syncfusion:SplitButton>
+                        </syncfusion:ButtonPanel>
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar
+                        Name="formatParagraph"
+                        syncfusion:Ribbon.KeyTip="HP"
+                        Header="Paragraph"
+                        IsLargeButtonPanel="False"
+                        KeyTipOnCollapsed="ZP">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:ButtonPanel Height="24">
+                            <syncfusion:SplitButton
+                                Name="formatBullet"
+                                syncfusion:Ribbon.KeyTip="FN"
+                                Command="EditingCommands.ToggleBullets"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource Bullets}">
+                                <ListBox BorderThickness="0">
+                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:EventTrigger EventName="SelectionChanged">
+                                            <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                        </interactivity:EventTrigger>
+                                    </interactivity:Interaction.Triggers>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Bullets_Arrow"
+                                                Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L39,0 39,39 0,39 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="9.181,7.2,9.502,8.146"
+                                                    Data="M2.6369915,2.600007 L7.8879943,11.789005 7.8822666,11.799983 19.284758,11.799983 z M0,0 L21.316999,11.78101 0.049011266,24.654001 6.7489877,11.811009 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Arrow Bullet" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Bullets_Circle"
+                                                Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L39,0 39,39 0,39 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="14,16,15,11"
+                                                    Data="M7.5,0.99999991 C3.9160004,1 1,3.6910096 0.99999994,7 1,10.308991 3.9160004,13 7.5,13 11.084,13 14,10.308991 14,7 14,3.6910096 11.084,1 7.5,0.99999991 z M7.5,0 C11.636002,2.9802322E-08 15,3.1409912 15,7 15,10.859009 11.636002,14 7.5,14 3.3639984,14 0,10.859009 0,7 0,3.1409912 3.3639984,2.9802322E-08 7.5,0 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Circle Bullet" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Bullets_Dot"
+                                                Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L39,0 39,39 0,39 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="14,16,15,11"
+                                                    Data="M5.5,0 C8.5370026,0 11,2.4630127 11,5.5 11,8.5369873 8.5370026,11 5.5,11 2.4629974,11 0,8.5369873 0,5.5 0,2.4630127 2.4629974,0 5.5,0 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Dot Bullet" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Bullets_Flower"
+                                                Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L39,0 39,39 0,39 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="9,8,8,9"
+                                                    Data="M11.5,14.328001 L15.835999,18.664002 11.5,23.000001 7.1639996,18.664002 z M18.664,7.1640015 L23,11.500002 18.664,15.836002 14.328,11.500002 z M4.3360004,7.1640015 L8.6720003,11.500002 4.3360004,15.836002 0,11.500002 z M11.5,0 L15.836,4.3360004 11.5,8.6720014 7.1640003,4.3360004 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Flower Bullet" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Bullets_Square"
+                                                Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L39,0 39,39 0,39 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="16,15,15,16"
+                                                    Data="M0,0 L9,0 9,9 0,9 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Square Bullet" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Bullets_Tick"
+                                                Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L39,0 39,39 0,39 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="10.512,6.54,8.468,13.165"
+                                                    Data="M21.019999,0 C21.019999,-1.0224994E-07 16.818007,4.3180208 13.771014,8.1249947 10.075002,12.741996 7.2249994,16.943012 5.0140028,20.295 5.0140028,20.295 2.0540142,12.986991 0,12.020988 L2.4770179,10.33001 C2.4770179,10.33001 4.2520099,12.261009 6.0039921,14.797994 6.0039921,14.797994 11.145009,5.3760032 21.019999,0 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Tick Bullet" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Bullets_None"
+                                                Width="40"
+                                                Height="40"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L39,0 39,39 0,39 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="7.449,16.465,7.849,15.607"
+                                                    Data="M22.333007,2.7070129 C21.957,2.707013 21.640006,2.8580138 21.380004,3.160992 21.120002,3.4640006 20.954001,3.8559983 20.883002,4.3400065 L23.708008,4.3400065 23.708008,4.1999923 C23.708008,3.7670091 23.594002,3.410015 23.364006,3.1290095 23.135002,2.848004 22.791,2.707013 22.333007,2.7070129 z M9.9689951,2.7069989 C9.4389954,2.7069988 9.0409956,2.9089988 8.7759953,3.3139987 8.5119953,3.7179987 8.3789959,4.2319986 8.3789959,4.8549985 L8.3789959,4.9839984 C8.3789959,5.6179985 8.5119953,6.1329983 8.7759953,6.5309981 9.0409956,6.9279979 9.4419956,7.1269983 9.9799957,7.1269983 10.509995,7.1269983 10.908996,6.926998 11.176995,6.5279983 11.445995,6.1289982 11.579995,5.6139983 11.579995,4.9839984 L11.579995,4.8549985 C11.579995,4.2319986 11.444995,3.7179987 11.174995,3.3139987 10.903996,2.9089988 10.501995,2.7069988 9.9689951,2.7069989 z M16.590996,1.9020022 C17.225996,1.9020023 17.709996,2.0800021 18.046996,2.4390017 18.383996,2.7970013 18.551996,3.3670007 18.551996,4.1529998 L18.551996,7.8209957 17.552996,7.8209957 17.552996,4.1739999 C17.552996,3.6400003 17.451996,3.2660007 17.249996,3.0510012 17.046996,2.8360013 16.729996,2.7290013 16.295996,2.7290014 15.969996,2.7290013 15.688997,2.8060013 15.450997,2.9590012 15.211997,3.113001 15.019997,3.3280007 14.872997,3.6040006 L14.872997,7.8209957 13.874998,7.8209957 13.874998,2.0090022 14.770997,2.0090022 14.840997,2.8790012 14.856997,2.885001 C15.045997,2.5720015 15.287997,2.3310018 15.579997,2.1590019 15.871997,1.9880022 16.207996,1.9020023 16.590996,1.9020022 z M22.333007,1.9010142 C23.121002,1.9010143 23.713005,2.1330086 24.108002,2.5940064 24.504005,3.0570186 24.702004,3.6879992 24.702004,4.4899999 L24.702004,5.1410002 20.851005,5.1410002 C20.865004,5.734017 21.012999,6.2150038 21.294005,6.5799936 21.575004,6.9450139 21.975005,7.1269902 22.494003,7.1269902 22.855003,7.1269902 23.168007,7.0770024 23.432006,6.9769963 23.694008,6.8769907 23.932007,6.7349924 24.144005,6.5530161 L24.535004,7.2129887 C24.324005,7.4209961 24.053001,7.5919861 23.722008,7.7269953 23.391006,7.859991 22.981003,7.9280146 22.494003,7.9280146 21.678001,7.9280146 21.033004,7.6640071 20.561003,7.1359929 20.088004,6.6070017 19.852004,5.9060138 19.852003,5.0329987 L19.852003,4.7909948 C19.852004,3.9459945 20.094,3.2530023 20.579001,2.7129943 21.064002,2.1720101 21.649001,1.9010143 22.333007,1.9010142 z M9.9689951,1.9009991 C10.784995,1.900999 11.423995,2.1739989 11.883995,2.7199987 12.343995,3.2659987 12.572995,3.9779986 12.572995,4.8549985 L12.572995,4.9839984 C12.572995,5.8649982 12.344995,6.5759982 11.885995,7.1169981 11.427995,7.656998 10.791995,7.926998 9.9799957,7.926998 9.1629953,7.926998 8.5249958,7.656998 8.0669956,7.1169981 7.6089954,6.5759982 7.3799953,5.8649982 7.3799953,4.9839984 L7.3799953,4.8549985 C7.3799953,3.9779986 7.6089954,3.2659987 8.0669956,2.7199987 8.5249958,2.1739989 9.1589956,1.900999 9.9689951,1.9009991 z M0,0 L0.99299812,0 4.8769979,6.1550182 4.8939981,6.1550182 4.8939981,0 5.8869982,0 5.8869982,7.8200229 4.8939981,7.8200229 1.0099983,1.6600049 0.99299812,1.6600049 0.99299812,7.8200229 0,7.8200229 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Remove Bullet" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                </ListBox>
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton
+                                Name="formatNumbering"
+                                syncfusion:Ribbon.KeyTip="FB"
+                                Command="EditingCommands.ToggleNumbering"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource Numbering}">
+                                <ListBox BorderThickness="0">
+                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:EventTrigger EventName="SelectionChanged">
+                                            <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                        </interactivity:EventTrigger>
+                                    </interactivity:Interaction.Triggers>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Numbering_LowLetterBrace"
+                                                Width="60"
+                                                Height="60"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L75,0 75,75 0,75 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Width="9.369"
+                                                    Margin="6.948,11.249,0,14.376"
+                                                    HorizontalAlignment="Left"
+                                                    Data="M2.8240006,41.163951 C3.5700009,41.163951 4.177001,41.378952 4.6430013,41.807953 5.1100011,42.237955 5.3450012,42.788957 5.3490009,43.46096 L4.318001,43.46096 C4.314001,43.053958 4.174001,42.716957 3.8960007,42.446956 3.6190009,42.177955 3.2610009,42.042954 2.8240006,42.042954 2.1950006,42.042954 1.7490005,42.260955 1.4850001,42.695956 1.2210002,43.131958 1.0900006,43.675961 1.0900006,44.327963 L1.0900006,44.573964 C1.0900006,45.241967 1.2200003,45.790969 1.4820008,46.219971 1.7440004,46.649972 2.1910007,46.864973 2.8240006,46.864973 3.2260008,46.864973 3.5750008,46.747972 3.8700006,46.512972 4.1650009,46.278971 4.314001,45.981969 4.318001,45.622968 L5.3490009,45.622968 C5.3450012,46.200971 5.0950012,46.697972 4.5960011,47.113974 4.098001,47.529976 3.5080009,47.737976 2.8240006,47.737976 1.8940005,47.737976 1.1910005,47.441975 0.71500015,46.849973 0.23800039,46.25897 0,45.499968 0,44.573964 L0,44.327963 C0,43.40596 0.23800039,42.647956 0.71500015,42.053954 1.1910005,41.460952 1.8940005,41.163951 2.8240006,41.163951 z M6.052991,37.999981 C6.7559884,38.399029 7.4089983,39.136028 8.0129974,40.212017 8.6159894,41.288006 8.9179888,42.603985 8.9179888,44.158001 L8.9179888,44.217021 C8.9179888,45.783001 8.6159894,47.102032 8.0129974,48.171978 7.4089983,49.241985 6.7559884,49.977032 6.052991,50.374981 L5.8239892,49.725018 C6.3669839,49.306988 6.8379884,48.632 7.2359951,47.699993 7.6349791,46.769024 7.8339827,45.61198 7.8339827,44.228985 L7.8339827,44.147014 C7.8339827,42.787029 7.6289977,41.639996 7.2189975,40.704021 6.808997,39.769024 6.3440043,39.084026 5.8239892,38.650982 z M2.9069784,23.066991 C2.5279789,23.066991 2.2139792,23.15499 1.9659796,23.330991 1.7179794,23.505991 1.5199795,23.748991 1.3719802,24.056991 L1.3719802,26.839993 C1.5239797,27.152992 1.7239795,27.396993 1.9719794,27.572992 2.219979,27.748993 2.5359788,27.835993 2.9189782,27.835993 3.4849782,27.835993 3.9009777,27.642993 4.1669779,27.255993 4.4319773,26.869992 4.5649772,26.345992 4.5649769,25.685991 L4.5649769,25.562992 C4.5649772,24.812991 4.4299773,24.208991 4.160978,23.75199 3.8909777,23.294991 3.4729781,23.066991 2.9069784,23.066991 z M0.28198004,19.480989 L1.3719802,19.480989 1.3719802,23.042991 1.3889799,23.04899 C1.5849795,22.759991 1.8289795,22.54099 2.1219795,22.38999 2.414979,22.23999 2.7659786,22.16499 3.1759784,22.16499 3.9689777,22.16499 4.5799772,22.47099 5.0069767,23.08399 5.4349765,23.69799 5.6489763,24.523992 5.6489762,25.562992 L5.6489762,25.685991 C5.6489763,26.623992 5.4349765,27.366993 5.0069767,27.915993 4.5799772,28.463993 3.9729776,28.738993 3.1879783,28.738993 2.7619786,28.738993 2.3969791,28.658993 2.0919793,28.498993 1.7879796,28.337993 1.5319796,28.097993 1.3249798,27.777992 L1.2189798,28.621993 0.28198004,28.621993 z M6.5039962,19.000002 C7.2069905,19.399002 7.8599851,20.136002 8.4639802,21.212002 9.0669756,22.288002 9.3689733,23.604002 9.3689728,25.158002 L9.3689728,25.217002 C9.3689733,26.783002 9.0669756,28.102001 8.4639802,29.172002 7.8599851,30.242002 7.2069905,30.977002 6.5039962,31.375001 L6.2749974,30.725002 C6.8179935,30.307002 7.2889898,29.632002 7.6869868,28.700002 8.0859835,27.769002 8.2849817,26.612001 8.284982,25.229002 L8.284982,25.147001 C8.2849817,23.787002 8.0799835,22.640001 7.669987,21.704002 7.25999,20.769001 6.7949937,20.084002 6.2749974,19.651001 z M2.8069894,6.6679878 C2.302989,6.6679878 1.9069889,6.7859879 1.6179886,7.0229893 1.3289886,7.2589912 1.1839881,7.5429935 1.1839886,7.8749962 1.1839881,8.1679993 1.2749882,8.3969994 1.4569883,8.5610008 1.6379886,8.7250023 1.9109888,8.807003 2.273989,8.807003 2.6799893,8.807003 3.0449896,8.7130032 3.3669899,8.526001 3.6889901,8.3379993 3.9219903,8.1079979 4.0669904,7.8339958 L4.0669904,6.6679878 z M2.7489893,3.1639595 C3.4789898,3.1639595 4.0619904,3.3439636 4.4979901,3.7029648 4.932991,4.0629692 5.1509911,4.5899734 5.150991,5.2859764 L5.150991,8.3439999 C5.1509911,8.5710011 5.1629911,8.7870026 5.1859914,8.9940052 5.2099912,9.2020054 5.2529912,9.4110069 5.3149914,9.6210098 L4.1959903,9.6210098 C4.1569904,9.4220085 4.1279904,9.258007 4.1079899,9.1290054 4.0879904,9.0000038 4.0749904,8.866003 4.0669904,8.7250023 3.8399901,9.0220051 3.55899,9.265007 3.2229898,9.4540081 2.8869896,9.6440086 2.5179892,9.7390099 2.1159892,9.7390099 1.4479885,9.7390099 0.94498825,9.5740089 0.60698795,9.2440071 0.26898766,8.9130039 0.099987507,8.4500008 0.099987507,7.8519955 0.099987507,7.2349911 0.34198761,6.757988 0.82698822,6.4219856 1.3109884,6.0859833 1.9829888,5.9179802&#xd;&#xa;2.8419898,5.9179802 L4.0669904,5.9179802 4.0669904,5.2739754 C4.0669904,4.8869743 3.9479903,4.5849724 3.70999,4.368969 3.4709899,4.1519699 3.1309898,4.0429688 2.6899893,4.0429688 2.279989,4.0429688 1.9489889,4.1399689 1.6969886,4.3329697 1.4449887,4.5269699 1.3189883,4.7619743 1.3189888,5.0389748 L0.23498821,5.0389748 C0.23498774,4.550972 0.46698761,4.1169701 0.93198824,3.7359657 1.3969884,3.3549614 2.0029888,3.1639595 2.7489893,3.1639595 z M6.2819852,0 C6.9849864,0.39900208 7.6379876,1.1360016 8.2419887,2.2120018 8.84499,3.288002 9.1469905,4.6040001 9.1469905,6.1580009 L9.1469905,6.217001 C9.1469905,7.7830009 8.84499,9.1020012 8.2419887,10.172001 7.6379876,11.242002 6.9849864,11.977001 6.2819852,12.375002 L6.052985,11.725002 C6.5959857,11.307001 7.0669866,10.632002 7.464987,9.7000008 7.8639882,8.769001 8.0629885,7.6120014 8.0629883,6.229002 L8.0629883,6.1470013 C8.0629885,4.7870026 7.8579881,3.6400032 7.4479872,2.7040024 7.0379865,1.769001 6.5729856,1.0840034 6.052985,0.65100098 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="18,16,7,20"
+                                                    Data="M0,37.999999 L51,37.999999 51,39.999999 0,39.999999 z M0.99999994,18.999999 L51,18.999999 51,20.999999 0.99999994,20.999999 z M0.99999994,0 L51,0 51,1.9999992 0.99999994,1.9999992 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Lowercase Braces" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Numbering_Lowletter_Dot"
+                                                Width="60"
+                                                Height="60"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L75,0 75,75 0,75 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Width="8.28"
+                                                    Margin="6.948,14.413,0,17.013"
+                                                    HorizontalAlignment="Left"
+                                                    Data="M6.7260109,43.302991 L7.8280107,43.302991 7.8280107,44.456992 6.7260109,44.456992 z M2.8240008,37.99999 C3.5700009,37.99999 4.177001,38.214991 4.6430008,38.643993 5.1100011,39.073995 5.3450011,39.624997 5.3490012,40.296999 L4.318001,40.296999 C4.3140008,39.889998 4.174001,39.552996 3.8960011,39.282995 3.6190009,39.013994 3.2610006,38.878994 2.8240008,38.878994 2.1950006,38.878994 1.7490005,39.096994 1.4850001,39.531996 1.2210002,39.967998 1.0900002,40.512 1.0900006,41.164003 L1.0900006,41.410003 C1.0900002,42.078006 1.2200003,42.627008 1.4819999,43.05601 1.7440004,43.486012 2.1910005,43.701012 2.8240008,43.701012 3.2260008,43.701012 3.5750008,43.584012 3.8700008,43.349011 4.1650009,43.11501 4.3140008,42.818009 4.318001,42.459008 L5.3490012,42.459008 C5.3450011,43.03701 5.0950011,43.534012 4.5960011,43.950013 4.098001,44.366015 3.5080009,44.574016 2.8240008,44.574016 1.8940005,44.574016 1.1910005,44.278015 0.71499968,43.686012 0.23800039,43.09501 0,42.336007 0,41.410003 L0,41.164003 C0,40.241999 0.23800039,39.483996 0.71499968,38.889994 1.1910005,38.296991 1.8940005,37.99999 2.8240008,37.99999 z M7.1780095,24.303017 L8.2799587,24.303017 8.2799587,25.457026 7.1780095,25.457026 z M2.9070091,19.90303 C2.5280094,19.90303 2.2140098,19.99103 1.9660091,20.16703 1.7180099,20.34203 1.52001,20.58503 1.3720102,20.89303 L1.3720102,23.676031 C1.5240102,23.989033 1.72401,24.233032 1.9720106,24.409033 2.2200098,24.585032 2.5360093,24.672031 2.9190087,24.672031 3.4850085,24.672031 3.9010081,24.479033 4.1670079,24.092031 4.4320078,23.706032 4.5650077,23.182032 4.5650079,22.522032 L4.5650079,22.399031 C4.5650077,21.649031 4.4300077,21.045031 4.1610081,20.58803 3.8910081,20.131031 3.4730086,19.90303 2.9070091,19.90303 z M0.28201103,16.317028 L1.3720102,16.317028 1.3720102,19.87903 1.38901,19.885031 C1.5850101,19.596029 1.82901,19.377029 2.1220098,19.22603 2.4150095,19.076029 2.7660091,19.00103 3.1760087,19.00103 3.9690082,19.00103 4.5800076,19.30703 5.0070069,19.920031 5.435007,20.534031 5.6490068,21.360031 5.6490072,22.399031 L5.6490072,22.522032 C5.6490068,23.460032 5.435007,24.203032 5.0070069,24.752033 4.5800076,25.300032 3.9730082,25.575033 3.188009,25.575033 2.7620091,25.575033 2.3970094,25.495033 2.0920095,25.335033 1.7880101,25.174032 1.5320101,24.934032 1.3250098,24.614033 L1.2190108,25.458033 0.28201103,25.458033 z M6.9549709,5.3030167 L8.0569813,5.3030167 8.0569813,6.4570236 6.9549709,6.4570236 z M2.8069746,3.5040283 C2.3029714,3.5040283 1.9069686,3.6220284 1.6179676,3.8590279 1.3289652,4.0950317 1.1839643,4.3790321 1.1839643,4.7110367 1.1839643,5.0040398 1.2749648,5.2330399 1.4569664,5.3970413 1.6379671,5.5610428 1.9109688,5.6430435 2.2739706,5.6430435 2.6799741,5.6430435 3.0449762,5.5490417 3.3669782,5.3620415 3.6889806,5.1740379 3.921982,4.9440384 4.0669835,4.6700363 L4.0669835,3.5040283 z M2.7489743,0 C3.4789791,0 4.0619829,0.18000031 4.4979858,0.53900528 4.9329886,0.89900589 5.1509901,1.4260101 5.1509905,2.1220169 L5.1509905,5.1800385 C5.1509901,5.4070396 5.1629902,5.6230431 5.1859901,5.8300438 5.2099905,6.038044 5.2529907,6.2470474 5.3149912,6.4570503 L4.1959839,6.4570503 C4.1569836,6.258049 4.1279833,6.0940475 4.1079834,5.9650459 4.0879831,5.8360443 4.0749831,5.7020416 4.0669835,5.5610428 3.8399816,5.8580437 3.5589797,6.1010475 3.2229779,6.2900467 2.8869753,6.4800491 2.5179729,6.5750504 2.1159701,6.5750504 1.4479656,6.5750504 0.9449625,6.4100494 0.6069603,6.0800476 0.26895809,5.7490425 0.099956989,5.2860413 0.099956512,4.6880341 0.099956989,4.0710297 0.34195852,3.5940285 0.82696152,3.2580261 1.3109651,2.9220238 1.9829693,2.7540207&#xd;&#xa;2.841975,2.7540207 L4.0669835,2.7540207 4.0669835,2.1100159 C4.066983,1.7230148 3.9479823,1.4210129 3.7099807,1.2050095 3.470979,0.98800659 3.1309769,0.87900543 2.6899738,0.87900543 2.2799711,0.87900543 1.9489689,0.97600937 1.6969681,1.1690102 1.4449658,1.3630104 1.318965,1.598011 1.3189645,1.8750153 L0.23495817,1.8750153 C0.2349577,1.3870125 0.46695948,0.95300674 0.93196249,0.57200623 1.3969655,0.19100189 2.0029693,0 2.7489743,0 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="17,16,6,20"
+                                                    Data="M0,38 L53,38 53,40 0,40 z M1,19 L53,19 53,21 1,21 z M1,0 L53,0 53,2 1,2 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Lowercase Dot" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Numbering_LowRoman"
+                                                Width="60"
+                                                Height="60"
+                                                HorizontalAlignment="Left">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L75,0 75,75 0,75 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="14,16,7,20"
+                                                    Data="M6,38 L55,38 55,40 6,40 z M2.9999995,19 L55,19 55,21 2.9999995,21 z M0,0 L55,0 55,2 0,2 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Width="10"
+                                                    Margin="7,12,0,17"
+                                                    HorizontalAlignment="Left"
+                                                    Data="M9.0000002,46 L10,46 10,47 9.0000002,47 z M6.0000002,40 L7.0000006,40 7.0000006,47 6.0000002,47 z M3.0000004,40 L4.0000002,40 4.0000002,47 3.0000004,47 z M0,40 L0.99999985,40 0.99999985,47 0,47 z M6.0000002,38 L6.9999997,38 6.9999997,39 6.0000002,39 z M3.0000004,38 L4.0000002,38 4.0000002,39 3.0000004,39 z M0,38 L0.99999985,38 0.99999985,39 0,39 z M6.0000002,27 L7.0000006,27 7.0000006,28 6.0000002,28 z M3.0000004,21 L4.0000002,21 4.0000002,28 3.0000004,28 z M0,21 L1.0000006,21 1.0000006,28 0,28 z M3.0000004,19 L4.0000002,19 4.0000002,20 3.0000004,20 z M0,19 L1.0000006,19 1.0000006,20 0,20 z M3.0000004,7.9999995 L4.0000002,7.9999995 4.0000002,9 3.0000004,9 z M0,1.9999998 L1.0000006,1.9999998 1.0000006,9 0,9 z M0,0 L1.0000006,0 1.0000006,0.99999988 0,0.99999988 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Lowercase Romen" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Numbering_NumberingBrace"
+                                                Width="60"
+                                                Height="60"
+                                                VerticalAlignment="Top">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L75,0 75,75 0,75 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Width="9.334"
+                                                    Margin="6.925,11.249,0,14.376"
+                                                    HorizontalAlignment="Left"
+                                                    Data="M2.7069993,38.966997 C3.5109989,38.966998 4.1419956,39.17299 4.5989964,39.585037 5.0559966,39.997022 5.2850005,40.598033 5.2849991,41.387031 5.2850005,41.750005 5.1779906,42.104007 4.9629938,42.447024 4.747998,42.791016 4.4219944,43.057006 3.9839913,43.244017 4.5109984,43.411985 4.8829925,43.674008 5.0969975,44.028987 5.3119933,44.385004 5.419995,44.791008 5.4199936,45.247976 5.419995,46.041002 5.169995,46.654952 4.6699945,47.090985 4.1699955,47.526958 3.5169956,47.743998&#xd;&#xa;2.7129952,47.743998 1.9239938,47.743998 1.2749919,47.535991 0.76699658,47.119977 0.25999285,46.703963 0.0059951316,46.119005 0.0059954098,45.36498 L1.0950003,45.36498 C1.0949993,45.830004 1.2379894,46.197007 1.5229932,46.466964 1.8079966,46.736006 2.2049996,46.870955 2.7129952,46.870954 3.2319922,46.870955 3.6329929,46.738997 3.9139998,46.475998 4.1949894,46.211961 4.3359959,45.810961 4.3359954,45.271963 4.3359959,44.728996 4.2069981,44.331964 3.9489872,44.081965 3.6909916,43.831966 3.2809879,43.706967 2.7189922,43.706967 L1.7399884,43.706967 1.7399884,42.840027 2.7189922,42.840027 C3.2579932,42.840027 3.6389896,42.710999 3.8639962,42.453005 4.0890019,42.195011 4.2010014,41.831975 4.2010009,41.362983 4.2010014,40.859995 4.0780003,40.481029 3.8319983,40.227003 3.5859959,39.973036 3.2109961,39.846022 2.7069993,39.846022 2.2339913,39.846022 1.8589915,39.979017 1.5819984,40.24403 1.3039989,40.51002 1.1659984,40.869028 1.1659988,41.322028 L0.081999072,41.322028 C0.081999139,40.646983 0.32198931,40.085035 0.8029923,39.638015 1.2829876,39.190996 1.9179971,38.966998 2.7069993,38.966997 z M6.4690072,38.000001 C7.1720049,38.399001 7.8250029,39.136001 8.429001,40.212001 9.0319988,41.288001 9.3339979,42.604001 9.3339979,44.158 L9.3339979,44.217 C9.3339979,45.783 9.0319988,47.102 8.429001,48.172001 7.8250029,49.242001 7.1720049,49.977 6.4690072,50.375001 L6.2400076,49.725 C6.7830059,49.307001 7.2540047,48.632001 7.6520035,47.700001 8.0510017,46.769001 8.2500011,45.612 8.2500011,44.229001 L8.2500011,44.147001 C8.2500011,42.787001 8.0450022,41.640001 7.6350028,40.704001 7.2250049,39.769001 6.7600061,39.084001 6.2400076,38.651001 z M2.8469977,19.966955 C3.6209971,19.966955 4.2309968,20.184956 4.6789963,20.622955 5.1259963,21.059956 5.3489959,21.632956 5.3489964,22.339956 5.3489959,22.811956 5.2129962,23.275958 4.9389965,23.730958 4.6659967,24.185959 4.2729966,24.694959 3.7619977,25.257959 L1.470999,27.747962 5.6599962,27.747962 5.6599962,28.620963 0.16399963,28.620963 0.16399963,27.852962 2.9589977,24.741959 C3.4739973,24.171959 3.819997,23.723958 3.9959971,23.396957 4.1719968,23.070957 4.2599966,22.731956 4.2599971,22.380957 4.2599966,21.934956 4.1339967,21.567957 3.8819973,21.278955 3.6299972,20.989956 3.2849974,20.845955 2.8469977,20.845955 2.2379982,20.845955 1.7919985,20.995956 1.5089989,21.296955 1.2249988,21.597956 1.0839989,22.030956 1.0839989,22.597958 L0,22.597958 C-4.3027103E-07,21.835957 0.24799942,21.206955 0.74399902,20.710955 1.2399988,20.214954 1.9409983,19.966955 2.8469977,19.966955 z M6.4690072,19 C7.1720049,19.399 7.8250029,20.136002 8.429001,21.212 9.0319988,22.288 9.3339979,23.604001 9.3339979,25.158001 L9.3339979,25.217001 C9.3339979,26.783001 9.0319988,28.102 8.429001,29.172001 7.8250029,30.242001 7.1720049,30.977001 6.4690072,31.375001 L6.2400076,30.725 C6.7830059,30.307001 7.2540047,29.632001 7.6520035,28.700001 8.0510017,27.769001 8.2500011,26.612 8.2500011,25.229001 L8.2500011,25.147 C8.2500011,23.787001 8.0450022,22.640001 7.6350028,21.704 7.2250049,20.769001 6.7600061,20.084002 6.2400076,19.651001 z M3.5390055,1.0899696 L3.5390055,9.6209621 2.4550073,9.6209621 2.4550073,2.3319664 0.7150106,2.3789673 0.7150106,1.6819687 z M6.4690072,0 C7.1720049,0.39900208 7.8250029,1.1360016 8.429001,2.2120018 9.0319988,3.288002 9.3339979,4.6040001 9.3339979,6.1580009 L9.3339979,6.2169991 C9.3339979,7.7830009 9.0319988,9.1020012 8.429001,10.172001 7.8250029,11.242001 7.1720049,11.977001 6.4690072,12.375 L6.2400076,11.725 C6.7830059,11.307001 7.2540047,10.632 7.6520035,9.7000008 8.0510017,8.769001 8.2500011,7.6120014 8.2500011,6.2290001 L8.2500011,6.1469994 C8.2500011,4.7870026 8.0450022,3.6399994 7.6350028,2.7040024 7.2250049,1.769001 6.7600061,1.0839996 6.2400076,0.65100098 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="18,16,6,20"
+                                                    Data="M0,37.999999 L52,37.999999 52,39.999999 0,39.999999 z M0,18.999999 L52,18.999999 52,20.999999 0,20.999999 z M0,0 L52,0 52,1.9999991 0,1.9999991 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Number Braces" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Numbering_Dot"
+                                                Width="60"
+                                                Height="60"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L75,0 75,75 0,75 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Width="8.244"
+                                                    Margin="6.925,12.339,0,17.007"
+                                                    HorizontalAlignment="Left"
+                                                    Data="M7.1420118,45.376981 L8.2440114,45.376981 8.2440114,46.530981 7.1420118,46.530981 z M2.7070026,37.877029 C3.5110023,37.877029 4.1420021,38.083028 4.5990024,38.495026 5.0560019,38.907024 5.2850019,39.508022 5.285002,40.297019 5.2850019,40.660017 5.1780019,41.014015 4.963002,41.357013 4.7480021,41.701012 4.4220021,41.967011 3.9840024,42.15401 4.5110021,42.32201 4.883002,42.584008 5.0970023,42.939007 5.3120018,43.295005 5.4200019,43.701003 5.420002,44.158001 5.4200019,44.950998 5.1700019,45.564995 4.6700022,46.000993 4.1700022,46.436991 3.5170023,46.65399&#xd;&#xa;2.7130027,46.65399 1.9240026,46.65399 1.275003,46.445991 0.76700258,46.029993 0.26000309,45.613995 0.0060033798,45.028998 0.0060033798,44.275001 L1.0950031,44.275001 C1.0950031,44.739999 1.2380028,45.106997 1.5230026,45.376996 1.8080029,45.645995 2.2050028,45.780994 2.7130027,45.780994 3.2320025,45.780994 3.6330023,45.648995 3.9140022,45.385996 4.1950021,45.121997 4.3360021,44.720999 4.3360023,44.182001 4.3360021,43.639004 4.2070022,43.242005 3.949002,42.992007 3.6910024,42.742008 3.2810025,42.617008 2.7190032,42.617008 L1.7400026,42.617008 1.7400026,41.750012 2.7190032,41.750012 C3.2580025,41.750012 3.6390023,41.621012 3.8640022,41.363014 4.0890021,41.105015 4.2010021,40.742016 4.2010024,40.273019 4.2010021,39.77002 4.0780022,39.391022 3.8320022,39.137024 3.5860023,38.883025 3.2110023,38.756025 2.7070026,38.756025 2.2340026,38.756025 1.8590026,38.889025 1.5820031,39.154024 1.3040028,39.420022 1.1660032,39.779021 1.1660028,40.232018 L0.082003593,40.232018 C0.082003117,39.557022 0.32200336,38.995024 0.80300379,38.548026 1.2830029,38.101028 1.9180026,37.877029 2.7070026,37.877029 z M7.1420013,26.377007 L8.2439969,26.377007 8.2439969,27.531015 7.1420013,27.531015 z M2.8469973,18.876986 C3.6209977,18.876986 4.2309973,19.094986 4.6789968,19.532986 5.1259966,19.969986 5.3489965,20.542986 5.3489965,21.249987 5.3489965,21.721987 5.2129966,22.185987 4.9389961,22.640989 4.665997,23.095989 4.2729971,23.60499 3.761997,24.16799 L1.4709992,26.657991 5.6599964,26.657991 5.6599964,27.530993 0.16400003,27.530993 0.16400003,26.762993 2.9589972,23.651989 C3.4739978,23.081989 3.8199975,22.633989 3.9959974,22.306988 4.1719973,21.980988 4.2599974,21.641987 4.2599976,21.290987 4.2599974,20.844986 4.1339974,20.477987 3.8819973,20.188986 3.6299977,19.899986 3.2849979,19.755985 2.8469973,19.755985 2.2379985,19.755985 1.7919989,19.905987 1.5089989,20.206985 1.2249994,20.507986 1.0839992,20.940987 1.0839996,21.507988 L0,21.507988 C0,20.745987 0.24799967,20.116985 0.74399948,19.620985 1.2399993,19.124985 1.9409986,18.876986 2.8469973,18.876986 z M7.142002,7.3770065 L8.2439969,7.3770065 8.2439969,8.5310135 7.142002,8.5310135 z M3.539005,0 L3.539005,8.5309944 2.4550076,8.5309944 2.4550076,1.2419968 0.71501112,1.2889977 0.71501112,0.59199905 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="18,16,6,20"
+                                                    Data="M0,38 L52,38 52,40 0,40 z M0,19 L52,19 52,21 0,21 z M0,0 L52,0 52,2 0,2 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Number Dot" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Numbering_Upletter"
+                                                Width="60"
+                                                Height="60"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L75,0 75,75 0,75 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Width="9.756"
+                                                    Margin="5.608,12.339,0,17.007"
+                                                    HorizontalAlignment="Left"
+                                                    Data="M8.396025,45.377015 L9.4980357,45.377015 9.4980357,46.531025 8.396025,46.531025 z M3.798023,37.877038 C4.7550271,37.877038 5.4960306,38.124035 6.0210326,38.618035 6.547035,39.112034 6.856036,39.812031 6.9500363,40.719025 L5.8660315,40.719025 C5.7680314,40.070027 5.5600308,39.581032 5.2420295,39.25103 4.9240282,38.921032 4.442026,38.756035 3.798023,38.756035 3.1260205,38.756035 2.5960184,39.015034 2.2070163,39.532033 1.818015,40.05003 1.6240142,40.707024 1.6240142,41.504021 L1.6240142,43.021016 C1.6240142,43.826012 1.818015,44.487008 2.2070163,45.005005 2.5960184,45.522004 3.1260205,45.781003 3.798023,45.781003 4.4460261,45.781003 4.9290279,45.621003 5.2450293,45.301007 5.5610307,44.980008 5.7680314,44.49001 5.8660315,43.830014 L6.9500363,43.830014 C6.856036,44.689007 6.5430348,45.375004 6.0100325,45.887002 5.4760302,46.397999 4.7390273,46.654 3.798023,46.654 2.8130191,46.654 2.024016,46.318001 1.4300135,45.646004 0.83701092,44.975007 0.54000967,44.10001 0.54000955,43.021016 L0.54000955,41.516022 C0.54000967,40.441025 0.83701092,39.566029 1.4300135,38.891034 2.024016,38.215035 2.8130191,37.877038 3.798023,37.877038 z M8.3550103,26.377017 L9.4570211,26.377017 9.4570211,27.531024 8.3550103,27.531024 z M1.9220321,23.517018 L1.9220321,26.658001 3.9550276,26.658001 C4.506027,26.658001 4.9310263,26.528002 5.2300256,26.268004 5.5280254,26.008006 5.6780251,25.632006 5.6780251,25.140009 5.6780251,24.628012 5.5520251,24.230013 5.3000258,23.945015 5.0480259,23.660018 4.6540268,23.517018 4.1190279,23.517018 z M1.9220321,19.878037 L1.9220321,22.644022 3.8670285,22.644022 C4.3170274,22.632021 4.6730269,22.510024 4.9370263,22.278023 5.2000259,22.045025 5.3320258,21.712027 5.3320258,21.279028 5.3320258,20.802031 5.185026,20.450034 4.8900259,20.221034 4.5950268,19.993035 4.1560276,19.878037 3.5740295,19.878037 z M0.83803361,18.999041 L3.5740295,18.999041 C4.4810274,18.999041 5.1810258,19.18804 5.6750253,19.565037 6.1690238,19.942036 6.4160235,20.521033 6.4160235,21.302029 6.4160235,21.693026 6.298024,22.037026 6.0620239,22.333024 5.8250249,22.630023 5.514025,22.849021 5.1270254,22.990021 L5.1270254,23.00702 C5.639025,23.11302 6.0390242,23.360018 6.3280237,23.748017 6.6170233,24.137015 6.7620228,24.597012 6.7620228,25.12801 6.7620228,25.921006 6.5140231,26.520003 6.0180243,26.924 5.5220254,27.328999 4.8340266,27.530997 3.9550276,27.530997 L0.83803361,27.530997 z M8.6540301,7.3770161 L9.7560094,7.3770161 9.7560094,8.5310245 8.6540301,8.5310245 z M3.7560075,1.3419791 L2.2680033,5.3849449 5.2210024,5.3849449 z M3.292996,0 L4.2309831,0 7.471,8.5309997 6.3639763,8.5309997 5.537988,6.2579918 1.9459817,6.2579918 1.1080008,8.5309997 0,8.5309997 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="18,16,7,20"
+                                                    Data="M1.9999999,38 L51,38 51,40 1.9999999,40 z M1,19 L51,19 51,21 1,21 z M0,0 L51,0 51,2 0,2 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Uppercase Dot" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Numbering_Uproman"
+                                                Width="60"
+                                                Height="60"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Top">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L75,0 75,75 0,75 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="14,16,7,20"
+                                                    Data="M6,38 L55,38 55,40 6,40 z M2.9999995,19 L55,19 55,21 2.9999995,21 z M0,0 L55,0 55,1.9999997 0,1.9999997 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Width="10"
+                                                    Margin="7,12,0,17"
+                                                    HorizontalAlignment="Left"
+                                                    Data="M9.0000003,46 L10,46 10,47 9.0000003,47 z M6,38 L6.9999998,38 6.9999998,40 6.9999998,41 6.9999998,47 6,47 6,41 6,40 z M3.0000005,38 L4,38 4,40 4,41 4,47 3.0000005,47 3.0000005,41 3.0000005,40 z M0,38 L1,38 1,40 1,41 1,47 0,47 0,41 0,40 z M6,27 L6.9999998,27 6.9999998,28 6,28 z M3.0000005,19 L4,19 4,21 4,22 4,28 3.0000005,28 3.0000005,22 3.0000005,21 z M0,19 L1,19 1,21 1,22 1,28 0,28 0,22 0,21 z M3.0000005,8 L4,8 4,9 3.0000005,9 z M0,0 L1,0 1,2 1,3 1,9 0,9 0,3 0,2 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Uppercase Romen" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                    <ListBoxItem>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Grid
+                                                x:Name="Numbering_None"
+                                                Width="50"
+                                                Height="50"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top"
+                                                Background="Transparent">
+                                                <Path
+                                                    Margin="0.5"
+                                                    Data="M0,0 L39,0 39,39 0,39 z"
+                                                    Fill="Transparent"
+                                                    Stretch="Fill" />
+                                                <Path
+                                                    Margin="7.449,16.465,7.849,15.607"
+                                                    Data="M22.333007,2.7070129 C21.957,2.707013 21.640006,2.8580138 21.380004,3.160992 21.120002,3.4640006 20.954001,3.8559983 20.883002,4.3400065 L23.708008,4.3400065 23.708008,4.1999923 C23.708008,3.7670091 23.594002,3.410015 23.364006,3.1290095 23.135002,2.848004 22.791,2.707013 22.333007,2.7070129 z M9.9689951,2.7069989 C9.4389954,2.7069988 9.0409956,2.9089988 8.7759953,3.3139987 8.5119953,3.7179987 8.3789959,4.2319986 8.3789959,4.8549985 L8.3789959,4.9839984 C8.3789959,5.6179985 8.5119953,6.1329983 8.7759953,6.5309981 9.0409956,6.9279979 9.4419956,7.1269983 9.9799957,7.1269983 10.509995,7.1269983 10.908996,6.926998 11.176995,6.5279983 11.445995,6.1289982 11.579995,5.6139983 11.579995,4.9839984 L11.579995,4.8549985 C11.579995,4.2319986 11.444995,3.7179987 11.174995,3.3139987 10.903996,2.9089988 10.501995,2.7069988 9.9689951,2.7069989 z M16.590996,1.9020022 C17.225996,1.9020023 17.709996,2.0800021 18.046996,2.4390017 18.383996,2.7970013 18.551996,3.3670007 18.551996,4.1529998 L18.551996,7.8209957 17.552996,7.8209957 17.552996,4.1739999 C17.552996,3.6400003 17.451996,3.2660007 17.249996,3.0510012 17.046996,2.8360013 16.729996,2.7290013 16.295996,2.7290014 15.969996,2.7290013 15.688997,2.8060013 15.450997,2.9590012 15.211997,3.113001 15.019997,3.3280007 14.872997,3.6040006 L14.872997,7.8209957 13.874998,7.8209957 13.874998,2.0090022 14.770997,2.0090022 14.840997,2.8790012 14.856997,2.885001 C15.045997,2.5720015 15.287997,2.3310018 15.579997,2.1590019 15.871997,1.9880022 16.207996,1.9020023 16.590996,1.9020022 z M22.333007,1.9010142 C23.121002,1.9010143 23.713005,2.1330086 24.108002,2.5940064 24.504005,3.0570186 24.702004,3.6879992 24.702004,4.4899999 L24.702004,5.1410002 20.851005,5.1410002 C20.865004,5.734017 21.012999,6.2150038 21.294005,6.5799936 21.575004,6.9450139 21.975005,7.1269902 22.494003,7.1269902 22.855003,7.1269902 23.168007,7.0770024 23.432006,6.9769963 23.694008,6.8769907 23.932007,6.7349924 24.144005,6.5530161 L24.535004,7.2129887 C24.324005,7.4209961 24.053001,7.5919861 23.722008,7.7269953 23.391006,7.859991 22.981003,7.9280146 22.494003,7.9280146 21.678001,7.9280146 21.033004,7.6640071 20.561003,7.1359929 20.088004,6.6070017 19.852004,5.9060138 19.852003,5.0329987 L19.852003,4.7909948 C19.852004,3.9459945 20.094,3.2530023 20.579001,2.7129943 21.064002,2.1720101 21.649001,1.9010143 22.333007,1.9010142 z M9.9689951,1.9009991 C10.784995,1.900999 11.423995,2.1739989 11.883995,2.7199987 12.343995,3.2659987 12.572995,3.9779986 12.572995,4.8549985 L12.572995,4.9839984 C12.572995,5.8649982 12.344995,6.5759982 11.885995,7.1169981 11.427995,7.656998 10.791995,7.926998 9.9799957,7.926998 9.1629953,7.926998 8.5249958,7.656998 8.0669956,7.1169981 7.6089954,6.5759982 7.3799953,5.8649982 7.3799953,4.9839984 L7.3799953,4.8549985 C7.3799953,3.9779986 7.6089954,3.2659987 8.0669956,2.7199987 8.5249958,2.1739989 9.1589956,1.900999 9.9689951,1.9009991 z M0,0 L0.99299812,0 4.8769979,6.1550182 4.8939981,6.1550182 4.8939981,0 5.8869982,0 5.8869982,7.8200229 4.8939981,7.8200229 1.0099983,1.6600049 0.99299812,1.6600049 0.99299812,7.8200229 0,7.8200229 z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    Stretch="Fill" />
+                                            </Grid>
+                                            <TextBlock
+                                                Margin="5"
+                                                VerticalAlignment="Center"
+                                                Text="Remove Numbering" />
+                                        </StackPanel>
+                                    </ListBoxItem>
+                                </ListBox>
+                            </syncfusion:SplitButton>
+                            <syncfusion:SplitButton
+                                Name="formatLineSpacing"
+                                syncfusion:Ribbon.KeyTip="FA"
+                                Command="local:RibbonCommand.ButtonCommand"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource LineSpacing}">
+                                <ListBox BorderThickness="0">
+                                    <interactivity:Interaction.Triggers>
+                                        <interactivity:EventTrigger EventName="SelectionChanged">
+                                            <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                        </interactivity:EventTrigger>
+                                    </interactivity:Interaction.Triggers>
+                                    <ListBoxItem Margin="5">1</ListBoxItem>
+                                    <ListBoxItem Margin="5">1.15</ListBoxItem>
+                                    <ListBoxItem Margin="5">1.5</ListBoxItem>
+                                    <ListBoxItem Margin="5">2</ListBoxItem>
+                                    <ListBoxItem Margin="5">2.5</ListBoxItem>
+                                    <ListBoxItem Margin="5">3</ListBoxItem>
+                                </ListBox>
+                            </syncfusion:SplitButton>
+                        </syncfusion:ButtonPanel>
+                        <syncfusion:ButtonPanel Height="24">
+                            <syncfusion:RibbonButton
+                                Name="formatLeftAlign"
+                                syncfusion:Ribbon.KeyTip="LA"
+                                Command="EditingCommands.AlignLeft"
+                                SizeForm="ExtraSmall" 
+                                IconTemplate="{StaticResource AlignLeft}">
+                            </syncfusion:RibbonButton>
+                            <syncfusion:RibbonButton
+                                Name="formatCenterAlign"
+                                syncfusion:Ribbon.KeyTip="CA"
+                                Command="EditingCommands.AlignCenter"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource AlignCenter}">
+                            </syncfusion:RibbonButton>
+                            <syncfusion:RibbonButton
+                                Name="formatRightAlign"
+                                syncfusion:Ribbon.KeyTip="RA"
+                                Command="EditingCommands.AlignRight"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource AlignRight}">
+                            </syncfusion:RibbonButton>
+                            <syncfusion:RibbonButton
+                                Name="formatJustify"
+                                syncfusion:Ribbon.KeyTip="JA"
+                                Command="EditingCommands.AlignJustify"
+                                SizeForm="ExtraSmall"
+                                IconTemplate="{StaticResource AlignJustify}">
+                            </syncfusion:RibbonButton>
+                        </syncfusion:ButtonPanel>
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar IconTemplate="{StaticResource IncreaseFontSize}"  Header="Styles">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:RibbonGallery
+                            x:Name="gallery"
+                            Width="650"
+                            Height="67"
+                            ContextMenu="{DynamicResource GalleryContextMenu}"
+                            ItemHeight="60"
+                            ItemWidth="65"
+                            IconTemplate="{StaticResource Styling}"
+                            Label="Styles"
+                            MenuIconBarEnabled="True"
+                            SelectedItem="{Binding RibbonGallerySelectedItem}"
+                            SizeForm="Large">
+                            <interactivity:Interaction.Triggers>
+                                <interactivity:EventTrigger EventName="SelectedItemChanged">
+                                    <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                </interactivity:EventTrigger>
+                            </interactivity:Interaction.Triggers>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="firstItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemOneCommand}"
+                                Tag="firstItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,11,0,0"
+                                        Text="Normal"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="secondItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemTwoCommand}"
+                                Tag="secondItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,11,0,0"
+                                        Text="No Spa.."
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="thirdItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemThreeCommand}"
+                                Tag="thirdItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,5,0,0"
+                                        FontSize="18"
+                                        Foreground="DarkBlue"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,6,0,0"
+                                        Text="Heading 1"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="fourthItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemFourCommand}"
+                                Tag="fourthItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,6,0,0"
+                                        FontSize="16"
+                                        Foreground="DarkBlue"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,8,0,0"
+                                        Text="Heading 2"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="fifthItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemFiveCommand}"
+                                Tag="fifthItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,7,0,0"
+                                        FontSize="15"
+                                        Foreground="DarkBlue"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        Text="Heading 3"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="sixthItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemSixCommand}"
+                                Tag="sixthItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,7,0,0"
+                                        FontSize="14"
+                                        Foreground="DarkBlue"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        Text="Heading 4"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="seventhItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemSevenCommand}"
+                                Tag="seventhItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        FontSize="24"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,5,0,0"
+                                        Text="Title"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="eighthItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemEightCommand}"
+                                Tag="eighthItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,7,0,0"
+                                        FontStyle="Italic"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,13,0,0"
+                                        Text="Emphasis"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="ninthItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemNineCommand}"
+                                Tag="ninthItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        FontWeight="Bold"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,10,0,0"
+                                        Text="Strong"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="tenthItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemTenCommand}"
+                                Tag="tenthItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center"
+                                        TextDecorations="Underline" />
+                                    <TextBlock
+                                        Margin="0,10,0,0"
+                                        Text="Underline"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="eleventhItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemElevenCommand}"
+                                Tag="eleventhItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        Foreground="Red"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,10,0,0"
+                                        Text="Important"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="italicItem"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemTwelveCommand}"
+                                Tag="italicItem">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        FontStyle="Italic"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,10,0,0"
+                                        Text="Italic"
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGalleryItem
+                                x:Name="superString"
+                                Margin="2"
+                                CheckOnClick="True"
+                                Command="{Binding GalleryItemThirteenCommand}"
+                                Tag="superString">
+                                <StackPanel>
+                                    <TextBlock
+                                        Margin="0,9,0,0"
+                                        FontWeight="ExtraBold"
+                                        Text="AaBbCc"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Margin="0,10,0,0"
+                                        Text="Super Str.."
+                                        TextAlignment="Center" />
+                                </StackPanel>
+                            </syncfusion:RibbonGalleryItem>
+                            <syncfusion:RibbonGallery.MenuItems>
+                                <syncfusion:RibbonButton Label="Create a style" 
+                                                         IconTemplate="{StaticResource IncreaseFontSize}">
+                                </syncfusion:RibbonButton>
+                                <syncfusion:RibbonButton
+                                    Command="{Binding ClearFormattingCommand}"
+                                    Label="Clear Formatting"
+                                    IconTemplate="{StaticResource ClearFormatting}">
+                                </syncfusion:RibbonButton>
+                            </syncfusion:RibbonGallery.MenuItems>
+                        </syncfusion:RibbonGallery>
+                    </syncfusion:RibbonBar>
+                </syncfusion:RibbonTab>
+                <syncfusion:RibbonTab syncfusion:Ribbon.KeyTip="I" Caption="Insert">
+                    <syncfusion:RibbonBar Header="Tables">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:DropDownButton
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Label="Tables"
+                            SizeForm="Large"
+                            IconTemplate="{StaticResource Tables}">
+                            <syncfusion:TablePickerUI Margin="3" CellCount="10 8">
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="Click">
+                                        <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+                            </syncfusion:TablePickerUI>
+                        </syncfusion:DropDownButton>
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar
+                        syncfusion:Ribbon.ShowInMoreCommands="False"
+                        Header="Illustrations"
+                        IsLauncherButtonVisible="True"
+                        KeyTipOnCollapsed="ZI">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:RibbonButton
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Picture"
+                            SizeForm="Large" 
+                            IconTemplate="{StaticResource Picture}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Comment"
+                            SizeForm="Large" 
+                            IconTemplate="{StaticResource Comment}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:DropDownButton
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Label="Shapes"
+                            SizeForm="Large"
+                            IconTemplate="{StaticResource Shapes}">
+                            <ListBox BorderThickness="0">
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="SelectionChanged">
+                                        <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    x:Name="square"
+                                                    Width="20"
+                                                    Height="20"
+                                                    Data="M0,0L32,0 32,32 0,32z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Text="Square" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    Width="20"
+                                                    Height="20"
+                                                    Data="M16,0C24.837036,0 32,7.1629944 32,16 32,24.836975 24.837036,32 16,32 7.1630249,32 0,24.836975 0,16 0,7.1629944 7.1630249,0 16,0z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Text="Circle" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    Width="20"
+                                                    Height="20"
+                                                    Data="M16.000016,0L24.000008,10.7 32,21.399999 16.000016,21.399999 0,21.399999 7.9999928,10.7z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Text="Triangle" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    Width="20"
+                                                    Height="20"
+                                                    Data="M13.259027,1.7940006C6.0810125,1.7940006 2.0940042,3.7880001 2.0940042,4.6850004 2.0940042,5.4829998 5.9820123,7.5760002 13.259027,7.5760002 20.536043,7.5760002 24.424051,5.5830002 24.424051,4.6850004 24.424051,3.7880001 20.536043,1.7940006 13.259027,1.7940006z M13.259027,0C20.636044,0,26.518055,2.0939999,26.518055,4.6850004L26.518055,27.315001C26.518055,29.907001 20.536043,32 13.259027,32 5.9820123,32 0,29.807 0,27.215L0,4.6850004C0,2.0939999,5.9820123,0,13.259027,0z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Text="Cylinder" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    Width="20"
+                                                    Height="20"
+                                                    Data="M16,0L32,15.999985 16,32.000001 0,15.999985z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock
+                                            Margin="5"
+                                            VerticalAlignment="Center"
+                                            Text="Rhombus" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                            </ListBox>
+                        </syncfusion:DropDownButton>
+                        <syncfusion:DropDownButton
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Label="Chart"
+                            SizeForm="Large"
+                            IconTemplate="{StaticResource Charts}">
+                            <ListBox BorderThickness="0">
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="SelectionChanged">
+                                        <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    Width="20"
+                                                    Height="18"
+                                                    Data="M0,23.265032L11.606995,23.265032 11.606995,32.000998 0,32.000998z M0,11.617012L20.312988,11.617012 20.312988,20.383011 11.607971,20.383011 11.607971,20.352982 0,20.352982z M0.080017202,0L32,0 32,8.7360289 26.196961,8.7360289 26.196961,8.7650206 11.687988,8.7650206 11.687988,8.7360289 0.080017202,8.7360289z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock Margin="5,5" Text="Horizontal Bar" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    Width="20"
+                                                    Height="18"
+                                                    Data="M0,9.7329712L9.1329965,9.7329712 9.1329965,31.932983 0,31.932983z M22.000003,6.6669922L31.133,6.6669922 31.133,31.934021 22.000003,31.934021z M11.000002,0L20.132998,0 20.132998,32 11.000002,32z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock Margin="5,5" Text="Vertical Bar" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    Width="20"
+                                                    Height="18"
+                                                    Data="M14.399963,16.900024L3.7999878,23.100006C6.2000122,27.300018 10.799988,30.200012 16,30.200012 20.599976,30.200012 24.599976,28 27.200012,24.700012L27.5,24.400024z M16,1.9000244L16,14.400024 28.899963,21.600006 29,21.400024C29.700012,19.700012 30.099976,17.900024 30.099976,16 30.099976,8.3000183 24,2.1000061 16.399963,1.9000244z M16,0C24.799988,0 32,7.2000122 32,16 32,24.800018 24.799988,32 16,32 7.2000122,32 0,24.800018 0,16 0,7.2000122 7.2000122,0 16,0z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock Margin="5,5" Text="Pie" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Path
+                                                    Width="20"
+                                                    Height="18"
+                                                    Data="M5.3000031,24.599984L5.3000031,31.699994 0,31.699994 0,30.00001z M9.6000061,19.4L11.700012,22.599984 11.700012,31.8 6.9000092,31.8 6.9000092,22.599984z M18.600006,18.799994L18.600006,31.699994 13.800003,31.699994 13.800003,23.599984z M25.5,11.899999L25.5,31.699994 20.700012,31.699994 20.700012,17.199988z M32,0L27.800003,10.599979 25.900009,8.5000027 13.800003,21.19999 9.8000031,17.199988 0,27.299998 0,22.500008 9.8000031,12.399999 13.700012,16.4 23.300003,6.2999901 21.200012,4.2999896z"
+                                                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                    RenderTransformOrigin="0.5,0.5"
+                                                    Stretch="Uniform" />
+                                        <TextBlock Margin="5,5" Text="Graph" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                            </ListBox>
+                        </syncfusion:DropDownButton>
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar
+                        syncfusion:Ribbon.KeyTip="P"
+                        syncfusion:Ribbon.ShowInMoreCommands="False"
+                        Header="Links"
+                        IsLauncherButtonVisible="True"
+                        KeyTipOnCollapsed="ZP">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:RibbonButton
+                            VerticalContentAlignment="Center"
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Hyperlink"
+                            SizeForm="Large"
+                            IconTemplate="{StaticResource HyperLink}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            VerticalContentAlignment="Center"
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Zoom"
+                            IconTemplate="{StaticResource Zoom}"
+                            SizeForm="Large" />
+                    </syncfusion:RibbonBar>
+                </syncfusion:RibbonTab>
+                <syncfusion:RibbonTab Caption="Mailings">
+                    <syncfusion:RibbonBar Header="Create">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:RibbonButton
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Envelope"
+                            IconTemplate="{StaticResource Mail}"
+                            SizeForm="Large" />
+                        <syncfusion:RibbonButton
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Letter"
+                            IconTemplate="{StaticResource Letter}"
+                            SizeForm="Large" />
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar
+                        syncfusion:Ribbon.KeyTip="P"
+                        syncfusion:Ribbon.ShowInMoreCommands="False"
+                        Header="Mail"
+                        IsLauncherButtonVisible="True"
+                        KeyTipOnCollapsed="ZP">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:DropDownButton
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Label="Attach"
+                            SizeForm="Large" 
+                            IconTemplate="{StaticResource Attachment}">
+                            <ListBox BorderThickness="0">
+                                <interactivity:Interaction.Triggers>
+                                    <interactivity:EventTrigger EventName="SelectionChanged">
+                                        <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                                    </interactivity:EventTrigger>
+                                </interactivity:Interaction.Triggers>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Grid>
+                                            <Grid
+                                                Name="Word"
+                                                Width="20"
+                                                Height="20"
+                                                Visibility="Collapsed" />
+                                            <Path
+                                                Width="24"
+                                                Height="24"
+                                                Margin="0,0,0,0"
+                                                Data="M12.928009,9.7038576L11.494995,17.688965 10.039001,10.034912 7.9920044,10.034912 6.4309998,17.563965 5.2619934,10.282959 3.4039919,10.282959 5.3129883,20.563965 7.2709961,20.563965 8.7099915,12.716065 10.501984,20.971924 12.559998,20.971924 14.877991,9.7038576z M18.999989,3.999L31.871988,3.999C31.942987,3.9990003,31.999989,4.0570003,31.999989,4.127L31.999989,26.869C31.999989,26.941,31.941988,26.999001,31.869987,26.999001L18.999989,26.999001 18.999989,23.999001 28.999989,23.999001 28.999989,22.999001 18.999989,22.999001 18.999989,20.999001 28.999989,20.999001 28.999989,19.999001 18.999989,19.999001 18.999989,17.999001 28.999989,17.999001 28.999989,16.999001 18.999989,16.999001 18.999989,14.999 28.999989,14.999 28.999989,13.999 18.999989,13.999 18.999989,11.999 28.999989,11.999 28.999989,10.999 18.999989,10.999 19.021988,9.0200006 29.021988,9.0200006 28.999989,7.9990003 18.999989,7.9990003z M18,0L18,31 0,27.916016 0,3.1809084z"
+                                                Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                        </Grid>
+                                        <TextBlock Margin="10,5" Text="DOC" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Grid>
+                                            <Grid
+                                                Name="XLS"
+                                                Width="20"
+                                                Height="20"
+                                                Visibility="Collapsed" />
+                                            <Path
+                                                Width="24"
+                                                Height="24"
+                                                Margin="0,0,0,0"
+                                                Data="M24.657059,21.64202L24.657059,24.793019 29.859102,24.793019 29.859102,21.64202z M24.657059,17.491021L24.657059,20.64202 29.859102,20.64202 29.859102,17.491021z M24.657059,13.340021L24.657059,16.491021 29.859102,16.491021 29.859102,13.340021z M13.054056,9.3130452L10.936008,9.421993 9.4030447,13.339044 7.9020019,9.7839925 5.8020201,9.7839925 8.0030155,14.915033 5.8040342,19.910025 7.6690302,20.058036 9.2030315,16.390984 10.803012,20.358023 10.804049,20.356986 13.272014,20.356986 10.53702,14.689996z M24.657059,9.1880452L24.657059,12.339045 29.859102,12.339045 29.859102,9.1880452z M24.657059,5.0370461L24.657059,8.1880452 29.859102,8.1880452 29.859102,5.0370461z M31.031412,3.4354717C31.182783,3.4359052,31.990089,3.497225,31.990089,4.7560403L31.990089,25.60204 31.989113,25.60204C31.989113,25.60204,32.17411,26.575001,30.946079,26.645009L19.072081,26.645009 19.072081,24.645009 23.606091,24.645009 23.606091,21.49401 19.072081,21.49401 19.072081,20.543021 23.606091,20.543021 23.606091,17.392022 19.072081,17.392022 19.072081,16.441033 23.606091,16.441033 23.606091,13.290033 19.072081,13.290033 19.072081,12.340022 23.606091,12.340022 23.606091,9.1890218 19.072081,9.1890218 19.072081,8.2390096 23.606091,8.2390096 23.606091,5.0870339 19.072081,5.0870339 19.072081,3.4360334 31.007114,3.4360334C31.007114,3.4360334,31.015755,3.4354267,31.031412,3.4354717z M18.405087,0L18.405087,30.476001 0,27.275014 0,3.0670151z"
+                                                Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                        </Grid>
+                                        <TextBlock Margin="10,5" Text="XLS" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Grid>
+                                            <Grid
+                                                Name="PDF"
+                                                Width="20"
+                                                Height="20"
+                                                Visibility="Collapsed" />
+                                            <Path
+                                                Width="24"
+                                                Height="24"
+                                                Margin="0,0,0,0"
+                                                Data="M7.2649498,23.217675C7.2649498,23.217675 4.2689362,23.904692 2.0199886,25.850695 2.0199886,25.850695 0.51694635,27.511721 1.7809763,27.259705 1.7809763,27.259705 4.9459339,26.876706 7.2649498,23.217675z M24.655738,20.626698C24.588002,20.626984,24.520009,20.628273,24.451789,20.630616L24.450812,20.630616C24.450812,20.630616 25.950803,23.910675 29.09678,23.365687 29.09678,23.365687 30.158784,23.035666 29.537755,22.306656 29.364783,22.102675 29.297767,22.007641 29.280799,21.963635 29.452796,22.062634 29.567784,22.139662 29.567784,22.139662 29.567784,22.139662 29.237769,21.854624 29.280799,21.963635 28.607516,21.572264 26.75553,20.617825 24.655738,20.626698z M14.896858,12.847583C14.310864,15.794571,11.529876,20.680664,11.529876,20.680664L19.894874,19.204638C17.90685,18.031592,14.896858,12.847583,14.896858,12.847583z M11.347988,2.6056115C10.969022,2.5808589 11.046907,3.8365132 11.046907,3.8365132 11.052889,6.1415276 12.873861,8.5495085 12.873861,8.5495085 12.808921,4.770482 11.689909,2.8584768 11.689909,2.8584771 11.547225,2.685223 11.435442,2.6113235 11.347988,2.6056115z M11.698649,0.0004385177C11.953246,-0.00850315 12.256566,0.1185393 12.616905,0.45147205 12.616905,0.45147202 15.536869,2.0264379 14.770883,9.9435648 14.770883,9.9435648 20.920867,18.263588 23.441848,19.628653 23.441848,19.628653 28.477765,19.004624 31.729758,22.505633 31.729758,22.505633 32.894788,24.902687 30.377776,25.353682 30.377776,25.353682 24.931829,25.829699 21.698817,21.164616L10.673924,22.88967C10.673924,22.88967,4.1779337,30.392729,0.39298472,28.236704L0.39396126,28.237681C0.39396131,28.245737 -0.91901853,27.24469 1.2489364,24.981669 1.2489363,24.981669 4.2079625,22.708638 8.8749247,21.422675 8.8749247,21.422675 12.606895,16.882594 13.103902,10.543546 13.103902,10.543546 9.7739058,8.046513 10.450903,2.1634631 10.450903,2.1634631 10.699843,0.03551713 11.698649,0.0004385177z"
+                                                Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                        </Grid>
+                                        <TextBlock Margin="10,5" Text="PDF" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                                <ListBoxItem>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Grid>
+                                            <Grid
+                                                Name="ZIP"
+                                                Width="20"
+                                                Height="20"
+                                                Visibility="Collapsed" />
+                                            <Path
+                                                Width="24"
+                                                Height="24"
+                                                Margin="0,0,0,0"
+                                                Data="M24.524976,25C24.800975,25,25.024976,25.224,25.024976,25.5L25.024976,26.5 25.024976,27.5C25.024976,27.776 24.800975,28 24.524976,28 24.248975,28 24.024976,27.776 24.024976,27.5L24.024976,27 22.524976,27C22.248975,27 22.024976,26.776 22.024976,26.5 22.024976,26.224 22.248975,26 22.524976,26L24.024976,26 24.024976,25.5C24.024976,25.224,24.248975,25,24.524976,25z M21.524976,23C21.800975,23,22.024976,23.224,22.024976,23.5L22.024976,24 23.524976,24C23.800975,24 24.024976,24.224 24.024976,24.5 24.024976,24.776 23.800975,25 23.524976,25L22.024976,25 22.024976,25.5C22.024976,25.776 21.800975,26 21.524976,26 21.248975,26 21.024976,25.776 21.024976,25.5L21.024976,24.5 21.024976,23.5C21.024976,23.224,21.248975,23,21.524976,23z M24.524976,21C24.800975,21,25.024976,21.224,25.024976,21.5L25.024976,22.5 25.024976,23.5C25.024976,23.776 24.800975,24 24.524976,24 24.248975,24 24.024976,23.776 24.024976,23.5L24.024976,23 22.524976,23C22.248975,23 22.024976,22.776 22.024976,22.5 22.024976,22.224 22.248975,22 22.524976,22L24.024976,22 24.024976,21.5C24.024976,21.224,24.248975,21,24.524976,21z M21.524976,19C21.800975,19,22.024976,19.224,22.024976,19.5L22.024976,20 23.524976,20C23.800975,20 24.024976,20.224 24.024976,20.5 24.024976,20.776 23.800975,21 23.524976,21L22.024976,21 22.024976,21.5C22.024976,21.776 21.800975,22 21.524976,22 21.248975,22 21.024976,21.776 21.024976,21.5L21.024976,20.5 21.024976,19.5C21.024976,19.224,21.248975,19,21.524976,19z M22.033992,16L22.033992,17.000003 24.01698,17.000003 24.020978,16z M24.032981,12.998014L25.032975,13.002014 25.012975,18 21.033998,18 21.033998,13.000014 22.033992,13.000014 22.033992,15 24.023942,15 24.023942,15.258763z M22.523942,12L23.523942,12 23.523942,14 22.523942,14z M14.019988,11C12.361994,11,11.012999,12.346,11.012999,14L11.012999,16.5 11.024966,16.5 11.024966,24.5C11.024966,25.826933,10.552572,27.045534,9.76723,27.99661L9.7642917,28 13.970988,28 15.148,28 24.524976,28 26.99194,28C28.649934,28,29.998929,26.654,29.998929,25L29.998929,14C29.998929,12.346,28.649934,11,26.99194,11z M5.006,2C3.348,2,2,3.3459997,2.0000001,5L2.0000001,16.5 2.0249662,16.5 2.0249662,24.5C2.0249662,26.429993 3.5950346,28 5.5249662,28 7.4550199,28 9.0249662,26.429993 9.0249662,24.5L9.0249662,23 9.0130062,23 9.0130062,14C9.0130062,11.243,11.259998,9,14.019988,9L26.99194,9C28.113593,9,29.15025,9.3701825,29.985854,9.9946237L30.000001,10.005731 30.000001,9C30.000001,7.3459997,28.651,6,26.992999,6L18.039,6.0209999 18.033999,6.0209999C16.934001,6.0209999 16.037,5.1269999 16.033,4.026 16.03,2.9090004 15.118,2 13.999,2z M5.006,0L13.999,0C16.217999,0,18.028001,1.8039999,18.033,4.0209999L26.991,4C29.752999,4,32.000001,6.243,32.000001,9L32.000001,24 31.998921,24 31.998921,25C31.998921,27.757,29.752931,30,26.99194,30L15.148,30 13.970988,30 5.5249662,30 5.006,30C2.246,30,0,27.757,0,25L0,5C0,2.243,2.246,0,5.006,0z"
+                                                Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                                                RenderTransformOrigin="0.5,0.5"
+                                                Stretch="Uniform" />
+                                        </Grid>
+                                        <TextBlock Margin="10,5" Text="ZIP" />
+                                    </StackPanel>
+                                </ListBoxItem>
+                            </ListBox>
+                        </syncfusion:DropDownButton>
+                        <syncfusion:RibbonButton
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Business card"
+                            SizeForm="Large" 
+                            IconTemplate="{StaticResource BusinessCard}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            syncfusion:Ribbon.ShowInMoreCommands="False"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Audio"
+                            SizeForm="Large" 
+                            IconTemplate="{StaticResource Audio}">
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+                </syncfusion:RibbonTab>
+                <syncfusion:RibbonTab Caption="Design">
+                    <syncfusion:RibbonBar Header="Table Style Options">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:RibbonCheckBox Content="Header Row" IsChecked="True" />
+                        <syncfusion:RibbonCheckBox Content="Total Row" />
+                        <syncfusion:RibbonCheckBox Content="Banded Row" />
+                        <syncfusion:RibbonCheckBox Content="First Column" />
+                        <syncfusion:RibbonCheckBox Content="Last Column" />
+                        <syncfusion:RibbonCheckBox Content="Banded Column" IsChecked="True" />
+                    </syncfusion:RibbonBar>
+                    <syncfusion:RibbonBar Header="Zoom">
+                        <interactivity:Interaction.Triggers>
+                            <interactivity:EventTrigger EventName="LauncherClick">
+                                <interactivity:InvokeCommandAction Command="local:RibbonCommand.ButtonCommand" />
+                            </interactivity:EventTrigger>
+                        </interactivity:Interaction.Triggers>
+                        <syncfusion:RibbonButton
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Zoom"
+                            SizeForm="Large" 
+                            IconTemplate="{StaticResource Zoom}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="100%"
+                            SizeForm="Large"
+                            IconTemplate="{StaticResource 100%}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            HorizontalAlignment="Left"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="One Page"
+                            SizeForm="Small"
+                            IconTemplate="{StaticResource OnePage}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            HorizontalAlignment="Left"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Two Pages"
+                            SizeForm="Small"
+                            IconTemplate="{StaticResource TwoPages}">
+                        </syncfusion:RibbonButton>
+                        <syncfusion:RibbonButton
+                            HorizontalAlignment="Left"
+                            Command="local:RibbonCommand.ButtonCommand"
+                            Label="Page Width"
+                            SizeForm="Small"
+                            IconTemplate="{StaticResource PageWidth}">
+                        </syncfusion:RibbonButton>
+                    </syncfusion:RibbonBar>
+                </syncfusion:RibbonTab>
+            </syncfusion:Ribbon>
+        </Grid>
+        <ScrollViewer
+            x:Name="scrollViewer"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <RichTextBox
+                    Name="editor"
+                    Margin="100,10"
+                    Padding="50"
+                    local:OptionTabViewModel.RichTextBox="richTextBoxText"
+                    AcceptsTab="True"
+                    Background="{Binding ElementName=shadingColorPicker, Path=Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}">
+                    <interactivity:Interaction.Triggers>
+                        <interactivity:EventTrigger EventName="SelectionChanged">
+                            <interactivity:InvokeCommandAction Command="{Binding Path=RichTextBoxSelectionChangedCommand}" />
+                        </interactivity:EventTrigger>
+                        <interactivity:EventTrigger EventName="PreviewMouseLeftButtonUp">
+                            <interactivity:InvokeCommandAction Command="{Binding Path=RichTextBoxPreviewMouseLeftButtonUpCommand}" />
+                        </interactivity:EventTrigger>
+                    </interactivity:Interaction.Triggers>
+                    <FlowDocument
+                        Name="flowDocumentName"
+                        Background="{Binding ElementName=highlightColorPicker, Path=Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
+                        FontFamily="Calibri"
+                        FontSize="14"
+                        Foreground="{Binding ElementName=fontColoPicker, Path=Color, Mode=OneWay, Converter={StaticResource ColorToBrushConverter}}"
+                        TextAlignment="Left">
+                        <Paragraph
+                            FontFamily="Cambria"
+                            FontSize="24"
+                            FontWeight="Bold">
+                            <Run Text="{Binding TitleText}" />
+                        </Paragraph>
+                        <Paragraph
+                            x:Name="firstPara"
+                            FontFamily="Calibri"
+                            FontSize="15">
+                            <Run Text="{Binding FirstParagraphText}" />
+                        </Paragraph>
+                        <Paragraph
+                            x:Name="secondPara"
+                            FontFamily="Cambria"
+                            FontSize="18">
+                            <Run Text="{Binding SecondTitleText}" />
+                        </Paragraph>
+                        <List MarkerStyle="Square">
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointOne"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointOne}" />
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointTwo"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointTwo}" />
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointThree"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointThree}" />
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointFour"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointFour}" />
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointFive"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointFive}" />
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointSix"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointSix}" />
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointSeven"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointSeven}" />
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointEight"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointEight}" />
+                                </Paragraph>
+                            </ListItem>
+                            <ListItem>
+                                <Paragraph
+                                    x:Name="pointNine"
+                                    FontFamily="Calibri"
+                                    FontSize="15">
+                                    <Run Text="{Binding PointNine}" />
+                                </Paragraph>
+                            </ListItem>
+                        </List>
+                    </FlowDocument>
+                </RichTextBox>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</syncfusion:RibbonWindow>

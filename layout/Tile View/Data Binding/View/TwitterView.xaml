@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="syncfusion.layoutdemos.wpf.TwitterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             d:DesignHeight="700" d:DesignWidth="1130" x:Name="twitterView"
+             xmlns:local="clr-namespace:syncfusion.layoutdemos.wpf"
+             xmlns:commno="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+             xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors">
+    <UserControl.Resources>
+        <commno:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter"/>
+    </UserControl.Resources>
+    <interactivity:Interaction.Triggers>
+        <interactivity:EventTrigger EventName="Loaded">
+            <local:LoadedAction TargetObject="{Binding ElementName=twitterView}" TweetList="{Binding ElementName=tweets}" SearchText="{Binding ElementName=searchstring, Path=Text}"/>
+        </interactivity:EventTrigger>
+    </interactivity:Interaction.Triggers>
+    <Grid Background="#FF555BBE">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Image Source="/syncfusion.layoutdemos.wpf;component/Assets/TileView/Twitter.png" Margin="10 5" Width="50" Height="50"/>
+        <Button Grid.Column="2" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Right" RenderTransformOrigin="0.5, 0.5" Background="Transparent">
+            <interactivity:Interaction.Behaviors>
+                <local:RestoreBehavior />
+            </interactivity:Interaction.Behaviors>
+            <Grid Background="Transparent">
+                <Image Source="/syncfusion.layoutdemos.wpf;component/Assets/TileView/Arrow Left.png"/>
+            </Grid>
+        </Button>
+        <TextBlock Text="Twitter" FontFamily="Segoe UI" FontWeight="Light" FontSize="38" Grid.Column="1" VerticalAlignment="Center" Margin="10" Foreground="White"/>
+        <syncfusion:MaskedTextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="10" Height="40" Text="Syncfusion" FontSize="18" 
+                                  FontFamily="Segoe UI" FontWeight="Light" x:Name="searchstring" Background="White"/>
+
+        <TextBlock Text="Loading tweets." Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Center"
+                   FontFamily="Segoe UI" FontWeight="Light" FontSize="32" x:Name="status" Foreground="White" 
+                   Visibility="{Binding ElementName=tweets, Path=Items, Converter={StaticResource CollectionVisibilityConverter}, ConverterParameter=False}"/>
+        <ListBox Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" Background="Transparent" x:Name="tweets" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 Margin="10">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="{Binding Image}" Height="50" Width="50" Margin="5" Grid.RowSpan="2"/>
+
+                        <TextBlock FontSize="23" Text="{Binding Author.Name}" FontFamily="Segoe UI" Margin="5" Grid.Column="1" Foreground="White"/>
+                        <TextBlock FontSize="18" Text="{Binding Title}"  FontFamily="Segoe UI" FontWeight="Light" TextWrapping="Wrap" Margin="3" Grid.Column="1" Grid.Row="1" Width="885"
+                                   HorizontalAlignment="Left" Foreground="White"/>
+                        <TextBlock FontSize="13" Text="{Binding Published}"  FontFamily="Segoe UI" FontWeight="Light" TextWrapping="Wrap" Margin="3" Grid.Column="1" Grid.Row="2" Foreground="White"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+    </Grid>
+</UserControl>

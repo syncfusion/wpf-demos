@@ -1,0 +1,310 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.diagramdemo.wpf.Views.Serialization"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    mc:Ignorable="d" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:Stencil="clr-namespace:Syncfusion.UI.Xaml.Diagram.Stencil;assembly=Syncfusion.SfDiagram.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"  
+    xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+    d:DesignHeight="450" d:DesignWidth="800" OptionsSize="270">
+    <democommon:DemoControl.Resources>
+        <sys:String x:Key="Process">
+            M419.511,76.687L359.511,76.687L359.511,43.086L419.511,43.086z
+        </sys:String>
+        <sys:String x:Key="Decision">
+            M 253.005,115.687L 200.567,146.071L 148.097,115.687L 200.534,85.304L 253.005,115.687 Z
+        </sys:String>
+        <sys:String x:Key="Document">
+            M 60 31.9 c 0 0 -11 -7.7 -30 0 s -30 0 -30 0 V 0 h 60 V 31.9 Z
+        </sys:String>
+        <sys:String x:Key="PredefinedProcess">
+            M 0,0 L 50,0 L 50,50 L 0,50 Z  M 8.333333333333334,0 L 8.333333333333334,50 M 41.66666666666667,0 L 41.66666666666667,50
+        </sys:String>
+        <sys:String x:Key="Terminator">
+            M 269.711,29.3333C 269.711,44.061 257.772,56 243.044,56L 158.058,56C 143.33,56 131.391,44.061 131.391,29.3333L 131.391,
+        29.3333C 131.391,14.6057 143.33,2.66669 158.058,2.66669L 243.044,2.66669C 257.772,2.66669 269.711,14.6057 269.711,29.3333 Z
+        </sys:String>
+        <sys:String x:Key="PaperTap">
+            F1 M0.000976562,17.2042 L0.000976562,47.1654 C0.000976562,47.1654 14.403,53.5455 25.001,47.1654 C35.599,40.7852 44.403,
+        43.5087 50.001,47.1654 L50.001,17.2042 M50.001,32.7987 L50.001,2.84052 C50.001,2.84052 35.599,-3.54271 25.001,2.84052 C14.403,
+        9.22376 5.599,6.49418 0.000976562,2.84052 L0.000976562,32.7987
+        </sys:String>
+        <sys:String x:Key="DirectData">
+            M 1477 613 L 1619 613 C 1627 613 1634 636 1634 665 C 1634 694 1627 717 1619 717 L 1477 717 C 1469 717 1461 694 1461 665 C 1461 636 1469 613 1477 613 ZM 1619 613 C 1610 613 1603 636 1603 665 C 1603 694 1610 717 1619 717M 1619 613 C 1610 613 1603 636 1603 665 C 1603 694 1610 717 1619 717
+        </sys:String>
+        <sys:String x:Key="SequentialData">
+            M0.00297546,24.999 C0.00297546,11.1922 10.433,0.00216177 23.295,0.00216177 C36.159,0.00216177 46.585,11.1922 46.585,24.999 C46.585,38.8057 36.159,49.9979 23.295,49.9979 C10.433,49.9979 0.00297546,
+        38.8057 0.00297546,24.999 z M23.294,49.999 L50.002,49.999
+        </sys:String>
+        <sys:String x:Key="Sort">
+            M50.001,24.9971 L25.001,49.9971 L0.000976562,24.9971 L25.001,-0.00286865 L50.001,24.9971 z M0.000976562,24.9971 L50.001,24.9971
+        </sys:String>
+        <sys:String x:Key="MultiDocument">
+            F1 M43.6826,40 C44.8746,40.6183 45.8586,41.3502 46.8366,42.1122 L46.8366,4.74487 L3.09857,
+        4.74487 L3.09857,10.9544 M46.837,35.1437 C48.027,35.7653 49.025,36.6042 50.003,37.3695 L50.003,0.0021928 L6.26497,0.0021928 L6.26497,4.74451 M43.6826,
+        47.1132 L43.6826,10.7652 L0.00257874,10.7652 L0.00257874,47.1132 C0.00257874,47.1132 12.5846,53.6101 21.8426,47.1132 C31.1006,40.6163 38.7926,43.3935 43.6826,47.1132 z
+        </sys:String>
+
+        <Style TargetType="Path" x:Key="SymbolTargetDecoratorStyleSerialization">
+            <Setter Property="Fill" Value="CornflowerBlue"/>
+            <Setter Property="StrokeThickness" Value="2.5"/>
+        </Style>
+
+        <Style TargetType="Path" x:Key="SymbolConnectorGeometryStyleSerialization">
+            <Setter Property="Stroke" Value="CornflowerBlue"/>
+            <Setter Property="StrokeThickness" Value="2.5"/>
+        </Style>
+        <Style TargetType="syncfusion:Connector">
+            <Setter Property="ConnectorGeometryStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="CornflowerBlue"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TargetDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="CornflowerBlue"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="syncfusion:Node">
+            <Setter Property="ShapeStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="{Binding Path= Fillcolor, Mode=TwoWay}"/>
+                        <Setter Property="Stroke" Value="{Binding Path= Strokecolor, Mode=TwoWay}"/>
+                        <Setter Property="Stretch" Value="Fill"/>
+                        <Setter Property="StrokeThickness" Value="2"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <sys:String x:Key="SummingJunction">
+            M7.3252,42.6768 L42.6772,7.32477 M42.6768,42.6768 L7.3248,7.32477 M0.000976562,25.001 C0.000976562,11.193 11.197,0.000976562 25.001,
+        0.000976562 C38.809,0.000976562 50.001,11.193 50.001,25.001 C50.001,38.809 38.809,50.001 25.001,50.001 C11.197,50.001 0.000976562,38.809 0.000976562,25.001 z
+        </sys:String>
+        <sys:String x:Key="Or">
+            M 0 50 L 100 50 M 50 100 L 50 0.0 M 0 50 C 0 22.384 22.392 0 50 0 C 77.616 0 100 22.384 100 50 C 100 77.616 77.616 100 50 100 C 22.392 100 0 77.616 0 50 Z
+        </sys:String>
+        <sys:String x:Key="InternalStorage">
+            M 0 3.8194444444444446A 2.5,3.8194444444444446 0 0,1 2.5,0L 47.5 0A 2.5,3.8194444444444446 0 0,1 50,3.8194444444444446L 50 45.833333333333336A 2.5,
+        3.8194444444444446 0 0,1 47.5,49.65277777777778L 2.5 49.65277777777778A 2.5,3.8194444444444446 0 0,1 0,45.833333333333336L 0 3.8194444444444446ZM 0 11.458333333333334L 50 11.458333333333334M 12.5 0L 12.5 49.65277777777778
+        </sys:String>
+        <sys:String x:Key="SequentialAccessStorage">
+            M 60 30 C 60 13.4 46.6 0 30 0 S 0 13.4 0 30 s 13.4 30 30 30 h 28.6 v -6.5 h -9.9 C 55.5 48 60 39.5 60 30 Z
+        </sys:String>
+        <sys:String x:Key="Display">
+            M47.8809,19.2914 L32.7968,-0.00594145 L11.3902,-0.00594145 C7.93166,-0.00594145 0.00124586,11.187 0.00124586,24.9968 C0.00124586,
+        38.8032 7.93166,49.9962 11.3902,49.9962 L32.7968,49.9962 L47.615,31.0388 C47.615,31.0388 52.7986,24.9968 47.8809,19.2914 z
+        </sys:String>
+        <sys:String x:Key="Delay">
+            M0,0 L12.029,0 C14.212999,0 16,1.7869979 16,3.9709952 C16,6.1549926 14.212999,7.9409904 12.029,7.9409904 L0,7.9409904 z
+        </sys:String>
+        <sys:String x:Key="StoredData">
+            M 5.555555555555555 0L 50 0A 1.5,30 0 0,1 50,0A 5.555555555555555,25 0 0,0 50,50A 1.5,30 0 0,1 50,50L 5.555555555555555 50A 5.555555555555555,25 0 0,1 5.555555555555555,0Z
+        </sys:String>
+        <sys:String x:Key="Data">
+            M 10 0 L 40 0 L 30 40 L 0 40 Z
+        </sys:String>
+        <sys:String x:Key="Extract">
+            M13.934,0.5L27.369,28.203L0.5,28.203L8.22929,12.264z
+        </sys:String>
+        <sys:String x:Key="Merge">
+            M0.5,0.5L27.369,0.5L13.934,28.203z
+        </sys:String>
+        <sys:String x:Key="OffPageReference">
+            M0.500001,0.5L28.203,0.5L28.203,23.53L14.351,28.203L0.5,23.53z
+        </sys:String>
+        <sys:String x:Key="ManualOperation">
+            M0.5,0.5L28.204,0.5L20.193,24.865L7.843,24.865z
+        </sys:String>
+        <sys:String x:Key="Card">
+            M10.83,0.5L51.5,0.5L51.5,25.5L0.500002,25.5L0.5,7.689z
+        </sys:String>
+
+        <!--On Page Reference Shape-->
+        <sys:String x:Key="OnPageReference">
+            M215.5,1098C215.5,1089.439,222.439,1082.5,231,1082.5C239.56,1082.5,246.5,1089.439,246.5,1098C246.5,1106.561,239.56,1113.5,231,1113.5C222.439,1113.5,215.5,1106.561,215.5,1098z
+        </sys:String>
+
+        <!--Prepration Shape-->
+        <sys:String x:Key="Prepration">
+            M242.6274,1138.5L219.3724,1138.5L207.7464,1149L219.3724,1159.5L242.6274,1159.5L254.2534,1149L242.6274,1138.5z
+        </sys:String>
+
+        <!--PunchedCard Shape-->
+        <sys:String x:Key="PunchedCard">
+            M213.5,1269.5L244.5,1269.5L244.5,1246.5L225.224,1246.5L213.5,1258L213.5,1269.5z
+        </sys:String>
+
+        <!--Loop Limit Shape-->
+        <sys:String x:Key="LoopLimit">
+            M253,1319 L214.5,1319 214.5,1299.2247 216.24967,1297.5 251.25033,1297.5 253,1299.2247 253,1319 z
+        </sys:String>
+        
+        <!--Manual Input Shape-->
+        <sys:String x:Key="ManualInput">
+            M245.499,1485.499L214.501,1485.499L214.526,1475.878L245.474,1466.672L245.499,1485.499z
+        </sys:String>
+        
+    </democommon:DemoControl.Resources>
+    <democommon:DemoControl.DataContext>
+        <viewmodel:SerializationViewModel x:Name="diagram"/>
+    </democommon:DemoControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <syncfusion:ToolBarAdv>
+            <Button Name="NewButton" Width="70"  Height="30" IsEnabled="True" ToolTip="New Document" Command="{Binding NewCommand}" Cursor="Hand" >
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="M2,2.000001 L2,14.000007 12,14.000007 12,5.0010033 9.9999809,5.0010033 C9.4470024,5.0010033 8.9999809,4.5530052 8.9999809,4.0010033 L8.9999809,2.000001 z M0,0 L10.414,0 14,3.5860016 14,16.000008 0,16.000008 z" 
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" 
+                              Height="16"  
+                              Width="14"
+                              Stretch="Fill"/>
+                    <TextBlock Text="New" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Button>
+
+            <!--Save button-->
+            <Button Name="SaveButton" Width="70"  Height="30"  IsEnabled="True"  ToolTip="Save Document" Command="{Binding SaveCommand}" Cursor="Hand">
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="M7,8.8899994 C5.5250244,8.8899994 4.3330078,10.079987 4.3330078,11.556 4.3330078,13.031998 5.5250244,14.222992 7,14.222992 8.4760132,14.222992 9.6660156,13.031998 9.6660156,11.556 9.6660156,10.079987 8.4760132,8.8899994 7,8.8899994 z M2,2 L2,5 9,5 9,2 z M1.7770386,0 L10.444031,0 14,3.5559998 14,14.222992 C14,15.200989 13.199036,16 12.222046,16 L1.7770386,16 C0.79101563,16 0,15.200989 0,14.222992 L0,1.7779999 C0,0.80099487 0.79101563,0 1.7770386,0 z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="16"
+                              Stretch="Fill" 
+                              Width="14"/>
+                    <TextBlock Text="Save" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Button>
+
+            <!--Load button-->
+            <Button Name="OpenButton" Width="70"  Height="30"  IsEnabled="True" ToolTip="Open document"  Command="{Binding LoadCommand}" Cursor="Hand">
+                <StackPanel Orientation="Horizontal">
+                    <Path Data="M4.2269996,4.2919953 L17.998994,4.2919953 14.687995,13.008 1.2630012,13.008 z M0,0 L5.230007,0 6.2759965,2.5020059 14.676,2.5020059 14.674001,3.2690042 3.5720037,3.2690042 0.26000953,13.008 0,13.008 z"
+                              Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                              Height="13.008"
+                              Canvas.Left="0"
+                              Stretch="Fill"
+                              Canvas.Top="3.095"
+                              Width="17.999" />
+                    <TextBlock Text="Load" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Button>
+            <syncfusion:ToolBarItemSeparator/>
+            <Button IsEnabled="{Binding Enabled}">
+                <StackPanel Orientation="Horizontal">
+                    <syncfusion:ColorPickerPalette IsEnabled="{Binding Enabled}" SelectedBrush="{Binding ElementName=diagram, Path=Fillcolor, Mode=TwoWay}" Width="60" Height="24" ToolTip="Fill Color"/>
+                    <Label Content="Fill Color"/>
+                </StackPanel>
+            </Button>
+            <Button IsEnabled="{Binding Enabled}">
+                <StackPanel Orientation="Horizontal">
+                    <syncfusion:ColorPickerPalette IsEnabled="{Binding Enabled}" SelectedBrush="{Binding ElementName=diagram, Path=Strokecolor, Mode=TwoWay}" Width="60" Height="24" ToolTip="Stroke Color"/>
+                    <Label Content="Stroke Color"/>
+                </StackPanel>
+            </Button>
+        </syncfusion:ToolBarAdv>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="210"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Stencil:Stencil x:Name="stencil" 
+                             Grid.Column="0" 
+                             ExpandMode="ZeroOrMore" >
+                <Stencil:Stencil.SymbolSource>
+                    <viewmodel:SerializationSymbolCollection>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Process}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Decision}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="37" UnitWidth="94" Shape="{StaticResource Terminator}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Sort}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Document}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource MultiDocument}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource DirectData}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="94" UnitWidth="94" Shape="{StaticResource SequentialData}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource PaperTap}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="75" UnitWidth="75" Shape="{StaticResource SummingJunction}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="75" UnitWidth="75" Shape="{StaticResource Or}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource InternalStorage}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource PredefinedProcess}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="75" UnitWidth="75" Shape="{StaticResource Extract}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="75" UnitWidth="75" Shape="{StaticResource Merge}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="75" UnitWidth="75" Shape="{StaticResource OffPageReference}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="94" UnitWidth="94" Shape="{StaticResource SequentialAccessStorage}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="45" UnitWidth="45" Shape="{StaticResource Delay}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource StoredData}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="45" UnitWidth="45" Shape="{StaticResource Display}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource ManualOperation}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Data}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="35" UnitWidth="35" Shape="{StaticResource OnPageReference}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Prepration}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource PunchedCard}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource Card}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource LoopLimit}"  Key="FlowShapes"/>
+                        <viewmodel:SerializationCustomNode Fillcolor="CornflowerBlue" Strokecolor="CornflowerBlue" UnitHeight="56" UnitWidth="94" Shape="{StaticResource ManualInput}"  Key="FlowShapes"/>
+
+
+                        <syncfusion:ConnectorViewModel SourcePoint="0,0" TargetPoint="60,60" Key="Connectors" TargetDecoratorStyle="{StaticResource SymbolTargetDecoratorStyleSerialization}" ConnectorGeometryStyle="{StaticResource SymbolConnectorGeometryStyleSerialization}"/>
+                        <syncfusion:ConnectorViewModel SourcePoint="0,0" TargetPoint="60,60" Key="Connectors" TargetDecoratorStyle="{StaticResource SymbolTargetDecoratorStyleSerialization}" ConnectorGeometryStyle="{StaticResource SymbolConnectorGeometryStyleSerialization}">
+                            <syncfusion:ConnectorViewModel.Segments>
+                                <syncfusion:ConnectorSegments>
+                                    <syncfusion:StraightSegment></syncfusion:StraightSegment>
+                                </syncfusion:ConnectorSegments>
+                            </syncfusion:ConnectorViewModel.Segments>
+                        </syncfusion:ConnectorViewModel>
+                        <syncfusion:ConnectorViewModel SourcePoint="0,0" TargetPoint="60,60" Key="Connectors" TargetDecoratorStyle="{StaticResource SymbolTargetDecoratorStyleSerialization}" ConnectorGeometryStyle="{StaticResource SymbolConnectorGeometryStyleSerialization}">
+                            <syncfusion:ConnectorViewModel.Segments>
+                                <syncfusion:ConnectorSegments>
+                                    <syncfusion:CubicCurveSegment></syncfusion:CubicCurveSegment>
+                                </syncfusion:ConnectorSegments>
+                            </syncfusion:ConnectorViewModel.Segments>
+                        </syncfusion:ConnectorViewModel>
+                        <syncfusion:ConnectorViewModel SourcePoint="0,0" TargetPoint="60,60" Key="Connectors" TargetDecoratorStyle="{StaticResource SymbolTargetDecoratorStyleSerialization}" ConnectorGeometryStyle="{StaticResource SymbolConnectorGeometryStyleSerialization}">
+                            <syncfusion:ConnectorViewModel.Segments>
+                                <syncfusion:ConnectorSegments>
+                                    <syncfusion:QuadraticCurveSegment></syncfusion:QuadraticCurveSegment>
+                                </syncfusion:ConnectorSegments>
+                            </syncfusion:ConnectorViewModel.Segments>
+                        </syncfusion:ConnectorViewModel>
+                    </viewmodel:SerializationSymbolCollection>
+                </Stencil:Stencil.SymbolSource>
+                <Stencil:Stencil.SymbolGroups>
+                    <Stencil:SymbolGroups>
+                        <!--Separate groups based on the key-->
+                        <Stencil:SymbolGroupProvider MappingName="Key"/>
+                    </Stencil:SymbolGroups>
+                </Stencil:Stencil.SymbolGroups>
+            </Stencil:Stencil>
+            <syncfusion:SfDiagram Grid.Column="1"
+                                  Nodes="{Binding Nodes}"
+                                  Connectors="{Binding Connectors}"
+                                  SelectedItems="{Binding SelectedItems}"
+                                  HorizontalRuler="{Binding HorizontalRuler}"
+                                  VerticalRuler="{Binding VerticalRuler}"
+                                  ItemAddedCommand="{Binding ItemAddedCommand}"
+                                  ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                                  ItemUnSelectedCommand="{Binding ItemUnSelectedCommand}">
+                <syncfusion:SfDiagram.SnapSettings>
+                    <syncfusion:SnapSettings SnapConstraints="ShowLines"/>
+                </syncfusion:SfDiagram.SnapSettings>
+            </syncfusion:SfDiagram>
+        </Grid>
+    </Grid>
+</democommon:DemoControl>

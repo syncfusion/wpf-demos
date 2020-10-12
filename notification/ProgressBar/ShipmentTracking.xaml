@@ -1,0 +1,157 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.notificationdemos.wpf.ShipmentTracking"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+    <democommon:DemoControl.Resources>
+        <DataTemplate x:Key="OrderedContentTemplate">
+            <Grid>
+                <TextBlock Grid.Row="0">
+                    <Run
+                        FontFamily="Segoe UI"
+                        FontSize="13"
+                        FontWeight="Bold">
+                        Ordered and Approved
+                    </Run>
+                    <LineBreak />
+                    <LineBreak />
+                    <Run FontFamily="Segoe UI" FontSize="12">
+                        Your order has been placed.
+                    </Run>
+                    <LineBreak />
+                    <Run FontFamily="Calibri Light" FontSize="11">
+                        Sat, 25th Oct
+                    </Run>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="PackedContentTemplate">
+            <Grid>
+                <TextBlock Grid.Row="0">
+                    <Run
+                        FontFamily="Segoe UI"
+                        FontSize="13"
+                        FontWeight="Bold">
+                        Packed
+                    </Run>
+                    <LineBreak />
+                    <LineBreak />
+                    <Run FontFamily="Segoe UI" FontSize="12">
+                        Your item has been picked up by courier partner.
+                    </Run>
+                    <LineBreak />
+                    <Run FontFamily="Calibri Light" FontSize="12">
+                        Mon 27th Oct
+                    </Run>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="ShippedContentTemplate">
+            <Grid>
+                <TextBlock Grid.Row="0">
+                    <Run
+                        FontFamily="Segoe UI"
+                        FontSize="13"
+                        FontWeight="Bold">
+                        Shipped
+                    </Run>
+                    <LineBreak />
+                    <LineBreak />
+                    <Run FontFamily="Segoe UI" FontSize="12">
+                        Your item has been shipped.
+                    </Run>
+                    <LineBreak />
+                    <Run FontFamily="Calibri Light" FontSize="11">
+                        Wed, 29th Oct
+                    </Run>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="DelieveredContentTemplate">
+            <Grid>
+                <TextBlock Grid.Row="0">
+                    <Run
+                        FontFamily="Segoe UI"
+                        FontSize="13"
+                        FontWeight="Bold">
+                        Delivered
+                    </Run>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+    </democommon:DemoControl.Resources>
+    <democommon:DemoControl.Options>
+        <StackPanel>
+            <StackPanel>
+                <TextBlock
+                    Margin="5"
+                    FontWeight="Bold"
+                    Text="Select Item" />
+                <ComboBox
+                    x:Name="SelectedItem"
+                    Margin="5"
+                    SelectedIndex="1">
+                    <ComboBoxItem Content="Ordered" />
+                    <ComboBoxItem Content="Packed" />
+                    <ComboBoxItem Content="Shipped" />
+                    <ComboBoxItem Content="Delivered" />
+                </ComboBox>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock
+                    Margin="5"
+                    FontWeight="Bold"
+                    Text="Select Marker Shape" />
+                <ComboBox
+                    x:Name="SelectedMarkerShape"
+                    Margin="5"
+                    ItemsSource="{democommon:EnumValues Type=syncfusion:MarkerShapeType}"
+                    SelectedIndex="0" />
+            </StackPanel>
+            <StackPanel>
+                <TextBlock
+                    Margin="5"
+                    FontWeight="Bold"
+                    Text="Select Item Status" />
+                <ComboBox
+                    x:Name="SelectedItemStatus"
+                    Margin="5"
+                    ItemsSource="{democommon:EnumValues Type=syncfusion:StepStatus}"
+                    SelectedIndex="2" />
+            </StackPanel>
+        </StackPanel>
+    </democommon:DemoControl.Options>
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="0,5,0,0"
+                HorizontalAlignment="Center"
+                FontSize="20"
+                FontWeight="SemiBold"
+                Text="Track your package" />
+
+            <syncfusion:SfStepProgressBar
+                x:Name="StepProgressBar"
+                Grid.Row="1"
+                Margin="100,30,0,0"
+                ItemSpacing="100"
+                MarkerShapeType="{Binding ElementName=SelectedMarkerShape, Path=SelectedValue}"
+                Orientation="Vertical"
+                SelectedIndex="{Binding ElementName=SelectedItem, Path=SelectedIndex}"
+                SelectedItemStatus="{Binding ElementName=SelectedItemStatus, Path=SelectedValue}">
+                <syncfusion:StepViewItem ContentTemplate="{StaticResource OrderedContentTemplate}" />
+                <syncfusion:StepViewItem ContentTemplate="{StaticResource PackedContentTemplate}" />
+                <syncfusion:StepViewItem ContentTemplate="{StaticResource ShippedContentTemplate}" />
+                <syncfusion:StepViewItem ContentTemplate="{StaticResource DelieveredContentTemplate}" />
+            </syncfusion:SfStepProgressBar>
+        </Grid>
+    </ScrollViewer>
+</democommon:DemoControl>

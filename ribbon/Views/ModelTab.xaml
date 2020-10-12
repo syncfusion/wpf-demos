@@ -1,0 +1,450 @@
+﻿<syncfusion:RibbonWindow
+    x:Class="syncfusion.ribbondemos.wpf.ModelTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.ribbondemos.wpf"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Title="Modal Tab"
+    x:Name="ribbonWindow"
+    Width="1100"
+    Height="750"
+    Icon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/App.ico"
+    Office2010Icon="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/App.ico"
+    WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Window.DataContext>
+        <local:ModelTabViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <local:BooltoSizeFormConverter x:Key="SizeFormConverter" />
+        <local:ItemDataTemplateSelector x:Key="TemplateSelectorConverter" />
+        <DataTemplate x:Key="DefaultTemplate">
+            <StackPanel Orientation="Horizontal">
+                <ContentPresenter
+                    Width="20"
+                    Height="20"
+                    ContentTemplate="{Binding ImageTemplate}" Content="{Binding }" />
+                <TextBlock Margin="5,5" Text="{Binding Path=Name}" />
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="Ribbonbutton">
+            <syncfusion:RibbonButton
+                HorizontalAlignment="Left"
+                Command="{Binding Command}"
+                Label="{Binding ItemHeader}"  
+                SizeForm="{Binding IsLarge, Converter={StaticResource SizeFormConverter}}"
+                IconTemplate="{Binding ImageTemplate}"
+                />
+        </DataTemplate>
+        <DataTemplate x:Key="Splitbutton">
+            <syncfusion:SplitButton
+                HorizontalAlignment="Left"
+                Label="{Binding ItemHeader}"
+                SizeForm="{Binding IsLarge, Converter={StaticResource SizeFormConverter}}"
+                IconTemplate="{Binding ImageTemplate}">
+                <ListBox
+                    BorderThickness="0"
+                    ItemTemplate="{StaticResource DefaultTemplate}"
+                    ItemsSource="{Binding Path=ModelTabDropDownItem}" />
+            </syncfusion:SplitButton>
+        </DataTemplate>
+        <DataTemplate x:Key="DropDownButton">
+            <syncfusion:DropDownButton
+                HorizontalAlignment="Left"
+                Label="{Binding ItemHeader}"
+                SizeForm="{Binding IsLarge, Converter={StaticResource SizeFormConverter}}"
+                IconTemplate="{Binding ImageTemplate}">
+                <ListBox
+                    BorderThickness="0"
+                    ItemTemplate="{StaticResource DefaultTemplate}"
+                    ItemsSource="{Binding Path=ModelTabDropDownItem}">
+                    <interactivity:Interaction.Triggers>
+                        <interactivity:EventTrigger EventName="SelectionChanged">
+                            <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                        </interactivity:EventTrigger>
+                    </interactivity:Interaction.Triggers>
+                </ListBox>
+            </syncfusion:DropDownButton>
+        </DataTemplate>
+        <DataTemplate x:Key="DropDownButtonWithTablePickerUI">
+            <syncfusion:DropDownButton
+                HorizontalAlignment="Left"
+                Label="{Binding ItemHeader}"
+                SizeForm="{Binding IsLarge, Converter={StaticResource SizeFormConverter}}"
+                IconTemplate="{Binding ImageTemplate}">
+                <syncfusion:TablePickerUI Margin="3" CellCount="10 8">
+                    <interactivity:Interaction.Triggers>
+                        <interactivity:EventTrigger EventName="Click">
+                            <interactivity:InvokeCommandAction Command="local:RibbonCommand.DropDownCommand" />
+                        </interactivity:EventTrigger>
+                    </interactivity:Interaction.Triggers>
+                </syncfusion:TablePickerUI>
+            </syncfusion:DropDownButton>
+        </DataTemplate>
+        <DataTemplate x:Key="CheckBox">
+            <syncfusion:RibbonCheckBox
+                HorizontalAlignment="Left"
+                Content="{Binding ItemHeader}"
+                IsChecked="{Binding Checked}" />
+        </DataTemplate>
+        <DataTemplate x:Key="RibbonSeparator">
+            <syncfusion:RibbonSeparator />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/PathIcon.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <syncfusion:Ribbon
+            x:Name="mainRibbon"
+            VerticalAlignment="Top"
+            local:ModelTabViewModel.Ribbon="{Binding ElementName=mainRibbon}"
+            ItemsSource="{Binding ModelRibbonTab}"
+            RibbonBarCollapseImage="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/App.ico">
+            <syncfusion:Ribbon.BackStage>
+                <syncfusion:Backstage Name="ribbonBackStage">
+                    <syncfusion:BackStageCommandButton Command="{Binding ButtonCommand}" Header="Save" />
+                    <syncfusion:BackStageCommandButton Command="{Binding SaveAsCommand}" Header="Save As" />
+                    <syncfusion:BackStageCommandButton Command="{Binding OpenCommand}" Header="Open" />
+                    <syncfusion:BackStageCommandButton Command="{Binding CloseCommand}" Header="Close" />
+                    <syncfusion:BackstageTabItem Header="Info">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Margin="10"
+                                    FontFamily="Segoe UI"
+                                    FontSize="25"
+                                    Text="Info" />
+                                <Grid Grid.Row="1" Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <syncfusion:RibbonButton
+                                        Width="87"
+                                        Height="80"
+                                        Margin="5"
+                                        BorderBrush="#FFA1A2A4"
+                                        BorderThickness="1"
+                                        Command="{Binding ButtonCommand}"
+                                        IconTemplate="{StaticResource Security}"
+                                        Label="Security"
+                                        SizeForm="Large"
+                                        SnapsToDevicePixels="True" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="3"
+                                        VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            FontWeight="Bold"
+                                            Text="Permissions" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            Text="Any one can open, copy and change any part of this document."
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="2" Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <syncfusion:RibbonButton
+                                        Width="87"
+                                        Height="80"
+                                        Margin="5"
+                                        BorderBrush="#FFA1A2A4"
+                                        BorderThickness="1"
+                                        Command="{Binding ButtonCommand}"
+                                        IconTemplate="{StaticResource Sharing}"
+                                        Label="Sharing"
+                                        SizeForm="Large"
+                                        SnapsToDevicePixels="True" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="3"
+                                        VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            FontWeight="Bold"
+                                            Text="Prepare for Sharing" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            Text="Before sharing the file be aware that it contains author's name."
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="3" Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <syncfusion:RibbonButton
+                                        Width="87"
+                                        Height="80"
+                                        Margin="5"
+                                        BorderBrush="#FFA1A2A4"
+                                        BorderThickness="1"
+                                        Command="{Binding ButtonCommand}"
+                                        IconTemplate="{StaticResource Versions}"
+                                        Label="Versions"
+                                        SizeForm="Large"
+                                        SnapsToDevicePixels="True" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="3"
+                                        VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            FontWeight="Bold"
+                                            Text="Manage Versions" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            Text="There are no previous versions of this file"
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                            <Border
+                                Grid.Column="1"
+                                Margin="15"
+                                HorizontalAlignment="Left"
+                                BorderBrush="#FFBCBCBC"
+                                BorderThickness="0.5" />
+                            <Grid Grid.Column="2">
+                                <Button
+                                    Margin="20,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding ReturnToEditorCommand}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Grid>
+                                                            <Border
+                                                                x:Name="buttonBorder"
+                                                                Background="Gray"
+                                                                Opacity="0.1">
+                                                                <Border.BitmapEffect>
+                                                                    <BlurBitmapEffect />
+                                                                </Border.BitmapEffect>
+                                                            </Border>
+                                                            <ContentPresenter Margin="3" />
+                                                        </Grid>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="buttonBorder" Property="Opacity" Value="0.5" />
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image
+                                        Width="400"
+                                        Height="300"
+                                        Source="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/return.png"
+                                        Stretch="Fill" />
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </syncfusion:BackstageTabItem>
+                    <syncfusion:BackstageTabItem Header="Help">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <TextBlock
+                                    Margin="10"
+                                    FontFamily="Segoe UI"
+                                    FontSize="20"
+                                    Text="Syncfusion User Interface Help" />
+                                <Grid Grid.Row="2" Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <syncfusion:RibbonButton
+                                        Width="87"
+                                        Height="80"
+                                        Margin="5"
+                                        BorderBrush="#FFA1A2A4"
+                                        BorderThickness="1"
+                                        Command="{Binding OnlineHelpCommand}"
+                                        IconTemplate="{StaticResource Help}"
+                                        Label="Online Help"
+                                        SizeForm="Large"
+                                        SnapsToDevicePixels="True" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="3"
+                                        VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            FontWeight="Bold"
+                                            Text="Online Help" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            Text="UG documents helps understanding the usage of our Syncfusion UI components."
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+                                <Grid Grid.Row="4" Margin="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <syncfusion:RibbonButton
+                                        Width="87"
+                                        Height="80"
+                                        Margin="5"
+                                        BorderBrush="#FFA1A2A4"
+                                        BorderThickness="1"
+                                        Command="{Binding GettingStartedHelpCommand}"
+                                        IconTemplate="{StaticResource GettingStarted}"
+                                        Label="Getting Started"
+                                        SizeForm="Large"
+                                        SnapsToDevicePixels="True" />
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Margin="3"
+                                        VerticalAlignment="Top">
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            FontWeight="Bold"
+                                            Text="Getting Started" />
+                                        <TextBlock
+                                            Grid.Column="1"
+                                            Margin="3"
+                                            Text="A complete information on Syncfusion Ribbon control and its usage."
+                                            TextWrapping="Wrap" />
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                            <Border
+                                Grid.Column="1"
+                                Margin="15"
+                                HorizontalAlignment="Left"
+                                BorderBrush="#FFBCBCBC"
+                                BorderThickness="0.5" />
+                            <Grid Grid.Column="2">
+                                <Button
+                                    Margin="20,10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding ReturnToEditorCommand}">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Grid>
+                                                            <Border
+                                                                x:Name="buttonBorder"
+                                                                Background="Gray"
+                                                                Opacity="0.1">
+                                                                <Border.BitmapEffect>
+                                                                    <BlurBitmapEffect />
+                                                                </Border.BitmapEffect>
+                                                            </Border>
+                                                            <ContentPresenter Margin="3" />
+                                                        </Grid>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="buttonBorder" Property="Opacity" Value="0.5" />
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image
+                                        Width="400"
+                                        Height="300"
+                                        Source="/syncfusion.ribbondemos.wpf;component/Assets/Ribbon/return.png"
+                                        Stretch="Fill" />
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </syncfusion:BackstageTabItem>
+                    <syncfusion:BackStageCommandButton
+                        Command="{Binding BackStageExitCommand}"
+                        CommandParameter="{Binding ElementName=ribbonWindow}"
+                        Header="Exit" />
+                </syncfusion:Backstage>
+            </syncfusion:Ribbon.BackStage>
+
+            <syncfusion:Ribbon.ItemContainerStyle>
+                <Style TargetType="{x:Type syncfusion:RibbonTab}">
+                    <Setter Property="Caption" Value="{Binding TabHeader}" />
+                    <Setter Property="ItemsSource" Value="{Binding ModelTabRibbonBar}" />
+                    <Setter Property="ItemContainerStyle">
+                        <Setter.Value>
+                            <Style BasedOn="{StaticResource SyncfusionRibbonBarStyle}" TargetType="{x:Type syncfusion:RibbonBar}">
+                                <Setter Property="Header" Value="{Binding BarHeader}" />
+                                <Setter Property="ItemsSource" Value="{Binding ModelTabRibbonItem}" />
+                                <Setter Property="ItemTemplateSelector" Value="{StaticResource TemplateSelectorConverter}" />
+                            </Style>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </syncfusion:Ribbon.ItemContainerStyle>
+        </syncfusion:Ribbon>
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <RichTextBox
+                    Name="editor"
+                    Margin="50"
+                    local:ModelTabViewModel.DocumentContent="{Binding FileContent, Mode=OneWay}"
+                    AcceptsTab="True" />
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</syncfusion:RibbonWindow>
