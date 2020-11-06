@@ -1,0 +1,201 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.SelectionBehavior"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.Resources>
+
+        <!--  Template for Adornment Labels  -->
+        <DataTemplate x:Key="labeltemplate">
+            <TextBlock
+                FontSize="14"
+                Foreground="White"
+                IsHitTestVisible="False"
+                Text="{Binding}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="labelTemplate">
+            <TextBlock
+                Margin="5"
+                FontSize="14"
+                Text="{Binding Path=LabelContent}" />
+        </DataTemplate>
+
+        <!--  Template to add postfix for axis labels  -->
+        <DataTemplate x:Key="postfixTemplate">
+            <TextBlock
+                Margin="3,0,0,0"
+                VerticalAlignment="Center"
+                FontSize="14"
+                Text="%" />
+        </DataTemplate>
+
+        <!--  Templpate for Axis  -->
+        <Style x:Key="axisLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="#FFD1D3D4" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="minorTickLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="#FFD1D3D4" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="majorTickLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="#FFBCBEC0" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.DataContext>
+        <local:SeriesSelectionChartViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Options>
+        <WrapPanel>
+            <StackPanel>
+                <StackPanel Margin="10,10,5,0" Orientation="Horizontal">
+                    <TextBlock Text="Selection Mode" VerticalAlignment="Bottom"/>
+                    <ComboBox
+                        x:Name="selectionModeCombo"
+                        Margin="10,0,0,0" VerticalAlignment="Center"
+                        ItemsSource="{democommon:EnumValuesExtension Type=chart:SelectionMode}"
+                        SelectedItem="{Binding SelectionMode, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="10" Orientation="Horizontal">
+                    <TextBlock
+                        x:Name="selectionStyleTextBlock" VerticalAlignment="Bottom"
+                        Opacity="{Binding EnableSelectionOpacity, Mode=TwoWay}"
+                        Text="Selection Style" />
+                    <ComboBox
+                        x:Name="selectionStyleCombo"
+                        Margin="15,0,0,0" VerticalAlignment="Center"
+                        IsEnabled="{Binding EnableSelectionStyle}"
+                        ItemsSource="{democommon:EnumValuesExtension Type=chart:SelectionStyle}"
+                        Opacity="{Binding EnableSelectionOpacity, Mode=TwoWay}"
+                        SelectedItem="{Binding SelectionStyle, Mode=TwoWay}" />
+                </StackPanel>
+
+                <StackPanel Margin="10" Orientation="Vertical">
+
+                    <RadioButton
+                        x:Name="enableSegment"
+                        Margin="-2,0,0,0"
+                        Content="Enable Segment Selection"
+                        IsChecked="True" />
+
+                    <RadioButton
+                        x:Name="enableSeries"
+                        Margin="0,10,0,0"
+                        Content="Enable Series Selection" />
+                </StackPanel>
+            </StackPanel>
+        </WrapPanel>
+    </democommon:DemoControl.Options>
+
+    <Grid>
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <chart:SfChart
+            Name="chart"
+            Margin="10"
+            ColorModel="{StaticResource CustomColor}"
+            FontSize="20"
+            Palette="Custom">
+
+            <chart:SfChart.Header>
+                <TextBlock
+                    Margin="50,0,0,10"
+                    FontFamily="Seoge UI"
+                    FontSize="18"
+                    Text="Mobiles Market Share" />
+            </chart:SfChart.Header>
+
+            <!--  SelectionBehavior  -->
+            <chart:SfChart.Behaviors>
+                <chart:ChartSelectionBehavior
+                    x:Name="selection"
+                    EnableSegmentSelection="{Binding Source={x:Reference Name=enableSegment}, TargetNullValue=true, Path=IsChecked, Mode=TwoWay}"
+                    EnableSeriesSelection="{Binding Source={x:Reference Name=enableSeries},TargetNullValue=false, Path=IsChecked, Mode=TwoWay}"
+                    SelectionCursor="Hand"
+                    SelectionMode="{Binding Source={x:Reference Name=selectionModeCombo},TargetNullValue=0, Path=SelectedItem, Mode=TwoWay}"
+                    SelectionStyle="{Binding Source={x:Reference Name=selectionStyleCombo},TargetNullValue=0, Path=SelectedItem, Mode=TwoWay}" />
+            </chart:SfChart.Behaviors>
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis
+                    AxisLineStyle="{StaticResource axisLineStyle}"
+                    FontSize="16"
+                    Header="Brand"
+                    ShowGridLines="False"
+                    LabelTemplate="{StaticResource labelTemplate}"
+                    MajorTickLineStyle="{StaticResource minorTickLineStyle}"
+                    ShowTrackBallInfo="True" />
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    AxisLineStyle="{StaticResource axisLineStyle}"
+                    FontSize="16"
+                    Header="Market Share"
+                    MajorTickLineStyle="{StaticResource minorTickLineStyle}"
+                    PostfixLabelTemplate="{StaticResource postfixTemplate}"
+                    ShowTrackBallInfo="True" />
+            </chart:SfChart.SecondaryAxis>
+            <chart:SfChart.Legend>
+                <chart:ChartLegend />
+            </chart:SfChart.Legend>
+
+            <chart:ColumnSeries
+                Name="column"
+                EnableAnimation="True"
+                ItemsSource="{Binding SalesCollection}"
+                Label="2013"
+                SegmentSelectionBrush="Brown"
+                SegmentSpacing="0.1"
+                SelectedIndex="{Binding Series1SelectedIndex, Mode=TwoWay}"
+                SeriesSelectionBrush="Red"
+                XBindingPath="Category"
+                YBindingPath="Year2013">
+                <chart:ColumnSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo
+                        AdornmentsPosition="TopAndBottom"
+                        LabelTemplate="{StaticResource labeltemplate}"
+                        ShowLabel="True" />
+                </chart:ColumnSeries.AdornmentsInfo>
+            </chart:ColumnSeries>
+            <chart:ColumnSeries
+                x:Name="column1"
+                EnableAnimation="True"
+                ItemsSource="{Binding SalesCollection}"
+                Label="2014"
+                SegmentSelectionBrush="Brown"
+                SegmentSpacing="0.1"
+                SelectedIndex="{Binding Series2SelectedIndex, Mode=TwoWay}"
+                SeriesSelectionBrush="Red"
+                XBindingPath="Category"
+                YBindingPath="Year2014">
+                <chart:ColumnSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo
+                        AdornmentsPosition="TopAndBottom"
+                        LabelTemplate="{StaticResource labeltemplate}"
+                        ShowLabel="True" />
+                </chart:ColumnSeries.AdornmentsInfo>
+            </chart:ColumnSeries>
+
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>
+

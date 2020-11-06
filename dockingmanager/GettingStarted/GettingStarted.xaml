@@ -1,0 +1,291 @@
+﻿<syncfusion:ChromelessWindow
+    x:Class="syncfusion.dockingmanagerdemos.wpf.GettingStarted"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:syncfusion.dockingmanagerdemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    skin:SfSkinManager.Theme="{DynamicResource theme}"
+    Icon="/syncfusion.demoscommon.wpf;component/Assets/App.Ico"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+
+    <syncfusion:ChromelessWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.dockingmanagerdemos.wpf;component/Common/View/WPFControls.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+            <skin:Theme x:Key="theme" ThemeName="Office2019Colorful" />
+        </ResourceDictionary>
+    </syncfusion:ChromelessWindow.Resources>
+
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:GettingStartedViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--  Header Area  -->
+        <Menu
+            VerticalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            SnapsToDevicePixels="True"
+            Visibility="Collapsed">
+
+            <!--  Options Menu  -->
+            <MenuItem Header="Options">
+                <MenuItem Header="Dock Behavior">
+                    <MenuItem
+                        Command="{Binding OptionCommand}"
+                        CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="Default"
+                        IsChecked="{Binding DockBehavior, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Default}" />
+                    <MenuItem
+                        Command="{Binding OptionCommand}"
+                        CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="VS2010"
+                        IsChecked="{Binding DockBehavior, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=VS2010}" />
+                </MenuItem>
+                <MenuItem Header="Dock Tab Alignment">
+                    <MenuItem
+                        Command="{Binding OptionCommand}"
+                        CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="Left"
+                        IsChecked="{Binding TabAlignment, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Left}" />
+                    <MenuItem
+                        Command="{Binding OptionCommand}"
+                        CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="Top"
+                        IsChecked="{Binding TabAlignment, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Top}" />
+                    <MenuItem
+                        Command="{Binding OptionCommand}"
+                        CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="Right"
+                        IsChecked="{Binding TabAlignment, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Right}" />
+                    <MenuItem
+                        Command="{Binding OptionCommand}"
+                        CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                        Header="Bottom"
+                        IsChecked="{Binding TabAlignment, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=Bottom}" />
+                </MenuItem>
+                <MenuItem Header="Drag Options">
+                    <MenuItem
+                        Header="CanDrag"
+                        IsCheckable="True"
+                        IsChecked="{Binding CanDrag, Mode=TwoWay}" />
+                    <MenuItem Header="Dragging Type" IsEnabled="{Binding CanDrag}">
+                        <MenuItem
+                            Command="{Binding OptionCommand}"
+                            CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                            Header="NormalDragging"
+                            IsCheckable="True"
+                            IsChecked="{Binding DraggingType, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=NormalDragging}" />
+                        <MenuItem
+                            Command="{Binding OptionCommand}"
+                            CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                            Header="BorderDragging"
+                            IsCheckable="True"
+                            IsChecked="{Binding DraggingType, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=BorderDragging}" />
+                        <MenuItem
+                            Command="{Binding OptionCommand}"
+                            CommandParameter="{Binding Header, RelativeSource={RelativeSource Mode=Self}}"
+                            Header="ShadowDragging"
+                            IsCheckable="True"
+                            IsChecked="{Binding DraggingType, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=ShadowDragging}" />
+                    </MenuItem>
+                </MenuItem>
+                <MenuItem Header="Snap Option">
+                    <MenuItem
+                        Name="SnapFloat"
+                        Header="EnableSnappingFloatWindow"
+                        IsCheckable="True"
+                        IsChecked="{Binding EnableSnappingFloatWindow, Mode=TwoWay}" />
+                    <MenuItem
+                        Header="AllowSnap"
+                        IsCheckable="True"
+                        IsChecked="{Binding AllowSnap, Mode=TwoWay}"
+                        IsEnabled="{Binding EnableSnappingFloatWindow, Mode=TwoWay}" />
+                </MenuItem>
+                <Separator />
+                <MenuItem
+                    x:Name="enableFlatLayoutMenuItem"
+                    Header="EnableFlatLayout"
+                    IsCheckable="True"
+                    IsChecked="{Binding EnableFlatLayout, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            </MenuItem>
+        </Menu>
+
+        <!--  Dock Window Area  -->
+        <syncfusion:DockingManager
+            x:Name="DockingManager"
+            Grid.Row="1"
+            DockBehavior="{Binding DockBehavior}"
+            DockTabAlignment="{Binding TabAlignment}"
+            DraggingType="{Binding DraggingType}"
+            EnableFlatLayout="{Binding EnableFlatLayout}"
+            EnableMouseHoverBackground="False"
+            EnableSnappingFloatWindow="{Binding EnableSnappingFloatWindow}"
+            IsVS2010DraggingEnabled="True"
+            PersistState="False"
+            UseDocumentContainer="True"
+            UseInteropCompatibilityMode="False">
+            <behaviors:Interaction.Triggers>
+                <behaviors:EventTrigger EventName="CloseOtherTabs">
+                    <behaviors:InvokeCommandAction Command="{Binding CloseCommand}" PassEventArgsToCommand="True" />
+                </behaviors:EventTrigger>
+                <behaviors:EventTrigger EventName="CloseAllTabs">
+                    <behaviors:InvokeCommandAction Command="{Binding CloseCommand}" PassEventArgsToCommand="True" />
+                </behaviors:EventTrigger>
+                <behaviors:EventTrigger EventName="WindowClosing">
+                    <behaviors:InvokeCommandAction Command="{Binding CloseCommand}" PassEventArgsToCommand="True" />
+                </behaviors:EventTrigger>
+            </behaviors:Interaction.Triggers>
+            <!--  Dock window icon  -->
+            <syncfusion:DockingManager.Icon>
+                <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/icon.png" />
+            </syncfusion:DockingManager.Icon>
+            <!--  Output dock window  -->
+            <ContentControl
+                Name="Output"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.DesiredHeightInDockedMode="200"
+                syncfusion:DockingManager.Header="Output"
+                syncfusion:DockingManager.SideInDockedMode="Bottom">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/Output.png" />
+                </syncfusion:DockingManager.Icon>
+                <ScrollViewer Name="Scroll" VerticalScrollBarVisibility="Auto">
+                    <TextBlock Text="{Binding Text}" TextWrapping="Wrap">
+                        <!--  Context menu for clear the event  -->
+                    </TextBlock>
+                </ScrollViewer>
+            </ContentControl>
+            <!--  FindResults dock window  -->
+            <ContentControl
+                Name="FindResults"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.Header="Find Results"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="Output">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/FindResults.png" />
+                </syncfusion:DockingManager.Icon>
+                <TextBlock>Find Results 0 , Not Found.</TextBlock>
+            </ContentControl>
+            <!--  ErrorList dock window  -->
+            <ContentControl
+                Name="ErrorList"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.Header="Error List"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="Output">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/ErrorList.png" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+
+            <!--  FindSymbolResults dock window  -->
+            <ContentControl
+                Name="FindSymbolResults"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.Header="Find Symbol Results"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="Output">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/FindSymbolResults.png" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <!--  SolutionExplorer dock window  -->
+            <ContentControl
+                Name="SolutionExplorer"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="300"
+                syncfusion:DockingManager.Header="Solution Explorer"
+                syncfusion:DockingManager.SideInDockedMode="Right"
+                Content="{StaticResource SolutionExplorerTree}">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/Solution.png" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <!--  ClassView dock window  -->
+            <ContentControl
+                Name="ClassView"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.Header="Class View"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/ClassView.png" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <!--  Properties dock window  -->
+            <ContentControl
+                Name="Properties"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.Header="Properties Window"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="SolutionExplorer">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/Properties.png" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <!--  Toolbox dock window  -->
+            <ContentControl
+                Name="Toolbox"
+                HorizontalContentAlignment="Stretch"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="250"
+                syncfusion:DockingManager.Header="Toolbox"
+                syncfusion:DockingManager.State="Dock"
+                Content="{StaticResource ToolboxGroups}">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/Toolbox.png" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+            <!--  Integration dock window  -->
+            <ContentControl
+                Name="Integration"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.Header="Integration"
+                syncfusion:DockingManager.State="Document"
+                syncfusion:DocumentContainer.MDIBounds="0,0,300,300"
+                Content="{StaticResource ContainerDocument}" />
+            <!--  Features dock window  -->
+            <ContentControl
+                Name="Features"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.Header="Features"
+                syncfusion:DockingManager.State="Document"
+                syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                Content="{StaticResource DockingManagerFeatures}" />
+            <!--  Docking dock window  -->
+            <ContentControl
+                Name="Docking"
+                syncfusion:DockingManager.AllowSnap="{Binding AllowSnap}"
+                syncfusion:DockingManager.CanDrag="{Binding CanDrag}"
+                syncfusion:DockingManager.Header="Docking"
+                syncfusion:DockingManager.State="Document"
+                syncfusion:DocumentContainer.MDIBounds="60,60,300,300"
+                Content="{StaticResource DockingDocument}" />
+        </syncfusion:DockingManager>
+    </Grid>
+</syncfusion:ChromelessWindow>
+

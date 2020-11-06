@@ -1,0 +1,254 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.dropdowndemos.wpf.MultiColumnDropDownDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.dropdowndemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <democommon:DemoControl.DataContext>
+        <local:MovieInfoViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <DataTemplate x:Key="headerTemplate">
+            <TextBox x:Name="searchTextBox" Margin="3" Text="{Binding Path=DataContext.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=syncfusion:SfMultiColumnDropDownControl}}">
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="TextChanged">
+                        <local:TextBoxFilterAction TargetObject="{x:Reference Name=MultiColumnControl5}" />
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+            </TextBox>
+        </DataTemplate>
+    </democommon:DemoControl.Resources>
+
+    <Grid
+        Width="800"
+        Height="450"
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="20">
+            <Label
+                Margin="5,10"
+                HorizontalAlignment="Left"
+                Content="Single Selection"
+                FontSize="12"
+                FontWeight="SemiBold" />
+            <syncfusion:SfMultiColumnDropDownControl
+                x:Name="MultiColumnControl"
+                Width="250"
+                Height="30"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                AutoGenerateColumns="False"
+                DisplayMember="Title"
+                ItemsSource="{Binding MoviesLists}"
+                PopupWidth="400"
+                SelectedIndex="1"
+                SelectionMode="Single"
+                ValueMember="Cast">
+                <syncfusion:SfMultiColumnDropDownControl.Columns>
+                    <syncfusion:GridTextColumn MappingName="Title" />
+                    <syncfusion:GridTextColumn MappingName="Cast" />
+                    <syncfusion:GridTextColumn MappingName="Director" />
+                    <syncfusion:GridTextColumn MappingName="Rating" />
+                </syncfusion:SfMultiColumnDropDownControl.Columns>
+            </syncfusion:SfMultiColumnDropDownControl>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Margin="20">
+            <Label
+                Margin="5,10"
+                Content="Auto complete with filtering"
+                FontFamily="Segoe UI"
+                FontSize="12"
+                FontWeight="SemiBold" />
+            <syncfusion:SfMultiColumnDropDownControl
+                x:Name="MultiColumnControl1"
+                Width="250"
+                Height="30"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                AllowAutoComplete="True"
+                AllowCaseSensitiveFiltering="False"
+                AllowImmediatePopup="True"
+                AllowIncrementalFiltering="True"
+                AutoGenerateColumns="False"
+                DisplayMember="Title"
+                ItemsSource="{Binding MoviesLists}"
+                PopupWidth="400"
+                SelectedIndex="1"
+                ValueMember="Cast">
+                <syncfusion:SfMultiColumnDropDownControl.Columns>
+                    <syncfusion:GridTextColumn MappingName="Title" />
+                    <syncfusion:GridTextColumn MappingName="Cast" />
+                    <syncfusion:GridTextColumn MappingName="Director" />
+                    <syncfusion:GridTextColumn MappingName="Rating" />
+                </syncfusion:SfMultiColumnDropDownControl.Columns>
+            </syncfusion:SfMultiColumnDropDownControl>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Margin="20">
+            <Label
+                Margin="5,10"
+                HorizontalAlignment="Left"
+                Content="Readonly"
+                FontFamily="Segoe UI"
+                FontSize="12"
+                FontWeight="SemiBold" />
+            <syncfusion:SfMultiColumnDropDownControl
+                x:Name="MultiColumnControl2"
+                Grid.Row="1"
+                Width="250"
+                Height="30"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                AllowAutoComplete="True"
+                AllowCaseSensitiveFiltering="False"
+                AllowImmediatePopup="True"
+                AllowIncrementalFiltering="True"
+                AutoGenerateColumns="False"
+                DisplayMember="Title"
+                ItemsSource="{Binding MoviesLists}"
+                PopupWidth="400"
+                ReadOnly="True"
+                SelectedIndex="1"
+                SelectionMode="Single"
+                ValueMember="Cast">
+                <syncfusion:SfMultiColumnDropDownControl.Columns>
+                    <syncfusion:GridTextColumn MappingName="Title" />
+                    <syncfusion:GridTextColumn MappingName="Cast" />
+                    <syncfusion:GridTextColumn MappingName="Director" />
+                    <syncfusion:GridTextColumn MappingName="Rating" />
+                </syncfusion:SfMultiColumnDropDownControl.Columns>
+            </syncfusion:SfMultiColumnDropDownControl>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="20">
+            <Label
+                Margin="5,10"
+                Content="Selection"
+                FontFamily="Segoe UI"
+                FontSize="12"
+                FontWeight="SemiBold" />
+            <syncfusion:SfMultiColumnDropDownControl
+                x:Name="MultiColumnControl3"
+                Grid.Row="1"
+                Width="250"
+                Height="30"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                AutoGenerateColumns="False"
+                DisplayMember="Title"
+                ItemsSource="{Binding MoviesLists}"
+                PopupWidth="400"
+                SelectedItems="{Binding DefaultSelectedItemCollection}"
+                SelectionMode="Multiple"
+                ValueMember="Cast">
+                <syncfusion:SfMultiColumnDropDownControl.Columns>
+                    <syncfusion:GridTextColumn MappingName="Title" />
+                    <syncfusion:GridTextColumn MappingName="Cast" />
+                    <syncfusion:GridTextColumn MappingName="Director" />
+                    <syncfusion:GridTextColumn MappingName="Rating" />
+                </syncfusion:SfMultiColumnDropDownControl.Columns>
+            </syncfusion:SfMultiColumnDropDownControl>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="20">
+            <Label
+                Margin="5,10"
+                Content="Separator string"
+                FontFamily="Segoe UI"
+                FontSize="12"
+                FontWeight="SemiBold" />
+            <syncfusion:SfMultiColumnDropDownControl
+                x:Name="MultiColumnControl4"
+                Grid.Row="1"
+                Width="250"
+                Height="30"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                AutoGenerateColumns="False"
+                DisplayMember="Title"
+                ItemsSource="{Binding MoviesLists}"
+                PopupWidth="400"
+                SelectedItems="{Binding DelimiterSelectedItemCollection}"
+                SelectionMode="Multiple"
+                SeparatorString=" - "
+                ValueMember="Cast">
+                <syncfusion:SfMultiColumnDropDownControl.Columns>
+                    <syncfusion:GridTextColumn MappingName="Title" />
+                    <syncfusion:GridTextColumn MappingName="Cast" />
+                    <syncfusion:GridTextColumn MappingName="Director" />
+                    <syncfusion:GridTextColumn MappingName="Rating" />
+                </syncfusion:SfMultiColumnDropDownControl.Columns>
+            </syncfusion:SfMultiColumnDropDownControl>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="20">
+            <Label
+                Margin="5,10"
+                Content="Search with TextBox in DropDown"
+                FontFamily="Segoe UI"
+                FontSize="12"
+                FontWeight="SemiBold" />
+            <syncfusion:SfMultiColumnDropDownControl
+                x:Name="MultiColumnControl5"
+                Grid.Row="1"
+                Width="250"
+                Height="30"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                AllowAutoComplete="True"
+                AllowImmediatePopup="True"
+                AllowIncrementalFiltering="True"
+                AutoGenerateColumns="False"
+                DisplayMember="Title" 
+                HeaderTemplate="{StaticResource headerTemplate}"
+                ItemsSource="{Binding MoviesLists}"
+                PopupWidth="400"
+                SelectedIndex="1"
+                SelectionMode="Multiple"
+                ValueMember="Cast">
+                <behaviors:Interaction.Triggers>
+                    <behaviors:EventTrigger EventName="PopupOpening">
+                        <local:MultiColumnDropDownFilterAction/>
+                    </behaviors:EventTrigger>
+                </behaviors:Interaction.Triggers>
+                <syncfusion:SfMultiColumnDropDownControl.Columns>
+                    <syncfusion:GridTextColumn MappingName="Title" />
+                    <syncfusion:GridTextColumn MappingName="Cast" />
+                    <syncfusion:GridTextColumn MappingName="Director" />
+                    <syncfusion:GridTextColumn MappingName="Rating" />
+                </syncfusion:SfMultiColumnDropDownControl.Columns>
+            </syncfusion:SfMultiColumnDropDownControl>
+        </StackPanel>
+    </Grid>
+
+</democommon:DemoControl>

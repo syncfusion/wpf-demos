@@ -1,0 +1,196 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.layoutdemos.wpf.CardViewDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.layoutdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    FontFamily="Calibri"
+    FontSize="13"
+    OptionsSize="200">
+    <democommon:DemoControl.DataContext>
+        <local:CardViewViewModel />
+    </democommon:DemoControl.DataContext>
+    <democommon:DemoControl.Resources>
+        <DataTemplate x:Key="EmployeeViewTemplate">
+            <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="First Name:" />
+                        <TextBlock Margin="5,0,0,0" Text="{Binding FirstName}" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Last Name:" />
+                        <TextBlock Margin="5,0,0,0" Text="{Binding LastName}" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Age:" />
+                        <TextBlock Margin="40,0,0,0" Text="{Binding Age}" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="DOB:" />
+                        <TextBlock Margin="36,0,0,0" Text="{Binding DOB, StringFormat=d}" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Gender:" />
+                        <TextBlock Margin="21,0,0,0" Text="{Binding Gender}" />
+                    </StackPanel>
+                </ListBoxItem>
+                <ListBoxItem>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Email ID:" />
+                        <TextBlock Margin="16,0,0,0" Text="{Binding Email}" />
+                    </StackPanel>
+                </ListBoxItem>
+
+            </ListBox>
+        </DataTemplate>
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+        <StackPanel
+            Margin="5"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch">
+   
+            <CheckBox
+                Name="chkcanedit"
+                Margin="5" Content="Can Edit"
+                IsChecked="{Binding ElementName=cardview, Mode=TwoWay, Path=CanEdit}" />
+
+            <CheckBox
+                Name="chkcansort"
+                Margin="5" Content="Can Sort"
+                IsChecked="{Binding ElementName=cardview, Mode=TwoWay, Path=CanSort}" />
+
+            <CheckBox
+                Name="chkcangroup" 
+                Content="Can Group"
+                Margin="5"
+                IsChecked="{Binding ElementName=cardview, Mode=TwoWay, Path=CanGroup}" />
+            
+            <CheckBox
+                Name="chkshowheader"
+                Content="Show Header"
+                Margin="5"
+                IsChecked="{Binding ElementName=cardview, Mode=TwoWay, Path=ShowHeader}" />
+        </StackPanel>
+    </democommon:DemoControl.Options>
+    <Grid>
+        <syncfusion:CardView x:Name="cardview"
+            CanEdit="True"
+            CanGroup="True"
+            CanSort="True"
+            ShowHeader="True"
+            ForceCursor="False"
+            ItemTemplate="{StaticResource EmployeeViewTemplate}"
+            ItemsSource="{Binding Contacts}">
+            <i:Interaction.Behaviors>
+                <local:CancelEditingBehavior />
+            </i:Interaction.Behaviors>
+            <syncfusion:CardView.EditItemTemplate>
+                <DataTemplate>
+                    <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectedIndex="0">
+                        <ListBox.Resources>
+                            <Style TargetType="TextBox">
+                                <Style.Triggers>
+                                    <Trigger Property="Validation.HasError" Value="True">
+                                        <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.Resources>
+                        <ListBoxItem Padding="1" HorizontalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75" />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="First Name:" />
+                                <TextBox
+                                    x:Name="txt"
+                                    Grid.Column="1"
+                                    HorizontalAlignment="Stretch"
+                                    Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                            </Grid>
+                        </ListBoxItem>
+                        <ListBoxItem Padding="1" HorizontalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Last Name:" />
+                                <TextBox Grid.Column="1" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                            </Grid>
+                        </ListBoxItem>
+                        <ListBoxItem Padding="1" HorizontalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Age:" />
+                                <TextBox Grid.Column="1" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, TargetNullValue=''}" />
+                            </Grid>
+                        </ListBoxItem>
+                        <ListBoxItem Padding="1" HorizontalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="DOB:" />
+                                <syncfusion:DateTimeEdit Grid.Column="1" DateTime="{Binding DOB, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                            </Grid>
+                        </ListBoxItem>
+                        <ListBoxItem Padding="1" HorizontalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Gender:" />
+                                <TextBox Grid.Column="1">
+                                    <TextBox.Text>
+                                        <Binding Path="Gender" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <local:GenderValidationRule />
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+                            </Grid>
+                        </ListBoxItem>
+                        <ListBoxItem Padding="1" HorizontalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="75" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Email ID:" />
+                                <TextBox Grid.Column="1" Text="{Binding Email, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                            </Grid>
+                        </ListBoxItem>
+
+                    </ListBox>
+                </DataTemplate>
+            </syncfusion:CardView.EditItemTemplate>
+
+            <syncfusion:CardView.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding FirstName}" />
+                </DataTemplate>
+            </syncfusion:CardView.HeaderTemplate>
+        </syncfusion:CardView>
+    </Grid>
+</democommon:DemoControl>

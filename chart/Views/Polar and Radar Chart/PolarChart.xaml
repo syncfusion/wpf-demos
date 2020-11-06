@@ -1,0 +1,129 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.PolarChartDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:PolarChartViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+
+        <Style x:Key="lineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="Gray" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <DataTemplate x:Key="labelTemplate">
+            <TextBlock FontSize="16" Text="{Binding LabelContent}" />
+        </DataTemplate>
+
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Margin="5" Text="DrawType" />
+            <ComboBox
+                x:Name="drawTypeCombo"
+                Grid.Row="1"
+                Margin="5"
+                ItemsSource="{democommon:EnumValuesExtension Type=chart:ChartSeriesDrawType}"
+                SelectedIndex="0" />
+            <TextBlock
+                Grid.Row="2"
+                Margin="5"
+                Text="Angle" />
+            <ComboBox
+                x:Name="angleModeCombo"
+                Grid.Row="3"
+                Margin="5"
+                ItemsSource="{democommon:EnumValuesExtension Type=chart:ChartPolarAngle}"
+                SelectedIndex="0" />
+        </Grid>
+    </democommon:DemoControl.Options>
+
+    <Grid>
+        <chart:SfChart
+            x:Name="polarChart"
+            Margin="20"
+            AreaBorderThickness="0">
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis
+                    AxisLineStyle="{StaticResource lineStyle}"
+                    EdgeLabelsDrawingMode="Fit"
+                    IsHitTestVisible="False"
+                    LabelTemplate="{StaticResource labelTemplate}"
+                    MajorGridLineStyle="{StaticResource lineStyle}"
+                    MajorTickLineStyle="{StaticResource lineStyle}"
+                    MinorGridLineStyle="{StaticResource lineStyle}"
+                    MinorTickLineStyle="{StaticResource lineStyle}"
+                    PolarAngle="{Binding ElementName=angleModeCombo, Path=SelectedItem}"
+                    ShowTrackBallInfo="True"
+                    TickLineSize="10" />
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    AxisLineStyle="{StaticResource lineStyle}"
+                    EdgeLabelsDrawingMode="Fit"
+                    LabelTemplate="{StaticResource labelTemplate}"
+                    MajorGridLineStyle="{StaticResource lineStyle}"
+                    MajorTickLineStyle="{StaticResource lineStyle}"
+                    MinorGridLineStyle="{StaticResource lineStyle}"
+                    MinorTickLineStyle="{StaticResource lineStyle}"
+                    PolarAngle="{Binding ElementName=angleModeCombo, Path=SelectedItem}"
+                    SmallTickLineSize="6"
+                    SmallTicksPerInterval="1"
+                    TickLineSize="10" />
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:PolarSeries
+                x:Name="series1"
+                chart:ChartTooltip.EnableAnimation="True"
+                DrawType="{Binding ElementName=drawTypeCombo, Path=SelectedItem}"
+                IsClosed="True"
+                ItemsSource="{Binding PlantDetails}"
+                Label="Amount Spent"
+                ShowTooltip="True"
+                StrokeThickness="2"
+                XBindingPath="Direction"
+                YBindingPath="Tree" />
+            <chart:PolarSeries
+                x:Name="series2"
+                chart:ChartTooltip.EnableAnimation="True"
+                DrawType="{Binding ElementName=drawTypeCombo, Path=SelectedItem}"
+                Interior="LightGreen"
+                IsClosed="True"
+                ItemsSource="{Binding PlantDetails}"
+                Label="Amount Allotted"
+                ShowTooltip="True"
+                StrokeThickness="2"
+                XBindingPath="Direction"
+                YBindingPath="Weed" />
+            <chart:PolarSeries
+                x:Name="series3"
+                chart:ChartTooltip.EnableAnimation="True"
+                DrawType="{Binding ElementName=drawTypeCombo, Path=SelectedItem}"
+                Interior="#FFF29632"
+                IsClosed="True"
+                ItemsSource="{Binding PlantDetails}"
+                Label="Amount Spent"
+                ShowTooltip="True"
+                StrokeThickness="2"
+                XBindingPath="Direction"
+                YBindingPath="Flower" />
+
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>

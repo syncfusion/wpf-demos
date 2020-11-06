@@ -1,0 +1,233 @@
+﻿<ItemsControl
+    x:Class="DiagramBuilder.View.TabbedDiagrams"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:DiagramBuilder.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:util="clr-namespace:DiagramBuilder.Utility"
+    xmlns:view="clr-namespace:DiagramBuilder.View"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:overview="clr-namespace:Syncfusion.UI.Xaml.Diagram.Controls;assembly=Syncfusion.SfDiagram.Wpf"
+    ItemsSource="{Binding Diagrams}"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400" x:Name="This">
+    <ItemsControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.diagrambuilder.wpf;component/Theme/DiagramBuilderUI.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TextBlock}" x:Key="textblock">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="10,0,0,0"/>
+                <Setter Property="FontSize" Value="14px"/>
+            </Style>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{x:Null}"  x:Key="textbox">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Margin" Value="10,0,0,0"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Height" Value="Auto"/>
+                <Setter Property="Width" Value="Auto"/>
+                <Setter Property="FontSize" Value="14px"/>
+                <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Margin" Value="10,2,2,2"/>
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="Width" Value="100"/>
+                    </Trigger>
+                </Style.Triggers>
+
+            </Style>
+
+        </ResourceDictionary>
+    </ItemsControl.Resources>
+    <ItemsControl.Template>
+        <ControlTemplate>
+            <Grid Background="White" FocusVisualStyle="{x:Null}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="1" x:Name="grid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ScrollViewer  VerticalScrollBarVisibility="Disabled"  HorizontalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Diagrams}"
+                          VerticalAlignment="Bottom" 
+                          BorderThickness="0"
+                          VerticalContentAlignment="Bottom">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="20" />
+                                        </Grid.ColumnDefinitions>
+                                        <ToggleButton Command="{Binding Select}"
+                                          IsChecked="{Binding Path=IsSelected, Mode=TwoWay}"
+                                          Background="White" FontWeight="Bold"
+                                          BorderBrush="Transparent"
+                                          Width="35"
+                                          Height="25" 
+                                          Margin="3">
+                                            <ToggleButton.Style>
+                                                <Style TargetType="ToggleButton">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <Grid>
+                                                                    <TextBlock Text="{Binding Title}" ToolTip="{Binding Title}" HorizontalAlignment="Center" FontSize="12"/>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter Property="FontWeight" Value="Bold"/>
+                                                            <Setter Property="Foreground" Value="Blue"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsChecked" Value="False">
+                                                            <!--<Setter Property="FontWeight" Value="Normal"/>-->
+                                                            <Setter Property="Foreground" Value="Black"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Foreground" Value="Gray"/>
+                                                        </Trigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ToggleButton.Style>
+                                        </ToggleButton>
+
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+                <ItemsPresenter Grid.Row="0"/>
+
+            </Grid>
+        </ControlTemplate>
+    </ItemsControl.Template>
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <Grid/>
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <Grid FocusVisualStyle="{x:Null}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <view:Diagram x:Name="diagrambuilder" Background="#FFF5F5F5" HistoryManager="{Binding HistoryManager}" Visibility="{Binding Path=IsSelected, Converter={StaticResource BTV}}"
+                               ExportSettings="{Binding ExportSettings}"
+                               PrintingService="{Binding PrintingService}"
+                               Tool="{Binding Tool, Mode=TwoWay}"
+                               DrawingTool="{Binding DrawingTool}"
+                               DefaultConnectorType="{Binding DefaultConnectorType, Mode=TwoWay}"
+                               Nodes="{Binding NodeCollection}"
+                               Groups="{Binding GroupCollection}"
+                               Connectors="{Binding ConnectorCollection}"
+                               SelectedItems="{Binding SelectedItems}"
+                               PageSettings="{Binding PageSettings}"
+                               ScrollSettings="{Binding ScrollSettings}"
+                               HorizontalRuler="{Binding HorizontalRuler}"
+                               VerticalRuler="{Binding VerticalRuler}"
+                               SnapSettings="{Binding SnapSettings}"
+                               PortVisibility="{Binding PortVisibility}"
+                               PreviewSettings="{Binding PreviewSettings}"
+                                  LayoutManager="{Binding LayoutManager}"
+                                  DataSourceSettings="{Binding DataSourceSettings}"
+                                  CommandManager="{Binding CommandManager}"
+                              Theme="{Binding Theme,Mode=TwoWay}"
+                                  ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                              ItemUnSelectedCommand="{Binding ItemUnSelectedCommand}"
+                              ItemAddedCommand="{Binding ItemAddedCommand}"
+                              ItemDeletingCommand="{Binding ItemDeletingCommand}"
+                              ItemDeletedCommand="{Binding ItemDeletedCommand}"
+                              AnnotationChangedCommand="{Binding AnnotationChangedCommand}"
+                                  GetLayoutInfoCommand="{Binding GetLayoutInfoCommand}"
+                                  DropCommand="{Binding DropCommand}"
+                                  NodeChangedCommand="{Binding NodeChangedCommand}"
+                                  SymbolDroppingCommand="{Binding SymbolDroppingCommand}"
+                                  Title="{Binding Title}"
+                                  DiagramType="{Binding DiagramType}"
+                                  IsExport="{Binding IsExport}"
+                                  IsSelected="{Binding IsSelected}"
+                                  Constraints="{Binding Constraints}" />
+                </Grid>
+                <syncfusion:DockingManager x:Name="dock" WindowClosing="DockingManager_WindowClosing" IsContextMenuButtonVisible="False" DockFill="True" Visibility="{Binding Path=EnablePanZoom, Converter={StaticResource BTV}}" Width="250" Height="250" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <ContentControl syncfusion:DockingManager.CanAutoHide="False" syncfusion:DockingManager.CanDrag="False" syncfusion:DockingManager.SideInDockedMode="Right" syncfusion:DockingManager.Header="PanZoom" syncfusion:DockingManager.State="Dock" >
+                        <overview:Overview Source="{Binding ElementName=diagrambuilder}" Width="200" Height="200" />
+                    </ContentControl>
+                </syncfusion:DockingManager>
+
+                <syncfusion:DockingManager WindowClosing="DockingManager_WindowClosing_1" IsContextMenuButtonVisible="False"   DockFill="True" Visibility="{Binding Path=EnableSizePosition, Converter={StaticResource BTV}}" Width="245px" Height="190" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                    <syncfusion:DockingManager.DockHeaderStyle>
+                        <Style TargetType="{x:Type syncfusion:DockHeaderPresenter}">
+                            <Setter Property="FontSize" Value="14px" />
+                        </Style>
+                    </syncfusion:DockingManager.DockHeaderStyle>
+                    <syncfusion:DockingManager.HeaderBackground>#f1f0f0</syncfusion:DockingManager.HeaderBackground>
+                    <syncfusion:DockingManager.HeaderForeground>DarkBlue</syncfusion:DockingManager.HeaderForeground>
+
+                    <ContentControl Background="LightGray" x:Name="Content1" syncfusion:DockingManager.State="Dock" syncfusion:DockingManager.Header="Size and Position" syncfusion:DockingManager.CanAutoHide="False" syncfusion:DockingManager.CanDrag="False">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="105" />
+                                <ColumnDefinition Width="0"/>
+                                <ColumnDefinition Width="140" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="1"/>
+
+                            </Grid.RowDefinitions>
+                            <Border Grid.RowSpan="12" VerticalAlignment="Stretch" BorderBrush="#e0e0e0" BorderThickness=".5" Grid.Column="1" />
+                            <Border Grid.ColumnSpan="3" HorizontalAlignment="Stretch" BorderBrush="#e0e0e0" BorderThickness=".5" Grid.Row="1" />
+                            <Border Grid.ColumnSpan="3" HorizontalAlignment="Stretch" BorderBrush="#e0e0e0" BorderThickness=".5" Grid.Row="3" />
+                            <Border Grid.ColumnSpan="3" HorizontalAlignment="Stretch" BorderBrush="#e0e0e0" BorderThickness=".5" Grid.Row="5" />
+                            <Border Grid.ColumnSpan="3" HorizontalAlignment="Stretch" BorderBrush="#e0e0e0" BorderThickness=".5" Grid.Row="7" />
+                            <TextBlock Style="{StaticResource textblock}" Text="X" Grid.Column="0" Grid.Row="0" FontSize="12px" />
+                            <TextBlock Style="{StaticResource textblock}" Text="Y" Grid.Column="0" Grid.Row="2" FontSize="12px" />
+                            <TextBlock Style="{StaticResource textblock}" Text="Width" Grid.Column="0" Grid.Row="4" FontSize="12px" />
+                            <TextBlock Style="{StaticResource textblock}" Text="Height" Grid.Column="0" Grid.Row="6" FontSize="12px" />
+                            <TextBlock Style="{StaticResource textblock}" Text="Angle" Grid.Column="0" Grid.Row="8" FontSize="12px" />
+                            <TextBox Style="{StaticResource textbox}"  Text="{Binding SelectedItems.X, Mode=TwoWay}" Grid.Column="2" Grid.Row="0" FontSize="12px" />
+                            <TextBox Style="{StaticResource textbox}"  Text="{Binding SelectedItems.Y, Mode=TwoWay}" Grid.Column="2" Grid.Row="2" FontSize="12px" />
+                            <TextBox Style="{StaticResource textbox}"  Text="{Binding SelectedItems.Width, Mode=TwoWay}" Grid.Column="2" Grid.Row="4" FontSize="12px" />
+                            <TextBox Style="{StaticResource textbox}"  Text="{Binding SelectedItems.Height, Mode=TwoWay}" Grid.Column="2" Grid.Row="6"  FontSize="12px"/>
+                            <TextBox Style="{StaticResource textbox}" Text="{Binding SelectedItems.Angle, Mode=TwoWay}" Grid.Column="2" Grid.Row="8" FontSize="12px" />
+                        </Grid>
+                    </ContentControl>
+
+                </syncfusion:DockingManager>
+            </Grid>
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>

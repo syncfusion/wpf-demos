@@ -1,0 +1,442 @@
+﻿<UserControl x:Class="syncfusion.floorplanner.wpf.FloorPlannerDiagram"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:SyncDiagram="clr-namespace:Syncfusion.UI.Xaml.Diagram;assembly=Syncfusion.SfDiagram.Wpf"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:syncfusion.floorplanner.wpf"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:panels="clr-namespace:Syncfusion.UI.Xaml.Diagram.Panels;assembly=Syncfusion.SfDiagram.Wpf"
+      xmlns:stencil="clr-namespace:Syncfusion.UI.Xaml.Diagram.Stencil;assembly=Syncfusion.SfDiagram.Wpf"
+      xmlns:localControls="clr-namespace:Syncfusion.UI.Xaml.Diagram.Controls;assembly=Syncfusion.SfDiagram.Wpf"
+      xmlns:shared="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=Syncfusion.Shared.Wpf" 
+      xmlns:tabcontrol="http://schemas.syncfusion.com/wpf"
+      mc:Ignorable="d">
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.floorplanner.wpf;component/Template/FloorPlanDictionary.xaml"/>
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BindingStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+        <Style x:Key="PathBasedAppBarButtonStyle" BasedOn="{StaticResource AppBarToggleButtonStyle}" TargetType="ToggleButton">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate >
+                        <Path Width="18" Height="18"  x:Name="pathtemp"
+             Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Margin="0 0 2 0" RenderTransformOrigin="0.5,0.5" 
+             Fill="Black" 
+             Data="{Binding Path=Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="AddShapeAppBarButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource PathBasedAppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="SelectAllAppBarButton"/>
+            <Setter Property="Content" Value="M4.92222,0 L10.327,1.36233 L8.96376,6.76822 L6.70322,6.19801 L4.6645,13.2708 L5.01835,12.9641 C6.12119,12.0512 7.41151,11.3298 8.89501,11.0198 C9.42736,10.9087 9.9626,10.8531 10.5004,10.8526 C13.4045,10.8504 16.3827,12.4593 19.378,15.6529 C21.91,18.3519 24.307,19.5379 26.504,19.1779 C30.628,18.4999 33.286,12.7698 33.312,12.7119 L36.658,14.2259 C36.578,14.4029 35.44,16.8759 33.335,19.1389 C33.2378,19.2435 33.1384,19.3476 33.0371,19.451 L32.7987,19.6875 L29.4758,27.9855 L31.6647,28.7256 L29.8799,34.0073 L24.599,32.2213 L26.385,26.9405 L28.0818,27.5142 L30.4871,21.5079 L30.2133,21.6721 C29.2771,22.2069 28.2433,22.6108 27.115,22.7989 C23.63,23.3779 20.126,21.8189 16.701,18.1649 C14.089,15.3809 11.718,14.1859 9.65301,14.6139 C6.401,15.2869 4.08001,19.9179 3.46002,21.6469 L0,20.4139 C0.059006,20.2479 0.799255,18.2094 2.2665,16.0574 L2.37793,15.8985 L5.27796,5.8385 L3.55888,5.40488 z"></Setter>
+
+        </Style>
+
+        <Style x:Key="AddWallAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource PathAppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="SelectAllAppBarButton"/>
+
+        </Style>
+        <Style x:Key="AddTextAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource PathAppBarButtonStyle}">
+            <Setter Property="AutomationProperties.AutomationId" Value="SelectAllAppBarButton"/>
+
+        </Style>
+
+        
+
+        <Style TargetType="local:FloorPlanConnector" BasedOn="{StaticResource ConnectorBindingStyle}"></Style>
+        <Style TargetType="local:FloorPlanNode" BasedOn="{StaticResource NodeBindingStyle}">
+            <Setter Property="MinWidth" Value="1"></Setter>
+            <Setter Property="MinHeight" Value="1"></Setter>
+        </Style>
+
+        <DataTemplate x:Key="optionnode">
+            <StackPanel Loaded="LoadSt"  Width="275" Height="100"  x:Name="buttonpanel" Orientation="Horizontal">
+                <Button Style="{StaticResource AddTextAppBarButtonStyle}" x:Name="start"  Click="start_Click_1">
+                    <Viewbox Width="20" Height="20" Stretch="Fill">
+                        <Grid>
+                            <Path Data="F1M416.719,270L384.281,270L384.281,268L416.719,268z" Fill="Black" Stretch="Fill" Margin="0,0,0,22"/>
+                            <Path Data="F1M416.719,280L384.281,280L384.281,276L416.719,276z" Fill="Black" Stretch="Fill" Margin="0,8,0,12"/>
+                            <Path Data="F1M416.719,292L384.281,292L384.281,286L416.719,286z" Fill="Black" Stretch="Fill" Margin="0,18,0,0"/>
+                        </Grid>
+                    </Viewbox>
+                </Button>
+                <ToggleButton IsChecked="{Binding IsBesizer,Mode=TwoWay}" x:Name="end" Style="{StaticResource AddShapeAppBarButtonStyle}"  Click="end_Click_1">
+
+                </ToggleButton>
+                <Button x:Name="center" Style="{StaticResource AddWallAppBarButtonStyle}" Click="center_Click_1" >
+                    <Viewbox Width="20" Height="20" Stretch="Fill">
+                        <Grid>
+                            <Path Data="M456,279L514,279" StrokeStartLineCap="Flat" Stretch="Fill" StrokeEndLineCap="Flat" Stroke="Black" StrokeThickness="8" StrokeMiterLimit="10" StrokeLineJoin="Miter" Margin="0,2.908,0,3.096"/>
+                            <Path Data="F1M485.918,279.0937C485.918,282.9607,482.783,286.0957,478.916,286.0957C475.049,286.0957,471.914,282.9607,471.914,279.0937C471.914,275.2267,475.049,272.0917,478.916,272.0917C482.783,272.0917,485.918,275.2267,485.918,279.0937" Fill="White" Stretch="Fill" Margin="19.914,0,32.082,0"/>
+                            <Path Data="F1M482.6563,279.0937C482.6563,281.1597,480.9823,282.8337,478.9163,282.8337C476.8493,282.8337,475.1763,281.1597,475.1763,279.0937C475.1763,277.0277,476.8493,275.3537,478.9163,275.3537C480.9823,275.3537,482.6563,277.0277,482.6563,279.0937" Fill="Black" Stretch="Fill" Margin="23.176,3.262,35.344,3.262"/>
+                        </Grid>
+                    </Viewbox>
+                </Button>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SliderTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="12"  Text="{Binding}" 
+                     ></TextBlock>
+                <TextBlock FontSize="10" Text="''" 
+                     ></TextBlock>
+            </StackPanel>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="ViewTemplate">
+            <TextBlock  Text="{Binding Content.Text,Mode=TwoWay}" FontSize="{Binding Content.FontSize,Mode=TwoWay}" FontFamily="{Binding Content.FontFamily,Mode=TwoWay}" FontStyle="{Binding Content.FontStyle,Mode=TwoWay}"
+                     FontWeight="{Binding Content.FontWeight,Mode=TwoWay}" 
+                        TextWrapping="{Binding Path=WrapText, Mode=OneWay}"
+                        TextAlignment="{Binding Path=TextHorizontalAlignment}" VerticalAlignment="{Binding Path=TextVerticalAlignment}"
+                        Foreground="{Binding Content.Foreground,Mode=TwoWay}"></TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="EditTemplate">
+            <TextBox TextChanged="TextBox_TextChanged_1"  Text="{Binding Content.Text,Mode=TwoWay}" FontSize="{Binding Content.FontSize,Mode=TwoWay}" FontFamily="{Binding Content.FontFamily,Mode=TwoWay}" FontStyle="{Binding Content.FontStyle,Mode=TwoWay}"
+                     FontWeight="{Binding Content.FontWeight,Mode=TwoWay}"
+                     TextWrapping="{Binding Path=WrapText, Mode=OneWay}"
+                     TextAlignment="{Binding Path=TextHorizontalAlignment}" VerticalAlignment="{Binding Path=TextVerticalAlignment}"
+                     Foreground="{Binding Content.Foreground,Mode=TwoWay}"></TextBox>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ViewTemplate1">
+            <Border Opacity="0.9" CornerRadius="6" Padding="10" Background="#FF262626" BorderBrush="#FF212121"  HorizontalAlignment="Center" VerticalAlignment="Top">
+                <TextBlock  Text="{Binding Content,Mode=TwoWay}" Foreground="White"></TextBlock>
+            </Border>
+        </DataTemplate>
+
+        <LinearGradientBrush x:Key="sofa" StartPoint="0.5,-0.026" EndPoint="0.5,0.548">
+            <GradientStop Offset="0" Color="#FF888A8C" />
+            <GradientStop Offset="1" Color="#FF221E1F" />
+        </LinearGradientBrush>
+
+        <Style TargetType="stencil:SymbolGroup">
+            <Setter Property="Background" Value="#FFDDDDDD" />
+        </Style>
+
+        <Style TargetType="stencil:Symbol">
+            <Setter Property="Width" Value="150" />
+            <Setter Property="Height" Value="120" />
+            <Setter Property="Padding" Value="25, 15, 25, 15" />
+            <Setter Property="BorderThickness" Value="0, 0, 0, 0" />
+        </Style>
+
+        <Style x:Name="SymbolStyle" TargetType="Path">
+            <Setter Property="Fill" Value="#FFEFEFEF" />
+            <Setter Property="Stroke" Value="#FF7F7F7F" />
+            <Setter Property="StrokeThickness" Value="1" />
+            <Setter Property="Stretch" Value="Fill" />
+        </Style>
+
+        <Style x:Key="PathBasedAppBarButtonStyle1" BasedOn="{StaticResource PathAppBarButtonStyle}" TargetType="ButtonBase">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Path Width="18" Height="18" 
+             Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Margin="0 0 2 0" RenderTransformOrigin="0.5,0.5" 
+             Fill="{Binding Path=Foreground, RelativeSource={RelativeSource Mode=TemplatedParent}}" 
+             Data="{Binding Path=Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="Paint-BucketAppBarButtonStyle1" BasedOn="{StaticResource PathBasedAppBarButtonStyle1}" TargetType="ButtonBase">
+            <Setter Property="AutomationProperties.Name" Value="Paint-Bucket"/>
+            <Setter Property="AutomationProperties.AutomationId" Value="Paint-BucketAppBarButton"/>
+            <Setter Property="Content" Value="M44.02605,20.846C44.02605,20.846 63.682006,24.103257 63.682006,38.870418 63.682006,42.772187 63.682006,49.664208 63.682006,53.565377 63.682006,66.221799 51.658645,58.015256 51.658645,50.555524 51.658645,40.738351 60.340182,37.173087 56.365394,33.199718z M25.529025,0C34.740886,0,39.964213,12.976948,40.281676,22.477042L40.293128,23.153271 40.635634,23.496004C44.15071,27.013427 48.794879,31.660645 50.360019,33.226604 52.995978,35.863305 51.193019,38.789006 50.089023,39.892009 48.98503,40.995406 28.241208,61.738416 28.241208,61.738416 25.936236,64.043717 17.883273,59.726617 10.261396,52.099114 2.63244,44.474008 -1.684536,36.421304 0.6204343,34.116004L22.599233,12.137394C22.599233,12.137394 24.072108,10.731551 26.071624,10.752226 27.118989,10.763056 28.310851,11.165289 29.511216,12.365994L31.998191,14.858796C33.357127,19.144596 32.48714,22.803398 31.852197,24.675799 30.646153,25.4376 29.839215,26.7741 29.839215,28.308002 29.839215,30.683002 31.76516,32.610805 34.144168,32.610805 36.52415,32.610805 38.450095,30.683002 38.450095,28.308002 38.450095,26.808 37.681121,25.490899 36.519145,24.7214 36.644145,23.702499 36.722144,21.654397 36.354106,19.211597 36.354106,19.211597 36.823226,19.681035 37.592975,20.451304L37.670257,20.528639 37.615382,20.036525C36.595061,11.949274 32.102916,2.4615231 25.529025,2.4615231 17.491012,2.4615231 15.683008,10.664832 15.683008,13.53907L13.222004,13.53907C13.222004,8.3047702,16.56301,0,25.529025,0z"/>
+        </Style>
+
+        <SolidColorBrush x:Key="PathStrokeThemeBrush" Color="#FFFFFFFF" />
+
+        <SolidColorBrush x:Key="SelectorThumbBrush" Color="#FF09388C"/>
+
+        <Style TargetType="localControls:DiagramThumb" x:Key="CornerThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="localControls:DiagramThumb">
+                        <Border
+    Background="{TemplateBinding Background}"
+    BorderBrush="{TemplateBinding BorderBrush}"
+    BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid Width="Auto" Height="Auto">
+                                <Ellipse Fill="Transparent"></Ellipse>
+                                <Ellipse Fill="#09388C" Stroke="#4288DB" StrokeThickness="1.5" Margin="4"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RotatorThumbStyle" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="localControls:DiagramThumb">
+                        <Border
+    Background="{TemplateBinding Background}"
+    BorderBrush="{TemplateBinding BorderBrush}"
+    BorderThickness="{TemplateBinding BorderThickness}">
+                            <Viewbox Height="28" Width="28">
+                                <Grid>
+                                    <Path Data="F1M23.467,11.733C23.467,18.213 18.214,23.466 11.734,23.466 5.253,23.466 0,18.213 0,11.733 0,5.253 5.253,0 11.734,0 18.214,0 23.467,5.253 23.467,11.733" Fill="#FF09388C" Stroke="#4288DB" StrokeThickness="1.5" />
+                                    <Path Data="F1M8.742,0.09C3.074,-0.833,0.251,5.588,2.862,9.789L0,10.473 5.867,12.979 5.93,6.6 4.124,9.021C2.064,5.932 3.923,1.747 7.943,1.531 12.885,1.265 14.062,7.847 10.435,10.353 9.644,10.898 10.394,12.199 11.191,11.648 15.964,8.351 14.603,1.045 8.742,0.09" Fill="White" Margin="3.632,5.515,4.552,4.485" Stretch="Fill" UseLayoutRounding="False"/>
+                                </Grid>
+                            </Viewbox>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PivotThumbStyle" TargetType="localControls:DiagramThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="localControls:DiagramThumb">
+                        <Border
+    Background="{TemplateBinding Background}"
+    BorderBrush="{TemplateBinding BorderBrush}"
+    BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid Width="Auto" Height="Auto">
+                                <Ellipse Fill="#4288DB"  StrokeThickness="5" Stroke="Transparent"></Ellipse>
+                                <Ellipse Fill="{StaticResource SelectorThumbBrush}"  Margin="4"/>
+                                <Ellipse Margin="15" Fill="White" Stroke="#FF777F85" StrokeThickness="1" />
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--<Style x:Key="SidesThumbStyle" TargetType="localControls:DiagramThumb">
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="localControls:DiagramThumb">
+          <Border
+    Background="{TemplateBinding Background}"
+    BorderBrush="{TemplateBinding BorderBrush}"
+    BorderThickness="{TemplateBinding BorderThickness}">
+            <Grid Width="15" Height="15">
+              <Ellipse Fill="{StaticResource SelectorThumbBrush}" Stroke="#4288DB" StrokeThickness="1.5" />
+              <Ellipse Margin="5" Fill="White" Stroke="#FF777F85" StrokeThickness="1" />
+            </Grid>
+          </Border>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>-->
+
+        <local:TypetoVisibilityConverter x:Key="TypetoVisibilityConverter"></local:TypetoVisibilityConverter>
+        <local:TypetoVisibilityConverter1 x:Key="TypetoVisibilityConverter1"></local:TypetoVisibilityConverter1>
+        <local:VisibilityConverter x:Key="VisibilityConverter"></local:VisibilityConverter>
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <local:FloorPlanDiagram x:Name="floorplan"                               
+                         Grid.Column="0" Tool="ZoomPan,SingleSelect" Background="White">
+            <local:FloorPlanDiagram.SelectedItems>
+                <local:CustomSelector></local:CustomSelector>
+            </local:FloorPlanDiagram.SelectedItems>
+        </local:FloorPlanDiagram>
+
+        <shared:ToolBarAdv ToolBarName="Standard" Height="38" Margin="0,1,0,0"   Grid.Row="0" Grid.Column="0" GripperVisibility="Collapsed" HorizontalAlignment="Stretch"
+             VerticalAlignment="Top" Background="#e8e8e7" BorderBrush="#d6d6d4" >
+            <Button shared:ToolBarAdv.Label="Back" Margin="16,0,10,2" Background="Transparent"  BorderBrush="Transparent"  Command="{Binding Back}" ToolTip="Back">
+
+                <Grid  MouseLeftButtonUp="back_clicked" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Uniform">
+                        <Grid>
+                            <Path Data="M1.5030002,7.3949997 L1.414,7.4839999 1.5030002,7.5730001 z M7.4840001,0 L8.1910003,0.70700026 1.8969999,7.001 18,7.001 18,8.0009999 1.9310001,8.0009999 8.2070001,14.277 7.5000004,14.984 0,7.4839999 z" Fill="#FF565858" HorizontalAlignment="Center" Width="68"
+                          Height="68"  Stretch="Uniform" VerticalAlignment="Center" />
+                        </Grid>
+                    </Viewbox>
+                    <!--<Image Source="Resource/Back.png"  Width="16" Height="16" Grid.Column="0" />-->
+                    <!--<TextBlock HorizontalAlignment="Center" Margin="5,0,5,5" VerticalAlignment="Center" FontSize="20" Grid.Row="0" Text="&#x25B6;"></TextBlock>-->
+                    <TextBlock HorizontalAlignment="Center" Margin="5,0,5,5" VerticalAlignment="Center"  Text="Back" Grid.Column="1" ></TextBlock>
+                </Grid>
+            </Button>
+            <Button shared:ToolBarAdv.Label="AddWall"   Margin="0,0,10,2" BorderBrush="Transparent" Background="Transparent" Command="{Binding AddWall}" Width="98" ToolTip="Addwall">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Fill">
+                        <Grid>
+                            <Path Data="M13.353002,15.589001 C12.920995,15.589001 12.568997,15.929001 12.568997,16.347 12.568997,16.766001 12.920995,17.107 13.353002,17.107 13.785002,17.107 14.138,16.766001 14.138,16.347 14.138,15.929001 13.785002,15.589001 13.353002,15.589001 z M1.6779985,0.89400005 C1.2459984,0.89400005 0.8939991,1.2340002 0.8939991,1.6530008 0.8939991,2.0720005 1.2459984,2.4120007 1.6779985,2.4120007 2.1099977,2.4120007 2.4629974,2.0720005 2.4629974,1.6530008 2.4629974,1.2340002 2.1099977,0.89400005 1.6779985,0.89400005 z M1.6779985,0 C2.6029978,0 3.3559971,0.74200058 3.3559971,1.6530008 3.3559971,1.994626 3.2501068,2.3124857 3.068964,2.5763626 L3.0257683,2.6361523 12.610552,14.866077 12.626273,14.85814 C12.846293,14.753614 13.092845,14.695 13.353002,14.695 14.277999,14.695 15.030999,15.436001 15.030999,16.347 15.030999,17.257999 14.277999,18 13.353002,18 12.427998,18 11.674999,17.257999 11.674999,16.347 11.674999,16.033844 11.763976,15.740776 11.918332,15.490989 L11.939381,15.4587 2.3169956,3.1810551 2.2542562,3.2054815 C2.0744553,3.2704945 1.8803425,3.3060007 1.6779985,3.3060007 0.75299931,3.3060007 0,2.5640011 0,1.6530008 0,0.74200058 0.75299931,0 1.6779985,0 z"
+                                 Fill="#FF565858" HorizontalAlignment="Center" Width="68"
+                          Height="68"  Stretch="Uniform" VerticalAlignment="Center" />
+                        </Grid>
+                    </Viewbox>
+                    <TextBlock Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="AddWall" Foreground="#231f20" Grid.Column="1"></TextBlock>
+                </Grid>
+              
+            </Button>
+
+            <Button shared:ToolBarAdv.Label="AddShapes"   Margin="0,0,10,2" BorderBrush="Transparent" Background="Transparent" Command="{Binding AddProp}" Width="98" ToolTip="AddShapes">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Fill">
+                        <Grid>
+                            <Path  Data="F1M100,25L116,25L116,9L100,9z M117,26L99,26L99,8L117,8z" Opacity="0.89999401569366455" 
+                              Fill="#FF565858" HorizontalAlignment="Center" Width="68"
+                          Height="68"  Stretch="Uniform" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Viewbox>
+                    <TextBlock Margin="5" HorizontalAlignment="Right" VerticalAlignment="Center" Text="AddShapes" Foreground="#231f20" Grid.Column="1"></TextBlock>
+                </Grid>
+            </Button>
+
+            <Button shared:ToolBarAdv.Label="AddText" ToolTip="AddText"  Margin="0,0,10,2" BorderBrush="Transparent" Background="Transparent" VerticalAlignment="Bottom" Command="{Binding  AddText}" CommandParameter="{Binding SelectedObject}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Fill">
+                        <Grid>
+                            <Path Data="F1M133.0503,9.9374C132.9583,9.6864,132.8823,9.4404,132.8243,9.1974C132.7653,8.9884,132.7033,8.7794,132.6363,8.5704L132.5863,8.5704C132.4433,9.1224,132.3053,9.5694,132.1713,9.9124L128.8593,19.0624L136.4683,19.0624z M138.5733,25.0004L136.7343,20.0004L128.5473,20.0004L126.6483,25.0004L125.2803,25.0004L132.0713,7.0004L133.2513,7.0004L139.9663,25.0004z"  Opacity="0.89999401569366455" 
+                                Fill="#FF565858" HorizontalAlignment="Center" Width="68"
+                          Height="68"  Stretch="Uniform" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Viewbox>
+
+                    <TextBlock Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"  Text="AddText" Foreground="#231f20" Grid.Column="1"></TextBlock>
+                </Grid>
+            </Button>
+            <Button shared:ToolBarAdv.Label="Delete" ToolTip="Delete"  Margin="0,0,10,2" BorderBrush="Transparent"  Background="Transparent" local:DeleteButtonCommand.Command="{Binding Delete}" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" Grid.Column="0" Width="18" Height="18" Stretch="Fill">
+                        <Grid>
+                            <Path Data="M11,6.1030006 L12,6.1030006 L12,15.000001 L11,15.000001 z M8,6.1030006 L9,6.1030006 L9,15.000001 L8,15.000001 z M5,6.1030006 L6,6.1030006 L6,15.000001 L5,15.000001 z M3,3.9999998 L3,18 L14,18 L14,3.9999998 z M6,1 L6,3 L11,3 L11,1 z M5,0 L12,0 L12,3 L17,3 L17,3.9999998 L15,3.9999998 L15,19 L1.9999999,19 L1.9999999,3.9999998 L0,3.9999998 L0,3 L5,3 z"
+                                  Fill="#FF565858" HorizontalAlignment="Center" Width="68"
+                          Height="68"  Stretch="Uniform" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Viewbox>
+                    <TextBlock HorizontalAlignment="Center" Margin="5" VerticalAlignment="Center" Grid.Column="1" Text="Delete"></TextBlock>
+
+                </Grid>
+            </Button>
+
+        </shared:ToolBarAdv>
+
+
+     
+
+
+        
+
+        <!--<ScrollViewer Grid.Column="1">-->
+        <Grid Grid.Column="1" x:Name="Options" Background="#f2f2f2">
+
+            <Grid Grid.Column="1">
+                <Grid x:Name="PropertyEditor"
+                      Width="320"
+                      Background="#f2f2f2"
+                      Visibility="Collapsed" Margin="0,0,0,20">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <RotateTransform></RotateTransform>
+                            <TranslateTransform></TranslateTransform>
+                            <ScaleTransform></ScaleTransform>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+                    <Grid.Resources>
+                        <Storyboard x:Key="PropertyEditor_Storyboard_Visible">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PropertyEditor" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="350" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="0">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CircleEase />
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PropertyEditor" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="PropertyEditor_Storyboard_Collapse">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PropertyEditor" Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="350">
+                                    <EasingDoubleKeyFrame.EasingFunction>
+                                        <CubicEase />
+                                    </EasingDoubleKeyFrame.EasingFunction>
+                                </EasingDoubleKeyFrame>
+                            </DoubleAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PropertyEditor" Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Visible</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                                    <DiscreteObjectKeyFrame.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </Grid.Resources>
+                    <local:ShapesStencil></local:ShapesStencil>
+                </Grid>
+            </Grid>
+
+        </Grid>
+        <!--</ScrollViewer>-->
+
+
+        <Grid Margin="23,40" x:Name="goBackGrid"
+              HorizontalAlignment="Left"
+              VerticalAlignment="Top"
+              Background="#A5FFFFFF"
+              MouseLeftButtonUp="back_clicked">
+            <TextBlock Grid.Column="2"
+                       Margin="5"
+                       VerticalAlignment="Center"
+                       FontSize="25"
+                       Foreground="Black"
+                       Text="{Binding CurrentlyLoaded}" />
+        </Grid>
+
+    </Grid>
+
+</UserControl>

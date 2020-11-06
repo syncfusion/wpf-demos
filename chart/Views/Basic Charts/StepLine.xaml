@@ -1,0 +1,100 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.StepLineChartDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:StepLineChartViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+
+        <DataTemplate x:Key="labelTemplate">
+            <TextBlock FontSize="14" Text="{Binding LabelContent}" />
+        </DataTemplate>
+
+        <Style x:Key="AxisStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="DarkGray" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="AxisStyle1" TargetType="Line">
+            <Setter Property="Stroke" Value="DarkGray" />
+            <Setter Property="StrokeThickness" Value="0.5" />
+        </Style>
+
+    </democommon:DemoControl.Resources>
+
+    <Grid>
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <chart:SfChart
+            x:Name="SteplineChart"
+            Margin="10"
+            ColorModel="{StaticResource CustomColor}"
+            Palette="Custom">
+
+            <chart:SfChart.Header>
+                <TextBlock
+                    Margin="0,0,0,20"
+                    FontFamily="Segoe UI"
+                    FontSize="18"
+                    Text="CO - Intensity Analysis" />
+            </chart:SfChart.Header>
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis
+                    AxisLineStyle="{StaticResource AxisStyle1}"
+                    LabelFormat="yyyy"
+                    LabelPlacement="BetweenTicks"
+                    ShowGridLines="False"
+                    LabelTemplate="{StaticResource labelTemplate}"
+                    MajorTickLineStyle="{StaticResource AxisStyle}"
+                    ShowTrackBallInfo="True" />
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    AxisLineStyle="{StaticResource AxisStyle}"
+                    LabelTemplate="{StaticResource labelTemplate}"
+                    MajorTickLineStyle="{StaticResource AxisStyle}"
+                    Interval="50"
+                    Maximum="600"
+                    Minimum="0" />
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:SfChart.Legend>
+                <chart:ChartLegend DockPosition="Bottom"/>
+            </chart:SfChart.Legend>
+
+            <chart:StepLineSeries
+                EnableAnimation="True"
+                ItemsSource="{Binding Intensity}"
+                Label="London"
+                LegendIcon="SeriesType"
+                ShowTooltip="True"
+                XBindingPath="Year"
+                YBindingPath="uk" />
+            <chart:StepLineSeries
+                EnableAnimation="True"
+                ItemsSource="{Binding Intensity}"
+                Label="Korea"
+                LegendIcon="SeriesType"
+                ShowTooltip="True"
+                XBindingPath="Year"
+                YBindingPath="jp" />
+
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>
