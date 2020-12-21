@@ -1,0 +1,60 @@
+﻿<Window x:Class="Brainstorming.View.TopicChangeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Brainstorming.View"
+        mc:Ignorable="d"
+        Title="Change Shape"
+        x:Name="changeTopicWindow"
+        ShowInTaskbar="False" ResizeMode="NoResize" Width="260" Height="258" WindowStartupLocation="CenterOwner"
+        >
+    <Grid>
+        <Grid  x:Name="stackPanel" DataContext="{Binding ElementName=changeTopicWindow, Path=DataContext}" >
+            <Grid.InputBindings>
+                <KeyBinding 
+            Key="Enter" 
+            Command="{Binding ElementName=stackPanel, Path=DataContext.KeyDownCommand}" 
+           />
+            </Grid.InputBindings>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="New shape:" Margin="10,10,0,0" Height="20" FontSize="12" Foreground="#1D2124" FontFamily="SegoeUI" VerticalAlignment="Center"/>
+            <Grid Grid.Row="1" Margin="10,5,0,0" Height="130" Width="225" HorizontalAlignment="Left">
+                <ListView  SelectedIndex="0" x:Name="shapeTopicListView"     
+                       SelectedItem="{Binding ElementName=stackPanel, Path=DataContext.SelectedItem}"
+                       ItemsSource="{Binding ElementName=stackPanel, Path=DataContext.Topics}"
+                           FontSize="13" Foreground="#1D2124" FontFamily="SegoeUI"
+                           BorderBrush="#4E7FA5" BorderThickness="1" 
+                           >
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Height" Value="20"/>
+                            <Setter Property="FontSize" Value="12"/>
+                            <Setter Property="Foreground" Value="#1D2124"/>
+                            <Setter Property="FontFamily" Value="SegoeUI"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+            </ListView>
+            </Grid>
+            <Grid Grid.Row="2">
+                <Button x:Name="changeTopicOkButton" Content="OK" Command="{Binding ElementName=stackPanel, Path=DataContext.OkCommand}" 
+                        CommandParameter="{Binding ElementName=shapeTopicListView, Path=SelectedItem}" Width="70" Height="24"
+                        HorizontalAlignment="Right" Background="#EBEBEB" BorderBrush="#AEAEAE" BorderThickness="1"
+                        Foreground="#1D2124" FontSize="12" FontFamily="SegoeUI" VerticalAlignment="Center"
+                        Margin="0,0,90,0"
+                        />
+                <Button x:Name="changeTopicCancelButton" Content="Cancel" 
+                        Command="{Binding ElementName=stackPanel, Path=DataContext.CancelCommand}"
+                        Width="70" Height="24"
+                        HorizontalAlignment="Right" Background="#EBEBEB" BorderBrush="#AEAEAE" BorderThickness="1"
+                        Foreground="#1D2124" FontSize="12" FontFamily="SegoeUI" VerticalAlignment="Center"
+                        Margin="0,0,10,0"
+                        />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

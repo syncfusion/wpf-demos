@@ -1,0 +1,120 @@
+﻿<syncfusion:ChromelessWindow
+    x:Class="syncfusion.layoutdemos.wpf.TitleBarCustomization"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:listCollection="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:local="clr-namespace:syncfusion.layoutdemos.wpf"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    x:Name="window"
+    Title="Title Bar customization in Chromeless Window"
+    Icon="/syncfusion.layoutdemos.wpf;component/Assets/Chromeless Window/App.ico"
+    IconAlignment="Left"
+    TitleTextAlignment="Left"
+    UseNativeChrome="False"
+    WindowStartupLocation="CenterScreen">
+    <syncfusion:ChromelessWindow.DataContext>
+        <local:TitleBarCustomizationViewModel />
+    </syncfusion:ChromelessWindow.DataContext>
+    <syncfusion:ChromelessWindow.RightHeaderItemsSource>
+        <listCollection:ArrayList>
+            <syncfusion:SfTextBoxExt
+                x:Name="searchText"
+                Width="100"
+                Margin="5,3,7,2"
+                Background="Transparent"
+                Text="{Binding TextProperty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Watermark="Search in Grid...">
+                <interactivity:Interaction.Triggers>
+                    <interactivity:EventTrigger EventName="TextChanged">
+                        <interactivity:InvokeCommandAction Command="{Binding TextChangedCommand}" CommandParameter="{Binding ElementName=window}" />
+                    </interactivity:EventTrigger>
+                </interactivity:Interaction.Triggers>
+            </syncfusion:SfTextBoxExt>
+            <Button
+                x:Name="findPrevious"
+                Width="24"
+                Height="24"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{Binding Path=FindPreviousCommand}">
+                <Path
+                    x:Name="leftArrow"
+                    Width="7"
+                    Height="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Data="F1M54.4023,43.502L46.8903,36L54.4023,28.498L55.1093,29.206L48.3063,36L55.1093,42.795z"
+                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                    Stretch="Fill" />
+
+            </Button>
+            <Button
+                x:Name="findNext"
+                Width="24"
+                Height="24"
+                Margin="7,0"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{Binding Path=FindNextCommand}">
+                <Path
+                    x:Name="rightArrow"
+                    Width="7"
+                    Height="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Data="F1M68.5957,43.502L67.8887,42.795L74.6957,36L67.8887,29.206L68.5957,28.498L76.1117,36z"
+                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                    Stretch="Fill" />
+            </Button>
+            <Button
+                x:Name="help"
+                Width="24"
+                Height="24"
+                Margin="0,0,2,0"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{Binding Path=HelpCommand}">
+                <Path
+                    Width="7"
+                    Height="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Data="M3.9400001,13.238 L5.5349999,13.238 5.5349999,14.833 3.9400001,14.833 z M4.7539988,0 C6.2060028,8.8817842E-16 7.3750015,0.39599991 8.2300044,1.1770003 9.0749989,1.9500008 9.5039998,2.8959999 9.5039998,3.9900017 9.5039998,4.6220016 9.3539982,5.2110023 9.0599995,5.743 8.7549992,6.2900009 8.1419993,6.9750023 7.2350021,7.7770004 6.5800033,8.3570023 6.1620041,8.7770004 5.9580017,9.0590019 5.7429972,9.3530006 5.5830012,9.6930008 5.4789973,10.070999 5.3929988,10.394001 5.3399974,10.871002 5.3170024,11.521999 L4.0500041,11.521999 C4.0479975,11.409 4.0459986,11.316002 4.0459986,11.244999 4.0459986,10.528 4.1480036,9.9029999 4.3499995,9.387001 4.4899989,9.0110016 4.7289973,8.618 5.0599986,8.2180023 5.310998,7.9189987 5.7679992,7.4770012 6.4180008,6.9049988 7.1190048,6.2859993 7.5660034,5.7989998 7.7829991,5.4169998 8.0100032,5.0200005 8.1240016,4.5839996 8.1240016,4.1189995 8.1240016,3.288002 7.796999,2.5480003 7.1510025,1.9220008 6.5110031,1.2989998 5.7139979,0.98400116&#xd;&#xa;4.784997,0.9840011 3.8870018,0.98400116 3.1250005,1.2709999 2.5199972,1.8380011 1.9710011,2.3500004 1.5930027,3.1230011 1.3939974,4.1389999 L0,3.9729996 C0.19999708,2.7350006 0.6869967,1.7670002 1.4499972,1.0950012 2.2720037,0.36900139 3.3850029,8.8817842E-16 4.7539988,0 z"
+                    Fill="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(TextBlock.Foreground)}"
+                    Stretch="Fill" />
+            </Button>
+        </listCollection:ArrayList>
+    </syncfusion:ChromelessWindow.RightHeaderItemsSource>
+    <Grid x:Name="seperator" HorizontalAlignment="Center">
+        <syncfusion:SfDataGrid
+            x:Name="dataGrid"
+            local:TitleBarCustomizationViewModel.SfDataGrid="{Binding ElementName=dataGrid}"
+            AllowEditing="True"
+            AllowFiltering="True"
+            AutoGenerateColumns="False"
+            ColumnSizer="Star"
+            HideEmptyGridViewDefinition="True"
+            ItemsSource="{Binding Path=OrdersDetails}"
+            NavigationMode="Cell">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn MappingName="OrderID" />
+                <syncfusion:GridTextColumn MappingName="CustomersID" />
+                <syncfusion:GridDateTimeColumn
+                    HeaderText="Shipping Date"
+                    MappingName="ShippingDate"
+                    TextAlignment="Right" />
+                <syncfusion:GridNumericColumn
+                    HeaderText="Supplier ID"
+                    MappingName="SupplierID"
+                    NumberDecimalDigits="0" />
+                <syncfusion:GridTextColumn HeaderText="Ship City" MappingName="Cities" />
+                <syncfusion:GridTextColumn HeaderText="Ship Country" MappingName="Countries" />
+                <syncfusion:GridCurrencyColumn CurrencySymbol="$" MappingName="Freight" />
+                <syncfusion:GridCheckBoxColumn HeaderText="Closed" MappingName="IsClosed" />
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+    </Grid>
+</syncfusion:ChromelessWindow>

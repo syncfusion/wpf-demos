@@ -1,0 +1,181 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.gaugedemos.wpf.Customization"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.gaugedemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="auto"
+    Height="auto"
+    OptionsPosition="Right"
+    OptionsSize="Auto">
+
+    <democommon:DemoControl.Resources>
+        <local:CustomizationViewModel x:Key="ScreenViewModel" />
+    </democommon:DemoControl.Resources>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <syncfusion:SfCircularGauge
+            x:Name="circularGauge1"
+            Grid.Row="0"
+            GaugeHeaderPosition="0.55,0"
+            HeaderAlignment="Custom">
+            <syncfusion:SfCircularGauge.GaugeHeader>
+                <TextBlock
+                    Width="100"
+                    Height="40"
+                    FontSize="20"
+                    Text="{Binding PointerValue, Source={StaticResource ScreenViewModel}, StringFormat=' {0:F0} GB'}" />
+            </syncfusion:SfCircularGauge.GaugeHeader>
+            <syncfusion:SfCircularGauge.Scales>
+                <syncfusion:CircularScale
+                    x:Name="gauge1Scale"
+                    EndValue="1000"
+                    Interval="1000"
+                    RadiusFactor="0.8"
+                    RangePosition="Custom"
+                    RimStroke="{Binding SelectedItem2.Brush, Source={StaticResource ScreenViewModel}, Mode=OneWay}"
+                    RimStrokeThickness="30"
+                    ShowLabels="False"
+                    ShowTicks="False"
+                    StartAngle="210"
+                    StartValue="0"
+                    SweepAngle="120">
+                    <syncfusion:CircularScale.Ranges>
+                        <syncfusion:CircularRange
+                            x:Name="gauge1Range"
+                            EndValue="{Binding PointerValue, Source={StaticResource ScreenViewModel}, Mode=TwoWay}"
+                            StartValue="0"
+                            Stroke="{Binding SelectedItem.Brush, Source={StaticResource ScreenViewModel}, Mode=OneWay}"
+                            StrokeThickness="30"
+                            Offset="0.8" />
+                    </syncfusion:CircularScale.Ranges>
+                    <syncfusion:CircularScale.Pointers>
+                        <syncfusion:CircularPointer
+                            x:Name="gauge1Pointer"
+                            EnableAnimation="True"
+                            KnobFill="{Binding SelectedItem1.Brush, Source={StaticResource ScreenViewModel}, Mode=OneWay}"
+                            KnobStroke="{Binding SelectedItem1.Brush, Source={StaticResource ScreenViewModel}, Mode=OneWay}"
+                            NeedleLengthFactor="0.76"
+                            NeedlePointerStroke="{Binding SelectedItem1.Brush, Source={StaticResource ScreenViewModel}, Mode=OneWay}"
+                            NeedlePointerStrokeThickness="20"
+                            NeedlePointerType="Triangle"
+                            PointerCapDiameter="30"
+                            PointerType="NeedlePointer"
+                            Value="{Binding PointerValue, Source={StaticResource ScreenViewModel}, Mode=TwoWay}" />
+                    </syncfusion:CircularScale.Pointers>
+                </syncfusion:CircularScale>
+            </syncfusion:SfCircularGauge.Scales>
+        </syncfusion:SfCircularGauge>
+
+        <syncfusion:SfCircularGauge
+            x:Name="circularGauge2"
+            Grid.Row="1"
+            GaugeHeaderPosition="0.5,0.6"
+            HeaderAlignment="Custom">
+            <syncfusion:SfCircularGauge.GaugeHeader>
+                <StackPanel>
+                    <TextBlock
+                        Width="100"
+                        Height="40"
+                        FontSize="20"
+                        Text="{Binding PointerValue, Source={StaticResource ScreenViewModel}, StringFormat=' {0:F0} GB'}"
+                        TextAlignment="Center" />
+                    <TextBlock
+                        Width="100"
+                        Height="40"
+                        FontSize="15"
+                        Foreground="Gray"
+                        Text="Used"
+                        TextAlignment="Center" />
+                </StackPanel>
+            </syncfusion:SfCircularGauge.GaugeHeader>
+            <syncfusion:SfCircularGauge.Scales>
+                <syncfusion:CircularScale
+                    x:Name="gauge2Scale"
+                    EndValue="1000"
+                    Interval="1000"
+                    RadiusFactor="0.8"
+                    RangePosition="Custom"
+                    RimStroke="{Binding SelectedItem2.Brush, Source={StaticResource ScreenViewModel}, Mode=OneWay}"
+                    RimStrokeThickness="30"
+                    ShowLabels="False"
+                    ShowTicks="False"
+                    StartAngle="90"
+                    StartValue="0"
+                    SweepAngle="360">
+                    <syncfusion:CircularScale.Ranges>
+                        <syncfusion:CircularRange
+                            x:Name="gauge2Range"
+                            EndValue="{Binding PointerValue, Source={StaticResource ScreenViewModel}, Mode=TwoWay}"
+                            StartValue="0"
+                            Stroke="{Binding SelectedItem.Brush, Source={StaticResource ScreenViewModel}, Mode=OneWay}"
+                            StrokeThickness="30"
+                            Offset="0.8" />
+                    </syncfusion:CircularScale.Ranges>
+                    <syncfusion:CircularScale.Pointers>
+                        <syncfusion:CircularPointer NeedlePointerVisibility="Collapsed" />
+                    </syncfusion:CircularScale.Pointers>
+                </syncfusion:CircularScale>
+            </syncfusion:SfCircularGauge.Scales>
+        </syncfusion:SfCircularGauge>
+    </Grid>
+
+    <democommon:DemoControl.Options>
+        <StackPanel Width="170" Margin="0,15,0,0">
+            <TextBlock
+                Margin="10,0,0,0"
+                VerticalAlignment="Bottom"
+                Text="Range Pointer Color" />
+            <ComboBox
+                x:Name="rangePointerColor"
+                Margin="10"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Title"
+                ItemsSource="{Binding Items, Source={StaticResource ScreenViewModel}}"
+                SelectedIndex="0"
+                SelectedItem="{Binding SelectedItem, Source={StaticResource ScreenViewModel}, Mode=TwoWay}" />
+
+            <TextBlock
+                Margin="10,0,0,0"
+                VerticalAlignment="Bottom"
+                Text="Needle Pointer Color" />
+            <ComboBox
+                x:Name="needlePointerColor"
+                Margin="10"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Title"
+                ItemsSource="{Binding Items1, Source={StaticResource ScreenViewModel}}"
+                SelectedIndex="0"
+                SelectedItem="{Binding SelectedItem1, Source={StaticResource ScreenViewModel}, Mode=TwoWay}" />
+
+            <TextBlock
+                Margin="10,0,0,0"
+                VerticalAlignment="Bottom"
+                Text="Range Color" />
+            <ComboBox
+                x:Name="rangeColor"
+                Margin="10"
+                VerticalAlignment="Center"
+                DisplayMemberPath="Title"
+                ItemsSource="{Binding Items2, Source={StaticResource ScreenViewModel}}"
+                SelectedIndex="0"
+                SelectedItem="{Binding SelectedItem2, Source={StaticResource ScreenViewModel}, Mode=TwoWay}" />
+            <TextBlock
+                Margin="10,0,0,0"
+                VerticalAlignment="Bottom"
+                Text="{Binding PointerValue, Source={StaticResource ScreenViewModel}, StringFormat='Change Pointer Value {0:F0}'}" />
+            <Slider
+                x:Name="slider"
+                Margin="10"
+                Maximum="1000"
+                Minimum="0"
+                Value="{Binding PointerValue, Source={StaticResource ScreenViewModel}, Mode=TwoWay}" />
+        </StackPanel>
+    </democommon:DemoControl.Options>
+
+</democommon:DemoControl>

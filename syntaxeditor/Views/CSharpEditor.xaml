@@ -1,0 +1,245 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.syntaxeditordemos.wpf.CSharpEditor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.syntaxeditordemos.wpf"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    x:Name="window">
+    <democommon:DemoControl.DataContext>
+        <local:CSharpEditorViewModel />
+    </democommon:DemoControl.DataContext>
+    
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="/syncfusion.syntaxeditordemos.wpf;component/Assets/syntaxeditor/PathIcon.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Menu
+            Grid.ColumnSpan="2"
+            Height="25" Padding="5,2,0,0"
+            BorderBrush="LightGray"
+            BorderThickness="1">
+            <MenuItem
+                Background="Transparent"
+                Header="_File">
+                <MenuItem Command="{x:Static syncfusion:EditCommands.New}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Open}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Save}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.SaveAs}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Print}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.PrintPreview}" CommandTarget="{Binding ElementName=editControl}" />
+            </MenuItem>
+            <MenuItem
+                Background="Transparent"
+                Header="_Edit">
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Undo}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Redo}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Cut}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Copy}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.Paste}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Command="{x:Static syncfusion:EditCommands.SelectAll}" CommandTarget="{Binding ElementName=editControl}" />
+                <MenuItem Header="Find and Replace">
+                    <MenuItem Command="{x:Static syncfusion:EditCommands.Find}" CommandTarget="{Binding ElementName=editControl}" />
+                    <MenuItem Command="{x:Static syncfusion:EditCommands.Replace}" CommandTarget="{Binding ElementName=editControl}" />
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Options">
+                <MenuItem
+                    Header="Accepts Tab"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editControl, Path=AcceptsTab}" />
+                <MenuItem
+                    Header="Enable Outlining"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editControl, Path=EnableOutlining}" />
+                <MenuItem
+                    Header="Is ReadOnly"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editControl, Path=IsReadOnly}" />
+                <MenuItem
+                    Header="Show Line Number"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editControl, Path=ShowLineNumber}" />
+                <MenuItem
+                    Header="Show Default Context Menu"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editControl, Path=ShowDefaultContextMenu}" />
+                <MenuItem
+                    Header="Accepts Return"
+                    IsCheckable="True"
+                    IsChecked="{Binding ElementName=editControl, Path=AcceptsReturn}" />
+            </MenuItem>
+        </Menu>
+
+        <ToolBar
+            Grid.Row="1"
+            Grid.ColumnSpan="1"
+            Margin="-1">
+            <Button 
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.New}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="New"
+                Content="{StaticResource New}">
+            </Button>
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.Open}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Open"
+                Content="{StaticResource Open}">
+            </Button>
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.Save}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Save"
+                Content="{StaticResource Save}">
+            </Button>
+            <Separator />
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.Cut}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Cut"
+                ToolTipService.ShowOnDisabled="True"
+                Content="{StaticResource Cut}">
+            </Button>
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.Copy}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Copy"
+                ToolTipService.ShowOnDisabled="True"
+                Content="{StaticResource Copy}">
+            </Button>
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.Paste}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Paste"
+                ToolTipService.ShowOnDisabled="True"
+                Content="{StaticResource Paste}">
+            </Button>
+            <Separator />
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.Undo}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Undo"
+                ToolTipService.ShowOnDisabled="True"
+                Content="{StaticResource Undo}">
+            </Button>
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.Redo}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Redo"
+                ToolTipService.ShowOnDisabled="True"
+                Content="{StaticResource Redo}">
+            </Button>
+
+            <Separator />
+            <ComboBox
+                Name="fontList"
+                Grid.Column="1"
+                Width="120"
+                Margin="3"
+                ItemsSource="{x:Static Fonts.SystemFontFamilies}"
+                SelectedItem="{Binding Path=SelectedFont}"
+                ToolTip="Font" />
+            <ComboBox
+                Name="fontSize"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="3"
+                SelectedIndex="2"
+                ToolTip="Font size">
+                <system:Double>10</system:Double>
+                <system:Double>12</system:Double>
+                <system:Double>13</system:Double>
+                <system:Double>14</system:Double>
+                <system:Double>15</system:Double>
+                <system:Double>16</system:Double>
+                <system:Double>17</system:Double>
+                <system:Double>18</system:Double>
+                <system:Double>20</system:Double>
+            </ComboBox>
+            <Separator />
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.DecreaseIndent}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Decrease indent"
+                Content="{StaticResource DecreaseIndent}">
+            </Button>
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.IncreaseIndent}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Increase indent"
+                Content="{StaticResource IncreaseIndent}">
+            </Button>
+            <Separator />
+            <Button
+                Margin="1,0,1,1"
+                Command="{x:Static syncfusion:EditCommands.CommentSelection}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Comment out the selected lines">
+                <Image
+                    MaxWidth="16"
+                    MaxHeight="16"
+                    Source="/Syncfusion.Edit.Wpf;component/Resources/comment.png" />
+            </Button>
+            <Button
+                Margin="1,0,1,1"
+                Command="{x:Static syncfusion:EditCommands.UncommentSelection}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Uncomment the selected lines">
+                <Image
+                    MaxWidth="16"
+                    MaxHeight="16"
+                    Source="/Syncfusion.Edit.Wpf;component/Resources/uncomment.png" />
+            </Button>
+            <Separator />
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.Print}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Print"
+                ToolTipService.ShowOnDisabled="True"
+                Content="{StaticResource Print}">
+            </Button>
+            <Button
+                Margin="1,0"
+                Command="{x:Static syncfusion:EditCommands.PrintPreview}"
+                CommandTarget="{Binding ElementName=editControl}"
+                ToolTip="Print Preview"
+                ToolTipService.ShowOnDisabled="True"
+                Content="{StaticResource PrintPreview}">
+            </Button>
+            <Separator />
+        </ToolBar>
+        <Border Grid.Row="2">
+            <syncfusion:EditControl
+                Name="editControl"
+                DocumentLanguage="{Binding Path=Language}"
+                DocumentSource="{Binding Path=DocumentSource}"
+                EnableIntellisense="False"
+                FontFamily="{Binding ElementName=fontList, Path=SelectedItem}"
+                FontSize="{Binding ElementName=fontSize, Path=SelectedItem}"
+                ShowLineNumber="True" />
+        </Border>
+    </Grid>
+</democommon:DemoControl>

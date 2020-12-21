@@ -1,0 +1,212 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.sunburstchartdemos.wpf.GettingStarted"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.sunburstchartdemos.wpf"
+    xmlns:sunburst="clr-namespace:Syncfusion.UI.Xaml.SunburstChart;assembly=Syncfusion.SfSunburstChart.WPF"
+    Width="auto"
+    Height="auto"
+    OptionsPosition="Right"
+    OptionsSize="Auto">
+
+
+    <democommon:DemoControl.DataContext>
+        <local:GettingStartedViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <democommon:EnumDisplayNameConverter x:Key="EnumDisplayNameConverter" />
+    </democommon:DemoControl.Resources>
+
+    <Grid x:Name="Grid">
+        <sunburst:SfSunburstChart
+            x:Name="Sunburst"
+            ItemsSource="{Binding Data}"
+            Palette="LightCandy"
+            StartAngle="0" EndAngle="360"
+            InnerRadius="0.2"
+            Radius="0.95"
+            StrokeThickness="1"
+            ValueMemberPath="EmployeesCount">
+            <sunburst:SfSunburstChart.Header>
+                <TextBlock
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontFamily="Cambria"
+                    FontSize="20"
+                    Text="Employees Count" />
+            </sunburst:SfSunburstChart.Header>
+
+            <sunburst:SfSunburstChart.Legend>
+                <sunburst:SunburstLegend DockPosition="Top" />
+            </sunburst:SfSunburstChart.Legend>
+
+            <sunburst:SfSunburstChart.Levels>
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="Country" />
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="JobDescription" />
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="JobGroup" />
+                <sunburst:SunburstHierarchicalLevel GroupMemberPath="JobRole" />
+            </sunburst:SfSunburstChart.Levels>
+
+            <sunburst:SfSunburstChart.DataLabelInfo>
+                <sunburst:SunburstDataLabelInfo x:Name="sbDataLabel" FontFamily="Cambria" 
+                                                LabelOverflowMode="Trim" LabelRotationMode="Angle"/>
+            </sunburst:SfSunburstChart.DataLabelInfo>
+        </sunburst:SfSunburstChart>
+    </Grid>
+
+    <democommon:DemoControl.Options>
+        <Grid VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".4*" />
+                <ColumnDefinition Width=".6*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="10,5"
+                VerticalAlignment="Top"
+                FontSize="13"
+                Text="Palette" />
+            <ComboBox
+                x:Name="paletteCombo"
+                Grid.Row="0"
+                Grid.Column="1"
+                Width="165"
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                FontSize="13"
+                IsEditable="False"
+                ItemsSource="{democommon:EnumValuesExtension Type=sunburst:SunburstColorPalette}"
+                SelectedIndex="11"
+                SelectedItem="{Binding ElementName=Sunburst, Path=Palette, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock
+                Grid.Row="1"
+                Margin="10,5"
+                VerticalAlignment="Top"
+                FontSize="12"
+                Text="Label Overflow Mode" />
+            <ComboBox
+                x:Name="labelOverflowCombo"
+                Grid.Row="1"
+                Grid.Column="1"
+                Width="165"
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                FontSize="13"
+                IsEditable="False"
+                ItemsSource="{democommon:EnumValuesExtension Type=sunburst:LabelOverflowMode}"
+                SelectedItem="{Binding ElementName=sbDataLabel, Path=LabelOverflowMode, Mode=TwoWay}"
+                SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock
+                Grid.Row="2"
+                Margin="10,5"
+                VerticalAlignment="Top"
+                FontSize="12"
+                Text="Label Rotation Mode" />
+            <ComboBox
+                x:Name="labelRotationCombo"
+                Grid.Row="2"
+                Grid.Column="1"
+                Width="165"
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                FontSize="13"
+                IsEditable="False"
+                ItemsSource="{democommon:EnumValuesExtension Type=sunburst:LabelRotationMode}"
+                SelectedItem="{Binding ElementName=sbDataLabel, Path=LabelRotationMode, Mode=TwoWay}"
+                SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock
+                Grid.Row="3"
+                Margin="10,5"
+                FontSize="13"
+                Text="Start Angle" />
+            <Slider
+                x:Name="startAngle"
+                Grid.Row="3"
+                Grid.Column="1"
+                Width="175"
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                Maximum="360"
+                Minimum="0"
+                Value="{Binding ElementName=Sunburst, Path=StartAngle, Mode=TwoWay}" />
+            <TextBlock
+                Grid.Row="4"
+                Margin="10,5"
+                FontSize="13"
+                Text="End Angle" />
+            <Slider
+                x:Name="endAngle"
+                Grid.Row="4"
+                Grid.Column="1"
+                Width="175"
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                Maximum="360"
+                Minimum="0"
+                Value="{Binding ElementName=Sunburst, Path=EndAngle, Mode=TwoWay}" />
+            <TextBlock
+                Grid.Row="5"
+                Margin="10,5"
+                FontSize="13"
+                Text="Outer Radius" />
+            <Slider
+                x:Name="coefficient"
+                Grid.Row="5"
+                Grid.Column="1"
+                IsMoveToPointEnabled="True"
+                Width="175"
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                Maximum="1"
+                Minimum="0"
+                Value="{Binding ElementName=Sunburst, Path=Radius, Mode=TwoWay}" />
+            <TextBlock
+                Grid.Row="6"
+                Margin="10,5"
+                FontSize="13"
+                Text="Inner Radius" />
+            <Slider
+                x:Name="holeCoefficient"
+                Grid.Row="6"
+                Grid.Column="1"
+                IsMoveToPointEnabled="True"
+                Width="175"
+                Margin="10,5"
+                HorizontalAlignment="Left"
+                Maximum="1"
+                Minimum="0"
+                Value="{Binding ElementName=Sunburst, Path=InnerRadius, Mode=TwoWay}" />
+        </Grid>
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>
