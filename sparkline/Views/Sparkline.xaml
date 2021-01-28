@@ -1,0 +1,101 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.sparklinedemos.wpf.Sparkline"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.sparklinedemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="auto"
+    Height="auto"
+    OptionsPosition="Right"
+    OptionsSize="Auto">
+
+    <democommon:DemoControl.DataContext>
+        <local:SparklineViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid x:Name="rootGrid" Background="White">
+        <Grid.Resources>
+            <DataTemplate x:Key="DayActivityKey">
+                <Grid>
+                    <chart:SfColumnSparkline
+                        Margin="3"
+                        ItemsSource="{Binding DayActivity}"
+                        RangeBandBrush="#FF0AF36C"
+                        YBindingPath="ShareHolders" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="TransactionKey">
+                <Grid>
+                    <chart:SfLineSparkline
+                        Margin="3"
+                        ItemsSource="{Binding Transaction}"
+                        Stroke="Blue"
+                        YBindingPath="Day" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="TransactionKeyArea">
+                <Grid>
+                    <chart:SfAreaSparkline
+                        Margin="3"
+                        ItemsSource="{Binding Transaction}"
+                        Stroke="Blue"
+                        YBindingPath="Day" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="PerformanceKey">
+                <Grid>
+                    <chart:SfWinLossSparkline
+                        Margin="3"
+                        ItemsSource="{Binding OneYearPerformance}"
+                        YBindingPath="YearPerformance" />
+                </Grid>
+            </DataTemplate>
+
+        </Grid.Resources>
+
+
+        <Grid>
+
+            <syncfusion:SfDataGrid
+                x:Name="dataGrid"
+                AutoGenerateColumns="False"
+                ColumnSizer="Star"
+                ItemsSource="{Binding Path=viewModel}">
+                <syncfusion:SfDataGrid.Columns>
+                    <syncfusion:GridTextColumn
+                        Width="150"
+                        HeaderText="Company Name"
+                        MappingName="CompanyName" />
+                    <syncfusion:GridTextColumn HeaderText="Min-Index" MappingName="High" />
+                    <syncfusion:GridTextColumn HeaderText="Max-Index" MappingName="Low" />
+                    <syncfusion:GridTextColumn HeaderText="Start" MappingName="Start" />
+                    <syncfusion:GridTextColumn HeaderText="End" MappingName="End" />
+                    <syncfusion:GridTemplateColumn
+                        AllowSorting="False"
+                        CellTemplate="{StaticResource DayActivityKey}"
+                        HeaderText="One Day Index"
+                        MappingName="DayActivity" />
+                    <syncfusion:GridTextColumn HeaderText="Market Cap" MappingName="MarketCap" />
+                    <syncfusion:GridTemplateColumn
+                        AllowSorting="False"
+                        CellTemplate="{StaticResource PerformanceKey}"
+                        HeaderText="Year Index GR"
+                        MappingName="OneYearPerformance" />
+                    <syncfusion:GridTemplateColumn
+                        AllowSorting="False"
+                        CellTemplate="{StaticResource TransactionKey}"
+                        HeaderText="TX Per Day"
+                        MappingName="Transaction" />
+                </syncfusion:SfDataGrid.Columns>
+
+            </syncfusion:SfDataGrid>
+
+        </Grid>
+    </Grid>
+
+</democommon:DemoControl>

@@ -1,0 +1,298 @@
+<democommon:DemoControl
+    x:Class="syncfusion.dockingmanagerdemos.wpf.MDIDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.dockingmanagerdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+
+    <democommon:DemoControl.DataContext>
+        <local:MDIViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <local:MultipleCommandParameterConverter x:Key="multipleCommandParameterConverter"/>
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock 
+                    Text="SwitchMode" 
+                    TextWrapping="Wrap"
+                    Margin="2,5,5,5"
+                    Grid.Column="0" 
+                    Grid.Row="0"/>
+                <syncfusion:ComboBoxAdv 
+                    Name="combo" 
+                    Padding="5"
+                    Margin="0,0,0,5"
+                    SelectedItem="{Binding SwitchMode}"
+                    ItemsSource="{democommon:EnumValues Type=syncfusion:SwitchMode}"
+                    Grid.Column="1" 
+                    Grid.Row="0"/>
+
+                <TextBlock 
+                    Text="MDILayout"
+                    Margin="2,10,5,5"
+                    Grid.Column="0"
+                    Grid.Row="1"/>
+                <syncfusion:ComboBoxAdv
+                    Name="MDILayout_selection"
+                    SelectedIndex="0"
+                    ItemsSource="{democommon:EnumValues Type=syncfusion:MDILayout}"
+                    Margin="0,5,0,5"
+                    Padding="5"
+                    Grid.Column="1"
+                    Grid.Row="1">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding MDILayoutChangedCommand}" >
+                                <i:InvokeCommandAction.CommandParameter>
+                                    <MultiBinding Converter="{StaticResource multipleCommandParameterConverter}">
+                                        <Binding ElementName="MDILayout_selection" 
+                                                 Path="SelectionBoxItem"/>
+                                        <Binding ElementName="dockingManager" />
+                                    </MultiBinding>
+                                </i:InvokeCommandAction.CommandParameter>
+                            </i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </syncfusion:ComboBoxAdv>
+            </Grid>
+        </ScrollViewer>
+    </democommon:DemoControl.Options>
+
+    <!--  Defining Root Grid  -->
+    <Grid Name="mygrid">
+            <!--  Initializing Docking Manager  -->
+            <syncfusion:DockingManager 
+                Margin="12,12,5,12"
+                x:Name="dockingManager"
+                Height="Auto"
+                syncfusion:DockingManager.AnimationDelay="00:00:00.200"
+                ContainerMode="MDI"
+                EnableMouseHoverBackground="False"
+                IsVS2010DraggingEnabled="True"
+                PersistState="False"
+                SwitchMode="{Binding SwitchMode, Mode=TwoWay}"
+                UseDocumentContainer="True">
+                
+                <!--  Customized Header Template  -->
+                <syncfusion:DockingManager.HeaderTemplate>
+                    <DataTemplate>
+                        <DockPanel LastChildFill="True">
+                            <TextBlock
+                                Margin="5,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding}"
+                                TextTrimming="CharacterEllipsis" />
+                        </DockPanel>
+                    </DataTemplate>
+                </syncfusion:DockingManager.HeaderTemplate>
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/DocIO.gif" />
+                </syncfusion:DockingManager.Icon>
+
+                <!--  Dock window For the FindResult  -->
+                <ContentControl
+                    Name="FindResult"
+                    syncfusion:DockingManager.CanClose="True"
+                    syncfusion:DockingManager.DesiredHeightInDockedMode="90"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="350"
+                    syncfusion:DockingManager.DesiredWidthInFloatingMode="350"
+                    syncfusion:DockingManager.Header="Find Results"
+                    syncfusion:DockingManager.SideInDockedMode="Bottom"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="check the result">
+                    <!--  Customized Header Template  -->
+                    <syncfusion:DockingManager.Icon>
+                        <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/Sample.gif" />
+                    </syncfusion:DockingManager.Icon>
+                </ContentControl>
+
+                <!--  Dock Window For ErrorList  -->
+                <ContentControl
+                    Name="ErrorList"
+                    syncfusion:DockingManager.CanDrag="True"
+                    syncfusion:DockingManager.Header="Event Log"
+                    syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                    syncfusion:DockingManager.TargetNameInDockedMode="FindResult"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="To show the list of errors">
+
+                    <syncfusion:DockingManager.Icon>
+                        <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/XlsIO.gif" />
+                    </syncfusion:DockingManager.Icon>
+                </ContentControl>
+
+                <!--  Dock Window For Solution Explorer  -->
+                <ContentControl
+                    Name="solutionExp"
+                    HorizontalContentAlignment="Left"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="180"
+                    syncfusion:DockingManager.Header="Solution Explorer"
+                    syncfusion:DockingManager.SideInDockedMode="Right"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"                   
+                    FlowDirection="LeftToRight">
+                    <syncfusion:DockingManager.Icon>
+                        <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/Grid.gif" />
+                    </syncfusion:DockingManager.Icon>
+                     </ContentControl>
+
+                <!--  Tabbed Dock Window  -->
+                <!--  Dock window for Properties  -->
+                <ContentControl
+                    Name="Properties"
+                    syncfusion:DockingManager.CanDrag="True"
+                    syncfusion:DockingManager.DesiredHeightInDockedMode="150"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="180"
+                    syncfusion:DockingManager.Header="Properties"
+                    syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                    syncfusion:DockingManager.TargetNameInDockedMode="solutionExp"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="To display the properties"/>
+               
+                <!--  Dock window for ToolBox  -->
+                <ContentControl
+                    Name="toolbox"
+                    syncfusion:DockingManager.DesiredWidthInDockedMode="140"
+                    syncfusion:DockingManager.Header="Toolbox"
+                    syncfusion:DockingManager.SideInDockedMode="Left"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="ToolBox"/>
+
+                <!--  Document Area  -->
+                <!--  Minimized Window  -->
+                <ContentControl 
+                    syncfusion:DockingManager.Header="Minimized Window"
+                    syncfusion:DocumentContainer.MDIWindowState="Minimized"
+                    syncfusion:DocumentContainer.MDIBounds="0,0,300,300"
+                    syncfusion:DockingManager.State="Document">
+                    <TextBlock
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        FontStyle="Italic"
+                        FontFamily="Segoe UI"
+                        TextWrapping="Wrap">
+                        Intially, Window is in minimized state
+                    </TextBlock>
+                </ContentControl>
+                
+                <!--  DocumentContainer tab  -->
+                <Border
+                    syncfusion:DockingManager.Header="Document Container"
+                    syncfusion:DockingManager.State="Document"
+                    syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="Documentcontainer Window">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBox
+                                Margin="5"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                WPF DocumentContainer
+                            </TextBox>
+                            <TextBox
+                                Margin="5,10"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                This application is designed to highlight the features of the
+                                WPF Docking Manager integrated with the Document Container library for
+                                Windows Presentation Foundation (WPF). This document can be displayed
+                                as a TDI or MDI. Use the properties such as ContainerMode and ContainerStyle
+                                which include certain relevant events.
+                            </TextBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+                
+                <!--  DockingManager tab  -->
+                <Border
+                    syncfusion:DockingManager.Header="Docking Manager"
+                    syncfusion:DockingManager.State="Document"
+                    syncfusion:DocumentContainer.MDIBounds="60,60,300,300"
+                    syncfusion:DocumentContainer.TabCaptionToolTip="Dockingmanager Window">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <TextBox
+                                Margin="5"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                WPF Docking Manager
+                            </TextBox>
+                            <TextBox
+                                Margin="5,10"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                The Docking Manager application is designed to highlight the features
+                                of the WPF Docking Manager library for Windows Presentation Foundation (WPF).
+                                Executable and  full source code are provided to  view the integration of the
+                                library into your applications. This document contains features and other
+                                controls to demonstrate most window and layout features. View features of
+                                Docking Manager using the properties window.
+                            </TextBox>
+                            <TextBox
+                                Margin="5,10"
+                                VerticalAlignment="Top"
+                                BorderThickness="0"
+                                IsReadOnly="True"
+                                TextWrapping="Wrap">
+                                The Docking Manager follows an architecture that allows controls to be
+                                docked to any part of the window. It has been broadly designed based on
+                                docking features present in Visual Studio 2005. The Docking Manager works
+                                on top of all the controls placed inside its tree. It handles the window
+                                layout for the user automatically and places controls.  Like the DockPanel
+                                control , It also uses attached properties to set the controls as docked
+                                controls or docked windows. The docked windows can be placed as a group of
+                                logically related docked controls.
+                            </TextBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Border>
+
+                <!--  Restrict drag and close tab  -->
+                <ContentControl 
+                    syncfusion:DockingManager.Header="Restrict drag and close"
+                    syncfusion:DocumentContainer.CanDrag="False"
+                    syncfusion:DocumentContainer.CanClose="False"
+                    syncfusion:DocumentContainer.MDIBounds="90,90,300,300"
+                    syncfusion:DockingManager.State="Document">
+                    <TextBlock
+                        Margin="10"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        FontSize="14"
+                        FontStyle="Italic"
+                        FontFamily="Segoe UI"
+                        TextWrapping="Wrap">
+                        The Document cannot be dragged and closed
+                    </TextBlock>
+                </ContentControl>
+            </syncfusion:DockingManager>
+    </Grid>  
+</democommon:DemoControl>

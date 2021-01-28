@@ -1,0 +1,102 @@
+﻿<democommon:DemoControl
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Class="syncfusion.schedulerdemos.wpf.GettingStartedDemo"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"  
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:syncfusion.schedulerdemos.wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.DataContext>
+            <local:GettingStartedViewModel/>
+        </Grid.DataContext>
+        <syncfusion:SfScheduler x:Name="Schedule" 
+                                ItemsSource="{Binding Events}"
+                                MinimumDate="{Binding MinDate}"
+                                MaximumDate="{Binding MaxDate}"
+                                DisplayDate="{Binding DisplayDate}"
+                ViewType="{Binding ElementName=viewtypecombobox, Path=SelectedValue,Mode=TwoWay}">
+            <syncfusion:SfScheduler.MonthViewSettings>
+                <syncfusion:MonthViewSettings AppointmentDisplayMode="Appointment"
+                                        AppointmentDisplayCount="2"/>
+            </syncfusion:SfScheduler.MonthViewSettings>
+            <syncfusion:SfScheduler.DaysViewSettings>
+                <syncfusion:DaysViewSettings MinimumAppointmentDuration="0:30:0"/>
+            </syncfusion:SfScheduler.DaysViewSettings>
+            <syncfusion:SfScheduler.TimelineViewSettings>
+                <syncfusion:TimelineViewSettings MinimumAppointmentDuration="0:30:0"/>
+            </syncfusion:SfScheduler.TimelineViewSettings>
+            <syncfusion:SfScheduler.AppointmentContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding Source={x:Static Member=syncfusion:SchedulerCommands.Edit}}"
+                                      CommandParameter ="{Binding}"
+                                      Header="Edit">
+                        <MenuItem.Icon>
+                            <Path x:Name="Edit" 
+                                Data="M14.321999,12.618997 L16.097,13.911998 14.575999,16 12.801,14.706999 z M7.6799993,7.7810025 L13.494,12.015999 11.973,14.103997 6.1589994,9.8690009 z M4.4149994,7 L6.8459996,7.1729999 5.3249997,9.2609982 z M0,1.9999999 L1.9999999,1.9999999 1.9999999,2.5000002 C1.9999999,3.3280029 2.6719998,4 3.4999999,4 4.3290004,4 4.9999999,3.3280029 4.9999999,2.5000002 L4.9999999,1.9999999 5.9999999,1.9999999 7.9999999,1.9999999 7.9999999,2.5000002 C7.9999999,3.3280029 8.6720008,4 9.4999999,4 10.329,4 11,3.3280029 11,2.5000002 L11,1.9999999 13,1.9999999 13,10.142998 12,9.4929962 12,5.9999998 0.99999968,5.9999998 0.99999968,12 6.8850001,12 8.2579993,13 0,13 z M9.4999999,0 C9.7759999,0 9.9999999,0.22399998 9.9999999,0.50000012 L9.9999999,2.5000002 C9.9999999,2.776 9.7759999,3 9.4999999,3.0000001 9.2239999,3 8.9999999,2.776 8.9999999,2.5000002 L8.9999999,0.50000012 C8.9999999,0.22399998 9.2239999,0 9.4999999,0 z M3.4999999,0 C3.7759999,0 3.9999999,0.22399998 3.9999999,0.50000012 L3.9999999,2.5000002 C3.9999999,2.776 3.7759999,3 3.4999999,3.0000001 3.2239999,3 2.9999999,2.776 2.9999999,2.5000002 L2.9999999,0.50000012 C2.9999999,0.22399998 3.2239999,0 3.4999999,0 z" 
+                                Fill="#FF5A5A5B" 
+                                Width="16"
+                                Height="16"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Stretch="Fill"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Command="{Binding Source={x:Static Member=syncfusion:SchedulerCommands.Delete}}"
+                                      CommandParameter ="{Binding}"
+                                      Header="Delete">
+                        <MenuItem.Icon>
+                            <Path x:Name="Delete" 
+                                Data="M10.704001,10.021999 L10.002997,10.735001 11.286993,12 10.002997,13.265999 10.704001,13.979 12.000005,12.702999 13.295993,13.979 13.996997,13.265999 12.713002,12 13.996997,10.735001 13.295993,10.021999 12.000005,11.298 z M12.000005,8 C14.209002,8 16.000001,9.7910004 16.000001,12 16.000001,14.209 14.209002,16 12.000005,16 9.7910073,16 8.000001,14.209 8.000001,12 8.000001,9.7910004 9.7910073,8 12.000005,8 z M0,2 L2,2 2,2.5 C2,3.3280001 2.6719999,4 3.5,4 4.3280001,4 5,3.3280001 5,2.5 L5,2 6.0000001,2 8,2 8,2.5 C8,3.3280001 8.672,4 9.5000001,4 10.328,4 11,3.3280001 11,2.5 L11,2 13,2 13,7.101 C12.677,7.035 12.343,7 12,7 L12,6 1,6 1,12 6.9999999,12 C7,12.343 7.035,12.677 7.101,13 L0,13 z M9.5000001,0 C9.776,0 10,0.22399998 10,0.5 L10,2.5 C10,2.776 9.776,3 9.5000001,3 9.224,3 9,2.776 9,2.5 L9,0.5 C9,0.22399998 9.224,0 9.5000001,0 z M3.5,0 C3.776,0 4,0.22399998 4,0.5 L4,2.5 C4,2.776 3.776,3 3.5,3 3.224,3 3,2.776 3,2.5 L3,0.5 C3,0.22399998 3.224,0 3.5,0 z" 
+                                Fill="#FF5A5A5B" 
+                                Width="16"
+                                Height="16"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Stretch="Fill"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </syncfusion:SfScheduler.AppointmentContextMenu>
+            <syncfusion:SfScheduler.CellContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding Source={x:Static Member=syncfusion:SchedulerCommands.Add}}"
+                              CommandParameter ="{Binding}"
+                              Header="Add">
+                        <MenuItem.Icon>
+                            <Path x:Name="AddNew" 
+                                Data="M11.5,10 L11.5,11.5 10,11.5 10,12.5 11.5,12.5 11.5,14 12.5,14 12.5,12.5 14,12.5 14,11.5 12.5,11.5 12.5,10 z M12,8 C14.209,8 16,9.7910004 16,12 16,14.209 14.209,16 12,16 9.7910004,16 8,14.209 8,12 8,9.7910004 9.7910004,8 12,8 z M0,2 L2,2 2,2.5 C2,3.3280001 2.6719999,4 3.5,4 4.3280001,4 5,3.3280001 5,2.5 L5,2 6,2 8,2 8,2.5 C8,3.3280001 8.672,4 9.5,4 10.328,4 11,3.3280001 11,2.5 L11,2 13,2 13,7.1010001 C12.677,7.035 12.343,7 12,7 L12,6 1,6 1,12 7,12 C7,12.343 7.035,12.677 7.1010001,13 L0,13 z M9.5,0 C9.776,0 10,0.22399998 10,0.5 L10,2.5 C10,2.776 9.776,3 9.5,3 9.224,3 9,2.776 9,2.5 L9,0.5 C9,0.22399998 9.224,0 9.5,0 z M3.5,0 C3.776,0 4,0.22399998 4,0.5 L4,2.5 C4,2.776 3.776,3 3.5,3 3.224,3 3,2.776 3,2.5 L3,0.5 C3,0.22399998 3.224,0 3.5,0 z" 
+                                Fill="#FF5A5A5B" 
+                                Width="16"
+                                Height="16"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Stretch="Fill" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </syncfusion:SfScheduler.CellContextMenu>
+            <interactivity:Interaction.Behaviors>
+                <local:BlackoutDatesBehavior/>
+            </interactivity:Interaction.Behaviors>
+        </syncfusion:SfScheduler>
+
+        <StackPanel
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Margin="0,4,8,0">
+            <ComboBox x:Name="viewtypecombobox" 
+                      ItemsSource="{Binding SchedulerViewTypes}"
+                      SelectedValuePath="SchedulerViewType"
+                      DisplayMemberPath="ViewTypeDisplayMemberPath"
+                      SelectedIndex="2" 
+                      SelectionChanged="Viewtypecombobox_SelectionChanged"  
+                      Width="150" Height="24"
+                      VerticalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+</democommon:DemoControl>
