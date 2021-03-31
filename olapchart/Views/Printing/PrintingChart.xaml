@@ -1,0 +1,63 @@
+﻿<democommon:DemoControl x:Class="syncfusion.olapchartdemos.wpf.PrintingChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:syncfusion.olapchartdemos.wpf"
+             mc:Ignorable="d" 
+             xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Chart;assembly=Syncfusion.Chart.WPF"
+             xmlns:syn="http://schemas.syncfusion.com/wpf"           
+             xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF" 
+             sfshared:SkinStorage.VisualStyle="Metro"            
+             xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+			 Background="White">
+
+    <democommon:DemoControl.DataContext>
+        <local:PrintingChartViewModel/>
+    </democommon:DemoControl.DataContext>
+    
+    <Grid>
+        <GroupBox Grid.Column="0" Margin="5" Header="OlapChart" BorderThickness="1" BorderBrush="DarkGray">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+
+            <!--Adding Chart-->
+            <syn:OlapChart Name="olapchart1" Margin="5" OlapDataManager="{Binding DataManager}"
+                               ColorPalette="Metro" SeriesStrokeThickness="0">
+                <syn:OlapChart.PrimaryAxis>
+                    <syn:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes"/>
+                </syn:OlapChart.PrimaryAxis>
+                <syn:OlapChart.SecondaryAxis>
+                    <syn:ChartAxis LabelFormat="C"/>
+                </syn:OlapChart.SecondaryAxis>
+                <syn:OlapChart.Legend>
+                    <syn:ChartLegend Background="Transparent" RowsCount="3" ColumnsCount="2"/>
+                </syn:OlapChart.Legend>
+            </syn:OlapChart>
+        </GroupBox>
+    </Grid>
+
+    <democommon:DemoControl.Options>
+        <GroupBox Margin="5"  BorderThickness="1" BorderBrush="DarkGray">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+
+            <StackPanel Margin="5">
+                <Button Height="25" Width="150" Margin="0 10" Content="Print" HorizontalAlignment="Center" 
+                            Command="{x:Static ApplicationCommands.Print}"
+                            CommandTarget="{Binding ElementName=olapchart1}" ToolTip="Print"/>
+
+                <ToggleButton x:Name="BtnPrintMode" Height="25" Width="150" Margin="0 10" HorizontalAlignment="Center" Content="Print Mode"
+                                  Command="{x:Static syncfusion:ChartCommands.SwitchPrinting}"
+                                  CommandTarget="{Binding ElementName=olapchart1}"
+                                  ToolTip="Select/Cancel print mode"/>
+            </StackPanel>
+        </GroupBox>
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>
