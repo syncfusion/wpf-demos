@@ -1,6 +1,6 @@
 # Syncfusion WPF samples 
 
-This repository contains the demos of Syncfusion [WPF Controls](https://www.syncfusion.com/products/wpf?utm_source=github&utm_medium=listing). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing our [WPF Demos](https://www.syncfusion.com/demos#desktop?utm_source=github&utm_medium=listing), in which you can browse the demo for all the controls.
+This repository contains the demos of Syncfusion [WPF Controls](https://www.syncfusion.com/wpf-ui-controls?utm_source=github&utm_medium=listing). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing our [WPF Demos](https://www.syncfusion.com/demos#desktop?utm_source=github&utm_medium=listing), in which you can browse the demo for all the controls.
 
 This section guides you to use the Syncfusion WPF samples in your applications.
 
@@ -72,13 +72,13 @@ To run the Individual Control Demos,
     </tr>
     <tr>
         <td>
-            <a href="charts">Charts</a>
+            <a href="chart">Charts</a>
         </td>
         <td>
-            <a href="charts">3D-Charts</a>
+            <a href="chart">3D-Charts</a>
         </td>
         <td>
-            <a href="charts">Range Navigator</a>
+            <a href="chart">Range Navigator</a>
         </td>
     </tr>
      <tr>
@@ -318,7 +318,9 @@ To run the Individual Control Demos,
         <td>
             <a href="notification">Progressbar</a>
         </td>
-        <td></td>
+        <td>
+            <a href="notification">Badge</a>
+        </td>
         <td></td>
     </tr>
      <tr>
@@ -446,5 +448,5 @@ Syncfusion has no liability for any damage or consequence that may arise by the 
 
 * To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing) or contact our sales team at <salessupport@syncfusion.com>.
 
-<p>Copyright © 2001-2021 Syncfusion, Inc. Updated on 2021-03-31 at precisely 11:48:37 EST.</p>
+<p>Copyright © 2001-2021 Syncfusion, Inc. Updated on 2021-01-28 at precisely 15:02:54 EST.</p>
   
