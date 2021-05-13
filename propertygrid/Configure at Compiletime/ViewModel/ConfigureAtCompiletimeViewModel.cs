@@ -1,0 +1,25 @@
+#region Copyright Syncfusion Inc. 2001-2021.
+// Copyright Syncfusion Inc. 2001-2021. All rights reserved.
+// Use of this code is subject to the terms of our license.
+// A copy of the current license can be obtained at any time by e-mailing
+// licensing@syncfusion.com. Any infringement will be prosecuted under
+// applicable laws. 
+#endregion
+using Syncfusion.Windows.PropertyGrid;
+using Syncfusion.Windows.Shared;
+using System;
+using System.ComponentModel;
+using System.Windows.Media.Imaging;
+
+namespace syncfusion.propertygriddemos.wpf
+{
+    public class ConfigureAtCompiletimeViewModel : NotificationObject
+    {
+        public Person AttributePerson { get; set; }
+
+        public ConfigureAtCompiletimeViewModel()
+        {
+            AttributePerson = new Person();
+        }
+    }
+}
