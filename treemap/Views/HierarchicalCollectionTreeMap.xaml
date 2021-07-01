@@ -1,0 +1,213 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.treemapdemos.wpf.HierarchicalCollectionTreeMap"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.treemapdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="auto"
+    Height="auto">
+
+    <democommon:DemoControl.DataContext>
+        <local:HierarchicalCollectionTreeMapViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <syncfusion:SfTreeMap
+        x:Name="treemap"
+        Margin="10"
+        ColorValuePath="Expense"
+        ItemsSource="{Binding}"
+        ShowToolTip="False"
+        WeightValuePath="Sales">
+        <syncfusion:SfTreeMap.LeafItemSettings>
+            <syncfusion:LeafItemSettings BorderBrush="#666666" BorderThickness="1" />
+        </syncfusion:SfTreeMap.LeafItemSettings>
+        <!--  Color Mapping  -->
+        <syncfusion:SfTreeMap.LeafColorMapping>
+            <syncfusion:DesaturationColorMapping
+                RangeMaximum="8000"
+                RangeMinimum="2000"
+                Color="#41B8C4"
+                From="1"
+                To="0.5" />
+        </syncfusion:SfTreeMap.LeafColorMapping>
+
+        <!--  TreeMap Levels  -->
+        <syncfusion:SfTreeMap.Levels>
+            <syncfusion:TreeMapHierarchicalLevel
+                ChildGap="10"
+                ChildPath="RegionalSales"
+                HeaderHeight="30"
+                ShowLabels="True">
+                <syncfusion:TreeMapHierarchicalLevel.HeaderTemplate>
+                    <DataTemplate>
+                        <Border>
+                            <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            FontFamily="Segoe UI"
+                            FontSize="23"
+                            FontWeight="ExtraLight"
+                            Text="{Binding Data.Name}" />
+                        </Border>
+                    </DataTemplate>
+                </syncfusion:TreeMapHierarchicalLevel.HeaderTemplate>
+
+                <syncfusion:TreeMapHierarchicalLevel.LabelTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,30,0,0">
+                            <Ellipse
+                                Width="110"
+                                Height="110"
+                                Stroke="White"
+                                StrokeThickness="5">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                        <GradientStop Offset="0.5" Color="#FF8CC63F" />
+                                        <GradientStop Offset="0.5" Color="#FFF25511" />
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <StackPanel
+                                Width="120"
+                                Height="110"
+                                VerticalAlignment="Center"
+                                Orientation="Vertical">
+                                <StackPanel
+                                    Width="120"
+                                    Height="55"
+                                    Margin="0,10,0,0"
+                                    Orientation="Vertical">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="13"
+                                        Foreground="White"
+                                        Text="Sales" />
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="13"
+                                            HorizontalAlignment="Center"
+                                            FontSize="19"
+                                            Foreground="White"
+                                            Text="$" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontSize="19"
+                                            FontWeight="Light"
+                                            Foreground="White"
+                                            Text="{Binding Data.Sales}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <StackPanel
+                                    Width="120"
+                                    Height="55"
+                                    Margin="0,-10,0,0"
+                                    Orientation="Vertical">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        FontSize="13"
+                                        Foreground="White"
+                                        Text="Expense" />
+                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                                        <TextBlock
+                                            Width="13"
+                                            HorizontalAlignment="Center"
+                                            FontSize="19"
+                                            Foreground="White"
+                                            Text="$" />
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            FontSize="19"
+                                            FontWeight="Light"
+                                            Foreground="White"
+                                            Text="{Binding Data.Expense}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </DataTemplate>
+                </syncfusion:TreeMapHierarchicalLevel.LabelTemplate>
+            </syncfusion:TreeMapHierarchicalLevel>
+        </syncfusion:SfTreeMap.Levels>
+
+        <!--  ToolTip Template  -->
+        <syncfusion:SfTreeMap.ToolTipTemplate>
+            <DataTemplate>
+                <Grid
+                    Width="230"
+                    Height="130"
+                    Background="#232323">
+                    <StackPanel Margin="0,10" HorizontalAlignment="Left">
+                        <TextBlock
+                            Margin="12,3,12,3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="26"
+                            FontWeight="Light"
+                            Foreground="#D3D3D3"
+                            Text="{Binding Data.Country}" />
+                        <StackPanel Margin="12,0">
+                            <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                                <TextBlock
+                                    Width="70"
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text="Region" />
+                                <TextBlock
+                                    Width="10"
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text=":" />
+                                <TextBlock
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text="{Binding Data.Name}" />
+                            </StackPanel>
+                            <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                                <TextBlock
+                                    Width="70"
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text="Sales" />
+                                <TextBlock
+                                    Width="10"
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text=":" />
+                                <TextBlock
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text="{Binding Data.Sales}" />
+                            </StackPanel>
+                            <StackPanel Margin="0,3,0,0" Orientation="Horizontal">
+                                <TextBlock
+                                    Width="70"
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text="Expense" />
+                                <TextBlock
+                                    Width="10"
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text=":" />
+                                <TextBlock
+                                    FontSize="17"
+                                    FontWeight="Normal"
+                                    Foreground="#D3D3D3"
+                                    Text="{Binding Data.Expense}" />
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </syncfusion:SfTreeMap.ToolTipTemplate>
+    </syncfusion:SfTreeMap>
+</democommon:DemoControl>
