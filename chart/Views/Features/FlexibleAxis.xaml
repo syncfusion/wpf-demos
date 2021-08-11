@@ -1,0 +1,86 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.FlexibleAxisDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:StockViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid Name="grid1">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <chart:SfChart x:Name="flexibleAxisChart" Margin="10"
+                       Header="GOOG Stock Details" Palette="Custom" ColorModel="{StaticResource CustomColor}"> 
+
+            <chart:SfChart.RowDefinitions>
+                <chart:ChartRowDefinition />
+                <chart:ChartRowDefinition Height="2" Unit="Star" />
+            </chart:SfChart.RowDefinitions>
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis
+                    chart:ChartBase.Column="0"
+                    LabelFormat="MMM dd"
+                    PlotOffset="10"
+                    ShowGridLines="False"
+                    Header="Date">
+                </chart:CategoryAxis>
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    OpposedPosition="True"
+                    RangePadding="Round"
+                    ShowGridLines="False"
+                    Header="Volume (*10K)">
+                </chart:NumericalAxis>
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:FastColumnBitmapSeries
+                EnableAnimation="True"
+                ItemsSource="{Binding Stocks.Datas}"
+                Label="First"
+                XBindingPath="TimeStamp"
+                YBindingPath="Volume" />
+
+            <chart:FastHiLoOpenCloseBitmapSeries
+                Close="Close"
+                EnableAnimation="True"
+                High="High"
+                ItemsSource="{Binding Stocks.Datas}"
+                Label="First"
+                Low="Low"
+                Open="Open"
+                XBindingPath="TimeStamp">
+                <chart:FastHiLoOpenCloseBitmapSeries.XAxis>
+                    <chart:CategoryAxis
+                        chart:ChartBase.ColumnSpan="4"
+                        ShowGridLines="False"
+                        PlotOffset="10"
+                        Visibility="Collapsed" />
+                </chart:FastHiLoOpenCloseBitmapSeries.XAxis>
+                <chart:FastHiLoOpenCloseBitmapSeries.YAxis>
+                    <chart:NumericalAxis
+                        chart:ChartBase.Row="0"
+                        chart:ChartBase.RowSpan="2"
+                        RangePadding="Round"
+                        ShowGridLines="True"
+                        Header="Value">
+                    </chart:NumericalAxis>
+                </chart:FastHiLoOpenCloseBitmapSeries.YAxis>
+            </chart:FastHiLoOpenCloseBitmapSeries>
+
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>

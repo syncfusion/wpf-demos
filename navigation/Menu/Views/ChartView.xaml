@@ -1,0 +1,51 @@
+﻿<UserControl
+    x:Class="syncfusion.navigationdemos.wpf.ChartView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    DataContext="{Binding Path=DataContext, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+    mc:Ignorable="d">
+    <Grid>
+        <Rectangle Fill="White" Opacity="0.5" />
+        <syncfusion:SfChart
+            x:Name="chart"
+            Grid.Row="1"
+            Padding="0,0,20,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top">
+            <syncfusion:SfChart.Legend>
+                <syncfusion:ChartLegend />
+            </syncfusion:SfChart.Legend>
+            <syncfusion:SfChart.PrimaryAxis>
+                <syncfusion:CategoryAxis
+                    ContentPath="ProductName"
+                    Header="Product"
+                    LabelsSource="{Binding Products}"
+                    PositionPath="ProductId" />
+            </syncfusion:SfChart.PrimaryAxis>
+            <syncfusion:SfChart.SecondaryAxis>
+                <syncfusion:NumericalAxis
+                    EdgeLabelsDrawingMode="Shift"
+                    Header="Price in USD"
+                    Maximum="100"
+                    Minimum="0" />
+            </syncfusion:SfChart.SecondaryAxis>
+            <syncfusion:ColumnSeries
+                Interior="Green"
+                ItemsSource="{Binding Products}"
+                Label="2010"
+                XBindingPath="ProductId"
+                YBindingPath="Price2010,Price2000" />
+            <syncfusion:ColumnSeries
+                Interior="LightGreen"
+                ItemsSource="{Binding Products}"
+                Label="2000"
+                XBindingPath="ProductId"
+                YBindingPath="Price2000,Price2010" />
+        </syncfusion:SfChart>
+    </Grid>
+</UserControl>

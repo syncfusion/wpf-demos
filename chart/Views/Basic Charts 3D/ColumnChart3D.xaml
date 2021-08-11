@@ -1,0 +1,92 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.ColumnChart3D"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interact="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:BarChart3DViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <chart:SfChart3D
+            x:Name="columnChart"
+            Margin="50"
+            VerticalAlignment="Bottom"
+            Depth="200"
+            EnableRotation="True"
+            ColorModel="{StaticResource CustomColor}"
+            Palette="Custom"
+            PerspectiveAngle="115.6404494382023"
+            Rotation="-39"
+            SideBySideSeriesPlacement="False">
+
+            <interact:Interaction.Behaviors>
+                <local:RotateAnimationBehavior />
+            </interact:Interaction.Behaviors>
+
+            <!--  PrimaryAxis  -->
+            <chart:SfChart3D.PrimaryAxis>
+                <chart:CategoryAxis3D TickLineSize="2">
+                </chart:CategoryAxis3D>
+            </chart:SfChart3D.PrimaryAxis>
+
+            <!--  SecondaryAxis  -->
+            <chart:SfChart3D.SecondaryAxis>
+                <chart:NumericalAxis3D
+                    Interval="5"
+                    Maximum="25"
+                    Minimum="0"
+                    OpposedPosition="True"
+                    RangePadding="Normal"
+                    TickLineSize="2">
+                </chart:NumericalAxis3D>
+            </chart:SfChart3D.SecondaryAxis>
+
+            <!--  ColumnSeries3D  -->
+            <chart:ColumnSeries3D
+                chart:ChartTooltip.EnableAnimation="True"
+                EnableAnimation="True"
+                ItemsSource="{Binding CategoricalDatas}"
+                Label="First"
+                XBindingPath="Year"
+                YBindingPath="Plastic">
+                <chart:ColumnSeries3D.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo3D
+                        AdornmentsPosition="TopAndBottom"
+                        SegmentLabelContent="LabelContentPath"
+                        ShowLabel="True" />
+                </chart:ColumnSeries3D.AdornmentsInfo>
+            </chart:ColumnSeries3D>
+
+            <!--  ColumnSeries3D  -->
+            <chart:ColumnSeries3D
+                chart:ChartTooltip.EnableAnimation="True"
+                EnableAnimation="True"
+                ItemsSource="{Binding CategoricalDatas}"
+                Label="First"
+                XBindingPath="Year"
+                YBindingPath="Metal">
+                <chart:ColumnSeries3D.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo3D
+                        AdornmentsPosition="TopAndBottom"
+                        SegmentLabelContent="LabelContentPath"
+                        ShowLabel="True" />
+                </chart:ColumnSeries3D.AdornmentsInfo>
+            </chart:ColumnSeries3D>
+        </chart:SfChart3D>
+    </Grid>
+</democommon:DemoControl>
