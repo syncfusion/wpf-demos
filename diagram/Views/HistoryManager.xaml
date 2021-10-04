@@ -1,0 +1,245 @@
+﻿<democommon:DemoControl x:Class="syncfusion.diagramdemo.wpf.Views.HistoryManager"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                        xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+                        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                        xmlns:fonts="http://schemas.microsoft.com/winfx/2006/xaml/composite-font"
+                        xmlns:collection="clr-namespace:System.Collections;assembly=mscorlib"
+                        xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf" 
+                        xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+                        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                        mc:Ignorable="d" OptionsSize="270"
+                        d:DesignHeight="450" d:DesignWidth="800">
+    <democommon:DemoControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.WPF;component/Resources/BasicShapes.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <collection:ArrayList x:Key="FontSizes">
+                <sys:Double>7</sys:Double>
+                <sys:Double>8</sys:Double>
+                <sys:Double>9</sys:Double>
+                <sys:Double>10</sys:Double>
+                <sys:Double>11</sys:Double>
+                <sys:Double>12</sys:Double>
+                <sys:Double>13</sys:Double>
+                <sys:Double>14</sys:Double>
+                <sys:Double>16</sys:Double>
+                <sys:Double>18</sys:Double>
+                <sys:Double>24</sys:Double>
+                <sys:Double>30</sys:Double>
+                <sys:Double>36</sys:Double>
+                <sys:Double>48</sys:Double>
+                <sys:Double>60</sys:Double>
+            </collection:ArrayList>
+
+            <DataTemplate x:Key="FontColorTemplate">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Path Grid.Row="0" Width="10" Height="12"
+                          Fill="#444444"
+                          Data="M1.25 12H0L4.37 0H5.63L10 12H8.75L7.5 8.4H2.5L1.25 12ZM2.84 7.2H7.14L5 1.2L2.84 7.2Z" />
+                    <Rectangle Grid.Row="1" Margin="0,2,0,0" Width="14" Height="2" StrokeThickness="0">
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{Binding Color, 
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorLevel=1,
+                                AncestorType={x:Type syncfusion:ColorPickerPalette}}, 
+                                UpdateSourceTrigger=PropertyChanged}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="FillColorTemplate">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Path Grid.Row="0" Width="14" Height="14" Fill="#444444" Data="M0 7.44215L4.81842 12.2577L10.5042 6.78549L8.63812 4.53533L7.96354 5.08693L9.31269 6.71545L9.01244 7.00439H1.6233L5.25646 3.23952V1.31332C5.25646 1.07155 5.45258 0.875547 5.6945 0.875547C5.93642 0.875547 6.13254 1.07155 6.13254 1.31332V5.25328H7.00861V1.31332C7.00861 0.587994 6.42026 0 5.6945 0C4.96873 0 4.38038 0.587994 4.38038 1.31332V2.88055L0 7.44215ZM1.67332 7.87993H8.1026L4.82718 11.0319L1.67332 7.87993ZM10.2725 13.324C10.6832 13.7476 11.2456 13.9908 11.8358 14C13.0544 13.9666 14.0193 12.9593 13.9997 11.7411C13.9997 10.4365 12.4315 8.57161 12.2475 8.37023L11.827 7.87117L11.3977 8.37023L11.3786 8.39328C11.1358 8.68503 9.64556 10.4764 9.64556 11.7411C9.63619 12.3309 9.8617 12.9003 10.2725 13.324ZM10.5304 11.7411C10.7859 10.8351 11.2308 9.99351 11.8358 9.27203V9.26328C12.449 9.98514 12.9001 10.8301 13.1587 11.7411C13.1587 12.4664 12.5703 13.0544 11.8446 13.0544C11.1188 13.0544 10.5304 12.4664 10.5304 11.7411Z" />
+                    <Rectangle Grid.Row="1" Margin="0,2,0,0" Width="14" Height="2.5" StrokeThickness="0">
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{Binding Color, 
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorLevel=1,
+                                AncestorType={x:Type syncfusion:ColorPickerPalette}}, 
+                                UpdateSourceTrigger=PropertyChanged}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="StrokeColorTemplate">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Path Grid.Row="0" Width="15" Height="11" Margin="0,1" Fill="#444444" Data="M2.27756 10.1483C2.43261 10.1505 2.58625 10.1196 2.72745 10.0576C2.86461 10.004 2.989 9.92382 3.09299 9.82207C3.1962 9.71991 3.27883 9.60008 3.33668 9.46869C3.40077 9.33219 3.43278 9.18365 3.43041 9.03376C3.42171 8.72456 3.47585 8.41672 3.58974 8.12767C3.68911 7.87749 3.83525 7.64713 4.02089 7.4481C4.20419 7.24623 4.42317 7.07748 4.6676 6.94975C4.93479 6.81226 5.22822 6.729 5.52989 6.7051L11.9408 0.507417C12.1077 0.343922 12.3091 0.217199 12.5313 0.135918C12.7476 0.0466925 12.9803 0.000470024 13.2155 3.75775e-06C13.4568 -0.000479913 13.6959 0.0457321 13.9185 0.135918C14.13 0.226462 14.3236 0.352202 14.4902 0.507417C14.6551 0.66326 14.783 0.85184 14.8651 1.06013C15.045 1.49336 15.045 1.97699 14.8651 2.41021C14.7744 2.61904 14.6441 2.80959 14.4808 2.97199L8.06989 9.00658C8.03751 9.28121 7.955 9.54811 7.8262 9.79488C7.69171 10.0323 7.51753 10.2466 7.3107 10.4291C7.10247 10.6055 6.86478 10.7465 6.60775 10.846C6.3424 10.9482 6.05925 11.0005 5.77358 11H0V10.0939L2.27756 10.1483ZM6.88893 8.96128C6.88995 8.81241 6.86131 8.66475 6.80458 8.52635C6.74229 8.39514 6.65663 8.27553 6.55151 8.17297C6.44752 8.07122 6.32314 7.99105 6.18598 7.93739C5.88844 7.80555 5.54625 7.80555 5.24871 7.93739C4.97282 8.04775 4.75364 8.25964 4.63948 8.52635C4.5754 8.66285 4.54339 8.81139 4.54576 8.96128C4.54789 9.35286 4.44106 9.7378 4.23646 10.0758H5.6986C5.85259 10.0768 6.00533 10.0491 6.14849 9.99422C6.28608 9.93721 6.41039 9.85401 6.51402 9.74958C6.61914 9.64703 6.70479 9.52741 6.76709 9.3962C6.83672 9.26032 6.87812 9.11256 6.88893 8.96128ZM7.05764 6.81383C7.43375 7.04728 7.75342 7.35633 7.99491 7.71993L8.81971 6.92256C8.56543 6.56911 8.24805 6.26229 7.88244 6.01647L7.05764 6.81383ZM13.1686 1.15074C12.9993 1.14909 12.8367 1.21458 12.7187 1.33196L8.70723 5.21911C9.06057 5.47881 9.37587 5.78361 9.6445 6.1252L13.656 2.24712C13.7762 2.12854 13.8435 1.96914 13.8435 1.80313C13.8442 1.63519 13.773 1.47445 13.6466 1.35915C13.5272 1.2246 13.3521 1.14826 13.1686 1.15074Z" />
+                    <Rectangle Grid.Row="1" Margin="0,2,0,0" Width="14" Height="2.5" StrokeThickness="0">
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{Binding Color, 
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorLevel=1,
+                                AncestorType={x:Type syncfusion:ColorPickerPalette}}, 
+                                UpdateSourceTrigger=PropertyChanged}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </democommon:DemoControl.Resources>
+    <democommon:DemoControl.DataContext>
+        <viewmodel:HistoryManagerViewModel/>
+    </democommon:DemoControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="36"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <syncfusion:ToolBarAdv Grid.Row="0" FocusManager.IsFocusScope="True" Focusable="True" GripperVisibility="Collapsed" OverflowButtonVisibility="Collapsed">
+            <ComboBox x:Name="Part_FontFamily"
+                      Width = "112"
+                      Height="24"
+                      IsEditable="False"
+                      Margin="8,4,0,4"
+                      ItemsSource="{Binding Source={x:Static fonts:Fonts.SystemFontFamilies}}"
+                      SelectedValue="{Binding SelectedFontFamily, Mode=TwoWay}" />
+
+            <ComboBox x:Name="Part_FontSize"
+                      Width="46"
+                      Height="24"
+                      IsEditable="False"
+                      Margin="8,4,8,4"
+                      ItemsSource="{StaticResource FontSizes}"
+                      SelectedValue="{Binding SelectedFontSize, Mode=TwoWay}" />
+
+            <syncfusion:ToolBarItemSeparator Height="16" />
+
+            <syncfusion:RibbonButton x:Name="Part_ToggleBold"
+                                     Margin="8,4,0,4"
+                                     Width="24"
+                                     Height="24"
+                                     SizeForm="ExtraSmall"
+                                     IconType="VectorImage"
+                                     ToolTip="Bold"
+                                     IsToggle="True"
+                                     IsSelected="{Binding IsBoldSelected, Mode=OneWay}"
+                                     Command="syncfusion:DiagramCommands.ToggleBold">
+                <syncfusion:RibbonButton.VectorImage>
+                    <Path Width="8" Height="12" Fill="#444444" Data="M0 12V0.00537812H3.66114C4.6141 -0.0421944 5.55513 0.226968 6.32701 0.767893C6.96711 1.23983 7.33388 1.97892 7.31339 2.75557C7.32787 3.39453 7.11807 4.01947 6.71801 4.52906C6.29553 5.04262 5.71794 5.41686 5.06516 5.60001C5.87297 5.65338 6.63497 5.98125 7.21564 6.52531C7.74709 7.0674 8.02906 7.79338 7.99763 8.53869C8.02587 9.50335 7.58547 10.4254 6.80687 11.0319C5.94919 11.6853 4.87793 12.0225 3.78554 11.9829L0 12ZM1.52844 1.28195V5.1545H3.08353C3.78508 5.19199 4.47861 4.99532 5.04739 4.5976C5.53425 4.21653 5.80195 3.63341 5.76718 3.02974C5.76718 1.86454 4.93187 1.31622 3.27014 1.31622L1.52844 1.28195ZM1.52844 6.4225V10.7063H3.59005C4.33218 10.7496 5.06696 10.5437 5.66943 10.1237C6.16196 9.72679 6.43463 9.13132 6.40699 8.51299C6.40699 7.09934 5.35841 6.38823 3.27014 6.38823L1.52844 6.4225Z" />
+                </syncfusion:RibbonButton.VectorImage>
+            </syncfusion:RibbonButton>
+
+            <syncfusion:RibbonButton x:Name="Part_ToggleItalic"
+                                     Margin="4,4,0,4"
+                                     Width="24"
+                                     Height="24"
+                                     SizeForm="ExtraSmall"
+                                     IconType="VectorImage"
+                                     ToolTip="Italic"
+                                     IsToggle="True"
+                                     IsSelected="{Binding IsItalicSelected, Mode=OneWay}"
+                                     Command="syncfusion:DiagramCommands.ToggleItalic">
+                <syncfusion:RibbonButton.VectorImage>
+                    <Path Width="10" Height="12" Fill="#444444" Data="M3.33333 0H10V0.8H6.9715L3.88145 11.2H6.66667V12H0V11.2H3.01488L6.10493 0.8H3.33333V0Z" />
+                </syncfusion:RibbonButton.VectorImage>
+            </syncfusion:RibbonButton>
+
+            <syncfusion:RibbonButton x:Name="Part_ToggleUnderline"
+                                     Margin="4,4,0,4" 
+                                     Width="24"
+                                     Height="24"
+                                     SizeForm="ExtraSmall"
+                                     IconType="VectorImage"
+                                     ToolTip="Underline"
+                                     IsToggle="True"
+                                     IsSelected="{Binding IsUnderlineSelected, Mode=OneWay}"
+                                     Command="syncfusion:DiagramCommands.ToggleUnderline">
+                <syncfusion:RibbonButton.VectorImage>
+                    <Path Width="9" Height="12" Fill="#444444" Data="M8.25 0V6.75C8.25824 7.26493 8.15861 7.77589 7.9575 8.25C7.76841 8.69499 7.49602 9.09975 7.155 9.4425C6.81296 9.78439 6.40803 10.0569 5.9625 10.245C5.50044 10.4425 5.00247 10.5421 4.5 10.5375C3.99767 10.5406 3.50001 10.441 3.0375 10.245C2.13816 9.86505 1.42245 9.14934 1.0425 8.25C0.841394 7.77589 0.741757 7.26493 0.75 6.75V0H1.5V6.75C1.49841 7.14996 1.58015 7.54587 1.74 7.9125C2.04795 8.63015 2.61985 9.20205 3.3375 9.51C3.70413 9.66985 4.10004 9.75159 4.5 9.75C4.90238 9.75154 5.30072 9.66983 5.67 9.51C6.02499 9.35636 6.34806 9.13759 6.6225 8.865C6.89693 8.59208 7.11596 8.26863 7.2675 7.9125C7.42499 7.54538 7.50418 7.14945 7.5 6.75V0L8.25 0ZM0 11.25H9V12H0V11.25Z" />
+                </syncfusion:RibbonButton.VectorImage>
+            </syncfusion:RibbonButton>
+
+            <syncfusion:ColorPickerPalette x:Name="Part_FontColor"
+                                           Margin="4,4,8,4"
+                                           SelectedBrush="{Binding SelectedFontBrush, Mode=TwoWay}" 
+                                           Width="36"
+                                           Height="24"
+                                           ToolTip="Font Color"
+                                           HeaderTemplate="{StaticResource FontColorTemplate}"/>
+
+            <syncfusion:ToolBarItemSeparator Height="16" />
+
+            <syncfusion:ColorPickerPalette x:Name="Part_FillColor"
+                                           Margin="8,4,0,4"
+                                           SelectedBrush="{Binding SelectedFillBrush, Mode=TwoWay}"
+                                           IsEnabled="{Binding IsFillBrushEnabled, Mode=OneWay}"
+                                           Width="36"
+                                           Height="24"
+                                           ToolTip="Fill Color"
+                                           HeaderTemplate="{StaticResource FillColorTemplate}"/>
+
+            <syncfusion:ColorPickerPalette x:Name="Part_StrokeColor"
+                                           Margin="8,4,8,4"
+                                           SelectedBrush="{Binding SelectedStrokeBrush, Mode=TwoWay}"
+                                           IsEnabled="{Binding IsStrokeBrushEnabled, Mode=OneWay}"
+                                           Width="36"
+                                           Height="24"
+                                           ToolTip="Stroke Color"
+                                           HeaderTemplate="{StaticResource StrokeColorTemplate}"/>
+
+            <syncfusion:ToolBarItemSeparator Height="16" />
+
+        </syncfusion:ToolBarAdv>
+        <syncfusion:SfDiagram x:Name="Diagram" Grid.Row="1"
+                              PortVisibility="Collapse"
+                              SelectedItems="{Binding SelectedItems}"
+                              Nodes="{Binding Nodes}"
+                              Connectors="{Binding Connectors}"
+                              Constraints="{Binding Constraints}"
+                              HistoryManager="{Binding HistoryManager}"
+                              ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                              ItemUnSelectedCommand="{Binding ItemUnSelectedCommand}"
+                              HistoryChangedCommand ="{Binding HistoryChangedCommand}"
+                              ViewPortChangedCommand="{Binding ViewPortChangedCommand}"/>
+    </Grid>
+    <democommon:DemoControl.OptionsTitle>
+        History Manager Settings
+    </democommon:DemoControl.OptionsTitle>
+    <democommon:DemoControl.Options>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True" Padding="0,0,20,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Undo Stack" FontSize="14" Height="40" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"  VerticalContentAlignment="Center"/>
+                <Button Grid.Row="0" Grid.Column="2"  Content="Undo" Command="syncfusion:DiagramCommands.Undo" Height="30" Foreground="Black" HorizontalAlignment="Right" VerticalAlignment="Center" Width="100" FocusManager.IsFocusScope="True" Focusable="True"/>
+                <TextBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" x:Name="UndoText" Height="210" TextWrapping="Wrap" Text="{Binding Path=UndoText, Mode=TwoWay}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" />
+                <Label  Grid.Row="2" Grid.Column="0" Content="Redo Stack" FontSize="14" Height="40" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"  VerticalContentAlignment="Center"/>
+                <Button  Grid.Row="2" Grid.Column="1"  Content="Redo" Command="syncfusion:DiagramCommands.Redo" Height="30" Foreground="Black" HorizontalAlignment="Right" VerticalAlignment="Center" Width="100"  FocusManager.IsFocusScope="True" Focusable="True"/>
+                <TextBox  Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" x:Name="RedoText" Height="210" TextWrapping="Wrap" Text="{Binding Path=RedoText, Mode=TwoWay}" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
+                <Label  Grid.Row="4" Grid.Column="0" Content="Stack Limit" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center" Width="120"  Height="40" VerticalContentAlignment="Center"/>
+                <syncfusion:UpDown  Grid.Row="4" Grid.Column="1"  MinValue="0" Value="{Binding Path = HistoryManager.StackLimit, Mode=TwoWay}" Height="30" Width="100" NumberDecimalDigits="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                <ToggleButton  Grid.Row="5" Grid.Column="0" Height="30" Width="110" IsChecked="{Binding IsGroupAction, Mode=TwoWay}" Checked="ToggleButton_Checked" Unchecked="ToggleButton_Unchecked" Content="Start Group Action"/>
+                <Button  Grid.Row="5" Grid.Column="1" Height="30" Width="110" Click="Button_Click" Content="Clear History" HorizontalAlignment="Right" VerticalAlignment="Center" />
+            </Grid>
+        </ScrollViewer>        
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>

@@ -1,0 +1,361 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.GettingStartedDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:StockZoomingViewModel />
+    </democommon:DemoControl.DataContext>
+    
+    <democommon:DemoControl.Resources>
+        <local:StringToDoubleConverter x:Key="stringToDoubleConverter"/>
+        <DataTemplate x:Key="headerTemplate">
+            <TextBlock
+                Margin="5"
+                FontSize="16"
+                Text="{Binding}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="labelTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontSize="14" Text="$" />
+                <TextBlock FontSize="14" Text="{Binding Path=LabelContent}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="labelTemplate1">
+            <TextBlock FontSize="14" Text="{Binding Path=LabelContent}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="symboltemplate">
+            <Ellipse
+                Width="25"
+                Height="25"
+                Fill="White"
+                Stroke="Black"
+                StrokeThickness="3" />
+        </DataTemplate>
+
+        <Style x:Key="AxisStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="LightGray" />
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="GridLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="LightGray" />
+            <Setter Property="StrokeThickness" Value="0.5" />
+        </Style>
+
+        <Style x:Key="TrackballLineStyle" TargetType="Line">
+            <Setter Property="Stroke" Value="DarkGray" />
+            <Setter Property="StrokeThickness" Value="0.5" />
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="DarkGray"
+                                BorderThickness="1"
+                                CornerRadius="3" />
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Cursor" Value="Hand" />
+                            </Trigger>
+
+                            <Trigger Property="IsFocused" Value="True">
+                                <Setter Property="BorderThickness" Value="2" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HigherbarLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Transparent" />
+        </Style>
+
+        <Style x:Key="LowerbarLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
+
+        <Style x:Key="highertickline" TargetType="Line">
+            <Setter Property="StrokeThickness" Value="1" />
+        </Style>
+
+        <Style x:Key="trackballStyle" TargetType="chart:ChartTrackBallControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Canvas>
+                            <Ellipse
+                                Width="10"
+                                Height="10"
+                                Fill="White"
+                                Stroke="LightSkyBlue"
+                                StrokeThickness="1.5" />
+                        </Canvas>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </democommon:DemoControl.Resources>
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="65*" />
+            <RowDefinition Height="25*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="50,10,0,0">
+            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                <TextBlock
+                    Margin="5" VerticalAlignment="Center"
+                    Text="Zoom" />
+                <Button
+                    Width="50"
+                    Height="20"
+                    Margin="2"
+                    Command="{Binding RangeCheckCommand}"
+                    CommandParameter="OneMonth"
+                    Content="1M"
+                    Style="{StaticResource ButtonStyle}" />
+                <Button
+                    Width="50"
+                    Height="20"
+                    Margin="2"
+                    Command="{Binding RangeCheckCommand}"
+                    CommandParameter="ThreeMonth"
+                    Content="3M"
+                    Style="{StaticResource ButtonStyle}" />
+                <Button
+                    Width="50"
+                    Height="20"
+                    Margin="2"
+                    Command="{Binding RangeCheckCommand}"
+                    CommandParameter="SixMonth"
+                    Content="6M"
+                    Style="{StaticResource ButtonStyle}" />
+                <Button
+                    Width="50"
+                    Height="20"
+                    Margin="2"
+                    Command="{Binding RangeCheckCommand}"
+                    CommandParameter="YTD"
+                    Content="YTD"
+                    Style="{StaticResource ButtonStyle}" />
+                <Button
+                    Width="50"
+                    Height="20"
+                    Margin="2"
+                    Command="{Binding RangeCheckCommand}"
+                    CommandParameter="OneYear"
+                    Content="1Y"
+                    Style="{StaticResource ButtonStyle}" />
+                <Button
+                    Width="50"
+                    Height="20"
+                    Margin="2"
+                    Command="{Binding RangeCheckCommand}"
+                    CommandParameter="All"
+                    Content="All"
+                    Style="{StaticResource ButtonStyle}" />
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <TextBlock
+                    Margin="5" VerticalAlignment="Center"
+                    Text="From" />
+                <DatePicker
+                    Width="110"
+                    Height="25"
+                    Margin="2"
+                    SelectedDate="{Binding ElementName=RangeNavigator, Path=ViewRangeStart}" />
+                <TextBlock
+                    Margin="5" VerticalAlignment="Center"
+                    Text="To" />
+                <DatePicker
+                    Width="110"
+                    Height="25"
+                    Margin="2"
+                    SelectedDate="{Binding ElementName=RangeNavigator, Path=ViewRangeEnd}" />
+            </StackPanel>
+        </Grid>
+        <chart:SfChart
+            x:Name="Chart"
+            Grid.Row="1">
+            <chart:SfChart.Behaviors>
+                <chart:ChartZoomPanBehavior />
+                <chart:ChartTrackBallBehavior
+                    ChartTrackBallStyle="{StaticResource trackballStyle}"
+                    LabelHorizontalAlignment="Center"
+                    LabelVerticalAlignment="Near"
+                    LineStyle="{StaticResource TrackballLineStyle}"
+                    ShowLine="True"
+                    UseSeriesPalette="False" />
+            </chart:SfChart.Behaviors>
+
+            <chart:SfChart.Header>
+                <TextBlock
+                    Margin="0,0,0,20"
+                    FontFamily="Segoe UI"
+                    FontSize="18">
+                    Stock Price History
+                </TextBlock>
+            </chart:SfChart.Header>
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:DateTimeAxis
+                    Name="axis1"
+                    AxisLineStyle="{StaticResource AxisStyle}"
+                    HeaderTemplate="{StaticResource headerTemplate}"
+                    LabelCreated="axis1_LabelCreated"
+                    LabelFormat="dd,MMM"
+                    LabelTemplate="{StaticResource labelTemplate1}"
+                    MajorTickLineStyle="{StaticResource AxisStyle}"
+                    ShowGridLines="False"
+                    ZoomFactor="{Binding Source={x:Reference Name=RangeNavigator}, Path=ZoomFactor, Mode=TwoWay, Converter={StaticResource stringToDoubleConverter}}"
+                    ZoomPosition="{Binding Source={x:Reference Name=RangeNavigator}, Path=ZoomPosition, Mode=TwoWay, Converter={StaticResource stringToDoubleConverter}}" />
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    x:Name="axis2"
+                    AxisLineStyle="{StaticResource AxisStyle}"
+                    HeaderTemplate="{StaticResource headerTemplate}"
+                    Interval="20"
+                    LabelTemplate="{StaticResource labelTemplate}"
+                    MajorTickLineStyle="{StaticResource AxisStyle}"
+                    Maximum="120"
+                    Minimum="0"
+                    MinorGridLineStyle="{StaticResource GridLineStyle}"
+                    StartRangeFromZero="False">
+                    <chart:NumericalAxis.PostfixLabelTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="$" />
+                        </DataTemplate>
+                    </chart:NumericalAxis.PostfixLabelTemplate>
+                </chart:NumericalAxis>
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:AreaSeries
+                Name="series"
+                ItemsSource="{Binding StockPriceDetails}"
+                Stroke="#FF1BA0E2"
+                StrokeThickness="0.3"
+                XBindingPath="Date"
+                YBindingPath="YValue">
+                <chart:AreaSeries.Interior>
+                    <LinearGradientBrush Opacity="0.8" StartPoint="0.504,0.03" EndPoint="0.504,1.5">
+                        <GradientStop Offset="0" Color="LightSkyBlue" />
+                        <GradientStop Offset="0.567" Color="White" />
+                    </LinearGradientBrush>
+                </chart:AreaSeries.Interior>
+                <chart:AreaSeries.TrackBallLabelTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,0,0,5">
+                            <Border
+                                x:Name="border"
+                                Margin="10"
+                                BorderBrush="LightSkyBlue"
+                                BorderThickness="1"
+                                CornerRadius="5">
+                                <StackPanel Margin="5">
+                                    <TextBlock Text="{Binding Item.Date, StringFormat=dd-MM-yyyy}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Stock price : $" />
+                                        <TextBlock FontWeight="Bold" Text="{Binding ValueY}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+                    </DataTemplate>
+                </chart:AreaSeries.TrackBallLabelTemplate>
+            </chart:AreaSeries>
+        </chart:SfChart>
+
+        <Grid Grid.Row="2" Margin="75,0,0,0">
+
+            <chart:SfDateTimeRangeNavigator
+                x:Name="RangeNavigator"
+                HigherBarTickLineStyle="{StaticResource highertickline}"
+                HigherLabelStyle="{StaticResource HigherbarLabel}"
+                ItemsSource="{Binding StockPriceDetails}"
+                LowerLabelStyle="{StaticResource LowerbarLabel}"
+                ScrollbarVisibility="Hidden"
+                ShowGridLines="True"
+                ShowToolTip="False"
+                ViewRangeEnd="{Binding EndDate, Mode=TwoWay}"
+                ViewRangeStart="{Binding StartDate, Mode=TwoWay}"
+                XBindingPath="Date">
+                <chart:SfDateTimeRangeNavigator.Content>
+
+                    <chart:SfChart AreaBorderThickness="0,1,0,0">
+                        <chart:SfChart.PrimaryAxis>
+                            <chart:DateTimeAxis
+                                LabelFormat="MMM/dd/yyyy"
+                                ShowGridLines="False"
+                                Visibility="Collapsed" />
+                        </chart:SfChart.PrimaryAxis>
+
+                        <chart:SfChart.SecondaryAxis>
+                            <chart:NumericalAxis
+                                Minimum="10"
+                                ShowGridLines="False"
+                                StartRangeFromZero="False"
+                                Visibility="Collapsed" />
+                        </chart:SfChart.SecondaryAxis>
+
+                        <chart:AreaSeries
+                            x:Name="SeriesInRangenavigator"
+                            ItemsSource="{Binding StockPriceDetails}"
+                            Stroke="#FF1BA0E2"
+                            StrokeThickness="0.3"
+                            XBindingPath="Date"
+                            YBindingPath="YValue">
+                            <chart:AreaSeries.Interior>
+                                <LinearGradientBrush StartPoint="0.504,0.03" EndPoint="0.504,1.5">
+                                    <GradientStop Offset="0" Color="LightSkyBlue" />
+                                    <GradientStop Offset="0.567" Color="White" />
+                                </LinearGradientBrush>
+                            </chart:AreaSeries.Interior>
+                        </chart:AreaSeries>
+                    </chart:SfChart>
+                </chart:SfDateTimeRangeNavigator.Content>
+                <chart:SfDateTimeRangeNavigator.HigherLevelBarStyle>
+                    <chart:LabelBarStyle Position="Inside" SelectedLabelBrush="Transparent" />
+                </chart:SfDateTimeRangeNavigator.HigherLevelBarStyle>
+
+                <chart:SfDateTimeRangeNavigator.LowerLevelBarStyle>
+                    <chart:LabelBarStyle Position="Inside" SelectedLabelBrush="Black" />
+                </chart:SfDateTimeRangeNavigator.LowerLevelBarStyle>
+
+                <chart:SfDateTimeRangeNavigator.Intervals>
+                    <chart:Interval IntervalType="Year" />
+                    <chart:Interval IntervalType="Year" />
+                </chart:SfDateTimeRangeNavigator.Intervals>
+
+                <chart:SfDateTimeRangeNavigator.RightThumbStyle>
+                    <chart:ThumbStyle SymbolTemplate="{StaticResource symboltemplate}" />
+                </chart:SfDateTimeRangeNavigator.RightThumbStyle>
+
+                <chart:SfDateTimeRangeNavigator.LeftThumbStyle>
+                    <chart:ThumbStyle SymbolTemplate="{StaticResource symboltemplate}" />
+                </chart:SfDateTimeRangeNavigator.LeftThumbStyle>
+            </chart:SfDateTimeRangeNavigator>
+        </Grid>
+    </Grid>
+</democommon:DemoControl>
