@@ -1,0 +1,257 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.CustomTooltip"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    OptionsSize="300">
+
+    <democommon:DemoControl.DataContext>
+        <local:CustomToolTipViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <democommon:EnumDisplayNameConverter x:Key="enumDisplayNameConverter" />
+
+        <DataTemplate x:Key="tooltipTemplate">
+            <Border>
+                <Grid Height="30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*" />
+                        <RowDefinition Height="0.5*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.3*" />
+                        <ColumnDefinition Width="0.7*" />
+                    </Grid.ColumnDefinitions>
+                    
+                    <Image
+                        Grid.RowSpan="2"
+                        Grid.Column="0" Margin="0"
+                        HorizontalAlignment="Left"
+                        Source="{Binding Item.ImagePath}" />
+                    <TextBlock
+                        Grid.Column="1" Margin="3,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="12" 
+                        Foreground="Black"
+                        Text="{Binding Item.CompanyName}"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="3,0,0,0"
+                        Grid.Column="1">
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="Black"
+                            Text="Rank : " />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="Black"
+                            Text="{Binding Item.Rank}"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <Style x:Key="tooltipStyle" TargetType="Path">
+            <Setter Property="Fill" Value="White"/>
+            <Setter Property="Stroke" Value="Black"/>
+        </Style>
+
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+        <WrapPanel>
+            <StackPanel Margin="0">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Horizontal Alignment" />
+                <ComboBox
+                    x:Name="horizontalAlign"
+                    Margin="5,0,5,5"
+                    VerticalAlignment="Center"
+                    IsEditable="False"
+                    ItemsSource="{democommon:EnumValuesExtension Type=HorizontalAlignment}"
+                    SelectedIndex="1" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource enumDisplayNameConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Margin="0">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Vertical Alignment" />
+                <ComboBox
+                    x:Name="verticalAlign"
+                    Margin="5,0,5,5"
+                    VerticalAlignment="Center"
+                    IsEditable="False"
+                    ItemsSource="{democommon:EnumValuesExtension Type=VerticalAlignment}"
+                    SelectedIndex="0" >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource enumDisplayNameConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+
+            <StackPanel Margin="0">
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Initial Show Delay" />
+
+                <TextBlock
+                    x:Name="initialShowDelay"
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="{Binding ElementName=initialDelaySlider, Path=Value}" />
+
+                <Slider
+                    x:Name="initialDelaySlider"
+                    Width="250"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Focusable="False"
+                    IsSnapToTickEnabled="True"
+                    Maximum="10000"
+                    Minimum="0"
+                    TickPlacement="None"
+                    Ticks="0, 500,1000,1500,2000,2500,3000,3500,4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000" />
+            </StackPanel>
+
+            <StackPanel Margin="0">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Show Duration" />
+
+                <TextBlock
+                    x:Name="showDuration"
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="{Binding ElementName=showDurationSlider, Path=Value}" />
+
+                <Slider
+                    x:Name="showDurationSlider"
+                    Width="250"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    Focusable="False"
+                    IsSnapToTickEnabled="True"
+                    Maximum="10000"
+                    Minimum="0"
+                    TickPlacement="None"
+                    Ticks="0, 500, 1000,1500,2000,2500,3000,3500,4000, 4500, 5000, 5500, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000"
+                    Value="1000" />
+            </StackPanel>
+
+            <StackPanel Margin="0">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Horizontal Offset" />
+                <TextBox
+                    x:Name="horizOffset"
+                    Margin="5,0,5,5"
+                    VerticalAlignment="Center"
+                    Text="{Binding HorizontalOffset, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Margin="0">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Vertical Offset" />
+                <TextBox
+                    x:Name="VerizOffset"
+                    Margin="5,0,5,5"
+                    VerticalAlignment="Center"
+                    Text="{Binding VerticalOffset, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+
+            <StackPanel Margin="0" Orientation="Horizontal">
+                <TextBlock
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    Text="Tooltip Animation" />
+                <CheckBox
+                    x:Name="tooltipAnime"
+                    Margin="5"
+                    VerticalAlignment="Center"
+                    IsChecked="True" />
+            </StackPanel>
+        </WrapPanel>
+    </democommon:DemoControl.Options>
+
+    <Grid>
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <chart:SfChart
+            x:Name="sampleChart"
+            Margin="10"
+            Header="Top brand cars YTD in 2013">
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis
+                    Header="Cars"
+                    ShowGridLines="False"
+                    LabelPlacement="BetweenTicks"/>
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    Header="YTD"
+                    Maximum="1400"
+                    Minimum="0" />
+            </chart:SfChart.SecondaryAxis>
+
+            <!--  Using TooltipTemplate property to bind tooltip value  -->
+            <chart:BarSeries
+                x:Name="sampleSeries"
+                chart:ChartSeriesBase.Spacing="0.3"
+                chart:ChartTooltip.EnableAnimation="{Binding ElementName=tooltipAnime, Path=IsChecked, Mode=TwoWay}"
+                chart:ChartTooltip.HorizontalAlignment="{Binding ElementName=horizontalAlign, Path=SelectedItem, Converter={StaticResource enumDisplayNameConverter}, Mode=TwoWay}"
+                chart:ChartTooltip.HorizontalOffset="{Binding HorizontalOffset, TargetNullValue=10, Mode=TwoWay}"
+                chart:ChartTooltip.InitialShowDelay="{Binding ElementName=initialDelaySlider, Path=Value, Mode=TwoWay}"
+                chart:ChartTooltip.ShowDuration="{Binding ElementName=showDurationSlider, Path=Value, Mode=TwoWay}"
+                chart:ChartTooltip.VerticalAlignment="{Binding ElementName=verticalAlign, Path=SelectedItem, Converter={StaticResource enumDisplayNameConverter}, Mode=TwoWay}"
+                chart:ChartTooltip.VerticalOffset="{Binding VerticalOffset, TargetNullValue=10, Mode=TwoWay}"
+                EnableAnimation="True"
+                ItemsSource="{Binding CompanyDetails}"
+                Palette="Custom"
+                ColorModel="{StaticResource CustomColor}"
+                ShowTooltip="True"
+                TooltipTemplate="{StaticResource tooltipTemplate}"
+                XBindingPath="CompanyName"
+                YBindingPath="YTD" />
+
+            <chart:SfChart.Behaviors>
+                <chart:ChartTooltipBehavior Style="{StaticResource tooltipStyle}"/>
+            </chart:SfChart.Behaviors>
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>

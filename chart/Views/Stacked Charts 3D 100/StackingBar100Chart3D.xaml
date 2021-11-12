@@ -1,0 +1,137 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.StackingBar100Chart3D"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interact="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:StackingBarChart3DViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+
+        <local:StackingBarChart3DColorConverter x:Key="colorConv" />
+        <local:TextConverter x:Key="txtconv" />
+
+        <!--  Adornment Label Template  -->
+        <DataTemplate x:Key="labelTemplate1">
+            <Grid>
+                <Rectangle
+                    Fill="{Binding Converter={StaticResource colorConv}}"
+                    Stroke="White"
+                    StrokeThickness="1" />
+                <TextBlock
+                    Margin="5.5,3,5.5,3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontSize="10"
+                    Foreground="White"
+                    Text="{Binding Converter={StaticResource txtconv}}" />
+            </Grid>
+        </DataTemplate>
+
+    </democommon:DemoControl.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <chart:SfChart3D
+            x:Name="sfChart"
+            Margin="50"
+            VerticalAlignment="Bottom"
+            Depth="130"
+            EnableRotation="True"
+            PerspectiveAngle="125"
+            Rotation="24"
+            SideBySideSeriesPlacement="True">
+
+            <interact:Interaction.Behaviors>
+                <local:RotateAnimationBehavior />
+            </interact:Interaction.Behaviors>
+
+            <!--  PrimaryAxis  -->
+            <chart:SfChart3D.PrimaryAxis>
+                <chart:CategoryAxis3D TickLineSize="2">
+                </chart:CategoryAxis3D>
+            </chart:SfChart3D.PrimaryAxis>
+
+            <!--  SecondaryAxis  -->
+            <chart:SfChart3D.SecondaryAxis>
+                <chart:NumericalAxis3D
+                    Interval="10"
+                    OpposedPosition="False"
+                    RangePadding="None"
+                    TickLineSize="2">
+                </chart:NumericalAxis3D>
+            </chart:SfChart3D.SecondaryAxis>
+
+            <!--  StackingBar100Series3D  -->
+            <chart:StackingBar100Series3D
+                chart:ChartSeriesBase.Spacing="0.3"
+                chart:ChartTooltip.EnableAnimation="True"
+                EnableAnimation="True"
+                Interior="{StaticResource SeriesInterior1}"
+                ItemsSource="{Binding CategoricalDatas}"
+                Label="First"
+                XBindingPath="Year"
+                YBindingPath="Plastic">
+                <!--  AdornmentsInfo  -->
+                <chart:StackingBar100Series3D.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo3D
+                        AdornmentsPosition="TopAndBottom"
+                        LabelTemplate="{StaticResource labelTemplate1}"
+                        SegmentLabelContent="LabelContentPath"
+                        ShowLabel="True" />
+                </chart:StackingBar100Series3D.AdornmentsInfo>
+            </chart:StackingBar100Series3D>
+
+            <chart:StackingBar100Series3D
+                chart:ChartSeriesBase.Spacing="0.3"
+                chart:ChartTooltip.EnableAnimation="True"
+                EnableAnimation="True"
+                Interior="{StaticResource SeriesInterior2}"
+                ItemsSource="{Binding CategoricalDatas}"
+                Label="First"
+                XBindingPath="Year"
+                YBindingPath="Metal">
+                <!--  AdornmentsInfo  -->
+                <chart:StackingBar100Series3D.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo3D
+                        AdornmentsPosition="TopAndBottom"
+                        LabelTemplate="{StaticResource labelTemplate1}"
+                        SegmentLabelContent="LabelContentPath"
+                        ShowLabel="True" />
+                </chart:StackingBar100Series3D.AdornmentsInfo>
+            </chart:StackingBar100Series3D>
+
+            <chart:StackingBar100Series3D
+                chart:ChartSeriesBase.Spacing="0.3"
+                chart:ChartTooltip.EnableAnimation="True"
+                EnableAnimation="True"
+                Interior="{StaticResource SeriesInterior3}"
+                ItemsSource="{Binding CategoricalDatas}"
+                Label="First"
+                XBindingPath="Year"
+                YBindingPath="Iron">
+                <!--  AdornmentsInfo  -->
+                <chart:StackingBar100Series3D.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo3D
+                        AdornmentsPosition="TopAndBottom"
+                        LabelTemplate="{StaticResource labelTemplate1}"
+                        SegmentLabelContent="LabelContentPath"
+                        ShowLabel="True" />
+                </chart:StackingBar100Series3D.AdornmentsInfo>
+            </chart:StackingBar100Series3D>
+        </chart:SfChart3D>
+    </Grid>
+</democommon:DemoControl>
