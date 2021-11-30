@@ -13,9 +13,10 @@ This section guides you to use the Syncfusion WPF samples in your applications.
 
 ## <a name="requirements-to-run-the-demo"></a>Requirements to run the demo ##
 
-The demos are provided for .NET Framework 4.5, .NET Framework 4.7 and .NET 5.0. 
+The demos are provided for .NET Framework 4.5, .NET Framework 4.7, .NET 5.0, and .NET 6.0. 
 * .NET Framework - Requires Visual Studio 2010 or higher to run demos based on the .NET Framework you want to use.
 * Refer [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) requirements for running .NET5.0 demos.
+* Refer [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0) requirements for running .NET6.0 demos.
 
 ## <a name="how-to-run-the-demos"></a>How to run the demos ##
 
