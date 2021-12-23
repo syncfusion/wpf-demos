@@ -449,4 +449,4 @@ Syncfusion has no liability for any damage or consequence that may arise by the 
 
 * To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing) or contact our sales team at <salessupport@syncfusion.com>.
 
-<p>Copyright © 2001-2021 Syncfusion, Inc. Updated on 2021-11-12 at precisely 16:13:42 EST.</p> 
+<p>Copyright © 2001-2021 Syncfusion, Inc. Updated on 2021-12-23 at precisely 23:28:40 EST.</p> 
