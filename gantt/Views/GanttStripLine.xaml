@@ -1,0 +1,202 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.ganttdemos.wpf.GanttStripLine"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interact="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.ganttdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="auto"
+    Height="auto"
+    Background="White"
+    Foreground="Black">
+
+    <democommon:DemoControl.DataContext>
+        <local:GanttStripLineViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Border>
+        <syncfusion:GanttControl
+            x:Name="Gantt"
+            ItemsSource="{Binding TaskCollection}"
+            ResourceCollection="{Binding ResourceCollection}"
+            ShowStripLines="True"
+            StripLines="{Binding StripCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <interact:Interaction.Behaviors>
+                <local:GanttStripLineBehavior />
+            </interact:Interaction.Behaviors>
+            <syncfusion:GanttControl.TaskAttributeMapping>
+                <syncfusion:TaskAttributeMapping
+                    ChildMapping="Child"
+                    DurationMapping="Duration"
+                    FinishDateMapping="FinishDate"
+                    PredecessorMapping="Predecessor"
+                    ProgressMapping="Progress"
+                    ResourceInfoMapping="Resources"
+                    StartDateMapping="StartDate"
+                    TaskIdMapping="TaskId"
+                    TaskNameMapping="TaskName" />
+            </syncfusion:GanttControl.TaskAttributeMapping>
+        </syncfusion:GanttControl>
+    </Border>
+    <democommon:DemoControl.Options>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Hidden">
+            <StackPanel>
+                <TextBlock
+                    Width="260"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    FontSize="15"
+                    Text="Highlighting option" />
+                <StackPanel Orientation="Vertical">
+                    <RadioButton
+                        x:Name="Chk_None"
+                        Margin="5,10,5,5"
+                        Command="{Binding NoneChecked}"
+                        Content="Default"
+                        IsChecked="True" />
+                    <RadioButton
+                        x:Name="Chk_WorkingDays"
+                        Grid.Column="1"
+                        Margin="5,10,5,5"
+                        Command="{Binding WorkingHoursChecked}"
+                        Content="Working Days"
+                        IsChecked="False" />
+                    <RadioButton
+                        x:Name="Chk_NonWorkingDays"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="5,10,5,5"
+                        Command="{Binding NonWorkingHoursChecked}"
+                        Content="NonWorking days"
+                        IsChecked="False" />
+                    <RadioButton
+                        x:Name="Chk_SplSlots"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="5,10,5,5"
+                        Command="{Binding SplStripChecked}"
+                        Content="Special Days"
+                        IsChecked="False" />
+                </StackPanel>
+                <TextBlock
+                    Width="260"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    FontSize="15"
+                    Text="Repeat Strip Customization " />
+                <StackPanel Orientation="Horizontal">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Margin="0,5,0,5"
+                            HorizontalAlignment="Left"
+                            Content="Content :" />
+                        <TextBox
+                            x:Name="textBox"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Width="150"
+                            Height="25"
+                            Margin="5,0,5,5"
+                            HorizontalAlignment="Left"
+                            Text="{Binding RepeatStripContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <Label
+                            Grid.Row="1"
+                            Margin="0,5,0,5"
+                            HorizontalAlignment="Left"
+                            Content="Interior :" />
+                        <syncfusion:ColorPicker
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Width="150"
+                            Height="25"
+                            Margin="5,0,5,5"
+                            HorizontalAlignment="Left"
+                            Brush="{Binding RepeatStripColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            BrushMode="Solid" />
+                        <Button
+                            x:Name="set"
+                            Grid.Row="3"
+                            Grid.ColumnSpan="2"
+                            Width="80"
+                            Height="25"
+                            Margin="10"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{Binding ButtonClick}"
+                            Content="Set" />
+                    </Grid>
+                </StackPanel>
+                <TextBlock
+                    Width="260"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    FontSize="15"
+                    Text="Non-Repeat Strip Customization" />
+                <Grid Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Row="0"
+                        Margin="0,5,0,5"
+                        HorizontalAlignment="Left"
+                        Content="Content :" />
+                    <TextBox
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Width="150"
+                        Height="25"
+                        Margin="5,0,5,5"
+                        HorizontalAlignment="Left"
+                        Text="{Binding NonRepeatStripContent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <Label
+                        Grid.Row="1"
+                        Margin="0,5,0,5"
+                        HorizontalAlignment="Left"
+                        Content="Interior :" />
+                    <syncfusion:ColorPicker
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Width="150"
+                        Height="25"
+                        Margin="5,0,5,5"
+                        HorizontalAlignment="Left"
+                        Brush="{Binding NonRepeatStripColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        BrushMode="Solid" />
+                    <Button
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Width="80"
+                        Height="25"
+                        Margin="10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding ButtonClick}"
+                        Content="Set" />
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </democommon:DemoControl.Options>
+
+</democommon:DemoControl>

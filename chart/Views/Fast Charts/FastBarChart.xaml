@@ -1,0 +1,56 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.FastBarChartDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:FastBarChartViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <chart:SfChart
+            x:Name="FastBar"
+            Margin="10"
+            HorizontalAlignment="Center"
+            ColorModel="{StaticResource CustomColor}"
+            Palette="Custom"
+            Header="Stock Details">
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:DateTimeAxis
+                    x:Name="axis1"
+                    Header="Month"
+                    LabelFormat="MMM dd"
+                    ShowGridLines="False"/>
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    Header="Stock"
+                    Interval="5"
+                    Maximum="20" />
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:FastBarBitmapSeries
+                x:Name="FastBarBitmapSeries"
+                ItemsSource="{Binding List}"
+                Label="Price"
+                ShowTooltip="True"
+                XBindingPath="Date"
+                YBindingPath="Price" />
+
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>
