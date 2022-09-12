@@ -79,6 +79,8 @@ namespace syncfusion.syntaxeditordemos.wpf
         /// </summary>
         private ICommand editLoadedCommand;
 
+        private ICommand myPasteCommand;
+
         /// <summary>
         /// Initializes the instance of<see cref="SyntaxEditorGettingStartedViewModel"/>class
         /// </summary>
@@ -96,6 +98,16 @@ namespace syncfusion.syntaxeditordemos.wpf
             insertSpaceCommand = new DelegateCommand<object>(ExecuteInsertSpaceCommand);
             singleLineCommand = new DelegateCommand<object>(ExecuteSingleLineCommand);
             editLoadedCommand = new DelegateCommand<object>(ExecuteEditLoaded);
+
+            myPasteCommand = new DelegateCommand<object>(ExecuteMyPasteCommand);
+        }
+
+        public ICommand MyPasteCommand
+        {
+            get
+            {
+                return myPasteCommand;
+            }
         }
 
         /// <summary>
@@ -324,6 +336,11 @@ namespace syncfusion.syntaxeditordemos.wpf
             {
                 (param as EditControl).StatusBarSettings.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void ExecuteMyPasteCommand(object param)
+        {
+            MessageBox.Show("ペースト実行");
         }
     }
 }
