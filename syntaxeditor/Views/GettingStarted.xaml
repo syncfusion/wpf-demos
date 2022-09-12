@@ -8,10 +8,77 @@
     xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
-    x:Name="window" Margin="8">
+    x:Name="window" Margin="8" OptionsSize="200">
     <democommon:DemoControl.DataContext>
         <local:SyntaxEditorGettingStartedViewModel />
     </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <!-- https://www.syncfusion.com/kb/8903/how-to-add-custom-menu-items-to-editcontrol-embedded-contextmenu -->
+        <ContextMenu x:Key="contextmenu">
+            <MenuItem Header="Undo" Command="{x:Static syncfusion:EditCommands.Undo}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/Undo.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="Redo" Command="{x:Static syncfusion:EditCommands.Redo}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/Redo.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="Cut" Command="{x:Static syncfusion:EditCommands.Cut}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/Cut.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="Copy" Command="{x:Static syncfusion:EditCommands.Copy}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/Copy.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="Paste" Command="{x:Static syncfusion:EditCommands.Paste}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/Paste.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="SelectAll" Command="{x:Static syncfusion:EditCommands.SelectAll}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}"></MenuItem>
+
+            <MenuItem Header="Outlining">
+                <MenuItem Header="ExpandallText" Command="{x:Static syncfusion:EditCommands.ExpandAll}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}"></MenuItem>
+                <MenuItem Header="Collapseall" Command="{x:Static syncfusion:EditCommands.CollapseAll}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}"></MenuItem>
+            </MenuItem>
+
+            <MenuItem Header="Increaseindent" Command="{x:Static syncfusion:EditCommands.IncreaseIndent}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/IncreaseIndent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="Decreaseindent" Command="{x:Static syncfusion:EditCommands.DecreaseIndent}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/DecreaseIndent.png" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="Commentlines" Command="{x:Static syncfusion:EditCommands.CommentSelection}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/Comment.png" MaxHeight="16" MaxWidth="16" />
+                </MenuItem.Icon>
+            </MenuItem>
+
+            <MenuItem Header="Uncommentlines" Command="{x:Static syncfusion:EditCommands.UncommentSelection}" CommandTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type syncfusion:EditControl}}}">
+                <MenuItem.Icon>
+                    <Image Source="pack://application:,,,/Syncfusion.Edit.Wpf;component/Resources/Uncomment.png" MaxHeight="16" MaxWidth="16" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </ContextMenu>
+    </democommon:DemoControl.Resources>
+
     <Grid>
         <Grid.Resources>
             <ResourceDictionary>
@@ -241,17 +308,20 @@
             AllowDrop="True"
             BorderThickness="0"
             DocumentSource="{Binding DocumentSource}"
+            ContextMenu="{StaticResource contextmenu}"
+            ShowDefaultContextMenu="False"
             EnableOutlining="False"
             FontFamily="{Binding ElementName=fontlist, Path=SelectedItem}"
             FontSize="{Binding ElementName=fontsize, Path=SelectedItem}"
             IsMultiLine="{Binding SingleLineChecked}"
             ShowLineNumber="{Binding LineNumber}"
-            TabKeyBehavior="{Binding TabBehavior}">
+            TabKeyBehavior="{Binding TabBehavior}" Cursor="IBeam">
             <interactivity:Interaction.Triggers>
                 <interactivity:EventTrigger EventName="Loaded">
                     <interactivity:InvokeCommandAction Command="{Binding EditLoadedCommand}" CommandParameter="{Binding ElementName=editControl}" />
                 </interactivity:EventTrigger>
             </interactivity:Interaction.Triggers>
+
         </syncfusion:EditControl>
     </Grid>
 </democommon:DemoControl>

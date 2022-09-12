@@ -7,6 +7,8 @@
 #endregion
 
 using syncfusion.demoscommon.wpf;
+using System;
+using System.Windows;
 
 namespace syncfusion.syntaxeditordemos.wpf
 {
@@ -22,11 +24,15 @@ namespace syncfusion.syntaxeditordemos.wpf
         public GettingStarted()
         {
             InitializeComponent();
+
         }
 
         public GettingStarted(string themename) : base(themename)
         {
             InitializeComponent();
+
+            // AddPastingHandler ‚ÍŒø‚©‚È‚¢–Í—l
+            // DataObject.AddPastingHandler(editControl, OnPaseteHandler);
         }
 
         protected override void Dispose(bool disposing)
