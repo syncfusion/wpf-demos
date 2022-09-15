@@ -7,6 +7,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -36,6 +37,13 @@ namespace syncfusion.dropdowndemos.wpf
         public AutoCompleteDemo(string themename) : base(themename)
         {
             InitializeComponent();
+
+            DataObject.AddPastingHandler(autoComplete, OnAutoCompletePasting);
+        }
+
+        private void OnAutoCompletePasting(object sender, DataObjectPastingEventArgs e)
+        {
+            Debug.WriteLine("AutoComplete: OnPastring");
         }
 
         protected override void Dispose(bool disposing)
