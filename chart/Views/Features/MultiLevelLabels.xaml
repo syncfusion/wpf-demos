@@ -1,0 +1,206 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.MultiLevelLabelsDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="http://schemas.syncfusion.com/wpf"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    mc:Ignorable="d">
+
+    <democommon:DemoControl.DataContext>
+        <local:MultiLevelLabelsViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <democommon:EnumDisplayNameConverter x:Key="enumDisplayNameConverter" />
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.Options>
+
+        <StackPanel>
+            <TextBlock
+                HorizontalAlignment="Left"
+                FontSize="12"
+                Margin="5,5,5,5"
+                FontWeight="Bold"
+                Text="Properties" />
+            <TextBlock
+                Margin="5"
+                VerticalAlignment="Center"
+                FontSize="12"
+                Text="Border Style" />
+            <ComboBox
+                x:Name="borderStyle"
+                Margin="5,0,5,5"
+                HorizontalAlignment="Stretch"
+                FontSize="12"
+                ItemsSource="{democommon:EnumValuesExtension Type=chart:BorderType}"
+                SelectedIndex="2">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource enumDisplayNameConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <TextBlock
+                Margin="5"
+                FontSize="12"
+                Text="Border Color" />
+            <ComboBox
+                x:Name="borderColor"
+                Margin="5,0,5,5"
+                HorizontalAlignment="Stretch"
+                FontSize="12"
+                ItemsSource="{Binding ColorArray}"
+                SelectedIndex="0" />
+
+            <TextBlock
+                Margin="5"
+                FontSize="12"
+                Text="Label Alignment" />
+            <ComboBox
+                x:Name="labelAlignment"
+                Margin="5,0,5,5"
+                HorizontalAlignment="Stretch"
+                FontSize="12"
+                ItemsSource="{democommon:EnumValuesExtension Type=chart:LabelAlignment}"
+                SelectedIndex="0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Converter={StaticResource enumDisplayNameConverter}}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </StackPanel>
+
+    </democommon:DemoControl.Options>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <chart:SfChart
+            x:Name="chart"
+            Margin="10"
+            ColorModel="{StaticResource CustomColor}"
+            Palette="Custom"
+            Header="Weather Report">
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis
+                    x:Name="xAxis"
+                    LabelBorderBrush="{Binding ElementName=borderColor, Path=SelectedItem}"
+                    LabelBorderWidth="2"
+                    LabelPlacement="BetweenTicks"
+                    MultiLevelLabelsBorderType="{Binding ElementName=borderStyle, Path=SelectedItem,Converter={StaticResource enumDisplayNameConverter}}"
+                    ShowLabelBorder="True"
+                    TickLineSize="0">
+                    <chart:CategoryAxis.MultiLevelLabels>
+                        <chart:ChartMultiLevelLabel
+                            End="2.5"
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Start="-0.5"
+                            Text="Quarter 1" />
+                        <chart:ChartMultiLevelLabel
+                            End="5.5"
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Start="2.5"
+                            Text="Quarter 2" />
+                        <chart:ChartMultiLevelLabel
+                            End="8.5"
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Start="5.5"
+                            Text="Quarter 3" />
+                        <chart:ChartMultiLevelLabel
+                            End="11.5"
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Start="8.5"
+                            Text="Quarter 4" />
+                        <chart:ChartMultiLevelLabel
+                            End="5.5"
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Level="1"
+                            Start="-0.5"
+                            Text="Half Yearly 1" />
+                        <chart:ChartMultiLevelLabel
+                            End="11.5" 
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Level="1"
+                            Start="5.5"
+                            Text="Half Yearly 2 " />
+                        <chart:ChartMultiLevelLabel
+                            End="11.5" 
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Level="2"
+                            Start="-0.5"
+                            Text="2016" />
+                    </chart:CategoryAxis.MultiLevelLabels>
+                </chart:CategoryAxis>
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    x:Name="yAxis"
+                    Interval="2"
+                    LabelBorderBrush="{Binding ElementName=borderColor, Path=SelectedItem}"
+                    LabelBorderWidth="2"
+                    Maximum="48"
+                    Minimum="32"
+                    MultiLevelLabelsBorderType="{Binding ElementName=borderStyle, Path=SelectedItem, Converter={StaticResource enumDisplayNameConverter}}"
+                    LabelFormat="0°C"
+                    ShowLabelBorder="True"
+                    TickLineSize="0">
+                    <chart:NumericalAxis.MultiLevelLabels>
+                        <chart:ChartMultiLevelLabel
+                            End="36"
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Start="32"
+                            Text="Low" />
+                        <chart:ChartMultiLevelLabel
+                            End="42"
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Start="36"
+                            Text="Medium" />
+                        <chart:ChartMultiLevelLabel
+                            End="48"
+                            FontSize="12" Foreground="Gray"
+                            LabelAlignment="{Binding Source={x:Reference Name=labelAlignment}, Path=SelectedItem}"
+                            Start="42"
+                            Text="High" />
+                    </chart:NumericalAxis.MultiLevelLabels>
+                </chart:NumericalAxis>
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:SplineSeries
+                x:Name="series"
+                EnableAnimation="True"
+                ItemsSource="{Binding Collection}"
+                XBindingPath="Month"
+                YBindingPath="Temperature">
+                <chart:SplineSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo Symbol="Ellipse">
+                    </chart:ChartAdornmentInfo>
+                </chart:SplineSeries.AdornmentsInfo>
+            </chart:SplineSeries>
+        </chart:SfChart>
+    </Grid>
+
+</democommon:DemoControl>
