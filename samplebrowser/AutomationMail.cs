@@ -183,11 +183,6 @@ namespace syncfusion.demoscommon.wpf
 
             bindingErrorTask.Wait();errorLogTask.Wait();
 
-            if ((bindingErrorTask.IsCompleted && errorLogTask.IsCompleted) && File.Exists("ErrorLogReport.xlsx") || File.Exists("BindingErrorReport.xlsx"))
-            {
-                SendAutomationStartedMail();
-            }
-
             foreach (var deleteFile in files)
             {
                 if (deleteFile.Name.Contains("LiveDemos") || deleteFile.Name.Contains("BindingError"))
@@ -198,81 +193,6 @@ namespace syncfusion.demoscommon.wpf
                     }
                 }
             }
-        }
-        private static void SendAutomationStartedMail()
-        {
-            IPHostEntry host;
-            string name = System.Net.Dns.GetHostName();
-            host = System.Net.Dns.GetHostEntry(name);
-            System.Net.IPAddress ip = host.AddressList.Where(n => n.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).First();
-            List<string> message = new List<string>();
-            string htmlBody = GetBody(ip);
-            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
-            MailMessage myMessage = new MailMessage();
-            myMessage.AlternateViews.Add(avHtml);
-            myMessage.IsBodyHtml = true;
-            myMessage.Body = htmlBody;
-            myMessage.From = new MailAddress("niranjankumar.gopalan@syncfusion.com");
-
-            var Receivers = ("DockingChildren@syncfusion.com;durga.rajan@syncfusion.com;jeganr@syncfusion.com").Split(';');
-            for (int i = 0; i < Receivers.Count(); i++)
-            {
-                myMessage.To.Add(new MailAddress(Receivers[i]));
-            } 
-            myMessage.Priority = MailPriority.High;
-            myMessage.Subject = String.Format("Binding error report details");
-            string errorPath = Directory.GetCurrentDirectory() + @"\ErrorLogReport.xlsx";
-            string bindingErrorPath = Directory.GetCurrentDirectory() + @"\BindingErrorReport.xlsx";
-            if (File.Exists(bindingErrorPath))
-            {
-                System.Net.Mail.Attachment bindingError = new System.Net.Mail.Attachment(bindingErrorPath);
-                myMessage.Attachments.Add(bindingError);
-            }
-            if (File.Exists(errorPath))
-            {
-                System.Net.Mail.Attachment errorList = new System.Net.Mail.Attachment(errorPath);
-                myMessage.Attachments.Add(errorList);
-            }
-            SmtpClient client = new SmtpClient("smtp.office365.com", 587);
-            client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
-            var secure = new SecureString();
-            string password = "rlpfgshzxwwgrbhg";
-            foreach (char c in password)
-            {
-                secure.AppendChar(c);
-            }
-            client.Credentials = new NetworkCredential("niranjankumar.gopalan@syncfusion.com", secure);
-            int count = 0;
-            while (count < 3)
-            {
-                try
-                {
-                    client.Send(myMessage);
-                    message.Add("Automation status has been sent...");
-                    count = 3;
-                }
-                catch (Exception ex)
-                {
-                    message.Add(ex.Message);
-                    message.Add(String.Format("Sending Mail Attemp - {0}", count.ToString()));
-                    Thread.Sleep(60000);
-                    count++;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Generates the email content for build failed
-        /// </summary>
-        /// <returns></returns>
-        private static string GetBody(IPAddress ip)
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<html bgcolor='#F6F6F6'><p>Hi Team,<br><br>Please find binding error, live demos and error report details from the attachment. </p>");
-            sb.Append("<br>Thanks,<br><br>");
-            sb.Append("Tools Docking Team<br>Syncfusion Software.</html>");
-            return sb.ToString();
         }
     }
 }
