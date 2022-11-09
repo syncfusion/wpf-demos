@@ -1,0 +1,318 @@
+﻿<democommon:DemoControl x:Class="syncfusion.diagramdemo.wpf.Views.Container"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                        xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+                        mc:Ignorable="d" 
+                        xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                        xmlns:fonts="http://schemas.microsoft.com/winfx/2006/xaml/composite-font"
+                        xmlns:collection="clr-namespace:System.Collections;assembly=mscorlib"
+                        xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"   
+                        xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"    
+                        d:DesignHeight="450" d:DesignWidth="800">
+
+    <democommon:DemoControl.DataContext>
+        <viewmodel:ContainersViewModel/>
+    </democommon:DemoControl.DataContext>
+    <democommon:DemoControl.Resources>
+
+        <DataTemplate x:Key="TitleTemplate">
+            <TextBlock x:Name="HeaderText" Text="{Binding}" FontSize="15" FontWeight="SemiBold"  Foreground="#2b579a" >
+            </TextBlock>
+        </DataTemplate>
+
+        <Style TargetType="syncfusion:Node">
+            <Setter Property="ShapeStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="White"/>
+                        <Setter Property="Stretch" Value="Fill"/>
+                        <Setter Property="Stroke" Value="#2546BB"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Shape">
+                <Setter.Value>
+                    <RectangleGeometry Rect="0,0,100,60" RadiusX="4" RadiusY="4"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="syncfusion:ContainerHeader">
+            <Setter Property="ShapeStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="Transparent"/>
+                        <Setter Property="Stretch" Value="Fill"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="syncfusion:Container">
+            <Setter Property="ShapeStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="#E9EEFF"/>
+                        <Setter Property="Stretch" Value="Fill"/>
+                        <Setter Property="Stroke" Value="#2546BB"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Shape">
+                <Setter.Value>
+                    <RectangleGeometry Rect="0,0,100,60" RadiusX="4" RadiusY="4"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="syncfusion:Connector">
+            <Setter Property="ConnectorGeometryStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Stroke" Value="#5E5E5E"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TargetDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="#5E5E5E"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="SourceDecoratorStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="#5E5E5E"/>
+                        <Setter Property="StrokeThickness" Value="1"/>
+                        <Setter Property="Stretch" Value="Fill"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <collection:ArrayList x:Key="FontSizes">
+            <sys:Double>7</sys:Double>
+            <sys:Double>8</sys:Double>
+            <sys:Double>9</sys:Double>
+            <sys:Double>10</sys:Double>
+            <sys:Double>11</sys:Double>
+            <sys:Double>12</sys:Double>
+            <sys:Double>13</sys:Double>
+            <sys:Double>14</sys:Double>
+            <sys:Double>16</sys:Double>
+            <sys:Double>18</sys:Double>
+            <sys:Double>20</sys:Double>
+            <sys:Double>22</sys:Double>
+            <sys:Double>24</sys:Double>
+            <sys:Double>30</sys:Double>
+        </collection:ArrayList>
+
+        <DataTemplate x:Key="FontColorTemplate">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Path Grid.Row="0" Width="10" Height="12"
+                          Fill="#444444"
+                          Data="M1.25 12H0L4.37 0H5.63L10 12H8.75L7.5 8.4H2.5L1.25 12ZM2.84 7.2H7.14L5 1.2L2.84 7.2Z" />
+                <Rectangle Grid.Row="1" Margin="0,2,0,0" Width="14" Height="2" StrokeThickness="0">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{Binding Color, 
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorLevel=1,
+                                AncestorType={x:Type syncfusion:ColorPickerPalette}}, 
+                                UpdateSourceTrigger=PropertyChanged}"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+        </DataTemplate>
+
+        <sys:String x:Key="Rectangle">
+            M242,1078L231,1078L231,1067L242,1067z
+        </sys:String>
+        <sys:String x:Key="Ellipse">
+            M358.5,440.5C358.5,443.813,361.187,446.5,364.5,446.5C367.813,446.5,370.5,443.813,370.5,440.5C370.5,437.187,367.813,434.5,364.5,434.5C361.187,434.5,358.5,437.187,358.5,440.5z
+        </sys:String>
+        <sys:String x:Key="Triangle">
+            M81.1582,85.8677L111.1582,33.9067L141.1582,85.8677L81.1582,85.8677z
+        </sys:String>
+        <sys:String x:Key="Plus">
+            M696.6084,158.2656L674.8074,158.2656L674.8074,136.4656L658.4084,136.4656L658.4084,158.2656L636.6084,158.2656L636.6084,174.6646L658.4084,174.6646L658.4084,196.4656L674.8074,196.4656L674.8074,174.6646L696.6084,174.6646L696.6084,158.2656z
+        </sys:String>
+        <sys:String x:Key="Star">
+            M540.3643,137.9336L546.7973,159.7016L570.3633,159.7296L550.7723,171.9366L558.9053,194.9966L540.3643,179.4996L521.8223,194.9966L529.9553,171.9366L510.3633,159.7296L533.9313,159.7016L540.3643,137.9336z
+        </sys:String>
+        <sys:String x:Key="Pentagon">
+            M370.9702,194.9961L359.5112,159.7291L389.5112,137.9341L419.5112,159.7291L408.0522,194.9961L370.9702,194.9961z
+        </sys:String>
+        <sys:String x:Key="Hexagon">
+            M165.5,-1.50000000000001L-2.5,213 167,444 444.5,442.5 621.5,214.5 438.5,-1.50000000000002z
+        </sys:String>
+        <sys:String x:Key="Heptagon">
+            M223.7783,195.7134L207.1303,174.8364L213.0713,148.8034L237.1303,137.2174L261.1883,148.8034L267.1303,174.8364L250.4813,195.7134L223.7783,195.7134z
+        </sys:String>
+        <sys:String x:Key="Octagon">
+            M98.7319,196.4653L81.1579,178.8923L81.1579,154.0393L98.7319,136.4653L123.5849,136.4653L141.1579,154.0393L141.1579,178.8923L123.5849,196.4653L98.7319,196.4653z
+        </sys:String>
+        <sys:String x:Key="Trapezoid">
+            M127.2842,291.4492L95.0322,291.4492L81.1582,256.3152L141.1582,256.3152L127.2842,291.4492z
+        </sys:String>
+        <sys:String x:Key="Decagon">
+            M657.3379,302.4141L642.3369,291.5161L636.6089,273.8821L642.3369,256.2481L657.3379,245.3511L675.8789,245.3511L690.8789,256.2481L696.6089,273.8821L690.8789,291.5161L675.8789,302.4141L657.3379,302.4141z
+        </sys:String>
+        <sys:String x:Key="RightTriangle">
+            M836.293,292.9238L776.293,292.9238L776.293,254.8408L836.293,292.9238z
+        </sys:String>
+        <sys:String x:Key="Cylinder">
+            M0.5,13.434L0.533621,13.434C1.23074,20.1226 20.7522,25.4861 44.75,25.4861C68.7478,25.4861 88.2693,20.1226 88.9664,13.434L89,13.434L89,89.2672L88.9763,89.2672C88.9822,89.3364 89,89.4036 89,89.4729C89,89.5104 88.9891,89.546 88.9871,89.5836C88.9891,89.6311 89,89.6776 89,89.726C89,96.5857 69.1889,102.146 44.75,102.146C20.3111,102.146 0.5,96.5857 0.5,89.726C0.5,89.6776 0.510878,89.6311 0.512855,89.5836C0.510878,89.546 0.5,89.5104 0.5,89.4729C0.5,89.4036 0.5178,89.3364 0.52373,89.2672L0.5,89.2672zM44.75,0.5C69.1889,0.5 89,5.90013 89,12.561C89,19.2219 69.1889,24.622 44.75,24.622C20.3111,24.622 0.5,19.2219 0.5,12.561C0.5,5.90013 20.3111,0.5 44.75,0.5z
+        </sys:String>
+        <sys:String x:Key="Diamond">
+            M352,555.417L341.972,549.5L352,543.583L362.028,549.5L352,555.417z
+        </sys:String>
+
+    </democommon:DemoControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <syncfusion:Stencil Visibility="Collapsed" x:Name="stencil" Width="250" Title="Shapes" TitleTemplate="{StaticResource TitleTemplate}"
+                            SymbolFilterDisplayMode="ComboBox"
+                            DisplayMode="Expanded"
+                            ShowSearchTextBox="False"
+                            ShowDisplayModeToggleButton="False"
+                            SymbolsDisplayMode="IconsOnly"
+                            Grid.Column="0" 
+                            Margin="5,5,0,5"
+                            ExpandMode="All">
+            <syncfusion:Stencil.SymbolSource>
+                <syncfusion:SymbolCollection>
+                    <!--Define the DiagramElement- Group-->
+                    <syncfusion:ContainerViewModel UnitHeight="200" UnitWidth="250" OffsetX="150" OffsetY="125" Name="Container" Key="Container" 
+                                                   Shape="{StaticResource Rectangle}">
+                        <syncfusion:ContainerViewModel.Header>
+                            <syncfusion:ContainerHeaderViewModel UnitHeight="40">
+                                <syncfusion:ContainerHeaderViewModel.Annotation>
+                                    <syncfusion:AnnotationEditorViewModel Content="Title"/>
+                                </syncfusion:ContainerHeaderViewModel.Annotation>
+                            </syncfusion:ContainerHeaderViewModel>
+                        </syncfusion:ContainerViewModel.Header>
+                    </syncfusion:ContainerViewModel>
+                </syncfusion:SymbolCollection>
+            </syncfusion:Stencil.SymbolSource>
+            <syncfusion:Stencil.SymbolGroups>
+                <syncfusion:SymbolGroups>
+                    <!--Separate groups based on the key-->
+                    <syncfusion:SymbolGroupProvider MappingName="Key"/>
+                </syncfusion:SymbolGroups>
+            </syncfusion:Stencil.SymbolGroups>
+        </syncfusion:Stencil>
+
+        <Grid Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <syncfusion:ToolBarAdv Grid.Row="0" FocusManager.IsFocusScope="True" Focusable="True" GripperVisibility="Collapsed" OverflowButtonVisibility="Collapsed">
+
+                <ComboBox x:Name="Part_FontFamily"
+                      Width = "112"
+                      Height="24"
+                      IsEditable="False"
+                      Margin="8,4,0,4"
+                      ItemsSource="{Binding Source={x:Static fonts:Fonts.SystemFontFamilies}}"
+                      SelectedValue="{Binding SelectedFontFamily, Mode=TwoWay}" />
+
+                <ComboBox x:Name="Part_FontSize"
+                      Width="46"
+                      Height="24"
+                      IsEditable="False"
+                      Margin="8,4,8,4"
+                      ItemsSource="{StaticResource FontSizes}"
+                      SelectedValue="{Binding SelectedFontSize, Mode=TwoWay}" />
+
+                <syncfusion:ToolBarItemSeparator Height="16" />
+
+                <syncfusion:RibbonButton x:Name="Part_ToggleBold"
+                                     Margin="8,4,0,4"
+                                     Width="24"
+                                     Height="24"
+                                     SizeForm="ExtraSmall"
+                                     IconType="VectorImage"
+                                     ToolTip="Bold"
+                                     IsToggle="True"
+                                     IsSelected="{Binding IsBoldSelected, Mode=TwoWay}"
+                                     Command="syncfusion:DiagramCommands.ToggleBold">
+                    <syncfusion:RibbonButton.VectorImage>
+                        <Path Width="8" Height="12" Fill="#444444" Data="M0 12V0.00537812H3.66114C4.6141 -0.0421944 5.55513 0.226968 6.32701 0.767893C6.96711 1.23983 7.33388 1.97892 7.31339 2.75557C7.32787 3.39453 7.11807 4.01947 6.71801 4.52906C6.29553 5.04262 5.71794 5.41686 5.06516 5.60001C5.87297 5.65338 6.63497 5.98125 7.21564 6.52531C7.74709 7.0674 8.02906 7.79338 7.99763 8.53869C8.02587 9.50335 7.58547 10.4254 6.80687 11.0319C5.94919 11.6853 4.87793 12.0225 3.78554 11.9829L0 12ZM1.52844 1.28195V5.1545H3.08353C3.78508 5.19199 4.47861 4.99532 5.04739 4.5976C5.53425 4.21653 5.80195 3.63341 5.76718 3.02974C5.76718 1.86454 4.93187 1.31622 3.27014 1.31622L1.52844 1.28195ZM1.52844 6.4225V10.7063H3.59005C4.33218 10.7496 5.06696 10.5437 5.66943 10.1237C6.16196 9.72679 6.43463 9.13132 6.40699 8.51299C6.40699 7.09934 5.35841 6.38823 3.27014 6.38823L1.52844 6.4225Z" />
+                    </syncfusion:RibbonButton.VectorImage>
+                </syncfusion:RibbonButton>
+                <syncfusion:RibbonButton x:Name="Part_ToggleItalic"
+                                     Margin="4,4,0,4"
+                                     Width="24"
+                                     Height="24"
+                                     SizeForm="ExtraSmall"
+                                     IconType="VectorImage"
+                                     ToolTip="Italic"
+                                     IsToggle="True"
+                                     IsSelected="{Binding IsItalicSelected, Mode=TwoWay}"
+                                         Command="syncfusion:DiagramCommands.ToggleItalic">
+                    <syncfusion:RibbonButton.VectorImage>
+                        <Path Width="10" Height="12" Fill="#444444" Data="M3.33333 0H10V0.8H6.9715L3.88145 11.2H6.66667V12H0V11.2H3.01488L6.10493 0.8H3.33333V0Z" />
+                    </syncfusion:RibbonButton.VectorImage>
+                </syncfusion:RibbonButton>
+                <syncfusion:RibbonButton x:Name="Part_ToggleUnderline"
+                                     Margin="4,4,0,4" 
+                                     Width="24"
+                                     Height="24"
+                                     SizeForm="ExtraSmall"
+                                     IconType="VectorImage"
+                                     ToolTip="Underline"
+                                     IsToggle="True"
+                                     IsSelected="{Binding IsUnderlineSelected, Mode=TwoWay}"
+                                     Command="syncfusion:DiagramCommands.ToggleUnderline">
+                    <syncfusion:RibbonButton.VectorImage>
+                        <Path Width="9" Height="12" Fill="#444444" Data="M8.25 0V6.75C8.25824 7.26493 8.15861 7.77589 7.9575 8.25C7.76841 8.69499 7.49602 9.09975 7.155 9.4425C6.81296 9.78439 6.40803 10.0569 5.9625 10.245C5.50044 10.4425 5.00247 10.5421 4.5 10.5375C3.99767 10.5406 3.50001 10.441 3.0375 10.245C2.13816 9.86505 1.42245 9.14934 1.0425 8.25C0.841394 7.77589 0.741757 7.26493 0.75 6.75V0H1.5V6.75C1.49841 7.14996 1.58015 7.54587 1.74 7.9125C2.04795 8.63015 2.61985 9.20205 3.3375 9.51C3.70413 9.66985 4.10004 9.75159 4.5 9.75C4.90238 9.75154 5.30072 9.66983 5.67 9.51C6.02499 9.35636 6.34806 9.13759 6.6225 8.865C6.89693 8.59208 7.11596 8.26863 7.2675 7.9125C7.42499 7.54538 7.50418 7.14945 7.5 6.75V0L8.25 0ZM0 11.25H9V12H0V11.25Z" />
+                    </syncfusion:RibbonButton.VectorImage>
+                </syncfusion:RibbonButton>
+                <syncfusion:ColorPickerPalette x:Name="Part_FontColor"
+                                           Margin="4,4,8,4"
+                                           SelectedBrush="{Binding SelectedFontBrush, Mode=TwoWay}" 
+                                           Width="36"
+                                           Height="24"
+                                           ToolTip="Font Color"
+                                           HeaderTemplate="{StaticResource FontColorTemplate}"/>
+            </syncfusion:ToolBarAdv>
+            <syncfusion:SfDiagram x:Name="Diagram"
+                                  Margin="5"
+                                  Grid.Row="1"
+                                  Constraints="{Binding Constraints}"
+                                  Theme="{Binding Theme}"
+                                  SelectedItems="{Binding SelectedItems}"
+                                  Nodes="{Binding Nodes}"
+                                  Groups="{Binding Groups}"
+                                  Connectors="{Binding Connectors}"
+                                  HorizontalRuler="{Binding HorizontalRuler}"
+                                  VerticalRuler="{Binding VerticalRuler}"
+                                  ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                                  ItemUnSelectedCommand="{Binding ItemUnSelectedCommand}"
+                                  ViewPortChangedCommand="{Binding ViewPortChangedCommand}">
+                <syncfusion:SfDiagram.SnapSettings>
+                    <syncfusion:SnapSettings SnapConstraints="ShowLines"/>
+                </syncfusion:SfDiagram.SnapSettings>
+            </syncfusion:SfDiagram>
+        </Grid>
+    </Grid>
+</democommon:DemoControl>
