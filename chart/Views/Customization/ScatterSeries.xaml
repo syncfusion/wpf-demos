@@ -1,0 +1,93 @@
+﻿<UserControl
+    x:Class="syncfusion.chartdemos.wpf.ScatterSeries"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="http://schemas.syncfusion.com/wpf"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Resources/CustomTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.DataContext>
+            <local:ViewModelScatter />
+        </Grid.DataContext>
+        <Grid.Resources>
+            <local:ScatterAngleConverter x:Key="ScatterAngleConverter" />
+            <local:ScatterAdornmentConverter x:Key="ScatterAdornmentConverter" />
+            <local:ScatterInteriorConverter x:Key="ScatterInteriorConverter" />
+            <local:ScatterAdornmentForegroundConverter x:Key="adornmentForegroundConverter" />
+            <DataTemplate x:Key="AdornmentTemplate">
+                <TextBlock
+                    FontSize="12"
+                    Foreground="{Binding Converter={StaticResource adornmentForegroundConverter}}"
+                    Text="{Binding Converter={StaticResource ScatterAdornmentConverter}}" />
+            </DataTemplate>
+        </Grid.Resources>
+        <chart:SfChart Margin="10"
+                       Header="Global Stock Trend">
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:DateTimeAxis
+                    Header="Year 2014"
+                    Interval="1"
+                    IntervalType="Months"
+                    LabelFormat="MMM"
+                    PlotOffset="30"
+                    ShowGridLines="False" />
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    Header="Stock Price"
+                    Interval="10"
+                    LabelFormat="$0"
+                    Maximum="80"
+                    Minimum="10" />
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:ScatterSeries
+                ItemsSource="{Binding}"
+                ScatterHeight="50"
+                ScatterWidth="50"
+                XBindingPath="Year"
+                YBindingPath="Count">
+                <chart:ScatterSeries.CustomTemplate>
+                    <DataTemplate>
+                        <Canvas>
+                            <Path
+                                Canvas.Left="{Binding RectX}"
+                                Canvas.Top="{Binding RectY}"
+                                Width="{Binding ScatterWidth}"
+                                Height="{Binding ScatterHeight}"
+                                Data="M20.125,32L0.5,12.375L10.3125,12.375L10.3125,                                   0.5L29.9375,0.5L29.9375,12.375L39.75,12.375z"
+                                Fill="{Binding Converter={StaticResource ScatterInteriorConverter}}"
+                                RenderTransformOrigin="0.5,0.5"
+                                Stretch="Fill">
+                                <Path.RenderTransform>
+                                    <RotateTransform Angle="{Binding Converter={StaticResource ScatterAngleConverter}}" />
+                                </Path.RenderTransform>
+                            </Path>
+                        </Canvas>
+                    </DataTemplate>
+                </chart:ScatterSeries.CustomTemplate>
+                <chart:ScatterSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo
+                        LabelTemplate="{StaticResource AdornmentTemplate}"
+                        SegmentLabelContent="LabelContentPath"
+                        ShowLabel="True" />
+                </chart:ScatterSeries.AdornmentsInfo>
+            </chart:ScatterSeries>
+
+        </chart:SfChart>
+    </Grid>
+</UserControl>
