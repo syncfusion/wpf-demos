@@ -1,0 +1,442 @@
+﻿<UserControl
+    x:Class="syncfusion.salesanalysis.wpf.Maps"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:syncfusion.salesanalysis.wpf"
+    xmlns:maps="clr-namespace:Syncfusion.UI.Xaml.Maps;assembly=Syncfusion.SfMaps.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style TargetType="Ellipse">
+            <Setter Property="IsHitTestVisible" Value="False" />
+        </Style>
+
+        <DataTemplate x:Key="PopupKey">
+            <Border>
+                <Grid Width="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        Grid.ColumnSpan="2"
+                        Height="30"
+                        Padding="10,5,0,0"
+                        VerticalAlignment="Center"
+                        Background="#FF4B4A4A">
+                        <TextBlock
+                            FontFamily="Segoe UI"
+                            FontSize="14"
+                            Foreground="White"
+                            Text="{Binding Country}" />
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Padding="3,10,3,3"
+                        Background="White">
+                        <StackPanel
+                            Height="35"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="White"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                FontFamily="Segoe UI"
+                                FontSize="16"
+                                Foreground="Black"
+                                Text="Total Sales: " />
+                            <TextBlock
+                                FontFamily="Segoe UI"
+                                FontSize="16"
+                                Text="{Binding Sales, StringFormat=C }" />
+                        </StackPanel>
+                    </Border>
+                    <Border Grid.Row="2" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <ItemsControl
+                                x:Name="ProductName"
+                                Background="White"
+                                DisplayMemberPath="Name"
+                                ItemsSource="{Binding Products}" />
+                            <ItemsControl
+                                Background="White"
+                                DisplayMemberPath="Sales"
+                                ItemsSource="{Binding Products}" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid
+            Name="grid"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            DataContext="{Binding}">
+            <maps:SfMap
+                x:Name="map"
+                EnablePan="False"
+                EnableZoom="False"
+                ShowCoords="False">
+                <maps:SfMap.Layers>
+                    <maps:ShapeFileLayer
+                        Background="#FFF4F4F4"
+                        EnableSelection="True"
+                        ItemsSource="{Binding Models}"
+                        MapPopupVisibility="Collapsed"
+                        ShapeIDPath="Continent"
+                        ShapeIDTableField="Continent"
+                        ShapesSelected="Maps_ShapesSelected"
+                        Uri="/syncfusion.salesanalysis.wpf;component/Assets/Sales Analysis/ShapeFile/continent.shp">
+                        <maps:ShapeFileLayer.ItemsTemplate>
+                            <DataTemplate>
+                                <StackPanel
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    IsHitTestVisible="False"
+                                    Orientation="Vertical">
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding Data.Continent}" />
+                                    <TextBlock
+                                        HorizontalAlignment="Center"
+                                        Text="{Binding Data.DisplaySalesValue}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </maps:ShapeFileLayer.ItemsTemplate>
+                        <maps:ShapeFileLayer.BubbleMarkerSetting>
+                            <maps:BubbleMarkerSetting
+                                AutoFillColor="False"
+                                ColorValuePath="Sales"
+                                MaxSize="70"
+                                MinSize="25"
+                                StrokeThickness="0"
+                                ValuePath="Sales">
+                                <maps:BubbleMarkerSetting.ColorMappings>
+                                    <maps:RangeColorMapping
+                                        Color="#7F20BCEE"
+                                        From="100000"
+                                        To="1000000" />
+                                    <maps:RangeColorMapping
+                                        Color="#7FED2D95"
+                                        From="1000000"
+                                        To="1500000" />
+                                    <maps:RangeColorMapping
+                                        Color="#7FA7CE38"
+                                        From="1500000"
+                                        To="2000000" />
+                                    <maps:RangeColorMapping
+                                        Color="#7FF1B21A"
+                                        From="2000000"
+                                        To="3000000" />
+                                    <maps:RangeColorMapping
+                                        Color="#7F1DA249"
+                                        From="3000000"
+                                        To="4000000" />
+                                    <maps:RangeColorMapping
+                                        Color="#7FEB737C"
+                                        From="4000000"
+                                        To="5000000" />
+                                    <maps:RangeColorMapping
+                                        Color="#7FED2D95"
+                                        From="0"
+                                        To="100000" />
+                                </maps:BubbleMarkerSetting.ColorMappings>
+                            </maps:BubbleMarkerSetting>
+                        </maps:ShapeFileLayer.BubbleMarkerSetting>
+                        <maps:ShapeFileLayer.ShapeSettings>
+                            <maps:ShapeSetting
+                                ShapeFill="#FFD8D8D8"
+                                ShapeStrokeThickness="0"
+                                ShapeValuePath="Sales" />
+                        </maps:ShapeFileLayer.ShapeSettings>
+                    </maps:ShapeFileLayer>
+                    <maps:ShapeFileLayer
+                        Background="#FFF4F4F4"
+                        ItemsSource="{Binding SalesByCountry}"
+                        MapItemsVisibility="Collapsed"
+                        MapPopupVisibility="Visible"
+                        PopupCustomTemplate="{StaticResource PopupKey}"
+                        ShapeIDPath="Country"
+                        ShapeIDTableField="Country"
+                        Uri="/syncfusion.salesanalysis.wpf;component/Assets/Sales Analysis/ShapeFile/Oceania.shp">
+                        <maps:ShapeFileLayer.ShapeSettings>
+                            <maps:ShapeSetting
+                                ColorPalette="CustomPalette"
+                                ShapeStroke="#FF1978AA"
+                                ShapeStrokeThickness="0.5">
+                                <maps:ShapeSetting.CustomColors>
+                                    <maps:MapColorPalette FillBrush="#FFC6EAFB" />
+                                    <maps:MapColorPalette FillBrush="#FF93D3F4" />
+                                    <maps:MapColorPalette FillBrush="#FF5FB5E6" />
+                                    <maps:MapColorPalette FillBrush="#FF3E9FD8" />
+                                    <maps:MapColorPalette FillBrush="#FF2991CF" />
+
+                                </maps:ShapeSetting.CustomColors>
+                                <maps:ShapeSetting.FillSetting>
+                                    <maps:ShapeFillSetting AutoFillColors="True" />
+                                </maps:ShapeSetting.FillSetting>
+                            </maps:ShapeSetting>
+                        </maps:ShapeFileLayer.ShapeSettings>
+
+                    </maps:ShapeFileLayer>
+                    <maps:ShapeFileLayer
+                        Background="#FFF4F4F4"
+                        ItemsSource="{Binding SalesByCountry}"
+                        MapItemsVisibility="Collapsed"
+                        MapPopupVisibility="Visible"
+                        PopupCustomTemplate="{StaticResource PopupKey}"
+                        ShapeIDPath="Country"
+                        ShapeIDTableField="Country"
+                        Uri="/syncfusion.salesanalysis.wpf;component/Assets/Sales Analysis/ShapeFile/SouthAmerica.shp">
+                        <maps:ShapeFileLayer.ShapeSettings>
+                            <maps:ShapeSetting
+                                ColorPalette="CustomPalette"
+                                ShapeStroke="#FF1978AA"
+                                ShapeStrokeThickness="0.5">
+                                <maps:ShapeSetting.CustomColors>
+                                    <maps:MapColorPalette FillBrush="#FFC6EAFB" />
+                                    <maps:MapColorPalette FillBrush="#FF93D3F4" />
+                                    <maps:MapColorPalette FillBrush="#FF5FB5E6" />
+                                    <maps:MapColorPalette FillBrush="#FF3E9FD8" />
+                                    <maps:MapColorPalette FillBrush="#FF2991CF" />
+
+                                </maps:ShapeSetting.CustomColors>
+                                <maps:ShapeSetting.FillSetting>
+                                    <maps:ShapeFillSetting AutoFillColors="True" />
+                                </maps:ShapeSetting.FillSetting>
+                            </maps:ShapeSetting>
+                        </maps:ShapeFileLayer.ShapeSettings>
+
+                    </maps:ShapeFileLayer>
+                    <maps:ShapeFileLayer
+                        Background="#FFF4F4F4"
+                        ItemsSource="{Binding SalesByCountry}"
+                        MapItemsVisibility="Collapsed"
+                        MapPopupVisibility="Visible"
+                        PopupCustomTemplate="{StaticResource PopupKey}"
+                        ShapeIDPath="Country"
+                        ShapeIDTableField="Country"
+                        Uri="/syncfusion.salesanalysis.wpf;component/Assets/Sales Analysis/ShapeFile/NorthAmerica.shp">
+                        <maps:ShapeFileLayer.ShapeSettings>
+                            <maps:ShapeSetting
+                                ColorPalette="CustomPalette"
+                                ShapeStroke="#FF1978AA"
+                                ShapeStrokeThickness="0.5">
+                                <maps:ShapeSetting.CustomColors>
+                                    <maps:MapColorPalette FillBrush="#FFC6EAFB" />
+                                    <maps:MapColorPalette FillBrush="#FF93D3F4" />
+                                    <maps:MapColorPalette FillBrush="#FF5FB5E6" />
+                                    <maps:MapColorPalette FillBrush="#FF3E9FD8" />
+                                    <maps:MapColorPalette FillBrush="#FF2991CF" />
+                                </maps:ShapeSetting.CustomColors>
+                                <maps:ShapeSetting.FillSetting>
+                                    <maps:ShapeFillSetting AutoFillColors="True" />
+                                </maps:ShapeSetting.FillSetting>
+                            </maps:ShapeSetting>
+                        </maps:ShapeFileLayer.ShapeSettings>
+
+                    </maps:ShapeFileLayer>
+                    <maps:ShapeFileLayer
+                        Background="#FFF4F4F4"
+                        ItemsSource="{Binding SalesByCountry}"
+                        MapItemsVisibility="Collapsed"
+                        MapPopupVisibility="Visible"
+                        PopupCustomTemplate="{StaticResource PopupKey}"
+                        ShapeIDPath="Country"
+                        ShapeIDTableField="Country"
+                        Uri="/syncfusion.salesanalysis.wpf;component/Assets/Sales Analysis/ShapeFile/Europe.shp">
+                        <maps:ShapeFileLayer.ShapeSettings>
+                            <maps:ShapeSetting
+                                ColorPalette="CustomPalette"
+                                ShapeStroke="#FF1978AA"
+                                ShapeStrokeThickness="0.5">
+                                <maps:ShapeSetting.CustomColors>
+                                    <maps:MapColorPalette FillBrush="#FFC6EAFB" />
+                                    <maps:MapColorPalette FillBrush="#FF93D3F4" />
+                                    <maps:MapColorPalette FillBrush="#FF5FB5E6" />
+                                    <maps:MapColorPalette FillBrush="#FF3E9FD8" />
+                                    <maps:MapColorPalette FillBrush="#FF2991CF" />
+                                </maps:ShapeSetting.CustomColors>
+                                <maps:ShapeSetting.FillSetting>
+                                    <maps:ShapeFillSetting AutoFillColors="True" />
+                                </maps:ShapeSetting.FillSetting>
+                            </maps:ShapeSetting>
+                        </maps:ShapeFileLayer.ShapeSettings>
+
+                    </maps:ShapeFileLayer>
+                    <maps:ShapeFileLayer
+                        Background="#FFF4F4F4"
+                        ItemsSource="{Binding SalesByCountry}"
+                        MapItemsVisibility="Collapsed"
+                        MapPopupVisibility="Visible"
+                        PopupCustomTemplate="{StaticResource PopupKey}"
+                        ShapeIDPath="Country"
+                        ShapeIDTableField="Country"
+                        Uri="/syncfusion.salesanalysis.wpf;component/Assets/Sales Analysis/ShapeFile/Antarctica.shp">
+                        <maps:ShapeFileLayer.ShapeSettings>
+                            <maps:ShapeSetting
+                                ColorPalette="CustomPalette"
+                                ShapeStroke="#FF1978AA"
+                                ShapeStrokeThickness="0.5">
+                                <maps:ShapeSetting.CustomColors>
+                                    <maps:MapColorPalette FillBrush="#FFC6EAFB" />
+                                    <maps:MapColorPalette FillBrush="#FF93D3F4" />
+                                    <maps:MapColorPalette FillBrush="#FF5FB5E6" />
+                                    <maps:MapColorPalette FillBrush="#FF3E9FD8" />
+                                    <maps:MapColorPalette FillBrush="#FF2991CF" />
+                                </maps:ShapeSetting.CustomColors>
+                                <maps:ShapeSetting.FillSetting>
+                                    <maps:ShapeFillSetting AutoFillColors="True" />
+                                </maps:ShapeSetting.FillSetting>
+                            </maps:ShapeSetting>
+                        </maps:ShapeFileLayer.ShapeSettings>
+
+                    </maps:ShapeFileLayer>
+                    <maps:ShapeFileLayer
+                        x:Name="shapeFileLayer"
+                        Background="#FFF4F4F4"
+                        ItemsSource="{Binding SalesByCountry}"
+                        MapItemsVisibility="Collapsed"
+                        MapPopupVisibility="Visible"
+                        PopupCustomTemplate="{StaticResource PopupKey}"
+                        ShapeIDPath="Country"
+                        ShapeIDTableField="Country"
+                        Uri="/syncfusion.salesanalysis.wpf;component/Assets/Sales Analysis/ShapeFile/Africa.shp">
+                        <maps:ShapeFileLayer.ShapeSettings>
+                            <maps:ShapeSetting
+                                ColorPalette="CustomPalette"
+                                ShapeStroke="#FF1978AA"
+                                ShapeStrokeThickness="0.5">
+                                <maps:ShapeSetting.CustomColors>
+                                    <maps:MapColorPalette FillBrush="#FFC6EAFB" />
+                                    <maps:MapColorPalette FillBrush="#FF93D3F4" />
+                                    <maps:MapColorPalette FillBrush="#FF5FB5E6" />
+                                    <maps:MapColorPalette FillBrush="#FF3E9FD8" />
+                                    <maps:MapColorPalette FillBrush="#FF2991CF" />
+                                </maps:ShapeSetting.CustomColors>
+                                <maps:ShapeSetting.FillSetting>
+                                    <maps:ShapeFillSetting AutoFillColors="True" />
+                                </maps:ShapeSetting.FillSetting>
+                            </maps:ShapeSetting>
+                        </maps:ShapeFileLayer.ShapeSettings>
+
+                    </maps:ShapeFileLayer>
+                    <maps:ShapeFileLayer
+                        Margin="0,0,0,-10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#FFF4F4F4"
+                        ItemsSource="{Binding SalesByCountry}"
+                        MapItemsVisibility="Collapsed"
+                        MapPopupVisibility="Visible"
+                        PopupCustomTemplate="{StaticResource PopupKey}"
+                        ShapeIDPath="Country"
+                        ShapeIDTableField="Country"
+                        Uri="/syncfusion.salesanalysis.wpf;component/Assets/Sales Analysis/ShapeFile/Asia.shp">
+                        <maps:ShapeFileLayer.ShapeSettings>
+                            <maps:ShapeSetting
+                                ColorPalette="CustomPalette"
+                                ShapeStroke="#FF1978AA"
+                                ShapeStrokeThickness="0.5">
+                                <maps:ShapeSetting.CustomColors>
+                                    <maps:MapColorPalette FillBrush="#FFC6EAFB" />
+                                    <maps:MapColorPalette FillBrush="#FF93D3F4" />
+                                    <maps:MapColorPalette FillBrush="#FF5FB5E6" />
+                                    <maps:MapColorPalette FillBrush="#FF3E9FD8" />
+                                    <maps:MapColorPalette FillBrush="#FF2991CF" />
+                                </maps:ShapeSetting.CustomColors>
+                                <maps:ShapeSetting.FillSetting>
+                                    <maps:ShapeFillSetting AutoFillColors="True" />
+                                </maps:ShapeSetting.FillSetting>
+                            </maps:ShapeSetting>
+                        </maps:ShapeFileLayer.ShapeSettings>
+
+                    </maps:ShapeFileLayer>
+                </maps:SfMap.Layers>
+            </maps:SfMap>
+        </Grid>
+        <Grid
+            Margin="30"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom">
+
+            <Button
+                x:Name="DrillUpButton"
+                Height="50"
+                Padding="0,0,10,0"
+                Background="#FFD8D8D8"
+                BorderBrush="#FFF4F4F4"
+                BorderThickness="0"
+                Click="Button_Click_1"
+                ClickMode="Press"
+                Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                    <Grid Margin="10,0,10,0">
+                        <Ellipse
+                            Width="20"
+                            Height="20"
+                            Stroke="#FF343333" />
+
+                        <Path
+                            Width="14"
+                            Height="14"
+                            Margin="0,0,0,0"
+                            Data="F1M-218.342,2910.79L-234.066,2926.52 -233.954,2926.63 -225.428,2926.63 -210.87,2912.07 -206.495,2907.7 -225.313,2888.88 -234.066,2888.88 -218.342,2904.6 -259.829,2904.6 -259.829,2910.79 -218.342,2910.79z"
+                            Fill="#FF343333"
+                            RenderTransformOrigin="0.5,0.5"
+                            Stretch="Uniform">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <TransformGroup.Children>
+                                        <RotateTransform Angle="177" />
+                                        <ScaleTransform ScaleX="1" ScaleY="1" />
+                                    </TransformGroup.Children>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="Segoe UI"
+                        FontSize="15"
+                        FontWeight="SemiBold"
+                        Text="Back to World Map" />
+                </StackPanel>
+            </Button>
+
+
+            <Button
+                x:Name="DrillDownButton"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                IsEnabled="False">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle
+                        Width="13"
+                        Height="13"
+                        Margin="0,0,10,0"
+                        Fill="#FF333333" />
+                    <TextBlock
+                        FontFamily="Segoe UI"
+                        FontSize="15"
+                        FontWeight="SemiBold"
+                        Foreground="#FF333333"
+                        Text="Click on a region to drill down" />
+                </StackPanel>
+            </Button>
+
+        </Grid>
+    </Grid>
+</UserControl>

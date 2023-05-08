@@ -1,0 +1,246 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.ganttdemos.wpf.ResourceView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:gchart="clr-namespace:Syncfusion.Windows.Controls.Gantt.Chart;assembly=Syncfusion.Gantt.Wpf"
+    xmlns:interact="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.ganttdemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Title=""
+    Width="auto"
+    Height="auto"
+    Background="White"
+    Foreground="Black"
+    mc:Ignorable="d">
+
+    <democommon:DemoControl.DataContext>
+        <local:ResourceViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <DataTemplate x:Key="toolTipTemplate">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition Width="0.6*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="1"
+                    Text="Task:" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="2,1,0,0"
+                    Text="{Binding Name}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="1"
+                    Text="Start:" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="2,1,0,0"
+                    Text="{Binding StartDate}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Margin="1"
+                    Text="Finish:" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="2,1,0,0"
+                    Text="{Binding FinishDate}" />
+
+            </Grid>
+        </DataTemplate>
+        <Style x:Key="TaskNode" TargetType="{x:Type gchart:GanttNode}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type gchart:GanttNode}">
+                        <Border
+                            Name="PART_Border"
+                            Height="22"
+                            VerticalAlignment="Center"
+                            BorderThickness="1"
+                            ClipToBounds="True"
+                            CornerRadius="5"
+                            Opacity="0.8">
+                            <interact:Interaction.Behaviors>
+                                <local:GanttNodeCustomizationBehavior />
+                            </interact:Interaction.Behaviors>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="{TemplateBinding DataContext}" ContentTemplate="{TemplateBinding ToolTipTemplate}" />
+                                </ToolTipService.ToolTip>
+
+                                <Border
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center">
+                                    <Grid HorizontalAlignment="Stretch">
+                                        <TextBlock
+                                            Margin="3,0,3,0"
+                                            HorizontalAlignment="Left"
+                                            FontSize="11"
+                                            Foreground="White"
+                                            IsHitTestVisible="False"
+                                            Text="{Binding Name}"
+                                            TextTrimming="CharacterEllipsis" />
+                                    </Grid>
+                                </Border>
+                                <Thumb
+                                    x:Name="PART_DragDropThumb"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="3"
+                                    Cursor="SizeAll">
+                                    <Thumb.Template>
+                                        <ControlTemplate>
+                                            <Border Background="Transparent" />
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+
+                                <Thumb
+                                    x:Name="PART_LeftThumb"
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    Cursor="ScrollW">
+                                    <Thumb.Template>
+                                        <ControlTemplate>
+                                            <Border
+                                                Width="4"
+                                                Height="20"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                BorderThickness="0" />
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+
+                                <Thumb
+                                    x:Name="PART_RightThumb"
+                                    Grid.Column="2"
+                                    HorizontalAlignment="Right"
+                                    Cursor="ScrollE">
+                                    <Thumb.Template>
+                                        <ControlTemplate>
+                                            <Border
+                                                Width="4"
+                                                Height="20"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                BorderThickness="0" />
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="HeaderNode" TargetType="gchart:HeaderNode">
+            <Setter Property="MaxHeight" Value="24" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="gchart:HeaderNode">
+                        <Border
+                            Name="PART_HeaderBorder"
+                            BorderThickness="0"
+                            Tag="{Binding RelativeSource={RelativeSource TemplatedParent}}">
+                            <Grid Width="{TemplateBinding Width}" VerticalAlignment="Center">
+
+                                <ToolTipService.ToolTip>
+                                    <ToolTip Content="{TemplateBinding DataContext}" ContentTemplate="{TemplateBinding ToolTipTemplate}" />
+                                </ToolTipService.ToolTip>
+
+                                <Grid.ColumnDefinitions>
+                                    <!--<ColumnDefinition Width="5" />-->
+                                    <ColumnDefinition Width="*" />
+                                    <!--<ColumnDefinition Width="10" />-->
+                                </Grid.ColumnDefinitions>
+                                <Rectangle
+                                    Grid.Column="1"
+                                    Width="{TemplateBinding Width}"
+                                    Height="6.4"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Fill="#FF414141" />
+
+                                <Path
+                                    Width="10.135"
+                                    Height="11.435"
+                                    Margin="-5.068,0,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Data="M0.3,0.3 L9.834909,0.30036073 9.8351226,5.9832297 5.0695471,10.734966 0.32096295,5.9863821 z"
+                                    Fill="#FF414141"
+                                    Stretch="Fill"
+                                    Stroke="#FF414141" />
+                                <Path
+                                    Width="10.135"
+                                    Height="11.435"
+                                    Margin="0,0,-5.068,0"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Data="M0.3,0.3 L9.834909,0.30036073 9.8351226,5.9832297 5.0695471,10.734966 0.32096295,5.9863821 z"
+                                    Fill="#FF414141"
+                                    Stretch="Fill"
+                                    Stroke="#FF414141" />
+
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </democommon:DemoControl.Resources>
+
+    <syncfusion:GanttControl
+        x:Name="Gantt"
+        ItemsSource="{Binding TeamDetails}"
+        ShowChartLines="False"
+        ShowDateWithTime="True"
+        ShowNonWorkingHoursBackground="False"
+        ToolTipTemplate="{StaticResource toolTipTemplate}">
+        <interact:Interaction.Behaviors>
+            <local:GridCustomizationBehavior />
+        </interact:Interaction.Behaviors>
+        <syncfusion:GanttControl.TaskAttributeMapping>
+            <syncfusion:TaskAttributeMapping
+                ChildMapping="SubItems"
+                FinishDateMapping="FinishDate"
+                InLineTaskMapping="InLineItems"
+                ProgressMapping="Progress"
+                StartDateMapping="StartDate"
+                TaskNameMapping="Name" />
+        </syncfusion:GanttControl.TaskAttributeMapping>
+        <syncfusion:GanttControl.Resources>
+            <Style BasedOn="{StaticResource TaskNode}" TargetType="gchart:GanttNode" />
+            <Style BasedOn="{StaticResource HeaderNode}" TargetType="gchart:HeaderNode" />
+        </syncfusion:GanttControl.Resources>
+    </syncfusion:GanttControl>
+
+</democommon:DemoControl>
+
