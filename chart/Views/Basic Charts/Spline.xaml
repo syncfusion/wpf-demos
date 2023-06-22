@@ -1,0 +1,81 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.SplineChartDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:SplineChartViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <chart:SfChart
+            x:Name="SplineChart"
+            Margin="10"
+            ColorModel="{StaticResource CustomColor}"
+            Palette="Custom"
+            Header="Average High/Low temperature">
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis
+                    Header="Months"
+                    LabelFormat="yyyy"
+                    PlotOffset="30"
+                    ShowGridLines="False"
+                    ShowTrackBallInfo="True" />
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis
+                    Header="Temperature (In Fahrenheit)"
+                    Interval="10"
+                    LabelFormat="0°F"
+                    LabelExtent="30"
+                    Maximum="80"
+                    Minimum="30" />
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:SfChart.Legend>
+                <chart:ChartLegend
+                    DockPosition="Bottom"/>
+            </chart:SfChart.Legend>
+
+            <chart:SplineSeries
+                EnableAnimation="True"
+                ItemsSource="{Binding List}"
+                Label="India"
+                ShowTooltip="True"
+                XBindingPath="XValue"
+                YBindingPath="YValue1">
+                <chart:SplineSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo Symbol="Ellipse">
+                    </chart:ChartAdornmentInfo>
+                </chart:SplineSeries.AdornmentsInfo>
+            </chart:SplineSeries>
+            <chart:SplineSeries
+                EnableAnimation="True"
+                ItemsSource="{Binding List}"
+                Label="Germany"
+                ShowTooltip="True"
+                XBindingPath="XValue"
+                YBindingPath="YValue2">
+                <chart:SplineSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo Symbol="Ellipse">
+                    </chart:ChartAdornmentInfo>
+                </chart:SplineSeries.AdornmentsInfo>
+            </chart:SplineSeries>
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>

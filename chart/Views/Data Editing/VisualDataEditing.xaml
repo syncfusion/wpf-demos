@@ -1,0 +1,166 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.VisualDataEditingDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:charts="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interact="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.Resources>
+
+        <DataTemplate x:Key="segmentDragInfo">
+            <StackPanel Margin="20,0,20,20" Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle
+                        Grid.ColumnSpan="3"
+                        VerticalAlignment="Stretch"
+                        Fill="{Binding Brush}"
+                        Opacity="0.6" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="{Binding NewValue, StringFormat='##'}" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="segmentDragInfoLine">
+            <StackPanel Margin="20,0,20,20" Orientation="Vertical">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Rectangle
+                        Grid.ColumnSpan="3"
+                        VerticalAlignment="Stretch"
+                        Fill="{Binding Brush}"
+                        Opacity="0.6" />
+                    <TextBlock
+                        Margin="0,1,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="$" />
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="3"
+                        FontSize="20"
+                        Foreground="White"
+                        Text="{Binding NewValue, StringFormat='##'}" />
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.DataContext>
+        <local:SalesAnalysisViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <charts:SfChart
+            x:Name="DataEditingChart"
+            Margin="10"
+            ColorModel="{StaticResource CustomColor}"
+            Palette="Custom"
+            Header="Sales Report">
+            <charts:SfChart.Legend>
+                <charts:ChartLegend DockPosition="Bottom" />
+            </charts:SfChart.Legend>
+
+            <charts:SfChart.PrimaryAxis>
+                <charts:CategoryAxis
+                    Header="Growth (In years)"
+                    LabelPlacement="BetweenTicks"/>
+            </charts:SfChart.PrimaryAxis>
+
+            <charts:SfChart.SecondaryAxis>
+                <charts:NumericalAxis
+                    Header="Revenue"
+                    ShowGridLines="False"
+                    TickLineSize="0"
+                    LabelFormat="$0">
+                </charts:NumericalAxis>
+            </charts:SfChart.SecondaryAxis>
+
+            <charts:ColumnSeries
+                DragTooltipTemplate="{StaticResource segmentDragInfo}"
+                EnableSegmentDragging="True"
+                ItemsSource="{Binding SalesData}"
+                Label="No. Of Customers"
+                XBindingPath="Year"
+                YBindingPath="NoOfCustomer">
+
+                <interact:Interaction.Behaviors>
+                    <local:DragRegulationBehavior />
+                </interact:Interaction.Behaviors>
+
+                <charts:ColumnSeries.YAxis>
+                    <charts:NumericalAxis
+                        Header="Number of Customers"
+                        OpposedPosition="True"
+                        RangePadding="Round"
+                        ShowGridLines="False"
+                        TickLineSize="0" />
+                </charts:ColumnSeries.YAxis>
+                <charts:ColumnSeries.AdornmentsInfo>
+                    <charts:ChartAdornmentInfo
+                        AdornmentsPosition="TopAndBottom"
+                        SegmentLabelContent="LabelContentPath"
+                        ShowLabel="True">
+                        <charts:ChartAdornmentInfo.LabelTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    FontSize="17"
+                                    Foreground="White"
+                                    IsHitTestVisible="False"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Text="{Binding Item.Text}">
+                                    <TextBlock.RenderTransform>
+                                        <RotateTransform Angle="-90" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </DataTemplate>
+                        </charts:ChartAdornmentInfo.LabelTemplate>
+                    </charts:ChartAdornmentInfo>
+                </charts:ColumnSeries.AdornmentsInfo>
+            </charts:ColumnSeries>
+
+            <charts:LineSeries
+                DragTooltipTemplate="{StaticResource segmentDragInfoLine}"
+                EnableSegmentDragging="True"
+                ItemsSource="{Binding SalesData}"
+                Label="Revenue"
+                XBindingPath="Year"
+                YBindingPath="Income">
+
+                <interact:Interaction.Behaviors>
+                    <local:DragRegulationBehavior />
+                </interact:Interaction.Behaviors>
+
+                <charts:LineSeries.AdornmentsInfo>
+                    <charts:ChartAdornmentInfo Symbol="Ellipse" />
+                </charts:LineSeries.AdornmentsInfo>
+            </charts:LineSeries>
+        </charts:SfChart>
+    </Grid>
+</democommon:DemoControl>

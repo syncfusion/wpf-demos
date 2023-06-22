@@ -1,0 +1,115 @@
+﻿<syncfusion:ChromelessWindow x:Class="syncfusion.brainstormingdiagram.wpf.BrainstormingDiagramDemo"
+                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                             xmlns:local="clr-namespace:syncfusion.brainstormingdiagram.wpf"
+                             xmlns:view="clr-namespace:syncfusion.brainstormingdiagram.wpf.View"
+                               xmlns:mindmap="clr-namespace:syncfusion.brainstormingdiagram.wpf"
+                               xmlns:viewmodel="clr-namespace:syncfusion.brainstormingdiagram.wpf.ViewModel"
+                             mc:Ignorable="d"
+                             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+                             Icon="/syncfusion.brainstormingdiagram.wpf;component/Resources/App.ico"
+                             Title="Brainstorming Diagram Application" 
+                             MinWidth="1024"
+                             MinHeight="600"
+                             UseNativeChrome="True"
+                             WindowStartupLocation="CenterScreen"
+                             WindowState="Maximized" 
+                             ShowMinimizeButton="True"
+                             ShowMaximizeButton="True"
+                             TitleBarBackground="#6C29A4"
+                             TitleBarForeground="#FFFFFF"
+                             TitleBarHeight="32"
+                             TitleTextAlignment="Center">
+    <syncfusion:ChromelessWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BasicShapes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <syncfusion:BooleanToVisibilityConverterEx x:Key="BooleanToVisibilityConverter"/>
+
+            <Style x:Key="NodeStyle" TargetType="Path">
+                <Setter Property="Fill" Value="White"/>
+                <Setter Property="Fill" Value="White"/>
+            </Style>
+        </ResourceDictionary>
+    </syncfusion:ChromelessWindow.Resources>
+   
+    <Grid>
+        <Grid Visibility="{Binding Path=ShowMainView, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <view:MenuBar x:Name="menuBar" Grid.Row="0" Diagram="{Binding ElementName=mindmapDiagram}" BackStageOpeningCommand="{Binding BackStageOpeningCommand}"/>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="32"/>
+                </Grid.RowDefinitions>
+                <!--<syncfusion:SfDiagram x:Name="diagram" Grid.Row="0"
+                                      Nodes="{Binding Nodes}"
+                                      Connectors="{Binding Connectors}"
+                                      Groups="{Binding Groups}"
+                                      HorizontalRuler="{Binding HorizontalRuler}"
+                                      VerticalRuler="{Binding VerticalRuler}"
+                                      SnapSettings="{Binding SnapSettings}"/>-->
+                <mindmap:MindMapDiagram x:Name="mindmapDiagram"                                         
+                                        Nodes="{Binding Nodes}"
+                                      Connectors="{Binding Connectors}"
+                                      Groups="{Binding Groups}"
+                                      DefaultConnectorType="{Binding DefaultConnectorType}"
+                                      Constraints="{Binding Constraints}"
+                                      SelectedItems="{Binding SelectedItems}"
+                                      LayoutManager="{Binding LayoutManager}"
+                                      DataSourceSettings="{Binding DataSourceSettings}"
+                                      HorizontalRuler="{Binding HorizontalRuler}"
+                                      VerticalRuler="{Binding VerticalRuler}"
+                                      PageSettings="{Binding PageSettings}"
+                                      SnapSettings="{Binding SnapSettings}"
+                                      ScrollSettings="{Binding ScrollSettings}"
+                                      ExportSettings="{Binding ExportSettings}"
+                                      PrintingService="{Binding PrintingService}"
+                                      CommandManager="{Binding CommandManager}"
+                                      ItemAddedCommand="{Binding ItemAddedCommand}"
+                                      LayoutUpdatedCommand="{Binding LayoutUpdatedCommand}"
+                                      ConnectorSourceChangedCommand="{Binding ConnectorSourceChangedCommand}"
+                                      ConnectorTargetChangedCommand="{Binding ConnectorTargetChangedCommand}"
+                                      ViewPortChangedCommand="{Binding ViewPortChangedCommand}"
+                                      ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                                      AnnotationChangedCommand="{Binding AnnotationChangedCommand}"
+                                      ItemDeletingCommand="{Binding ItemDeletingCommand}"
+                                      ItemDeletedCommand="{Binding ItemDeletedCommand}"
+                                      NodeChangedCommand="{Binding NodeChangedCommand}">
+                    
+                </mindmap:MindMapDiagram>
+
+                <view:StatusBar Grid.Row="1" Diagram="{Binding ElementName=mindmapDiagram}"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="0" Grid.RowSpan="2"
+              Background="White"
+              Visibility="{Binding Path=ShowBackStage, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid x:Name="BackStageArea">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Templates and Recent Files" FontSize="16px" FontFamily="Segoe UI" LineHeight="21.28"></TextBlock>
+                <Grid Grid.Row="1" Margin="0,24,0,16" Focusable="False">
+                    <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <WrapPanel x:Name="TemplateArea" Focusable="False">
+                            <view:CreateFileButton Command="{Binding CreateCommand}"/>
+                        </WrapPanel>
+                    </ScrollViewer>
+                </Grid>
+                <ScrollViewer x:Name="RecentAreaScrollViewer" Grid.Row="2" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <WrapPanel x:Name="RecentArea" Focusable="False"/>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Grid>
+</syncfusion:ChromelessWindow>
