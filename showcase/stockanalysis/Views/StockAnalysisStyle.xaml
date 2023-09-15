@@ -1,0 +1,352 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.stockanalysisdemo.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:syncgrid="clr-namespace:Syncfusion.UI.Xaml.Grid;assembly=Syncfusion.SfGrid.WPF" > 
+    <ResourceDictionary.MergedDictionaries> 
+        <ResourceDictionary Source="/Syncfusion.Themes.Windows11Light.WPF;component/SfDataGrid/SfDataGrid.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <local:PathConverter x:Key="pathConverter" />
+    <local:InteriorConverter x:Key="interiorConverter" />
+    <local:StockViewModel x:Key="stockViewModel" />
+
+    <Style TargetType="TabItem"  x:Key="SuggestedTabItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border x:Name="mainBorder" BorderThickness="0,0,0,2.5" Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="53"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Path Grid.Column="0"
+                                           Width="16" 
+                                           Height="10"
+                                           Margin="30,17,4,15"
+                                           Data="M0 1.5C0 1.35938 0.0260417 1.22917 0.078125 1.10938C0.130208 0.989583 0.200521 0.885417 0.289062 0.796875C0.382812 0.703125 0.489583 0.630208 0.609375 0.578125C0.729167 0.526042 0.859375 0.5 1 0.5C1.13542 0.5 1.26302 0.526042 1.38281 0.578125C1.50781 0.630208 1.61458 0.703125 1.70312 0.796875C1.79688 0.885417 1.86979 0.992188 1.92188 1.11719C1.97396 1.23698 2 1.36458 2 1.5C2 1.64062 1.97396 1.77083 1.92188 1.89062C1.86979 2.01042 1.79688 2.11719 1.70312 2.21094C1.61458 2.29948 1.51042 2.36979 1.39062 2.42188C1.27083 2.47396 1.14062 2.5 1 2.5C0.859375 2.5 0.726562 2.47396 0.601562 2.42188C0.481771 2.36979 0.377604 2.29948 0.289062 2.21094C0.200521 2.1224 0.130208 2.01823 0.078125 1.89844C0.0260417 1.77344 0 1.64062 0 1.5ZM4.5 2C4.36458 2 4.2474 1.95052 4.14844 1.85156C4.04948 1.7526 4 1.63542 4 1.5C4 1.36458 4.04948 1.2474 4.14844 1.14844C4.2474 1.04948 4.36458 1 4.5 1H15.5C15.6354 1 15.7526 1.04948 15.8516 1.14844C15.9505 1.2474 16 1.36458 16 1.5C16 1.63542 15.9505 1.7526 15.8516 1.85156C15.7526 1.95052 15.6354 2 15.5 2H4.5ZM0 5.5C0 5.35938 0.0260417 5.22917 0.078125 5.10938C0.130208 4.98958 0.200521 4.88542 0.289062 4.79688C0.382812 4.70312 0.489583 4.63021 0.609375 4.57812C0.729167 4.52604 0.859375 4.5 1 4.5C1.13542 4.5 1.26302 4.52604 1.38281 4.57812C1.50781 4.63021 1.61458 4.70312 1.70312 4.79688C1.79688 4.88542 1.86979 4.99219 1.92188 5.11719C1.97396 5.23698 2 5.36458 2 5.5C2 5.64062 1.97396 5.77083 1.92188 5.89062C1.86979 6.01042 1.79688 6.11719 1.70312 6.21094C1.61458 6.29948 1.51042 6.36979 1.39062 6.42188C1.27083 6.47396 1.14062 6.5 1 6.5C0.859375 6.5 0.726562 6.47396 0.601562 6.42188C0.481771 6.36979 0.377604 6.29948 0.289062 6.21094C0.200521 6.1224 0.130208 6.01823 0.078125 5.89844C0.0260417 5.77344 0 5.64062 0 5.5ZM4.5 6C4.36458 6 4.2474 5.95052 4.14844 5.85156C4.04948 5.7526 4 5.63542 4 5.5C4 5.36458 4.04948 5.2474 4.14844 5.14844C4.2474 5.04948 4.36458 5 4.5 5H15.5C15.6354 5 15.7526 5.04948 15.8516 5.14844C15.9505 5.2474 16 5.36458 16 5.5C16 5.63542 15.9505 5.7526 15.8516 5.85156C15.7526 5.95052 15.6354 6 15.5 6H4.5ZM0 9.5C0 9.35938 0.0260417 9.22917 0.078125 9.10938C0.130208 8.98958 0.200521 8.88542 0.289062 8.79688C0.382812 8.70312 0.489583 8.63021 0.609375 8.57812C0.729167 8.52604 0.859375 8.5 1 8.5C1.13542 8.5 1.26302 8.52604 1.38281 8.57812C1.50781 8.63021 1.61458 8.70312 1.70312 8.79688C1.79688 8.88542 1.86979 8.99219 1.92188 9.11719C1.97396 9.23698 2 9.36458 2 9.5C2 9.64062 1.97396 9.77083 1.92188 9.89062C1.86979 10.0104 1.79688 10.1172 1.70312 10.2109C1.61458 10.2995 1.51042 10.3698 1.39062 10.4219C1.27083 10.474 1.14062 10.5 1 10.5C0.859375 10.5 0.726562 10.474 0.601562 10.4219C0.481771 10.3698 0.377604 10.2995 0.289062 10.2109C0.200521 10.1224 0.130208 10.0182 0.078125 9.89844C0.0260417 9.77344 0 9.64062 0 9.5ZM4.5 10C4.36458 10 4.2474 9.95052 4.14844 9.85156C4.04948 9.7526 4 9.63542 4 9.5C4 9.36458 4.04948 9.2474 4.14844 9.14844C4.2474 9.04948 4.36458 9 4.5 9H15.5C15.6354 9 15.7526 9.04948 15.8516 9.14844C15.9505 9.2474 16 9.36458 16 9.5C16 9.63542 15.9505 9.7526 15.8516 9.85156C15.7526 9.95052 15.6354 10 15.5 10H4.5Z"
+                                           Fill="#FF3A3A38"
+                                           Stretch="Fill" />
+                            <TextBlock Grid.Column="1" Margin="4,12,4,12" FontSize="16" Text="Suggestions" VerticalAlignment="Center" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true"> 
+                            <Setter Property="BorderBrush" TargetName="mainBorder" Value="#2563EB"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TabItem"  x:Key="WatchlistTabItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border x:Name="mainBorder" BorderThickness="0,0,0,2.5" Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="53"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Path Grid.Column="0" Margin="30,17,4,15" Width="16" Height="16"
+                                          Data="M11 2.5C11 2.36458 11.0495 2.2474 11.1484 2.14844C11.2474 2.04948 11.3646 2 11.5 2C11.6354 2 11.7526 2.04948 11.8516 2.14844L12.5 2.78906L15.1484 0.148438C15.2474 0.0494792 15.3646 0 15.5 0C15.6354 0 15.7526 0.0494792 15.8516 0.148438C15.9505 0.247396 16 0.364583 16 0.5C16 0.635417 15.9505 0.752604 15.8516 0.851562L12.8516 3.85156C12.7526 3.95052 12.6354 4 12.5 4C12.3646 4 12.2474 3.95052 12.1484 3.85156L11.1484 2.85156C11.0495 2.7526 11 2.63542 11 2.5ZM0.5 3C0.364583 3 0.247396 2.95052 0.148438 2.85156C0.0494792 2.7526 0 2.63542 0 2.5C0 2.36458 0.0494792 2.2474 0.148438 2.14844C0.247396 2.04948 0.364583 2 0.5 2H8.5C8.63542 2 8.7526 2.04948 8.85156 2.14844C8.95052 2.2474 9 2.36458 9 2.5C9 2.63542 8.95052 2.7526 8.85156 2.85156C8.7526 2.95052 8.63542 3 8.5 3H0.5ZM11 6.5C11 6.36458 11.0495 6.2474 11.1484 6.14844C11.2474 6.04948 11.3646 6 11.5 6C11.6354 6 11.7526 6.04948 11.8516 6.14844L12.5 6.78906L15.1484 4.14844C15.2474 4.04948 15.3646 4 15.5 4C15.6354 4 15.7526 4.04948 15.8516 4.14844C15.9505 4.2474 16 4.36458 16 4.5C16 4.63542 15.9505 4.7526 15.8516 4.85156L12.8516 7.85156C12.7526 7.95052 12.6354 8 12.5 8C12.3646 8 12.2474 7.95052 12.1484 7.85156L11.1484 6.85156C11.0495 6.7526 11 6.63542 11 6.5ZM0.5 7C0.364583 7 0.247396 6.95052 0.148438 6.85156C0.0494792 6.7526 0 6.63542 0 6.5C0 6.36458 0.0494792 6.2474 0.148438 6.14844C0.247396 6.04948 0.364583 6 0.5 6H8.5C8.63542 6 8.7526 6.04948 8.85156 6.14844C8.95052 6.2474 9 6.36458 9 6.5C9 6.63542 8.95052 6.7526 8.85156 6.85156C8.7526 6.95052 8.63542 7 8.5 7H0.5ZM11 10.5C11 10.3646 11.0495 10.2474 11.1484 10.1484C11.2474 10.0495 11.3646 10 11.5 10C11.6354 10 11.7526 10.0495 11.8516 10.1484L12.5 10.7891L15.1484 8.14844C15.2474 8.04948 15.3646 8 15.5 8C15.6354 8 15.7526 8.04948 15.8516 8.14844C15.9505 8.2474 16 8.36458 16 8.5C16 8.63542 15.9505 8.7526 15.8516 8.85156L12.8516 11.8516C12.7526 11.9505 12.6354 12 12.5 12C12.3646 12 12.2474 11.9505 12.1484 11.8516L11.1484 10.8516C11.0495 10.7526 11 10.6354 11 10.5ZM0.5 11C0.364583 11 0.247396 10.9505 0.148438 10.8516C0.0494792 10.7526 0 10.6354 0 10.5C0 10.3646 0.0494792 10.2474 0.148438 10.1484C0.247396 10.0495 0.364583 10 0.5 10H8.5C8.63542 10 8.7526 10.0495 8.85156 10.1484C8.95052 10.2474 9 10.3646 9 10.5C9 10.6354 8.95052 10.7526 8.85156 10.8516C8.7526 10.9505 8.63542 11 8.5 11H0.5Z" 
+                                          Fill="#374151"/>
+                            <TextBlock Grid.Column="1" Margin="4,12,0,12" FontSize="16" Text="My WatchList" VerticalAlignment="Center"  />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true"> 
+                            <Setter Property="BorderBrush" TargetName="mainBorder" Value="#2563EB"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate x:Key="ListViewItemStyle">
+        <Border Name="Border" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1" >
+            <Grid Width="325" Height="72">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="33"/>
+                    <ColumnDefinition Width="85"/>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Margin="16,0,4,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Width="12" Height="14" Margin="0,12,0,0">
+                        <Image Source="{Binding StockLogo}" />
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="1" Height="72" Margin="4,0,5,13">
+                    <Grid.RowDefinitions>
+                        <RowDefinition   />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" 
+                                Margin="0,13,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="16"  
+                                Foreground="Black"
+                                Text="{Binding StockName}" />
+                    <TextBlock Grid.Row="1"
+                                Margin="0,0,0,15"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="12"  
+                                Foreground="#6B7280" 
+                                Text="{Binding Company}" />
+                </Grid>
+                <Border Grid.Column="2" Margin="5,0,13,0">
+                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Data="{Binding Graph}"
+                                  Stroke="{Binding Converter={StaticResource pathConverter}}" />
+                </Border>
+                <Grid Grid.Column="3" Margin="13,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition   />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" 
+                                Margin="0,12,0,2"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="16"  
+                                Foreground="#374151"
+                                Text="{Binding CurrentClose, StringFormat={}{0:F2}}"/>
+                    <TextBlock Grid.Row="1"
+                                Margin="0,2,0,12"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontSize="12"  
+                                Foreground="{Binding Converter={StaticResource pathConverter}}" 
+                                Text="{Binding CurrentChange, StringFormat={}({0:F2}%)}"/>
+                </Grid>
+                <Button x:Name="AddButton" 
+                                Grid.Column="4" 
+                                Margin="8,27,0,27" 
+                                Background="Transparent" 
+                                BorderThickness="0" 
+                                BorderBrush="Transparent" 
+                                CommandParameter="{Binding StockName}" 
+                                Command="{Binding AddCommand, Source={StaticResource stockViewModel}}" >
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="Transparent">
+                                <Path x:Name="AddButtonPath"
+                                                  Fill="#374151" 
+                                                  StrokeThickness="2"
+                                                  Data="{Binding Icon}"/>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="AddButtonPath" Property="Fill" Value="#374151"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="AddButtonPath" Property="Fill" Value="#374151"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </Border>
+    </DataTemplate> 
+
+    <Style TargetType="ListViewItem" x:Key="ListViewItemContainerStyle">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border x:Name="Border" Background="Transparent" >
+                        <ContentPresenter  x:Name="ContentPresenter"  />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#E7F2FF" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#E7F2FF" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="syncfusion:ComboBoxItemAdv" x:Key="ComboBoxItemStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="syncfusion:ComboBoxItemAdv" >
+                    <Grid x:Name="gridarea"  Height="32" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="23"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Path x:Name="SelectionIndicator" Fill="#2563EB" Width="12" Height="12" Margin="7,5,4,0"  Visibility="Collapsed"
+                                      Data="M0.168945 4.58105C0.168945 4.42155 0.225911 4.28483 0.339844 4.1709C0.453776 4.05697 0.590495 4 0.75 4C0.909505 4 1.04622 4.05697 1.16016 4.1709L4.25 7.26074L10.8398 0.670898C10.9538 0.556966 11.0905 0.5 11.25 0.5C11.332 0.5 11.4072 0.515951 11.4756 0.547852C11.5485 0.575195 11.61 0.616211 11.6602 0.670898C11.7148 0.721029 11.7581 0.782552 11.79 0.855469C11.8219 0.923828 11.8379 0.999023 11.8379 1.08105C11.8379 1.24056 11.7786 1.37956 11.6602 1.49805L4.66016 8.49805C4.54622 8.61198 4.40951 8.66895 4.25 8.66895C4.09049 8.66895 3.95378 8.61198 3.83984 8.49805L0.339844 4.99805C0.225911 4.88411 0.168945 4.74512 0.168945 4.58105Z"/>
+                        <Border Name="border" Grid.Column="1" Margin="4,0,5,0" VerticalAlignment="Center"
+                                    CornerRadius="4"    
+                                    SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" >
+                                <ContentPresenter.Resources>
+                                    <Style BasedOn="{x:Null}" TargetType="{x:Type TextBlock}" />
+                                </ContentPresenter.Resources>
+                            </ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#2563EB"/>
+                            <Setter Property="Visibility" TargetName="SelectionIndicator" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="gridarea" Property="Background" Value="#E7F2FF"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+ 
+    <DataTemplate x:Key="ExportIcon">
+        <Grid>
+            <Path Height="14" Width="14"
+                  Data="M0.875 1.1875V9.9375C0.875 10.056 0.831706 10.1585 0.745117 10.2451C0.658529 10.3317 0.55599 10.375 0.4375 10.375C0.31901 10.375 0.216471 10.3317 0.129883 10.2451C0.0432943 10.1585 0 10.056 0 9.9375V1.1875C0 1.06901 0.0432943 0.966471 0.129883 0.879883C0.216471 0.793294 0.31901 0.75 0.4375 0.75C0.55599 0.75 0.658529 0.793294 0.745117 0.879883C0.831706 0.966471 0.875 1.06901 0.875 1.1875ZM9.625 9.9375C9.50651 9.9375 9.40397 9.89421 9.31738 9.80762C9.23079 9.72103 9.1875 9.61849 9.1875 9.5C9.1875 9.38151 9.23079 9.27897 9.31738 9.19238L12.5029 6H2.1875C2.06901 6 1.96647 5.95671 1.87988 5.87012C1.79329 5.78353 1.75 5.68099 1.75 5.5625C1.75 5.44401 1.79329 5.34147 1.87988 5.25488C1.96647 5.16829 2.06901 5.125 2.1875 5.125H12.5029L9.31738 1.93262C9.23079 1.84603 9.1875 1.74349 9.1875 1.625C9.1875 1.50651 9.23079 1.40397 9.31738 1.31738C9.40397 1.23079 9.50651 1.1875 9.625 1.1875C9.74349 1.1875 9.84603 1.23079 9.93262 1.31738L13.8496 5.23438C13.8997 5.28451 13.9362 5.33464 13.959 5.38477C13.9863 5.4349 14 5.49414 14 5.5625C14 5.63086 13.9863 5.6901 13.959 5.74023C13.9362 5.79036 13.8997 5.84049 13.8496 5.89062L9.93262 9.80762C9.84603 9.89421 9.74349 9.9375 9.625 9.9375Z"
+                  Fill="#374151"   >
+            </Path>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="RefreshIcon">
+        <Grid>
+            <Path Height="14" Width="14"
+                  Data="M12 6C12 6.55469 11.9277 7.08789 11.7832 7.59961C11.6426 8.11133 11.4414 8.58984 11.1797 9.03516C10.9219 9.47656 10.6094 9.88086 10.2422 10.248C9.87891 10.6113 9.47461 10.9238 9.0293 11.1855C8.58789 11.4434 8.11133 11.6445 7.59961 11.7891C7.08789 11.9297 6.55469 12 6 12C5.44531 12 4.91211 11.9297 4.40039 11.7891C3.88867 11.6445 3.41016 11.4434 2.96484 11.1855C2.51953 10.9238 2.11523 10.6113 1.75195 10.248C1.38867 9.88477 1.07617 9.48047 0.814453 9.03516C0.556641 8.58984 0.355469 8.11133 0.210938 7.59961C0.0703125 7.08789 0 6.55469 0 6C0 5.89844 0.0371094 5.81055 0.111328 5.73633C0.185547 5.66211 0.273438 5.625 0.375 5.625C0.476562 5.625 0.564453 5.66211 0.638672 5.73633C0.712891 5.81055 0.75 5.89844 0.75 6C0.75 6.46875 0.806641 6.92578 0.919922 7.37109C1.03711 7.8125 1.21484 8.23438 1.45312 8.63672C1.69141 9.04297 1.97461 9.4082 2.30273 9.73242C2.63086 10.0527 2.99023 10.3262 3.38086 10.5527C3.77148 10.7793 4.1875 10.9531 4.62891 11.0742C5.07422 11.1914 5.53125 11.25 6 11.25C6.48438 11.25 6.94922 11.1875 7.39453 11.0625C7.84375 10.9375 8.26172 10.7617 8.64844 10.5352C9.03906 10.3047 9.39258 10.0312 9.70898 9.71484C10.0293 9.39453 10.3027 9.04102 10.5293 8.6543C10.7598 8.26367 10.9375 7.8457 11.0625 7.40039C11.1875 6.95117 11.25 6.48438 11.25 6C11.25 5.51953 11.1875 5.05664 11.0625 4.61133C10.9375 4.16211 10.7598 3.74414 10.5293 3.35742C10.3027 2.9668 10.0293 2.61133 9.70898 2.29102C9.38867 1.9707 9.0332 1.69727 8.64258 1.4707C8.25586 1.24023 7.83789 1.0625 7.38867 0.9375C6.94336 0.8125 6.48047 0.75 6 0.75C5.57031 0.75 5.15039 0.802734 4.74023 0.908203C4.33008 1.00977 3.93945 1.1582 3.56836 1.35352C3.20117 1.54492 2.85742 1.7793 2.53711 2.05664C2.2207 2.33398 1.93945 2.64844 1.69336 3H4.125C4.22656 3 4.31445 3.03711 4.38867 3.11133C4.46289 3.18555 4.5 3.27344 4.5 3.375C4.5 3.47656 4.46289 3.56445 4.38867 3.63867C4.31445 3.71289 4.22656 3.75 4.125 3.75H1.125C1.04297 3.75 0.976562 3.73437 0.925781 3.70312C0.875 3.66797 0.835938 3.625 0.808594 3.57422C0.78125 3.51953 0.763672 3.46094 0.755859 3.39844C0.748047 3.33203 0.744141 3.26562 0.744141 3.19922C0.744141 2.72656 0.744141 2.25586 0.744141 1.78711C0.748047 1.31836 0.75 0.847656 0.75 0.375C0.75 0.273438 0.787109 0.185547 0.861328 0.111328C0.935547 0.0371094 1.02344 0 1.125 0C1.22656 0 1.31445 0.0371094 1.38867 0.111328C1.46289 0.185547 1.5 0.273438 1.5 0.375V2.0332C1.78516 1.71289 2.09961 1.42578 2.44336 1.17188C2.78711 0.917969 3.15039 0.705078 3.5332 0.533203C3.91602 0.361328 4.31445 0.230469 4.72852 0.140625C5.14258 0.046875 5.56641 0 6 0C6.55078 0 7.08203 0.0722656 7.59375 0.216797C8.10547 0.357422 8.58398 0.558594 9.0293 0.820312C9.47461 1.07812 9.87891 1.39062 10.2422 1.75781C10.6094 2.12109 10.9219 2.52539 11.1797 2.9707C11.4414 3.41602 11.6426 3.89453 11.7832 4.40625C11.9277 4.91797 12 5.44922 12 6Z"
+                  Fill="#374151"   >
+            </Path>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="PrintIcon">
+        <Grid>
+            <Path Height="14" Width="14" 
+                  Data="M14 4.8125V9.1875C14 9.36068 13.9658 9.5293 13.8975 9.69336C13.8337 9.85286 13.7402 9.99414 13.6172 10.1172C13.4941 10.2402 13.3506 10.3359 13.1865 10.4043C13.027 10.4681 12.8607 10.5 12.6875 10.5H11.375V11.8125C11.375 11.9902 11.3408 12.1589 11.2725 12.3184C11.2041 12.4779 11.1084 12.6191 10.9854 12.7422C10.8669 12.8607 10.7279 12.9541 10.5684 13.0225C10.4089 13.0908 10.2402 13.125 10.0625 13.125H3.9375C3.75977 13.125 3.59115 13.0908 3.43164 13.0225C3.27214 12.9541 3.13086 12.8607 3.00781 12.7422C2.88932 12.6191 2.7959 12.4779 2.72754 12.3184C2.65918 12.1589 2.625 11.9902 2.625 11.8125V10.5H1.3125C1.13932 10.5 0.970703 10.4681 0.806641 10.4043C0.647135 10.3359 0.505859 10.2402 0.382812 10.1172C0.259766 9.99414 0.164062 9.85286 0.0957031 9.69336C0.031901 9.5293 0 9.36068 0 9.1875V4.8125C0 4.51172 0.0569661 4.22917 0.170898 3.96484C0.284831 3.69596 0.439779 3.46354 0.635742 3.26758C0.836263 3.06706 1.06868 2.90983 1.33301 2.7959C1.60189 2.68197 1.88672 2.625 2.1875 2.625H2.625V2.1875C2.625 2.00521 2.65918 1.83431 2.72754 1.6748C2.7959 1.5153 2.88932 1.3763 3.00781 1.25781C3.1263 1.13932 3.2653 1.0459 3.4248 0.977539C3.58431 0.90918 3.75521 0.875 3.9375 0.875H10.0625C10.2448 0.875 10.4157 0.90918 10.5752 0.977539C10.7347 1.0459 10.8737 1.13932 10.9922 1.25781C11.1107 1.3763 11.2041 1.5153 11.2725 1.6748C11.3408 1.83431 11.375 2.00521 11.375 2.1875V2.625H11.8125C12.1133 2.625 12.3958 2.68197 12.6602 2.7959C12.929 2.90983 13.1615 3.06706 13.3574 3.26758C13.5579 3.46354 13.7152 3.69596 13.8291 3.96484C13.943 4.22917 14 4.51172 14 4.8125ZM3.5 2.625H10.5V2.1875C10.5 2.06901 10.4567 1.96647 10.3701 1.87988C10.2835 1.79329 10.181 1.75 10.0625 1.75H3.9375C3.81901 1.75 3.71647 1.79329 3.62988 1.87988C3.54329 1.96647 3.5 2.06901 3.5 2.1875V2.625ZM13.125 4.8125C13.125 4.63021 13.0908 4.45931 13.0225 4.2998C12.9541 4.1403 12.8607 4.0013 12.7422 3.88281C12.6237 3.76432 12.4847 3.6709 12.3252 3.60254C12.1657 3.53418 11.9948 3.5 11.8125 3.5H2.1875C2.00521 3.5 1.83431 3.53418 1.6748 3.60254C1.5153 3.6709 1.3763 3.76432 1.25781 3.88281C1.13932 4.0013 1.0459 4.1403 0.977539 4.2998C0.90918 4.45931 0.875 4.63021 0.875 4.8125V9.1875C0.875 9.30599 0.918294 9.40853 1.00488 9.49512C1.09147 9.58171 1.19401 9.625 1.3125 9.625H2.625V8.3125C2.625 8.13477 2.65918 7.96615 2.72754 7.80664C2.7959 7.64714 2.88932 7.50814 3.00781 7.38965C3.13086 7.2666 3.27214 7.1709 3.43164 7.10254C3.59115 7.03418 3.75977 7 3.9375 7H10.0625C10.2402 7 10.4089 7.03418 10.5684 7.10254C10.7279 7.1709 10.8669 7.2666 10.9854 7.38965C11.1084 7.50814 11.2041 7.64714 11.2725 7.80664C11.3408 7.96615 11.375 8.13477 11.375 8.3125V9.625H12.6875C12.806 9.625 12.9085 9.58171 12.9951 9.49512C13.0817 9.40853 13.125 9.30599 13.125 9.1875V4.8125ZM10.5 8.3125C10.5 8.19401 10.4567 8.09147 10.3701 8.00488C10.2835 7.91829 10.181 7.875 10.0625 7.875H3.9375C3.81901 7.875 3.71647 7.91829 3.62988 8.00488C3.54329 8.09147 3.5 8.19401 3.5 8.3125V11.8125C3.5 11.931 3.54329 12.0335 3.62988 12.1201C3.71647 12.2067 3.81901 12.25 3.9375 12.25H10.0625C10.181 12.25 10.2835 12.2067 10.3701 12.1201C10.4567 12.0335 10.5 11.931 10.5 11.8125V8.3125Z"
+                  Fill="#374151"   >
+            </Path>
+        </Grid>
+    </DataTemplate>
+    
+    <DataTemplate x:Key="WatchIcon">
+        <Grid>
+            <Path Height="15" Width="15" 
+                  Data="{Binding Path=SelectedItem.Icon, ElementName=SuggestedListView}"
+                  Fill="#F5F5F5"   >
+            </Path>
+        </Grid>
+    </DataTemplate>
+
+    <ControlTemplate TargetType="ToggleButton" x:Key="DayButtonStyle">
+        <Border x:Name="DateButtonBorder" 
+                Background="#FFFFFF"
+                BorderThickness="1"
+                CornerRadius="4">
+            <ContentPresenter x:Name="contentPresenter"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                <ContentPresenter.Resources>
+                    <Style BasedOn="{x:Null}" TargetType="{x:Type TextBlock}" />
+                </ContentPresenter.Resources>
+            </ContentPresenter>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="True">
+                <Setter Property="Background" TargetName="DateButtonBorder" Value="#E7F2FF"/>
+                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#2563EB"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="DateButtonBorder" Value="#E7F2FF"/>
+                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#374151"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate TargetType="Button" x:Key="GridButtonStyle">
+        <Border x:Name="DateButtonBorder" BorderBrush="#CBD5E1"
+                Background="#FFFFFF"
+                BorderThickness="1"
+                CornerRadius="4">
+            <ContentPresenter x:Name="contentPresenter"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center">
+                <ContentPresenter.Resources>
+                    <Style BasedOn="{x:Null}" TargetType="{x:Type TextBlock}" />
+                </ContentPresenter.Resources>
+            </ContentPresenter>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Background" TargetName="DateButtonBorder" Value="#E7F2FF"/>
+                <Setter Property="BorderBrush" TargetName="DateButtonBorder" Value="#FFFFFF"/>
+                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#2563EB"/>
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" TargetName="DateButtonBorder" Value="#E7F2FF"/>
+                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#374151"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="SyncfusionButtonAdvStyle" TargetType="syncfusion:ButtonAdv" >
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="syncfusion:ButtonAdv">
+                    <Border Name="ItemBorder" CornerRadius="4" Background="#005FB8" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Name="SmallIconContent" 
+                                              HorizontalAlignment="Center" 
+                                              ContentTemplate="{TemplateBinding IconTemplate}" Content="{Binding}" Margin="6,2,0,2" />
+                            <AccessText x:Name="PART_NormalText" Grid.Column="1"
+                                        Margin="0,0,2,0"  HorizontalAlignment="Center" VerticalAlignment="Center"
+                                        Text="{TemplateBinding Label}" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="ItemBorder" Property="Border.Background" Value="#005FB8" />
+                            <Setter TargetName="ItemBorder" Property="Border.Opacity" Value="0.9" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="ItemBorder" Property="Border.Background" Value="#005FB8" />
+                            <Setter TargetName="ItemBorder" Property="Border.Opacity" Value="0.8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="syncfusion:GridHeaderCellControl" x:Key="headerStyle" BasedOn="{StaticResource SyncfusionGridHeaderCellControlStyle}" >
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Foreground" Value="#0F172A"/>
+    </Style>
+   
+    <Style TargetType="syncfusion:GridCell" x:Key="cellstyle" BasedOn="{StaticResource SyncfusionGridCellStyle}" >
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+</ResourceDictionary>

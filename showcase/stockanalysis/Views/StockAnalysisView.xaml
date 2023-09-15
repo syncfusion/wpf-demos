@@ -1,0 +1,498 @@
+﻿<UserControl
+    x:Class="syncfusion.stockanalysisdemo.wpf.StockAnalysisView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.stockanalysisdemo.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    x:Name="root"
+    d:DesignHeight="1000"
+    d:DesignWidth="300"
+    mc:Ignorable="d" Loaded="root_Loaded" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.stockanalysisdemo.wpf;component/Views/StockAnalysisStyle.xaml" />  
+            </ResourceDictionary.MergedDictionaries> 
+            <Style x:Key="splitterStyle" TargetType="GridSplitter">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="GridSplitter">
+                            <Grid Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="ExpansionStates">
+                                        <VisualState x:Name="Expanded">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ButtonPath" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)">
+                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                                        <EasingDoubleKeyFrame.EasingFunction>
+                                                            <CubicEase EasingMode="EaseIn" />
+                                                        </EasingDoubleKeyFrame.EasingFunction>
+                                                    </EasingDoubleKeyFrame>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Collapsed">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ButtonPath" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)">
+                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="180">
+                                                        <EasingDoubleKeyFrame.EasingFunction>
+                                                            <CubicEase EasingMode="EaseIn" />
+                                                        </EasingDoubleKeyFrame.EasingFunction>
+                                                    </EasingDoubleKeyFrame>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border CornerRadius="12" Background="White" Width="24" Height="24" Margin="-12,0,-12,0" >
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="#000000" ShadowDepth="4" BlurRadius="4" Direction="270" Opacity="0.25"/>
+                                    </Border.Effect>
+                                    <Button  Name="SplitterButton" 
+                                             IsTabStop="False"
+                                             Focusable="False"
+                                             Width="18" 
+                                             Height="18"  
+                                             Background="Transparent"  
+                                             Click="SplitterButton_Click" 
+                                             BorderThickness="0"  >
+                                        <Path x:Name="ButtonPath"
+                                                   Width="6"
+                                                   Height="11"    
+                                                   Data="M0.381836 5.99316C0.381836 5.87923 0.402344 5.76986 0.443359 5.66504C0.488932 5.55566 0.552734 5.45996 0.634766 5.37793L5.00977 1.00293C5.18294 0.829753 5.3903 0.743164 5.63184 0.743164C5.75033 0.743164 5.86198 0.768229 5.9668 0.818359C6.07161 0.863932 6.16276 0.927734 6.24023 1.00977C6.32227 1.08724 6.38607 1.17839 6.43164 1.2832C6.48177 1.38802 6.50684 1.49967 6.50684 1.61816C6.50684 1.8597 6.42025 2.06706 6.24707 2.24023L2.4873 6L6.24707 9.75293C6.32454 9.8304 6.38607 9.92383 6.43164 10.0332C6.48177 10.1426 6.50684 10.2542 6.50684 10.3682C6.50684 10.4867 6.48177 10.6006 6.43164 10.71C6.38607 10.8148 6.32227 10.9082 6.24023 10.9902C6.16276 11.0677 6.06934 11.1315 5.95996 11.1816C5.85514 11.2272 5.74349 11.25 5.625 11.25C5.38802 11.25 5.18294 11.1634 5.00977 10.9902L0.634766 6.61523C0.466146 6.44661 0.381836 6.23926 0.381836 5.99316Z"
+                                                   Fill="#374151"
+                                                   Stretch="Fill"   
+                                                   RenderTransformOrigin="0.5,0.5" >
+                                            <Path.RenderTransform>
+                                                <TransformGroup>
+                                                    <TransformGroup.Children>
+                                                        <RotateTransform Angle="0" />
+                                                    </TransformGroup.Children>
+                                                </TransformGroup>
+                                            </Path.RenderTransform>
+                                        </Path>
+                                    </Button>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style> 
+        </ResourceDictionary> 
+    </UserControl.Resources>
+    <UserControl.DataContext>
+        <StaticResource ResourceKey="stockViewModel"/>
+    </UserControl.DataContext>
+    <Border x:Name="RootBorder" BorderBrush="#E2E8F0" BorderThickness="0,1,0,0" Margin="0,1,0,0"> 
+            <Grid >
+                <Grid.ColumnDefinitions>
+                     <ColumnDefinition Width="349"  />
+                     <ColumnDefinition Width="Auto" />
+                     <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions> 
+                <Border x:Name="TabControlBorder" Grid.Column="0" HorizontalAlignment="Left" BorderBrush="#E2E8F0" BorderThickness="0,1,1,0" >
+                    <TabControl BorderBrush="#E2E8F0" BorderThickness="0,1,0,0" Background="#FCFCFC" SelectionChanged="TabControl_SelectionChanged">
+                            <TabItem x:Name="SuggestedTabItem" Style="{StaticResource SuggestedTabItemStyle}" Width="172">
+                                   <ListView x:Name="SuggestedListView"  
+                                              SelectedIndex="{Binding ListViewIndex}"  
+                                              ItemsSource="{Binding MySuggestedStockCollection}"
+                                              SelectionChanged="SuggestedListView_SelectionChanged" 
+                                              ItemContainerStyle="{StaticResource ListViewItemContainerStyle}"> 
+                                              <ListView.ItemTemplate >
+                                                   <DataTemplate>
+                                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ListViewItemStyle}" />
+                                                   </DataTemplate>
+                                              </ListView.ItemTemplate>
+                                              <i:Interaction.Behaviors>
+                                                    <local:ListViewRealTimeUpdateBehavior/>
+                                              </i:Interaction.Behaviors>
+                                   </ListView>  
+                            </TabItem>
+                            <TabItem x:Name="WatchListTabItem" Style="{StaticResource WatchlistTabItemStyle}" Width="172" > 
+                                   <ListView x:Name="MyWatchListView" 
+                                              ItemsSource="{Binding MyWatchListStockCollection}"
+                                              SelectionChanged="MyWatchListView_SelectionChanged"
+                                              ItemContainerStyle="{StaticResource ListViewItemContainerStyle}">
+                                              <ListView.ItemTemplate >
+                                                   <DataTemplate>
+                                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource ListViewItemStyle}" />
+                                                   </DataTemplate>
+                                              </ListView.ItemTemplate>
+                                   </ListView> 
+                            </TabItem>
+                    </TabControl> 
+                </Border>
+                <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" >
+                <Grid x:Name="mygrid" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="124" />
+                        <RowDefinition Height="60" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Border x:Name="HeaderBorder" Grid.Row="0" BorderBrush="#E2E8F0" BorderThickness="0,1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid x:Name="HeaderView" Grid.Column="0" Height="200">
+                                <Grid.ColumnDefinitions>
+                                     <ColumnDefinition Width="22"/>
+                                     <ColumnDefinition Width="Auto"/>
+                                     <ColumnDefinition Width="Auto"/>
+                                     <ColumnDefinition Width="Auto"/> 
+                                </Grid.ColumnDefinitions>
+                                <Grid Grid.Column="0" Margin="6,5,3,0" VerticalAlignment="Top">
+                                    <Grid.RowDefinitions>
+                                         <RowDefinition Height="45" />
+                                         <RowDefinition  Height="18" />
+                                         <RowDefinition Height="61" />
+                                     </Grid.RowDefinitions>
+                                     <Image Grid.Row="0" VerticalAlignment="Center" Source="{Binding Path=SelectedItem.StockLogo, ElementName=SuggestedListView }"/>
+                                </Grid>
+                                <Grid Grid.Column="1" Margin="0,0,5,0">
+                                      <Grid.RowDefinitions>
+                                            <RowDefinition Height="45" />
+                                            <RowDefinition  Height="18" />
+                                            <RowDefinition Height="61" />
+                                      </Grid.RowDefinitions>
+                                      <TextBlock Grid.Row="0" Margin="5,16,8,0" Text="{Binding Path=SelectedItem.StockName, ElementName=SuggestedListView}" FontWeight="SemiBold" HorizontalAlignment="Left" FontSize="20"   Foreground="#374151" />
+                                      <TextBlock Grid.Row="1" Text="{Binding Path=SelectedItem.Company, ElementName=SuggestedListView}" Margin="5,0,8,0" HorizontalAlignment="Left" FontSize="14"  Foreground="#6B7280"  />
+                                      <TextBlock Grid.Row="2" Text="{Binding Path=SelectedItem.CurrentClose, ElementName=SuggestedListView, StringFormat = {}{0:F2}}" Margin="3,0,0,19" FontWeight="SemiBold" HorizontalAlignment="Left" FontSize="36" Foreground="#374151"  />
+                                </Grid>
+                                <Grid Grid.Column="2" >
+                                      <Grid.RowDefinitions>
+                                            <RowDefinition Height="57" />
+                                            <RowDefinition Height="27"/>
+                                            <RowDefinition Height="40"/>
+                                      </Grid.RowDefinitions>
+                                      <syncfusion:ButtonAdv
+                                             Name="WatchButton"
+                                             Margin="8,16,12,9"
+                                             Height="32"
+                                             Width="91" 
+                                             HorizontalAlignment="Left"
+                                             VerticalAlignment="Center" 
+                                             IconWidth="20" 
+                                             IconHeight="20" 
+                                             SizeMode="Normal"  
+                                             IconTemplate="{StaticResource WatchIcon}" 
+                                             Style="{StaticResource SyncfusionButtonAdvStyle}"
+                                             Label="WatchList" 
+                                             Foreground="#F5F5F5" 
+                                             CommandParameter="{Binding Path=SelectedItem.StockName, ElementName=SuggestedListView }"
+                                             Command="{Binding AddCommand}"/> 
+                                     <TextBlock Grid.Row="1" Margin="5,9,5,0" Text="At Close" FontSize="12" Foreground="#6B7280" />
+                                     <Grid Grid.Row="2" Margin="5,0,5,16">
+                                           <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                           </Grid.ColumnDefinitions>
+                                           <TextBlock Grid.Column="0" Text="{Binding Path=SelectedItem.CurrentHigh, ElementName=SuggestedListView}" FontWeight="SemiBold" FontSize="16" Foreground="#047857"/>
+                                           <TextBlock Grid.Column="1" Text="{Binding Path=SelectedItem.CurrentChange, ElementName=SuggestedListView, StringFormat={}({0:F2}%)}" FontWeight="SemiBold" FontSize="16" Foreground="#047857"/>
+                                     </Grid>
+                                </Grid>
+                                <Grid Grid.Column="3"  >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="84" />
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid Grid.Row="0"  Margin="5,66,0,0" >
+                                         <Grid.ColumnDefinitions>
+                                             <ColumnDefinition Width="Auto"/>
+                                             <ColumnDefinition Width="Auto"/>
+                                             <ColumnDefinition Width="Auto"/> 
+                                         </Grid.ColumnDefinitions>
+                                         <TextBlock x:Name="PastText" Grid.Column="0" Text="After Hours as of " Foreground="#6B7280"/>
+                                         <TextBlock Grid.Column="1" Text="{Binding Yesterday, StringFormat='dd MMM'}" Foreground="#6B7280"/>
+                                         <TextBlock Grid.Column="2" Text=", 5:00 PM IST" Foreground="#6B7280"/> 
+                                    </Grid>
+                                    <Grid Grid.Row="1" Margin="5,0,16,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                             <ColumnDefinition Width="Auto"/>
+                                             <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock x:Name="PreviousCloseText" Grid.Column="0" Margin="0,0,7,0" Text="{Binding Path=SelectedItem.PreviousClose, ElementName=SuggestedListView, StringFormat = {}{0:F2}}" Foreground="#374151" FontSize="16" FontWeight="SemiBold" />
+                                        <TextBlock x:Name="PreviousHighText" Grid.Column="1" Text="{Binding Path=SelectedItem.PreviousHigh, ElementName=SuggestedListView }" Foreground="#047857" FontSize="16" FontWeight="SemiBold"/>
+                                        <TextBlock x:Name="PreviousChangeText" Grid.Column="2" Text="{Binding Path=SelectedItem.PreviousChange, ElementName=SuggestedListView, StringFormat={}({0:F2}%) }" Foreground="#047857" FontSize="16" FontWeight="SemiBold"/>
+                                    </Grid>
+                                </Grid>
+                                <Grid Grid.Column="4"/>
+                            </Grid>
+                            <Grid Grid.Column="1" Margin="0,55,17,0">
+                                 <Grid.ColumnDefinitions> 
+                                      <ColumnDefinition Width="74"/>
+                                      <ColumnDefinition Width="112"/>
+                                 </Grid.ColumnDefinitions>
+                                 <syncfusion:ButtonAdv Grid.Column="0"
+                                       Name="PrintButton" Height="32" 
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" 
+                                       IconWidth="20" IconHeight="20" 
+                                       SizeMode="Normal" 
+                                       IconTemplate="{StaticResource PrintIcon}" Click="PrintButton_Click"
+                                       Label="Print"/>   
+                                 <syncfusion:DropDownButtonAdv Grid.Column="1"
+                                      x:Name="ExportButton" Height="32"
+                                      Width="108" 
+                                      SizeMode="Normal"
+                                      IconTemplate="{StaticResource ExportIcon}"
+                                      Label="Export" >
+                                      <syncfusion:DropDownMenuGroup x:Name="menu"  >
+                                           <syncfusion:DropDownMenuItem x:Name="Item1" Margin="-10,0,0,0" Header="Export to Image" Width="118" Height="35" Click="Image_Click"></syncfusion:DropDownMenuItem>
+                                      </syncfusion:DropDownMenuGroup> 
+                                 </syncfusion:DropDownButtonAdv> 
+                             </Grid> 
+                        </Grid>
+                    </Border>
+                    <Grid Grid.Row="1" >
+                        <Grid.ColumnDefinitions>
+                             <ColumnDefinition Width="86"/>
+                             <ColumnDefinition Width="66"/>
+                             <ColumnDefinition Width="66"/>
+                             <ColumnDefinition Width="66"/>
+                             <ColumnDefinition Width="66"/>
+                             <ColumnDefinition/>
+                             <ColumnDefinition Width="Auto"/>
+                             <ColumnDefinition Width="Auto"/>
+                             <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ToggleButton x:Name="DayButton" Grid.Column="0" IsChecked="{Binding NeedToUpdate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="24,16,4,5" Content="Day" Height="32" Click="DayButton_Click" Template="{StaticResource DayButtonStyle}" />
+                        <ToggleButton x:Name="WeekButton" Grid.Column="1" Margin="4,16,4,5" Content="Week"  Height="32" Click="WeekButton_Click" Template="{StaticResource DayButtonStyle}" />
+                        <ToggleButton x:Name="MonthButton" Grid.Column="2" Margin="4,16,4,5" Content="Month" Height="32" Click="MonthButton_Click" Template="{StaticResource DayButtonStyle}" />
+                        <ToggleButton x:Name="OneYearButton" Grid.Column="3" Margin="4,16,4,5" Content="1 Year" Height="32" Click="OneYearButton_Click" Template="{StaticResource DayButtonStyle}" />
+                        <ToggleButton x:Name="FiveYearButton" Grid.Column="4" Margin="4,16,4,5" Content="5 Year" Height="32" Click="FiveYearButton_Click" Template="{StaticResource DayButtonStyle}" />
+                        <syncfusion:ComboBoxAdv Name="SeriesComboBox"
+                                                DefaultText="Series" 
+                                                SelectedIndex="0" 
+                                                Grid.Column="6"  
+                                                Height="32" 
+                                                Margin="4,16,4,5" 
+                                                ItemContainerStyle="{StaticResource ComboBoxItemStyle}" 
+                                                SelectionChanged="OnSeriesComboBoxSelectionChanged" >
+                             <syncfusion:ComboBoxItemAdv  >Candle</syncfusion:ComboBoxItemAdv>
+                             <syncfusion:ComboBoxItemAdv >Line</syncfusion:ComboBoxItemAdv>
+                             <syncfusion:ComboBoxItemAdv >HiLo</syncfusion:ComboBoxItemAdv>
+                             <syncfusion:ComboBoxItemAdv >OHLC</syncfusion:ComboBoxItemAdv>
+                             <syncfusion:ComboBoxItemAdv >Hollow Candle</syncfusion:ComboBoxItemAdv> 
+                        </syncfusion:ComboBoxAdv>
+                        <syncfusion:ComboBoxAdv Name="IndicatorComboBox" 
+                                                DefaultText="Indicators" 
+                                                Grid.Column="7" 
+                                                Height="32" 
+                                                Margin="4,16,20,5" 
+                                                ItemContainerStyle="{StaticResource ComboBoxItemStyle}"   
+                                                SelectionChanged="IndicatorComboBox_SelectionChanged" >
+                              <syncfusion:ComboBoxItemAdv  >Accumulation Distribution</syncfusion:ComboBoxItemAdv>
+                              <syncfusion:ComboBoxItemAdv >Bollinger Band</syncfusion:ComboBoxItemAdv>
+                              <syncfusion:ComboBoxItemAdv >MACD</syncfusion:ComboBoxItemAdv>
+                              <syncfusion:ComboBoxItemAdv >Stochastic</syncfusion:ComboBoxItemAdv>
+                              <syncfusion:ComboBoxItemAdv >RSI</syncfusion:ComboBoxItemAdv>
+                        </syncfusion:ComboBoxAdv>
+                        <Button x:Name="FilterButton" Grid.Column="7" Margin="4,16,4,5" Width="112" BorderBrush="#CBD5E1" BorderThickness="1" Content="Filter" Height="32" Visibility="Collapsed" Click="FilterButton_Click" />
+                        <Button x:Name="GridViewButton" Grid.Column="8" Margin="4,16,20,5" Visibility="Collapsed" BorderBrush="#CBD5E1" BorderThickness="1" Content="Grid View" Height="32" Template="{StaticResource GridButtonStyle}" Click="GridViewButton_Click" />
+                    </Grid>
+                    <Grid x:Name="ChartGrid" Grid.Row="2" Margin="15,15,15,3" >
+                        <chart:SfChart x:Name="financialChart"  VerticalAlignment="Stretch"  >
+                             <chart:SfChart.Resources> 
+                                 <ResourceDictionary > 
+                                       <DataTemplate x:Key="seriesTemplate"> 
+                                           <Canvas>
+                                                 <Rectangle Fill="{Binding ElementName=columnSeries, 
+                                                            Converter={StaticResource interiorConverter}}" 
+                                                            Height="{Binding Height}" 
+                                                            Width="{Binding Width}" 
+                                                            Canvas.Left="{Binding RectX}" 
+                                                            Canvas.Top="{Binding RectY}">
+                                                 </Rectangle>
+                                           </Canvas> 
+                                       </DataTemplate> 
+                                 </ResourceDictionary> 
+                             </chart:SfChart.Resources> 
+                             <chart:SfChart.RowDefinitions> 
+                                   <chart:ChartRowDefinition Height="20"/>
+                                   <chart:ChartRowDefinition  Height="50"/> 
+                             </chart:SfChart.RowDefinitions>  
+                             <chart:SfChart.ColumnDefinitions> 
+                                   <chart:ChartColumnDefinition/> 
+                                   <chart:ChartColumnDefinition/> 
+                             </chart:SfChart.ColumnDefinitions>
+                            <chart:SfChart.Behaviors>
+                                <chart:ChartZoomPanBehavior  x:Name="zoom" ToolBarOrientation="Horizontal" 
+                                             HorizontalPosition="Center" VerticalPosition="Top" EnableZoomingToolBar="False"/>
+                            </chart:SfChart.Behaviors>
+                            <chart:SfChart.PrimaryAxis>
+                                <chart:DateTimeCategoryAxis x:Name="PrimaryAxis" AxisBoundsChanged="Primary_AxisBoundsChanged" LabelFormat="hh:mm tt" Interval="2" IntervalType="Hours" PlotOffset="10" chart:ChartBase.ColumnSpan="2" ShowGridLines="False">
+                                    <chart:DateTimeCategoryAxis.LabelStyle>
+                                        <chart:LabelStyle FontSize="12"/>
+                                    </chart:DateTimeCategoryAxis.LabelStyle>
+                                </chart:DateTimeCategoryAxis>
+                            </chart:SfChart.PrimaryAxis> 
+                             <chart:SfChart.SecondaryAxis>
+                                <chart:NumericalAxis x:Name="secondaryAxis" AxisBoundsChanged="Secondary_AxisBoundsChanged"  StartRangeFromZero="False" chart:SfChart.Row="1" ShowGridLines="True">
+                                     <chart:NumericalAxis.LabelStyle>
+                                         <chart:LabelStyle FontSize="12"/>
+                                     </chart:NumericalAxis.LabelStyle>
+                                 </chart:NumericalAxis>
+                             </chart:SfChart.SecondaryAxis>
+                            <chart:SfChart.Annotations>
+                                <chart:TextAnnotation x:Name="annotation" 
+                               HorizontalAlignment="Left"  VerticalAlignment="Bottom">
+                                    <chart:TextAnnotation.ContentTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" BorderBrush="#F1F5F9" Background="#FFFFFF" CornerRadius="4" Width="156" Height="24">
+                                                <Border.Effect>
+                                                    <DropShadowEffect Color="#C5C5C5" ShadowDepth="4" BlurRadius="4" Opacity="0.25"/>
+                                                </Border.Effect>
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                                                    <Button Width="30" Height="22" Click="ZoomOut1_Click">
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="Transparent" BorderThickness="0,0,1,0" BorderBrush="#F1F5F9">
+                                                                    <Path Margin="8,4" Width="14" Height="14"
+                                                  Fill="#374151" 
+                                                  StrokeThickness="2"
+                                                  Data="M13.125 12.6875C13.125 12.806 13.0817 12.9085 12.9951 12.9951C12.9085 13.0817 12.806 13.125 12.6875 13.125C12.569 13.125 12.4665 13.0817 12.3799 12.9951L8.76367 9.37891C8.33529 9.73893 7.85449 10.0169 7.32129 10.2129C6.79264 10.4043 6.24805 10.5 5.6875 10.5C5.24544 10.5 4.81934 10.443 4.40918 10.3291C3.99902 10.2152 3.61621 10.0534 3.26074 9.84375C2.90527 9.63411 2.57943 9.38346 2.2832 9.0918C1.99154 8.79557 1.74089 8.46973 1.53125 8.11426C1.32161 7.75879 1.15983 7.37598 1.0459 6.96582C0.931966 6.55566 0.875 6.12956 0.875 5.6875C0.875 5.24544 0.931966 4.81934 1.0459 4.40918C1.15983 3.99902 1.32161 3.61621 1.53125 3.26074C1.74089 2.90527 1.99154 2.58171 2.2832 2.29004C2.57943 1.99382 2.90527 1.74089 3.26074 1.53125C3.61621 1.32161 3.99902 1.15983 4.40918 1.0459C4.81934 0.931966 5.24544 0.875 5.6875 0.875C6.12956 0.875 6.55566 0.931966 6.96582 1.0459C7.37598 1.15983 7.75879 1.32161 8.11426 1.53125C8.46973 1.74089 8.79329 1.99382 9.08496 2.29004C9.38118 2.58171 9.63411 2.90527 9.84375 3.26074C10.0534 3.61621 10.2152 3.99902 10.3291 4.40918C10.443 4.81934 10.5 5.24544 10.5 5.6875C10.5 6.24805 10.402 6.79492 10.2061 7.32812C10.0146 7.85677 9.73893 8.33529 9.37891 8.76367L12.9951 12.3799C13.0817 12.4665 13.125 12.569 13.125 12.6875ZM9.625 5.6875C9.625 5.32747 9.57715 4.98112 9.48145 4.64844C9.3903 4.3112 9.25814 3.99674 9.08496 3.70508C8.91634 3.41341 8.71126 3.14681 8.46973 2.90527C8.22819 2.66374 7.96159 2.45866 7.66992 2.29004C7.37826 2.11686 7.0638 1.9847 6.72656 1.89355C6.39388 1.79785 6.04753 1.75 5.6875 1.75C5.14518 1.75 4.63477 1.85482 4.15625 2.06445C3.67773 2.26953 3.26074 2.5498 2.90527 2.90527C2.5498 3.26074 2.26725 3.67773 2.05762 4.15625C1.85254 4.63477 1.75 5.14518 1.75 5.6875C1.75 6.23438 1.85254 6.74707 2.05762 7.22559C2.2627 7.7041 2.54297 8.12109 2.89844 8.47656C3.25391 8.83203 3.6709 9.1123 4.14941 9.31738C4.62793 9.52246 5.14062 9.625 5.6875 9.625C6.22982 9.625 6.74023 9.52246 7.21875 9.31738C7.69727 9.10775 8.11426 8.8252 8.46973 8.46973C8.8252 8.11426 9.10547 7.69727 9.31055 7.21875C9.52018 6.74023 9.625 6.22982 9.625 5.6875ZM7.875 5.25C7.99349 5.25 8.09603 5.29329 8.18262 5.37988C8.26921 5.46647 8.3125 5.56901 8.3125 5.6875C8.3125 5.80599 8.26921 5.90853 8.18262 5.99512C8.09603 6.08171 7.99349 6.125 7.875 6.125H3.5C3.38151 6.125 3.27897 6.08171 3.19238 5.99512C3.10579 5.90853 3.0625 5.80599 3.0625 5.6875C3.0625 5.56901 3.10579 5.46647 3.19238 5.37988C3.27897 5.29329 3.38151 5.25 3.5 5.25H7.875Z"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                    <Button  Content="  +  " Width="30" Height="22" Click="ZoomIn1_Click">
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="Transparent" BorderThickness="0,0,1,0" BorderBrush="#F1F5F9">
+                                                                    <Path  Margin="8,4" Width="14" Height="14"
+                                                  Fill="#374151" 
+                                                  StrokeThickness="2"
+                                                  Data="M8.77051 9.38574C8.33301 9.74577 7.84993 10.0215 7.32129 10.2129C6.7972 10.4043 6.2526 10.5 5.6875 10.5C5.01758 10.5 4.39095 10.3747 3.80762 10.124C3.22428 9.87337 2.71387 9.53158 2.27637 9.09863C1.84342 8.66113 1.50163 8.15072 1.25098 7.56738C1.00033 6.98405 0.875 6.35742 0.875 5.6875C0.875 5.24544 0.931966 4.81934 1.0459 4.40918C1.15983 3.99447 1.32161 3.60938 1.53125 3.25391C1.74089 2.89844 1.99154 2.57487 2.2832 2.2832C2.57487 1.99154 2.89844 1.74089 3.25391 1.53125C3.60938 1.32161 3.99219 1.15983 4.40234 1.0459C4.8125 0.931966 5.24089 0.875 5.6875 0.875C6.12956 0.875 6.55566 0.931966 6.96582 1.0459C7.37598 1.15983 7.75879 1.32161 8.11426 1.53125C8.47428 1.74089 8.80013 1.99154 9.0918 2.2832C9.38346 2.57487 9.63411 2.90072 9.84375 3.26074C10.0534 3.61621 10.2152 3.99902 10.3291 4.40918C10.443 4.81934 10.5 5.24544 10.5 5.6875C10.5 6.2526 10.4043 6.79948 10.2129 7.32812C10.0215 7.85221 9.74577 8.33301 9.38574 8.77051L12.9951 12.3799C13.0817 12.4665 13.125 12.569 13.125 12.6875C13.125 12.806 13.0817 12.9085 12.9951 12.9951C12.9085 13.0817 12.806 13.125 12.6875 13.125C12.569 13.125 12.4665 13.0817 12.3799 12.9951L8.77051 9.38574ZM9.625 5.6875C9.625 5.32747 9.57715 4.98112 9.48145 4.64844C9.3903 4.3112 9.25814 3.99674 9.08496 3.70508C8.91634 3.41341 8.71126 3.14681 8.46973 2.90527C8.22819 2.66374 7.96159 2.45866 7.66992 2.29004C7.37826 2.11686 7.0638 1.9847 6.72656 1.89355C6.39388 1.79785 6.04753 1.75 5.6875 1.75C5.14518 1.75 4.63477 1.85482 4.15625 2.06445C3.67773 2.26953 3.26074 2.5498 2.90527 2.90527C2.5498 3.26074 2.26725 3.67773 2.05762 4.15625C1.85254 4.63477 1.75 5.14518 1.75 5.6875C1.75 6.23438 1.85254 6.74707 2.05762 7.22559C2.2627 7.7041 2.54297 8.12109 2.89844 8.47656C3.25391 8.83203 3.6709 9.1123 4.14941 9.31738C4.62793 9.52246 5.14062 9.625 5.6875 9.625C6.22982 9.625 6.74023 9.52246 7.21875 9.31738C7.69727 9.10775 8.11426 8.8252 8.46973 8.46973C8.8252 8.11426 9.10547 7.69727 9.31055 7.21875C9.52018 6.74023 9.625 6.22982 9.625 5.6875ZM5.25 6.125H3.5C3.38151 6.125 3.27897 6.08171 3.19238 5.99512C3.10579 5.90853 3.0625 5.80599 3.0625 5.6875C3.0625 5.56901 3.10579 5.46647 3.19238 5.37988C3.27897 5.29329 3.38151 5.25 3.5 5.25H5.25V3.5C5.25 3.38151 5.29329 3.27897 5.37988 3.19238C5.46647 3.10579 5.56901 3.0625 5.6875 3.0625C5.80599 3.0625 5.90853 3.10579 5.99512 3.19238C6.08171 3.27897 6.125 3.38151 6.125 3.5V5.25H7.875C7.99349 5.25 8.09603 5.29329 8.18262 5.37988C8.26921 5.46647 8.3125 5.56901 8.3125 5.6875C8.3125 5.80599 8.26921 5.90853 8.18262 5.99512C8.09603 6.08171 7.99349 6.125 7.875 6.125H6.125V7.875C6.125 7.99349 6.08171 8.09603 5.99512 8.18262C5.90853 8.26921 5.80599 8.3125 5.6875 8.3125C5.56901 8.3125 5.46647 8.26921 5.37988 8.18262C5.29329 8.09603 5.25 7.99349 5.25 7.875V6.125Z"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                    <Button x:Name="left" Width="30" Height="22" Click="Button_Click" >
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="Transparent" BorderThickness="0,0,1,0" BorderBrush="#F1F5F9">
+                                                                    <Path  Margin="8,4" Width="14" Height="14"
+                                                  Fill="#374151" 
+                                                  StrokeThickness="2"
+                                                  Data="M0.9375 6C0.9375 5.88151 0.980794 5.77897 1.06738 5.69238L5.87988 0.879883C5.96647 0.793294 6.06901 0.75 6.1875 0.75C6.30599 0.75 6.40853 0.793294 6.49512 0.879883C6.58171 0.966471 6.625 1.06901 6.625 1.1875C6.625 1.30599 6.58171 1.40853 6.49512 1.49512L1.99707 6L6.49512 10.5049C6.58171 10.5915 6.625 10.694 6.625 10.8125C6.625 10.931 6.58171 11.0335 6.49512 11.1201C6.40853 11.2067 6.30599 11.25 6.1875 11.25C6.06901 11.25 5.96647 11.2067 5.87988 11.1201L1.06738 6.30762C0.980794 6.22103 0.9375 6.11849 0.9375 6Z" />
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                    <Button x:Name="right" Width="30" Height="22" Click="Button_Click_1" >
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="Transparent" BorderThickness="0,0,1,0" BorderBrush="#F1F5F9">
+                                                                    <Path  Margin="8,4" Width="14" Height="14"
+                                                  Fill="#374151" 
+                                                  StrokeThickness="2"
+                                                  Data="M0.375 10.8125C0.375 10.694 0.418294 10.5915 0.504883 10.5049L5.00293 6L0.504883 1.49512C0.418294 1.40853 0.375 1.30599 0.375 1.1875C0.375 1.06901 0.418294 0.966471 0.504883 0.879883C0.591471 0.793294 0.69401 0.75 0.8125 0.75C0.93099 0.75 1.03353 0.793294 1.12012 0.879883L5.93262 5.69238C6.01921 5.77897 6.0625 5.88151 6.0625 6C6.0625 6.11849 6.01921 6.22103 5.93262 6.30762L1.12012 11.1201C1.03353 11.2067 0.93099 11.25 0.8125 11.25C0.69401 11.25 0.591471 11.2067 0.504883 11.1201C0.418294 11.0335 0.375 10.931 0.375 10.8125Z"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button> 
+                                                    <Button Width="30" Height="22" Click="Reset_Click">
+                                                        <Button.Template>
+                                                            <ControlTemplate TargetType="Button">
+                                                                <Border Background="Transparent">
+                                                                    <Path  Margin="8,5" Width="12" Height="12" 
+                                                  Fill="#374151" 
+                                                  StrokeThickness="2"
+                                                  Data="M12 6C12 6.55469 11.9277 7.08789 11.7832 7.59961C11.6426 8.11133 11.4414 8.58984 11.1797 9.03516C10.9219 9.47656 10.6094 9.88086 10.2422 10.248C9.87891 10.6113 9.47461 10.9238 9.0293 11.1855C8.58789 11.4434 8.11133 11.6445 7.59961 11.7891C7.08789 11.9297 6.55469 12 6 12C5.44531 12 4.91211 11.9297 4.40039 11.7891C3.88867 11.6445 3.41016 11.4434 2.96484 11.1855C2.51953 10.9238 2.11523 10.6113 1.75195 10.248C1.38867 9.88477 1.07617 9.48047 0.814453 9.03516C0.556641 8.58984 0.355469 8.11133 0.210938 7.59961C0.0703125 7.08789 0 6.55469 0 6C0 5.89844 0.0371094 5.81055 0.111328 5.73633C0.185547 5.66211 0.273438 5.625 0.375 5.625C0.476562 5.625 0.564453 5.66211 0.638672 5.73633C0.712891 5.81055 0.75 5.89844 0.75 6C0.75 6.46875 0.806641 6.92578 0.919922 7.37109C1.03711 7.8125 1.21484 8.23438 1.45312 8.63672C1.69141 9.04297 1.97461 9.4082 2.30273 9.73242C2.63086 10.0527 2.99023 10.3262 3.38086 10.5527C3.77148 10.7793 4.1875 10.9531 4.62891 11.0742C5.07422 11.1914 5.53125 11.25 6 11.25C6.48438 11.25 6.94922 11.1875 7.39453 11.0625C7.84375 10.9375 8.26172 10.7617 8.64844 10.5352C9.03906 10.3047 9.39258 10.0312 9.70898 9.71484C10.0293 9.39453 10.3027 9.04102 10.5293 8.6543C10.7598 8.26367 10.9375 7.8457 11.0625 7.40039C11.1875 6.95117 11.25 6.48438 11.25 6C11.25 5.51953 11.1875 5.05664 11.0625 4.61133C10.9375 4.16211 10.7598 3.74414 10.5293 3.35742C10.3027 2.9668 10.0293 2.61133 9.70898 2.29102C9.38867 1.9707 9.0332 1.69727 8.64258 1.4707C8.25586 1.24023 7.83789 1.0625 7.38867 0.9375C6.94336 0.8125 6.48047 0.75 6 0.75C5.57031 0.75 5.15039 0.802734 4.74023 0.908203C4.33008 1.00977 3.93945 1.1582 3.56836 1.35352C3.20117 1.54492 2.85742 1.7793 2.53711 2.05664C2.2207 2.33398 1.93945 2.64844 1.69336 3H4.125C4.22656 3 4.31445 3.03711 4.38867 3.11133C4.46289 3.18555 4.5 3.27344 4.5 3.375C4.5 3.47656 4.46289 3.56445 4.38867 3.63867C4.31445 3.71289 4.22656 3.75 4.125 3.75H1.125C1.04297 3.75 0.976562 3.73437 0.925781 3.70312C0.875 3.66797 0.835938 3.625 0.808594 3.57422C0.78125 3.51953 0.763672 3.46094 0.755859 3.39844C0.748047 3.33203 0.744141 3.26562 0.744141 3.19922C0.744141 2.72656 0.744141 2.25586 0.744141 1.78711C0.748047 1.31836 0.75 0.847656 0.75 0.375C0.75 0.273438 0.787109 0.185547 0.861328 0.111328C0.935547 0.0371094 1.02344 0 1.125 0C1.22656 0 1.31445 0.0371094 1.38867 0.111328C1.46289 0.185547 1.5 0.273438 1.5 0.375V2.0332C1.78516 1.71289 2.09961 1.42578 2.44336 1.17188C2.78711 0.917969 3.15039 0.705078 3.5332 0.533203C3.91602 0.361328 4.31445 0.230469 4.72852 0.140625C5.14258 0.046875 5.56641 0 6 0C6.55078 0 7.08203 0.0722656 7.59375 0.216797C8.10547 0.357422 8.58398 0.558594 9.0293 0.820312C9.47461 1.07812 9.87891 1.39062 10.2422 1.75781C10.6094 2.12109 10.9219 2.52539 11.1797 2.9707C11.4414 3.41602 11.6426 3.89453 11.7832 4.40625C11.9277 4.91797 12 5.44922 12 6Z"/>
+                                                                </Border>
+                                                            </ControlTemplate>
+                                                        </Button.Template>
+                                                    </Button>
+                                                </StackPanel> 
+                                            </Border>
+                                        </DataTemplate>
+                                    </chart:TextAnnotation.ContentTemplate>
+                                </chart:TextAnnotation>
+                            </chart:SfChart.Annotations>
+                            <chart:CandleSeries  
+                                   Name="candleSeries" 
+                                   Close="Close" 
+                                   High="High"
+                                   ItemsSource="{Binding StockCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                   Low="Low"
+                                   Open="Open"
+                                   ShowTooltip="True"
+                                   XBindingPath="Date" >
+                                <chart:CandleSeries.TooltipTemplate>
+                                    <DataTemplate>
+                                        <Border BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="4" Margin="-7,-5">
+                                            <StackPanel>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="Open" Margin="16,12,12,4" Width="48" Foreground="#6B7280" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text=" : " Foreground="#374151" Margin="0,12,0,4" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding Item.Open, StringFormat={}{0:F2}}" Margin="0,12,11,4" Width="70" Foreground="#374151" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="High" Margin="16,4,12,4" Width="48" Foreground="#6B7280" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text=" : " Foreground="#374151" Margin="0,4,0,4" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding Item.High, StringFormat={}{0:F2}}" Margin="0,4,11,4" Width="70" Foreground="#374151" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="Low" Margin="16,4,12,4" Width="48" Foreground="#6B7280" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text=" : " Foreground="#374151" Margin="0,4,0,4" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding Item.Low, StringFormat={}{0:F2}}" Margin="0,4,11,4" Width="70" Foreground="#374151" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="Close" Margin="16,4,12,4" Width="48" Foreground="#6B7280" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text=" : " Foreground="#374151" Margin="0,4,0,4" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding Item.Close, StringFormat={}{0:F2}}" Margin="0,4,11,4" Width="70" Foreground="#374151" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                                <StackPanel Orientation="Horizontal" >
+                                                    <TextBlock Text="Volume" Margin="16,4,12,11" Width="48" Foreground="#6B7280" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text=" : " Foreground="#374151" Margin="0,4,0,11" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Text="{Binding Item.Volume}" Margin="0,4,11,11" Width="70" Foreground="#374151" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </StackPanel>
+                                            </StackPanel> 
+                                        </Border> 
+                                    </DataTemplate>
+                                </chart:CandleSeries.TooltipTemplate>
+                            </chart:CandleSeries>
+                            <chart:ColumnSeries  x:Name="columnSeries" 
+                                                 CustomTemplate="{StaticResource seriesTemplate}"  
+                                                 EnableAnimation="True" 
+                                                 AnimationDuration="00:00:03"
+                                                 ItemsSource="{Binding StockCollection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                                                 XBindingPath="Date" 
+                                                 YBindingPath="High"  >
+                                    <chart:ColumnSeries.XAxis>
+                                        <chart:DateTimeCategoryAxis x:Name="ColumnPrimaryAxis" Interval="1" IntervalType="Hours" chart:ChartBase.ColumnSpan="2" Visibility="Collapsed" ShowGridLines="False"/>
+                                    </chart:ColumnSeries.XAxis>
+                                    <chart:ColumnSeries.YAxis >
+                                       <chart:NumericalAxis Name="ColumnAxis" Minimum="0"  TickLineSize="0" ShowGridLines="False" LabelCreated="NumericalAxis_LabelCreated" chart:SfChart.Row="0" />
+                                    </chart:ColumnSeries.YAxis>  
+                             </chart:ColumnSeries>
+                        </chart:SfChart>
+                    </Grid>
+                    <Grid x:Name="DataGrid" Grid.Row="2" >
+                         <Frame x:Name="dataGridArea" Margin="20,0" NavigationUIVisibility="Hidden"/>
+                    </Grid> 
+                </Grid>   
+            </ScrollViewer>  
+                <syncfusion:SfGridSplitter x:Name="gridSplitter"
+                           Cursor="Arrow"   
+                           Grid.Column="1"  
+                           Width="0"  
+                           Visibility="Visible"
+                           Background="Black"  
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Stretch" 
+                           EnableCollapseButton="False"
+                           ResizeBehavior="PreviousAndNext"
+                           ShowsPreview="True"  
+                           Style="{StaticResource splitterStyle}" >  
+                </syncfusion:SfGridSplitter> 
+            </Grid> 
+    </Border> 
+</UserControl>
