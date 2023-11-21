@@ -12,7 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+#if !NET8_0
 using System.Runtime.Serialization.Formatters.Binary;
+#endif
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,6 +35,9 @@ namespace syncfusion.layoutdemos.wpf
     /// </summary>
     public partial class DocumentContainerDemosView : DemoControl
     {
+        private TextBlock textBlock;
+        private Button binSaveButton;
+        private Button binLoadButton;
         /// <summary>
         /// String for Displaying in the MessageBox.
         /// </summary>
@@ -60,7 +65,44 @@ namespace syncfusion.layoutdemos.wpf
             BinFormatterRadio.IsChecked = true;
             BinFormatterRadio.Visibility = Visibility.Collapsed;
 #endif
+#if !NET8_0
+            textBlock = new TextBlock
+            {
+                Height = 24,
+                FontSize = 12,
+                Text = "BIN"
+            };
+            Grid.SetRow(textBlock, 0);
+            Grid.SetColumn(textBlock, 0);
+            DocSaveAndLoad.Children.Add(textBlock);
+
+            binSaveButton = new Button
+            {
+                Name = "Binsave",
+                Height = 24,
+                Margin = new Thickness(3),
+                Content = "Save"
+            };
+            Grid.SetRow(binSaveButton, 0);
+            Grid.SetColumn(binSaveButton, 1);
+            binSaveButton.Click += OnSaveToBinStateClick;
+            DocSaveAndLoad.Children.Add(binSaveButton);
+
+            binLoadButton = new Button
+            {
+                Name = "Binload",
+                Height = 24,
+                Margin = new Thickness(3),
+                Content = "Load",
+                IsEnabled = false
+            };
+            Grid.SetRow(binLoadButton, 0);
+            Grid.SetColumn(binLoadButton, 2);
+            binLoadButton.Click += OnLoadFromBinStateClick;
+            DocSaveAndLoad.Children.Add(binLoadButton);
+#endif
         }
+    
         #endregion
 
         #region Helper Methods  
@@ -160,8 +202,16 @@ namespace syncfusion.layoutdemos.wpf
         {
             Load1.IsEnabled = true;
             //Save State
+#if !NET8_0
             BinaryFormatter formatter1 = new BinaryFormatter();
             DocContainer.SaveDockState(formatter1);
+#else
+            using (XmlWriter writer = XmlWriter.Create("SaveAndLoadToReg.xml"))
+            {
+                DocContainer.SaveDockState();
+                writer.Close();
+            }
+#endif
         }
 
         /// <summary>
@@ -173,11 +223,23 @@ namespace syncfusion.layoutdemos.wpf
         private void OnLoadFromRegStateClick(object sender, RoutedEventArgs e)
         {
             //Load State
+#if !NET8_0
             BinaryFormatter formatter1 = new BinaryFormatter();
+
             try
             {
                 DocContainer.LoadDockState(formatter1);
             }
+#else
+            try
+            {
+                using (XmlReader reader = XmlReader.Create("SaveAndLoadToReg.xml"))
+                {
+                    DocContainer.LoadDockState();
+                    reader.Close();
+                }
+            }
+#endif
             catch (SerializationException ex)
             {
                 MessageBox.Show(ex.Message, AttentionHeader, MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -229,9 +291,17 @@ namespace syncfusion.layoutdemos.wpf
             if (BinFormatterRadio.IsChecked == true)
             {
                 xmlload.IsEnabled = true;
+#if !NET8_0
                 BinaryFormatter formatter1 = new BinaryFormatter();
                 DocContainer.SaveDockState(formatter1, StorageFormat.Xml,
                     AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\docum_xml.xml");
+#else
+                using (XmlWriter writer = XmlWriter.Create("\\docum_xml.xml"))
+                {
+                    DocContainer.SaveDockState(writer);
+                    writer.Close();
+                }
+#endif
             }
         }
         /// <summary>
@@ -244,12 +314,23 @@ namespace syncfusion.layoutdemos.wpf
             //Load from XML State
             if (BinFormatterRadio.IsChecked == true)
             {
+#if !NET8_0
                 BinaryFormatter formatter1 = new BinaryFormatter();
+
                 try
                 {
                     DocContainer.LoadDockState(formatter1, StorageFormat.Xml,
                         AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\docum_xml.xml");
                 }
+#else
+                try
+                {
+                    XmlTextReader reader = new XmlTextReader("\\docum_xml.xml");
+                    DocContainer.LoadDockState(reader);
+                    reader.Close();
+
+                }
+#endif
                 catch (XmlException ex)
                 {
                     MessageBox.Show(ex.Message, AttentionHeader, MessageBoxButton.OK,
@@ -262,6 +343,7 @@ namespace syncfusion.layoutdemos.wpf
                 }
             }
         }
+#if !NET8_0
         /// <summary>
         /// Method used for saving the states to Binary.
         /// </summary>
@@ -272,7 +354,7 @@ namespace syncfusion.layoutdemos.wpf
             //Save to Binary State   
             if (BinFormatterRadio.IsChecked == true)
             {
-                Binload.IsEnabled = true;
+                IsEnabled = true;
                 BinaryFormatter formatter1 = new BinaryFormatter();
                 DocContainer.SaveDockState(formatter1, StorageFormat.Binary,
                     AppDomain.CurrentDomain.BaseDirectory.ToString() + "\\docum_bin.bin");
@@ -306,6 +388,7 @@ namespace syncfusion.layoutdemos.wpf
                 }
             }
         }
+#endif
         /// <summary>
         /// Method used for Reset the States.
         /// </summary>
@@ -369,7 +452,7 @@ namespace syncfusion.layoutdemos.wpf
         {
             e.CanExecute = true;
         }
-        #endregion
+#endregion
 
         protected override void Dispose(bool disposing)
         {

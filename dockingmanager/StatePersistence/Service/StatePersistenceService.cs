@@ -15,7 +15,9 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+#if !NET8_0
 using System.Runtime.Serialization.Formatters.Binary;
+#endif
 using Syncfusion.Windows.Shared;
 using Syncfusion.Windows.Tools.Controls;
 #if !NET50
@@ -39,6 +41,11 @@ namespace syncfusion.dockingmanagerdemos.wpf
             return this.dockingManager.LoadDockState(serializer, format, path);
         }
 
+        public bool LoadDockState(XmlReader xmlReader)
+        {
+            return this.dockingManager.LoadDockState(xmlReader);
+        }
+
         public bool ResetState()
         {
             return this.dockingManager.ResetState();
@@ -47,6 +54,11 @@ namespace syncfusion.dockingmanagerdemos.wpf
         public void SaveDockState(IFormatter serializer, StorageFormat format, string path)
         {
             this.dockingManager.SaveDockState(serializer, format, path);
+        }
+
+        public void SaveDockState(XmlWriter xmlWriter)
+        {
+            this.dockingManager.SaveDockState(xmlWriter);
         }
     }
 }

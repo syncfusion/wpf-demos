@@ -10,7 +10,9 @@ using Syncfusion.Windows.Tools.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if !NET8_0
 using System.Runtime.Serialization.Formatters.Binary;
+#endif
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -142,8 +144,16 @@ namespace syncfusion.dockingmanagerdemos.wpf
         /// <param name="saveLayoutPath">Path of the saving layout file</param>
         private void Save(string saveLayoutPath, DockingManager dockingManager)
         {
+#if !NET8_0
             BinaryFormatter formatter = new BinaryFormatter();
             dockingManager.SaveDockState(formatter, StorageFormat.Xml, saveLayoutPath);
+#else
+            DockingManager DockSave = new DockingManager();
+            using (XmlWriter writer = XmlWriter.Create(saveLayoutPath))
+            {
+                DockSave.SaveDockState(writer);
+            }
+#endif
         }
 
         /// <summary>
@@ -152,16 +162,23 @@ namespace syncfusion.dockingmanagerdemos.wpf
         /// <param name="loadLayoutPath">Path of the loading layout path</param>
         private void Load(string loadLayoutPath, DockingManager dockingManager)
         {
+#if !NET8_0
             BinaryFormatter formatter = new BinaryFormatter();
-
+            dockingManager.LoadDockState(formatter, StorageFormat.Xml, loadLayoutPath);
+#else
+            DockingManager DockLoad = new DockingManager();
+            using (XmlReader reader = XmlReader.Create(loadLayoutPath))
+            {
+                DockLoad.LoadDockState(reader);
+            }
+#endif
             //Check and load the missed windows from saved layout
             if (!dockingManager.LoadDockState(loadLayoutPath))
             {
                 var savedWindows = GetSavedWindowList(loadLayoutPath);
                 var missingChildren = FindMissingChidren(dockingManager, savedWindows);
                 AddMissedChildrensIntoDockingManager(missingChildren, dockingManager);
-            }
-            dockingManager.LoadDockState(formatter, StorageFormat.Xml, loadLayoutPath);
+            }        
         }
 
         /// <summary>

@@ -47,6 +47,19 @@ namespace syncfusion.navigationdemos.wpf
                 this.showToolTip = null;
             if (this.checkBoxAllowCollapse != null)
                 this.checkBoxAllowCollapse = null;
+            if (this.gettingStartedGrid != null)
+            {
+                this.gettingStartedGrid.Children.Clear();
+                this.gettingStartedGrid = null;
+            }
+
+            var viewModel = this.DataContext as GroupBarGettingStartedViewModel;
+            if (viewModel != null)
+            {
+                viewModel = null;
+            }
+            if (this.Resources != null)
+                this.Resources.Clear();
             base.Dispose(disposing);
         }
     }

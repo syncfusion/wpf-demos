@@ -46,11 +46,9 @@ namespace syncfusion.ganttdemos.wpf
             DemoInfo GettingStartedDemo = new DemoInfo()
             {
                 SampleName = "Getting Started",
-
+                ThemeMode = ThemeMode.Default,
                 GroupName = "GETTING STARTED",
-
                 Description = "This sample illustrates how a control development project's activities have been scheduled using the Gantt control. The tasks are split up into sub-tasks based on work breakdown structure, and the sub-tasks are scheduled based on their dependent tasks. The connectivity between tasks represents their dependency relationship.",
-
                 DemoViewType = typeof(EssentialGantt),
             };
 

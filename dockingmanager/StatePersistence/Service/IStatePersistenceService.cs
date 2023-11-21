@@ -14,7 +14,9 @@ using System.Windows.Input;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml;
+#if !NET8_0
 using System.Runtime.Serialization.Formatters.Binary;
+#endif
 using Syncfusion.Windows.Shared;
 #if !NET50
 using System.Runtime.Serialization.Formatters.Soap;
@@ -25,8 +27,10 @@ namespace syncfusion.dockingmanagerdemos.wpf
 {
     public interface IStatePersistenceService 
     {
-        void SaveDockState(IFormatter serializer, StorageFormat format, string path);     
+        void SaveDockState(IFormatter serializer, StorageFormat format, string path);
+        void SaveDockState(XmlWriter xmlWriter);
         bool LoadDockState(IFormatter serializer, StorageFormat format, string path);
+        bool LoadDockState(XmlReader xmlReader);
         bool ResetState();
     }
 }

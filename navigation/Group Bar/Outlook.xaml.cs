@@ -40,6 +40,12 @@ namespace syncfusion.navigationdemos.wpf
             {
                 this.selectedControlContent = null;
             }
+
+            if(this.outlookGrid != null)
+            {
+                this.outlookGrid.Children.Clear();
+                this.outlookGrid = null;
+            }       
             base.Dispose(disposing);
         }
     }
