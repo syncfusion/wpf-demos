@@ -1,0 +1,314 @@
+<democommon:DemoControl
+    x:Class="syncfusion.dockingmanagerdemos.wpf.TDIDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.dockingmanagerdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+
+    <democommon:DemoControl.DataContext>
+        <local:TDIViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <local:MultipleCommandParameterConverter x:Key="multipleCommandParameterConverter"/>
+    </democommon:DemoControl.Resources>
+    
+    <democommon:DemoControl.OptionsSize>
+        <GridLength>240</GridLength>
+    </democommon:DemoControl.OptionsSize>
+    
+        <democommon:DemoControl.Options>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">           
+            <StackPanel>
+
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock 
+                            Grid.Row="0"
+                            FontWeight="Medium"
+                            Width="200"
+                            Text="Ordering and Navigation"
+                            FontSize="12"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"/>
+                    <CheckBox
+                            Content="Enable re-ordering"
+                            Margin="5,6,5,5"
+                            IsChecked="{Binding IsTDIDragDropEnabled, Mode=TwoWay}"
+                            Grid.Row="1"/>
+                    <CheckBox
+                            Content="Enable Float"
+                            Margin="5"
+                            IsChecked="{Binding IsVS2010DraggingEnabled, Mode=TwoWay}"
+                            Grid.Row="2"/>
+                    <TextBlock 
+                            Grid.Row="3"
+                            Margin="5"
+                            Text="SwitchMode"/>
+                    <syncfusion:ComboBoxAdv 
+                             Name="combo" 
+                             Grid.Row="4"
+                             Margin="2,5,0,5"
+                             Height="24"
+                             SelectedItem="{Binding SwitchMode,Mode=TwoWay}"
+                             ItemsSource="{democommon:EnumValues Type=syncfusion:SwitchMode}"/>
+
+                </Grid>
+                <Border BorderThickness="0,1,0,0" BorderBrush="LightGray" Margin="0,10,0,10"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                           Grid.Row="0"
+                           FontWeight="Medium"
+                           Width="200"
+                           Text="Closing Options"
+                           FontSize="12"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Top"/>
+                    <CheckBox
+                            Content="CloseTabOnMiddleClick"
+                            Margin="5,7,5,5"
+                            IsChecked="{Binding CloseTabOnMiddleClick, Mode=TwoWay}"
+                            Grid.Row="1"/>
+
+                    <CheckBox 
+                            Content="HideCloseContextMenuItems"
+                            Margin="5"
+                            Name="hideCloseContextMenuItems"
+                            Grid.Row="2">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding ShowCloseContextMenuCommand}" >
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource multipleCommandParameterConverter}">
+                                            <Binding ElementName="hideCloseContextMenuItems" Path="IsChecked"/>
+                                            <Binding ElementName="dockingManager" />
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Unchecked">
+                                <i:InvokeCommandAction Command="{Binding ShowCloseContextMenuCommand}" >
+                                    <i:InvokeCommandAction.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource multipleCommandParameterConverter}">
+                                            <Binding ElementName="hideCloseContextMenuItems" Path="IsChecked"/>
+                                            <Binding ElementName="dockingManager" />
+                                        </MultiBinding>
+                                    </i:InvokeCommandAction.CommandParameter>
+                                </i:InvokeCommandAction>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </CheckBox>
+                    <TextBlock 
+                            Margin="5"
+                            Text="CloseButtonType"
+                            Grid.Row="3"/>
+                    <syncfusion:ComboBoxAdv 
+                            Name="documentCloseButtonType" 
+                            Margin="2,5,0,5"
+                            Height="24"
+                            Grid.Row="4"
+                            SelectedItem="{Binding DocumentCloseButtonType,Mode=TwoWay}"
+                            ItemsSource="{democommon:EnumValues Type=syncfusion:CloseButtonType}"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </democommon:DemoControl.Options>
+
+    <!--  Defining Root Grid  -->
+    <Grid Name="mygrid">
+        <!--  Initializing Docking Manager  -->
+        <syncfusion:DockingManager
+            Margin="4,4,-7,0"
+            x:Name="dockingManager"
+            Height="Auto"
+            DocumentCloseButtonType="{Binding DocumentCloseButtonType}"
+            EnableDocumentTabHeaderEdit="True"
+            syncfusion:DockingManager.AnimationDelay="00:00:00.200"
+            ContainerMode="TDI"
+            EnableMouseHoverBackground="False"
+            IsTDIDragDropEnabled="{Binding IsTDIDragDropEnabled}"
+            IsVS2010DraggingEnabled="{Binding IsVS2010DraggingEnabled}"
+            PersistState="False"
+            SwitchMode="{Binding SwitchMode, Mode=TwoWay}"
+            CloseTabOnMiddleClick="{Binding CloseTabOnMiddleClick, Mode=TwoWay}"
+            UseDocumentContainer="True">
+
+            <!--  Customized Header Template  -->
+            <syncfusion:DockingManager.HeaderTemplate>
+                <DataTemplate>
+                    <DockPanel LastChildFill="True">
+                        <TextBlock
+                            Margin="5,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding}"
+                            TextTrimming="CharacterEllipsis" />
+                    </DockPanel>
+                </DataTemplate>
+            </syncfusion:DockingManager.HeaderTemplate>
+            <syncfusion:DockingManager.Icon>
+                <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/DocIO.gif" />
+            </syncfusion:DockingManager.Icon>
+
+            <!--  Dock window For the FindResult  -->
+            <ContentControl
+                Name="FindResult"
+                syncfusion:DockingManager.CanClose="True"
+                syncfusion:DockingManager.DesiredHeightInDockedMode="120"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="350"
+                syncfusion:DockingManager.DesiredWidthInFloatingMode="350"
+                syncfusion:DockingManager.Header="Find Results"
+                syncfusion:DockingManager.SideInDockedMode="Bottom"
+                syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                syncfusion:DocumentContainer.TabCaptionToolTip="check the result">
+                <!--  Customized Header Template  -->
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/Sample.gif" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+
+            <!--  Dock Window For ErrorList  -->
+            <ContentControl
+                Name="ErrorList"
+                syncfusion:DockingManager.CanDrag="True"
+                syncfusion:DockingManager.Header="Event Log"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="FindResult"
+                syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                syncfusion:DocumentContainer.TabCaptionToolTip="To show the list of errors">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/XlsIO.gif" />
+                </syncfusion:DockingManager.Icon>
+                <ScrollViewer Name="Scroll" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Name="evntlog" Orientation="Vertical" />
+                </ScrollViewer>
+            </ContentControl>
+
+            <!--  Dock Window For Solution Explorer  -->
+            <ContentControl
+                Name="solutionExp"
+                HorizontalContentAlignment="Left"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="180"
+                syncfusion:DockingManager.Header="Solution Explorer"
+                syncfusion:DockingManager.SideInDockedMode="Right"
+                syncfusion:DockingManager.CanAutoHide="True"
+                syncfusion:DockingManager.State="AutoHidden"
+                syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                FlowDirection="LeftToRight">
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/Grid.gif" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+
+            <!--  Tabbed Dock Window  -->
+            <!--  Dock window for Properties  -->
+            <ContentControl
+                Name="Properties"
+                syncfusion:DockingManager.CanDrag="True"
+                syncfusion:DockingManager.DesiredHeightInDockedMode="150"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="180"
+                syncfusion:DockingManager.Header="Properties"
+                syncfusion:DockingManager.CanAutoHide="True"
+                syncfusion:DockingManager.State="AutoHidden"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="solutionExp"
+                syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                syncfusion:DocumentContainer.TabCaptionToolTip="To display the properties"/>
+
+            <!--  Dock window for ToolBox  -->
+            <ContentControl
+                Name="toolbox"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="140"
+                syncfusion:DockingManager.Header="Toolbox"
+                syncfusion:DockingManager.SideInDockedMode="Left"
+                syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                syncfusion:DocumentContainer.TabCaptionToolTip="ToolBox"/>
+
+            <!-- TDI Document Area  -->
+            <ContentControl
+                Name="pinnedTab"
+                syncfusion:DockingManager.Header="Pinned Tab"
+                syncfusion:DocumentContainer.AllowPin="True"                 
+                syncfusion:DocumentContainer.ShowPin="True"
+                syncfusion:DocumentContainer.IsPinned="True"
+                syncfusion:DockingManager.State="Document">
+                <TextBlock
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    FontStyle="Italic"
+                    FontFamily="Segoe UI"
+                    TextWrapping="Wrap">
+                    Document is in pinned state.
+                </TextBlock>
+            </ContentControl>
+            
+            <ContentControl
+                x:Name="disablePin"
+                syncfusion:DockingManager.Header="Disable Pin"
+                syncfusion:DocumentContainer.AllowPin="False"
+                syncfusion:DocumentContainer.ShowPin="False"
+                syncfusion:DockingManager.State="Document">
+                <TextBlock
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    FontStyle="Italic"
+                    FontFamily="Segoe UI"
+                    TextWrapping="Wrap">
+                    Disabled the Pin or UnPin option.
+                </TextBlock>
+            </ContentControl>
+            
+            <ContentControl
+                x:Name="showPin"
+                syncfusion:DockingManager.Header="Show Pin"
+                syncfusion:DocumentContainer.AllowPin="True"
+                syncfusion:DocumentContainer.ShowPin="True"
+                syncfusion:DockingManager.State="Document">
+                <TextBlock
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    FontStyle="Italic"
+                    FontFamily="Segoe UI"
+                    TextWrapping="Wrap">
+                    Pin or UnPin the document using Pin button.
+                </TextBlock>
+            </ContentControl>
+            
+            <ContentControl
+                x:Name="editableheader"
+                syncfusion:DockingManager.Header="Editable Header"
+                syncfusion:DockingManager.State="Document">
+                <TextBlock
+                    Margin="10"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    FontSize="14"
+                    FontStyle="Italic"
+                    FontFamily="Segoe UI"
+                    TextWrapping="Wrap">
+                    To Edit the header text, double click the header.
+                </TextBlock>
+            </ContentControl>
+        </syncfusion:DockingManager>
+    </Grid>
+</democommon:DemoControl>
