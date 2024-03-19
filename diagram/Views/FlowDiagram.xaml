@@ -1,0 +1,362 @@
+﻿<syncfusion:RibbonWindow
+    x:Class="syncfusion.diagramdemo.wpf.Views.FlowDiagram"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"    
+    xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+    d:DesignHeight="450" d:DesignWidth="800" WindowState="Maximized" ResizeMode="NoResize">
+    <syncfusion:RibbonWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.WPF;component/Resources/BasicShapes.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="syncfusion:NodePort">
+                <Setter Property="UnitHeight" Value="8"/>
+                <Setter Property="UnitWidth" Value="8"/>
+                <Setter Property="Shape">
+                    <Setter.Value>
+                        <RectangleGeometry Rect="10,10,10,10"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="ShapeStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="White"/>
+                            <Setter Property="Stroke" Value="Black"/>
+                            <Setter Property="Stretch" Value="Fill"/>
+                            <Setter Property="StrokeThickness" Value="1"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+
+    </syncfusion:RibbonWindow.Resources>
+
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="8*" />
+        </Grid.ColumnDefinitions>
+
+
+        <syncfusion:SfDiagramRibbon x:Name="diagramRibbon" DataContext="{Binding ElementName=diagramcontrol}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+        <!--Initialize Diagram-->
+        <syncfusion:SfDiagram x:Name="diagramcontrol"
+                              Margin="-1"
+                              Grid.Column="1"
+                              Grid.Row="1"
+                              DefaultConnectorType="Line"
+                              Constraints="Default,Undoable"
+                              Tool="MultipleSelect">
+            <!--To change the scroll settings of diagram page -->
+            <syncfusion:SfDiagram.ScrollSettings>
+                <syncfusion:ScrollSettings ScrollLimit="Diagram"/>
+            </syncfusion:SfDiagram.ScrollSettings>
+
+            <!--To change the page settings values of diagram -->
+            <syncfusion:SfDiagram.PageSettings>
+                <syncfusion:PageSettings PageBorderBrush="White" PageBackground="White"/>
+            </syncfusion:SfDiagram.PageSettings>
+
+            <!--To change the snap settings values of diagram -->
+            <syncfusion:SfDiagram.SnapSettings>
+                <syncfusion:SnapSettings SnapConstraints="All" SnapToObject="All"/>
+            </syncfusion:SfDiagram.SnapSettings>
+
+            <syncfusion:SfDiagram.HorizontalRuler>
+                <syncfusion:Ruler Orientation="Horizontal"/>
+            </syncfusion:SfDiagram.HorizontalRuler>
+
+            <syncfusion:SfDiagram.VerticalRuler>
+                <syncfusion:Ruler Orientation="Vertical"/>
+            </syncfusion:SfDiagram.VerticalRuler>
+
+            <!--Initialize Node-->
+            <syncfusion:SfDiagram.Nodes>
+                <syncfusion:NodeCollection>
+                    <!--Creating node for New idea -->
+                    <syncfusion:NodeViewModel ID="NewIdea" 
+                                              UnitWidth="150" 
+                                              UnitHeight="60" 
+                                              OffsetX="300" 
+                                              OffsetY="60" 
+                                              Shape="{StaticResource Ellipse}">
+                        <syncfusion:NodeViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" Content="New idea identified" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" >
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:NodeViewModel.Annotations>
+                    </syncfusion:NodeViewModel>
+
+                    <!--Creating node for meeting -->
+                    <syncfusion:NodeViewModel ID="Meeting" 
+                                              UnitWidth="150" 
+                                              UnitHeight="60" 
+                                              OffsetX="300" 
+                                              OffsetY="160" 
+                                              Shape="{StaticResource Process}">
+                        <syncfusion:NodeViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" Content="Meeting with board" TextHorizontalAlignment="Center" TextVerticalAlignment="Center">
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:NodeViewModel.Annotations>
+                    </syncfusion:NodeViewModel>
+
+                    <!--Creating node for Board Decision -->
+                    <syncfusion:NodeViewModel ID="BoardDecision"
+                                              UnitWidth="180"
+                                              UnitHeight="100"
+                                              OffsetX="300" 
+                                              OffsetY="270" 
+                                              Shape="{StaticResource Decision}">
+                        <syncfusion:NodeViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>                                                                                                                                        
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" WrapText="Wrap" TextHorizontalAlignment="Center" TextVerticalAlignment="Center"                                                                                                                            
+                                                                      UnitWidth="75" Content ="Board decides whether to proceed">
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:NodeViewModel.Annotations>
+                    </syncfusion:NodeViewModel>
+
+                    <!--Creating node for Project -->
+                    <syncfusion:NodeViewModel ID="Project"
+                                              UnitWidth="180"
+                                              UnitHeight="100"
+                                              OffsetX="300"
+                                              OffsetY="410"
+                                              Shape="{StaticResource Decision}">
+                        <syncfusion:NodeViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" WrapText="Wrap" TextHorizontalAlignment="Center" TextVerticalAlignment="Center"
+                                                                      UnitWidth="75" Content="Find Project Manager, write specification">
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:NodeViewModel.Annotations>
+                    </syncfusion:NodeViewModel>
+
+                    <!--Creating node for End -->
+                    <syncfusion:NodeViewModel ID="End"
+                                              UnitWidth="120"  
+                                              UnitHeight="60" 
+                                              OffsetX="300" 
+                                              OffsetY="530" 
+                                              Shape="{StaticResource Process}">
+                        <syncfusion:NodeViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" WrapText="Wrap" TextHorizontalAlignment="Center" TextVerticalAlignment="Center"
+                                                                    Content="Implement and deliver">
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:NodeViewModel.Annotations>
+                    </syncfusion:NodeViewModel>
+
+                    <!--Creating node for Decision -->
+                    <syncfusion:NodeViewModel  ID="Decision"
+                                               UnitWidth="200" 
+                                               UnitHeight="60" 
+                                               OffsetX="540" 
+                                               OffsetY="70" 
+                                               Shape="{StaticResource Card}">
+                        <syncfusion:NodeViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" WrapText="Wrap" TextHorizontalAlignment="Center" TextVerticalAlignment="Center"
+                                                                    Content="Decision process for new software ideas">
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:NodeViewModel.Annotations>
+                    </syncfusion:NodeViewModel>
+
+                    <!--Creating node for Reject -->
+                    <syncfusion:NodeViewModel ID="Reject"
+                                              UnitWidth="200" 
+                                              UnitHeight="60"
+                                              OffsetX="540" 
+                                              OffsetY="270" 
+                                              Shape="{StaticResource Process}">
+                        <syncfusion:NodeViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" UnitWidth="100" TextHorizontalAlignment="Center" TextVerticalAlignment="Center"
+                                                                      WrapText="Wrap" Content="Reject and report the reasons" >
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:NodeViewModel.Annotations>
+                    </syncfusion:NodeViewModel>
+
+                    <!--Creating node for New Resource-->
+                    <syncfusion:NodeViewModel ID="New_Resources"
+                                              UnitWidth="200" 
+                                              UnitHeight="60" 
+                                              OffsetX="540" 
+                                              OffsetY="410" 
+                                              Shape="{StaticResource Process}">
+                        <syncfusion:NodeViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" UnitWidth="75" TextHorizontalAlignment="Center" TextVerticalAlignment="Center"
+                                                                      Content="Hire new resources">
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:NodeViewModel.Annotations>
+                    </syncfusion:NodeViewModel>
+                </syncfusion:NodeCollection>
+            </syncfusion:SfDiagram.Nodes>
+
+            <!--Initialize Connector-->
+            <syncfusion:SfDiagram.Connectors>
+                <syncfusion:ConnectorCollection>
+
+                    <!--Creating connection between New Idea and Meeting Node-->
+                    <syncfusion:ConnectorViewModel x:Name="NewIdeaToMeeting"
+                                                   SourceNodeID="NewIdea" 
+                                                   TargetNodeID="Meeting">
+                    </syncfusion:ConnectorViewModel>
+
+                    <!--Creating connection between Meeting Node and Board Decision Node-->
+                    <syncfusion:ConnectorViewModel SourceNodeID="Meeting" 
+                                                   TargetNodeID="BoardDecision" >
+                    </syncfusion:ConnectorViewModel>
+
+                    <!--Creating connection between Board Decision Node and Reject Node-->
+                    <syncfusion:ConnectorViewModel SourceNodeID="BoardDecision" 
+                                                   TargetNodeID="Reject">
+                        <syncfusion:ConnectorViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" RotationReference="Page" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" Margin="0,10,0,0"
+                                                                    Content="No">
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:ConnectorViewModel.Annotations>
+                    </syncfusion:ConnectorViewModel>
+
+                    <!--Creating connection between Board Decision Node and Project Node-->
+                    <syncfusion:ConnectorViewModel SourceNodeID="BoardDecision"
+                                                   TargetNodeID="Project">
+                        <syncfusion:ConnectorViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" RotationReference="Page" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" Margin="10,0,0,0"
+                                                                    Content="Yes" >
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:ConnectorViewModel.Annotations>
+                    </syncfusion:ConnectorViewModel>
+
+                    <!--Creating connection between New Resources Node and Project Node-->
+                    <syncfusion:ConnectorViewModel SourceNodeID="Project" 
+                                                   TargetNodeID="New_Resources">
+                        <syncfusion:ConnectorViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" RotationReference="Page" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" Margin="0,10,0,0"
+                                                                    Content="No" >
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:ConnectorViewModel.Annotations>
+                    </syncfusion:ConnectorViewModel>
+
+                    <!--Creating connection between Project Node and End Node-->
+                    <syncfusion:ConnectorViewModel SourceNodeID="Project" TargetNodeID="End">
+                        <syncfusion:ConnectorViewModel.Annotations>
+                            <syncfusion:AnnotationCollection>
+                                <syncfusion:AnnotationEditorViewModel FontFamily="Calibri" RotationReference="Page" TextHorizontalAlignment="Center" TextVerticalAlignment="Center" Margin="10,0,0,0"
+                                                                    Content="Yes" >
+                                </syncfusion:AnnotationEditorViewModel>
+                            </syncfusion:AnnotationCollection>
+                        </syncfusion:ConnectorViewModel.Annotations>
+                    </syncfusion:ConnectorViewModel>
+                </syncfusion:ConnectorCollection>
+            </syncfusion:SfDiagram.Connectors>
+            <syncfusion:SfDiagram.Groups>
+                <syncfusion:GroupCollection />
+            </syncfusion:SfDiagram.Groups>
+        </syncfusion:SfDiagram>
+
+        <syncfusion:Stencil x:Name="stencil"
+                            Width="250"
+                            Margin="-1"                            
+                            Grid.Column="0" 
+                            Grid.Row="1"
+                            ShowDisplayModeToggleButton="True"
+                            ShowSearchTextBox="True"
+                            SymbolFilterDisplayMode="List"
+                            Title="Shapes"
+                            SymbolFilters="{Binding Symbolfilters}"
+                            SelectedFilter="{Binding Selectedfilter}"
+                            ExpandMode="OneOrMore">
+            <syncfusion:Stencil.DataContext>
+                <viewmodel:FlowDiagramViewModel />
+            </syncfusion:Stencil.DataContext>
+            <syncfusion:Stencil.Categories>
+                <syncfusion:StencilCategoryCollection>
+                    <!--Specify the basic shapes category with title and resource key-->
+                    <syncfusion:StencilCategory Title="Basic Shapes" Keys="{StaticResource BasicShapes}"/>
+                    <syncfusion:StencilCategory Title="Flow Shapes" Keys="{StaticResource FlowShapes}"/>
+                    <syncfusion:StencilCategory Title="DataFlow Shapes" Keys="{StaticResource DataFlowShapes}"/>
+                    <syncfusion:StencilCategory Title="Arrow Shapes" Keys="{StaticResource ArrowShapes}"/>
+                </syncfusion:StencilCategoryCollection>
+            </syncfusion:Stencil.Categories>
+            <syncfusion:Stencil.SymbolGroups>
+                <syncfusion:SymbolGroups>
+                    <!--Separate groups based on the key-->
+                    <syncfusion:SymbolGroupProvider MappingName="Key"/>
+                </syncfusion:SymbolGroups>
+            </syncfusion:Stencil.SymbolGroups>
+            <!--<syncfusion:Stencil.Resources>
+                <ResourceDictionary>
+                    -->
+            <!--Style for Node-->
+            <!--
+                    <Style TargetType="syncfusion:Node">
+                        <Setter Property="ShapeStyle">
+                            <Setter.Value>
+                                <Style  TargetType="Path">
+                                    <Setter Property="Fill" Value="#5b9bd5"/>
+                                    <Setter Property="Stroke" Value="#c7c8c8"/>
+                                    <Setter Property="Stretch" Value="Fill"/>
+                                    <Setter Property="StrokeThickness" Value="0.25"/>
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    -->
+            <!--Style for Connector-->
+            <!--
+                    <Style TargetType="syncfusion:Connector" >
+                        <Setter Property="ConnectorGeometryStyle">
+                            <Setter.Value>
+                                <Style TargetType="Path">
+                                    <Setter Property="Stroke" Value="#5b9bd5"/>
+                                    <Setter Property="StrokeThickness" Value="1"/>
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="TargetDecoratorStyle">
+                            <Setter.Value>
+                                <Style TargetType="Path">
+                                    <Setter Property="Fill" Value="#5b9bd5"/>
+                                    <Setter Property="Stroke" Value="#5b9bd5"/>
+                                    <Setter Property="StrokeThickness" Value="1"/>
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ResourceDictionary>
+            </syncfusion:Stencil.Resources>-->
+        </syncfusion:Stencil>
+    </Grid>
+</syncfusion:RibbonWindow>
