@@ -1,0 +1,75 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.AreaSeriesChart3DDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:interact="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:AreaSeriesChart3DViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/CustomStyle.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+        
+        <Chart:SfChart3D x:Name="areaChart" Margin="25,15,-10,15" Depth="200" EnableRotation="True" SideBySideSeriesPlacement="False"
+                         PerspectiveAngle="40" Rotation="-39" Background="Transparent">
+
+            <interact:Interaction.Behaviors>
+                <local:RotateAnimationBehavior/>
+            </interact:Interaction.Behaviors>
+
+            <Chart:SfChart3D.Header>
+                <TextBlock Text="Average Sales Comparison of Fast Foods" FontSize="17" 
+                           Margin="0,-20,0,3"/>
+            </Chart:SfChart3D.Header>
+
+            <Chart:SfChart3D.Legend>
+                <Chart:ChartLegend IconHeight="12" IconWidth="12" FontSize="13.7" Margin="25,-10,0,0"/>
+            </Chart:SfChart3D.Legend>
+
+            <Chart:SfChart3D.PrimaryAxis>
+                <Chart:CategoryAxis3D Interval="2" TickLineSize="0" EdgeLabelsDrawingMode="Shift" ShowGridLines="False">
+                    <Chart:CategoryAxis3D.LabelStyle>
+                        <Chart:LabelStyle FontSize="12.9"/>
+                    </Chart:CategoryAxis3D.LabelStyle>
+                </Chart:CategoryAxis3D>
+            </Chart:SfChart3D.PrimaryAxis>
+       
+            <Chart:SfChart3D.SecondaryAxis>
+                <Chart:NumericalAxis3D OpposedPosition="True" TickLineSize="0" Interval="1" Minimum="0"
+                    LabelFormat="0'M" EdgeLabelsDrawingMode="Shift" MajorGridLineStyle="{StaticResource GridLineStyle}">
+                    <Chart:NumericalAxis3D.LabelStyle>
+                        <Chart:LabelStyle FontSize="12.6"/>
+                    </Chart:NumericalAxis3D.LabelStyle>
+                </Chart:NumericalAxis3D>
+            </Chart:SfChart3D.SecondaryAxis>
+
+            <Chart:AreaSeries3D  ItemsSource="{Binding AreaData}" XBindingPath="Year" YBindingPath="Pizza" 
+             Interior="#F58A3C" Label="Pizza/Pasta" ShowTooltip="True" LegendIcon="Circle">
+            </Chart:AreaSeries3D>
+
+            <Chart:AreaSeries3D ItemsSource="{Binding AreaData}" XBindingPath="Year" YBindingPath="Burger" 
+                  Interior="#00AEE0" Label="Burger" ShowTooltip="True" LegendIcon="Circle">
+            </Chart:AreaSeries3D>
+
+            <Chart:AreaSeries3D ItemsSource="{Binding AreaData}" XBindingPath="Year" YBindingPath="Sandwiches"
+                 Interior="#96D759" Label="Sandwiches" ShowTooltip="True" LegendIcon="Circle">
+            </Chart:AreaSeries3D>
+
+            <Chart:AreaSeries3D ItemsSource="{Binding AreaData}" XBindingPath="Year" YBindingPath="Others" 
+                 Interior="#775DD0" Label="Others" ShowTooltip="True" LegendIcon="Circle">
+            </Chart:AreaSeries3D>
+
+        </Chart:SfChart3D>
+    </Grid>
+</democommon:DemoControl>
