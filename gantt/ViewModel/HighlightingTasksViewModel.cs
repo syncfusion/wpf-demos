@@ -56,7 +56,7 @@ namespace syncfusion.ganttdemos.wpf
             }
         }
 
-        private DateTime _startTime =new DateTime(2012,2,16);
+        private DateTime _startTime =new DateTime(2024,2,16);
 
         /// <summary>
         /// Gets or sets the start time.
@@ -78,7 +78,7 @@ namespace syncfusion.ganttdemos.wpf
             }
         }
 
-        private DateTime _endTime=new DateTime(2012,8,1);
+        private DateTime _endTime=new DateTime(2024,8,1);
 
         /// <summary>
         /// Gets or sets the end time.

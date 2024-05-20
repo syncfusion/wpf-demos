@@ -59,41 +59,41 @@ namespace syncfusion.ganttdemos.wpf
         public static ObservableCollection<PredecessorsModel> GetData()
         {
             var data = new ObservableCollection<PredecessorsModel>();
-            data.Add(new PredecessorsModel() { Id = 1, Name = "Analysis/Planning", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 8, 14), Complete = 40d });
-            data[0].ChildTask.Add((new PredecessorsModel() { Id = 2, Name = "Identify Components to be Localized", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 5), Complete = 20d }));
-            data[0].ChildTask.Add((new PredecessorsModel() { Id = 3, Name = "Ensure file localizability", StDate = new DateTime(2011, 7, 6), EndDate = new DateTime(2011, 7, 7), Complete = 20d }));
-            data[0].ChildTask.Add((new PredecessorsModel() { Id = 4, Name = "Identify tools", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 7, 14), Complete = 10d }));
-            data[0].ChildTask.Add((new PredecessorsModel() { Id = 5, Name = "Test tools", StDate = new DateTime(2011, 7, 14), EndDate = new DateTime(2011, 8, 1), Complete = 10d }));
-            data[0].ChildTask.Add((new PredecessorsModel() { Id = 6, Name = "Develop delivery timeline", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 8, 1), Complete = 10d }));
-            data[0].ChildTask.Add((new PredecessorsModel() { Id = 7, Name = "Analysis complete", StDate = new DateTime(2011, 7, 14), EndDate = new DateTime(2011, 8, 10), Complete = 10d }));
+            data.Add(new PredecessorsModel() { Id = 1, Name = "Analysis/Planning", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 8, 14), Complete = 40d });
+            data[0].ChildTask.Add((new PredecessorsModel() { Id = 2, Name = "Identify Components to be Localized", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 5), Complete = 20d }));
+            data[0].ChildTask.Add((new PredecessorsModel() { Id = 3, Name = "Ensure file localizability", StDate = new DateTime(2024, 7, 6), EndDate = new DateTime(2024, 7, 7), Complete = 20d }));
+            data[0].ChildTask.Add((new PredecessorsModel() { Id = 4, Name = "Identify tools", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 7, 14), Complete = 10d }));
+            data[0].ChildTask.Add((new PredecessorsModel() { Id = 5, Name = "Test tools", StDate = new DateTime(2024, 7, 14), EndDate = new DateTime(2024, 8, 1), Complete = 10d }));
+            data[0].ChildTask.Add((new PredecessorsModel() { Id = 6, Name = "Develop delivery timeline", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 8, 1), Complete = 10d }));
+            data[0].ChildTask.Add((new PredecessorsModel() { Id = 7, Name = "Analysis complete", StDate = new DateTime(2024, 7, 14), EndDate = new DateTime(2024, 8, 10), Complete = 10d }));
 
-            data.Add(new PredecessorsModel() { Id = 8, Name = "Production", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 14), Complete = 40d });
-            data[1].ChildTask.Add((new PredecessorsModel() { Id = 9, Name = "Software Components", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 5), Complete = 20d, }));
-            data[1].ChildTask.Add((new PredecessorsModel() { Id = 10, Name = "Localization Component - User Interface", StDate = new DateTime(2011, 7, 6), EndDate = new DateTime(2011, 7, 7), Complete = 20d }));
-            data[1].ChildTask.Add((new PredecessorsModel() { Id = 11, Name = "User Assistance Components", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 7, 14), Complete = 10d }));
-            data[1].ChildTask.Add((new PredecessorsModel() { Id = 12, Name = "Software components complete", StDate = new DateTime(2011, 7, 14), EndDate = new DateTime(2011, 7, 18), Complete = 10d }));
+            data.Add(new PredecessorsModel() { Id = 8, Name = "Production", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 14), Complete = 40d });
+            data[1].ChildTask.Add((new PredecessorsModel() { Id = 9, Name = "Software Components", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 5), Complete = 20d, }));
+            data[1].ChildTask.Add((new PredecessorsModel() { Id = 10, Name = "Localization Component - User Interface", StDate = new DateTime(2024, 7, 6), EndDate = new DateTime(2024, 7, 7), Complete = 20d }));
+            data[1].ChildTask.Add((new PredecessorsModel() { Id = 11, Name = "User Assistance Components", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 7, 14), Complete = 10d }));
+            data[1].ChildTask.Add((new PredecessorsModel() { Id = 12, Name = "Software components complete", StDate = new DateTime(2024, 7, 14), EndDate = new DateTime(2024, 7, 18), Complete = 10d }));
 
 
-            data.Add(new PredecessorsModel() { Id = 13, Name = "Quality Assurance", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 12), Complete = 40d, });
-            data[2].ChildTask.Add((new PredecessorsModel() { Id = 14, Name = "Review project information", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 15), Complete = 20d }));
-            data[2].ChildTask.Add((new PredecessorsModel() { Id = 15, Name = "Localization Component", StDate = new DateTime(2011, 7, 6), EndDate = new DateTime(2011, 7, 8), Complete = 20d }));
-            data[2].ChildTask.Add((new PredecessorsModel() { Id = 16, Name = "Localization Component", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 7, 14), Complete = 10d }));
-            data[2].ChildTask.Add((new PredecessorsModel() { Id = 17, Name = "Localization Component", StDate = new DateTime(2011, 7, 14), EndDate = new DateTime(2011, 7, 18), Complete = 10d }));
+            data.Add(new PredecessorsModel() { Id = 13, Name = "Quality Assurance", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 12), Complete = 40d, });
+            data[2].ChildTask.Add((new PredecessorsModel() { Id = 14, Name = "Review project information", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 15), Complete = 20d }));
+            data[2].ChildTask.Add((new PredecessorsModel() { Id = 15, Name = "Localization Component", StDate = new DateTime(2024, 7, 6), EndDate = new DateTime(2024, 7, 8), Complete = 20d }));
+            data[2].ChildTask.Add((new PredecessorsModel() { Id = 16, Name = "Localization Component", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 7, 14), Complete = 10d }));
+            data[2].ChildTask.Add((new PredecessorsModel() { Id = 17, Name = "Localization Component", StDate = new DateTime(2024, 7, 14), EndDate = new DateTime(2024, 7, 18), Complete = 10d }));
 
-            data.Add(new PredecessorsModel() { Id = 18, Name = "Beta Testing", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 14), Complete = 40d });
-            data[3].ChildTask.Add((new PredecessorsModel() { Id = 19, Name = "Disseminate completed product", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 5), Complete = 20d }));
-            data[3].ChildTask.Add((new PredecessorsModel() { Id = 20, Name = "Obtain feedback", StDate = new DateTime(2011, 7, 6), EndDate = new DateTime(2011, 7, 7), Complete = 20d }));
-            data[3].ChildTask.Add((new PredecessorsModel() { Id = 21, Name = "Modify", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 7, 19), Complete = 10d }));
-            data[3].ChildTask.Add((new PredecessorsModel() { Id = 22, Name = "Test", StDate = new DateTime(2011, 7, 14), EndDate = new DateTime(2011, 7, 19), Complete = 10d }));
-            data[3].ChildTask.Add((new PredecessorsModel() { Id = 23, Name = "Complete", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 7, 19), Complete = 10d }));
+            data.Add(new PredecessorsModel() { Id = 18, Name = "Beta Testing", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 14), Complete = 40d });
+            data[3].ChildTask.Add((new PredecessorsModel() { Id = 19, Name = "Disseminate completed product", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 5), Complete = 20d }));
+            data[3].ChildTask.Add((new PredecessorsModel() { Id = 20, Name = "Obtain feedback", StDate = new DateTime(2024, 7, 6), EndDate = new DateTime(2024, 7, 7), Complete = 20d }));
+            data[3].ChildTask.Add((new PredecessorsModel() { Id = 21, Name = "Modify", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 7, 19), Complete = 10d }));
+            data[3].ChildTask.Add((new PredecessorsModel() { Id = 22, Name = "Test", StDate = new DateTime(2024, 7, 14), EndDate = new DateTime(2024, 7, 19), Complete = 10d }));
+            data[3].ChildTask.Add((new PredecessorsModel() { Id = 23, Name = "Complete", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 7, 19), Complete = 10d }));
 
-            data.Add(new PredecessorsModel() { Id = 24, Name = "Post-Project Review", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 14), Complete = 40d, });
-            data[4].ChildTask.Add((new PredecessorsModel() { Id = 25, Name = "Finalize cost analysis", StDate = new DateTime(2011, 7, 3), EndDate = new DateTime(2011, 7, 5), Complete = 20d }));
-            data[4].ChildTask.Add((new PredecessorsModel() { Id = 26, Name = "Analyze performance", StDate = new DateTime(2011, 7, 6), EndDate = new DateTime(2011, 7, 7), Complete = 20d }));
-            data[4].ChildTask.Add((new PredecessorsModel() { Id = 27, Name = "Archive files", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 7, 14), Complete = 10d }));
-            data[4].ChildTask.Add((new PredecessorsModel() { Id = 28, Name = "Document lessons learned", StDate = new DateTime(2011, 7, 14), EndDate = new DateTime(2011, 7, 18), Complete = 10d }));
-            data[4].ChildTask.Add((new PredecessorsModel() { Id = 29, Name = "Distribute to team members", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 7, 14), Complete = 10d }));
-            data[4].ChildTask.Add((new PredecessorsModel() { Id = 30, Name = "Post-project review complete", StDate = new DateTime(2011, 7, 10), EndDate = new DateTime(2011, 7, 14), Complete = 10d }));
+            data.Add(new PredecessorsModel() { Id = 24, Name = "Post-Project Review", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 14), Complete = 40d, });
+            data[4].ChildTask.Add((new PredecessorsModel() { Id = 25, Name = "Finalize cost analysis", StDate = new DateTime(2024, 7, 3), EndDate = new DateTime(2024, 7, 5), Complete = 20d }));
+            data[4].ChildTask.Add((new PredecessorsModel() { Id = 26, Name = "Analyze performance", StDate = new DateTime(2024, 7, 6), EndDate = new DateTime(2024, 7, 7), Complete = 20d }));
+            data[4].ChildTask.Add((new PredecessorsModel() { Id = 27, Name = "Archive files", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 7, 14), Complete = 10d }));
+            data[4].ChildTask.Add((new PredecessorsModel() { Id = 28, Name = "Document lessons learned", StDate = new DateTime(2024, 7, 14), EndDate = new DateTime(2024, 7, 18), Complete = 10d }));
+            data[4].ChildTask.Add((new PredecessorsModel() { Id = 29, Name = "Distribute to team members", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 7, 14), Complete = 10d }));
+            data[4].ChildTask.Add((new PredecessorsModel() { Id = 30, Name = "Post-project review complete", StDate = new DateTime(2024, 7, 10), EndDate = new DateTime(2024, 7, 14), Complete = 10d }));
 
             data[1].Resource.Add(new Resource() { ID = 1, Name = "Localizer" });
             data[2].Resource.Add(new Resource() { ID = 2, Name = "Technical Reviewer" });
