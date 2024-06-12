@@ -1,0 +1,54 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.FastBarChartDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:FastBarChartViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <DataTemplate x:Key="headerTemplate">
+                    <TextBlock Text="Stock" Padding="0,2,0,1" FontSize="14.5"/>
+                </DataTemplate>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <chart:SfChart x:Name="FastBar" HorizontalAlignment="Center" Margin="5">
+
+            <chart:SfChart.Header>
+                <TextBlock TextAlignment="Center" Text="Stock Details" FontSize="17" Margin="0,10,0,10"/>
+            </chart:SfChart.Header>
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:DateTimeAxis ShowGridLines="False" LabelCreated="DateTimeAxis_LabelCreated" EdgeLabelsDrawingMode="Shift">
+                    <chart:DateTimeAxis.LabelStyle>
+                        <chart:LabelStyle FontSize="13"/>
+                    </chart:DateTimeAxis.LabelStyle>
+                </chart:DateTimeAxis>
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis HeaderTemplate="{StaticResource headerTemplate}" PlotOffsetEnd="15" ShowGridLines="False">
+                    <chart:NumericalAxis.LabelStyle>
+                        <chart:LabelStyle FontSize="13"/>
+                    </chart:NumericalAxis.LabelStyle>
+                </chart:NumericalAxis>
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:FastBarBitmapSeries x:Name="FastBarBitmapSeries" Interior="#00AEE0"
+                                       ItemsSource="{Binding List}"
+                                       ShowTooltip="True"
+                                       XBindingPath="Date"
+                                       YBindingPath="Price"
+                                       EnableAnimation="True"/>
+
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>
