@@ -60,30 +60,30 @@ namespace syncfusion.ganttdemos.wpf
         {
             // Adding Tasks
             ObservableCollection<TaskDetails> task = new ObservableCollection<TaskDetails>();
-            task.Add(new TaskDetails { TaskId = 1, TaskName = "Project Schedule", StartDate = new DateTime(2014, 2, 3), FinishDate = new DateTime(2014, 2, 23), Progress = 57d });
-            task[0].Child.Add(new TaskDetails { TaskId = 2, TaskName = "Planning", StartDate = new DateTime(2014, 2, 3), FinishDate = new DateTime(2014, 2, 12), Progress = 77d });
-            task[0].Child[0].Child.Add(new TaskDetails { TaskId = 3, TaskName = "Planning timeline", StartDate = new DateTime(2014, 2, 3), FinishDate = new DateTime(2014, 2, 7), Progress = 80d });
-            task[0].Child[0].Child.Add(new TaskDetails { TaskId = 4, TaskName = "Plan budget", StartDate = new DateTime(2014, 2, 8), FinishDate = new DateTime(2014, 2, 12), Progress = 70d });
-            task[0].Child[0].Child.Add(new TaskDetails { TaskId = 5, TaskName = "Allocate resources", StartDate = new DateTime(2014, 2, 8), FinishDate = new DateTime(2014, 2, 10), Progress = 80d });
-            task[0].Child[0].Child.Add(new TaskDetails { TaskId = 6, TaskName = "Planning complete", StartDate = new DateTime(2014, 2, 13), FinishDate = new DateTime(2014, 2, 13), Progress = 0d });
+            task.Add(new TaskDetails { TaskId = 1, TaskName = "Project Schedule", StartDate = new DateTime(2024, 2, 3), FinishDate = new DateTime(2024, 2, 23), Progress = 57d });
+            task[0].Child.Add(new TaskDetails { TaskId = 2, TaskName = "Planning", StartDate = new DateTime(2024, 2, 3), FinishDate = new DateTime(2024, 2, 12), Progress = 77d });
+            task[0].Child[0].Child.Add(new TaskDetails { TaskId = 3, TaskName = "Planning timeline", StartDate = new DateTime(2024, 2, 3), FinishDate = new DateTime(2024, 2, 7), Progress = 80d });
+            task[0].Child[0].Child.Add(new TaskDetails { TaskId = 4, TaskName = "Plan budget", StartDate = new DateTime(2024, 2, 8), FinishDate = new DateTime(2024, 2, 12), Progress = 70d });
+            task[0].Child[0].Child.Add(new TaskDetails { TaskId = 5, TaskName = "Allocate resources", StartDate = new DateTime(2024, 2, 8), FinishDate = new DateTime(2024, 2, 10), Progress = 80d });
+            task[0].Child[0].Child.Add(new TaskDetails { TaskId = 6, TaskName = "Planning complete", StartDate = new DateTime(2024, 2, 13), FinishDate = new DateTime(2024, 2, 13), Progress = 0d });
 
-            task[0].Child.Add(new TaskDetails { TaskId = 7, TaskName = "Design", StartDate = new DateTime(2014, 2, 13), FinishDate = new DateTime(2014, 2, 23), Progress = 39d });
-            task[0].Child[1].Child.Add(new TaskDetails { TaskId = 8, TaskName = "Software Specification", StartDate = new DateTime(2014, 2, 14), FinishDate = new DateTime(2014, 2, 20), Progress = 60d });
-            task[0].Child[1].Child.Add(new TaskDetails { TaskId = 9, TaskName = "Develop prototype", StartDate = new DateTime(2014, 2, 14), FinishDate = new DateTime(2014, 2, 16), Progress = 40d });
-            task[0].Child[1].Child.Add(new TaskDetails { TaskId = 10, TaskName = "Get approval from customer", StartDate = new DateTime(2014, 2, 17), FinishDate = new DateTime(2014, 2, 21), Progress = 50d });
-            task[0].Child[1].Child.Add(new TaskDetails { TaskId = 11, TaskName = "Design complete", StartDate = new DateTime(2014, 2, 22), FinishDate = new DateTime(2014, 2, 24), Progress = 0d });
+            task[0].Child.Add(new TaskDetails { TaskId = 7, TaskName = "Design", StartDate = new DateTime(2024, 2, 13), FinishDate = new DateTime(2024, 2, 23), Progress = 39d });
+            task[0].Child[1].Child.Add(new TaskDetails { TaskId = 8, TaskName = "Software Specification", StartDate = new DateTime(2024, 2, 14), FinishDate = new DateTime(2024, 2, 20), Progress = 60d });
+            task[0].Child[1].Child.Add(new TaskDetails { TaskId = 9, TaskName = "Develop prototype", StartDate = new DateTime(2024, 2, 14), FinishDate = new DateTime(2024, 2, 16), Progress = 40d });
+            task[0].Child[1].Child.Add(new TaskDetails { TaskId = 10, TaskName = "Get approval from customer", StartDate = new DateTime(2024, 2, 17), FinishDate = new DateTime(2024, 2, 21), Progress = 50d });
+            task[0].Child[1].Child.Add(new TaskDetails { TaskId = 11, TaskName = "Design complete", StartDate = new DateTime(2024, 2, 22), FinishDate = new DateTime(2024, 2, 24), Progress = 0d });
 
-            task[0].Child.Add(new TaskDetails { TaskId = 12, TaskName = "Implementation", StartDate = new DateTime(2014, 2, 13), FinishDate = new DateTime(2014, 2, 23), Progress = 39d });
-            task[0].Child[2].Child.Add(new TaskDetails { TaskId = 13, TaskName = "Develop prototype", StartDate = new DateTime(2014, 2, 25), FinishDate = new DateTime(2014, 2, 27), Progress = 60d });
-            task[0].Child[2].Child.Add(new TaskDetails { TaskId = 14, TaskName = "Divide modules", StartDate = new DateTime(2014, 2, 28), FinishDate = new DateTime(2014, 3, 2), Progress = 40d });
-            task[0].Child[2].Child.Add(new TaskDetails { TaskId = 15, TaskName = "Allocate resources", StartDate = new DateTime(2014, 3, 3), FinishDate = new DateTime(2014, 3, 7), Progress = 50d });
-            task[0].Child[2].Child.Add(new TaskDetails { TaskId = 16, TaskName = "Optimization", StartDate = new DateTime(2014, 3, 8), FinishDate = new DateTime(2014, 3, 10), Progress = 0d });
+            task[0].Child.Add(new TaskDetails { TaskId = 12, TaskName = "Implementation", StartDate = new DateTime(2024, 2, 13), FinishDate = new DateTime(2024, 2, 23), Progress = 39d });
+            task[0].Child[2].Child.Add(new TaskDetails { TaskId = 13, TaskName = "Develop prototype", StartDate = new DateTime(2024, 2, 25), FinishDate = new DateTime(2024, 2, 27), Progress = 60d });
+            task[0].Child[2].Child.Add(new TaskDetails { TaskId = 14, TaskName = "Divide modules", StartDate = new DateTime(2024, 2, 28), FinishDate = new DateTime(2024, 3, 2), Progress = 40d });
+            task[0].Child[2].Child.Add(new TaskDetails { TaskId = 15, TaskName = "Allocate resources", StartDate = new DateTime(2024, 3, 3), FinishDate = new DateTime(2024, 3, 7), Progress = 50d });
+            task[0].Child[2].Child.Add(new TaskDetails { TaskId = 16, TaskName = "Optimization", StartDate = new DateTime(2024, 3, 8), FinishDate = new DateTime(2024, 3, 10), Progress = 0d });
 
-            task[0].Child.Add(new TaskDetails { TaskId = 17, TaskName = "Testing", StartDate = new DateTime(2014, 2, 13), FinishDate = new DateTime(2014, 2, 23), Progress = 39d });
-            task[0].Child[3].Child.Add(new TaskDetails { TaskId = 18, TaskName = "Manual testing", StartDate = new DateTime(2014, 3, 11), FinishDate = new DateTime(2014, 3, 13), Progress = 60d });
-            task[0].Child[3].Child.Add(new TaskDetails { TaskId = 19, TaskName = "Develop scripts for testing", StartDate = new DateTime(2014, 3, 14), FinishDate = new DateTime(2014, 3, 16), Progress = 40d });
-            task[0].Child[3].Child.Add(new TaskDetails { TaskId = 20, TaskName = "Automation", StartDate = new DateTime(2014, 3, 17), FinishDate = new DateTime(2014, 3, 21), Progress = 50d });
-            task[0].Child[3].Child.Add(new TaskDetails { TaskId = 21, TaskName = "Release beta version", StartDate = new DateTime(2014, 3, 22), FinishDate = new DateTime(2014, 3, 22), Progress = 0d });
+            task[0].Child.Add(new TaskDetails { TaskId = 17, TaskName = "Testing", StartDate = new DateTime(2024, 2, 13), FinishDate = new DateTime(2024, 2, 23), Progress = 39d });
+            task[0].Child[3].Child.Add(new TaskDetails { TaskId = 18, TaskName = "Manual testing", StartDate = new DateTime(2024, 3, 11), FinishDate = new DateTime(2024, 3, 13), Progress = 60d });
+            task[0].Child[3].Child.Add(new TaskDetails { TaskId = 19, TaskName = "Develop scripts for testing", StartDate = new DateTime(2024, 3, 14), FinishDate = new DateTime(2024, 3, 16), Progress = 40d });
+            task[0].Child[3].Child.Add(new TaskDetails { TaskId = 20, TaskName = "Automation", StartDate = new DateTime(2024, 3, 17), FinishDate = new DateTime(2024, 3, 21), Progress = 50d });
+            task[0].Child[3].Child.Add(new TaskDetails { TaskId = 21, TaskName = "Release beta version", StartDate = new DateTime(2024, 3, 22), FinishDate = new DateTime(2024, 3, 22), Progress = 0d });
 
             //Adding predecessors
             task[0].Child[0].Child[1].Predecessor.Add(new Predecessor() { GanttTaskIndex = 3, GanttTaskRelationship = GanttTaskRelationship.FinishToStart });

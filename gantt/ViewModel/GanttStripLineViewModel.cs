@@ -207,9 +207,9 @@ namespace syncfusion.ganttdemos.wpf
             DataTemplate template = GanttDictionaries.GanttStyleDictionary["temp"] as DataTemplate;
 
             List<StripLineInfo> data = new List<StripLineInfo>();
-            data.Add(new StripLineInfo() { Content = RepeatStripContent, StartDate = new DateTime(2012, 6, 4), EndDate = new DateTime(2012, 6, 4), HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Background = RepeatStripColor, RepeatBehavior = Repeat.Week, RepeatFor = 1, RepeatUpto = new DateTime(2012, 12, 10), ContentTemplate = template });
-            data.Add(new StripLineInfo() { Content = NonRepeatStripContent, StartDate = new DateTime(2012, 6, 1), EndDate = new DateTime(2012, 6, 1), HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Background = NonRepeatStripColor });
-            data.Add(new StripLineInfo() { Content = "Demo of the product to Customer", StartDate = new DateTime(2012, 12, 13), EndDate = new DateTime(2012, 12, 13), HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Background = (Brush)new BrushConverter().ConvertFrom("#FFF79608") });
+            data.Add(new StripLineInfo() { Content = RepeatStripContent, StartDate = new DateTime(2024, 6, 4), EndDate = new DateTime(2024, 6, 4), HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Background = RepeatStripColor, RepeatBehavior = Repeat.Week, RepeatFor = 1, RepeatUpto = new DateTime(2024, 12, 10), ContentTemplate = template });
+            data.Add(new StripLineInfo() { Content = NonRepeatStripContent, StartDate = new DateTime(2024, 6, 1), EndDate = new DateTime(2024, 6, 1), HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Background = NonRepeatStripColor });
+            data.Add(new StripLineInfo() { Content = "Demo of the product to Customer", StartDate = new DateTime(2024, 12, 13), EndDate = new DateTime(2024, 12, 13), HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center, Background = (Brush)new BrushConverter().ConvertFrom("#FFF79608") });
             return data;
         }
 
@@ -297,7 +297,7 @@ namespace syncfusion.ganttdemos.wpf
         private void OnNonWorkingHoursChecked(object parms)
         {
             Slots = new List<StripLineInfo>();
-            Slots.Add(new StripLineInfo() { Background = linearBrush, StartDate = new DateTime(2012, 5, 19), EndDate = new DateTime(2012, 5, 21), RepeatUpto = new DateTime(2012, 12, 24), RepeatBehavior = Repeat.Week, RepeatFor = 1 });
+            Slots.Add(new StripLineInfo() { Background = linearBrush, StartDate = new DateTime(2024, 5, 19), EndDate = new DateTime(2024, 5, 21), RepeatUpto = new DateTime(2024, 12, 24), RepeatBehavior = Repeat.Week, RepeatFor = 1 });
             this.StripCollection = Slots;
         }
 
@@ -308,7 +308,7 @@ namespace syncfusion.ganttdemos.wpf
         private void OnWorkingHoursChecked(object parms)
         {
             Slots = new List<StripLineInfo>();
-            Slots.Add(new StripLineInfo() { Background = linearBrush, StartDate = new DateTime(2012, 5, 21), EndDate = new DateTime(2012, 5, 26), RepeatUpto = new DateTime(2012, 12, 24), RepeatBehavior = Repeat.Week, RepeatFor = 1 });
+            Slots.Add(new StripLineInfo() { Background = linearBrush, StartDate = new DateTime(2024, 5, 21), EndDate = new DateTime(2024, 5, 26), RepeatUpto = new DateTime(2024, 12, 24), RepeatBehavior = Repeat.Week, RepeatFor = 1 });
             this.StripCollection = Slots;
         }
 
@@ -320,7 +320,7 @@ namespace syncfusion.ganttdemos.wpf
         {
             DataTemplate temp = GanttDictionaries.GanttStyleDictionary["SplDays"] as DataTemplate;
             Slots = new List<StripLineInfo>();
-            Slots.Add(new StripLineInfo() { Background = Brushes.HotPink, StartDate = new DateTime(2012, 5, 21), EndDate = new DateTime(2012, 5, 21), Content = "Weekly Team Meeting", VerticalContentAlignment = VerticalAlignment.Center, RepeatUpto = new DateTime(2012, 12, 24), RepeatBehavior = Repeat.Week, RepeatFor = 1, ContentTemplate = temp });
+            Slots.Add(new StripLineInfo() { Background = Brushes.HotPink, StartDate = new DateTime(2024, 5, 21), EndDate = new DateTime(2024, 5, 21), Content = "Weekly Team Meeting", VerticalContentAlignment = VerticalAlignment.Center, RepeatUpto = new DateTime(2024, 12, 24), RepeatBehavior = Repeat.Week, RepeatFor = 1, ContentTemplate = temp });
             this.StripCollection = Slots;
         }
 
