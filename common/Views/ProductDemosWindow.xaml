@@ -1,0 +1,110 @@
+<syncfusion:ChromelessWindow
+    x:Class="syncfusion.demoscommon.wpf.ProductDemosWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:listCollection="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:local="clr-namespace:syncfusion.demoscommon.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Title="ProductDemosWindow"
+    Width="1200"
+    Height="800"
+    MinWidth="800"
+    MinHeight="500"
+    BorderThickness="0"
+    AllowsTransparency="True"
+    CloseButtonTemplate="{DynamicResource ProductsWindowCloseButtonTemplate}"
+    Icon="{DynamicResource MainWindowIcon}"
+    MaximizeButtonTemplate="{DynamicResource ProductsWindowMaximizeButtonTemplate}"
+    MinimizeButtonTemplate="{DynamicResource ProductsWindowMinimizeButtonTemplate}"
+    ResizeBorderThickness="0"
+    RestoreButtonTemplate="{DynamicResource ProductsWindowRestoreButtonTemplate}"
+    ShowIcon="False"
+    TitleBarBackground="{Binding TitleBarBackground, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    TitleBarForeground="{Binding TitleBarForeground, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+    TitleBarHeight="48"
+    TitleFontSize="14"
+    WindowStartupLocation="CenterOwner"
+    WindowState="Normal"
+    mc:Ignorable="d">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ProductWindowLoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <syncfusion:ChromelessWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.demoscommon.wpf;component/Views/DemoWindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </syncfusion:ChromelessWindow.Resources>
+    <syncfusion:ChromelessWindow.LeftHeaderItemsSource>
+        <listCollection:ArrayList>
+            <Image
+                Width="21"
+                Height="20"
+                Margin="12,0,3,0"
+                Source="{StaticResource ProductWindowIcon}" />
+        </listCollection:ArrayList>
+    </syncfusion:ChromelessWindow.LeftHeaderItemsSource>
+    <syncfusion:ChromelessWindow.RightHeaderItemsSource>
+        <listCollection:ArrayList>
+            <ToggleButton x:Name="ThemeButton"
+                          Template="{StaticResource ThemeButton}" 
+                          IsChecked="{Binding ThemePanelVisibility, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                          Visibility="{Binding ThemeButtonVisibility, Converter={StaticResource BooleanToVisibilityConverter}}"
+                          Margin="0,0,12,0"
+                          Padding="7,4,12,4"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center">
+                <ToggleButton.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <Path Margin="0,0,7,0" 
+                              Fill="{Binding TitleBarForeground, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                              Data="M4.54231 1.47395C4.07038 1.12238 3.78172 1.11572 3.64891 1.17432C3.56684 1.21054 3.46509 1.30029 3.38105 1.51828C3.29603 1.7388 3.24559 2.05353 3.25234 2.45569C3.26323 3.10537 3.42218 3.91685 3.73802 4.78152L5.72998 2.78956C5.33476 2.20466 4.92082 1.75593 4.54231 1.47395ZM6.44871 2.07083C6.03726 1.48935 5.58974 1.00727 5.13973 0.672021C4.58298 0.257256 3.88837 -0.0243929 3.24518 0.259447C2.84817 0.434644 2.59519 0.776714 2.44798 1.15857C2.30174 1.5379 2.2444 1.99105 2.25248 2.47246C2.26753 3.37013 2.51164 4.45477 2.96575 5.55378L0.864847 7.65469C0.580936 7.9386 0.507582 8.32144 0.528817 8.67347C0.550098 9.02629 0.66746 9.40988 0.841983 9.79365C1.19266 10.5648 1.82102 11.4387 2.63322 12.2509C3.44541 13.0631 4.31918 13.6913 5.09019 14.0418C5.4739 14.2163 5.85744 14.3336 6.21022 14.3548C6.56224 14.3759 6.94496 14.3025 7.22881 14.0186L12.3532 8.89423C12.4199 9.11163 12.4791 9.36258 12.5327 9.64137C12.6031 10.0076 12.6561 10.3708 12.709 10.7333C12.7442 10.9748 12.7793 11.2159 12.8196 11.4573C12.8674 11.7443 12.9218 12.0237 12.9909 12.2674C13.0574 12.5015 13.1503 12.7512 13.2988 12.9449C13.4633 13.1596 13.7321 13.3423 14.0907 13.2945C14.3893 13.2547 14.6438 13.0637 14.8538 12.8536C15.2523 12.4552 15.3301 11.9218 15.27 11.4314C15.2101 10.943 15.0086 10.4283 14.7536 9.95174C14.339 9.1766 13.7309 8.40722 13.163 7.89513C13.2184 7.71482 13.2327 7.52485 13.2218 7.34309C13.2006 6.99028 13.0833 6.60668 12.9088 6.22289C12.5582 5.45174 11.93 4.57781 11.1178 3.76559C10.3056 2.95338 9.43166 2.32515 8.66053 1.97463C8.27676 1.80018 7.89317 1.68291 7.54037 1.6617C7.18833 1.64054 6.80556 1.71397 6.5217 1.99783L6.44871 2.07083ZM6.30382 3.62993L4.161 5.77275C4.63493 6.7393 5.20482 7.51117 5.74056 7.99234C6.0176 8.24117 6.26717 8.39575 6.47206 8.46989C6.6737 8.54286 6.79995 8.52812 6.87877 8.49334C7.1314 8.38185 7.42658 8.49628 7.53807 8.74891C7.64956 9.00155 7.53514 9.29673 7.2825 9.40822C6.90329 9.57556 6.49932 9.54321 6.1318 9.41022C5.76754 9.27842 5.40904 9.03872 5.07235 8.73632C4.48281 8.20682 3.90382 7.43433 3.41762 6.51612L1.57195 8.36179C1.56297 8.37078 1.51566 8.42526 1.527 8.61327C1.5383 8.8005 1.60674 9.05967 1.75228 9.37969C2.04171 10.0161 2.59042 10.7939 3.34032 11.5438C4.09023 12.2937 4.86781 12.8422 5.50407 13.1315C5.82399 13.277 6.08307 13.3453 6.27023 13.3566C6.45813 13.3679 6.51265 13.3206 6.5217 13.3115L11.2536 8.57966C11.0864 8.52822 10.9166 8.46221 10.7467 8.38499C9.97554 8.03447 9.10158 7.40624 8.28935 6.59402C7.47713 5.78179 6.84893 4.90786 6.49844 4.1367C6.42124 3.96685 6.35524 3.79705 6.30382 3.62993ZM12.2095 7.59325C12.1896 7.60751 12.1705 7.62338 12.1524 7.64086C12.1371 7.65571 12.1229 7.67135 12.1098 7.68766C12.0713 7.69777 12.0131 7.70491 11.927 7.69973C11.7397 7.68847 11.4805 7.62008 11.1605 7.47462C10.5241 7.18534 9.74633 6.63678 8.99646 5.88691C8.24659 5.13704 7.69807 4.35933 7.40881 3.72292C7.26337 3.40293 7.195 3.14376 7.18375 2.95653C7.17246 2.76853 7.21977 2.71398 7.22881 2.70494C7.23784 2.69591 7.29238 2.6486 7.48037 2.6599C7.66758 2.67115 7.92673 2.73954 8.24672 2.88499C8.8831 3.17426 9.66079 3.72282 10.4107 4.4727C11.1606 5.22258 11.7091 6.0003 11.9984 6.63673C12.1439 6.95673 12.2123 7.2159 12.2236 7.40313C12.2291 7.49489 12.2207 7.55485 12.2095 7.59325ZM13.6051 9.97166C13.6407 10.1937 13.6737 10.4184 13.7053 10.6337C13.74 10.8701 13.773 11.0951 13.806 11.2929C13.8519 11.5684 13.8991 11.8046 13.9529 11.9944C13.9845 12.1056 14.0145 12.1865 14.0403 12.2433C14.0688 12.2203 14.1042 12.189 14.1467 12.1465C14.2483 12.045 14.3162 11.87 14.2774 11.5531C14.2383 11.2342 14.0961 10.8426 13.8719 10.4234C13.7903 10.2709 13.7005 10.1195 13.6051 9.97166Z" />
+                        <TextBlock Grid.Column="2"
+                                   Height="16"
+                                   FontSize="12"
+                                   Text="Themes"
+                                   Foreground="{Binding TitleBarForeground, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </ToggleButton.Content>
+                <ToggleButton.Style>
+                    <Style  TargetType="{x:Type ToggleButton}">
+                        <Setter Property="Background" Value="Transparent"/>
+                    </Style>
+                </ToggleButton.Style>
+            </ToggleButton>
+        </listCollection:ArrayList>
+    </syncfusion:ChromelessWindow.RightHeaderItemsSource>
+    <Grid>
+        <local:DemosListView />
+
+        <syncfusion:SfBusyIndicator
+            Grid.ColumnSpan="2"
+            Width="150"
+            Height="70"
+            VerticalAlignment="Center"
+            AnimationType="Cupertino"
+            Background="Transparent"
+            IsBusy="{Binding IsProductDemoBusy, Mode=TwoWay}"
+            Visibility="{Binding IsProductDemoBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <syncfusion:SfBusyIndicator.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock
+                            Width="150"
+                            FontSize="15"
+                            Text="Loading sample..."
+                            TextAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </syncfusion:SfBusyIndicator.HeaderTemplate>
+        </syncfusion:SfBusyIndicator>
+    </Grid>
+</syncfusion:ChromelessWindow>
