@@ -1,0 +1,81 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.pdfviewerdemos.wpf.InvisibleSignature"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cc="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.pdfviewerdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"    
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    Title="Invisible Signature in PdfViewer"
+    x:Name="invisiblesignature">
+    <interactivity:Interaction.Triggers>
+        <interactivity:EventTrigger EventName="Loaded">
+            <interactivity:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName= pdfviewer1}"  />
+        </interactivity:EventTrigger>
+    </interactivity:Interaction.Triggers>
+    <democommon:DemoControl.DataContext>
+        <local:InvisibleSignatureViewModel />
+    </democommon:DemoControl.DataContext>
+    <Grid local:PdfViewerEventAttachUtil.WindowLoaded="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5,0,5">
+            <syncfusion:ButtonAdv x:Name="completion" Label="Complete Signing" IsEnabled="{Binding IsCompleteSigning}" Margin="10,0,5,0" SmallIcon="{x:Null}" Command="{Binding CompleteSigningCommand}">
+            </syncfusion:ButtonAdv>
+            <syncfusion:ButtonAdv x:Name="download" Width="30" Height="30" IsEnabled="{Binding IsSaved}" Margin="0,0,5,0" Command="{Binding DownloadCommand}">
+                <syncfusion:ButtonAdv.IconTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Path Stroke="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(syncfusion:ButtonAdv.Foreground)}" HorizontalAlignment="Center"
+      Data="M2,9 L2,14 12,14 12,9 z M7,0 L9,0 9,3 7,3 z M1,0 L4,0 4,4 10,4 10,0 10.288002,0 14,3.2019958 14,15 C14,15.552994 13.552002,16 13,16 L1,16 C0.44799805,16 0,15.552994 0,15 L0,1 C0,0.44700623 0.44799805,0 1,0 z"
+      Stretch="Uniform">
+                            </Path>
+                        </Grid>
+                    </DataTemplate>
+                </syncfusion:ButtonAdv.IconTemplate>
+            </syncfusion:ButtonAdv>
+        </StackPanel>
+        <Grid x:Name="messager" Background="LightGreen" Visibility="{Binding IsValidationMsgVisibility}" Height="28" Grid.Row="1"  Margin="10,5,10,5" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0" Margin="25,0,10,0" Visibility="{Binding IsSuccessMsgVisible}">
+                <Path Stroke="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(syncfusion:ButtonAdv.Foreground)}" Data="M14 7.5C14 11.0899 11.0899 14 7.5 14C3.91015 14 1 11.0899 1 7.5C1 3.91015 3.91015 1 7.5 1C11.0899 1 14 3.91015 14 7.5ZM15 7.5C15 11.6421 11.6421 15 7.5 15C3.35786 15 0 11.6421 0 7.5C0 3.35786 3.35786 0 7.5 0C11.6421 0 15 3.35786 15 7.5ZM10.8536 5.85355C11.0488 5.65829 11.0488 5.34171 10.8536 5.14645C10.6583 4.95118 10.3417 4.95118 10.1464 5.14645L6.5 8.79289L4.85355 7.14645C4.65829 6.95118 4.34171 6.95118 4.14645 7.14645C3.95118 7.34171 3.95118 7.65829 4.14645 7.85355L6.14645 9.85355C6.34171 10.0488 6.65829 10.0488 6.85355 9.85355L10.8536 5.85355Z" 
+                  VerticalAlignment="Center"></Path>
+            </Grid>
+            <Grid Grid.Column="1" Margin="25,0,10,0" Visibility="{Binding IsInvalidMsgVisible}">
+                <Path Stroke="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(syncfusion:ButtonAdv.Foreground)}" Data="M7.94733 1.51248C7.76306 1.14395 7.23716 1.14395 7.0529 1.51248L1.17093 13.2764C1.00471 13.6089 1.24646 14 1.61815 14H13.3821C13.7538 14 13.9955 13.6089 13.8293 13.2764L7.94733 1.51248ZM6.15847 1.06526C6.71126 -0.0403102 8.28897 -0.0403082 8.84175 1.06526L14.7237 12.8292C15.2224 13.8265 14.4972 15 13.3821 15H1.61815C0.503074 15 -0.222171 13.8265 0.276505 12.8292L6.15847 1.06526ZM7.50011 5.00002C7.77625 5.00002 8.00011 5.22387 8.00011 5.50002V9.50002C8.00011 9.77616 7.77625 10 7.50011 10C7.22397 10 7.00011 9.77616 7.00011 9.50002V5.50002C7.00011 5.22387 7.22397 5.00002 7.50011 5.00002ZM7.50011 12.25C7.91433 12.25 8.25011 11.9142 8.25011 11.5C8.25011 11.0858 7.91433 10.75 7.50011 10.75C7.0859 10.75 6.75011 11.0858 6.75011 11.5C6.75011 11.9142 7.0859 12.25 7.50011 12.25Z" 
+      VerticalAlignment="Center"></Path>
+            </Grid>
+            <Grid Grid.Column="2" Margin="25,0,10,0" Visibility="{Binding IsErrorMsgVisible}">
+                <Path Stroke="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(syncfusion:ButtonAdv.Foreground)}" Data="M14 7.5C14 11.0899 11.0899 14 7.5 14C3.91015 14 1 11.0899 1 7.5C1 3.91015 3.91015 1 7.5 1C11.0899 1 14 3.91015 14 7.5ZM15 7.5C15 11.6421 11.6421 15 7.5 15C3.35786 15 0 11.6421 0 7.5C0 3.35786 3.35786 0 7.5 0C11.6421 0 15 3.35786 15 7.5ZM5.35355 4.64645C5.15829 4.45118 4.84171 4.45118 4.64645 4.64645C4.45118 4.84171 4.45118 5.15829 4.64645 5.35355L6.79289 7.5L4.64645 9.64645C4.45118 9.84171 4.45118 10.1583 4.64645 10.3536C4.84171 10.5488 5.15829 10.5488 5.35355 10.3536L7.5 8.20711L9.64645 10.3536C9.84171 10.5488 10.1583 10.5488 10.3536 10.3536C10.5488 10.1583 10.5488 9.84171 10.3536 9.64645L8.20711 7.5L10.3536 5.35355C10.5488 5.15829 10.5488 4.84171 10.3536 4.64645C10.1583 4.45118 9.84171 4.45118 9.64645 4.64645L7.5 6.79289L5.35355 4.64645Z"
+      VerticalAlignment="Center"></Path>
+            </Grid>
+            <TextBlock x:Name="content" Grid.Column="3" Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding ValidationMessage}"/>
+        </Grid>
+        <cc:PdfViewerControl
+            x:Name="pdfviewer1"
+            Grid.RowSpan="3"
+            Grid.Row="2"
+            Margin="8px"
+            AllowDrop="True"
+            BorderThickness="1"
+            BorderBrush="{DynamicResource BorderAlt}"
+			WarnBeforeClose="False"
+            ItemSource="{Binding DocumentStream}"
+            ZoomMode="FitWidth">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="DocumentLoaded">
+                    <interactivity:InvokeCommandAction Command="{Binding DocumentLoadedCommand}" CommandParameter="{Binding ElementName=pdfviewer1}"/>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </cc:PdfViewerControl>
+    </Grid>
+</democommon:DemoControl>

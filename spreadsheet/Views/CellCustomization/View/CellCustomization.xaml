@@ -1,0 +1,118 @@
+﻿<syncfusion:ChromelessWindow
+         xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    x:Class="syncfusion.spreadsheetdemos.wpf.CellCustomizationDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:syncfusion.spreadsheetdemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="1024"
+    Height="720"
+    WindowState="Maximized"
+    mc:Ignorable="d" VerticalAlignment="Top" HorizontalAlignment="Left">
+    <syncfusion:ChromelessWindow.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.SfSpreadsheet.WPF;component/Spreadsheet/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <local:TextToImageConverter x:Key="TexttoImageConverter" />
+            <Style x:Key="ArrowButtonStyleKey" TargetType="Button">
+                <Setter Property="Height" Value="40" />
+                <Setter Property="Width" Value="30" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Background" Value="White" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="{TemplateBinding Background}">
+                                <Path
+                                    x:Name="PART_ExpanderCellPath"
+                                    Width="9.758"
+                                    Height="13.667"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="F1 M 335.667,278.908L 335.667,268.241L 343.425,273.574L 335.667,278.908 Z "
+                                    Fill="#FF444444"
+                                    RenderTransformOrigin="0.5,0.5"
+                                    Stretch="Fill">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <TransformGroup.Children>
+                                                <RotateTransform Angle="90" />
+                                            </TransformGroup.Children>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="ExpandAndCollapseState">
+                                        <VisualState x:Name="Expanded">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ExpanderCellPath" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)">
+                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="90">
+                                                        <EasingDoubleKeyFrame.EasingFunction>
+                                                            <CubicEase EasingMode="EaseIn" />
+                                                        </EasingDoubleKeyFrame.EasingFunction>
+                                                    </EasingDoubleKeyFrame>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Collapsed">
+                                            <Storyboard>
+                                                <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_ExpanderCellPath" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(RotateTransform.Angle)">
+                                                    <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0">
+                                                        <EasingDoubleKeyFrame.EasingFunction>
+                                                            <CubicEase EasingMode="EaseIn" />
+                                                        </EasingDoubleKeyFrame.EasingFunction>
+                                                    </EasingDoubleKeyFrame>
+                                                </DoubleAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate x:Key="CellTemplateKey">
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <Button
+                        x:Name="Button2"
+                        DataContext="{Binding ElementName=spreadsheet}"
+                        Style="{StaticResource ArrowButtonStyleKey}">
+                        <Interactivity:Interaction.Behaviors>
+                            <local:ClickBehavior />
+                        </Interactivity:Interaction.Behaviors>
+                    </Button>
+
+                    <Image Margin="0,5,5,5" Source="{Binding ElementName=Box, Path=Text, Converter={StaticResource TexttoImageConverter}}" />
+                    <TextBlock
+                        x:Name="Box"
+                        VerticalAlignment="Center"
+                        FontWeight="Bold"
+                        Text="{Binding CellValue}" />
+                </StackPanel>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </syncfusion:ChromelessWindow.Resources>
+
+    <Grid>
+        <syncfusion:SfSpreadsheet
+                        Name="spreadsheet"
+                        AllowExtendRowColumnCount="False"
+                        FormulaBarVisibility="Collapsed">
+            <Interactivity:Interaction.Behaviors>
+                <local:ImportBehavior FileName="CellCustomization.xlsx" />
+            </Interactivity:Interaction.Behaviors>
+        </syncfusion:SfSpreadsheet>
+    </Grid>
+
+</syncfusion:ChromelessWindow>
