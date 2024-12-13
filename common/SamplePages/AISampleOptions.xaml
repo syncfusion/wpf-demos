@@ -1,0 +1,202 @@
+﻿<UserControl x:Class="syncfusion.demoscommon.wpf.AISampleOptions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:notification="http://schemas.syncfusion.com/wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.demoscommon.wpf;component/Views/DemoWindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <CollectionViewSource x:Key="AISamplesItemSource" Source="{Binding AISampleDemos}"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="#F2F6FF">
+        <Border Margin="2,1,0,0" 
+                Background="#FFFFFF" 
+                CornerRadius="16,0,0,0" 
+                BorderBrush="#0F000000" 
+                BorderThickness="1,1,0,0"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    CornerRadius="0,0,0,14"
+                    BorderBrush="#EFF4FB"
+                    BorderThickness="0,0,0,1"
+                    Margin="24,24,24,6">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="0" 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Height="28"
+                            Width="143"
+                            Background="#EFF4FB"
+                            CornerRadius="14,16,0,14">
+                        <TextBlock Margin="12,4,5,5"
+                                   HorizontalAlignment="Left"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"
+                                   Text="Smart AI Solutions" />
+                    </Border>
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right">
+                        <Hyperlink x:Name="SetupAI"
+                                   FontSize="14"
+                                   Style="{StaticResource HyperlinkStyle}"
+                                   Command="{Binding ClickCommand}" 
+                                   CommandParameter="SetupAI">
+                                   Set-up AI
+                            <Path Stroke="{Binding Path=Foreground, ElementName=SetupAI}"
+                                  StrokeEndLineCap="Round" 
+                                  Margin="7,0,0,0"
+                                  StrokeStartLineCap="Round"
+                                  Data="M5.61538 1.92308H2.84615C1.82655 1.92308 1 2.74963 1 3.76923V11.1538C1 12.1734 1.82655 13 2.84615 13H10.2308C11.2504 13 12.0769 12.1734 12.0769 11.1538V8.38462M7.46154 1H13M13 1V6.53846M13 1L6.53846 7.46154"/>
+                        </Hyperlink>
+                    </TextBlock>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="1" 
+                  Grid.ColumnSpan="2">
+                <ListView HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          BorderThickness="0"
+                          Margin="16,6,0,0"
+                          ItemContainerStyle="{StaticResource ProductListStyle}"
+                          ItemsSource="{Binding Source={StaticResource AISamplesItemSource}}"
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          SelectedItem="{Binding SelectedDemo}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border x:Name="itemTile" BorderBrush="#F5F5F5" BorderThickness="1" CornerRadius="4">
+                                <Grid Width="400">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0"
+                                               FontSize="14"
+                                               Height="20"
+                                               Margin="12,8,0,2"
+                                               FontWeight="SemiBold"
+                                               Foreground="#000000"
+                                               Text="{Binding SampleName}" />
+                                    <notification:SfBadge Grid.Column="1" Margin="0,8,0,0">
+                                        <notification:SfBadge.Template>
+                                            <ControlTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Border x:Name="Badge"
+                        Height="20" 
+                        Visibility="Collapsed"
+                        CornerRadius="10">
+                                                        <TextBlock x:Name="previewText"
+                               FontSize="12"
+                               Text="Preview"
+                               VerticalAlignment="Center"
+                               Padding="6,4,6,4"/>
+                                                    </Border>
+                                                    <Border x:Name="Badge1"
+                        Height="20" 
+                        Margin="4,0,8,0"
+                        CornerRadius="10">
+                                                        <TextBlock x:Name="tagText"
+                               FontSize="12"
+                               Text="{Binding Tag}"
+                               VerticalAlignment="Center"
+                               Padding="6,4,6,4"/>
+                                                    </Border>
+                                                </StackPanel>
+                                                <ControlTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding PreviewTag}" Value="True">
+                                                        <Setter TargetName="Badge" Property="Visibility" Value="Visible"/>
+                                                        <Setter TargetName="Badge" Property="Background" Value="#FAE41C" />
+                                                        <Setter TargetName="previewText" Property="Foreground" Value="#0A0A0A" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Tag}" Value="None">
+                                                        <Setter TargetName="Badge1" Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Tag}" Value="New">
+                                                        <Setter TargetName="Badge1" Property="Background" Value="#059013" />
+                                                        <Setter TargetName="tagText" Property="Foreground" Value="#FFFFFF" />
+                                                        <Setter TargetName="Badge1" Property="Margin" Value="4,0,12,0" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Tag}" Value="Updated">
+                                                        <Setter TargetName="Badge1" Property="Background" Value="#0A70BE" />
+                                                        <Setter TargetName="tagText" Property="Foreground" Value="#FFFFFF" />
+                                                    </DataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </notification:SfBadge.Template>
+                                    </notification:SfBadge>
+                                    <TextBlock x:Name="description" 
+                                               Grid.Row="1"
+                                               Grid.ColumnSpan="2" 
+                                               Height="56"
+                                               Foreground="#000000"
+                                               Opacity="0.6063"
+                                               Margin="12,0,12,8"
+                                               FontSize="14"
+                                               FontWeight="Normal"
+                                               TextTrimming="WordEllipsis"
+                                               TextWrapping="Wrap"
+                                               Text="{Binding AISampleDescription}"/>
+                                </Grid>
+                            </Border>
+                            <DataTemplate.Triggers>
+                                <Trigger SourceName="itemTile" Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="itemTile" Property="Background" Value="#F5F5F5"/>
+                                </Trigger>
+                                <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="True">
+                                    <Setter TargetName="itemTile" Property="Background" Value="#ECECEC"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}" Value="False">
+                                    <Setter TargetName="itemTile" Property="Background" Value="#FBFBFB"/>
+                                    <Setter TargetName="description" Property="Foreground" Value="{StaticResource Disabled.Foreground}"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                </ListView>
+                <notification:SfBusyIndicator Grid.ColumnSpan="2"
+                                              Width="150"
+                                              Height="70"
+                                              VerticalAlignment="Center"
+                                              AnimationType="Cupertino"
+                                              Background="Transparent"
+                                              IsBusy="{Binding IsProductDemoBusy, Mode=TwoWay}"
+                                              Visibility="{Binding IsProductDemoBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <notification:SfBusyIndicator.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Width="150"
+                                           FontSize="15"
+                                           Text="Loading..."
+                                           TextAlignment="Center" />
+                            </Grid>
+                        </DataTemplate>
+                    </notification:SfBusyIndicator.HeaderTemplate>
+                </notification:SfBusyIndicator>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
