@@ -1,0 +1,47 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.pdfviewerdemos.wpf.FreeText"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cc="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.pdfviewerdemos.wpf"
+    Title="Free Text Annotation">
+    <democommon:DemoControl.DataContext>
+        <local:FreeTextViewModel />
+    </democommon:DemoControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <CheckBox 
+        Grid.Row="0" 
+        Content="Disable the selection of annotations" 
+        VerticalAlignment="Center" 
+        VerticalContentAlignment="Center"
+        Padding="6,0,0,0"
+        Command="{Binding AnnotationConstraintsCommand}"
+        CommandParameter="{Binding ElementName=pdfviewer1}"
+        HorizontalAlignment="Right"
+        IsChecked="{Binding AnnotationConstraintsParameter}"
+        Margin="0,0,10,0"/>
+        <cc:PdfViewerControl
+        x:Name="pdfviewer1"
+        Grid.Row="1"
+        Margin="8,0,8,8"
+        AllowDrop="True"
+        BorderThickness="1"
+        BorderBrush="{DynamicResource BorderAlt}"
+        WarnBeforeClose="False"
+        ItemSource="{Binding DocumentStream}"
+        ZoomMode="FitWidth">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="DocumentLoaded">
+                    <interactivity:InvokeCommandAction Command="{Binding DocumentLoadedCommand}" CommandParameter="{Binding ElementName=pdfviewer1}"/>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </cc:PdfViewerControl>
+    </Grid>
+</democommon:DemoControl>
+
