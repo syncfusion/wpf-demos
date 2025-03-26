@@ -1,0 +1,115 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.mapdemos.wpf.DataLabels"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.mapdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Width="auto"
+    Height="auto"
+    OptionsPosition="Right"
+    OptionsSize="Auto">
+
+    <democommon:DemoControl.DataContext>
+        <local:DataLabelsViewModel />
+    </democommon:DemoControl.DataContext>
+    <democommon:DemoControl.Resources>
+        <democommon:EnumDisplayNameConverter x:Key="EnumDisplayNameConverter" />
+    </democommon:DemoControl.Resources>
+
+    <Grid>
+        <syncfusion:SfMap x:Name="map" Margin="30">
+            <syncfusion:SfMap.Layers>
+                <syncfusion:ShapeFileLayer
+                    x:Name="shapeLayer"
+                    ItemsSource="{Binding DataSource}"
+                    LabelPath="Name"
+                    ShapeIDPath="Name"
+                    ShapeIDTableField="STATE_NAME"
+                    Uri="/syncfusion.mapdemos.wpf;component/Assets/Map/Data/usa_state.shp">
+
+                    <syncfusion:ShapeFileLayer.ShapeSettings>
+                        <syncfusion:ShapeSetting
+                            ShapeColorValuePath="Type"
+                            ShapeFill="LightGray"
+                            ShapeStroke="White"
+                            ShapeValuePath="Name">
+
+                            <syncfusion:ShapeSetting.FillSetting>
+                                <syncfusion:ShapeFillSetting>
+                                    <syncfusion:ShapeFillSetting.ColorMappings>
+                                        <syncfusion:EqualsColorMapping Color="#A1E5B4" Value="Rice" />
+                                        <syncfusion:EqualsColorMapping Color="#547C84" Value="Wheat" />
+                                        <syncfusion:EqualsColorMapping Color="#B5E485" Value="Grains" />
+                                        <syncfusion:EqualsColorMapping Color="#E19E7F" Value="Vegetables" />
+                                        <syncfusion:EqualsColorMapping Color="#7BC1E8" Value="Oats" />
+                                    </syncfusion:ShapeFillSetting.ColorMappings>
+                                </syncfusion:ShapeFillSetting>
+                            </syncfusion:ShapeSetting.FillSetting>
+                        </syncfusion:ShapeSetting>
+                    </syncfusion:ShapeFileLayer.ShapeSettings>
+
+                    <syncfusion:ShapeFileLayer.ToolTipSettings>
+                        <syncfusion:ToolTipSetting ValuePath="Name" />
+                    </syncfusion:ShapeFileLayer.ToolTipSettings>
+
+                    <syncfusion:ShapeFileLayer.MapItemSetting>
+                        <syncfusion:MapItemSetting
+                            x:Name="settings"
+                            IntersectionAction="None"
+                            SmartLabelMode="Trim" />
+                    </syncfusion:ShapeFileLayer.MapItemSetting>
+                </syncfusion:ShapeFileLayer>
+            </syncfusion:SfMap.Layers>
+        </syncfusion:SfMap>
+    </Grid>
+
+    <democommon:DemoControl.Options>
+        <WrapPanel Orientation="Vertical">
+            <StackPanel Margin="0,5,0,0" >
+                <Label
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Content="Smart Label" />
+                <ComboBox
+                    Name="ComboBox1"
+                    Width="200"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    ItemsSource="{democommon:EnumValuesExtension Type=syncfusion:IntersectAction}"
+                    SelectedItem="{Binding ElementName=settings, Path=SmartLabelMode}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+            </StackPanel>
+
+            <StackPanel>
+                <Label
+                    Margin="10,0,0,0"
+                    VerticalAlignment="Center"
+                    Content="Intersect Action" />
+                <ComboBox
+                    Name="ComboBox2"
+                    Width="200"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    ItemsSource="{democommon:EnumValuesExtension Type=syncfusion:IntersectAction}"
+                    SelectedItem="{Binding ElementName=settings, Path=IntersectionAction}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource EnumDisplayNameConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+            </StackPanel>
+        </WrapPanel>
+    </democommon:DemoControl.Options>
+
+</democommon:DemoControl>

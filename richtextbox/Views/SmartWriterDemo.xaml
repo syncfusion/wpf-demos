@@ -1,0 +1,115 @@
+﻿<Syncfusion:RibbonWindow
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:syncfusion.richtextboxdemos.wpf.Views"
+      mc:Ignorable="d"
+      x:Class="syncfusion.richtextboxdemos.wpf.SmartWriterDemo"
+      xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+      xmlns:Editor="clr-namespace:syncfusion.documenteditor.wpf;assembly=syncfusion.documenteditor.wpf"
+      Icon="/syncfusion.documenteditor.wpf;component/Assets/App.ico"
+      Office2010Icon="pack://application:,,,/Syncfusion.SfRichTextRibbon.WPF;component/Images/Syncfusion.png" SnapsToDevicePixels="True" IsGlassActive="False" 
+      x:Name="ribbonWindow" Title="{Binding DocumentTitle, ElementName=richTextBoxAdv}" Width="1087" Height="635"
+      WindowState="Normal" WindowStartupLocation="CenterScreen" MinimumResizeValue="0">
+    <Syncfusion:RibbonWindow.Resources>
+        <Editor:PercentageDoubleConverter x:Key="PercentageDoubleConverter" />
+        <Style x:Key="ThumbStyle" TargetType="Thumb">
+            <Setter Property="Width" Value="13" />
+            <Setter Property="Height" Value="13" />
+            <Setter Property="Background" Value="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border
+                                 x:Name="ThumbBorder"
+                                 Background="{TemplateBinding Background}"
+                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                 CornerRadius="12" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Syncfusion:RibbonWindow.Resources>
+    <Syncfusion:RibbonWindow.StatusBar>
+        <Syncfusion:RibbonStatusBar Height="25">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Margin="10,0,0,5" FontSize="12" ToolTip="Page number in document.">
+                     <Editor:RunAdv RunText="Page :"
+                                  Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}"/>
+                     <Editor:RunAdv x:Name="currentPageNumberRun"
+                                  Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}"/>
+                     <Editor:RunAdv RunText="of" 
+                                  Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}"/>
+                     <Editor:RunAdv x:Name="pagecountRun" 
+                                  Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}"/>
+                    </TextBlock>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" DataContext="{Binding ElementName=richTextBoxAdv}" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="1">
+                    <Syncfusion:RibbonButton  ToolTipService.ShowOnDisabled="True" SizeForm="ExtraSmall" Command="Syncfusion:SfRichTextBoxAdv.LayoutTypeCommand" CommandTarget="{Binding ElementName=richTextBoxAdv}" CommandParameter="Pages" ToolTip="Print Layout">
+                        <Syncfusion:RibbonButton.IconTemplate>
+                            <DataTemplate>
+                                <Path
+                                    Width="15"
+                                    Height="15"
+                                    Margin="0 -3 0 0"
+                                    Data="M3,11 L13,11 13,12 3,12 z M3,9 L13,9 13,10 3,10 z M3,7 L13,7 13,8 3,8 z M3,5 L13,5 13,6 3,6 z M3,3 L13,3 13,4 3,4 z M1,1 L1,15 15,15 15,1 z M0,0 L16,0 16,16 0,16 z" 
+                                    Fill="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}"
+                                    Stretch="Uniform" />
+                            </DataTemplate>
+                        </Syncfusion:RibbonButton.IconTemplate>
+                    </Syncfusion:RibbonButton>
+                    <Syncfusion:RibbonButton  ToolTipService.ShowOnDisabled="True" SizeForm="ExtraSmall" Command="Syncfusion:SfRichTextBoxAdv.LayoutTypeCommand" CommandTarget="{Binding ElementName=richTextBoxAdv}" CommandParameter="Continuous" ToolTip="Web Layout">
+                        <Syncfusion:RibbonButton.IconTemplate>
+                            <DataTemplate>
+                                <Path
+                                    Width="16"
+                                    Height="16"
+                                    Data="M8.3709489,9.9345857 L8.3456518,9.9839116 C8.1241924,10.442851 8.000003,10.957188 8.000003,11.5 8.000003,13.43 9.5700027,15 11.500003,15 11.680941,15 11.858714,14.986201 12.032327,14.959601 L12.199086,14.929742 12.198637,14.90944 C12.189066,14.507524 12.112504,12.899856 11.500004,12.899856 11.018754,12.899856 10.868364,12.238197 10.821366,11.824659 L10.819817,11.81 10.788681,11.810419 C9.8929302,11.781582 8.9195472,10.667202 8.3926679,9.9639551 z M3.0000025,9.0000001 L6.6070038,9.0000001 C6.4440037,9.3170005 6.3120037,9.6510002 6.2120038,10 L3.0000025,10 z M12.19823,8.0701047 L12.197335,8.0918628 C12.182916,8.4033471 12.090631,9.4000951 11.500006,9.4000951 10.95313,9.4000951 11.123418,10.807053 11.224089,11.422597 L11.224921,11.427576 11.25938,11.423426 C12.059183,11.331148 13.724161,11.325381 14.794333,12.622665 L14.808311,12.64021 14.842393,12.539681 C14.944808,12.211094 15.000003,11.861876 15.000003,11.5 15.000003,9.8112499 13.797972,8.3981248 12.204515,8.0712301 z M11.500003,7.0000001 C13.981003,7.0000001 16.000003,9.0190002 16.000003,11.5 16.000003,13.981 13.981003,16 11.500003,16 9.019003,16 7.000003,13.981 7.000003,11.5 7.000003,9.0190002 9.019003,7.0000001 11.500003,7.0000001 z M3.0000044,7.0000001 L8.3480045,7.0000001 C7.9430047,7.285 7.5760046,7.62 7.2610046,8.0000001 L3.0000044,8.0000001 z M3.000003,5.0000001 L10.000003,5.0000001 10.000003,6.0000001 3.000003,6.0000001 z M3.000003,3.0000001 L10.000003,3.0000001 10.000003,4.0000001 3.000003,4.0000001 z M0,0 L12.999999,0 12.999999,6.2130128 C12.677001,6.1220094 12.343001,6.057007 11.999999,6.024994 L11.999999,0.99999995 1.0000004,0.99999995 1.0000004,12 6.0249993,12 C6.0560013,12.343994 6.1209999,12.677002 6.2119996,13 L0,13 z" 
+                                    Fill="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}"
+                                    Stretch="Uniform" />
+                            </DataTemplate>
+                        </Syncfusion:RibbonButton.IconTemplate>
+                    </Syncfusion:RibbonButton>
+                    <TextBlock FontSize="12" VerticalAlignment="Center" Margin="5,0,0,0">
+                     <Editor:RunAdv RunText="{Binding ZoomFactor, Mode=OneWay, StringFormat={}{0}%}" Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}"/>
+                    </TextBlock>
+                    <Syncfusion:SfRangeSlider Margin="6 0 5 0" x:Name="rangeslider" Focusable="False" Value="{Binding ZoomFactor, Mode=TwoWay, Converter={StaticResource PercentageDoubleConverter}}"
+                     ThumbStyle="{StaticResource ThumbStyle}" ThumbToolTipPlacement="None"  Foreground="{Binding Path=Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Syncfusion:RibbonStatusBar}}}" TickFrequency="0.1" Width="100" TickPlacement="None" Minimum="0.1" Maximum="5" ToolTip="Zoom"/>
+                </StackPanel>
+            </Grid>
+        </Syncfusion:RibbonStatusBar>
+    </Syncfusion:RibbonWindow.StatusBar>
+    <Grid x:Name="Root">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Syncfusion:SfRichTextRibbon x:Name="richTextRibbon" SnapsToDevicePixels="True" DataContext="{Binding ElementName=richTextBoxAdv}"/>
+        <Grid Grid.Row="1">
+            <Syncfusion:SfRichTextBoxAdv x:Name="richTextBoxAdv" Grid.Row="1" LayoutType="Pages" AcceptsTab="True" AllowDrop="True" Loaded="richTextBoxAdv_Loaded" ContextMenuOpening ="RichTextBoxAdv_ContextMenuOpening" ContextMenuClosing="RichTextBoxAdv_ContextMenuClosing"/>
+            <Canvas HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Button x:Name="AIWriteButton" Focusable="False"
+                         Style="{DynamicResource WPFPrimaryButtonStyle}"
+                         Click="OnGenerateContentClicked" 
+                         Width="96" Height="36" Canvas.Right="30" Canvas.Bottom="30">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Path Width="12" Height="12" Stretch="Uniform" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" Margin="0,0,5,0">
+                            <Path.Data>
+                                <GeometryGroup>
+                                    <PathGeometry Figures="M12.7393 1.39699C12.6915 1.17019 12.4942 1.00593 12.2625 1.00016C12.0307 0.994384 11.8255 1.14861 11.7665 1.37276L11.6317 1.88471C11.4712 2.49477 10.9948 2.97121 10.3847 3.13174L9.87276 3.26646C9.66167 3.32201 9.51101 3.50807 9.50058 3.72609C9.49014 3.94412 9.62234 4.14371 9.82715 4.21917L10.5469 4.48434C11.0663 4.67572 11.4646 5.10158 11.6208 5.63266L11.7703 6.14108C11.8343 6.35877 12.0369 6.50605 12.2637 6.49981C12.4906 6.49358 12.6847 6.3354 12.7367 6.11453L12.8292 5.72158C12.9661 5.1398 13.3904 4.66811 13.9545 4.47067L14.6652 4.22193C14.8737 4.14895 15.0096 3.94777 14.9995 3.72708C14.9894 3.50639 14.8356 3.31851 14.6213 3.26493L14.1122 3.13768C13.4624 2.97521 12.9622 2.45598 12.8242 1.80045L12.7393 1.39699ZM11.3796 3.78214C11.7234 3.57072 12.0165 3.28608 12.2378 2.94927C12.458 3.28452 12.7496 3.56851 13.0919 3.77995C12.7482 3.99135 12.4564 4.27526 12.2359 4.60988C12.015 4.2757 11.7229 3.99268 11.3796 3.78214ZM5.33236 2.83331C5.54136 2.83282 5.72974 2.96284 5.80255 3.16046L6.27396 4.43999C6.65671 5.47887 7.50843 6.2754 8.57059 6.58779L9.47446 6.85363C9.68277 6.9149 9.82773 7.1036 9.83322 7.32066C9.83872 7.53772 9.7035 7.73351 9.49856 7.80524L8.23517 8.24744C7.10694 8.64233 6.25826 9.58571 5.98447 10.7493L5.82009 11.4478C5.76812 11.6687 5.57394 11.8269 5.34712 11.8331C5.34708 11.8331 5.34703 11.8331 5.34699 11.8331C5.33282 11.8335 5.31873 11.8333 5.30478 11.8325C5.09539 11.8207 4.91359 11.6785 4.85357 11.4744L4.58773 10.5705C4.27534 9.50837 3.47881 8.65665 2.43993 8.2739L1.1604 7.80249C0.955587 7.72703 0.82339 7.52743 0.833828 7.3094C0.844266 7.09138 0.994926 6.90532 1.20601 6.84978L2.11615 6.61027C3.33626 6.2892 4.28914 5.33632 4.61022 4.11621L4.84972 3.20607C4.90757 2.98624 5.10615 2.83366 5.33236 2.83331ZM5.31175 5.11073C4.83592 6.14233 3.98451 6.95939 2.92852 7.39092C3.98501 7.82144 4.83249 8.63465 5.309 9.65736C5.78274 8.636 6.62744 7.82043 7.68415 7.38731C6.63136 6.95377 5.78499 6.13721 5.31175 5.11073ZM11.9893 8.39699C11.9415 8.17019 11.7442 8.00593 11.5125 8.00016C11.2807 7.99438 11.0755 8.14861 11.0165 8.37276L10.8368 9.05536C10.8082 9.1643 10.7725 9.27025 10.7302 9.37272C10.4344 10.09 9.81793 10.6362 9.05536 10.8368L8.37276 11.0165C8.16167 11.072 8.01101 11.2581 8.00058 11.4761C7.99992 11.4897 7.99983 11.5033 8.00027 11.5167C8.00695 11.7186 8.13514 11.8984 8.32715 11.9692L9.2868 12.3227C9.37955 12.3569 9.46961 12.3963 9.55662 12.4406C10.1657 12.7506 10.6257 13.2993 10.8209 13.9632L11.0203 14.6411C11.0283 14.6683 11.0385 14.6944 11.0506 14.7193C11.1354 14.8932 11.3153 15.0053 11.5137 14.9998C11.5279 14.9994 11.542 14.9984 11.5559 14.9969C11.7643 14.9736 11.938 14.8216 11.9867 14.6145L12.11 14.0906C12.3056 13.2595 12.9118 12.5856 13.7176 12.3036L14.6652 11.9719C14.6912 11.9628 14.7162 11.9517 14.7398 11.9388C14.9054 11.8483 15.0083 11.6702 14.9995 11.4771C14.9894 11.2564 14.8356 11.0685 14.6213 11.0149L13.9426 10.8453C13.0141 10.6132 12.2997 9.87141 12.1025 8.93494L11.9893 8.39699ZM10.1143 11.4814C10.6905 11.1624 11.1656 10.6865 11.4838 10.1099C11.526 10.1864 11.571 10.2612 11.6186 10.3341C11.952 10.8443 12.415 11.2617 12.9632 11.5402C12.3344 11.8584 11.8194 12.3576 11.4815 12.9678C11.3119 12.6627 11.098 12.3857 10.8481 12.1453C10.5981 11.905 10.3119 11.7014 9.99771 11.543C10.037 11.5232 10.0759 11.5026 10.1143 11.4814Z" />
+                                </GeometryGroup>
+                            </Path.Data>
+                        </Path>
+                        <TextBlock Text="AI Write" VerticalAlignment="Center" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" />
+                    </StackPanel>
+                </Button>
+            </Canvas>
+        </Grid>
+    </Grid>
+</Syncfusion:RibbonWindow>

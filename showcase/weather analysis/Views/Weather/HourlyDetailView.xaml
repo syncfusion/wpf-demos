@@ -1,0 +1,207 @@
+﻿<UserControl
+    x:Class="syncfusion.weatheranalysis.wpf.HourlyDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.weatheranalysis.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    VerticalAlignment="Stretch"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <local:AnimateListBoxBehavior />
+    </i:Interaction.Behaviors>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.weatheranalysis.wpf;component/Resources/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <local:CelsiusToFahrenheitConverter x:Key="CelsiusToFahrenheitConverter" />
+            <local:StringToImageConverter x:Key="StringToImageConverter" />
+            <Style x:Key="HourlyListStyle" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Padding" Value="0,14,0,0" />
+                <Setter Property="Height" Value="228" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisualStyle}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border
+                                x:Name="Bd"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4"
+                                SnapsToDevicePixels="true">
+                                <ContentPresenter
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <local:AnimatableScrollViewer
+            x:Name="scrollViewer"
+            Margin="10,0"
+            CanContentScroll="False"
+            HorizontalScrollBarVisibility="Hidden"
+            VerticalScrollBarVisibility="Disabled">
+            <ListBox
+                x:Name="forecastList"
+                Grid.Column="1"
+                Margin="10,0"
+                Background="Transparent"
+                BorderThickness="0"
+                ItemContainerStyle="{StaticResource HourlyListStyle}"
+                ItemsSource="{Binding HourlyWeatherData}"
+                ScrollViewer.CanContentScroll="False"
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border
+                                Name="ShowCaseBorder"
+                                Width="140"
+                                MinHeight="167"
+                                Margin="4,0"
+                                Padding="10,15"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Background="{DynamicResource ContentBackgroundAlt2}"
+                                CornerRadius="4">
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="45" />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Width="44"
+                                        Height="44"
+                                        Source="{Binding Weather, Converter={StaticResource StringToImageConverter}, ConverterParameter=44}" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        FontSize="12"
+                                        FontWeight="Medium"
+                                        Foreground="{DynamicResource ContentForeground}"
+                                        TextAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding Converter="{StaticResource CelsiusToFahrenheitConverter}" ConverterParameter="{}{0:F2}°">
+                                                <Binding Path="Temperature" />
+                                                <Binding Path="DataContext.IsCelsius" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}" />
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Regular"
+                                        Foreground="{DynamicResource ContentForegroundAlt1}"
+                                        Text="{Binding Weather}"
+                                        TextAlignment="Center" />
+                                    <Border
+                                        Grid.Row="3"
+                                        Height="24"
+                                        HorizontalAlignment="Stretch"
+                                        Background="{DynamicResource ContentBackgroundAlt3}"
+                                        CornerRadius="8">
+                                        <TextBlock
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            FontSize="12"
+                                            FontWeight="Medium"
+                                            Foreground="{DynamicResource ContentForeground}"
+                                            Text="{Binding WindSpeed, StringFormat={}Wind : {0:F2} km/h}"
+                                            TextWrapping="Wrap"
+                                            ToolTip="Wind Speed" />
+
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <Rectangle
+                                Grid.Row="1"
+                                Height="2"
+                                Margin="-2,4"
+                                VerticalAlignment="Stretch"
+                                Fill="Black"
+                                Opacity="0.05" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Margin="0,15,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                FontSize="12"
+                                FontWeight="Regular"
+                                Foreground="{DynamicResource ContentForegroundAlt1}"
+                                Text="{Binding DateTime, StringFormat={}{0:h:mm tt}}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+        </local:AnimatableScrollViewer>
+        <Button
+            x:Name="NavigateBackward"
+            Grid.Column="0"
+            Width="22"
+            Height="22"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Stretch"
+            BorderThickness="1"
+            Style="{StaticResource NavigationButtonStyle}"
+            Visibility="Collapsed">
+            <Path
+                x:Name="Previouspath"
+                Width="4"
+                Height="8"
+                Data="M0.282842 4.28284L3.31716 7.31716C3.56914 7.56914 4 7.39068 4 7.03431L4 0.965685C4 0.609324 3.56914 0.430856 3.31716 0.682842L0.282842 3.71716C0.126633 3.87337 0.126632 4.12663 0.282842 4.28284Z"
+                Fill="{DynamicResource IconColor}"
+                Stroke="{DynamicResource IconColor}" />
+        </Button>
+        <Button
+            x:Name="NavigateForward"
+            Grid.Column="2"
+            Width="22"
+            Height="22"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            BorderThickness="1"
+            Style="{StaticResource NavigationButtonStyle}">
+            <Path
+                x:Name="Nextpath"
+                Width="4"
+                Height="8"
+                Data="M3.71716 3.71716L0.682843 0.682843C0.430857 0.430857 0 0.609323 0 0.965685V7.03431C0 7.39068 0.430856 7.56914 0.682842 7.31716L3.71716 4.28284C3.87337 4.12663 3.87337 3.87337 3.71716 3.71716Z"
+                Fill="{DynamicResource IconColor}"
+                Stroke="{DynamicResource IconColor}" />
+        </Button>
+    </Grid>
+</UserControl>

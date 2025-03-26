@@ -1,0 +1,154 @@
+﻿<syncfusion:ChromelessWindow
+    x:Class="syncfusion.weatheranalysis.wpf.WeatherAnalysisDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:listCollection="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:local="clr-namespace:syncfusion.weatheranalysis.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    Title="Weather Analysis"
+    MinWidth="650"
+    skin:SfSkinManager.Theme="{skin:SkinManagerExtension ThemeName=Windows11Light}"
+    FontFamily="Segoe UI"
+    Icon="App.ico"
+    TitleBarHeight="40"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+    <syncfusion:ChromelessWindow.Resources>
+        <ResourceDictionary>
+            <local:ViewModelLocator x:Key="ViewModelLocator" />
+            <local:CelsiusToFahrenheitConverter x:Key="CelsiusToFahrenheitConverter" />
+            <DataTemplate x:Key="DropdownItemsTemplate">
+                <Grid HorizontalAlignment="Stretch">
+                    <TextBlock
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Medium"
+                        Foreground="{DynamicResource PopupForeground}"
+                        Text="{Binding City}"
+                        TextWrapping="Wrap" />
+                    <TextBlock
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        FontWeight="Medium"
+                        Foreground="{DynamicResource ContentForeground}"
+                        TextWrapping="Wrap">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource CelsiusToFahrenheitConverter}" ConverterParameter="{}{0:0}°/{1:0}°">
+                                <Binding Path="MinTemperature" />
+                                <Binding Path="DataContext.IsCelsius" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type ComboBox}}" />
+                                <Binding Path="MaxTemperature" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </Grid>
+            </DataTemplate>
+            <DataTemplate x:Key="SelectedItemTemplate">
+                <Grid HorizontalAlignment="Stretch">
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        FontWeight="Medium"
+                        Text="{Binding City}"
+                        TextWrapping="Wrap" />
+                </Grid>
+            </DataTemplate>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.weatheranalysis.wpf;component/Resources/WeatherIcons.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </syncfusion:ChromelessWindow.Resources>
+    <syncfusion:ChromelessWindow.DataContext>
+        <Binding Path="LocationViewModel" Source="{StaticResource ViewModelLocator}" />
+    </syncfusion:ChromelessWindow.DataContext>
+
+    <Grid>
+        <syncfusion:TabControlExt
+            x:Name="Weather_TabControl"
+            CloseButtonType="Hide"
+            TabListContextMenuOptions="None">
+            <syncfusion:TabItemExt Height="40" Header="Weather">
+                <local:WeatherView x:Name="weatherView" />
+            </syncfusion:TabItemExt>
+            <syncfusion:TabItemExt Height="40" Header="Hourly Forecast">
+                <local:HourlyView x:Name="hourlyView" />
+            </syncfusion:TabItemExt>
+            <syncfusion:TabItemExt Height="40" Header="Maps">
+                <local:Maps x:Name="mapsView" />
+            </syncfusion:TabItemExt>
+        </syncfusion:TabControlExt>
+        <Border
+            Height="40"
+            Margin="0,0,4,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="{DynamicResource ContentBackgroundAlt2}"
+            BorderBrush="{DynamicResource BorderAlt}"
+            BorderThickness="0,0,0,1">
+            <DockPanel>
+                <ComboBox
+                    x:Name="locationComboBox"
+                    Width="185"
+                    Height="32"
+                    Margin="0,0,4,0"
+                    HorizontalContentAlignment="Stretch"
+                    ItemTemplateSelector="{local:ComboBoxTemplateSelector SelectedItemTemplate={StaticResource SelectedItemTemplate},
+                                                                          DropdownItemsTemplate={StaticResource DropdownItemsTemplate}}"
+                    ItemsSource="{Binding CityCollection}"
+                    SelectedItem="{Binding SelectedCity}"
+                    SelectedValuePath="City">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <ComboBox
+                    x:Name="FormatComboBox"
+                    Height="32"
+                    Margin="0,0,4,0"
+                    ItemsSource="{Binding TemperatureFormatCollection}"
+                    SelectedItem="{Binding SelectedFormat}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding FormatChanged}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+                <Rectangle
+                    Width="2"
+                    Margin="4"
+                    VerticalAlignment="Stretch"
+                    Fill="{DynamicResource BorderAlt}" />
+                <Button
+                    x:Name="ThemeChangeButton"
+                    Width="32"
+                    Height="32"
+                    Margin="0,0,4,0"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Command="{Binding ThemeChanged}">
+                    <Viewbox Width="17" Height="17">
+                        <Path
+                            Data="{Binding PathData}"
+                            Fill="Transparent"
+                            Stroke="{DynamicResource IconColor}"
+                            StrokeEndLineCap="Round"
+                            StrokeLineJoin="Round"
+                            StrokeStartLineCap="Round"
+                            StrokeThickness="1.5" />
+                    </Viewbox>
+                </Button>
+            </DockPanel>
+        </Border>
+    </Grid>
+</syncfusion:ChromelessWindow>
