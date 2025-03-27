@@ -1,4 +1,4 @@
-﻿# Syncfusion WPF samples 
+﻿# Syncfusion® WPF samples 
 
 This repository contains the demos of Syncfusion [WPF Controls](https://www.syncfusion.com/wpf-ui-controls?utm_source=github&utm_medium=listing). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing our [WPF Demos](https://www.syncfusion.com/demos#desktop?utm_source=github&utm_medium=listing), in which you can browse the demo for all the controls.
 
