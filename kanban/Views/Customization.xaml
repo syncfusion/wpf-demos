@@ -1,0 +1,111 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.kanbandemos.wpf.Customization"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:kanban="clr-namespace:Syncfusion.UI.Xaml.Kanban;assembly=Syncfusion.SfKanban.WPF"
+    xmlns:local="clr-namespace:syncfusion.kanbandemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:MenuDetails />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <local:CardCountConverter x:Key="CardCounterConverter" />
+
+        <DataTemplate x:Key="columnHeaderTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="9*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="6*" />
+                    <RowDefinition Height="4*" />
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="Header"
+                           Text="{Binding Header}"
+                           VerticalAlignment="Center"
+                           FontSize="12"
+                           FontWeight="SemiBold"
+                           TextWrapping="NoWrap"
+                           Foreground="{DynamicResource ContentForeground}"
+                           Grid.Row="0"
+                           Margin="8,5,0,5"
+                           Grid.ColumnSpan="1" />
+                <StackPanel x:Name="WIPPanel"
+					       	Grid.Row="1"
+                            Grid.Column="0"
+                            Orientation="Horizontal">
+                    <TextBlock 
+                        Text="{Binding [ItemsCount]}"
+                        Margin="8,2,0,5"
+                        Foreground="{DynamicResource ContentForeground}"
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        FontFamily="SegoeUI"
+                        FontWeight="Normal"/>
+                    <TextBlock 
+                        Text="{Binding CardCount}"
+                        Foreground="{DynamicResource ContentForeground}"
+                        Margin="5,2,0,5"
+                        FontFamily="SegoeUI"
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        FontWeight="Normal"/>
+                </StackPanel>
+
+                <Border x:Name="CollapsedIcon"
+                        Background="Transparent"
+                        Grid.Column="1"
+                        Grid.Row="1">
+                    <Path Data="M4.85355 0.646447C5.04882 0.841709 5.04882 1.15829 4.85355 1.35355L1.70711 4.5L4.85355 7.64645C5.04882 7.84171 5.04882 8.15829 4.85355 8.35355C4.65829 8.54882 4.34171 8.54882 4.14645 8.35355L0.646447 4.85355C0.451184 4.65829 0.451184 4.34171 0.646447 4.14645L4.14645 0.646447C4.34171 0.451184 4.65829 0.451184 4.85355 0.646447Z"
+                          Stretch="Fill"
+                          HorizontalAlignment="Center"
+                          Margin="0,0,8,0"
+                          Fill="{DynamicResource ContentForeground}"
+                          Opacity="0.75"
+                          IsHitTestVisible="False"
+                          UseLayoutRounding="True"
+                          Width="6"
+                          Height="10">
+                    </Path>
+                </Border>
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding ElementName=CollapsedIcon,Path=IsMouseOver}" Value="True">
+                    <Setter TargetName="CollapsedIcon" Property="Cursor" Value="Hand"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </democommon:DemoControl.Resources>
+
+    <Grid>
+        <kanban:SfKanban
+            x:Name="kanban"
+            AutoGenerateColumns="False"
+            CardDragEnd="kanban_DragEnd"
+            CardDragStart="kanban_DragStart"
+            ColumnHeaderTemplate="{StaticResource columnHeaderTemplate}"
+            ItemsSource="{Binding PizzaShop}">
+            <kanban:SfKanban.PlaceholderStyle>
+                <kanban:PlaceholderStyle
+                    Fill="#FFFBC7AB"
+                    FontSize="18"
+                    Foreground="White" />
+            </kanban:SfKanban.PlaceholderStyle>
+
+            <kanban:KanbanColumn Title="Menu" Categories="Menu" />
+            <kanban:KanbanColumn Title="Order" Categories="Dining,Delivery" />
+            <kanban:KanbanColumn
+                Title="Ready to Serve"
+                AllowDrag="False"
+                Categories="Ready to Serve" />
+            <kanban:KanbanColumn
+                Title="Ready to Delivery"
+                AllowDrag="False"
+                Categories="Ready to Delivery" />
+        </kanban:SfKanban>
+    </Grid>
+</democommon:DemoControl>
