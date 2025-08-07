@@ -1,0 +1,76 @@
+﻿<democommon:DemoControl 
+        x:Class="syncfusion.pdfviewerdemos.wpf.SmartRedaction"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:cc="clr-namespace:Syncfusion.Windows.PdfViewer;assembly=Syncfusion.PdfViewer.WPF" 
+        xmlns:Notification="clr-namespace:Syncfusion.Windows.Controls.Notification;assembly=Syncfusion.SfBusyIndicator.WPF"
+        xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+        xmlns:local="clr-namespace:syncfusion.pdfviewerdemos.wpf" xmlns:interactivity="http://schemas.microsoft.com/xaml/behaviors"
+    Title="Smart Redaction" x:Name="smartRedaction">
+    <democommon:DemoControl.DataContext>
+        <local:SmartRedactionViewModel />
+    </democommon:DemoControl.DataContext>
+    <Grid local:PdfViewerEventAttachUtil.WindowLoaded="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <cc:PdfViewerControl Name="pdfviewer1" ItemSource="{Binding DocumentStream}" ZoomMode="FitPage">
+            <interactivity:Interaction.Triggers>
+                <interactivity:EventTrigger EventName="DocumentLoaded">
+                    <interactivity:InvokeCommandAction Command="{Binding DocumentLoadedCommand}" CommandParameter="{Binding ElementName=pdfviewer1}"/>
+                </interactivity:EventTrigger>
+                <interactivity:EventTrigger EventName="Loaded">
+                    <interactivity:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="{Binding ElementName=pdfviewer1}"/>
+                </interactivity:EventTrigger>
+            </interactivity:Interaction.Triggers>
+        </cc:PdfViewerControl>
+        <Grid x:Name="aiGrid" Grid.Column="1" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="aI_Title" Grid.Row="0" FontSize="14" Padding="6,12,0,0" Text="Smart Redaction" Width="250" HorizontalAlignment="Left"/>
+            <ScrollViewer x:Name="option_Scroll" Visibility="Visible" Grid.Row="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+                <StackPanel x:Name="contents_Stack" Grid.Row="1" Orientation="Vertical" Visibility="Visible">
+                    <TextBlock x:Name="header_text" TextWrapping="Wrap" Text="Select following sensitive patterns to redact" Margin="10,5" HorizontalAlignment="Left" Width="210"/>
+                    <CheckBox x:Name="patternSelection" Content="Select All" Margin="10,5"/>
+                    <CheckBox x:Name="person" Content="Person Names" Margin="30,5" />
+                    <CheckBox x:Name="organization" Content="Organization Names" Margin="30,5"/>
+                    <CheckBox x:Name="email" Content="Email addresses" Margin="30,5" />
+                    <CheckBox x:Name="phone" Content="Phone Numbers" Margin="30,5"/>
+                    <CheckBox x:Name="address" Content="Addresses" Margin="30,5"/>
+                    <CheckBox x:Name="date" Content="Dates" Margin="30,5" />
+                    <CheckBox x:Name="account" Content="Account Numbers" Margin="30,5" />
+                    <CheckBox x:Name="credit" Content="Credit Card Numbers" Margin="30,5" />
+                    <CheckBox x:Name="ssn" Content="Social Security Number (SSN)" Margin="30,5"/>
+                    <Button x:Name="scanButton" IsEnabled="False" Content="Scan" Height="25" Width="50" HorizontalAlignment="Right" Margin="0,5,10,10"/>
+                </StackPanel>
+            </ScrollViewer>
+
+            <Grid x:Name="information_Grid" Grid.Row="1" Visibility="Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Visibility="Visible" Orientation="Vertical">
+                    <Label x:Name="count_Label" Content="0" FontWeight="ExtraBold"/>
+                    <TextBlock x:Name="result_Header" Text="Select the following sesitive information to get redact" Margin="10,5" Width="210" HorizontalAlignment="Left" TextWrapping="Wrap"/>
+                </StackPanel>
+                <ScrollViewer x:Name="information_Scroll" Grid.Row="1" Visibility="Visible" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="information_Stack" Orientation="Vertical">
+                        <CheckBox x:Name="selectAll" Content="Select All" Margin="10,5"/>
+                        <Border/>
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel x:Name="button_Stack" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="cancelButton" Content="Cancel" Width="50" Margin="0,5,10,10"/>
+                    <Button x:Name="applyButton" Content="Apply" IsEnabled="False" Width="50" Margin="0,5,10,10"/>
+                </StackPanel>
+            </Grid>
+            <Canvas x:Name="loadingCanvas" Grid.Row="0" Grid.RowSpan="2" Background="White" Opacity="0.5" Visibility="Collapsed"/>
+            <Notification:SfBusyIndicator x:Name="loadingIndicator" Grid.Row="1" Visibility="Collapsed" IsBusy="True" AnimationType="DotCircle" ViewboxHeight="75" ViewboxWidth="150" Header="Loading..."/>
+        </Grid>
+    </Grid>
+</democommon:DemoControl>
