@@ -1,11 +1,4 @@
-#region Copyright Syncfusion® Inc. 2001-2025.
-// Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
-// Use of this code is subject to the terms of our license.
-// A copy of the current license can be obtained at any time by e-mailing
-// licensing@syncfusion.com. Any infringement will be prosecuted under
-// applicable laws. 
-#endregion
-using syncfusion.demoscommon.wpf;
+﻿using syncfusion.demoscommon.wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +35,6 @@ namespace syncfusion.kanbandemos.wpf
             this.HeaderImageSource = new BitmapImage(new Uri(@"/syncfusion.demoscommon.wpf;component/Assets/ProductCategoryImages/DataVisualization.png", UriKind.RelativeOrAbsolute));
             this.ControlDescription = "Kanban is an intuitive project management control with a customizable board view for tracking progress.";
             this.GalleryViewImageSource = new BitmapImage(new Uri(@"/syncfusion.demoscommon.wpf;component/Assets/GalleryViewImages/Kanban.png", UriKind.RelativeOrAbsolute));
-            this.Tag = Tag.Updated;
 
             DemoInfo GettingStartedDemo = new DemoInfo()
             {
@@ -63,7 +55,7 @@ namespace syncfusion.kanbandemos.wpf
 
             GettingStartedDemo.Documentations = GettingStartedHelpDocuments;
             this.Demos.Add(GettingStartedDemo);
-            this.Demos.Add(new DemoInfo() { SampleName = "Customization", GroupName = "KANBAN BOARD",Tag = Tag.Updated, Description = "This sample demonstrates the kanban view customization using DataTemplates.", DemoViewType = typeof(Customization) });
+            this.Demos.Add(new DemoInfo() { SampleName = "Customization", GroupName = "KANBAN BOARD", Description = "This sample demonstrates the kanban view customization using DataTemplates.", DemoViewType = typeof(Customization) });
             this.Demos.Add(new DemoInfo() { SampleName = "Swimlane", GroupName = "KANBAN BOARD", Description = "Swim lanes are horizontal categorizations that allow you to categorize your current workflow by different projects, teams, users, or whatever you need.", DemoViewType = typeof(Swimlane) });
             this.Demos.Add(new DemoInfo() { SampleName = "Dialog Editing", GroupName = "KANBAN BOARD", Description = "This sample showcases how to perform create, and update operations with the Kanban control. You can add a new card using the button in the properties panel, and update a card by tapping on it to open the details in a dialog.", DemoViewType = typeof(DialogEditing)});
         }

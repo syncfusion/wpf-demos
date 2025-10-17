@@ -1,11 +1,4 @@
-#region Copyright Syncfusion® Inc. 2001-2025.
-// Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
-// Use of this code is subject to the terms of our license.
-// A copy of the current license can be obtained at any time by e-mailing
-// licensing@syncfusion.com. Any infringement will be prosecuted under
-// applicable laws. 
-#endregion
-using syncfusion.demoscommon.wpf;
+﻿using syncfusion.demoscommon.wpf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -285,7 +278,7 @@ namespace syncfusion.assistviewdemo.wpf.ViewModel
                 line += $"[variation: {Guid.NewGuid()}]";
                 if (AISettings.IsCredentialValid)
                 {
-                    Requirement = String.Format(line + "Give required information in markdown format along with next 3 possible questions the user might ask, \" +\r\n                \"send the response in json schema.{0}", GenerateJsonSchema(typeof(Response)));
+                    Requirement = String.Format(line + "Give required information in markdown format along with next 3 possible questions the user might ask, send the response in json schema.{0}", GenerateJsonSchema(typeof(Response)));
                     var response = await AISettings.ClientAI.CompleteAsync(Requirement);
                     var json = response.ToString();
                     json = json.Replace("```json", "");

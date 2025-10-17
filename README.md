@@ -1,4 +1,4 @@
-﻿# Syncfusion® WPF samples 
+# Syncfusion WPF samples 
 
 This repository contains the demos of Syncfusion [WPF Controls](https://www.syncfusion.com/wpf-ui-controls?utm_source=github&utm_medium=listing). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing our [WPF Demos](https://www.syncfusion.com/demos#desktop?utm_source=github&utm_medium=listing), in which you can browse the demo for all the controls.
 
@@ -13,10 +13,9 @@ This section guides you to use the Syncfusion WPF samples in your applications.
 
 ## <a name="requirements-to-run-the-demo"></a>Requirements to run the demo ##
 
-The demos are provided for .NET Framework 4.5, .NET Framework 4.7, .NET 5.0, and .NET 6.0. 
+The demos are provided for .NET Framework 4.5, .NET Framework 4.7 and .NET 5.0. 
 * .NET Framework - Requires Visual Studio 2010 or higher to run demos based on the .NET Framework you want to use.
 * Refer [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) requirements for running .NET5.0 demos.
-* Refer [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0) requirements for running .NET6.0 demos.
 
 ## <a name="how-to-run-the-demos"></a>How to run the demos ##
 
@@ -449,4 +448,5 @@ Syncfusion has no liability for any damage or consequence that may arise by the 
 
 * To renew the subscription, click [here](https://www.syncfusion.com/sales/products?utm_source=github&utm_medium=listing) or contact our sales team at <salessupport@syncfusion.com>.
 
-<p>Copyright © 2001-2025 Syncfusion®, Inc. Updated on 2025-09-08 at precisely 14:23:09 EST.</p> 
+<p>Copyright © 2001-2025 Syncfusion, Inc. Updated on 2025-10-17 at precisely 18:02:54 EST.</p>
+  

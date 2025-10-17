@@ -1,11 +1,4 @@
-#region Copyright Syncfusion® Inc. 2001-2025.
-// Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
-// Use of this code is subject to the terms of our license.
-// A copy of the current license can be obtained at any time by e-mailing
-// licensing@syncfusion.com. Any infringement will be prosecuted under
-// applicable laws. 
-#endregion
-using syncfusion.demoscommon.wpf;
+﻿using syncfusion.demoscommon.wpf;
 using System;
 using System.Collections.Generic;
 
@@ -30,7 +23,7 @@ namespace syncfusion.samplebrowser.wpf
             var productdemos = new List<ProductDemo>();
             this.ShowcaseDemos = new List<DemoInfo>();
 
-#if !FILEFORMAT && !DocumentSDK && !EXCELSDK && !PDFViewerSDK && !DOCXEDITORSDK
+#if !FILEFORMAT && !DocumentSDK && !SPREADSHEETEDITORSDK && !PDFViewerSDK && !DOCXEDITORSDK
             //GRIDS
             productdemos.Add(new datagriddemos.wpf.DataGridProductDemos());
             productdemos.Add(new treegriddemos.wpf.TreeGridProductDemos());
@@ -171,7 +164,7 @@ namespace syncfusion.samplebrowser.wpf
             productdemos.Add(new syncfusion.presentationdemos.wpf.PresentationProductDemos());
             this.ShowcaseDemos.Add(new DemoInfo() { DemoViewType = typeof(syncfusion.invoice.wpf.InvoiceDemo), SampleName = "Invoice", ImagePath = "/syncfusion.invoice.wpf;component/Assets/Invoice/Invoice.png" });
 			this.ShowcaseDemos.Add(new DemoInfo() { DemoViewType = typeof(syncfusion.powerpointviewer.wpf.PowerPointViewerDemo), SampleName = "Presentation Viewer", ImagePath = "/syncfusion.powerpointviewer.wpf;component/Assets/PowerPoint Viewer/PowerPointViewer.PNG" });
-#elif EXCELSDK
+#elif SPREADSHEETEDITORSDK
 			productdemos.Add(new syncfusion.spreadsheetdemos.wpf.SpreadsheetProductDemos());
 			this.ShowcaseDemos.Add(new DemoInfo() { DemoViewType = typeof(syncfusion.spreadsheetdemo.wpf.SpreadSheetDemo), SampleName = "Spreadsheet", ImagePath = "/syncfusion.spreadsheetdemo.wpf;component/Assets/SfSpreadsheet.png" });
 #elif PDFViewerSDK

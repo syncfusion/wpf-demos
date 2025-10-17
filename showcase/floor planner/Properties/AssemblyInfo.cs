@@ -1,11 +1,4 @@
-#region Copyright Syncfusion® Inc. 2001-2025.
-// Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
-// Use of this code is subject to the terms of our license.
-// A copy of the current license can be obtained at any time by e-mailing
-// licensing@syncfusion.com. Any infringement will be prosecuted under
-// applicable laws. 
-#endregion
-using System.Reflection;
+﻿using System.Reflection;
 using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -17,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("syncfusion.floorplanner.wpf_47")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Syncfusion Inc.")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("syncfusion.floorplanner.wpf_47")]
-[assembly: AssemblyCopyright("Copyright © 2001-2025 Syncfusion® Inc.")]
+[assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
