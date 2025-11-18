@@ -1,10 +1,3 @@
-#region Copyright SyncfusionÂ® Inc. 2001-2025.
-// Copyright SyncfusionÂ® Inc. 2001-2025. All rights reserved.
-// Use of this code is subject to the terms of our license.
-// A copy of the current license can be obtained at any time by e-mailing
-// licensing@syncfusion.com. Any infringement will be prosecuted under
-// applicable laws. 
-#endregion
 using Syncfusion.Windows.Shared;
 using System;
 using System.Collections.Generic;
@@ -154,24 +147,24 @@ namespace syncfusion.layoutdemos.wpf
             string[] argentina = new string[] { "Buenos Aires" };
             string[] austria = new string[] { "Graz", "Salzburg" };
             string[] belgium = new string[] { "Bruxelles", "Charleroi" };
-            string[] brazil = new string[] { "Campinas", "Resende", "Rio de Janeiro", "Sï¿½o Paulo" };
-            string[] canada = new string[] { "Montrï¿½al", "Tsawassen", "Vancouver" };
-            string[] denmark = new string[] { "ï¿½rhus", "Kï¿½benhavn" };
+            string[] brazil = new string[] { "Campinas", "Resende", "Rio de Janeiro", "São Paulo" };
+            string[] canada = new string[] { "Montréal", "Tsawassen", "Vancouver" };
+            string[] denmark = new string[] { "Århus", "København" };
             string[] finland = new string[] { "Helsinki", "Oulu" };
             string[] france = new string[] { "Lille", "Lyon", "Marseille", "Nantes", "Paris", "Reims", "Strasbourg", "Toulouse", "Versailles" };
-            string[] germany = new string[] { "Aachen", "Berlin", "Brandenburg", "Cunewalde", "Frankfurt a.M.", "Kï¿½ln", "Leipzig", "Mannheim", "Mï¿½nchen", "Mï¿½nster", "Stuttgart" };
+            string[] germany = new string[] { "Aachen", "Berlin", "Brandenburg", "Cunewalde", "Frankfurt a.M.", "Köln", "Leipzig", "Mannheim", "München", "Münster", "Stuttgart" };
             string[] ireland = new string[] { "Cork" };
             string[] italy = new string[] { "Bergamo", "Reggio Emilia", "Torino" };
-            string[] mexico = new string[] { "Mï¿½xico D.F." };
+            string[] mexico = new string[] { "México D.F." };
             string[] norway = new string[] { "Stavern" };
             string[] poland = new string[] { "Warszawa" };
             string[] portugal = new string[] { "Lisboa" };
             string[] spain = new string[] { "Barcelona", "Madrid", "Sevilla" };
-            string[] sweden = new string[] { "Brï¿½cke", "Luleï¿½" };
-            string[] switzerland = new string[] { "Bern", "Genï¿½ve" };
+            string[] sweden = new string[] { "Bräcke", "Luleå" };
+            string[] switzerland = new string[] { "Bern", "Genève" };
             string[] uk = new string[] { "Colchester", "Hedge End", "London" };
             string[] usa = new string[] { "Albuquerque", "Anchorage", "Boise", "Butte", "Elgin", "Eugene", "Kirkland", "Lander", "Portland", "San Francisco", "Seattle", "Walla Walla" };
-            string[] venezuela = new string[] { "Barquisimeto", "Caracas", "I. de Margarita", "San Cristï¿½bal" };
+            string[] venezuela = new string[] { "Barquisimeto", "Caracas", "I. de Margarita", "San Cristóbal" };
 
             citiesCollection.Add("Argentina", argentina);
             citiesCollection.Add("Austria", austria);

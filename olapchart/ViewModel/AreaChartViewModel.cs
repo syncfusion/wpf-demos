@@ -1,4 +1,4 @@
-#region Copyright Syncfusion Inc. 2001 - 2020
+﻿#region Copyright Syncfusion Inc. 2001 - 2020
 // <copyright file="ViewModel.cs" company="syncfusion">
 //  Copyright (c) Syncfusion Inc. 2001 - 2020. All rights reserved.
 //  Use of this code is subject to the terms of our license.

@@ -296,23 +296,23 @@ namespace syncfusion.datagriddemos.wpf
 
             string[] belgium = new string[] { "Bruxelles", "Charleroi" };
 
-            string[] brazil = new string[] { "Campinas", "Resende", "Rio de Janeiro", "Sï¿½o Paulo" };
+            string[] brazil = new string[] { "Campinas", "Resende", "Rio de Janeiro", "São Paulo" };
 
-            string[] canada = new string[] { "Montrï¿½al", "Tsawassen", "Vancouver" };
+            string[] canada = new string[] { "Montréal", "Tsawassen", "Vancouver" };
 
-            string[] denmark = new string[] { "ï¿½rhus", "Kï¿½benhavn" };
+            string[] denmark = new string[] { "Århus", "København" };
 
             string[] finland = new string[] { "Helsinki", "Oulu" };
 
             string[] france = new string[] { "Lille", "Lyon", "Marseille", "Nantes", "Paris", "Reims", "Strasbourg", "Toulouse", "Versailles" };
 
-            string[] germany = new string[] { "Aachen", "Berlin", "Brandenburg", "Cunewalde", "Frankfurt a.M.", "Kï¿½ln", "Leipzig", "Mannheim", "Mï¿½nchen", "Mï¿½nster", "Stuttgart" };
+            string[] germany = new string[] { "Aachen", "Berlin", "Brandenburg", "Cunewalde", "Frankfurt a.M.", "Köln", "Leipzig", "Mannheim", "München", "Münster", "Stuttgart" };
 
             string[] ireland = new string[] { "Cork" };
 
             string[] italy = new string[] { "Bergamo", "Reggio Emilia", "Torino" };
 
-            string[] mexico = new string[] { "Mï¿½xico D.F." };
+            string[] mexico = new string[] { "México D.F." };
 
             string[] norway = new string[] { "Stavern" };
 
@@ -322,15 +322,15 @@ namespace syncfusion.datagriddemos.wpf
 
             string[] spain = new string[] { "Barcelona", "Madrid", "Sevilla" };
 
-            string[] sweden = new string[] { "Brï¿½cke", "Luleï¿½" };
+            string[] sweden = new string[] { "Bräcke", "Luleå" };
 
-            string[] switzerland = new string[] { "Bern", "Genï¿½ve" };
+            string[] switzerland = new string[] { "Bern", "Genève" };
 
             string[] uk = new string[] { "Colchester", "Hedge End", "London" };
 
             string[] usa = new string[] { "Albuquerque", "Anchorage", "Boise", "Butte", "Elgin", "Eugene", "Kirkland", "Lander", "Portland", "San Francisco", "Seattle", "Walla Walla" };
 
-            string[] venezuela = new string[] { "Barquisimeto", "Caracas", "I. de Margarita", "San Cristï¿½bal" };
+            string[] venezuela = new string[] { "Barquisimeto", "Caracas", "I. de Margarita", "San Cristóbal" };
 
             ShipCity.Add("Argentina", argentina);
             ShipCity.Add("Austria", austria);
