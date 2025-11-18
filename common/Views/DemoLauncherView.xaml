@@ -1,0 +1,253 @@
+﻿<UserControl
+    x:Class="syncfusion.demoscommon.wpf.DemoLauncherView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+    xmlns:local="clr-namespace:syncfusion.demoscommon.wpf"
+    xmlns:sfskin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.demoscommon.wpf;component/Views/DemoWindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ListView x:Name="SubdemosList" Grid.Row="0"
+                      ItemContainerStyle="{StaticResource SubDemoListViewItemStyle}"
+                      ItemsSource="{Binding SelectedSample.SubCategoryDemos}"
+                      SelectedItem="{Binding SubCategorySelectedItem,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      Visibility="{Binding HasItems, ElementName=SubdemosList, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding SampleName}"
+                                       Padding="8,5" />
+                            <syncfusion:SfBadge.Badge>
+                                <syncfusion:SfBadge x:Name="Badge" 
+                                                    Shape="None"
+                                                    HorizontalAnchor="Custom"
+                                                    VerticalAnchor="Custom"
+                                                    HorizontalPosition="1"
+                                                    VerticalPosition="0"
+                                                    HorizontalAnchorPosition="0.8"
+                                                    VerticalAnchorPosition="0.4"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Bottom">
+                                    <Ellipse x:Name="tag" 
+                                             Width="12" 
+                                             Height="12"
+                                             Stroke="White"
+                                             StrokeThickness="1">
+                                    </Ellipse>
+                                </syncfusion:SfBadge>
+                            </syncfusion:SfBadge.Badge>
+                        </StackPanel>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Tag}" Value="None">
+                                <Setter TargetName="tag" Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tag}" Value="New">
+                                <Setter TargetName="tag" Property="Fill" Value="#007F00" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Tag}" Value="Updated">
+                                <Setter TargetName="tag" Property="Fill" Value="#0091AB" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+
+            <StackPanel Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                     <Border  Grid.Column="0" 
+                              BorderThickness="1"  
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Left"
+                              Height="26"
+                              Width="Auto"
+                              Background="{sfskin:ThemeResource ThemeKey={sfskin:ThemeKey Key=ContentBackgroundAlt2}}"                                               
+                              BorderBrush="{sfskin:ThemeResource ThemeKey={sfskin:ThemeKey Key=BorderAlt}}" 
+                              CornerRadius="15">
+                                        <TextBlock 
+                                        Margin="12,3"
+                                        FontSize="14"
+                                        LineHeight="20"
+                                        Visibility="{Binding Title, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource StringVisibilityConverter}}">
+                                            <TextBlock.Inlines>
+                                                <Run FontWeight="Normal" FontSize="14" Text="{Binding SelectedProduct.Product}"/>
+                                                <Run  Text="/"  />
+                                                <Run FontWeight="Medium"  Text="{Binding SelectedSample.Title}"  />
+                                            </TextBlock.Inlines>
+                                        </TextBlock>
+                                    </Border>
+                    <Button
+                        x:Name="openvisualstudio"
+                        Grid.Column="2"
+                        Padding="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Focusable="False"
+                        FontFamily="SegoeUI-Semibold"
+                        FontSize="12"
+                        Visibility="Collapsed">
+                        <Button.Content>
+                            <Grid x:Name="LayoutRoot">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Path
+                                    Width="18"
+                                    Height="18"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Data="M11.999998,34.042011 L11.999998,61.451992 24.394999,47.747002 z M72,27.420017 L47.208996,47.747002 72,68.07399 z M70.129845,0.00089614794 C71.040344,-0.014836074 71.96125,0.17641377 72.82,0.58703821 L92.598999,10.097031 C94.677994,11.097031 96.000999,13.200029 96,15.507027 L96,15.517027 96,15.747027 96,79.746971 96,79.975975 96,79.986977 C96.000999,82.293976 94.677994,84.396973 92.598999,85.396973 L72.82,94.906967 C70.529999,96.001969 67.797997,95.536965 66,93.746964 L34.108997,58.487992 15.499999,73.746979 13.869999,75.14698 C12.723,76.126984 11.122,76.378983 9.7299995,75.796982 L2.4590006,72.746979 C0.97699994,72.128983 0.0080000004,70.683983 0,69.076988 L0,68.746987 0,26.747017 0,26.417019 C0.0080000004,24.810019 0.97699994,23.365021 2.4590006,22.747021 L9.7299995,19.747023 C11.112,19.152025 12.711999,19.384024 13.869999,20.347023 L15.499999,21.747021 34.108997,37.006012 66,1.7470371 C67.123749,0.62828844 68.612343,0.027117021 70.129845,0.00089614794 z"
+                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                                    Opacity="0.75"
+                                    Stretch="Fill" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="4,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="Open source code in visual studio" />
+                            </Grid>
+                        </Button.Content>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <local:OpenSourceCodeAction />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Loaded">
+                                <local:OpenSourceLoadedAction />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button
+                        x:Name="opengithub"
+                        Grid.Column="2"
+                        Padding="5"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Focusable="False"
+                        FontFamily="SegoeUI-Semibold"
+                        FontSize="12"
+                        Visibility="Collapsed">
+                        <Button.Content>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Path
+                                    Width="18"
+                                    Height="18"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Data="M14.5,21.7 L14.4,21.7 L14.3,21.6 L14.3,21 L14.3,18.5 C14.3,17.8 14.2,17.2 13.9,16.7 C16.2,16.3 18.7,15.1 18.7,10.6 C18.7,9.4 18.3,8.3 17.6,7.4 C17.8,6.8 17.9,5.7 17.4,4.3 L17.1,4 C17.1,4 16.9,3.9 16.7,3.9 C16.1,3.9 15.2,4.1 13.7,5.1 C12.9,5 12,4.8 11,4.8 C10,4.8 9.1,4.9 8.2,5.1 C6.8,4.2 5.8,4 5.2,4 C5,4 4.9,4.1 4.8,4.1 C4.7,4.1 4.5,4.3 4.5,4.4 C4,5.8 4.1,6.9 4.3,7.5 C3.6,8.4 3.2,9.5 3.2,10.7 C3.2,15.1 5.8,16.3 8,16.8 C7.9,17 7.8,17.3 7.7,17.6 C7.5,17.7 7.2,17.8 6.8,17.8 C6.4,17.8 6,17.7 5.7,17.4 L5.6,17.3 C5.5,17.2 5.5,17.1 5.4,17.1 L5.3,17 L5.2,16.9 C5.2,16.8 4.4,15.6 3,15.5 C2.5,15.5 2.1,15.7 2,16 C1.8,16.5 2.4,16.9 2.7,17.1 C2.7,17.1 3.3,17.4 3.7,18.5 C3.9,19.2 4.8,20.5 6.9,20.5 L7.6,20.5 L7.6,21.9 L7.5,22 C7.5,22 7.4,22 7.5,22 C3,20.2 0,16 0,11.3 C0,5.2 4.9,0.3 11,0.3 C17.1,0.3 22,5.2 22,11.3 C22,16 19,20.2 14.5,21.7 Z"
+                                    Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=Button}}"
+                                    Opacity="0.75"
+                                    Stretch="Fill" />
+                                <TextBlock
+                                    Grid.Column="1"
+                                    Margin="4,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="Browse code in GitHub" />
+                            </Grid>
+                        </Button.Content>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <local:OpenSourceCodeAction />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Loaded">
+                                <local:OpenSourceLoadedAction />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+                <TextBlock
+                    Margin="0,10,0,18"
+                    FontSize="12"
+                    Text="{Binding SelectedSample.Description}"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding SelectedSample.Description, Converter={StaticResource StringVisibilityConverter}}" />
+            </StackPanel>
+
+            <Border
+                Grid.Row="2"
+                BorderThickness="1"
+                Style="{StaticResource BorderStyle}">
+                <Button
+                    x:Name="LaunchDemo"
+                    Width="90"
+                    Height="28"
+                    Margin="16,16,16,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Launch Demo"
+                    Focusable="False"
+                    FontFamily="SegoeUI-Semibold"
+                    FontSize="12">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <local:LaunchDemoAction />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+            </Border>
+            <StackPanel Grid.Row="3"
+                        Visibility="{Binding HasItems, ElementName=HelplinkItems, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="Documentation" Margin="0,16,0,16" FontSize="14" FontWeight="SemiBold"/>
+                <ItemsControl x:Name="HelplinkItems" ItemsSource="{Binding SelectedSample.Documentations}" >
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Margin="0,0,12,8">
+                                <Hyperlink NavigateUri="{Binding Uri}" 
+                                           ToolTip="{Binding Uri}"
+                                           Style="{Binding Path=HyperLinkStyle, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DemoLauncherView}}}">
+                                    <TextBlock Text="{Binding Content}"
+                                               FontSize="14" />
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="RequestNavigate">
+                                            <local:UrlNavigation />
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Hyperlink>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

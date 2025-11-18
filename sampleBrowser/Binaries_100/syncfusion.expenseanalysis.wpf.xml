@@ -1,0 +1,1204 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>syncfusion.expenseanalysis.wpf</name>
+    </assembly>
+    <members>
+        <member name="T:syncfusion.expenseanalysis.wpf.ExpenseAnalysisDemo">
+            <summary>
+            Interaction logic for MainWindow.xaml
+            </summary>
+            <summary>
+            ExpenseAnalysisDemo
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.ExpenseAnalysisDemo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.ExpenseAnalysisDemo"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.ExpenseAnalysisDemo.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.Budget">
+            <summary>
+            Represents a budget item in the in the expense analysis application
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Name">
+            <summary>
+            Gets or sets the name of the budget.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Budget.ValidateName">
+            <summary>
+            Validates the Name property.
+            </summary>
+            <returns>An Error message if validation fails; otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Categories">
+            <summary>
+            Gets the collection of available spending categories.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.GetCategories">
+            <summary>
+            Gets or sets the function of retrieves all available categories.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.SubCategories">
+            <summary>
+            Gets the collection of available sub-categories for the currently selected category.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.Budget.GetSubCategories">
+            <summary>
+            Gets or sets the function that retrieves sub-categories based on a parent category.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Category">
+            <summary>
+            Gets or sets the category to which this budget applies.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Budget.ValidateCategory">
+            <summary>
+            validated the Category property.
+            </summary>
+            <returns>An error message if validation fails; otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.SubCategory">
+            <summary>
+            Gets or sets the sub-category to which this budget applies.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Type">
+            <summary>
+            Gets or sets the type of the budget.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Limit">
+            <summary>
+            Gets or sets the spending limit for this budget.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Budget.ValidateLimit">
+            <summary>
+            Validates the Limit property.
+            </summary>
+            <returns>An error message if validation fails; otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Expense">
+            <summary>
+            Gets the total expense recorded for this budget period.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Estimate">
+            <summary>
+            Gets the estimated total expense for the full period, based on the current spending.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Balance">
+            <summary>
+            Gets the remaining balance of the budget.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.StatusMessage">
+            <summary>
+            Gets the status message indicating the health of the budget.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Budget.Clone">
+            <summary>
+            Create a deep copy of the budget object.
+            </summary>
+            <returns>A new <see cref="T:syncfusion.expenseanalysis.wpf.Budget"/> instance with the same value as the current one.</returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Budget.Apply(syncfusion.expenseanalysis.wpf.Budget)">
+            <summary>
+            Applies the properties of another <see cref="T:syncfusion.expenseanalysis.wpf.Budget"/> object to this reference.
+            </summary>
+            <param name="apply">The budget object whose values will be applied.</param>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Budget.Update(System.Collections.ObjectModel.ObservableCollection{syncfusion.expenseanalysis.wpf.Transaction},System.DateTime)">
+            <summary>
+            Updates the budget's expense, balance, and estimate based on collection of transactions and a given date.
+            </summary>
+            <param name="transactions">The collection of all transactions to evaluate.</param>
+            <param name="date">The current date, used to determine the relevant time period.</param>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.ExpenseColor">
+            <summary>
+            Gets the color representing the expense status, which changes based on how close the expense is to the limit.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.EstimateColor">
+            <summary>
+            Gets the color the estimate visualization, which corresponds to the expense status.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Error">
+            <summary>
+            Gets an error message indicating what is wrong with this object. It aggregates validation errors from the multiple properties.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Budget.Item(System.String)">
+            <summary>
+            Gets the error message for the property with the given name. This is part of the <see cref="T:System.ComponentModel.IDataErrorInfo"/> interface.
+            </summary>
+            <param name="columnName">The name of the property to validate.</param>
+            <returns>The error message for the property, or null if there is no error.</returns>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.AddBudget">
+            <summary>
+            Represents a temporary or new budget being created. This class can be used in "ADD" or "EDIT" dialogs.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.BudgetType">
+            <summary>
+            Specifies the time period over which a budget is tracked.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.BudgetType.Monthly">
+            <summary>
+            the budget is tracked on a monthly basis.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.BudgetType.Yearly">
+            <summary>
+            the budget is tracked on a yearly basis.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.DayBalance">
+            <summary>
+            Represents the financial balance for a single day. This class is used to track the negt changes in the funds for a specific date.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.DayBalance.Date">
+            <summary>
+            Gets or sets the date for which the balance is recorded.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.DayBalance.Balance">
+            <summary>
+            Gets or sets the net balance for the day. This could be the sum of all transactions on that day.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.Goal">
+            <summary>
+            Represents a financial savings goal. It tracks the goal's name, timeframe, target amount and current savings.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.Name">
+            <summary>
+            Gets or sets the name of the savings goal.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Goal.ValidateName">
+            <summary>
+            Validates the Name property.
+            </summary>
+            <returns>An error message if validation fails, otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.StartDate">
+            <summary>
+            Gets or sets the start date for the saving goal.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.EndDate">
+            <summary>
+            Gets or sets the end date by which the goal should be achieved.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Goal.ValidateEndDate">
+            <summary>
+            Validate the Enddate property.
+            </summary>
+            <returns>An error message if validation fails, otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.Target">
+            <summary>
+            Gets or sets the target amount to be saved.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Goal.ValidateTarget">
+            <summary>
+            Validates the target property.
+            </summary>
+            <returns>An error message if validation fails, otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.Saving">
+            <summary>
+            Gets or sets the amount currently saved towards the goal.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.Status">
+            <summary>
+            Gets the string indicating the current status of the goal.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.MonthlyTarget">
+            <summary>
+            Gets the calculated monthly savings target required to meet the goal on time.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.CompletePercent">
+            <summary>
+            Gets the percentage of the goal that has been completed.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.Error">
+            <summary>
+            Gets an error message indicating what is wrong with this object. It aggregates validation errors from multiple properties.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Goal.Item(System.String)">
+            <summary>
+            Gets the error message for the property with the given name. This is part of the <see cref="T:System.ComponentModel.IDataErrorInfo"/> interface.
+            </summary>
+            <param name="columnName">The name of the proeprty to validate.</param>
+            <returns>An error message if validation fails, otherwise, null if there is no error.</returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Goal.Clone">
+            <summary>
+            Creates a deep copy of the current goal object.
+            </summary>
+            <returns>A new <see cref="T:syncfusion.expenseanalysis.wpf.Goal"/> instance with the same values as the current one.</returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Goal.Apply(syncfusion.expenseanalysis.wpf.Goal)">
+            <summary>
+            Applies the properties of another <see cref="T:syncfusion.expenseanalysis.wpf.Goal"/> object to this interface.
+            </summary>
+            <param name="g">The goal object whose values will be applied.</param>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.AddGoal">
+            <summary>
+            Represents a temporary or new goal being created, typically for use in "ADD" or "EDIT" dialogs. It inherits from the base <see cref="T:syncfusion.expenseanalysis.wpf.Goal"/> class.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.ItemViewModel">
+            <summary>
+            Represents a generic view model for an item that can be displayed in a list or menu. It encapsulates properties for an icon, a title and associated content.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.ItemViewModel.Icon">
+            <summary>
+            Gets or sets the <see cref="T:System.Windows.DataTemplate"/> for the icon that represents this item.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.ItemViewModel.Title">
+            <summary>
+            Gets or sets the title or display name for this item.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.ItemViewModel.Content">
+            <summary>
+            Gets or sets the content associated with this item. This is often a view or viewmodel that will be displayed when the item is selected.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.ListViewModel">
+            <summary>
+            Represents a collection of <see cref="T:syncfusion.expenseanalysis.wpf.ItemViewModel"/> objects with observable change notification.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.Transaction">
+            <summary>
+            Represents the single financial transaction, such as an income or an expense.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.Category">
+            <summary>
+            Gets or sets the primary category of the transaction.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Transaction.ValidateCategory">
+            <summary>
+            Validates the Category property.
+            </summary>
+            <returns>An error message if validation fails, otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.SubCategory">
+            <summary>
+            Gets or sets the sub-category of the transaction.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Transaction.ValidateSubCategory">
+            <summary>
+            Validates the SubCategory property.
+            </summary>
+            <returns>An error message if validation fails, otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.Date">
+            <summary>
+            Gets or sets the date on which the transaction occured.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Transaction.ValidateDate">
+            <summary>
+            Validates the Date property.
+            </summary>
+            <returns>An error message if validation fails, otherwise, null.An error message if validation fails, otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.Amount">
+            <summary>
+            Gets or sets the monetary value of the transaction. Positive valuess can represent income, while negative values can represent expenses.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Transaction.ValidateAmount">
+            <summary>
+            Validates the Amount property.
+            </summary>
+            <returns>An error message if validation fails, otherwise, null.</returns>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.Description">
+            <summary>
+            Gets or sets a descriptive note for the transaction.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.Balance">
+            <summary>
+            Gets or sets the account balance after this transaction was processed
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.Categories">
+            <summary>
+            Gets the collection of available spending categories.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.GetCategories">
+            <summary>
+            Gets or sets the function that retrieves all aavailable categories.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.SubCategories">
+            <summary>
+            Gets the collection of available sub-categories for the currently selected category.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.Transaction.GetSubCategories">
+            <summary>
+            Gets or sets the function that retrieves sub-categories based on a parent category
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.Error">
+            <summary>
+            Gets an error message indicating what is wrong with this object. It aggregates validation errors from multiple properties.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Transaction.Item(System.String)">
+            <summary>
+            Gets the error message for the property with the given name. This is part of the <see cref="T:System.ComponentModel.IDataErrorInfo"/> interface.
+            </summary>
+            <param name="columnName">The name of the proeprty to validate.</param>
+            <returns>An error message if validation fails, otherwise, null if there is no error.</returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Transaction.Clone">
+            <summary>
+            Creates a deep copy of the current Transaction object.
+            </summary>
+            <returns>A new <see cref="T:syncfusion.expenseanalysis.wpf.Transaction"/> instance with the same values as the current one.</returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.Transaction.Apply(syncfusion.expenseanalysis.wpf.Transaction)">
+            <summary>
+            Applies the properties of another <see cref="T:syncfusion.expenseanalysis.wpf.Transaction"/> object to this interface.
+            </summary>
+            <param name="transaction">The Transaction object whose values will be applied.</param>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.CategoryExpense">
+            <summary>
+            Represents a summary of expenses for a specific category. It hold the total amount spent in a category and the percentage it represents of overall expenses.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.CategoryExpense.Category">
+            <summary>
+            Gets or sets the name of the category.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.CategoryExpense.Amount">
+            <summary>
+            Gets or sets the Total expense amouunt of the category.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.CategoryExpense.Percentage">
+            <summary>
+            Gets or sets the percentage of total expenses that this category.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.AddItemTemplateSelector">
+            <summary>
+            A custom <see cref="T:System.Windows.Controls.DataTemplateSelector"/> that selects a data template based on the type of item being displayed.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.AddItemTemplateSelector.ViewTemplate">
+            <summary>
+            Gets or sets the data template used to display existing items.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.AddItemTemplateSelector.AddTemplate">
+            <summary>
+            Gets or sets the data template used to display items for adding new budgets or goals.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.AddItemTemplateSelector.SelectTemplate(System.Object,System.Windows.DependencyObject)">
+            <summary>
+            Select a  data template based on the type of the item
+            </summary>
+            <param name="item">The data object for which to select the template.</param>
+            <param name="container">The container which the template will be applied.</param>
+            <returns>The appropiate <see cref="T:System.Windows.DataTemplate"/> based on the item type.</returns>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.IncomeExpenseTemplateSelector">
+            <summary>
+            A custom <see cref="T:System.Windows.Controls.DataTemplateSelector"/> that selects a data template based on the value of a financial item.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.IncomeExpenseTemplateSelector.IncomeTemplate">
+            <summary>
+            Gets or sets the data template used  for income items (positive value).
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.IncomeExpenseTemplateSelector.ExpenseTemplate">
+            <summary>
+            Gets or sets the data template used for expense items (Zero or negative values).
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.IncomeExpenseTemplateSelector.SelectTemplate(System.Object,System.Windows.DependencyObject)">
+            <summary>
+            Selects the appropiate data template based on the item's value.
+            </summary>
+            <param name="item">The item to evaluate, expected to be of type <c>double</c>.</param>
+            <param name="container">The container in which the template will be applied.</param>
+            <returns><see cref="P:syncfusion.expenseanalysis.wpf.IncomeExpenseTemplateSelector.IncomeTemplate"/> if the value is greater than zero; <see cref="P:syncfusion.expenseanalysis.wpf.IncomeExpenseTemplateSelector.ExpenseTemplate"/> if the value is zero or less; otherwise returns null.</returns>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.EnumToBooleanConverter">
+            <summary>
+            Convert an enum value to a boolean.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.EnumToBooleanConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts an enum value to a boolean.
+            </summary>
+            <param name="value">The Boolean value to convert. This is the binding source.</param>
+            <param name="targetType">The type of the target property, as a type reference.</param>
+            <param name="parameter">Optional parameter. Not used.</param>
+            <param name="culture">The language of the conversion. Not used</param>
+            <returns><c>True</c> if the value equals the parameter; otherwise, returns <c>false</c>.</returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.EnumToBooleanConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts an boolean value to an enum value.
+            </summary>
+            <param name="value">The Boolean value to convert. This is the binding source.</param>
+            <param name="targetType">The type of the target property, as a type reference.</param>
+            <param name="parameter">Optional parameter. Not used.</param>
+            <param name="culture">The language of the conversion. Not used</param>
+            <returns>The enum value if <c>True</c>; otherwise, <see cref="F:System.Windows.Data.Binding.DoNothing"/>.</returns>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.ItemsSourceTakeFilter">
+            <summary>
+            A value converter that filters a list by taking a specified number of items from the beginning.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.ItemsSourceTakeFilter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a source list to a subset containing only the first N items.
+            </summary>
+            <param name="value">The Boolean value to convert. This is the binding source.</param>
+            <param name="targetType">The type of the target property, as a type reference.</param>
+            <param name="parameter">Optional parameter. Not used.</param>
+            <param name="culture">The language of the conversion. Not used</param>
+            <returns>A filtered list containing the first N items, or <c>null</c> if the input is not a list.</returns>  
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.ItemsSourceTakeFilter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Not implemented. This converter does not support converting back from the filtered list.
+            </summary>
+            <param name="value">The Boolean value to convert. This is the binding source.</param>
+            <param name="targetType">The type of the target property, as a type reference.</param>
+            <param name="parameter">Optional parameter. Not used.</param>
+            <param name="culture">The language of the conversion. Not used</param>
+            <returns>Throws <see cref="T:System.NotImplementedException"/>.</returns>  
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.IconResourceConverter">
+            <summary>
+            A value converter that retrieves an icon resource from a <see cref="T:System.Windows.ResourceDictionary"/> based on the provided key.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.IconResourceConverter.Resource">
+            <summary>
+            Gets or sets the resource dictionary containing icon resources.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.IconResourceConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a key value to a corresponding resource from the <see cref="P:syncfusion.expenseanalysis.wpf.IconResourceConverter.Resource"/> dictionary.
+            </summary>
+            <param name="value">The Boolean value to convert. This is the binding source.</param>
+            <param name="targetType">The type of the target property, as a type reference.</param>
+            <param name="parameter">Optional parameter. Not used.</param>
+            <param name="culture">The language of the conversion. Not used</param>
+            <returns>The resource associated with the key, or the "Daily" resource if the key is null or not found.</returns>  
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.IconResourceConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Not implemented. This converter does not support converting back from the resource to a key.
+            </summary>
+            <param name="value">The Boolean value to convert. This is the binding source.</param>
+            <param name="targetType">The type of the target property, as a type reference.</param>
+            <param name="parameter">Optional parameter. Not used.</param>
+            <param name="culture">The language of the conversion. Not used</param>
+            <returns>Throws <see cref="T:System.NotImplementedException"/>.</returns>  
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.ChartLegendLabelConverter">
+            <summary>
+            A value converter that calculates the percentage value for chart legend labels.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.ChartLegendLabelConverter.Convert(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Converts a  <see cref="T:syncfusion.expenseanalysis.wpf.CategoryExpense"/> or a collection of them into a percentge value.
+            </summary>
+            <param name="value">The Boolean value to convert. This is the binding source.</param>
+            <param name="targetType">The type of the target property, as a type reference.</param>
+            <param name="parameter">Optional parameter. Not used.</param>
+            <param name="culture">The language of the conversion. Not used</param>
+            <returns>The percentage value or the sum of percentages, depending on the input types.</returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.ChartLegendLabelConverter.ConvertBack(System.Object,System.Type,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            Not implemented. This converter does not support converting back.
+            </summary>
+            <param name="value">The Boolean value to convert. This is the binding source.</param>
+            <param name="targetType">The type of the target property, as a type reference.</param>
+            <param name="parameter">Optional parameter. Not used.</param>
+            <param name="culture">The language of the conversion. Not used</param>
+            <returns>Throws <see cref="T:System.NotImplementedException"/>.</returns>  
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.SampleDataGenerator">
+            <summary>
+            A Static class responsible for generating sample data for the expense analysis application.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.HOUSING">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.TRANSPORT">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.FOOD">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.UTILITY">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.HEALTH">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.INSURANCE">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.ENTERTAINMENT">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.PERSONAL_CARE">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.DEBT">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.INCOME">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GOAL">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.BUDGET">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.SALARY">
+            <summary>
+            Represents the category constants
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.Categories">
+            <summary>
+            A predefined list pf primary spending and income Categories.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.SubCategories">
+            <summary>
+            A mapped of Sub-Categories to their parent categories by index.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.SubCategoryRanges">
+            <summary>
+            Define the typical monetary ranges (min, max) for random transactions amounts for each sub-category.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.SampleDataGenerator.Random">
+            <summary>
+            instance for generating random numbers.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GenerateTransactions(System.DateTime,System.DateTime)">
+            <summary>
+            Generates a collection of realistic transactions over a specified data range.
+            </summary>
+            <param name="start">The start date for generating transactions.</param>
+            <param name="end">The end date for generating transactions.</param>
+            <returns>An enumerable collection of <see cref="T:syncfusion.expenseanalysis.wpf.Transaction"/> objects.</returns>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetTransaction(System.Nullable{System.DateTime},System.String,System.String,System.Nullable{System.Double})">
+            <summary>
+            Creates a single transaction with the specified or random properties.
+            </summary>
+            <param name="date">The date of transaction.</param>
+            <param name="category">The category of transaction.</param>
+            <param name="subCategory">The sub-category of transaction.</param>
+            <param name="amt">The amount of the transaction.</param>
+            <returns>A new <see cref="T:syncfusion.expenseanalysis.wpf.Transaction"/> object.</returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetRandomCategory">
+            <summary>
+            Selects a random category from predefined list.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetRandomSubCategory(System.String)">
+            <summary>
+             Selects a random sub-category from predefined list.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetRandomAmount(System.String,System.String)">
+            <summary>
+            Generated a random amount of the transaction based on its category and subcategory.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetRandomDate">
+            <summary>
+            Get a random date within a predefined historical range.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetBudgets(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Generates a set of sample budgets, prioritizing a preffered a list categories.
+            </summary>
+            <param name="preference"></param>
+            <returns></returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetRandomBudget(System.String,System.Nullable{syncfusion.expenseanalysis.wpf.BudgetType},System.String,System.String)">
+            <summary>
+            Creates a single budget with a random limit and other properties. 
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetRandomBudgetType">
+            <summary>
+            Returns a random budget type.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.SampleDataGenerator.GetGoals">
+            <summary>
+            generated a predefined set of sample savings goals.
+            </summary>
+            <returns>An enumerable collection of <see cref="T:syncfusion.expenseanalysis.wpf.Goal"/> objects.</returns>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.BaseViewModel">
+            <summary>
+            A base class for view modles that implements the <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> interface. This allows UI components to be automatically updated when the underlying data changes.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.BaseViewModel.RaisePropertyChanged(System.String)">
+            <summary>
+            Raises the <see cref="E:syncfusion.expenseanalysis.wpf.BaseViewModel.PropertyChanged"/> event for a specified property.
+            </summary>
+            <param name="name">The name of the property that has changed.</param>
+        </member>
+        <member name="E:syncfusion.expenseanalysis.wpf.BaseViewModel.PropertyChanged">
+            <summary>
+            Occurs when a property value changes.
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.MainViewModel">
+            <summary>
+            The main view model for the Expense Analysis application. This class manages the application's state, including all data collections.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.Transactions">
+            <summary>
+            Gets or Sets the collection of all Financial Transactions. 
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.Modules">
+            <summary>
+            Gets or sets the view model that manages the list of main application modules.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.SelectedModule">
+            <summary>
+            Gets or sets the currently selected application module.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.Balance">
+            <summary>
+            Gets or sets the current overall account balance
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.DailyBalance">
+            <summary>
+            Gets or sets the collection of daily balances for trend analysis. 
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.MonthlyBalance">
+            <summary>
+            Gets or sets the collection of monthly account balances for trend analysis. 
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.Budgets">
+            <summary>
+            Gets or sets the collection of all user-defined budgets.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.MonthlyBudgetReport">
+            <summary>
+            Gets or sets the filtered collection of monthly budgets for reporting.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.YearlyBudgetReport">
+            <summary>
+            Gets or sets the filtered collection of yearly budgets for reporting.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.Goals">
+            <summary>
+            gets or sets the collection of all savings goals.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.CurrentGoals">
+            <summary>
+            gets or sets the collection of currently active (not compared) savings goals.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.CompletedGoals">
+            <summary>
+            Gets or sets the collection of completed or expired savings goal.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.TotalIncome">
+            <summary>
+            Gets or sets the total income for all transactions.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.TotalExpense">
+            <summary>
+            Gets or sets the total expense for all transactions.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.TotalTransactions">
+            <summary>
+            Gets or sets the total Transactions recorded.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.CategoryExpenses">
+            <summary>
+            Gets or sets the summary of expenses grouped by category.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.TransEditButtonVisibility">
+            <summary>
+            Gets or sets the visibilty of the "EDIT Transaction" button.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.TransDeleteButtonVisibility">
+            <summary>
+            Gets or sets the visibilty of the "Delete Transaction" button.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.QueryRowHeightCommand">
+            <summary>
+            Gets or sets the command for Querying the row height in a data grid.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.AddBudgetCommand">
+            <summary>
+            gets the command to add a budget.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.AddGoalCommand">
+            <summary>
+            gets the command to add a new saving Goal.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.AddTransactionCommand">
+            <summary>
+            gets the command to add a transaction.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.EditBudgetCommand">
+            <summary>
+            gets the command to edit a existing budget.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.EditGoalCommand">
+            <summary>
+            gets the command to edit an existing savings goal.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.EditTransactionCommand">
+            <summary>
+            gets the command to edit an existing transaction.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.DeleteBudgetCommand">
+            <summary>
+            gets the command to delete a budget.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.DeleteGoalCommand">
+            <summary>
+            gets the command to delete a savings goal.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.DeleteTransactionsCommand">
+            <summary>
+            gets the command to delete one or more transaction.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.SelectionChangedCommand">
+            <summary>
+            Gets the command that handles selection changes in the transaction data grid.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.GridLoadedCommand">
+            <summary>
+            Gets the command that handles the loaded event od the data grid to reset the reset button visibility.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.SizeChangedCommand">
+            <summary>
+            Gets the command that handles the main window's size changed event to adjust UI layout.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.IsCompact">
+            <summary>
+            Gets or sets a value indicating whether the UI should be displayed in a compact's mode.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.MainViewModel.BudgetCategories">
+            <summary>
+            returns a collection of category name suitable for creating budgets.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.MainViewModel.Categories">
+            <summary>
+            returns a collection of all unique names from the existing transactions.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.MainViewModel.SubCategories(System.String)">
+            <summary>
+            Returns a collection of unique sub-category names for a given parent categories
+            </summary>
+            <param name="category">The parent category for which to find the sub-category.</param>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.MainViewModel.GetGoals">
+            <summary>
+            returns the colllection of names for all current, uncompleted savings goals.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.ExpenseFilter">
+            <summary>
+            gets the available filter options for the expense summary view.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.MainViewModel.SelectedExpenseFilter">
+            <summary>
+            gets or sets the currenlty selected expense filter.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.MainViewModel.#ctor">
+            <summary>
+            initializes a new instance <see cref="T:syncfusion.expenseanalysis.wpf.MainViewModel"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.MainViewModel.GetBalance(System.DateTime,System.Int32)">
+            <summary>
+            Get the balance in the specified frequency.
+            </summary>
+            <param name="start">start of the frequency</param>
+            <param name="frequency">1 - daily, 2 - monthly, 3 - yearly</param>
+            <returns></returns>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.BudgetView">
+            <summary>
+            Interaction logic for BudgetView.xaml
+            </summary>
+            <summary>
+            BudgetView
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.BudgetView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.BudgetView"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.BudgetView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.DashboardView">
+            <summary>
+            Interaction logic for DashboardView.xaml
+            </summary>
+            <summary>
+            DashboardView
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DashboardView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.DashboardView"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DashboardView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.DeleteDialog">
+            <summary>
+            Interaction logic for DeleteDialog.xaml
+            </summary>
+            <summary>
+            DeleteDialog
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DeleteDialog.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.DeleteDialog"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DeleteDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.DialogWindow">
+            <summary>
+            Interaction logic for DialogWindow.xaml
+            </summary>
+            <summary>
+            DialogWindow
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DialogWindow.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.DialogWindow"/> class.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.DialogWindow.AcceptText">
+            <summary>
+            Gets or sets the text displayed on the primary confirmation button.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.DialogWindow.AcceptTextProperty">
+            <summary>
+            Identies the <see cref="P:syncfusion.expenseanalysis.wpf.DialogWindow.AcceptText"/> dependency property.
+            </summary>
+        </member>
+        <member name="P:syncfusion.expenseanalysis.wpf.DialogWindow.Result">
+            <summary>
+            Gets or sets the result of the dialog, indicating how it is closed.
+            </summary>
+        </member>
+        <member name="F:syncfusion.expenseanalysis.wpf.DialogWindow.ResultProperty">
+            <summary>
+            Identies the <see cref="P:syncfusion.expenseanalysis.wpf.DialogWindow.Result"/> dependency property.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DialogWindow.OK_Clicked(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handles the click event for the confirmation button.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="e">The event arguement.</param>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DialogWindow.Cancel_Clicked(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handles the click event for the cancellation button.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="e">The event arguement.</param>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DialogWindow.Title_OnLeftButtonDown(System.Object,System.Windows.Input.MouseButtonEventArgs)">
+            <summary>
+            Handles the Mouseleftbuttondown event on the title bar to enable window dragging.
+            </summary>
+            <param name="sender">The sender of the event.</param>
+            <param name="e">The event arguement.</param>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DialogWindow.OnKeyDown(System.Windows.Input.KeyEventArgs)">
+            <summary>
+            Overrides the default key down behavior to handle the Escape key.
+            </summary>
+            <param name="e">The event arguement.</param>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.DialogWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.EditBudgetView">
+            <summary>
+            Interaction logic for NewBudgetView.xaml
+            </summary>
+            <summary>
+            EditBudgetView
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.EditBudgetView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.EditBudgetView"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.EditBudgetView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.EditGoalView">
+            <summary>
+            Interaction logic for EditGoalView.xaml
+            </summary>
+            <summary>
+            EditGoalView
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.EditGoalView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.EditGoalView"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.EditGoalView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.EditTransactionView">
+            <summary>
+            Interaction logic for EditTransactionView.xaml
+            </summary>
+            <summary>
+            EditTransactionView
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.EditTransactionView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.EditTransactionView"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.EditTransactionView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.GoalsView">
+            <summary>
+            Interaction logic for GoalsView.xaml
+            </summary>
+            <summary>
+            GoalsView
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.GoalsView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.GoalsView"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.GoalsView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.MainView">
+            <summary>
+            Interaction logic for MainView.xaml
+            </summary>
+            <summary>
+            MainView
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.MainView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.MainView"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.MainView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.expenseanalysis.wpf.TransactionsView">
+            <summary>
+            Interaction logic for TransactionsView.xaml
+            </summary>
+            <summary>
+            TransactionsView
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.TransactionsView.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:syncfusion.expenseanalysis.wpf.TransactionsView"/> class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.expenseanalysis.wpf.TransactionsView.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+    </members>
+</doc>

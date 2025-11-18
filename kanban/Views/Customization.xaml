@@ -1,0 +1,639 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.kanbandemos.wpf.Customization"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:kanban="clr-namespace:Syncfusion.UI.Xaml.Kanban;assembly=Syncfusion.SfKanban.WPF"
+    xmlns:local="clr-namespace:syncfusion.kanbandemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:skinManager="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF">
+
+    <democommon:DemoControl.DataContext>
+        <local:CustomizationViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <DataTemplate x:Key="columnHeaderTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="9*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="6*" />
+                        <RowDefinition Height="4*" />
+                    </Grid.RowDefinitions>
+                    <Border Grid.Column="0"
+                            Grid.RowSpan="2"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="8,0,8,6">
+                        <Path x:Name="IconPath"
+                              Stretch="Fill"
+                              HorizontalAlignment="Center"                         
+                              Fill="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                              StrokeThickness="0.5"
+                              Width="22"
+                              Height="22"/>
+                    </Border>
+                    <TextBlock x:Name="Header"
+                               Text="{Binding Header}"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               FontFamily="Roboto-Medium"
+                               LineHeight="20"
+                               FontWeight="Bold"
+                               TextWrapping="NoWrap"
+                               Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                               Grid.Row="0"
+                               Margin="0,5,0,0"
+                               Grid.Column="1" />
+                    <StackPanel x:Name="WIPPanel"
+					       	    Grid.Row="1"
+                                Grid.Column="1"
+                                Orientation="Horizontal">
+                        <TextBlock Text="{Binding [ItemsCount]}"
+                                   Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                                   VerticalAlignment="Center"
+                                   LineHeight="20"
+                                   FontSize="12"
+                                   FontFamily="Roboto-Regular"
+                                   FontWeight="Normal"/>
+                        <TextBlock Text="{Binding CardCount}"
+                                   Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                                   Margin="5,0,0,0"
+                                   FontFamily="Roboto-Regular"
+                                   LineHeight="20"
+                                   VerticalAlignment="Center"
+                                   FontSize="12"
+                                   FontWeight="Normal"/>
+                    </StackPanel>
+
+                    <Border x:Name="CollapsedIcon"
+                            Background="Transparent"
+                            Grid.Column="2"
+                            Grid.Row="1">
+                        <Path Data="M4.85355 0.646447C5.04882 0.841709 5.04882 1.15829 4.85355 1.35355L1.70711 4.5L4.85355 7.64645C5.04882 7.84171 5.04882 8.15829 4.85355 8.35355C4.65829 8.54882 4.34171 8.54882 4.14645 8.35355L0.646447 4.85355C0.451184 4.65829 0.451184 4.34171 0.646447 4.14645L4.14645 0.646447C4.34171 0.451184 4.65829 0.451184 4.85355 0.646447Z"
+                              Stretch="Fill"
+                              HorizontalAlignment="Center"
+                              Margin="0,0,8,6"
+                              Fill="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                              Opacity="0.75"
+                              IsHitTestVisible="False"
+                              UseLayoutRounding="True"
+                              Width="6"
+                              Height="10">
+                        </Path>
+                    </Border>
+                </Grid>
+                
+                <Border Grid.Row="1"
+                        Background="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=Series5}}"
+                        Height="2"/>
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding ElementName=CollapsedIcon,Path=IsMouseOver}" Value="True">
+                    <Setter TargetName="CollapsedIcon" Property="Cursor" Value="Hand"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Header}" Value="Menu">
+                    <Setter TargetName="IconPath" Property="Data" Value="M2.78208 17.7082C2.31901 17.7082 1.92706 17.5478 1.60623 17.2269C1.2854 16.9061 1.12498 16.5141 1.12498 16.0511V14.1471H0.208313V12.7724H1.12498V9.68734H0.208313V8.31234H1.12498V5.2273H0.208313V3.85252H1.12498V1.94861C1.12498 1.48554 1.2854 1.09359 1.60623 0.772754C1.92706 0.451921 2.31901 0.291504 2.78208 0.291504H13.2179C13.6809 0.291504 14.0729 0.451921 14.3937 0.772754C14.7146 1.09359 14.875 1.48554 14.875 1.94861V16.0511C14.875 16.5141 14.7146 16.9061 14.3937 17.2269C14.0729 17.5478 13.6809 17.7082 13.2179 17.7082H2.78208ZM2.78208 16.3332H13.2179C13.3002 16.3332 13.3678 16.3067 13.4207 16.2539C13.4735 16.201 13.5 16.1334 13.5 16.0511V1.94861C13.5 1.86626 13.4735 1.79866 13.4207 1.7458C13.3678 1.69293 13.3002 1.6665 13.2179 1.6665H2.78208C2.69974 1.6665 2.63213 1.69293 2.57927 1.7458C2.52641 1.79866 2.49998 1.86626 2.49998 1.94861V3.85252H3.41665V5.2273H2.49998V8.31234H3.41665V9.68734H2.49998V12.7724H3.41665V14.1471H2.49998V16.0511C2.49998 16.1334 2.52641 16.201 2.57927 16.2539C2.63213 16.3067 2.69974 16.3332 2.78208 16.3332ZM6.02571 13.4422H7.11861V9.78427C7.49811 9.68909 7.81626 9.49048 8.07308 9.18844C8.3299 8.8864 8.45831 8.54089 8.45831 8.15192V4.55744H7.64752V7.9828H6.97767V4.55744H6.16665V7.9828H5.49679V4.55744H4.686V8.15192C4.686 8.54089 4.81433 8.8864 5.071 9.18844C5.32782 9.49048 5.64606 9.68909 6.02571 9.78427V13.4422ZM10.6794 13.4422H11.7723V4.56638C11.079 4.59571 10.4944 4.86307 10.0185 5.36846C9.54243 5.87385 9.3044 6.4732 9.3044 7.1665V9.77557H10.6794V13.4422Z" />
+                    <Setter TargetName="IconPath" Property="Stroke" Value="{DynamicResource PrimaryColorForeground}" />
+                    <Setter TargetName="IconPath" Property="Fill" Value="{DynamicResource PrimaryColorForeground}" />
+                    <Setter TargetName="IconPath" Property="StrokeThickness" Value="0.2" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Header}" Value="Order">
+                    <Setter TargetName="IconPath" Property="Data" Value="M11.8064 0.83374C12.3704 0.833187 12.8535 1.05039 13.2683 1.3396C13.6706 1.62015 14.0673 2.01002 14.4753 2.44897C14.5385 2.51675 14.6174 2.54663 14.6843 2.54663H16.7058C17.6044 2.54685 18.3336 3.27497 18.3337 4.17358V4.33374H19.9402C21.9982 4.33398 23.6666 6.00226 23.6667 8.0603V27.6072C23.6664 29.2876 22.3043 30.6506 20.6238 30.6521L4.06323 30.6648C2.00413 30.6662 0.334067 28.9973 0.33374 26.9382V8.0603C0.333896 6.00223 2.00224 4.33394 4.0603 4.33374H5.66675V4.17358C5.66686 3.27484 6.3959 2.54663 7.29468 2.54663H8.77905C8.84169 2.54652 8.91553 2.51973 8.97729 2.45972C9.45297 1.99751 9.89725 1.6058 10.3259 1.32788C10.7601 1.0465 11.2508 0.83441 11.8064 0.83374ZM4.0603 6.33374C3.10681 6.33394 2.3339 7.1068 2.33374 8.0603V26.9382C2.33407 27.8922 3.10818 28.6655 4.06226 28.6648L20.6228 28.6521C21.1993 28.6514 21.6664 28.1836 21.6667 27.6072V8.0603C21.6666 7.10683 20.8936 6.33398 19.9402 6.33374H18.3337V6.40405C18.3336 7.30262 17.6044 8.03176 16.7058 8.03198H7.29468C6.39594 8.03198 5.66692 7.30275 5.66675 6.40405V6.33374H4.0603ZM9.54858 21.5349C9.80538 21.2715 10.2272 21.2656 10.491 21.5222C10.7546 21.7789 10.7601 22.2008 10.5037 22.4646L7.65112 25.3962C7.2543 25.8041 6.59892 25.8048 6.2019 25.3972L4.8562 24.0144C4.59938 23.7506 4.60511 23.3289 4.8689 23.072C5.13271 22.8154 5.55451 22.821 5.81128 23.0847L6.92554 24.2292L9.54858 21.5349ZM19.0007 23.3298C19.3686 23.3301 19.6666 23.6289 19.6667 23.9968C19.6667 24.3649 19.3687 24.6636 19.0007 24.6638H11.7078C11.3396 24.6638 11.0408 24.365 11.0408 23.9968C11.0409 23.6288 11.3397 23.3298 11.7078 23.3298H19.0007ZM9.54858 15.3875C9.80537 15.1239 10.2272 15.1181 10.491 15.3748C10.7544 15.6315 10.7602 16.0534 10.5037 16.3171L7.65112 19.2488C7.25437 19.6566 6.59894 19.6572 6.2019 19.2498L4.8562 17.8669C4.59937 17.6031 4.60511 17.1814 4.8689 16.9246C5.1327 16.6679 5.55447 16.6735 5.81128 16.9373L6.92554 18.0818L9.54858 15.3875ZM19.0007 17.1824C19.3687 17.1827 19.6667 17.4814 19.6667 17.8494C19.6667 18.2174 19.3687 18.5161 19.0007 18.5164H11.7078C11.3396 18.5164 11.0408 18.2175 11.0408 17.8494C11.0408 17.4812 11.3396 17.1824 11.7078 17.1824H19.0007ZM9.54858 9.53491C9.80539 9.27153 10.2272 9.26563 10.491 9.52222C10.7545 9.7789 10.76 10.2008 10.5037 10.4646L7.65112 13.3962C7.25433 13.8041 6.59893 13.8048 6.2019 13.3972L4.8562 12.0144C4.59937 11.7506 4.60511 11.3289 4.8689 11.072C5.13272 10.8155 5.55454 10.821 5.81128 11.0847L6.92554 12.2292L9.54858 9.53491ZM18.6667 11.3298C19.0348 11.3299 19.3337 11.6288 19.3337 11.9968C19.3337 12.365 19.0349 12.6637 18.6667 12.6638H11.7078C11.3396 12.6638 11.0408 12.365 11.0408 11.9968C11.0409 11.6287 11.3396 11.3298 11.7078 11.3298H18.6667ZM11.8083 2.83374C11.7778 2.83385 11.6661 2.84306 11.4138 3.00659C11.1546 3.17463 10.8244 3.45452 10.3718 3.89429C9.95382 4.30046 9.38546 4.54652 8.77905 4.54663H7.66675V6.03198H16.3337V4.54663H14.6843C14.0361 4.54663 13.4343 4.26606 13.0105 3.8103C12.6223 3.39272 12.3443 3.13342 12.1248 2.98022C11.9188 2.83668 11.8306 2.83375 11.8083 2.83374Z" />
+                    <Setter TargetName="IconPath" Property="Stroke" Value="{DynamicResource SuccessForeground}" />
+                    <Setter TargetName="IconPath" Property="Fill" Value="{DynamicResource SuccessForeground}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Header}" Value="Ready to Serve">
+                    <Setter TargetName="IconPath" Property="Data" Value="M9.375 13.375L9.5625 13.625L9.78125 13.875L10.2812 14.3438L10.8125 14.7812L11.375 15.125L11.9688 15.4375L12.625 15.6562L13.25 15.8438L13.9375 15.9375L14.5938 15.9688L15.2812 15.9375L15.9375 15.8125L16.5938 15.6562L17.2188 15.4062L17.8125 15.125L18.375 14.75L18.9062 14.3438L20.6562 16.3125L20.2812 16.625L19.9062 16.9062L19.5312 17.1562L19.125 17.4062L18.6875 17.625L18.2812 17.8125L17.8438 18L17.4062 18.1562L16.9375 18.2812L16.4688 18.4062L16.0312 18.5L15.5625 18.5312L15.0938 18.5938H14.625H14.1562L13.6562 18.5625L13.1875 18.5L12.75 18.4062L12.2812 18.3125L11.8438 18.1562L11.375 18.0312L10.9375 17.8438L10.5312 17.6562L10.0938 17.4375L9.6875 17.1875L9.3125 16.9375L8.9375 16.6562L8.5625 16.3438L8.21875 16.0312L7.875 15.6875L7.5625 15.3438L7.28125 14.9688L9.375 13.375ZM25.0938 7.4375H25L24.75 7.53125L24.5938 7.59375L24.4375 7.71875L24.2812 7.84375L24.0312 8.15625L23.7812 8.5625L23.625 8.875L23.4688 9.21875L23.3438 9.625L23.25 10L23.1875 10.4375L23.125 10.9062V11.375V11.8438L23.1875 12.3125L23.25 12.75L23.3438 13.125L23.4688 13.5312L23.625 13.875L23.7812 14.1875L23.9375 14.4688L24.2188 14.8125L24.4375 15.0312L24.5938 15.1562L24.75 15.2188L25 15.3125H25.1875L25.4062 15.2188L25.5625 15.1562L25.7188 15.0312L25.875 14.9062L26.1562 14.5938L26.4062 14.1875L26.5625 13.875L26.6875 13.5312L26.8125 13.125L26.9062 12.75L27 12.3125L27.0312 11.8438L27.0625 11.375L27.0312 10.9062L27 10.4375L26.9062 10L26.8125 9.625L26.6875 9.21875L26.5625 8.875L26.4062 8.5625L26.2188 8.28125L25.9688 7.9375L25.7188 7.71875L25.5625 7.59375L25.4062 7.53125L25.2812 7.46875L25.0938 7.4375ZM25.0938 5.46875H25.2812L25.5 5.5L25.875 5.59375L26.25 5.71875L26.625 5.9375L26.9688 6.1875L27.2812 6.46875L27.5938 6.8125L27.875 7.1875L28.125 7.625L28.3438 8.0625L28.5625 8.5625L28.7188 9.0625L28.8438 9.625L28.9375 10.1875L29 10.7812L29.0312 11.375L29 11.9062L28.9688 12.4375L28.875 12.9375L28.7812 13.4375L28.6562 13.9062L28.5 14.3438L28.3125 14.7812L28.0938 15.1562L27.875 15.5312L27.625 15.875L27.375 16.1875L27.0938 16.4688L26.7812 16.7188L26.4688 16.9062L26.1562 17.0625L25.8125 17.1875L26.3125 26.4688V26.7188L26.25 26.9688L26.125 27.1875L26 27.4062L25.8125 27.5625L25.5938 27.6875L25.3438 27.75L25.0938 27.7812L24.8125 27.75L24.5938 27.6875L24.375 27.5625L24.1875 27.4062L24.0312 27.1875L23.9062 26.9688L23.875 26.8438L23.8438 26.5938L24.375 17.1875L24.0312 17.0625L23.6875 16.9062L23.375 16.7188L23.0938 16.4688L22.8125 16.1875L22.5312 15.875L22.2812 15.5312L22.0625 15.1562L21.875 14.7812L21.6875 14.3438L21.5312 13.9062L21.4062 13.4375L21.2812 12.9375L21.2188 12.4375L21.1562 11.9062V11.375V10.7812L21.2188 10.1875L21.3125 9.625L21.4688 9.0625L21.625 8.5625L21.8125 8.0625L22.0625 7.625L22.3125 7.1875L22.5938 6.8125L22.875 6.46875L23.2188 6.1875L23.5625 5.9375L23.9062 5.71875L24.2812 5.59375L24.6875 5.5L25.0938 5.46875ZM2.09375 1.53125H2.21875L2.375 1.59375L2.46875 1.65625L2.5625 1.71875L2.65625 1.84375L2.71875 1.9375L2.75 2.0625L2.78125 2.21875V10.0625H4.09375L4.6875 2.1875L4.71875 2.0625L4.75 1.9375L4.84375 1.8125L4.90625 1.71875L5.03125 1.65625L5.125 1.59375L5.25 1.53125H5.40625H5.53125L5.65625 1.59375L5.78125 1.65625L5.875 1.71875L5.96875 1.8125L6.03125 1.9375L6.09375 2.0625V2.1875L6.71875 10.0625H8.03125V2.21875V2.09375L8.09375 1.96875L8.15625 1.84375L8.21875 1.75L8.34375 1.65625L8.4375 1.59375L8.59375 1.53125H8.71875H8.84375L8.96875 1.5625L9.09375 1.625L9.1875 1.71875L9.28125 1.78125L9.34375 1.90625L9.375 2L9.40625 2.125L10.2812 9.09375L10.3125 9.375L10.2812 9.65625L10.25 9.9375L10.1875 10.1875L10.0938 10.4688L9.96875 10.6875L9.8125 10.9375L9.65625 11.1562L9.46875 11.3438L9.25 11.5L9.03125 11.6562L8.78125 11.7812L8.53125 11.9062L8.25 11.9688L7.96875 12L7.6875 12.0312H6.125L6.65625 22.5312L6.625 22.7812L6.5625 23.0312L6.46875 23.25L6.3125 23.4688L6.125 23.625L5.90625 23.75L5.65625 23.8125L5.40625 23.8438L5.125 23.8125L4.90625 23.75L4.6875 23.625L4.5 23.4688L4.34375 23.25L4.21875 23.0312L4.1875 22.9062L4.15625 22.6562L4.6875 12.0312H3.59375H3.3125L3.03125 11.9688L2.78125 11.9062L2.53125 11.8125L2.3125 11.6875L2.09375 11.5625L1.875 11.375L1.6875 11.2188L1.5 11L1.375 10.7812L1.25 10.5625L1.125 10.3125L1.0625 10.0625L1 9.8125L0.96875 9.53125V9.25L1.4375 2.15625V2.03125L1.5 1.90625L1.5625 1.8125L1.625 1.71875L1.71875 1.625L1.84375 1.59375L1.96875 1.53125H2.09375ZM14.6562 0.21875H15L15.375 0.25L16.0625 0.34375L16.7812 0.46875L17.4688 0.6875L18.2188 0.96875L18.9688 1.3125L19.6562 1.75L20.3125 2.21875L20.9062 2.75L21.4688 3.34375L22 3.96875L22.4375 4.65625L20.1875 6L19.875 5.53125L19.5 5.0625L19.0938 4.65625L18.6562 4.28125L18.1875 3.9375L17.7188 3.625L17.1875 3.375L16.625 3.1875L16.0625 3L15.5 2.90625L14.9375 2.84375H14.3438L13.7812 2.90625L13.1875 3L12.625 3.125L12.0938 3.34375L11.0938 0.90625L11.5312 0.75L11.9688 0.59375L12.4062 0.46875L12.8438 0.375L13.2812 0.3125L13.75 0.25L14.1875 0.21875H14.6562Z" />
+                    <Setter TargetName="IconPath" Property="Stroke" Value="{DynamicResource ErrorBackground}"/>
+                    <Setter TargetName="IconPath" Property="Fill" Value="{DynamicResource ErrorBackground}" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Header}" Value="Ready to Delivery">
+                    <Setter TargetName="IconPath" Property="Data" Value="M0.375 14.2177L0.71875 12.8427H5.29315L4.94963 14.2177H0.375ZM2.20833 10.6569L2.55208 9.28194H8.04315L7.69963 10.6569H2.20833ZM16.0094 16.3419L16.4678 12.6578L17.1236 7.2458L17.3615 5.34738L16.0094 16.3419ZM4.75552 17.7082C4.35723 17.7082 4.01531 17.5756 3.72977 17.3106C3.44408 17.0456 3.30123 16.7199 3.30123 16.3332H15.7273C15.8097 16.3332 15.8802 16.3067 15.9389 16.2539C15.9977 16.201 16.033 16.1334 16.0447 16.0511L17.3175 5.66455C17.3293 5.58235 17.3058 5.50894 17.2469 5.44432C17.1881 5.37969 17.1176 5.34738 17.0354 5.34738H14.6115L14.3418 7.48023C14.3172 7.67533 14.2305 7.82933 14.0817 7.94223C13.933 8.05498 13.7612 8.10196 13.5663 8.08317C13.377 8.06438 13.226 7.98302 13.1132 7.83911C13.0003 7.69504 12.9563 7.52843 12.981 7.33929L13.2225 5.34738H9.11152L8.84179 7.46625C8.81719 7.66135 8.73049 7.81764 8.58169 7.93513C8.43303 8.05261 8.26124 8.10196 8.06629 8.08317C7.877 8.06438 7.72361 7.98066 7.60613 7.832C7.48864 7.68335 7.44219 7.51438 7.46679 7.32509L7.70833 5.34738H4.57929C4.6346 4.9277 4.81411 4.59128 5.11783 4.33813C5.42171 4.08482 5.77692 3.95817 6.18346 3.95817H7.87585L7.90221 3.729C8.02443 2.6478 8.39874 1.80461 9.02513 1.19946C9.65152 0.594157 10.5053 0.291504 11.5865 0.291504C12.5232 0.291504 13.2956 0.642588 13.9039 1.34475C14.5119 2.04692 14.7907 2.87108 14.7403 3.81723L14.7227 3.95817H17.0778C17.5572 3.96764 17.9567 4.1522 18.2764 4.51184C18.5961 4.87132 18.7236 5.29085 18.6588 5.77042L17.3634 16.2062C17.3081 16.641 17.1173 17 16.7911 17.2833C16.4651 17.5665 16.0847 17.7082 15.6499 17.7082H4.75552ZM9.25086 3.95817H13.3616L13.3793 3.81723C13.4181 3.23668 13.2433 2.73305 12.855 2.30634C12.4664 1.87978 11.9849 1.6665 11.4103 1.6665C10.7815 1.6665 10.287 1.84839 9.9269 2.21215C9.56665 2.57591 9.35008 3.08153 9.27721 3.729L9.25086 3.95817Z" />
+                    <Setter TargetName="IconPath" Property="Stroke" Value="{DynamicResource LinkForeground}"/>
+                    <Setter TargetName="IconPath" Property="Fill" Value="{DynamicResource LinkForeground}" />
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DeliveryCardTemplate">
+            <Border Padding="10" 
+                    BorderBrush="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=BorderAlt}}"
+                    Background="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentBackground}}"
+                    BorderThickness="0.8"
+                    CornerRadius="6">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0"
+                            Height="50"
+                            VerticalAlignment="Center"
+                            Width="50"
+                            CornerRadius="50">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding Image}"
+                                            Stretch="Fill"/>
+                        </Border.Background>
+                    </Border>
+
+                    <Grid Grid.Column="1" Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   Grid.ColumnSpan="2"
+                                   FontWeight="Bold"
+                                   LineHeight="20"
+                                   FontSize="12"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="Wrap"
+                                   HorizontalAlignment="Left"
+                                   Text="{Binding ItemName}"
+                                   FontFamily="Roboto-Medium"
+                                   VerticalAlignment="Stretch" />
+
+                        <StackPanel Grid.Row="1"
+                                    Grid.Column="0"
+                                    Orientation="Horizontal">
+                            <TextBlock Text="Order ID : #"
+                                       FontSize="12"
+                                       Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                                       LineHeight="20"
+                                       FontFamily="Roboto-Regular"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="12"
+                                       Text="{Binding OrderID}"
+                                       Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                                       LineHeight="20"
+                                       FontFamily="Roboto-Regular"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left"/>
+                        </StackPanel>
+                        <Border Margin="0,16,20,0"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                CornerRadius="5"
+                                Height="20"
+                                Width="Auto"
+                                Background="#DFF6DD">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Viewbox Height="12" Width="12" Grid.Column="0" Margin="4,2,2,2" >
+                                    <Path Data="M4.29038 7.12688L7.65188 3.76537L7.125 3.2385L4.29038 6.07313L2.86538 4.64813L2.3385 5.175L4.29038 7.12688ZM5.00087 9.75C4.34387 9.75 3.72633 9.62533 3.14825 9.376C2.57017 9.12667 2.06733 8.78829 1.63975 8.36088C1.21217 7.93346 0.873625 7.43083 0.624125 6.853C0.374708 6.27517 0.25 5.65779 0.25 5.00087C0.25 4.34387 0.374667 3.72633 0.624 3.14825C0.873333 2.57017 1.21171 2.06733 1.63913 1.63975C2.06654 1.21217 2.56917 0.873625 3.147 0.624125C3.72483 0.374708 4.34221 0.25 4.99913 0.25C5.65613 0.25 6.27367 0.374666 6.85175 0.624C7.42983 0.873333 7.93267 1.21171 8.36025 1.63913C8.78783 2.06654 9.12638 2.56917 9.37588 3.147C9.62529 3.72483 9.75 4.34221 9.75 4.99913C9.75 5.65613 9.62533 6.27367 9.376 6.85175C9.12667 7.42983 8.78829 7.93267 8.36088 8.36025C7.93346 8.78783 7.43083 9.12638 6.853 9.37588C6.27517 9.62529 5.65779 9.75 5.00087 9.75ZM5 9C6.11667 9 7.0625 8.6125 7.8375 7.8375C8.6125 7.0625 9 6.11667 9 5C9 3.88333 8.6125 2.9375 7.8375 2.1625C7.0625 1.3875 6.11667 1 5 1C3.88333 1 2.9375 1.3875 2.1625 2.1625C1.3875 2.9375 1 3.88333 1 5C1 6.11667 1.3875 7.0625 2.1625 7.8375C2.9375 8.6125 3.88333 9 5 9Z" 
+                                          Fill="#2E7D32"                                    
+                                          Stroke="#2E7D32"
+                                          VerticalAlignment="Center"
+                                          HorizontalAlignment="Stretch"
+                                          StrokeThickness="0.5"/>
+                                </Viewbox>
+                                <TextBlock Text="Delivered"
+                                           Margin="2,2,4,0"
+                                           Grid.Column="1"                                         
+                                           TextWrapping="Wrap"
+                                           TextTrimming="CharacterEllipsis"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           FontFamily="Roboto-Regular"
+                                           Foreground="#2E7D32"
+                                           FontSize="12"/>
+                            </Grid>
+                        </Border>
+                        <TextBlock Grid.Row="3"
+                                   Grid.Column="0"
+                                   LineHeight="20"
+                                   FontSize="12"
+                                   FontFamily="Roboto-Regular"
+                                   HorizontalAlignment="Left"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="Wrap"
+                                   Text="Delivered"
+                                   Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForegroundAlt1}}"
+                                   VerticalAlignment="Stretch"/>
+                    </Grid>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MenuCardTemplate">
+            <Border Padding="10" 
+                    BorderBrush="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=BorderAlt}}"
+                    Background="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentBackground}}"
+                    BorderThickness="0.8"
+                    CornerRadius="6" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Column="0"
+                            Grid.RowSpan="3"
+                            Height="50"
+                            Width="50"
+                            CornerRadius="50">
+                        <Border.Background>
+                            <ImageBrush ImageSource="{Binding Image}"
+                                        Stretch="Fill"/>
+                        </Border.Background>
+                    </Border>
+
+                   <TextBlock Grid.Row="0"
+                              Grid.Column="1"
+                              Margin="12,0,0,0"
+                              Text="{Binding ItemName}"
+                              FontFamily="Roboto-Medium"
+                              TextTrimming="CharacterEllipsis"
+                              TextWrapping="Wrap"
+                              Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                              FontSize="12"
+                              FontWeight="Bold" 
+                              VerticalAlignment="Center" 
+                              HorizontalAlignment="Left" />
+
+                   <Grid Grid.Row="2"
+                         Grid.Column="1"
+                         Margin="12,5,0,0"
+                         HorizontalAlignment="Left"
+                         Width="100" 
+                         Height="20" >
+                        <syncfusion:SfRating Value="{Binding Rating}"  
+                                             IsReadOnly="True"
+                                             ItemSize="12" 
+                                             ItemsCount="5"
+                                             VerticalAlignment="Center" 
+                                             HorizontalAlignment="Left"
+                                             Precision="Exact">
+                            <syncfusion:SfRating.ItemContainerStyle>
+                                <Style TargetType="syncfusion:SfRatingItem">
+                                    <Setter Property="RatedFill" Value="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=PrimaryBackground}}"/>
+                                    <Setter Property="PointerOverFill" Value="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=PrimaryBackground}}"/>
+                                    <Setter Property="PointerOverStroke" Value="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=PrimaryBackground}}"/>
+                                </Style>
+                            </syncfusion:SfRating.ItemContainerStyle>
+                        </syncfusion:SfRating>
+                   </Grid>
+
+                   <TextBlock Grid.Row="1"
+                              Grid.Column="1"
+                              Margin="12,4,0,0"
+                              FontSize="12"
+                              Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                              FontFamily="Roboto-Regular"
+                              HorizontalAlignment="Stretch" 
+                              LineHeight="17"
+                              VerticalAlignment="Stretch"
+                              Text="{Binding Description}" 
+                              TextWrapping="Wrap"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <DataTemplate x:Key="OrderCardTemplate">
+            <Border Padding="10" 
+                    BorderBrush="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=BorderAlt}}"
+                    Background="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentBackground}}"
+                    BorderThickness="0.8"
+                    CornerRadius="6">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0"
+                                Grid.Row="0"
+                                Height="50"
+                                VerticalAlignment="Center"
+                                Width="50"
+                                CornerRadius="50">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding Image}"
+                                            Stretch="Fill"/>
+                            </Border.Background>
+                        </Border>
+
+                        <Grid Grid.Column="1"
+                              Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="90"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Grid.ColumnSpan="2"
+                                       FontSize="12"
+                                       LineHeight="20"
+                                       FontWeight="Bold"
+                                       Text="{Binding ItemName}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap"
+                                       FontFamily="Roboto-Medium"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left" />
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="0"
+                                        Orientation="Horizontal">
+                                <TextBlock Text="Order ID : #"
+                                           FontSize="12"
+                                           FontFamily="Roboto-Regular"
+                                           LineHeight="20"
+                                           TextTrimming="CharacterEllipsis"
+                                           TextWrapping="Wrap"
+                                           Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"/>
+                                <TextBlock FontSize="12"
+                                           Text="{Binding OrderID}"
+                                           FontFamily="Roboto-Regular"
+                                           LineHeight="20"
+                                           Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"/>
+                            </StackPanel>
+
+                            <Border Grid.Column="1"
+                                    Grid.RowSpan="2"
+                                    Margin="20,20,0,0"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Center"
+                                    Height="25"
+                                    Width="25">
+                                <Viewbox Stretch="Uniform" Height="18" Width="18">
+                                    <Path Data="M1.88984 4.01269C1.98104 3.67766 1.9823 3.37589 1.89364 3.10736C1.80507 2.83893 1.64339 2.54614 1.40859 2.229C1.11761 1.84391 0.923892 1.48905 0.827448 1.16442C0.731003 0.839893 0.707427 0.465587 0.756718 0.0415039H1.61947C1.56405 0.38849 1.56872 0.684288 1.63347 0.928899C1.69812 1.17341 1.84789 1.45424 2.08278 1.77138C2.40352 2.19235 2.61216 2.56515 2.7087 2.88977C2.80514 3.2143 2.81973 3.58861 2.75245 4.01269H1.88984ZM4.20072 4.01269C4.29191 3.67766 4.29468 3.37589 4.20903 3.10736C4.12348 2.83893 3.96325 2.54614 3.72836 2.229C3.43748 1.84391 3.2423 1.48905 3.14284 1.16442C3.04339 0.839893 3.0183 0.465587 3.06759 0.0415039H3.93034C3.87493 0.38849 3.87959 0.684288 3.94434 0.928899C4.009 1.17341 4.15877 1.45424 4.39366 1.77138C4.71449 2.19235 4.92313 2.56515 5.01957 2.88977C5.11602 3.2143 5.1306 3.58861 5.06332 4.01269H4.20072ZM6.53405 4.01269C6.62525 3.67766 6.62709 3.37589 6.53959 3.10736C6.45209 2.83893 6.29095 2.54614 6.05616 2.229C5.76517 1.84391 5.57092 1.48905 5.47341 1.16442C5.3758 0.839893 5.35164 0.465587 5.40093 0.0415039H6.26368C6.20826 0.38849 6.21293 0.684288 6.27768 0.928899C6.34233 1.17341 6.4921 1.45424 6.72699 1.77138C7.04782 2.19235 7.25646 2.56515 7.35291 2.88977C7.44935 3.2143 7.46393 3.58861 7.39666 4.01269H6.53405ZM1.91668 9.37484C1.50912 9.37484 1.16418 9.23367 0.881843 8.95134C0.59951 8.669 0.458344 8.32406 0.458344 7.9165V5.2915H8.34239C8.37223 4.97961 8.48384 4.70345 8.67722 4.46302C8.8705 4.22259 9.1152 4.05265 9.41134 3.95319L11.9859 3.0884L12.2608 3.91615L9.68624 4.78109C9.54342 4.82746 9.42807 4.91292 9.34018 5.03746C9.25229 5.162 9.20834 5.30055 9.20834 5.45309V7.9165C9.20834 8.32036 9.06718 8.66439 8.78484 8.94857C8.50251 9.23275 8.15757 9.37484 7.75001 9.37484H1.91668ZM1.91668 8.49984H7.75001C7.91529 8.49984 8.05383 8.44393 8.16564 8.33213C8.27744 8.22032 8.33334 8.08178 8.33334 7.9165V6.1665H1.33334V7.9165C1.33334 8.08178 1.38925 8.22032 1.50105 8.33213C1.61286 8.44393 1.7514 8.49984 1.91668 8.49984Z"
+                                          Fill="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ErrorBackground}}" 
+                                          Stroke="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ErrorBackground}}"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Center"
+                                          StrokeThickness="0.3"/>
+                                </Viewbox>
+                            </Border>
+
+                            <TextBlock Grid.Row="2"
+                                       Grid.Column="0"
+                                       FontSize="12"
+                                       Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForegroundAlt1}}"
+                                       LineHeight="20"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap"
+                                       FontFamily="Roboto-Regular"
+                                       Text="{Binding Category}"
+                                       x:Name="OrderStateTextBlock"
+                                       VerticalAlignment="Top"
+                                       HorizontalAlignment="Left" />
+
+                            <StackPanel Grid.Row="2"
+                                        Grid.Column="1"                                                   
+                                        Orientation="Horizontal">
+                                <Border VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Height="30"
+                                        Width="30" >
+                                    <Path Data="M6.64062 0.00878906C7.5585 -0.0383403 8.47769 0.0966434 9.34375 0.404297C10.2097 0.711995 11.0071 1.18717 11.6895 1.80273C12.3718 2.41844 12.9264 3.16323 13.3213 3.99316C13.716 4.82303 13.944 5.72288 13.9912 6.64062C14.0383 7.55859 13.9034 8.47761 13.5957 9.34375C13.2879 10.2098 12.813 11.007 12.1973 11.6895C11.5814 12.3719 10.837 12.9264 10.0068 13.3213C9.17689 13.716 8.2772 13.944 7.35938 13.9912C6.44145 14.0383 5.52234 13.9034 4.65625 13.5957C3.79034 13.2879 2.99284 12.8129 2.31055 12.1973C1.62825 11.5815 1.0735 10.8368 0.678711 10.0068C0.284047 9.17698 0.0559632 8.27709 0.00878906 7.35938C-0.0382883 6.44147 0.0965718 5.52232 0.404297 4.65625C0.712058 3.79025 1.18705 2.9929 1.80273 2.31055C2.41851 1.62812 3.16312 1.07357 3.99316 0.678711C4.82304 0.283964 5.72286 0.0560138 6.64062 0.00878906ZM6.69238 1.00781C5.90563 1.04826 5.13426 1.24364 4.42285 1.58203C3.71139 1.92048 3.07273 2.39554 2.54492 2.98047C2.01724 3.56533 1.61045 4.24897 1.34668 4.99121C1.08293 5.73352 0.967478 6.52088 1.00781 7.30762C1.04821 8.09432 1.24372 8.86576 1.58203 9.57715C1.92041 10.2885 2.39567 10.9273 2.98047 11.4551C3.56526 11.9827 4.24906 12.3895 4.99121 12.6533C5.73354 12.9171 6.52086 13.0325 7.30762 12.9922C8.09444 12.9518 8.86567 12.7564 9.57715 12.418C10.2887 12.0795 10.9272 11.6045 11.4551 11.0195C11.9828 10.4346 12.3896 9.75111 12.6533 9.00879C12.9171 8.26641 13.0326 7.47918 12.9922 6.69238C12.9517 5.90564 12.7564 5.13425 12.418 4.42285C12.0795 3.7115 11.6044 3.07266 11.0195 2.54492C10.4347 2.01737 9.75095 1.61039 9.00879 1.34668C8.26649 1.083 7.47909 0.967426 6.69238 1.00781ZM7 3C7.27601 3 7.49979 3.22404 7.5 3.5V6.7168L9.75684 8.07129C9.99349 8.21328 10.0705 8.5201 9.92871 8.75684C9.78669 8.99353 9.47992 9.07055 9.24316 8.92871L6.74316 7.42871C6.59283 7.33829 6.5 7.17545 6.5 7V3.5C6.50021 3.22416 6.72416 3.00021 7 3Z"
+                                          Fill="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=Series3}}"
+                                          Stroke="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=Series3}}"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Center"
+                                          StrokeThickness="0.3"/>
+                                </Border>
+                                <TextBlock Text="15 mins"                                           
+                                           LineHeight="20"
+                                           FontSize="12"
+                                           FontFamily="Roboto-Regular"
+                                           Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForegroundAlt1}}"
+                                           VerticalAlignment="Top"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                    
+                    <ProgressBar Grid.Row="1"
+                                 Grid.ColumnSpan="2"
+                                 Height="4"
+                                 Value="100"
+                                 Foreground="#FFffbe06"
+                                 Background="Red"
+                                 VerticalAlignment="Bottom"
+                                 HorizontalAlignment="Stretch"/>
+                </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding Category}" Value="Dining">
+                    <Setter TargetName="OrderStateTextBlock" Property="Text" Value="Dining"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Category}" Value="Delivery">
+                    <Setter TargetName="OrderStateTextBlock" Property="Text" Value="Delivery"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ReadyToServeCardTemplate">
+            <Border Padding="10" 
+                    BorderBrush="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=BorderAlt}}"
+                    Background="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentBackground}}"
+                    BorderThickness="1"
+                    CornerRadius="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0"
+                                Height="50"
+                                VerticalAlignment="Center"
+                                Width="50"
+                                CornerRadius="50">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding Image}"
+                                            Stretch="Fill"/>
+                            </Border.Background>
+                        </Border>
+
+                        <Grid Grid.Column="1"
+                              Margin="10,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="90"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0"
+                                       Grid.ColumnSpan="2"
+                                       FontSize="12"
+                                       FontFamily="Roboto-Medium"
+                                       LineHeight="20"
+                                       FontWeight="Bold"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap"
+                                       Text="{Binding ItemName}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Left" />
+
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="0"
+                                        Orientation="Horizontal">
+                                <TextBlock Text="Order ID : #"
+                                           FontSize="12"
+                                           LineHeight="20"
+                                           FontFamily="Roboto-Regular"
+                                           Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"/>
+                                <TextBlock FontSize="12"
+                                           Text="{Binding OrderID}"
+                                           FontFamily="Roboto-Regular"
+                                           LineHeight="20"
+                                           Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForeground}}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Left"/>
+                            </StackPanel>
+                            <Border Margin="10,18,0,0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Height="25"
+                                    Width="25">
+                                <Viewbox Stretch="Uniform" Height="18" Width="18">
+                                    <Path Data="M2.22916 11.6875V6.38369C1.75579 6.28122 1.35698 6.04171 1.03275 5.66517C0.708609 5.28863 0.546539 4.83936 0.546539 4.31738V0.3125H1.42139V4.31738H2.22916V0.3125H3.10416V4.31738H3.91194V0.3125H4.78679V4.31738C4.78679 4.83936 4.62472 5.28863 4.30058 5.66517C3.97635 6.04171 3.57754 6.28122 3.10416 6.38369V11.6875H2.22916ZM7.83806 11.6875V7.02083H6.24527V3.08333C6.24527 2.35494 6.47914 1.72319 6.94687 1.18808C7.41461 0.652972 8.00334 0.364854 8.71306 0.323729V11.6875H7.83806Z"
+                                          Fill="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=WarningForeground}}" 
+                                          Stroke="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=WarningForeground}}"
+                                          StrokeThickness="0.2"/>
+                                </Viewbox>
+                            </Border>
+                            <TextBlock Grid.Row="2"
+                                       LineHeight="20"
+                                       Grid.Column="0"
+                                       FontFamily="Roboto-Regular"
+                                       FontSize="12"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap"
+                                       Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForegroundAlt1}}"
+                                       Text="Ready to Serve"
+                                       VerticalAlignment="Top"/>
+
+                            <StackPanel Grid.Row="2"
+                                        Grid.Column="1"                                                   
+                                        Orientation="Horizontal">
+                                <Border VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        CornerRadius="50"
+                                        Height="30"
+                                        Width="30" >
+                                    <Path Data="M6.64062 0.00878906C7.5585 -0.0383403 8.47769 0.0966434 9.34375 0.404297C10.2097 0.711995 11.0071 1.18717 11.6895 1.80273C12.3718 2.41844 12.9264 3.16323 13.3213 3.99316C13.716 4.82303 13.944 5.72288 13.9912 6.64062C14.0383 7.55859 13.9034 8.47761 13.5957 9.34375C13.2879 10.2098 12.813 11.007 12.1973 11.6895C11.5814 12.3719 10.837 12.9264 10.0068 13.3213C9.17689 13.716 8.2772 13.944 7.35938 13.9912C6.44145 14.0383 5.52234 13.9034 4.65625 13.5957C3.79034 13.2879 2.99284 12.8129 2.31055 12.1973C1.62825 11.5815 1.0735 10.8368 0.678711 10.0068C0.284047 9.17698 0.0559632 8.27709 0.00878906 7.35938C-0.0382883 6.44147 0.0965718 5.52232 0.404297 4.65625C0.712058 3.79025 1.18705 2.9929 1.80273 2.31055C2.41851 1.62812 3.16312 1.07357 3.99316 0.678711C4.82304 0.283964 5.72286 0.0560138 6.64062 0.00878906ZM6.69238 1.00781C5.90563 1.04826 5.13426 1.24364 4.42285 1.58203C3.71139 1.92048 3.07273 2.39554 2.54492 2.98047C2.01724 3.56533 1.61045 4.24897 1.34668 4.99121C1.08293 5.73352 0.967478 6.52088 1.00781 7.30762C1.04821 8.09432 1.24372 8.86576 1.58203 9.57715C1.92041 10.2885 2.39567 10.9273 2.98047 11.4551C3.56526 11.9827 4.24906 12.3895 4.99121 12.6533C5.73354 12.9171 6.52086 13.0325 7.30762 12.9922C8.09444 12.9518 8.86567 12.7564 9.57715 12.418C10.2887 12.0795 10.9272 11.6045 11.4551 11.0195C11.9828 10.4346 12.3896 9.75111 12.6533 9.00879C12.9171 8.26641 13.0326 7.47918 12.9922 6.69238C12.9517 5.90564 12.7564 5.13425 12.418 4.42285C12.0795 3.7115 11.6044 3.07266 11.0195 2.54492C10.4347 2.01737 9.75095 1.61039 9.00879 1.34668C8.26649 1.083 7.47909 0.967426 6.69238 1.00781ZM7 3C7.27601 3 7.49979 3.22404 7.5 3.5V6.7168L9.75684 8.07129C9.99349 8.21328 10.0705 8.5201 9.92871 8.75684C9.78669 8.99353 9.47992 9.07055 9.24316 8.92871L6.74316 7.42871C6.59283 7.33829 6.5 7.17545 6.5 7V3.5C6.50021 3.22416 6.72416 3.00021 7 3Z"
+                                          Fill="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=Series3}}"
+                                          Stroke="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=Series3}}"
+                                          VerticalAlignment="Top"
+                                          HorizontalAlignment="Center"
+                                          StrokeThickness="0.3"/>
+                                </Border>
+                                <TextBlock Text="5 mins"
+                                           Grid.Column="2"
+                                           Grid.Row="2"
+                                           FontSize="12"
+                                           LineHeight="20"
+                                           FontFamily="Roboto-Regular"
+                                           Foreground="{skinManager:ThemeResource ThemeKey={skinManager:ThemeKey Key=ContentForegroundAlt1}}"
+                                           VerticalAlignment="Top"/>
+                            </StackPanel>
+
+                        </Grid>
+                    </Grid>
+
+                    <ProgressBar Grid.Row="1"
+                                 Grid.ColumnSpan="2"
+                                 Height="4"
+                                 Value="100"
+                                 Foreground="#83C83E"
+                                 Background="Red"
+                                 VerticalAlignment="Bottom"
+                                 HorizontalAlignment="Stretch"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+
+        <local:CardTemplateSelector x:Key="CardTemplateSelector"
+                                    DeliveryCardTemplate="{StaticResource DeliveryCardTemplate}"
+                                    MenuCardTemplate="{StaticResource MenuCardTemplate}" 
+                                    ReadyToServeCardTemplate="{StaticResource ReadyToServeCardTemplate}"
+                                    OrderCardTemplate="{StaticResource OrderCardTemplate}"/>
+    </democommon:DemoControl.Resources>
+
+    <Grid>
+        <kanban:SfKanban x:Name="kanban"
+                         AutoGenerateColumns="False"                      
+                         CardDragEnd="OnKanbanDragEnd"
+                         CardDragStart="OnKanbanDragStart"
+                         ColumnMappingPath="Category"
+                         ColumnHeaderTemplate="{StaticResource columnHeaderTemplate}"
+                         CardTemplateSelector="{StaticResource CardTemplateSelector}"
+                         ItemsSource="{Binding PizzaShop}">
+            <kanban:SfKanban.PlaceholderStyle>
+                <kanban:PlaceholderStyle Fill="#FFFBC7AB"
+                                         FontSize="12"
+                                         SelectedFontSize="12"
+                                         Foreground="Black"
+                                         SelectedForeground="Black"
+                                         SelectedBackground="#FFFBC7AB"/>
+            </kanban:SfKanban.PlaceholderStyle>
+
+            <kanban:KanbanColumn Title="Menu" Categories="Menu" />
+            <kanban:KanbanColumn Title="Order" Categories="Dining,Delivery" />
+            <kanban:KanbanColumn Title="Ready to Serve"
+                                 AllowDrag="False"                              
+                                 Categories="Ready to Serve" />
+            <kanban:KanbanColumn Title="Ready to Delivery"
+                                 AllowDrag="False"
+                                 Categories="Ready to Delivery" />
+        </kanban:SfKanban>
+    </Grid>
+</democommon:DemoControl>

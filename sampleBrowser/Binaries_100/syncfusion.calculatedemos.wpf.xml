@@ -1,0 +1,332 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>syncfusion.calculatedemos.wpf</name>
+    </assembly>
+    <members>
+        <member name="P:syncfusion.calculatedemos.wpf.SelectionBehavior.IgnoreNullSelection">
+            <summary>
+            Determines whether null selection (which usually occurs since the combobox is rebuilt or its list is refreshed) should be ignored.
+            True by default.
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.SelectionBehavior.OnSelectedItemChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Called when the SelectedItem dependency property is changed.
+            Updates the associated selector's SelectedItem with the new value.
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.SelectionBehavior.OnSelectionChanged(System.Object,System.Windows.Controls.SelectionChangedEventArgs)">
+            <summary>
+            Called when the associated selector's selection is changed.
+            Tries to assign it to the <see cref="P:syncfusion.calculatedemos.wpf.SelectionBehavior.SelectedItem"/> property.
+            If it fails, updates the selector's with  <see cref="P:syncfusion.calculatedemos.wpf.SelectionBehavior.SelectedItem"/> property's current value.
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.CalcQuick">
+            <summary>
+            A class that allows you to quickly add calculation support for controls on a form, or usercontrol.
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.CalcQuick.RegisterControlArray(System.Windows.Controls.Control[])">
+            <summary>
+            A Virtual method that registers an array of controls as formula objects in this CalcQuick instance.
+            </summary>
+            <param name="controls">The control array.</param>
+        </member>
+        <member name="E:syncfusion.calculatedemos.wpf.CalcQuick.TextChanged">
+            <summary>
+            Have a textbox to handle the textchanged event 
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.CalcQuick.RegisterControl(System.Windows.Controls.Control)">
+            <summary>
+            Used to register a control as a calculation object in this CalcQuick instance.
+            </summary>
+            <param name="c">The control to register.</param>
+            <remarks>
+            To reference this calculation object from another calculation in this CalcQuick
+            object, you use the Control.Name string. The value of this calculation object is
+            bound to the Control.Text property. 
+            </remarks>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.ArrayCalcData">
+            <summary>
+            Wrapper class for a double array.
+            </summary>
+            <remarks> Wrapper class for a double array that adds an extra column
+            to hold the sum of each row, and also adds an extra row
+            to hold the sum of the columns.
+            </remarks>
+        </member>
+        <member name="F:syncfusion.calculatedemos.wpf.ArrayCalcData.dValues">
+            <summary>
+            original double array
+            </summary>
+        </member>
+        <member name="F:syncfusion.calculatedemos.wpf.ArrayCalcData.rowSums">
+            <summary>
+            vector holding the sum of the rows.
+            </summary>
+            <remarks>
+            Serves as the last column.
+            </remarks>
+        </member>
+        <member name="F:syncfusion.calculatedemos.wpf.ArrayCalcData.colSums">
+            <summary>
+            Vector holding the sum of the columns.
+            </summary>
+            <remarks>
+            Serves as the last row.
+            </remarks>
+        </member>
+        <member name="P:syncfusion.calculatedemos.wpf.ArrayCalcData.Item(System.Int32,System.Int32)">
+            <summary>
+            Gets or sets the value of this ArrayCalcData object.
+            </summary>
+            <remarks>
+            Since this class wraps a double array, the indexing is zero-based. But 
+            the ICalcData methods require one-based indexing by convention. So, 
+            one is added to the indexes when the ICalcData methods are called.
+            </remarks>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.ArrayCalcData.#ctor(System.Double[0:,0:])">
+            <summary>
+            Wraps the double array with an extra row and column that holds calculated sums.
+            </summary>
+            <param name="dValues"></param>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.ArrayCalcData.GetValueRowCol(System.Int32,System.Int32)">
+            <summary>
+            Gets the value into either the double array or column vector 
+            or row vector.
+            </summary>
+            <param name="row">one-based row index.</param>
+            <param name="col">one-based column index.</param>
+            <returns>The value.</returns>
+            <remarks> By convention, ICalcData uses one-based indexes.</remarks>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.ArrayCalcData.SetValueRowCol(System.Object,System.Int32,System.Int32)">
+            <summary>
+            Sets the value into either the double array or column vector 
+            or row vector.
+            </summary>
+            <param name="row">one-based row index.</param>
+            <param name="col">one-based column index.</param>
+            <param name="value">The value to be set.</param>
+            <remarks> This setter raises the ICalcData.ValueChanged event which 
+            is listened to by the CalcEngine to manage the calculations.
+            
+            By convention, ICalcData uses one-based indexes.
+            </remarks>
+        </member>
+        <member name="E:syncfusion.calculatedemos.wpf.ArrayCalcData.ValueChanged">
+            <summary>
+            Used in the SetValueRowCol implementation
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.ArrayCalcData.WireParentObject">
+            <summary>
+            Unused in this implementation.
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.Data.ShowObject">
+            <summary>
+            Displays the ArrayCalcData values in a TextBox.
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.Data.FindFile(System.String,System.String)">
+            <summary>
+            Finds a file of the given name in the current directory or sibling "Data" directory.
+            If file is not found, the parent folder is checked until the file is found. This method
+            is used by our samples when they load data from a separate "Data" folder.
+            </summary>
+            <param name="dataDirName">The name of the "Data" folder.</param>
+            <param name="fileName">The filename to be searched.</param>
+            <returns>The full path of the file that was found; an empty string is returned if file is not found.</returns>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:syncfusion.calculatedemos.wpf.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:syncfusion.calculatedemos.wpf.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.CalcQuickDemoDataViewModel.BindItem">
+            <summary>
+            Add BindItem List collection
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.CalcQuickDemoDataViewModel.BindDiscount">
+            <summary>
+            Add BindDiscount List items
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.AlgebraicExpressions">
+            <summary>
+            Interaction logic for AlgebraicExpressions.xaml
+            </summary>
+            <summary>
+            AlgebraicExpressions
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.AlgebraicExpressions.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.AngleForm">
+            <summary>
+            Interaction logic for AngleForm.xaml
+            </summary>
+            <summary>
+            AngleForm
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.AngleForm.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.AutoAngleForm">
+            <summary>
+            Interaction logic for AutoAngleForm.xaml
+            </summary>
+            <summary>
+            AutoAngleForm
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.AutoAngleForm.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.AutoCalcForm">
+            <summary>
+            Interaction logic for AutoCalcForm.xaml
+            </summary>
+            <summary>
+            AutoCalcForm
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.AutoCalcForm.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.CalcQuickDemo">
+            <summary>
+            Interaction logic for CalcQuickDemo.xaml
+            </summary>
+            <summary>
+            CalcQuickDemo
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.CalcQuickDemo.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.ManualCalcForm">
+            <summary>
+            Interaction logic for ManualCalcForm.xaml
+            </summary>
+            <summary>
+            ManualCalcForm
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.ManualCalcForm.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.MoreComplexForm">
+            <summary>
+            Interaction logic for MoreComplexForm.xaml
+            </summary>
+            <summary>
+            MoreComplexForm
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.MoreComplexForm.txtPrice_MouseLeave(System.Object,System.Windows.Input.MouseEventArgs)">
+            <summary>
+            Set Calculator properties on MouseLeave
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.MoreComplexForm.Window_Loaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Instantiate a CalcQuick object
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.MoreComplexForm.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.GettingStarted">
+            <summary>
+            Interaction logic for GettingStarted.xaml
+            </summary>
+            <summary>
+            GettingStarted
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.GettingStarted.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:syncfusion.calculatedemos.wpf.ArrayCalculationDemo">
+            <summary>
+            Interaction logic for ArrayCalculationDemo.xaml
+            </summary>
+            <summary>
+            ArrayCalculationDemo
+            </summary>
+        </member>
+        <member name="M:syncfusion.calculatedemos.wpf.ArrayCalculationDemo.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
+            </summary>
+        </member>
+    </members>
+</doc>
