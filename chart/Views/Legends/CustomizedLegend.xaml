@@ -1,0 +1,238 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.chartdemos.wpf.CustomizedLegend"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chart="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.chartdemos.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    OptionsSize="300">
+
+    <democommon:DemoControl.DataContext>
+        <local:LegendViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <Grid x:Name="grid">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../../Resources/ColorModel.xaml" />
+                    <ResourceDictionary Source="../../Resources/CustomStyle.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+
+                <Style TargetType="Line" x:Key="lineStyle">
+                    <Setter Property="StrokeThickness" Value="0"/>
+                </Style>
+
+                <DataTemplate x:Key="headerTemplate">
+                    <TextBlock Text="Production in Millions" Padding="0,4,0,1" FontSize="13.5"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="markerTemplate">
+                    <Ellipse Width="10.5" Height="10.5" Stroke="{Binding Interior}" Fill="{skin:ThemeResource ThemeKey={skin:ThemeKey Key=ContentBackground}}" StrokeThickness="1.6"/>
+                </DataTemplate>
+
+                <DataTemplate x:Key="tooltipTemplate1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                       
+                         <TextBlock Grid.Row="0" Text="Truck" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center"
+                               VerticalAlignment="Center" Style="{StaticResource TooltipStyle}"/>
+
+                        <Rectangle  Grid.Row="1" Height="1.5" Style="{StaticResource TooltipBoxViewStyle}" Margin="0.8,2.5,0.8,2.5"/>
+                             
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Ellipse Height="11" Margin="0,0,4,0" Width="11" Fill="{Binding Interior}" />
+                            <TextBlock FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding StringFormat=' {0} : ', Path=Item.Name}" 
+                                       Style="{StaticResource TooltipStyle}"/>
+                            <TextBlock Text="{Binding Item.Value}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       Style="{StaticResource TooltipStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="tooltipTemplate2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                       
+                         <TextBlock Grid.Row="0" Text="Car" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center"
+                               VerticalAlignment="Center" Style="{StaticResource TooltipStyle}"/>
+
+                        <Rectangle  Grid.Row="1" Height="1.5" Style="{StaticResource TooltipBoxViewStyle}" Margin="0.8,2.5,0.8,2.5"/>
+                        
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Ellipse Height="11" Margin="0,0,4,0" Width="11" Fill="{Binding Interior}" />
+                            <TextBlock FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding StringFormat=' {0} : ', Path=Item.Name}" 
+                                       Style="{StaticResource TooltipStyle}"/>
+                            <TextBlock Text="{Binding Item.Value}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       Style="{StaticResource TooltipStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="tooltipTemplate3">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                         <TextBlock Grid.Row="0" Text="Bus" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center"
+                               VerticalAlignment="Center" Style="{StaticResource TooltipStyle}"/>
+
+                        <Rectangle  Grid.Row="1" Height="1.5" Style="{StaticResource TooltipBoxViewStyle}" Margin="0.8,2.5,0.8,2.5"/>
+                        
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Ellipse Height="11" Margin="0,0,4,0" Width="11" Fill="{Binding Interior}" />
+                            <TextBlock FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding StringFormat=' {0} : ', Path=Item.Name}" 
+                                       Style="{StaticResource TooltipStyle}"/>
+                            <TextBlock Text="{Binding Item.Value}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       Style="{StaticResource TooltipStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+
+                <DataTemplate x:Key="tooltipTemplate4">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                         <TextBlock Grid.Row="0" Text="Motorcycle" FontSize="13" FontWeight="Bold" HorizontalAlignment="Center" TextAlignment="Center"
+                               VerticalAlignment="Center" Style="{StaticResource TooltipStyle}"/>
+
+                        <Rectangle  Grid.Row="1" Height="1.5" Style="{StaticResource TooltipBoxViewStyle}" Margin="0.8,2.5,0.8,2.5"/>
+                        
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Ellipse Height="11" Margin="0,0,4,0" Width="11" Fill="{Binding Interior}" />
+                            <TextBlock FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding StringFormat=' {0} : ', Path=Item.Name}" 
+                                       Style="{StaticResource TooltipStyle}"/>
+                            <TextBlock Text="{Binding Item.Value}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                       Style="{StaticResource TooltipStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+
+            </ResourceDictionary>
+        </Grid.Resources>
+
+        <chart:SfChart Name="Chart" Margin="5">
+
+            <chart:SfChart.Header>
+                <TextBlock TextAlignment="Center" Text="Automobile Production by Category" FontSize="17" Margin="0,10,0,-5"/>
+            </chart:SfChart.Header>
+
+            <chart:SfChart.Legend>
+                <chart:ChartLegend  FontSize="15" ItemMargin="9" Padding="0,0,20,0"/>
+            </chart:SfChart.Legend>
+
+            <chart:SfChart.PrimaryAxis>
+                <chart:CategoryAxis ShowGridLines="false" PlotOffset="18" AxisLineOffset="10" >
+                    <chart:CategoryAxis.LabelStyle>
+                        <chart:LabelStyle FontSize="12.9"/>
+                    </chart:CategoryAxis.LabelStyle>
+                </chart:CategoryAxis>
+            </chart:SfChart.PrimaryAxis>
+
+            <chart:SfChart.SecondaryAxis>
+                <chart:NumericalAxis Maximum="120" Minimum="0" Interval="20" AxisLineStyle="{StaticResource lineStyle}" ShowGridLines="False"
+                                                 MajorTickLineStyle="{StaticResource lineStyle}" HeaderTemplate="{StaticResource headerTemplate}">
+                    <chart:NumericalAxis.LabelStyle>
+                        <chart:LabelStyle FontSize="12.9"/>
+                    </chart:NumericalAxis.LabelStyle>
+                </chart:NumericalAxis>
+            </chart:SfChart.SecondaryAxis>
+
+            <chart:LineSeries EnableAnimation="True" ItemsSource="{Binding LegendData1}" Label="Truck" Interior="#008FFB"
+                               XBindingPath="Name" YBindingPath="Value" ShowTooltip="True" TooltipTemplate="{StaticResource tooltipTemplate1}">
+                <chart:LineSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo ShowMarker="True" SymbolTemplate="{StaticResource markerTemplate}">
+                    </chart:ChartAdornmentInfo>
+                </chart:LineSeries.AdornmentsInfo>
+                <chart:LineSeries.LegendIconTemplate>
+                    <DataTemplate>
+                        <Canvas>
+                            <Path Data="M27.800003,14.799978L32,14.799978 32,16.399984 28.600006,16.399984 28.600006,16.299978C28.5,15.799978,28.199997,15.299978,27.800003,14.799978z M25.600006,14.799978C26.800003,14.799978 27.800003,15.799978 27.800003,16.999988 27.800003,18.200001 26.800003,19.200001 25.600006,19.200001 24.400009,19.200001 23.400009,18.200001 23.400009,16.999988 23.400009,15.799978 24.300003,14.799978 25.600006,14.799978z M10.5,14.799978L19.900009,14.799978 23.300003,14.799978 23.199997,14.899984C22.800003,15.299978,22.600006,15.799978,22.400009,16.399984L22.400009,16.49999 20,16.49999 20,17.499988 10.5,17.499988z M5.5,14.700002C6.6999969,14.700002 7.6999969,15.700002 7.6999969,16.899982 7.6999969,18.099994 6.6999969,19.099994 5.5,19.099994 4.3000031,19.099994 3.3000031,18.099994 3.3000031,16.899982 3.3000031,15.700002 4.3000031,14.700002 5.5,14.700002z M19.800003,6.7999833L27.300003,6.7999833 27.300003,12.79998 19.800003,12.79998z M11.300003,6.7999833L18.800003,6.7999833 18.800003,12.79998 11.300003,12.79998z M2.3000031,5.2000091L0.90000916,9.399988 6.9000092,9.399988 6.9000092,5.2000091z M1.6999969,4.2999852L9.4000092,4.2999852 9.4000092,16.299978 8.8000031,16.299978 8.8000031,16.200002C8.5,14.700002 7.1000061,13.499991 5.5,13.499991 3.6999969,13.499991 2.1999969,14.99999 2.1999969,16.799976L2.1999969,17.099994 2.1999969,17.200001 2.1000061,17.200001 0,17.200001 0,8.899988z M19.800003,0L27.300003,0 27.300003,5.9999965 19.800003,5.9999965z M11.300003,0L18.800003,0 18.800003,5.9999965 11.300003,5.9999965z" 
+                                              Fill="{Binding Interior}" Margin="-18,-2,0,0">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Canvas>
+                    </DataTemplate>
+                </chart:LineSeries.LegendIconTemplate>
+            </chart:LineSeries>
+
+            <chart:LineSeries EnableAnimation="True" ItemsSource="{Binding LegendData2}" Label="Car" Interior="#2BD26E"
+                               XBindingPath="Name" YBindingPath="Value" ShowTooltip="True" TooltipTemplate="{StaticResource tooltipTemplate2}">
+                <chart:LineSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo ShowMarker="True" SymbolTemplate="{StaticResource markerTemplate}">
+                    </chart:ChartAdornmentInfo>
+                </chart:LineSeries.AdornmentsInfo>
+                <chart:LineSeries.LegendIconTemplate>
+                    <DataTemplate>
+                        <Canvas >
+                            <Path Data="M24.980988,11.331996C23.878988,11.331996 22.984989,12.254996 22.984989,13.392997 22.984989,14.529996 23.878988,15.452996 24.980988,15.452996 26.082987,15.452996 26.976988,14.529996 26.976988,13.392997 26.976988,12.254996 26.082987,11.331996 24.980988,11.331996z M6.0190191,11.331996C4.9170194,11.331996 4.0230198,12.254996 4.0230198,13.392997 4.0230198,14.529996 4.9170194,15.452996 6.0190191,15.452996 7.1210184,15.452996 8.0150185,14.529996 8.0150185,13.392997 8.0150185,12.254996 7.1210184,11.331996 6.0190191,11.331996z M3.664978,5.150003C2.7800293,5.1500027,2.0599976,5.9090054,2.0599976,6.8400049L2.0599976,12.104012C2.0599976,12.246011,2.15802,12.362008,2.2769775,12.362008L3.1666145,12.362008 3.1768851,12.331053C3.6016369,11.147943 4.7151132,10.301996 6.0190191,10.301996 7.3229246,10.301996 8.4364014,11.147943 8.8611526,12.331053L8.871419,12.361994 22.128588,12.361994 22.138853,12.331053C22.563606,11.147943 23.677082,10.301996 24.980988,10.301996 26.284895,10.301996 27.398371,11.147943 27.823122,12.331053L27.833393,12.362008 29.721985,12.362008C29.840027,12.362008 29.939026,12.244012 29.939026,12.104012 29.939026,9.4059992 27.828003,7.2110071 25.231018,7.2110071L7.5780029,7.2110071 5.5820313,5.150003z M14.859015,1.0299997L14.859015,5.150003 24.979801,5.150003 20.532007,1.4769998C20.181007,1.1879998,19.746006,1.0299997,19.298006,1.0299997z M9.2350025,1.0299997C8.4870024,1.0299997,7.8030019,1.4659998,7.4690018,2.1570001L6.8296685,3.4766746 8.4509888,5.150003 13.828982,5.150003 13.828982,1.0299997z M9.2350025,0L19.298006,0C19.983006,-2.3841858E-07,20.654007,0.24199986,21.188007,0.68200016L25.637009,4.3569999 26.839771,5.3501353 26.920553,5.3693409C29.837927,6.1424372 32,8.8690753 32,12.104012 32,13.382012 30.978027,14.422006 29.721985,14.422006L27.833879,14.422006 27.823122,14.454416C27.398371,15.637049 26.284895,16.482996 24.980988,16.482996 23.677082,16.482996 22.563606,15.637049 22.138853,14.454416L22.128092,14.421996 8.8719149,14.421996 8.8611526,14.454416C8.4364014,15.637049 7.3229246,16.482996 6.0190191,16.482996 4.7151132,16.482996 3.6016369,15.637049 3.1768851,14.454416L3.1661267,14.422006 2.2769775,14.422006C1.0220337,14.422006,0,13.382012,0,12.104012L0,6.8400049C0,4.772012,1.6439819,3.0900052,3.664978,3.0900054L5.8724713,3.0900054 6.5420012,1.7079997C7.0520015,0.65399981,8.0840015,-2.3841858E-07,9.2350025,0z" 
+                                              Fill="{Binding Interior}" Margin="-18,-2,0,0">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Canvas>
+                    </DataTemplate>
+                </chart:LineSeries.LegendIconTemplate>
+            </chart:LineSeries>
+
+            <chart:LineSeries EnableAnimation="True" ItemsSource="{Binding LegendData3}" Label="Bus" Interior="#F58A3C"
+                               XBindingPath="Name" YBindingPath="Value" ShowTooltip="True" TooltipTemplate="{StaticResource tooltipTemplate3}">
+                <chart:LineSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo ShowMarker="True" SymbolTemplate="{StaticResource markerTemplate}">
+                    </chart:ChartAdornmentInfo>
+                </chart:LineSeries.AdornmentsInfo>
+                <chart:LineSeries.LegendIconTemplate>
+                    <DataTemplate>
+                        <Canvas>
+                            <Path Data="M24.143028,12.068024C23.588091,12.068024 23.137036,12.519011 23.137036,13.074001 23.137036,13.629021 23.588091,14.079001 24.143028,14.079001 24.698088,14.079001 25.149021,13.629021 25.149021,13.074001 25.149021,12.519011 24.698088,12.068024 24.143028,12.068024z M7.0469341,12.068011C6.4919281,12.068011 6.0409231,12.519009 6.0409231,13.074006 6.0409231,13.629004 6.4919281,14.079002 7.0469341,14.079002 7.6019402,14.079002 8.0529442,13.629004 8.0529442,13.074006 8.0529442,12.519009 7.6019402,12.068011 7.0469341,12.068011z M29.987955,8.0212629L29.966253,8.0391657C29.88598,8.0933774,29.789184,8.1250186,29.684934,8.1250188L2.6683865,8.1250188 2.0112953,12.068017 3.8412743,12.068017C3.9455223,12.068017,4.0460453,12.083802,4.1405735,12.113118L4.1824379,12.128399 4.2132263,12.037564C4.6367283,10.882822 5.7469206,10.05702 7.0469341,10.05702 8.3469477,10.05702 9.45714,10.882822 9.880641,12.037564L9.8909597,12.068007 21.299038,12.068007 21.309355,12.03757C21.732862,10.882834 22.843061,10.057016 24.143028,10.057016 25.443091,10.057016 26.553236,10.882834 26.976715,12.03757L26.987035,12.068017 29.987955,12.068017z M25.324969,2.0110025L25.324969,7.119 29.684934,7.119C29.789184,7.119,29.88598,7.1506412,29.966253,7.2048531L29.987955,7.2227557 29.987955,2.0110025z M20.2959,2.0110025L20.2959,7.119 24.318951,7.119 24.318951,2.0110025z M15.267976,2.0110025L15.267976,7.119 19.290004,7.119 19.290004,2.0110025z M10.238907,2.0110025L10.238907,7.119 14.261958,7.119 14.261958,2.0110025z M3.6872749,2.0110025L2.8360386,7.119 9.2328882,7.119 9.2328882,2.0110025z M3.6872749,0L29.987955,0C31.096942,0,31.998931,0.90200138,31.998931,2.0110025L31.998931,12.068017C31.998931,13.176019,31.096942,14.079021,29.987955,14.079021L26.987236,14.079021 26.976715,14.110056C26.553236,15.264601 25.443091,16.091016 24.143028,16.091016 22.843061,16.091016 21.732862,15.264601 21.309355,14.110056L21.298834,14.079021 9.891161,14.079021 9.880641,14.110049C9.45714,15.264581 8.3469477,16.090993 7.0469341,16.090993 5.7469206,16.090993 4.6367283,15.264581 4.2132263,14.110049L4.1822224,14.018597 4.1405735,14.033827C4.0460453,14.0632,3.9455223,14.079021,3.8412743,14.079021L2.0112953,14.079021C1.4183025,14.079021 0.85931015,13.82002 0.47631454,13.368019 0.094320297,12.915019 -0.06967926,12.321018 0.027320862,11.738017L1.7033005,1.6810026C1.8652973,0.70700073,2.6992874,0,3.6872749,0z" 
+                                              Fill="{Binding Interior}" Margin="-18,-2,0,0">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Canvas>
+                    </DataTemplate>
+                </chart:LineSeries.LegendIconTemplate>
+            </chart:LineSeries>
+
+            <chart:LineSeries EnableAnimation="True" ItemsSource="{Binding LegendData4}" Label="Motorcycle" Interior="#775DD0"
+                             XBindingPath="Name" YBindingPath="Value" ShowTooltip="True" TooltipTemplate="{StaticResource tooltipTemplate4}">
+                <chart:LineSeries.AdornmentsInfo>
+                    <chart:ChartAdornmentInfo ShowMarker="True" SymbolTemplate="{StaticResource markerTemplate}">
+                    </chart:ChartAdornmentInfo>
+                </chart:LineSeries.AdornmentsInfo>
+                <chart:LineSeries.LegendIconTemplate>
+                    <DataTemplate >
+                        <Canvas  Grid.Column="0">
+                            <Path Data="M26.999999,11.5C26.069625,11.5,25.236703,11.925883,24.685975,12.592906L24.626525,12.668514 26.250739,13.202057 26.285178,13.181128C26.497712,13.065625 26.741227,13 26.999978,13 27.827977,13 28.499978,13.672 28.499978,14.5 28.499978,15.328 27.827977,16 26.999978,16 26.430728,16 25.935212,15.682375 25.681106,15.2148L25.626964,15.102462 24.001741,14.568587 24.003911,14.654129C24.084424,16.236811 25.397687,17.5 26.999999,17.5 28.654,17.5 29.999999,16.154001 29.999999,14.5 29.999999,12.846 28.654,11.5 26.999999,11.5z M5.0000001,11.5C3.3460001,11.5 2,12.846 2,14.5 2,16.154001 3.3460001,17.5 5.0000001,17.5 6.6539999,17.5 8.0000001,16.154001 8.0000001,14.5 8.0000001,13.673 7.6635,12.923 7.1202499,12.37975L7.071879,12.333627 6.3705355,13.892441 6.3820406,13.916312C6.4579784,14.09575 6.4999782,14.293 6.4999782,14.5 6.4999782,15.328 5.8279778,16 4.9999782,16 4.1719779,16 3.4999779,15.328 3.4999779,14.5 3.4999779,13.879 3.877978,13.34575 4.4162906,13.117937L4.5472697,13.069968 5.2484952,11.511112 5.1541287,11.503911C5.1030742,11.501314,5.0516878,11.5,5.0000001,11.5z M7.8330885,7.2572334C7.9629523,7.259968 8.0943156,7.2880304 8.2200547,7.3440301 8.7240101,7.5700295 8.9479905,8.1630285 8.7220103,8.6660273L7.921209,10.445897 7.989679,10.494623C9.2092553,11.407268 10,12.863032 10,14.5 10,17.257 7.7570001,19.499999 5.0000001,19.499999 2.243,19.499999 0,17.257 0,14.5 0,11.743 2.243,9.5000002 5.0000001,9.5000002 5.3446251,9.5000002 5.6812187,9.5350473 6.0064045,9.601764L6.0978647,9.6229255 6.8971716,7.846029C7.0674063,7.4687798,7.4434983,7.2490304,7.8330885,7.2572334z M10.775162,4.1760334C9.7673074,4.1526941 9.4469205,4.8521752 9.3146116,5.1557403 10.706577,6.006773 12.55362,7.7008421 12.982575,9.574847 13.318573,10.801865 14.0856,12.240923 15.873562,12.283954L16.158595,12.331928C16.259608,12.338948 17.095605,12.345906 18.542564,12.309955 18.85958,10.857896 20.146566,8.647824 23.503554,7.2948272 23.650588,7.2228038 26.317577,5.9677706 27.178598,5.5617554L27.698556,4.7307434 25.716563,4.7307434C25.042554,5.9277918 23.042556,7.4648139 17.575585,8.5398505 17.276574,8.5988729 16.963586,8.5898392 16.669581,8.513849 13.14859,7.6058085 11.200595,6.0877686 11.110568,4.2077212 10.99104,4.1885974 10.879422,4.1784478 10.775162,4.1760334z M11.121019,0L13.540995,0C14.093989,2.3841858E-07 14.540984,0.44800019 14.540984,1 14.540984,1.5520002 14.093989,2.0000001 13.540995,2L11.524937,2 11.412167,2.2325701 11.509909,2.2478752C11.665819,2.2748116 11.824139,2.309714 11.984591,2.3526983 12.707612,2.5477103 13.192597,3.2397425 13.113617,3.9637579 12.998566,5.0167603 15.067594,6.0347888 17.16958,6.57777 23.154555,5.4037931 23.943557,3.8437601 24.013564,3.6697453 24.246595,3.0977105 24.799573,2.7306979 25.424573,2.730698L29.306584,2.730698C29.710576,2.7306979 30.082585,2.9507346 30.276555,3.3057231 30.471561,3.6617492 30.45856,4.095719 30.240544,4.4387441L28.563544,7.1208117 28.296577,7.2458146C28.296577,7.2458146 24.542554,9.0128834 24.309583,9.1248858 22.562072,9.8298867 21.607127,10.719467 21.085586,11.468047L21.065166,11.498632 22.659753,12.022443 22.724895,11.909283C23.602798,10.46598 25.190719,9.5000002 26.999999,9.5000002 29.756999,9.5000002 31.999999,11.743 31.999999,14.5 31.999999,17.257 29.756999,19.499999 26.999999,19.499999 24.242999,19.499999 21.999999,17.257 21.999999,14.5 21.999999,14.327688 22.008762,14.157383 22.025863,13.989509L22.034423,13.922336 20.388503,13.381663 20.3448,13.493104C20.139039,13.952163 19.679845,14.277468 19.143577,14.293948 18.169578,14.323001 17.471582,14.333988 16.967614,14.333988 16.217616,14.333988 15.893582,14.308963 15.720608,14.27997 13.451569,14.180969 11.756563,12.673916 11.061618,10.128875L11.033603,10.021878C10.697605,8.5578563,8.9075691,7.2638204,8.0256125,6.7328026L8.0055929,6.744827 7.4775783,6.4417803C5.495587,5.3007634 2.3206041,6.4957979 2.2895979,6.5087984 1.7726313,6.7058246 1.1946293,6.4487998 0.9966316,5.9348109 0.79759617,5.4207611 1.0526007,4.8427453 1.5676145,4.6427283 1.7136104,4.5857813 4.818586,3.4087528 7.4816066,4.2707715 7.5085841,4.237751 7.5375758,4.2047303 7.5666286,4.1737241 7.8881117,3.5221587 8.3341032,3.0218066 8.8748628,2.6851863L9.0372697,2.5922636 9.064046,2.5062289C9.0757028,2.4744886,9.0890752,2.4430313,9.1042014,2.4119687L9.9992782,0.56395006C10.163605,0.22225893 10.498574,0.017639637 10.853398,0.0011100769 10.893719,-0.00076842308 10.934296,-0.00021791458 10.974909,0.0028362274L11.005941,0.0071063042 11.018658,0.0051660538C11.052308,0.0017502308,11.086456,2.3841858E-07,11.121019,0z"
+                                                  Fill="{Binding Interior}" Margin="-18,-3,0,0">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Canvas>
+                    </DataTemplate>
+                </chart:LineSeries.LegendIconTemplate>
+            </chart:LineSeries>
+
+        </chart:SfChart>
+    </Grid>
+</democommon:DemoControl>

@@ -1,0 +1,47 @@
+﻿using syncfusion.demoscommon.wpf;
+using Syncfusion.SfSkinManager;
+using Syncfusion.UI.Xaml.ImageEditor;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace syncfusion.imageeditordemos.wpf
+{
+    /// <summary>
+    /// Interaction logic for OverlayImage.xaml
+    /// </summary>
+    public partial class OverlayImage : DemoControl
+    {
+        public OverlayImage()
+        {
+            InitializeComponent();
+        }
+
+        public OverlayImage(string themename) : base(themename)
+        {
+            InitializeComponent();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (editor != null)
+            {
+                editor.Dispose();
+                editor = null;
+            }
+
+            base.Dispose(disposing);
+        }
+    }
+}

@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace syncfusion.sparklinedemos.wpf
+{
+    public class DataModel 
+    {
+        private double day;
+        public double Day
+        {
+            get
+            {
+                return day;
+            }
+            set
+            {
+                this.day = value;
+            }
+        }
+
+        private double shareHolders;
+        public double ShareHolders
+        {
+            get
+            {
+                return shareHolders;
+            }
+            set
+            {
+                this.shareHolders = value;
+            }
+        }
+
+        private double yearPerformance;
+        public double YearPerformance
+        {
+            get
+            {
+                return yearPerformance;
+            }
+            set
+            {
+                this.yearPerformance = value;
+            }
+        }
+    }
+}
+

@@ -1,0 +1,46 @@
+﻿using Syncfusion.UI.Xaml.Diagram;
+using Syncfusion.UI.Xaml.Diagram.Theming;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace syncfusion.brainstormingdiagram.wpf.ViewModel
+{
+    public class MindMapNodeStyle : DiagramElementViewModel, IMindMapNodeStyle
+    {
+        #region Private Fields
+        private StyleId styleId;
+        private string shape;
+        #endregion
+        #region Public Properties
+        public StyleId StyleId
+        {
+            get { return styleId; }
+            set
+            {
+                if (styleId != value)
+                {
+                    styleId = value;
+                    OnPropertyChanged("StyleId");
+                }
+            }
+        }
+        public string Shape
+        {
+            get { return shape; }
+            set
+            {
+                if (shape != value)
+                {
+                    shape = value;
+                    OnPropertyChanged("Shape");
+                }
+            }
+        }
+
+
+        #endregion
+    }
+}

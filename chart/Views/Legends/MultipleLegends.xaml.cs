@@ -1,0 +1,44 @@
+#region Copyright Syncfusion Inc. 2001 - 2020
+// Copyright Syncfusion Inc. 2001 - 2020. All rights reserved.
+// Use of this code is subject to the terms of our license.
+// A copy of the current license can be obtained at any time by e-mailing
+// licensing@syncfusion.com. Any infringement will be prosecuted under
+// applicable laws. 
+#endregion
+using syncfusion.demoscommon.wpf;
+using Syncfusion.UI.Xaml.Charts;
+
+namespace syncfusion.chartdemos.wpf
+{
+    /// <summary>
+    /// Interaction logic for MultipleLegendsDemo.xaml
+    /// </summary>
+    public partial class MultipleLegendsDemo : DemoControl
+    {
+        public MultipleLegendsDemo()
+        {
+            InitializeComponent();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            chart.Dispose();
+            grid.Children.Clear();
+            base.Dispose(disposing);
+        }
+
+        private void LabelCreated(object sender, LabelCreatedEventArgs e)
+        {
+            double position = e.AxisLabel.Position;
+            if (position >= 1000 && position <= 999999)
+            {
+                string text = (position / 1000).ToString("C0");
+                e.AxisLabel.LabelContent = $"{text}K";
+            }
+            else
+            {
+                e.AxisLabel.LabelContent = $"{position:C0}K";
+            }
+        }
+    }
+}
