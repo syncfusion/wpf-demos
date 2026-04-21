@@ -1,0 +1,37 @@
+#region Copyright Syncfusion Inc. 2001-2020.
+// Copyright Syncfusion Inc. 2001-2020. All rights reserved.
+// Use of this code is subject to the terms of our license.
+// A copy of the current license can be obtained at any time by e-mailing
+// licensing@syncfusion.com. Any infringement will be prosecuted under
+// applicable laws. 
+#endregion
+using syncfusion.demoscommon.wpf;
+
+namespace syncfusion.chartdemos.wpf
+{
+    /// <summary>
+    /// Interaction logic for StackingBar100Chart.xaml
+    /// </summary>
+    public partial class ClusterStackingBar100Chart3D : DemoControl
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ClusterStackingBar100Chart3D"/> class.
+        /// </summary>
+        public ClusterStackingBar100Chart3D()
+        {
+            InitializeComponent();
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose(bool disposing)
+        {
+            if (this.sfChart != null)
+            {
+                this.sfChart.Dispose();
+            }
+
+            grid.Children.Clear();
+            base.Dispose(disposing);
+        }
+    }
+}
