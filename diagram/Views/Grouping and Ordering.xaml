@@ -1,0 +1,336 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.diagramdemo.wpf.Views.Grouping_and_Ordering"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    mc:Ignorable="d" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:fonts="http://schemas.microsoft.com/winfx/2006/xaml/composite-font"
+    xmlns:collection="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"   
+    xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+    d:DesignHeight="450" d:DesignWidth="800" OptionsSize="270">
+    <democommon:DemoControl.DataContext>
+        <viewmodel:GroupingViewModel/>
+    </democommon:DemoControl.DataContext>
+    <democommon:DemoControl.Resources>
+
+        <DataTemplate x:Key="TitleTemplate">
+            <TextBlock x:Name="HeaderText" Text="{Binding}" FontSize="15" FontWeight="SemiBold" Padding="0,0,0,8">
+            </TextBlock>
+        </DataTemplate>
+
+        <Style TargetType="syncfusion:ContainerHeader">
+            <Setter Property="ShapeStyle">
+                <Setter.Value>
+                    <Style TargetType="Path">
+                        <Setter Property="Fill" Value="CornflowerBlue"/>
+                        <Setter Property="Stretch" Value="Fill"/>
+                        <Setter Property="Data">
+                            <Setter.Value>
+                                <RectangleGeometry Rect="10,10,10,10"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <collection:ArrayList x:Key="FontSizes">
+            <sys:Double>7</sys:Double>
+            <sys:Double>8</sys:Double>
+            <sys:Double>9</sys:Double>
+            <sys:Double>10</sys:Double>
+            <sys:Double>11</sys:Double>
+            <sys:Double>12</sys:Double>
+            <sys:Double>13</sys:Double>
+            <sys:Double>14</sys:Double>
+            <sys:Double>16</sys:Double>
+            <sys:Double>18</sys:Double>
+            <sys:Double>24</sys:Double>
+            <sys:Double>30</sys:Double>
+        </collection:ArrayList>
+
+        <DataTemplate x:Key="FontColorTemplate">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" x:Name="tempTextBlock" Visibility="Collapsed"/>
+                <Path Grid.Row="0" Width="10" Height="12"
+                          Fill="{Binding ElementName=tempTextBlock, Path=Foreground}"
+                          Data="M1.25 12H0L4.37 0H5.63L10 12H8.75L7.5 8.4H2.5L1.25 12ZM2.84 7.2H7.14L5 1.2L2.84 7.2Z" />
+                <Rectangle Grid.Row="1" Margin="0,2,0,0" Width="14" Height="2" StrokeThickness="0">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{Binding Color, 
+                                RelativeSource={RelativeSource FindAncestor, 
+                                AncestorLevel=1,
+                                AncestorType={x:Type syncfusion:ColorPickerPalette}}, 
+                                UpdateSourceTrigger=PropertyChanged}"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Grid>
+        </DataTemplate>
+
+        <sys:String x:Key="Rectangle">
+            M242,1078L231,1078L231,1067L242,1067z
+        </sys:String>
+        <sys:String x:Key="Ellipse">
+            M358.5,440.5C358.5,443.813,361.187,446.5,364.5,446.5C367.813,446.5,370.5,443.813,370.5,440.5C370.5,437.187,367.813,434.5,364.5,434.5C361.187,434.5,358.5,437.187,358.5,440.5z
+        </sys:String>
+        <sys:String x:Key="Triangle">
+            M81.1582,85.8677L111.1582,33.9067L141.1582,85.8677L81.1582,85.8677z
+        </sys:String>
+        <sys:String x:Key="Plus">
+            M696.6084,158.2656L674.8074,158.2656L674.8074,136.4656L658.4084,136.4656L658.4084,158.2656L636.6084,158.2656L636.6084,174.6646L658.4084,174.6646L658.4084,196.4656L674.8074,196.4656L674.8074,174.6646L696.6084,174.6646L696.6084,158.2656z
+        </sys:String>
+        <sys:String x:Key="Star">
+            M540.3643,137.9336L546.7973,159.7016L570.3633,159.7296L550.7723,171.9366L558.9053,194.9966L540.3643,179.4996L521.8223,194.9966L529.9553,171.9366L510.3633,159.7296L533.9313,159.7016L540.3643,137.9336z
+        </sys:String>
+        <sys:String x:Key="Pentagon">
+            M370.9702,194.9961L359.5112,159.7291L389.5112,137.9341L419.5112,159.7291L408.0522,194.9961L370.9702,194.9961z
+        </sys:String>
+        <sys:String x:Key="Hexagon">
+            M165.5,-1.50000000000001L-2.5,213 167,444 444.5,442.5 621.5,214.5 438.5,-1.50000000000002z
+        </sys:String>
+        <sys:String x:Key="Heptagon">
+            M223.7783,195.7134L207.1303,174.8364L213.0713,148.8034L237.1303,137.2174L261.1883,148.8034L267.1303,174.8364L250.4813,195.7134L223.7783,195.7134z
+        </sys:String>
+        <sys:String x:Key="Octagon">
+            M98.7319,196.4653L81.1579,178.8923L81.1579,154.0393L98.7319,136.4653L123.5849,136.4653L141.1579,154.0393L141.1579,178.8923L123.5849,196.4653L98.7319,196.4653z
+        </sys:String>
+        <sys:String x:Key="Trapezoid">
+            M127.2842,291.4492L95.0322,291.4492L81.1582,256.3152L141.1582,256.3152L127.2842,291.4492z
+        </sys:String>
+        <sys:String x:Key="Decagon">
+            M657.3379,302.4141L642.3369,291.5161L636.6089,273.8821L642.3369,256.2481L657.3379,245.3511L675.8789,245.3511L690.8789,256.2481L696.6089,273.8821L690.8789,291.5161L675.8789,302.4141L657.3379,302.4141z
+        </sys:String>
+        <sys:String x:Key="RightTriangle">
+            M836.293,292.9238L776.293,292.9238L776.293,254.8408L836.293,292.9238z
+        </sys:String>
+        <sys:String x:Key="Cylinder">
+            M0.5,13.434L0.533621,13.434C1.23074,20.1226 20.7522,25.4861 44.75,25.4861C68.7478,25.4861 88.2693,20.1226 88.9664,13.434L89,13.434L89,89.2672L88.9763,89.2672C88.9822,89.3364 89,89.4036 89,89.4729C89,89.5104 88.9891,89.546 88.9871,89.5836C88.9891,89.6311 89,89.6776 89,89.726C89,96.5857 69.1889,102.146 44.75,102.146C20.3111,102.146 0.5,96.5857 0.5,89.726C0.5,89.6776 0.510878,89.6311 0.512855,89.5836C0.510878,89.546 0.5,89.5104 0.5,89.4729C0.5,89.4036 0.5178,89.3364 0.52373,89.2672L0.5,89.2672zM44.75,0.5C69.1889,0.5 89,5.90013 89,12.561C89,19.2219 69.1889,24.622 44.75,24.622C20.3111,24.622 0.5,19.2219 0.5,12.561C0.5,5.90013 20.3111,0.5 44.75,0.5z
+        </sys:String>
+        <sys:String x:Key="Diamond">
+            M352,555.417L341.972,549.5L352,543.583L362.028,549.5L352,555.417z
+        </sys:String>
+
+    </democommon:DemoControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="8*"/>
+        </Grid.ColumnDefinitions>
+        <syncfusion:Stencil x:Name="stencil" Width="250" Title="Shapes" TitleTemplate="{StaticResource TitleTemplate}"
+                            SymbolGroupDisplayMode="Accordion"
+                            DisplayMode="Expanded"
+                            ShowSearchTextBox="False"
+                            ShowDisplayModeToggleButton="False"
+                            SymbolsDisplayMode="IconsOnly"
+                            Grid.Column="0" 
+                            Margin="5,5,0,5"
+                            ExpandMode="All"
+                            DiagramTheme="{Binding Theme}" GroupMappingName="Key">
+            <syncfusion:Stencil.SymbolSource>
+                <syncfusion:SymbolCollection>
+                    <!--Define the DiagramElement- Group-->
+                    <syncfusion:ContainerViewModel UnitHeight="200" UnitWidth="250" OffsetX="150" OffsetY="125" Name="Container" Key="Container" 
+                                                   Shape="{StaticResource Rectangle}">
+                        <syncfusion:ContainerViewModel.Header>
+                            <syncfusion:ContainerHeaderViewModel UnitHeight="40">
+                                <syncfusion:ContainerHeaderViewModel.Annotation>
+                                    <syncfusion:AnnotationEditorViewModel Content="Title"/>
+                                </syncfusion:ContainerHeaderViewModel.Annotation>
+                            </syncfusion:ContainerHeaderViewModel>
+                        </syncfusion:ContainerViewModel.Header>
+                    </syncfusion:ContainerViewModel>
+
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Rectangle}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Triangle}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Diamond}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Ellipse}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Cylinder}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Plus}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource RightTriangle}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Star}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Decagon}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Heptagon}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Hexagon}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Octagon}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Pentagon}"/>
+                    <syncfusion:NodeViewModel UnitHeight="100" UnitWidth="100" Key="Basic Shapes" Shape="{StaticResource Trapezoid}"/>
+
+                </syncfusion:SymbolCollection>
+            </syncfusion:Stencil.SymbolSource>
+        </syncfusion:Stencil>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <syncfusion:ToolBarAdv Grid.Row="0" FocusManager.IsFocusScope="True" Focusable="True" GripperVisibility="Collapsed" OverflowButtonVisibility="Collapsed">
+                <TextBlock x:Name="tempTextBlock" Visibility="Collapsed"/>
+                <Button ToolTip="Group" Command="syncfusion:DiagramCommands.Group" Width="32">
+                    <Path Data="M0 1C0 0.447715 0.447715 0 1 0H2C2.55228 0 3 0.447715 3 1V2C3 2.55228 2.55228 3 2 3H1C0.447715 3 0 2.55228 0 2V1ZM5 1C4.72386 1 4.5 1.22386 4.5 1.5C4.5 1.77614 4.72386 2 5 2H10C10.5523 2 11 2.44772 11 3V4H6C4.89543 4 4 4.89543 4 6V11H3C2.44772 11 2 10.5523 2 10V5C2 4.72386 1.77614 4.5 1.5 4.5C1.22386 4.5 1 4.72386 1 5V10C1 11.1046 1.89543 12 3 12H4V13C4 14.1046 4.89543 15 6 15H11C11.2761 15 11.5 14.7761 11.5 14.5C11.5 14.2239 11.2761 14 11 14H6C5.44772 14 5 13.5523 5 13V12H10C11.1046 12 12 11.1046 12 10V5H13C13.5523 5 14 5.44772 14 6V11C14 11.2761 14.2239 11.5 14.5 11.5C14.7761 11.5 15 11.2761 15 11V6C15 4.89543 14.1046 4 13 4H12V3C12 1.89543 11.1046 1 10 1H5ZM11 5H6C5.44771 5 5 5.44772 5 6V11H10C10.5523 11 11 10.5523 11 10V5ZM1 13C0.447715 13 0 13.4477 0 14V15C0 15.5523 0.447715 16 1 16H2C2.55228 16 3 15.5523 3 15V14C3 13.4477 2.55228 13 2 13H1ZM13 14C13 13.4477 13.4477 13 14 13H15C15.5523 13 16 13.4477 16 14V15C16 15.5523 15.5523 16 15 16H14C13.4477 16 13 15.5523 13 15V14ZM14 0C13.4477 0 13 0.447715 13 1V2C13 2.55228 13.4477 3 14 3H15C15.5523 3 16 2.55228 16 2V1C16 0.447715 15.5523 0 15 0H14Z"
+                          Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                          Height="16" 
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Stretch="Fill" 
+                          Width="16" />
+                    <!--<Path Data="M8,7 L8,8 7,8 7,9 9,9 9,7 z M5,5 L5,7 7,7 7,5 z M4,4 L8,4 8,6 10,6 10,10 6,10 6,8 4,8 z M3,2 L3,3 2,3 2,11 3,11 3,12 11,12 11,11 12,11 12,3 11,3 11,2 z M0,0 L3,0 3,0.99999994 11,0.99999994 11,0 14,0 14,3 13,3 13,11 14,11 14,14 11,14 11,13 3,13 3,14 0,14 0,11 0.99999994,11 0.99999994,3 0,3 z"
+                          Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                          Height="14" 
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Stretch="Fill" 
+                          Width="14" />-->
+                </Button>
+                <Button ToolTip="Un group" Command="syncfusion:DiagramCommands.UnGroup" Width="32" >
+                    <Path Data="M1 0C0.447715 0 0 0.447715 0 1V2C0 2.55228 0.447715 3 1 3H2C2.55228 3 3 2.55228 3 2V1C3 0.447715 2.55228 0 2 0H1ZM4 1.5C4 1.22386 4.22386 1 4.5 1H6.5C6.77614 1 7 1.22386 7 1.5C7 1.77614 6.77614 2 6.5 2H4.5C4.22386 2 4 1.77614 4 1.5ZM1.5 4C1.77614 4 2 4.22386 2 4.5V6.5C2 6.77614 1.77614 7 1.5 7C1.22386 7 1 6.77614 1 6.5V4.5C1 4.22386 1.22386 4 1.5 4ZM9.5 4C9.77614 4 10 4.22386 10 4.5V5C10 5.27614 9.77614 5.5 9.5 5.5C9.22386 5.5 9 5.27614 9 5V4.5C9 4.22386 9.22386 4 9.5 4ZM4 9.5C4 9.22386 4.22386 9 4.5 9H5C5.27614 9 5.5 9.22386 5.5 9.5C5.5 9.77614 5.27614 10 5 10H4.5C4.22386 10 4 9.77614 4 9.5ZM9 6.5C9 6.22386 9.22386 6 9.5 6H11.5C11.7761 6 12 6.22386 12 6.5C12 6.77614 11.7761 7 11.5 7H9.5C9.22386 7 9 6.77614 9 6.5ZM6.5 9C6.77614 9 7 9.22386 7 9.5V11.5C7 11.7761 6.77614 12 6.5 12C6.22386 12 6 11.7761 6 11.5V9.5C6 9.22386 6.22386 9 6.5 9ZM14.5 9C14.7761 9 15 9.22386 15 9.5V11.5C15 11.7761 14.7761 12 14.5 12C14.2239 12 14 11.7761 14 11.5V9.5C14 9.22386 14.2239 9 14.5 9ZM9 14.5C9 14.2239 9.22386 14 9.5 14H11.5C11.7761 14 12 14.2239 12 14.5C12 14.7761 11.7761 15 11.5 15H9.5C9.22386 15 9 14.7761 9 14.5ZM5 6C5 5.44772 5.44772 5 6 5H7C7.55228 5 8 5.44772 8 6V7C8 7.55228 7.55228 8 7 8H6C5.44772 8 5 7.55228 5 7V6ZM1 8C0.447715 8 0 8.44771 0 9V10C0 10.5523 0.447715 11 1 11H2C2.55228 11 3 10.5523 3 10V9C3 8.44772 2.55228 8 2 8H1ZM5 14C5 13.4477 5.44772 13 6 13H7C7.55228 13 8 13.4477 8 14V15C8 15.5523 7.55228 16 7 16H6C5.44772 16 5 15.5523 5 15V14ZM14 13C13.4477 13 13 13.4477 13 14V15C13 15.5523 13.4477 16 14 16H15C15.5523 16 16 15.5523 16 15V14C16 13.4477 15.5523 13 15 13H14ZM8 1C8 0.447715 8.44772 0 9 0H10C10.5523 0 11 0.447715 11 1V2C11 2.55228 10.5523 3 10 3H9C8.44771 3 8 2.55228 8 2V1ZM14 5C13.4477 5 13 5.44772 13 6V7C13 7.55228 13.4477 8 14 8H15C15.5523 8 16 7.55228 16 7V6C16 5.44772 15.5523 5 15 5H14Z"
+                          Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                          Height="16" 
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Stretch="Fill" 
+                          Width="16" />
+                    <!--<Path Data="M7,6 L7,7 6,7 6,12 7,12 7,13 12,13 12,12 13,12 13,7 12,7 12,6 z M3.0000001,2.0000001 L3.0000001,3.0000001 2.0000001,3.0000001 2.0000001,8 3.0000001,8 3.0000001,9 4.9999999,9 4.9999999,7 4,7 4,4 7,4 7,4.9999999 9,4.9999999 9,3.0000001 8,3.0000001 8,2.0000001 z M0,0 L3.0000001,0 3.0000001,1 8,1 8,0 11,0 11,3.0000001 10,3.0000001 10,4.9999999 12,4.9999999 12,4 15,4 15,7 14,7 14,12 15,12 15,15 12,15 12,14 7,14 7,15 4,15 4,12 4.9999999,12&#xd;&#xa;4.9999999,10 3.0000001,10 3.0000001,11 0,11 0,8 1,8 1,3.0000001 0,3.0000001 z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="15" 
+                      Stretch="Fill"
+                      Width="15"/>-->
+                </Button>
+                <syncfusion:ToolBarItemSeparator/>
+                <Button ToolTip="Bring forward" Command="syncfusion:DiagramCommands.BringForward" Width="32" >
+                    <Path Data="M1.5 0C0.671573 0 0 0.671573 0 1.5V9.5C0 10.3284 0.671573 11 1.5 11H9.5C10.3284 11 11 10.3284 11 9.5V1.5C11 0.671573 10.3284 0 9.5 0H1.5ZM12.5 5.5C12.5 5.22386 12.7239 5 13 5H14.5C15.3284 5 16 5.67157 16 6.5V14.5C16 15.3284 15.3284 16 14.5 16H6.5C5.67157 16 5 15.3284 5 14.5V13C5 12.7239 5.22386 12.5 5.5 12.5C5.77614 12.5 6 12.7239 6 13V14.5C6 14.7761 6.22386 15 6.5 15H14.5C14.7761 15 15 14.7761 15 14.5V6.5C15 6.22386 14.7761 6 14.5 6H13C12.7239 6 12.5 5.77614 12.5 5.5Z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill" 
+                      Width="16"/>
+                    <!--<Path Data="M12,6 L16,6 16,16 6,16 6,12 7,12 7,15 15,15 15,7 12,7 z M0,0 L10,0 10,10 0,10 z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill" 
+                      Width="16"/>-->
+                </Button>
+                <Button ToolTip="Bring to front" Command="syncfusion:DiagramCommands.BringToFront" Width="32" >
+                    <Path Data="M0 1.5C0 0.671573 0.671573 0 1.5 0H7.5C8.32843 0 9 0.671573 9 1.5V2.5C9 2.77614 8.77614 3 8.5 3C8.22386 3 8 2.77614 8 2.5V1.5C8 1.22386 7.77614 1 7.5 1H1.5C1.22386 1 1 1.22386 1 1.5V7.5C1 7.77614 1.22386 8 1.5 8H2.5C2.77614 8 3 8.22386 3 8.5C3 8.77614 2.77614 9 2.5 9H1.5C0.671573 9 0 8.32843 0 7.5V1.5ZM13 7.5C13 7.22386 13.2239 7 13.5 7H14.5C15.3284 7 16 7.67157 16 8.5V14.5C16 15.3284 15.3284 16 14.5 16H8.5C7.67157 16 7 15.3284 7 14.5V13.5C7 13.2239 7.22386 13 7.5 13C7.77614 13 8 13.2239 8 13.5V14.5C8 14.7761 8.22386 15 8.5 15H14.5C14.7761 15 15 14.7761 15 14.5V8.5C15 8.22386 14.7761 8 14.5 8H13.5C13.2239 8 13 7.77614 13 7.5ZM5.5 4C4.67157 4 4 4.67157 4 5.5V10.5C4 11.3284 4.67157 12 5.5 12H10.5C11.3284 12 12 11.3284 12 10.5V5.5C12 4.67157 11.3284 4 10.5 4H5.5Z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill" 
+                      Width="16"/>
+                    <!--<Path Data="M13,8 L16,8 16,16 8,16 8,13 9,13 9,15 15,15 15,9 13,9 z M4,4 L12,4 12,12 4,12 z M0,0 L8,0 8,3 7,3 7,1 1,1 1,7 3,7 3,8 0,8 z"
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill" 
+                      Width="16"/>-->
+                </Button>
+                <Button ToolTip="Send backward" Command="syncfusion:DiagramCommands.SendBackward" Width="32" >
+                    <Path x:Name="Send_Backward" Data="M4 11H1.5C0.671572 11 0 10.3284 0 9.5V2C0 0.89543 0.89543 0 2 0H9.5C10.3284 0 11 0.671572 11 1.5V4L5 4C4.44772 4 4 4.44771 4 5L4 11ZM14.5 16C15.3284 16 16 15.3284 16 14.5L16 6.5C16 5.67157 15.3284 5 14.5 5L6.5 5C5.67157 5 5 5.67157 5 6.5L5 14.5C5 15.3284 5.67157 16 6.5 16H14.5ZM15 14.5C15 14.7761 14.7761 15 14.5 15L6.5 15C6.22386 15 6 14.7761 6 14.5L6 6.5C6 6.22386 6.22386 6 6.5 6L14.5 6C14.7761 6 15 6.22386 15 6.5L15 14.5Z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill"
+                      Width="16"/>
+                    <!--<Path x:Name="Send_Backward" Data="M12,6 L16,6 16,16 6,16 6,12 12,12 z M1,1 L1,9 9,9 9,1 z M0,0 L10,0 10,10 0,10 z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16" 
+                      Stretch="Fill"
+                      Width="16"/>-->
+                </Button>
+                <Button ToolTip="Send to back" Command="syncfusion:DiagramCommands.SendToBack" Width="32" >
+                    <Path Data="M1.5 0C0.671573 0 0 0.671573 0 1.5V6.5C0 7.32843 0.671573 8 1.5 8H4.08535C4.03008 8.15639 4 8.32468 4 8.5V10.5C4 11.3284 4.67157 12 5.5 12H7.5C7.67532 12 7.84361 11.9699 8 11.9146V14.5C8 15.3284 8.67157 16 9.5 16H14.5C15.3284 16 16 15.3284 16 14.5V9.5C16 8.67157 15.3284 8 14.5 8H11.9146C11.9699 7.84361 12 7.67532 12 7.5V5.5C12 4.67157 11.3284 4 10.5 4H8.5C8.32468 4 8.15639 4.03008 8 4.08535V1.5C8 0.671573 7.32843 0 6.5 0H1.5ZM7 5.5V1.5C7 1.22386 6.77614 1 6.5 1H1.5C1.22386 1 1 1.22386 1 1.5V6.5C1 6.77614 1.22386 7 1.5 7H5.5H6.5C6.77614 7 7 6.77614 7 6.5V5.5ZM10.5 9H9.5C9.22386 9 9 9.22386 9 9.5V10.5V14.5C9 14.7761 9.22386 15 9.5 15H14.5C14.7761 15 15 14.7761 15 14.5V9.5C15 9.22386 14.7761 9 14.5 9H10.5Z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16"
+                      Stretch="Fill"
+                      Width="16"/>
+                    <!--<Path Data="M9,9 L9,15 15,15 15,9 z M4,9 L7,9 7,12 4,12 z M8,8 L16,8 16,16 8,16 z M9,4 L12,4 12,7 9,7 z M1,1 L1,7 7,7 7,1 z M0,0 L8,0 8,8 0,8 z" 
+                      Fill="{Binding Path=Foreground,RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                      Height="16"
+                      Stretch="Fill"
+                      Width="16"/>-->
+                </Button>
+
+                <syncfusion:ToolBarItemSeparator Height="16" />
+
+                <ComboBox x:Name="Part_FontFamily"
+                      Width = "112"
+                      Height="24"
+                      IsEditable="False"
+                      Margin="8,4,0,4"
+                      ItemsSource="{Binding Source={x:Static fonts:Fonts.SystemFontFamilies}}"
+                      SelectedValue="{Binding SelectedFontFamily, Mode=TwoWay}" />
+
+                <ComboBox x:Name="Part_FontSize"
+                      Width="46"
+                      Height="24"
+                      IsEditable="False"
+                      Margin="8,4,8,4"
+                      ItemsSource="{StaticResource FontSizes}"
+                      SelectedValue="{Binding SelectedFontSize, Mode=TwoWay}" />
+
+                <syncfusion:ToolBarItemSeparator Height="16" Margin="8,0,0,0" />
+
+                <ToggleButton x:Name="Part_ToggleBold"
+                              Margin="8,0,0,0"
+                              Width="28" Height="28"
+                              ToolTip="Bold"
+                              IsChecked="{Binding IsBoldSelected, Mode=TwoWay}"
+                              Command="syncfusion:DiagramCommands.ToggleBold">
+                    <ToggleButton.Content>
+                        <Path Width="10" Height="14" Fill="{Binding ElementName=tempTextBlock, Path=Foreground}" Data="M1.22656 13.9062C1.0599 13.9062 0.901042 13.875 0.75 13.8125C0.604167 13.75 0.473958 13.6641 0.359375 13.5547C0.25 13.4453 0.161458 13.3177 0.09375 13.1719C0.03125 13.026 0 12.8698 0 12.7031V1.29688C0 1.125 0.0338542 0.960938 0.101562 0.804688C0.174479 0.648438 0.270833 0.510417 0.390625 0.390625C0.510417 0.270833 0.648438 0.177083 0.804688 0.109375C0.960938 0.0364583 1.125 0 1.29688 0H4.79688C5.34896 0 5.86719 0.106771 6.35156 0.320312C6.83594 0.528646 7.25781 0.815104 7.61719 1.17969C7.98177 1.53906 8.26823 1.96094 8.47656 2.44531C8.6901 2.92969 8.79688 3.44792 8.79688 4C8.79688 4.44271 8.72656 4.86458 8.58594 5.26562C8.45052 5.66146 8.25521 6.03906 8 6.39844C8.52083 6.80469 8.91667 7.29167 9.1875 7.85938C9.46354 8.42708 9.60156 9.04167 9.60156 9.70312C9.60156 10.1146 9.55208 10.5182 9.45312 10.9141C9.35417 11.3047 9.1875 11.6719 8.95312 12.0156C8.75521 12.3073 8.52344 12.5703 8.25781 12.8047C7.9974 13.0339 7.71354 13.2318 7.40625 13.3984C7.09896 13.5599 6.77344 13.6849 6.42969 13.7734C6.09115 13.8568 5.7474 13.8984 5.39844 13.8984C4.70052 13.8984 4.00521 13.901 3.3125 13.9062C2.61979 13.9062 1.92448 13.9062 1.22656 13.9062ZM4.70312 5.5C4.91146 5.5 5.10677 5.46094 5.28906 5.38281C5.47135 5.30469 5.63021 5.19792 5.76562 5.0625C5.90104 4.92708 6.00781 4.76823 6.08594 4.58594C6.16406 4.40365 6.20312 4.20833 6.20312 4C6.20312 3.79167 6.16406 3.59635 6.08594 3.41406C6.00781 3.23177 5.90104 3.07292 5.76562 2.9375C5.63021 2.80208 5.47135 2.69531 5.28906 2.61719C5.10677 2.53906 4.91146 2.5 4.70312 2.5H2.5V5.5H4.70312ZM5.29688 11.5C5.54167 11.5 5.76823 11.4557 5.97656 11.3672C6.1849 11.2734 6.36458 11.1484 6.51562 10.9922C6.66667 10.8359 6.78385 10.6536 6.86719 10.4453C6.95573 10.2318 7 10.0026 7 9.75781C7 9.52865 6.95312 9.3099 6.85938 9.10156C6.77083 8.88802 6.64844 8.70052 6.49219 8.53906C6.34115 8.3724 6.16146 8.24219 5.95312 8.14844C5.75 8.04948 5.53125 8 5.29688 8H2.5V11.5H5.29688Z" />
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton x:Name="Part_ToggleItalic"
+                              Margin="4,0,0,0"
+                              Width="28" Height="28"
+                              ToolTip="Italic"
+                              IsChecked="{Binding IsItalicSelected, Mode=TwoWay}"
+                              Command="syncfusion:DiagramCommands.ToggleItalic">
+                    <ToggleButton.Content>
+                        <Path Width="13" Height="14" Fill="{Binding ElementName=tempTextBlock, Path=Foreground}" Data="M12.5 0C12.6354 0 12.7526 0.0494792 12.8516 0.148438C12.9505 0.247396 13 0.364583 13 0.5C13 0.635417 12.9505 0.752604 12.8516 0.851562C12.7526 0.950521 12.6354 1 12.5 1H9.34375L4.72656 13H8C8.13542 13 8.2526 13.0495 8.35156 13.1484C8.45052 13.2474 8.5 13.3646 8.5 13.5C8.5 13.6354 8.45052 13.7526 8.35156 13.8516C8.2526 13.9505 8.13542 14 8 14H0.5C0.364583 14 0.247396 13.9505 0.148438 13.8516C0.0494792 13.7526 0 13.6354 0 13.5C0 13.3646 0.0494792 13.2474 0.148438 13.1484C0.247396 13.0495 0.364583 13 0.5 13H3.65625L8.27344 1H5C4.86458 1 4.7474 0.950521 4.64844 0.851562C4.54948 0.752604 4.5 0.635417 4.5 0.5C4.5 0.364583 4.54948 0.247396 4.64844 0.148438C4.7474 0.0494792 4.86458 0 5 0H12.5Z" />
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <ToggleButton x:Name="Part_ToggleUnderline"
+                              Margin="4,0,0,0"
+                              Width="28" Height="28"
+                              ToolTip="Underline"
+                              IsChecked="{Binding IsUnderlineSelected, Mode=TwoWay}"
+                              Command="syncfusion:DiagramCommands.ToggleUnderline">
+                    <ToggleButton.Content>
+                        <Path Width="10" Height="14" Fill="{Binding ElementName=tempTextBlock, Path=Foreground}" Data="M0 6.95312V0.5C0 0.364583 0.0494792 0.247396 0.148438 0.148438C0.247396 0.0494792 0.364583 0 0.5 0C0.635417 0 0.752604 0.0494792 0.851562 0.148438C0.950521 0.247396 1 0.364583 1 0.5V7.03125C1 7.57292 1.10677 8.08594 1.32031 8.57031C1.53385 9.04948 1.82292 9.46875 2.1875 9.82812C2.55208 10.1875 2.97656 10.474 3.46094 10.6875C3.94531 10.8958 4.45833 11 5 11C5.55729 11 6.07812 10.8932 6.5625 10.6797C7.05208 10.4661 7.47656 10.1771 7.83594 9.8125C8.19531 9.44271 8.47917 9.01302 8.6875 8.52344C8.89583 8.03385 9 7.51042 9 6.95312V0.5C9 0.364583 9.04948 0.247396 9.14844 0.148438C9.2474 0.0494792 9.36458 0 9.5 0C9.63542 0 9.7526 0.0494792 9.85156 0.148438C9.95052 0.247396 10 0.364583 10 0.5V6.95312C10 7.41667 9.9401 7.86198 9.82031 8.28906C9.70573 8.71615 9.53906 9.11719 9.32031 9.49219C9.10677 9.86719 8.84635 10.2083 8.53906 10.5156C8.23698 10.8229 7.90104 11.0859 7.53125 11.3047C7.16146 11.5234 6.76302 11.6953 6.33594 11.8203C5.90885 11.9401 5.46354 12 5 12C4.53646 12 4.09115 11.9401 3.66406 11.8203C3.23698 11.6953 2.83854 11.5234 2.46875 11.3047C2.09896 11.0859 1.76042 10.8229 1.45312 10.5156C1.15104 10.2083 0.890625 9.86719 0.671875 9.49219C0.458333 9.11719 0.291667 8.71615 0.171875 8.28906C0.0572917 7.85677 0 7.41146 0 6.95312ZM0.5 14C0.364583 14 0.247396 13.9505 0.148438 13.8516C0.0494792 13.7526 0 13.6354 0 13.5C0 13.3646 0.0494792 13.2474 0.148438 13.1484C0.247396 13.0495 0.364583 13 0.5 13H9.5C9.63542 13 9.7526 13.0495 9.85156 13.1484C9.95052 13.2474 10 13.3646 10 13.5C10 13.6354 9.95052 13.7526 9.85156 13.8516C9.7526 13.9505 9.63542 14 9.5 14H0.5Z" />
+                    </ToggleButton.Content>
+                </ToggleButton>
+                <syncfusion:ColorPickerPalette x:Name="Part_FontColor"
+                                           Margin="4,4,8,4"
+                                           SelectedBrush="{Binding SelectedFontBrush, Mode=TwoWay}" 
+                                           Width="36"
+                                           Height="24"
+                                           ToolTip="Font Color"
+                                           HeaderTemplate="{StaticResource FontColorTemplate}"/>
+
+            </syncfusion:ToolBarAdv>
+            <syncfusion:SfDiagram x:Name="Diagram"
+                                  Margin="5"
+                                  Grid.Row="1"
+                                  Theme="{Binding Theme}"
+                                  SelectedItems="{Binding SelectedItems}"
+                                  Nodes="{Binding Nodes}"
+                                  Groups="{Binding Groups}"
+                                  Connectors="{Binding Connectors}"
+                                  HorizontalRuler="{Binding HorizontalRuler}"
+                                  VerticalRuler="{Binding VerticalRuler}"
+                                  ViewPortChangedCommand="{Binding ViewPortChangedCommand}"
+                                  ItemSelectedCommand="{Binding ItemSelectedCommand}"
+                                  ItemUnSelectedCommand="{Binding ItemUnSelectedCommand}">
+                <syncfusion:SfDiagram.SnapSettings>
+                    <syncfusion:SnapSettings SnapConstraints="ShowLines"/>
+                </syncfusion:SfDiagram.SnapSettings>
+            </syncfusion:SfDiagram>
+        </Grid>
+    </Grid>
+</democommon:DemoControl>

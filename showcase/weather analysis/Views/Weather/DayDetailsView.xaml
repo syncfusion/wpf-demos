@@ -1,0 +1,599 @@
+﻿<UserControl
+    x:Class="syncfusion.weatheranalysis.wpf.DayDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:syncfusion.weatheranalysis.wpf"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    DataContext="{Binding Path=Resources[ViewModelLocator].DayWeatherInfoViewModel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type syncfusion:ChromelessWindow}}}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converters:StringToImageConverter x:Key="StringToImageConverter" />
+        <converters:CelsiusToFahrenheitConverter x:Key="CelsiusToFahrenheitConverter" />
+        <converters:ResponsiveUIConverter x:Key="ResponsiveUIConverter" />
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
+        <converters:ColumnWidthConverter x:Key="ColumnWidthConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Margin="10,5,5,5"
+            FontSize="14"
+            FontWeight="Heavy">
+            DAY DETAILS
+        </TextBlock>
+        <Grid
+            Grid.Row="1"
+            Margin="10"
+            Background="{DynamicResource ContentBackgroundAlt1}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="column0" Width="*" />
+                    <ColumnDefinition x:Name="column1" Width="2" />
+                    <ColumnDefinition x:Name="column2" Width="*" />
+                    <ColumnDefinition x:Name="column3" Width="2" />
+                    <ColumnDefinition x:Name="column4" Width="{Binding Visibility, ElementName=propertiesGrid, Converter={StaticResource ColumnWidthConverter}}" />
+                </Grid.ColumnDefinitions>
+                <Border Padding="20">
+                    <Grid x:Name="riseSetTimeDetails" SizeChanged="RiseSetTimeDetails_SizeChanged">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontSize="12" FontWeight="Medium">Sun</TextBlock>
+                            <Grid Grid.Row="1" Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.2*" />
+                                    <ColumnDefinition Width="0.6*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid x:Name="sunGrid">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        Source="/syncfusion.weatheranalysis.wpf;component/Assets/WeatherAnalysis/Sunrise.png" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Regular"
+                                        Foreground="{DynamicResource ContentForegroundAlt1}"
+                                        Text="Sunrise"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Medium"
+                                        Foreground="{DynamicResource ContentForeground}"
+                                        Text="{Binding SunRiseTime, StringFormat='h:mm tt'}"
+                                        TextAlignment="Center" />
+                                </Grid>
+                                <TextBlock
+                                    x:Name="arrow_textBlock"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap">
+                                    <Run
+                                        BaselineAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Medium"
+                                        Text="{Binding TimeSpanForSunrise, StringFormat={}{0} hrs}" />
+                                    <LineBreak />
+                                    <Run x:Name="arrowRunline" Foreground="{DynamicResource BorderAlt4}" />
+                                </TextBlock>
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        Source="/syncfusion.weatheranalysis.wpf;component/Assets/WeatherAnalysis/Sunset.png" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Regular"
+                                        Foreground="{DynamicResource ContentForegroundAlt1}"
+                                        Text="Sunset"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Medium"
+                                        Foreground="{DynamicResource ContentForeground}"
+                                        Text="{Binding SunSetTime, StringFormat='h:mm tt'}"
+                                        TextAlignment="Center" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontSize="12" FontWeight="Medium">Moon</TextBlock>
+                            <Grid Grid.Row="1" Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.2*" />
+                                    <ColumnDefinition Width="0.6*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        Source="/syncfusion.weatheranalysis.wpf;component/Assets/WeatherAnalysis/Moonrise.png" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Regular"
+                                        Foreground="{DynamicResource ContentForegroundAlt1}"
+                                        Text="Moonrise"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Medium"
+                                        Foreground="{DynamicResource ContentForeground}"
+                                        Text="{Binding MoonRiseTime, StringFormat='h:mm tt'}"
+                                        TextAlignment="Center" />
+                                </Grid>
+                                <TextBlock
+                                    x:Name="arrow_textBlock1"
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    TextAlignment="Center"
+                                    TextWrapping="Wrap">
+                                    <Run
+                                        BaselineAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Medium"
+                                        Text="{Binding TimeSpanForMoonrise, StringFormat={}{0} hrs}" />
+                                    <LineBreak />
+                                    <Run x:Name="arrowRunline1" Foreground="{DynamicResource BorderAlt4}" />
+                                </TextBlock>
+                                <Grid Grid.Column="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Image
+                                        Width="32"
+                                        Height="32"
+                                        HorizontalAlignment="Center"
+                                        Source="/syncfusion.weatheranalysis.wpf;component/Assets/WeatherAnalysis/Moonset.png" />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Regular"
+                                        Foreground="{DynamicResource ContentForegroundAlt1}"
+                                        Text="Moonset"
+                                        TextAlignment="Center" />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontSize="12"
+                                        FontWeight="Medium"
+                                        Foreground="{DynamicResource ContentForeground}"
+                                        Text="{Binding MoonSetTime, StringFormat='h:mm tt'}"
+                                        TextAlignment="Center" />
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+                <Rectangle
+                    Grid.Column="1"
+                    Margin="0,15,0,15"
+                    VerticalAlignment="Stretch"
+                    Fill="Black"
+                    Opacity="0.05" />
+                <Border Grid.Column="2" Padding="20">
+                    <Grid x:Name="moonPhaseTempDetails">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                FontSize="12"
+                                FontWeight="Medium">
+                                Moon Phase
+                            </TextBlock>
+                            <Image
+                                Grid.Row="1"
+                                Width="32"
+                                Height="32"
+                                HorizontalAlignment="Left"
+                                Source="{Binding MoonPhase, Converter={StaticResource StringToImageConverter}, ConverterParameter='Moon'}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Margin="0,5,0,0"
+                                HorizontalAlignment="Left"
+                                FontSize="12"
+                                FontWeight="Medium"
+                                Text="{Binding MoonPhase}" />
+                        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.3*" />
+                                <RowDefinition Height="0.7*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock FontSize="12" FontWeight="Medium">Temparature</TextBlock>
+
+                            <ProgressBar
+                                Grid.Row="1"
+                                Height="50"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Maximum="{Binding MaxTemperature}"
+                                Minimum="{Binding MinTemperature}"
+                                Value="{Binding Temperature}">
+                                <ProgressBar.Template>
+                                    <ControlTemplate TargetType="ProgressBar">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="0.3*" />
+                                                <RowDefinition Height="0.05*" />
+                                                <RowDefinition x:Name="linearprogressbardef" Height="0.2*" />
+                                                <RowDefinition Height="0.05*" />
+                                                <RowDefinition Height="0.3*" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock
+                                                HorizontalAlignment="Left"
+                                                FontSize="12"
+                                                FontWeight="Medium"
+                                                Foreground="{DynamicResource ContentForeground}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource CelsiusToFahrenheitConverter}" ConverterParameter="{}{0:F2}°">
+                                                        <Binding Path="Minimum" RelativeSource="{RelativeSource Mode=TemplatedParent}" />
+                                                        <Binding Path="IsCelsius" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <TextBlock
+                                                HorizontalAlignment="Right"
+                                                FontSize="12"
+                                                FontWeight="Medium"
+                                                Foreground="{DynamicResource ContentForeground}">
+                                                <TextBlock.Text>
+                                                    <MultiBinding Converter="{StaticResource CelsiusToFahrenheitConverter}" ConverterParameter="{}{0:F2}°">
+                                                        <Binding Path="Maximum" RelativeSource="{RelativeSource Mode=TemplatedParent}" />
+                                                        <Binding Path="IsCelsius" />
+                                                    </MultiBinding>
+                                                </TextBlock.Text>
+                                            </TextBlock>
+                                            <Border
+                                                Grid.Row="2"
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="10">
+                                                <Grid x:Name="PART_Track" HorizontalAlignment="Left">
+                                                    <Rectangle
+                                                        x:Name="PART_Indicator"
+                                                        HorizontalAlignment="Stretch"
+                                                        Fill="{TemplateBinding Foreground}" />
+                                                </Grid>
+                                            </Border>
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                HorizontalAlignment="Left"
+                                                FontSize="12"
+                                                FontWeight="Regular"
+                                                Foreground="{DynamicResource ContentForegroundAlt1}"
+                                                Text="Low" />
+                                            <TextBlock
+                                                Grid.Row="4"
+                                                HorizontalAlignment="Right"
+                                                FontSize="12"
+                                                FontWeight="Regular"
+                                                Foreground="{DynamicResource ContentForegroundAlt1}"
+                                                Text="High" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </ProgressBar.Template>
+                                <ProgressBar.Background>
+                                    <LinearGradientBrush>
+                                        <GradientStop Offset="0.0041" Color="#EDE40C" />
+                                        <GradientStop Offset="0.9878" Color="#FF0202" />
+                                    </LinearGradientBrush>
+                                </ProgressBar.Background>
+                            </ProgressBar>
+
+
+                        </Grid>
+                    </Grid>
+                </Border>
+                <Rectangle
+                    Grid.Column="3"
+                    Margin="0,15,0,15"
+                    VerticalAlignment="Stretch"
+                    Fill="Black"
+                    Opacity="0.05"
+                    Tag="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={StaticResource ResponsiveUIConverter}}"
+                    Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
+                <Border
+                    x:Name="propertiesGrid"
+                    Grid.Column="4"
+                    Padding="20"
+                    Tag="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={StaticResource ResponsiveUIConverter}}"
+                    Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="Medium"
+                                Text="Feels like" />
+                            <syncfusion:SfCircularProgressBar
+                                x:Name="feelsLikeCP"
+                                Grid.Row="1"
+                                Width="82"
+                                Height="82"
+                                MinHeight="82"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                IndicatorOuterRadius="0.9"
+                                Progress="{Binding Feelslike}"
+                                ShowProgressValue="True"
+                                TrackOuterRadius="0.9" />
+                        </Grid>
+                        <Grid
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="Medium"
+                                Text="Humidity" />
+                            <syncfusion:SfCircularProgressBar
+                                x:Name="humidityCP"
+                                Grid.Row="1"
+                                Width="82"
+                                Height="82"
+                                MinHeight="82"
+                                IndicatorOuterRadius="0.9"
+                                Progress="{Binding Humidity}"
+                                ShowProgressValue="True"
+                                TrackOuterRadius="0.9" />
+                        </Grid>
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="Medium"
+                                Text="Wind Speed" />
+                            <syncfusion:SfCircularProgressBar
+                                x:Name="windSpeedCP"
+                                Grid.Row="1"
+                                Width="82"
+                                Height="82"
+                                MinHeight="82"
+                                IndicatorOuterRadius="0.9"
+                                Progress="{Binding WindSpeed}"
+                                ShowProgressValue="True"
+                                TrackOuterRadius="0.9" />
+                        </Grid>
+                        <Grid
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="12"
+                                FontWeight="Medium"
+                                Text="UV Index" />
+                            <syncfusion:SfCircularProgressBar
+                                x:Name="uvIndexCP"
+                                Grid.Row="1"
+                                Width="82"
+                                Height="82"
+                                MinHeight="82"
+                                IndicatorOuterRadius="0.9"
+                                Progress="{Binding UVIndex}"
+                                ShowProgressValue="True"
+                                TrackOuterRadius="0.9" />
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+            <Rectangle
+                Grid.Row="1"
+                Height="2"
+                Margin="15,0,15,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Fill="Black"
+                Opacity="0.05"
+                Tag="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={StaticResource ResponsiveUIConverter}}"
+                Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Border
+                Grid.Row="2"
+                MinHeight="130"
+                Padding="20"
+                Tag="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Converter={StaticResource ResponsiveUIConverter}}"
+                Visibility="{Binding Tag, RelativeSource={RelativeSource Mode=Self}, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0" HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="Medium"
+                            Text="Feels like" />
+                        <syncfusion:SfCircularProgressBar
+                            Grid.Row="1"
+                            Width="82"
+                            Height="82"
+                            MinHeight="82"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            IndicatorOuterRadius="0.9"
+                            Progress="{Binding Feelslike}"
+                            ShowProgressValue="True"
+                            TrackOuterRadius="0.9" />
+                    </Grid>
+                    <Grid Grid.Column="1" HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="Medium"
+                            Text="Humidity" />
+                        <syncfusion:SfCircularProgressBar
+                            Grid.Row="1"
+                            Width="82"
+                            Height="82"
+                            MinHeight="82"
+                            IndicatorOuterRadius="0.9"
+                            Progress="{Binding Humidity}"
+                            ShowProgressValue="True"
+                            TrackOuterRadius="0.9" />
+                    </Grid>
+                    <Grid Grid.Column="2" HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="Medium"
+                            Text="WindSpeed" />
+                        <syncfusion:SfCircularProgressBar
+                            Grid.Row="1"
+                            Width="82"
+                            Height="82"
+                            MinHeight="82"
+                            IndicatorOuterRadius="0.9"
+                            Progress="{Binding WindSpeed}"
+                            ShowProgressValue="True"
+                            TrackOuterRadius="0.9" />
+                    </Grid>
+                    <Grid Grid.Column="3" HorizontalAlignment="Left">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            FontWeight="Medium"
+                            Text="UVIndex" />
+                        <syncfusion:SfCircularProgressBar
+                            Grid.Row="1"
+                            Width="82"
+                            Height="82"
+                            MinHeight="82"
+                            IndicatorOuterRadius="0.9"
+                            Progress="{Binding UVIndex}"
+                            ShowProgressValue="True"
+                            TrackOuterRadius="0.9" />
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
