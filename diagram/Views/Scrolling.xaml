@@ -1,0 +1,174 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.diagramdemo.wpf.Views.Scrolling"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+    mc:Ignorable="d" 
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"    
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=syncfusion.SfSkinManager.WPF"
+    xmlns:viewmodel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+    d:DesignHeight="450" d:DesignWidth="800" OptionsSize="320">    
+    <democommon:DemoControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--Initialize Shapes-->
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BasicShapes.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="syncfusion:Node">
+                <Setter Property="ShapeStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="CornflowerBlue"/>
+                            <Setter Property="Stroke" Value="WhiteSmoke"/>
+                            <Setter Property="Stretch" Value="Fill"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style TargetType="syncfusion:Connector">
+                <Setter Property="ConnectorGeometryStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Stroke" Value="Black"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="TargetDecoratorStyle">
+                    <Setter.Value>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="Black"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </democommon:DemoControl.Resources>
+    <democommon:DemoControl.DataContext>
+        <viewmodel:ScrollingViewModel x:Name="DiagramVM"/>
+    </democommon:DemoControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <syncfusion:Stencil x:Name="stencil" ShowSearchTextBox="False" ShowDisplayModeToggleButton="False"
+                            Margin="5,5,0,5"
+                            Grid.Column="0" 
+                            ExpandMode="One" GroupMappingName="Key">
+            <syncfusion:Stencil.SymbolGroups>
+                <syncfusion:SymbolGroups>
+                    <syncfusion:SymbolGroupViewModel Name="Basic Shapes" CategorySource="{StaticResource BasicShapes}"/>
+                    <syncfusion:SymbolGroupViewModel Name="Flow Shapes" CategorySource="{StaticResource FlowShapes}"/>
+                </syncfusion:SymbolGroups>
+            </syncfusion:Stencil.SymbolGroups>
+        </syncfusion:Stencil>
+
+        <syncfusion:SfDiagram Grid.Column="1"
+                              Margin="0,5,5,5"
+                              x:Name="Diagram"
+                              Nodes="{Binding Nodes}"
+                              Connectors="{Binding Connectors}"
+                              SelectedItems="{Binding SelectedItems}"
+                              PageSettings="{Binding PageSettings}"
+                              SnapSettings="{Binding SnapSettings}"
+                              ScrollSettings="{Binding ScrollSettings}"
+                              HorizontalRuler="{Binding HorizontalRuler}"
+                              VerticalRuler="{Binding VerticalRuler}"
+                              SelectorChangedCommand="{Binding SelectorChangedCommand}"/>
+    </Grid>
+    <democommon:DemoControl.OptionsTitle>
+        Properties
+    </democommon:DemoControl.OptionsTitle>
+    <democommon:DemoControl.Options>
+        <StackPanel>
+            <TextBlock Width="20"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="100"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="120"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Scroll settings" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px" Grid.Row="0" Grid.Column="0" />
+                <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Settings}" Height="22" Margin="0,-10,0,0" SelectedItem="{Binding Path=SelectedSetting}" />
+
+                <TextBlock Text="Limit" Grid.Row="1" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px" Grid.Column="0" Margin="0,12,0,0"/>
+                <ComboBox Grid.Row="1" Grid.Column="1" Height="22" ItemsSource="{Binding Path=Limits}" SelectedItem="{Binding Path=SelectedLimit}" Margin="0,5,0,0"/>
+
+                <TextBlock Text="Scrollable Area" Grid.Row="2" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="12px" Grid.Column="0" Margin="0,20,0,0" IsEnabled="{Binding Path=AreaEnabled}"/>
+                <Grid Grid.Row="3" Grid.Column="0" IsEnabled="{Binding Path=AreaEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="X" Grid.Column="0" Grid.Row="0" Margin="10,14,0,0" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px"/>
+                    <TextBox x:Name="X" Text="{Binding Path=AreaX, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="22"/>
+                    <Label Content="Y" Grid.Column="0" Grid.Row="1" Margin="10,14,0,0" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px"/>
+                    <TextBox x:Name="Y" Text="{Binding Path=AreaY, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="22"/>
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="1" IsEnabled="{Binding Path=AreaEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Width" Grid.Column="0" Grid.Row="0" Margin="10,14,0,0" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px"/>
+                    <TextBox x:Name="Width_TextBox" Text="{Binding Path=AreaWidth, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="22"/>
+                    <Label Content="Height" Grid.Column="0" Grid.Row="1" Margin="10,14,0,0" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px"/>
+                    <TextBox x:Name="Height_TextBox" Text="{Binding Path=AreaHeight, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="22"/>
+                </Grid>
+
+                <TextBlock Text="AutoScroll border" Grid.Row="4" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="12px" Grid.Column="0" Margin="0,10,0,0" IsEnabled="{Binding Path=BorderEnabled}"/>
+                <Grid Grid.Row="5" Grid.Column="0" IsEnabled="{Binding Path=BorderEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Left" Grid.Column="0" Grid.Row="0" Margin="10,14,0,0" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px"/>
+                    <TextBox x:Name="Left" Text="{Binding Path=BorderLeft, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="20"/>
+                    <Label Content="Right" Grid.Column="0" Grid.Row="1" Margin="10,14,0,0" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px"/>
+                    <TextBox x:Name="Right" Text="{Binding Path=BorderRight, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="20"/>
+                </Grid>
+                <Grid Grid.Row="5" Grid.Column="1" IsEnabled="{Binding Path=BorderEnabled}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="60"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Label Content="Top" Grid.Column="0" Grid.Row="0" Margin="10,14,0,0" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px"/>
+                    <TextBox x:Name="Top" Text="{Binding Path=BorderTop, Mode=TwoWay}" Grid.Column="1" Grid.Row="0" Height="20"/>
+                    <Label Content="Bottom" Grid.Column="0" Grid.Row="1" Margin="10,14,0,0" FontFamily="Segoe UI" FontWeight="Normal" FontSize="12px"/>
+                    <TextBox x:Name="Bottom" Text="{Binding Path=BorderBottom, Mode=TwoWay}" Grid.Column="1" Grid.Row="1" Height="20"/>
+                </Grid>
+            </Grid>
+        </StackPanel>
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>

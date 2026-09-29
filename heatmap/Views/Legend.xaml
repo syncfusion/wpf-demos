@@ -1,0 +1,160 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.heatmapdemos.wpf.LegendDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.heatmapdemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf">
+
+    <democommon:DemoControl.DataContext>
+        <local:HeatMapViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.Resources>
+        <syncfusion:ColorMappingCollection x:Key="ColorMapping">
+            <syncfusion:ColorMapping
+                Label="Poor"
+                Color="#fe0002"
+                Value="0" />
+            <syncfusion:ColorMapping
+                Label="Average"
+                Color="#ffff01"
+                Value="3" />
+            <syncfusion:ColorMapping
+                Label="Good"
+                Color="#13ab11"
+                Value="6" />
+            <syncfusion:ColorMapping
+                Label="Excellent"
+                Color="#005ba2 "
+                Value="10" />
+        </syncfusion:ColorMappingCollection>
+        <ToolTip
+            x:Key="celltip"
+            Background="White"
+            Content="{Binding}"
+            FontSize="10"
+            Foreground="#4f4f4f"
+            Opacity=".9">
+            <ToolTip.ContentTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center">
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Text="{Binding RowHeader.Value}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding ColumnHeader.Value}" />
+                            <TextBlock Text=" : " />
+                            <TextBlock Text="{Binding Value}" />
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ToolTip.ContentTemplate>
+        </ToolTip>
+
+        <Style TargetType="syncfusion:HeatMapCell">
+            <Setter Property="ToolTip" Value="{StaticResource celltip}" />
+        </Style>
+
+        <syncfusion:TableMapping x:Key="Model">
+            <syncfusion:TableMapping.HeaderMapping>
+                <syncfusion:ColumnMapping DisplayName="Employee Name" PropertyName="EmployeeName" />
+            </syncfusion:TableMapping.HeaderMapping>
+            <syncfusion:TableMapping.ColumnMapping>
+                <syncfusion:ColumnMapping DisplayName="Jan" PropertyName="January" />
+                <syncfusion:ColumnMapping DisplayName="Feb" PropertyName="February" />
+                <syncfusion:ColumnMapping DisplayName="Mar" PropertyName="March" />
+                <syncfusion:ColumnMapping DisplayName="Apr" PropertyName="April" />
+                <syncfusion:ColumnMapping DisplayName="May" PropertyName="May" />
+                <syncfusion:ColumnMapping DisplayName="Jun" PropertyName="June" />
+                <syncfusion:ColumnMapping DisplayName="Jul" PropertyName="July" />
+                <syncfusion:ColumnMapping DisplayName="Aug" PropertyName="August" />
+                <syncfusion:ColumnMapping DisplayName="Sep" PropertyName="September" />
+                <syncfusion:ColumnMapping DisplayName="Oct" PropertyName="October" />
+                <syncfusion:ColumnMapping DisplayName="Nov" PropertyName="November" />
+                <syncfusion:ColumnMapping DisplayName="Dec" PropertyName="December" />
+            </syncfusion:TableMapping.ColumnMapping>
+        </syncfusion:TableMapping>
+
+    </democommon:DemoControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="0,0,0,20"
+            FontSize="20"
+            FontWeight="Bold"
+            Text="Employee Rating in a Year"
+            TextAlignment="Center" />
+        <syncfusion:SfHeatMap
+            x:Name="heatmap"
+            Grid.Row="1"
+            ColorMappingCollection="{StaticResource ColorMapping}"
+            ItemsMapping="{StaticResource Model}"
+            ItemsSource="{Binding ProductList}" />
+        <syncfusion:SfHeatMapLegend
+            x:Name="Legend"
+            Grid.Row="2"
+            MaxWidth="400"
+            ColorMappingCollection="{StaticResource ColorMapping}" />
+    </Grid>
+
+    <democommon:DemoControl.Options>
+        <StackPanel>
+
+            <TextBlock
+                Margin="5"
+                FontSize="14"
+                FontWeight="Bold"
+                Text="Legend Mode" />
+            <RadioButton
+                x:Name="gradient"
+                Margin="5"
+                Content="Gradient"
+                Command="{Binding GradientCommand}"
+                CommandParameter="{Binding ElementName=Legend}"
+                GroupName="Mode"
+                IsChecked="True" />
+            <RadioButton
+                x:Name="list"
+                Margin="5"
+                Content="List"
+                Command="{Binding ListCommand}"
+                CommandParameter="{Binding ElementName=Legend}"
+                GroupName="Mode" />
+            <TextBlock
+                Margin="5"
+                FontSize="14"
+                FontWeight="Bold"
+                Text="Orientation" />
+            <RadioButton
+                x:Name="horizontal"
+                Margin="5"
+                Content="Horizontal"
+                Command="{Binding HorizontalCommand}"
+                CommandParameter="{Binding ElementName=Legend}"
+                GroupName="Orientation"
+                IsChecked="True" />
+            <RadioButton
+                x:Name="vertical"
+                Margin="5"
+                Content="Vertical"
+                Command="{Binding VerticalCommand}"
+                CommandParameter="{Binding ElementName=Legend}"
+                GroupName="Orientation" />
+        </StackPanel>
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>

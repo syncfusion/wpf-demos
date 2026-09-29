@@ -1,0 +1,69 @@
+﻿<democommon:DemoControl x:Class="syncfusion.olapchartdemos.wpf.LineChart"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:syncfusion.olapchartdemos.wpf"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"             
+             mc:Ignorable="d" 
+             xmlns:sfshared="clr-namespace:Syncfusion.Windows.Shared;assembly=Syncfusion.Shared.WPF" 
+             sfshared:SkinStorage.VisualStyle="Metro"            
+             xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+			 Background="White">
+
+    <democommon:DemoControl.DataContext>
+        <local:LineChartViewModel />
+    </democommon:DemoControl.DataContext>
+    
+    <Grid>
+        <GroupBox Grid.Column="0" Margin="5" Header="OlapChart" BorderThickness="1" BorderBrush="DarkGray">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <!--Adding Chart-->
+            <syncfusion:OlapChart Name="olapchart1" Margin="5" ChartType="{Binding OlapChartType,Mode=TwoWay}" 
+                                      OlapDataManager="{Binding DataManager}" Background="Transparent"
+                                      VisualStyle="Metro" ColorPalette="Metro">
+                <syncfusion:OlapChart.PrimaryAxis>
+                    <syncfusion:OlapChartAxis RangeCalculationMode="AdjustAcrossChartTypes" />
+                </syncfusion:OlapChart.PrimaryAxis>
+                <syncfusion:OlapChart.SecondaryAxis>
+                    <syncfusion:ChartAxis LabelFormat="C"/>
+                </syncfusion:OlapChart.SecondaryAxis>
+                <syncfusion:OlapChart.Legend>
+                    <syncfusion:ChartLegend Background="Transparent" Visibility="{Binding ShowLegend}" RowsCount="3" ColumnsCount="2"/>
+                </syncfusion:OlapChart.Legend>
+                <i:Interaction.Behaviors>
+                    <local:LineChartLoadedBehavior />
+                </i:Interaction.Behaviors>
+            </syncfusion:OlapChart>
+        </GroupBox>
+    </Grid>
+
+    <democommon:DemoControl.Options>
+        <GroupBox Margin="5"  BorderThickness="1" BorderBrush="DarkGray">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontWeight="Bold"/>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+
+            <StackPanel Margin="5">
+                <CheckBox Name="chkShowLegend" Margin="0 10" IsChecked="True" Content="Show Legend" 
+                              Command="{Binding LegendDelegateCommand}" CommandParameter="{Binding ElementName=chkShowLegend, Path=IsChecked}"/>
+                <TextBlock Margin="0 10" Text="Series Type" FontWeight="SemiBold"/>
+                <RadioButton Name="rbtLine" GroupName="SeriesType" Margin="0 10" Content="Line" IsChecked="True" 
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtLine, Path=Content}"/>
+                <RadioButton Name="rbtSpline" GroupName="SeriesType" Margin="0 10" Content="Spline" 
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtSpline, Path=Content}"/>
+                <RadioButton Name="rbtRotatedSpline" GroupName="SeriesType" Margin="0 10" Content="Rotated Spline" 
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtRotatedSpline, Path=Content}"/>
+                <RadioButton Name="rbtStepLine" GroupName="SeriesType" Margin="0 10" Content="Step Line" 
+                                 Command="{Binding SelectionCommand}" CommandParameter="{Binding ElementName=rbtStepLine, Path=Content}"/>
+            </StackPanel>
+        </GroupBox>
+    </democommon:DemoControl.Options>
+</democommon:DemoControl>

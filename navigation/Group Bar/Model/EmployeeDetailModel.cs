@@ -1,0 +1,116 @@
+﻿
+using syncfusion.demoscommon.wpf;
+
+namespace syncfusion.navigationdemos.wpf
+{
+    public class EmployeeDetailModel : NotificationObject
+    {
+        /// <summary>
+        /// Specifies the age of the employee.
+        /// </summary>
+        private string age;
+
+        /// <summary>
+        /// Specifies the header name of the employee.
+        /// </summary>
+        private string header;
+
+        /// <summary>
+        /// Specifies the location of the employee.
+        /// </summary>
+        private string location;
+
+        /// <summary>
+        /// Specifies the date of birth of the employee.
+        /// </summary>
+        private string dateOfBirth;
+
+        /// <summary>
+        /// Specifies the profile of the employee.
+        /// </summary>
+        private string image;
+
+        /// <summary>
+        /// Gets or sets the image for the employee to be displayed <see cref="EmployeeDetailModel"/> class.
+        /// </summary>
+        public string Image
+        {
+            get
+            {
+                return image;
+            }
+            set
+            {
+                image = value;
+                RaisePropertyChanged("Image");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the date of birth for the employee to be displayed <see cref="EmployeeDetailModel"/> class.
+        /// </summary>
+        public string DateOfBirth
+        {
+            get
+            {
+                return dateOfBirth;
+            }
+            set
+            {
+                dateOfBirth = value;
+                RaisePropertyChanged("DateOfBirth");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the date of age of the employee to be displayed <see cref="EmployeeDetailModel"/> class.
+        /// </summary>
+        public string Age
+        {
+            get
+            {
+                return age;
+            }
+
+            set
+            {
+                age = value;
+                RaisePropertyChanged("Age");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the name for the employee to be displayed <see cref="EmployeeDetailModel"/> class.
+        /// </summary>
+        public string Header
+        {
+            get
+            {
+                return header;
+            }
+
+            set
+            {
+                header = value;
+                RaisePropertyChanged("Header");
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the location of the employee to be displayed <see cref="EmployeeDetailModel"/> class.
+        /// </summary>
+        public string Location
+        {
+            get
+            {
+                return location;
+            }
+
+            set
+            {
+                location = value;
+                RaisePropertyChanged("Location");
+            }
+        }
+    }
+}

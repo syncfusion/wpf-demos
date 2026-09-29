@@ -1,0 +1,636 @@
+﻿<UserControl x:Class="syncfusion.expenseanalysis.wpf.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:syncfusion.expenseanalysis.wpf"
+             xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:syncfusionskin ="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/syncfusion.expenseanalysis.wpf;component/Assets/ExpenseAnalysis/TextStyleResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <local:IconResourceConverter
+                x:Key="iconResourceConverter">
+                <local:IconResourceConverter.Resource>
+                    <ResourceDictionary Source="/syncfusion.expenseanalysis.wpf;component/Assets/ExpenseAnalysis/IconResources.xaml"/>
+                </local:IconResourceConverter.Resource>
+            </local:IconResourceConverter>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid
+        Margin="12">
+        <Grid.Resources>
+            <local:ItemsSourceTakeFilter x:Key="itemsSourceTakeFilter"/>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="480"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="12"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.Resources>
+                <Style TargetType="syncfusion:ChartTrackBallControl" x:Key="trackballStyle">
+                    <Setter Property="Background" Value="#4F46E5"></Setter>
+                </Style>
+                <Style TargetType="Line" x:Key="trackBallLineStyle">
+                    <Setter Property="StrokeDashArray" Value="8,2"/>
+                    <Setter Property="Stroke" Value="#4F46E5"/>
+                    <Setter Property="StrokeThickness" Value="0.6"/>
+                </Style>
+                <Style TargetType="Line" x:Key="primaryAxisLineStyle" >
+                    <Setter Property="Stroke" Value="Transparent"/>
+                </Style>
+                <Style TargetType="Line" x:Key="secondaryAxisLineStyle">
+                    <Setter Property="Stroke" Value="#E5E7EB"/>
+                </Style>
+                <Style TargetType="Line" x:Key="axisTickLineStyle">
+                    <Setter Property="Stroke"  Value="#E8EAED" />
+                </Style>
+                <Style TargetType="Line" x:Key="axisGridLineStyle">
+                    <Setter Property="Stroke" Value="#F3F4F6"/>
+                </Style>
+                <DataTemplate x:Key="trackBallTemplate">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Border Padding="5" Margin="5,0,5,0" Background="White" BorderBrush="#9CA3AF"
+                                                BorderThickness="1" CornerRadius="3">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock  FontSize="12" Margin="0,0,10,0" FontWeight="Medium" Foreground="#374151"
+                                                            Text="{Binding Item.Balance,StringFormat='c'}"/>
+                                <TextBlock FontSize="12" Text="{Binding Item.Date,
+                                                    StringFormat='MMM dd'}" Foreground="#6B7280" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock 
+                Text="Account Balance"
+                Style="{StaticResource LabelLarge}"
+                Margin="6"/>
+            <Border
+                BorderBrush="#ECEEF1"
+                CornerRadius="4"
+                BorderThickness="1"
+                Margin="6"
+                Grid.Row="2">
+                <TabControl
+                    syncfusionskin:SfSkinManager.Theme="{syncfusionskin:SkinManagerExtension ThemeName=FluentLight}"
+                    Margin="12"
+                    Padding="0,12,0,0">
+                    <TabItem Header="Daily" Padding="8">
+                        <syncfusion:SfChart>
+                            <syncfusion:SfChart.PrimaryAxis>
+                                <syncfusion:DateTimeAxis
+                                    LabelFormat="dd MMM"
+                                    AxisLineStyle="{StaticResource secondaryAxisLineStyle}"
+                                    RangePadding="None" 
+                                    ShowGridLines="False"
+                                    IntervalType="Days"
+                                    MinorTickLineStyle="{StaticResource axisTickLineStyle}"
+                                    MajorTickLineStyle="{StaticResource axisTickLineStyle}"
+                                    MajorGridLineStyle="{StaticResource axisGridLineStyle}">
+                                    <syncfusion:DateTimeAxis.LabelStyle>
+                                        <syncfusion:LabelStyle Foreground="#6B7280"/>
+                                    </syncfusion:DateTimeAxis.LabelStyle>
+                                </syncfusion:DateTimeAxis>
+                            </syncfusion:SfChart.PrimaryAxis>
+                            <syncfusion:SfChart.SecondaryAxis>
+                                <syncfusion:NumericalAxis 
+                                    LabelCreated="NumericalAxis_LabelCreated"
+                                    Foreground="#6B7280" 
+                                    ShowAxisNextToOrigin="False" 
+                                    TickLineSize="0"
+                                    AxisLineStyle="{StaticResource primaryAxisLineStyle}">
+                                    <syncfusion:NumericalAxis.LabelStyle>
+                                        <syncfusion:LabelStyle Foreground="#6B7280"/>
+                                    </syncfusion:NumericalAxis.LabelStyle>
+                                </syncfusion:NumericalAxis>
+                            </syncfusion:SfChart.SecondaryAxis>
+                            <syncfusion:SfChart.Behaviors>
+                                <syncfusion:ChartTrackBallBehavior 
+                                    LabelHorizontalAlignment="Far"
+                                    LineStyle="{StaticResource trackBallLineStyle}" 
+                                    ChartTrackBallStyle="{StaticResource trackballStyle}"/>
+                            </syncfusion:SfChart.Behaviors>
+                            <syncfusion:SplineAreaSeries
+                                ItemsSource="{Binding DailyBalance}"
+                                XBindingPath="Date"
+                                YBindingPath="Balance"
+                                IsClosed="False"
+                                Palette="Custom"
+                                Stroke="#4F46E5"
+                                StrokeThickness="1"
+                                ShowTrackballInfo="True"
+                                TrackBallLabelTemplate="{StaticResource trackBallTemplate}">
+                                <syncfusion:SplineAreaSeries.ColorModel>
+                                    <syncfusion:ChartColorModel>
+                                        <syncfusion:ChartColorModel.CustomBrushes>
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop Offset="0" Color="#804F46E5" />
+                                                <GradientStop Offset="1" Color="#00FFFFFF" />
+                                            </LinearGradientBrush>
+                                        </syncfusion:ChartColorModel.CustomBrushes>
+                                    </syncfusion:ChartColorModel>
+                                </syncfusion:SplineAreaSeries.ColorModel>
+                            </syncfusion:SplineAreaSeries>
+                        </syncfusion:SfChart>
+                    </TabItem>
+                    <TabItem Header="Monthly" Padding="8">
+                        <syncfusion:SfChart>
+                            <syncfusion:SfChart.PrimaryAxis>
+                                <syncfusion:DateTimeAxis
+                                    LabelFormat="MMM yyyy"
+                                    Foreground="#6B7280" 
+                                    AxisLineStyle="{StaticResource secondaryAxisLineStyle}"
+                                    RangePadding="None" 
+                                    ShowGridLines="False"
+                                    IntervalType="Days"
+                                    MinorTickLineStyle="{StaticResource axisTickLineStyle}"
+                                    MajorTickLineStyle="{StaticResource axisTickLineStyle}"
+                                    MajorGridLineStyle="{StaticResource axisGridLineStyle}">
+                                    <syncfusion:DateTimeAxis.LabelStyle>
+                                        <syncfusion:LabelStyle Foreground="#6B7280"/>
+                                    </syncfusion:DateTimeAxis.LabelStyle></syncfusion:DateTimeAxis>
+                            </syncfusion:SfChart.PrimaryAxis>
+                            <syncfusion:SfChart.SecondaryAxis>
+                                <syncfusion:NumericalAxis 
+                                    LabelCreated="NumericalAxis_LabelCreated"
+                                    Foreground="#6B7280" 
+                                    ShowAxisNextToOrigin="False" 
+                                    TickLineSize="0"
+                                    AxisLineStyle="{StaticResource primaryAxisLineStyle}">
+                                    <syncfusion:NumericalAxis.LabelStyle>
+                                        <syncfusion:LabelStyle Foreground="#6B7280"/>
+                                    </syncfusion:NumericalAxis.LabelStyle></syncfusion:NumericalAxis>
+                            </syncfusion:SfChart.SecondaryAxis>
+                            <syncfusion:SfChart.Behaviors>
+                                <syncfusion:ChartTrackBallBehavior 
+                                    LabelHorizontalAlignment="Far"
+                                    LineStyle="{StaticResource trackBallLineStyle}" 
+                                    ChartTrackBallStyle="{StaticResource trackballStyle}"/>
+                            </syncfusion:SfChart.Behaviors>
+                            <syncfusion:SplineAreaSeries
+                                ItemsSource="{Binding MonthlyBalance}"
+                                XBindingPath="Date"
+                                YBindingPath="Balance"
+                                IsClosed="False"
+                                Palette="Custom"
+                                Stroke="#4F46E5"
+                                StrokeThickness="1"
+                                ShowTrackballInfo="True"
+                                TrackBallLabelTemplate="{StaticResource trackBallTemplate}">
+                                <syncfusion:SplineAreaSeries.ColorModel>
+                                    <syncfusion:ChartColorModel>
+                                        <syncfusion:ChartColorModel.CustomBrushes>
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop Offset="0" Color="#804F46E5" />
+                                                <GradientStop Offset="1" Color="#00FFFFFF" />
+                                            </LinearGradientBrush>
+                                        </syncfusion:ChartColorModel.CustomBrushes>
+                                    </syncfusion:ChartColorModel>
+                                </syncfusion:SplineAreaSeries.ColorModel>
+                            </syncfusion:SplineAreaSeries>
+                        </syncfusion:SfChart>
+                    </TabItem>
+                    <!--<TabItem Header="Yearly" Padding="8">
+                        <syncfusion:SfChart>
+                            <syncfusion:SfChart.PrimaryAxis>
+                                <syncfusion:DateTimeAxis
+                                    LabelFormat="MMM yyyy"
+                                    Foreground="#6B7280" 
+                                    AxisLineStyle="{StaticResource secondaryAxisLineStyle}"
+                                    RangePadding="None" 
+                                    ShowGridLines="False"
+                                    IntervalType="Days"
+                                    MinorTickLineStyle="{StaticResource axisTickLineStyle}"
+                                    MajorTickLineStyle="{StaticResource axisTickLineStyle}"
+                                    MajorGridLineStyle="{StaticResource axisGridLineStyle}"/>
+                            </syncfusion:SfChart.PrimaryAxis>
+                            <syncfusion:SfChart.SecondaryAxis>
+                                <syncfusion:NumericalAxis
+                                    LabelCreated="NumericalAxis_LabelCreated"
+                                    Foreground="#6B7280" 
+                                    ShowAxisNextToOrigin="False" 
+                                    TickLineSize="0"
+                                    Minimum="0"
+                                    AxisLineStyle="{StaticResource primaryAxisLineStyle}" />
+                            </syncfusion:SfChart.SecondaryAxis>
+                            <syncfusion:SfChart.Behaviors>
+                                <syncfusion:ChartTrackBallBehavior 
+                                    LabelHorizontalAlignment="Far"
+                                    LineStyle="{StaticResource trackBallLineStyle}" 
+                                    ChartTrackBallStyle="{StaticResource trackballStyle}"/>
+                            </syncfusion:SfChart.Behaviors>
+                            <syncfusion:SplineAreaSeries
+                                ItemsSource="{Binding YearlyBalance}"
+                                XBindingPath="Date"
+                                YBindingPath="Balance"
+                                IsClosed="False"
+                                Palette="Custom"
+                                Stroke="#4F46E5"
+                                StrokeThickness="1"
+                                ShowTrackballInfo="True"
+                                TrackBallLabelTemplate="{StaticResource trackBallTemplate}">
+                                <syncfusion:SplineAreaSeries.ColorModel>
+                                    <syncfusion:ChartColorModel>
+                                        <syncfusion:ChartColorModel.CustomBrushes>
+                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                <GradientStop Offset="0" Color="#804F46E5" />
+                                                <GradientStop Offset="1" Color="#00FFFFFF" />
+                                            </LinearGradientBrush>
+                                        </syncfusion:ChartColorModel.CustomBrushes>
+                                    </syncfusion:ChartColorModel>
+                                </syncfusion:SplineAreaSeries.ColorModel>
+                            </syncfusion:SplineAreaSeries>
+                        </syncfusion:SfChart>
+                    </TabItem>-->
+                </TabControl>
+            </Border>
+        </Grid>
+        <Grid
+            Grid.Row="2">
+            <Grid.Resources>
+                <DataTemplate x:Key="doughnutLegendTemplate" >
+                    <Grid Margin="24,3">
+                        <Grid.Resources>
+                            <local:ChartLegendLabelConverter x:Key="chartLegendLabelConverter"/>
+                        </Grid.Resources>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="8"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Rectangle 
+                            RadiusX="2" RadiusY="2"
+                            Width="8" Height="8" 
+                            Fill="{Binding Interior}"/>
+                        <TextBlock 
+                            Grid.Column="2"
+                            HorizontalAlignment="Left" 
+                            Text="{Binding Label}" 
+                            Foreground="#000000"
+                            FontSize="14" 
+                            VerticalAlignment="Center"  />
+                        <TextBlock 
+                            Visibility="{Binding Path=DataContext.IsCompact, RelativeSource={RelativeSource AncestorType=local:MainView}}"
+                            Margin="8,0,0,0"
+                            Grid.Column="3"
+                            Text="{Binding Item,
+                                Converter={StaticResource chartLegendLabelConverter},
+                                StringFormat='{}{0:P2}'}" 
+                            Foreground="#000000"
+                            FontSize="14" 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"/>
+                    </Grid>
+                </DataTemplate>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock 
+                Margin="6"
+                Style="{StaticResource LabelLarge}"
+                Text="Expense Chart"/>
+            <Border
+                Margin="6"
+                Grid.Row="1"
+                BorderBrush="#ECEEF1"
+                CornerRadius="4"
+                BorderThickness="1">
+                <Grid>
+                    <syncfusion:SfChart>
+                        <syncfusion:DoughnutSeries
+                            ItemsSource="{Binding CategoryExpenses}"
+                            XBindingPath="Category"
+                            YBindingPath="Amount"
+                            GroupMode="Angle"
+                            GroupTo="20" Palette="Custom"
+                            LegendIcon="Rectangle"
+                            LabelPosition="OutsideExtended">
+                            <syncfusion:DoughnutSeries.AdornmentsInfo>
+                                <syncfusion:ChartAdornmentInfo 
+                                    ShowConnectorLine="True"
+                                    ShowLabel="True"
+                                    Background="Transparent" 
+                                    Foreground="#000000" 
+                                    FontFamily="SegoeUI-Regular"
+                                    FontSize="12" 
+                                    SegmentLabelContent="LabelContentPath"  
+                                    SegmentLabelFormat="$#,0;$(#,0)"/>
+                            </syncfusion:DoughnutSeries.AdornmentsInfo>
+                            <syncfusion:DoughnutSeries.ColorModel>
+                                <syncfusion:ChartColorModel>
+                                    <syncfusion:ChartColorModel.CustomBrushes >
+                                        <SolidColorBrush Color="#585DAC"/>
+                                        <SolidColorBrush Color="#B28DD4"/>
+                                        <SolidColorBrush Color="#5DAC88"/>
+                                        <SolidColorBrush Color="#F2BB30"/>
+                                        <SolidColorBrush Color="#E66C69"/>
+                                        <SolidColorBrush Color="#27B9B4"/>
+                                        <SolidColorBrush Color="#FB6690"/>
+                                        <SolidColorBrush Color="#F0ABFC"/>
+                                    </syncfusion:ChartColorModel.CustomBrushes>
+                                </syncfusion:ChartColorModel>
+                            </syncfusion:DoughnutSeries.ColorModel>
+                        </syncfusion:DoughnutSeries>
+                        <syncfusion:SfChart.Legend>
+                            <syncfusion:ChartLegend 
+                                    ItemTemplate="{StaticResource doughnutLegendTemplate}" 
+                                    DockPosition="Right"
+                                    IconVisibility="Visible" >
+                                <syncfusion:ChartLegend.Template>
+                                    <ControlTemplate>
+                                        <ScrollViewer 
+                                            VerticalScrollBarVisibility="Auto" 
+                                            HorizontalScrollBarVisibility="Auto">
+                                            <ItemsPresenter>
+                                            </ItemsPresenter>
+                                        </ScrollViewer>
+                                    </ControlTemplate>
+                                </syncfusion:ChartLegend.Template>
+                            </syncfusion:ChartLegend>
+                        </syncfusion:SfChart.Legend>
+                    </syncfusion:SfChart>
+                    <ComboBox
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="16"
+                        Height="24"
+                        ItemsSource="{Binding ExpenseFilter}"
+                        SelectedItem="{Binding SelectedExpenseFilter}"
+                        SelectedIndex="0"
+                        Visibility="{Binding Path=DataContext.IsCompact, RelativeSource={RelativeSource AncestorType=local:MainView}}"/>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <Grid
+            Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock 
+                Text="Budgets"
+                Style="{StaticResource LabelLarge}"
+                Margin="6"/>
+            <UserControl
+                Padding="6"
+                Grid.Row="1">
+                <UserControl.Resources>
+                    <DataTemplate x:Key="budgetReportView">
+                        <Border
+                            Margin="10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="18"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter
+                                    Grid.RowSpan="2"
+                                    Width="40"
+                                    Height="40"
+                                    DockPanel.Dock="Left"
+                                    ContentTemplate="{Binding Path=Category, Converter={StaticResource iconResourceConverter}}"
+                                    Margin="4"/>
+                                <TextBlock 
+                                    Grid.Column="1"
+                                    Text="{Binding Name}" 
+                                    Style="{StaticResource LabelMedium}"
+                                    DockPanel.Dock="Left"
+                                    Margin="4"/>
+                                <StackPanel
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    Orientation="Horizontal"
+                                    Margin="4">
+                                    <TextBlock
+                                        Text="{Binding Limit, StringFormat='Budget: {0:c0}'}"
+                                        Style="{StaticResource CaptionLight}"/>
+                                    <Border Width="12"/>
+                                    <TextBlock 
+                                        DockPanel.Dock="Left"
+                                        Text="{Binding Expense, StringFormat='Spent: {0:c0}'}"
+                                        Style="{StaticResource CaptionLight}"/>
+                                    <Border Width="12"/>
+                                    <TextBlock
+                                        DockPanel.Dock="Right"
+                                        Foreground="{Binding ExpenseColor}"
+                                        Text="{Binding StatusMessage}"
+                                        Style="{StaticResource CaptionLight}"/>
+                                </StackPanel>
+                                <Grid
+                                    Grid.Row="2"
+                                    Grid.ColumnSpan="2"
+                                    Margin="4">
+                                    <syncfusion:SfLinearGauge
+                                        Name="gauge"
+                                        MaxHeight="6"
+                                        HorizontalAlignment="Stretch">
+                                        <syncfusion:SfLinearGauge.MainScale>
+                                            <syncfusion:LinearScale
+                                                Minimum="0"
+                                                ScaleBarLength="{Binding ElementName=gauge, Path=ActualWidth}"
+                                                Maximum="{Binding Limit}"
+                                                MajorTickSize=".1"
+                                                MinorTickSize="0"
+                                                LabelSize="0.1">
+                                                <syncfusion:LinearScale.Pointers>
+                                                    <syncfusion:LinearPointer 
+                                                        Value="{Binding Limit}"
+                                                        BarPointerStroke="#EFEFEF" />
+                                                    <syncfusion:LinearPointer 
+                                                        Value="{Binding Estimate}"
+                                                        BarPointerStroke="{Binding EstimateColor}" />
+                                                    <syncfusion:LinearPointer 
+                                                        Value="{Binding Expense}"
+                                                        BarPointerStroke="{Binding ExpenseColor}"/>
+                                                </syncfusion:LinearScale.Pointers>
+                                            </syncfusion:LinearScale>
+                                        </syncfusion:SfLinearGauge.MainScale>
+                                    </syncfusion:SfLinearGauge>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </UserControl.Resources>
+                <Grid>
+                    <Border
+                        BorderBrush="#ECEEF1"
+                        CornerRadius="4"
+                        BorderThickness="1">
+                        <ScrollViewer
+                            HorizontalScrollBarVisibility="Auto"
+                            VerticalScrollBarVisibility="Auto">
+                            <ItemsControl
+                                ItemsSource="{Binding Budgets}"
+                                ItemTemplate="{StaticResource budgetReportView}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+                </Grid>
+            </UserControl>
+        </Grid>
+
+        <Grid
+            Grid.Row="2"
+            Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock 
+                Text="Goals"
+                Style="{StaticResource LabelLarge}"
+                Margin="6"/>
+            <UserControl
+                Grid.Row="1">
+                <UserControl.Resources>
+                    <DataTemplate x:Key="goalStatusTemplate">
+                        <Border
+                            Grid.Column="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(ItemsControl.AlternationIndex)}"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Stretch"
+                            BorderBrush="#ECEEF1"
+                            CornerRadius="4"
+                            BorderThickness="1"
+                            Padding="20"
+                            Margin="6">
+                            <DockPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch">
+                                <TextBlock 
+                                    Text="{Binding Name}" 
+                                    Style="{StaticResource LabelMedium}"
+                                    HorizontalAlignment="Center"
+                                    DockPanel.Dock="Top"
+                                    Margin="2"/>
+                                <TextBlock 
+                                    Style="{StaticResource CaptionLight}" 
+                                    Text="{Binding MonthlyTarget, StringFormat='({0:c0}/month)'}"
+                                    HorizontalAlignment="Center"
+                                    DockPanel.Dock="Top"
+                                    Margin="2"/>
+                                <TextBlock 
+                                    Style="{StaticResource CaptionLight}"
+                                    Text="{Binding Status}"
+                                    DockPanel.Dock="Top"
+                                    Margin="2"
+                                    HorizontalAlignment="Center"/>
+                                <Grid Visibility="{Binding Path=DataContext.IsCompact, RelativeSource={RelativeSource AncestorType=local:MainView}}"
+                                    Margin="4"
+                                    DockPanel.Dock="Bottom"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="12"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Row="0" Style="{StaticResource BodyMedium}" Text="Goal Amount"/>
+                                    <TextBlock Grid.Row="1" Style="{StaticResource BodyMedium}" Text="Saved"/>
+                                    <TextBlock Grid.Row="0" Style="{StaticResource LabelMedium}" Grid.Column="2" Text="{Binding Target, StringFormat=': {0:c0}'}"/>
+                                    <TextBlock Grid.Row="1" Style="{StaticResource LabelMedium}" Grid.Column="2" Text="{Binding Saving, StringFormat=': {0:c0}'}"/>
+                                </Grid>
+                                <Grid
+                                    Margin="0,18">
+                                    <syncfusion:SfCircularGauge>
+                                        <syncfusion:SfCircularGauge.Annotations>
+                                            <syncfusion:GaugeAnnotation>
+                                                <TextBlock
+                                                    FontSize="14"
+                                                    Text="{Binding CompletePercent, StringFormat='{}{0:P0}'}" 
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"/>
+                                            </syncfusion:GaugeAnnotation>
+                                        </syncfusion:SfCircularGauge.Annotations>
+                                        <syncfusion:SfCircularGauge.Scales>
+                                            <syncfusion:CircularScale 
+                                                ShowRim="True"
+                                                ShowTicks="False"
+                                                ShowLabels="False"
+                                                RimStroke="#EFEFEF"
+                                                LabelOffset="0.1"
+                                                RimStrokeThickness="16"
+                                                StartValue="0"
+                                                EndValue="{Binding Target}"
+                                                StartAngle="270"
+                                                SweepAngle="360"
+                                                RangePointerPosition="Custom">
+                                                <syncfusion:CircularScale.Pointers>
+                                                    <syncfusion:CircularPointer 
+                                                        PointerType="RangePointer"
+                                                        RangePointerStrokeThickness="16"
+                                                        RangeCap="Both" 
+                                                        Value="{Binding Saving}"
+                                                        RangePointerStroke="#0078DE"/>
+                                                </syncfusion:CircularScale.Pointers>
+                                            </syncfusion:CircularScale>
+                                        </syncfusion:SfCircularGauge.Scales>
+                                    </syncfusion:SfCircularGauge>
+                                </Grid>
+                            </DockPanel>
+                        </Border>
+                    </DataTemplate>
+                </UserControl.Resources>
+                <Grid>
+                    <ItemsControl
+                        AlternationCount="2"
+                        x:Name="goals"
+                        ItemsSource="{Binding Goals, Converter={StaticResource itemsSourceTakeFilter}, ConverterParameter=2}"
+                        ItemTemplate="{StaticResource goalStatusTemplate}">
+                        <ItemsControl.ItemContainerStyle>
+                            <Style>
+                                <Setter Property="Grid.Column" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(ItemsControl.AlternationIndex)}"/>
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                </Grid>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Grid>
+            </UserControl>
+        </Grid>
+    </Grid>
+</UserControl>

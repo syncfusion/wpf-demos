@@ -1,0 +1,241 @@
+﻿<UserControl
+    x:Class="syncfusion.patientmonitor.wpf.CurrentDetailsDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:charts="clr-namespace:Syncfusion.UI.Xaml.Charts;assembly=Syncfusion.SfChart.WPF"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:patientDetailsDemo="clr-namespace:syncfusion.patientmonitor.wpf"
+    xmlns:skin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    skin:SfSkinManager.VisualStyle="MaterialLight"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <patientDetailsDemo:BloodPressureConverter x:Key="BPConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <patientDetailsDemo:SaturationConverter x:Key="SatConverter" />
+        </Grid.Resources>
+        <Grid x:Name="Grd">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <charts:SfChart
+                x:Name="chartGrid"
+                Margin="5,5,5,4"
+                AreaBorderThickness="0.5">
+                <charts:SfChart.DataContext>
+                    <patientDetailsDemo:CurrentDetailsViewModel />
+                </charts:SfChart.DataContext>
+
+                <charts:SfChart.RowDefinitions>
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" />
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" />
+                    <charts:ChartRowDefinition Height="1" BorderThickness="1" />
+                </charts:SfChart.RowDefinitions>
+
+                <charts:SfChart.PrimaryAxis>
+                    <charts:CategoryAxis
+                        Interval="0.2"
+                        ShowGridLines="True"
+                        TickLineSize="0"
+                        ZoomFactor="0.1" />
+                </charts:SfChart.PrimaryAxis>
+
+                <charts:SfChart.SecondaryAxis>
+                    <charts:NumericalAxis
+                        charts:SfChart.Row="3"
+                        Interval="30"
+                        LabelExtent="30"
+                        LabelFormat="#"
+                        Maximum="60"
+                        Minimum="0"
+                        ShowGridLines="False"
+                        ShowTrackBallInfo="True"
+                        SmallTickLineSize="0"
+                        TickLineSize="0"
+                        Visibility="Hidden" />
+                </charts:SfChart.SecondaryAxis>
+
+
+                <charts:FastLineSeries
+                    x:Name="series1"
+                    ItemsSource="{Binding RandomData, Mode=TwoWay}"
+                    StrokeThickness="2"
+                    XBindingPath="X"
+                    YBindingPath="Y">
+                    <charts:FastLineSeries.YAxis>
+                        <charts:NumericalAxis
+                            charts:SfChart.Row="2"
+                            Interval="3"
+                            LabelExtent="30"
+                            LabelsPosition="Inside"
+                            OpposedPosition="True"
+                            PlotOffset="10"
+                            ShowGridLines="False"
+                            SmallTickLineSize="0"
+                            TickLineSize="0"
+                            Visibility="Hidden" />
+                    </charts:FastLineSeries.YAxis>
+                </charts:FastLineSeries>
+
+                <charts:FastLineSeries
+                    x:Name="series2"
+                    ItemsSource="{Binding RandomData2, Mode=TwoWay}"
+                    StrokeThickness="2"
+                    XBindingPath="X"
+                    YBindingPath="Y">
+                    <charts:FastLineSeries.YAxis>
+                        <charts:NumericalAxis
+                            charts:SfChart.Row="1"
+                            Interval="30"
+                            LabelExtent="30"
+                            PlotOffset="10"
+                            ShowGridLines="False"
+                            SmallTickLineSize="0"
+                            TickLineSize="0"
+                            Visibility="Hidden" />
+                    </charts:FastLineSeries.YAxis>
+                </charts:FastLineSeries>
+
+                <charts:FastLineSeries
+                    x:Name="series3"
+                    ItemsSource="{Binding RandomData3, Mode=TwoWay}"
+                    StrokeThickness="2"
+                    XBindingPath="X"
+                    YBindingPath="Y">
+                    <charts:FastLineSeries.YAxis>
+                        <charts:NumericalAxis
+                            charts:SfChart.Row="0"
+                            Interval="30"
+                            LabelExtent="30"
+                            PlotOffset="10"
+                            ShowGridLines="False"
+                            SmallTickLineSize="0"
+                            TickLineSize="0"
+                            Visibility="Hidden" />
+                    </charts:FastLineSeries.YAxis>
+                </charts:FastLineSeries>
+
+            </charts:SfChart>
+            <Grid
+                Grid.Column="1"
+                Margin="-10,10,10,41"
+                Background="#FFFFFFFF">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Padding="5"
+                    BorderBrush="LightGray"
+                    BorderThickness="0,1,1,0">
+                    <StackPanel Margin="5,0,0,0" HorizontalAlignment="Center">
+                        <TextBlock
+                            Width="100"
+                            HorizontalAlignment="Center"
+                            FontSize="16"
+                            Text="BP" />
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="32"
+                            FontWeight="ExtraBold"
+                            Text="{Binding Converter={StaticResource BPConverter}}" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Width="100"
+                    Padding="5"
+                    BorderBrush="LightGray"
+                    BorderThickness="0,1,1,0">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="14"
+                            Text="Sat" />
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="26"
+                            Text="{Binding Converter={StaticResource SatConverter}}" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="100"
+                    Padding="5"
+                    BorderBrush="LightGray"
+                    BorderThickness="0,1,1,0">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="14"
+                            Text="RR" />
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="26"
+                            Text="{Binding RespirationRate}" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Width="100"
+                    Padding="10"
+                    BorderBrush="LightGray"
+                    BorderThickness="0,1,1,1">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="14"
+                            Text="HR" />
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="26"
+                            Text="{Binding HeartRate}" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Width="100"
+                    Padding="10"
+                    BorderBrush="LightGray"
+                    BorderThickness="0,1,1,1">
+                    <StackPanel HorizontalAlignment="Center">
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="14"
+                            Text="Temp" />
+                        <TextBlock
+                            Width="Auto"
+                            HorizontalAlignment="Center"
+                            FontSize="26"
+                            Text="{Binding Temperature}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
