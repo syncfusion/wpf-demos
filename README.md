@@ -1,8 +1,8 @@
-﻿# Syncfusion WPF samples 
+# Syncfusion WPF samples 
 
 This repository contains the demos of Syncfusion [WPF Controls](https://www.syncfusion.com/wpf-ui-controls?utm_source=github&utm_medium=listing). This is the best place to check our controls to get more insight about the usage of APIs. You can also check our controls by installing our [WPF Demos](https://www.syncfusion.com/demos#desktop?utm_source=github&utm_medium=listing), in which you can browse the demo for all the controls.
 
-This section guides you to use the Syncfusion WPF samples in your applications. 
+This section guides you to use the Syncfusion WPF samples in your applications.
 
 * [Requirements to run the demo](#requirements-to-run-the-demo)
 * [How to run the demos](#how-to-run-the-demos)
@@ -13,9 +13,9 @@ This section guides you to use the Syncfusion WPF samples in your applications.
 
 ## <a name="requirements-to-run-the-demo"></a>Requirements to run the demo ##
 
-The demos are provided for .NET Framework 4.5, .NET Framework 4.7 and .NET 5.0. 
-* .NET Framework - Requires Visual Studio 2010 or higher to run demos based on the .NET Framework you want to use.
-* Refer [.NET 5.0](https://dotnet.microsoft.com/download/dotnet/5.0) requirements for running .NET5.0 demos.
+The demos are provided for .NET Framework 4.6.2, .NET Framework 4.7, .NET 8.0, .NET 9.0, and .NET 10.0. 
+* .NET Framework - Requires Visual Studio 2022 or higher to run demos.
+* Refer [.NET](https://dotnet.microsoft.com/download/dotnet) requirements for running .NET demos.
 
 ## <a name="how-to-run-the-demos"></a>How to run the demos ##
 
@@ -23,7 +23,7 @@ The demos are provided for .NET Framework 4.5, .NET Framework 4.7 and .NET 5.0.
 
 To run the demos, 
  * Clone or download this repository.
- * Open `syncfusion.samplebrowser.wpf_47` file (`_47` denotes framework version, You can choose the solution files ends with `_45` or `_50` also) present under **samplebrowser** folder in Visual Studio.
+ * Open `syncfusion.samplebrowser.wpf_Net462` file (`_462` denotes .NET Framework 4.6.2, or you can choose the solution files ends with `_Net80` or `_Net90` or `_Net10` also for NetCore) present under **samplebrowser** folder in Visual Studio.
  * Restore nugets for all the demo projects.
  * Set `syncfusion.samplebrowser.wpf` as start up project and run.
 
@@ -35,7 +35,7 @@ To run the demos,
 ### Running Individual Control Demos
 
 To run the Individual Control Demos, 
- * Open respective control folder. For example, To run `DataGrid demos` open `syncfusion.datagriddemos.wpf_47` file (`_47` denotes framework version, You can choose the solution files ends with `_45` or `_50` also) present under **datagrid** folder in Visual Studio.
+ * Open respective control folder. For example, To run `DataGrid demos` open `syncfusion.datagriddemos.wpf_Net462` file (`_462` denotes .NET Framework 4.6.2, or you can choose the solution files ends with `_Net80` or `_Net90` or `_Net10` also for NetCore) present under **datagrid** folder in Visual Studio.
  * Build project to restore nugets for the demo project.
  * Set `syncfusion.datagriddemos.wpf` as start up project and run.
 
@@ -63,7 +63,9 @@ To run the Individual Control Demos,
             <a href="propertygrid">Property Grid</a>
         </td>
         <td></td>
-        <td></td>
+        <td>
+            <a href="smartdatagrid">Smart DataGrid</a>
+        </td>
     </tr>
     <tr>
         <td colspan="3">
@@ -268,8 +270,12 @@ To run the Individual Control Demos,
         <td>
             <a href="editor">Calculator</a>
         </td>
-        <td></td>
-        <td></td>
+        <td>
+            <a href="assistview">Assist View</a>
+        </td>
+        <td>
+            <a href="avatarview">Avatar View</a>
+        </td>
     </tr>
     <tr>
         <td colspan="3">
@@ -281,21 +287,21 @@ To run the Individual Control Demos,
             <a href="scheduler">Scheduler</a>
         </td>
         <td>
-            <a href="editor">DateTimeEdit</a>
+            <a href="datetime">Date Picker</a>
         </td>
         <td>
-            <a href="editor">Date Picker</a>
+            <a href="datetime">Calendar</a>
         </td>
     </tr>
     <tr>
         <td>
-            <a href="editor">Time Picker</a>
+            <a href="datetime">Time Picker</a>
         </td>
         <td>
-            <a href="editor">Calendar</a>
+            <a href="datetime">DateTime Edit</a>
         </td>
         <td>
-            <a href="navigation">TimeSpan Edit</a>
+            <a href="datetime">TimeSpan Edit</a>
         </td>
     </tr>
     <tr>
@@ -343,7 +349,7 @@ To run the Individual Control Demos,
         <td>
             <a href="presentation">Presentation</a>
         </td>
-        <td></td>
+        <td><a href="markdown">Markdown</a></td>
         <td></td>
     </tr>
     <tr>
@@ -366,8 +372,12 @@ To run the Individual Control Demos,
         <td>
             <a href="syntaxeditor">Syntax Editor</a>
         </td>
-        <td></td>
-        <td></td>
+        <td>
+            <a href="smarttexteditor">Smart Text Editor</a>
+        </td>
+        <td>
+            <a href="markdownviewer">Markdown Viewer</a>
+        </td>
     </tr>
     <tr>
         <td colspan="3">
