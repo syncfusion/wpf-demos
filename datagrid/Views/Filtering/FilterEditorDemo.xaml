@@ -1,0 +1,105 @@
+<democommon:DemoControl
+    x:Class="syncfusion.datagriddemos.wpf.FilterEditorDemo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:filterEditor="clr-namespace:Syncfusion.Data.FilterEditor;assembly=Syncfusion.Data.WPF"
+    xmlns:local="clr-namespace:syncfusion.datagriddemos.wpf"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    xmlns:syncfusionskin="clr-namespace:Syncfusion.SfSkinManager;assembly=Syncfusion.SfSkinManager.WPF"
+    syncfusionskin:SfSkinManager.Theme="{syncfusionskin:SkinManagerExtension ThemeName=Windows11Light}"
+    Background="#FFFFFF"
+    DataContext="{DynamicResource viewmodel}">
+    <democommon:DemoControl.Resources>
+        <local:OrderInfoViewModel x:Key="viewmodel" />
+    </democommon:DemoControl.Resources>
+    <democommon:DemoControl.Options>
+        <StackPanel Margin="5">
+            <CheckBox
+              Margin="5,0,5,12"
+              HorizontalContentAlignment="Left"
+              VerticalAlignment="Center"
+              Content="Enable Filter Editor"
+              IsChecked="{Binding EnableFilterEditor, ElementName=sfgrid, Mode=TwoWay}" />
+            <TextBlock
+                Margin="5,2,5,2"
+                HorizontalAlignment="Left"
+                FontSize="12"
+                FontWeight="SemiBold"
+                Text="Filter Panel Position" />
+            <ComboBox
+                Width="150"
+                Margin="5,0,5,12"
+                HorizontalAlignment="Left"
+                SelectedValue="{Binding FilterPanelPosition, ElementName=sfgrid, Mode=TwoWay}"
+                SelectedValuePath="Tag">
+                <ComboBoxItem
+                    Content="Top"
+                    Tag="{x:Static syncfusion:FilterPanelPosition.Top}" />
+                <ComboBoxItem
+                    Content="Bottom"
+                    IsSelected="True"
+                    Tag="{x:Static syncfusion:FilterPanelPosition.Bottom}" />
+                <ComboBoxItem
+                    Content="None"
+                    Tag="{x:Static syncfusion:FilterPanelPosition.None}" />
+            </ComboBox>
+        </StackPanel>
+    </democommon:DemoControl.Options>
+
+    <Grid Margin="5" DataContext="{StaticResource viewmodel}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <syncfusion:SfDataGrid
+            x:Name="sfgrid"
+            Grid.Row="0"
+            Margin="0,0,0,5"
+            AllowEditing="True"
+            AllowFiltering="True"
+            AutoGenerateColumns="False"
+            ColumnSizer="Star"
+            EnableFilterEditor="True"
+            FilterPanelPosition="Bottom"
+            FilterRowPosition="FixedTop"
+            GridLinesVisibility="Both"
+            ItemsSource="{Binding OrderList}"
+            LiveDataUpdateMode="AllowDataShaping">
+            <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridNumericColumn
+                    HeaderText="Order ID"
+                    MappingName="OrderID"
+                    NumberDecimalDigits="0" />
+                <syncfusion:GridTextColumn
+                    HeaderText="Customer ID"
+                    MappingName="CustomerID" />
+                <syncfusion:GridMaskColumn
+                    ColumnFilter="DisplayText"
+                    HeaderText="Contact Number"
+                    MappingName="ContactNumber"
+                    Mask="(999)-999-9999"
+                    TextAlignment="Right" />
+                <syncfusion:GridPercentColumn
+                    HeaderText="Discount"
+                    MappingName="Freight" />
+                <syncfusion:GridCheckBoxColumn
+                    Width="70"
+                    HeaderText="Closed"
+                    MappingName="IsShipped" />
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+        <Border
+            Grid.Row="1"
+            Margin="0,5,0,0"
+            Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"
+            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}"
+            BorderThickness="1">
+            <filterEditor:SfFilterEditor
+                x:Name="filterEditor"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                FilteringContext="{Binding FilteringContext, ElementName=sfgrid}" />
+        </Border>
+    </Grid>
+</democommon:DemoControl>

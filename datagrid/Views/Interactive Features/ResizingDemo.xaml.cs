@@ -1,0 +1,26 @@
+#region Copyright Syncfusion Inc. 2001 - 2026
+// Copyright Syncfusion Inc. 2001 - 2026. All rights reserved.
+// Use of this code is subject to the terms of our license.
+// A copy of the current license can be obtained at any time by e-mailing
+// licensing@syncfusion.com. Any infringement will be prosecuted under
+// applicable laws.
+#endregion
+using syncfusion.demoscommon.wpf;
+using System;
+using System.Windows;
+using Syncfusion.UI.Xaml.Grid;
+
+namespace syncfusion.datagriddemos.wpf
+{
+    /// <summary>
+    /// Interaction logic for ResizingDemo.xaml.
+    /// </summary>
+    public partial class ResizingDemo : DemoControl
+    {
+        
+        public ResizingDemo()
+        {
+            InitializeComponent();
+        }
+    }
+}

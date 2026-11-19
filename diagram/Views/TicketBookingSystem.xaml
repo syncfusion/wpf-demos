@@ -1,0 +1,517 @@
+﻿<democommon:DemoControl 
+         xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf" 
+            x:Class="syncfusion.diagramdemo.wpf.Views.TicketBookingSystem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:Syncfusion="http://schemas.syncfusion.com/wpf"
+             xmlns:ViewModel="clr-namespace:syncfusion.diagramdemo.wpf.ViewModel"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:syncfusion.diagramdemo.wpf.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <democommon:DemoControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Syncfusion.SfDiagram.Wpf;component/Resources/BasicShapes.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- ==================== SCREEN TEMPLATE ==================== -->
+            <DataTemplate x:Key="ScreenTemplate">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top"
+                            Width="480">
+                    <Canvas Width="480" Height="46" HorizontalAlignment="Center">
+                        <!-- Screen body: flat top, angled sides, curved bottom — trapezoid shape -->
+                        <Path Fill="#E0E7FF" Stroke="#818CF8" StrokeThickness="1.2"
+                              Canvas.Left="0" Canvas.Top="0">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="15,0" IsClosed="True">
+                                        <!-- Flat top edge -->
+                                        <LineSegment Point="465,0"/>
+                                        <!-- Right side angled inward -->
+                                        <LineSegment Point="478,32"/>
+                                        <!-- Concave curved bottom -->
+                                        <BezierSegment Point1="358,46"
+                                                       Point2="122,46"
+                                                       Point3="2,32"/>
+                                        <!-- Left side angled inward (auto-close back to StartPoint) -->
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                        <!-- Bold concave bottom stroke only -->
+                        <Path Stroke="#818CF8" StrokeThickness="3.5"
+                              StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                              Canvas.Left="0" Canvas.Top="0">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="2,32">
+                                        <BezierSegment Point1="122,46"
+                                                       Point2="358,46"
+                                                       Point3="478,32"/>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+                    </Canvas>
+                    <!-- Label sits just below the canvas -->
+                    <TextBlock Text="Screen This Way" FontSize="11" FontWeight="SemiBold"
+                               Foreground="#818CF8" HorizontalAlignment="Center"
+                               Margin="0,5,0,0"/>
+                </StackPanel>
+            </DataTemplate>
+            <!-- ==================== SEAT TOOLTIP TEMPLATE ==================== -->
+            <DataTemplate x:Key="SeatTooltipContentTemplate">
+                <Border Background="#1E293B" CornerRadius="7" Padding="13,11">
+                    <StackPanel MinWidth="165">
+                        <TextBlock FontWeight="Bold" FontSize="14" Foreground="White" Margin="0,0,0,6">
+                         <Run Text="Seat "/><Run Text="{Binding Row}"/><Run Text="{Binding Number}"/>
+                        </TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                            <TextBlock Text="Row: "      FontWeight="Bold" FontSize="12" Foreground="#CBD5E1"/>
+                            <TextBlock Text="{Binding Row}" FontSize="12" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                            <TextBlock Text="Category: " FontWeight="Bold" FontSize="12" Foreground="#CBD5E1"/>
+                            <TextBlock Text="{Binding TierCategory}" FontSize="12" Foreground="White"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                            <TextBlock Text="Price: "   FontWeight="Bold" FontSize="12" Foreground="#CBD5E1"/>
+                            <TextBlock FontSize="12" Foreground="White">
+                             <Run Text="$"/><Run Text="{Binding Price}"/>
+                            </TextBlock>
+                        </StackPanel>
+                        <!-- Status badge -->
+                        <Border Margin="0,7,0,0" CornerRadius="4" Padding="8,4" HorizontalAlignment="Left">
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="#0E9F6E"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding StateString}" Value="Selected">
+                                            <Setter Property="Background" Value="#15803D"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding StateString}" Value="Booked">
+                                            <Setter Property="Background" Value="#6B7280"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock FontSize="11" FontWeight="Bold" Foreground="White"
+                                    Text="{Binding StateString}"/>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </DataTemplate>
+
+            <!-- ==================== SEAT NODE TEMPLATE ==================== -->
+
+            <DataTemplate x:Key="SeatNodeContentTemplate">
+                <Grid Width="32" Height="32" Cursor="Hand">
+                    <Grid.ToolTip>
+                        <ToolTip Background="Transparent"
+       BorderThickness="0"
+       HasDropShadow="True"
+       Placement="Mouse"
+       ToolTipService.InitialShowDelay="0"
+       ToolTipService.ShowDuration="9000">
+                            <Border Background="#1E293B" CornerRadius="7" Padding="13,11">
+                                <StackPanel MinWidth="165">
+                                    <TextBlock FontWeight="Bold" FontSize="14"
+                     Foreground="White" Margin="0,0,0,6">
+              <Run Text="Seat "/>
+              <Run Text="{Binding Row}"/>
+              <Run Text="{Binding Number}"/>
+                                    </TextBlock>
+                                    <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                        <TextBlock Text="Row: " FontWeight="Bold"
+                         FontSize="12" Foreground="#CBD5E1"/>
+                                        <TextBlock Text="{Binding Row}"
+                         FontSize="12" Foreground="White"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                        <TextBlock Text="Category: " FontWeight="Bold"
+                         FontSize="12" Foreground="#CBD5E1"/>
+                                        <TextBlock Text="{Binding TierCategory}"
+                         FontSize="12" Foreground="White"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,2,0,2">
+                                        <TextBlock Text="Price: " FontWeight="Bold"
+                         FontSize="12" Foreground="#CBD5E1"/>
+                                        <TextBlock FontSize="12" Foreground="White">
+                  <Run Text="$"/><Run Text="{Binding Price}"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <Border Margin="0,7,0,0" CornerRadius="4"
+                  Padding="8,4" HorizontalAlignment="Left">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Setter Property="Background" Value="#0E9F6E"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding StateString}" Value="Selected">
+                                                        <Setter Property="Background" Value="#15803D"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding StateString}" Value="Booked">
+                                                        <Setter Property="Background" Value="#6B7280"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock Text="{Binding StateString}"
+                         FontSize="11" FontWeight="Bold"
+                         Foreground="White"/>
+                                    </Border>
+                                </StackPanel>
+                            </Border>
+                        </ToolTip>
+                    </Grid.ToolTip>
+
+                    <!-- Invisible hit-test area -->
+                    <Rectangle Fill="Transparent"/>
+
+                    <!-- Seat visual -->
+                    <Border CornerRadius="4" BorderThickness="1.5">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background"  Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="#9CA3AF"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsBooked}" Value="True">
+                                        <Setter Property="Background"  Value="#E5E7EB"/>
+                                        <Setter Property="BorderBrush" Value="#D1D5DB"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="Background"  Value="#15803D"/>
+                                        <Setter Property="BorderBrush" Value="#15803D"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{Binding Number}"
+                                   FontSize="14" FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="#374151"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsBooked}" Value="True">
+                                            <Setter Property="Foreground" Value="#9CA3AF"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Border>
+
+                    <!-- Click overlay -->
+                    <Button Command="{Binding ToggleCommand}"
+                            Opacity="0" Width="32" Height="32"
+                            Focusable="False" BorderThickness="0"
+                            Background="Transparent" Cursor="Hand">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsBooked}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <!-- REMOVED: Hover overlay border deleted entirely -->
+
+                </Grid>
+            </DataTemplate>
+
+            <!-- ==================== ROW LABEL ==================== -->
+            <DataTemplate x:Key="RowLabelTemplate">
+                <TextBlock Text="{Binding}" Foreground="#374151" FontWeight="Bold" FontSize="16"
+                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </DataTemplate>
+
+            <!-- ==================== SECTION LABEL ==================== -->
+            <DataTemplate x:Key="SectionLabelTemplate">
+                <TextBlock Text="{Binding}" FontWeight="UltraBold" FontSize="14"
+                        Foreground="#1F2937" HorizontalAlignment="Center"/>
+            </DataTemplate>
+
+            <!-- ==================== SHOW TIME BUTTON STYLE ==================== -->
+            <Style x:Key="ShowTimeButtonStyle" TargetType="Button">
+                <Setter Property="Padding"         Value="18,10"/>
+                <Setter Property="Margin"          Value="5,0"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="Background"      Value="White"/>
+                <Setter Property="Cursor"          Value="Hand"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border"
+                                 Background="{TemplateBinding Background}"
+                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                 BorderThickness="{TemplateBinding BorderThickness}"
+                                 CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+
+                                <!-- 1) Sold-out: gray + disabled -->
+                                <DataTrigger Binding="{Binding Status}" Value="sold-out">
+                                    <Setter TargetName="border" Property="Background"  Value="#F3F4F6"/>
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#E5E7EB"/>
+                                    <Setter Property="Foreground" Value="#9CA3AF"/>
+                                    <Setter Property="IsEnabled"  Value="False"/>
+                                </DataTrigger>
+
+                                <!-- 2) Available: green border + text -->
+                                <DataTrigger Binding="{Binding Status}" Value="available">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#10B981"/>
+                                    <Setter Property="Foreground" Value="#059669"/>
+                                </DataTrigger>
+
+                                <!-- 3) Filling-fast: orange/red border + text -->
+                                <DataTrigger Binding="{Binding Status}" Value="filling-fast">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#EF4444"/>
+                                    <Setter Property="Foreground" Value="#DC2626"/>
+                                </DataTrigger>
+
+                                <!-- 4) Hover on available -->
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSelected}" Value="False"/>
+                                        <Condition Binding="{Binding Status}"     Value="available"/>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter TargetName="border" Property="Background"  Value="#D1FAE5"/>
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#059669"/>
+                                </MultiDataTrigger>
+
+                                <!-- 5) Hover on filling-fast: red fill -->
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsSelected}" Value="False"/>
+                                        <Condition Binding="{Binding Status}"     Value="filling-fast"/>
+                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter TargetName="border" Property="Background"  Value="#FEE2E2"/>
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#EF4444"/>
+                                    <Setter Property="Foreground" Value="#DC2626"/>
+                                </MultiDataTrigger>
+
+                                <!-- 6) SELECTED: blue — LAST so it always wins -->
+                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                    <Setter TargetName="border" Property="Background"  Value="#3B5BDB"/>
+                                    <Setter TargetName="border" Property="BorderBrush" Value="#3B5BDB"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </DataTrigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+        </ResourceDictionary>
+
+    </democommon:DemoControl.Resources>
+
+    <democommon:DemoControl.DataContext>
+        <ViewModel:TicketBookingViewModel/>
+    </democommon:DemoControl.DataContext>
+
+
+    <Grid Background="#F9FAFB">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- ===== HEADER ===== -->
+        <Border Grid.Row="0" Background="White" BorderBrush="#E5E7EB"
+            BorderThickness="0,0,0,1" Padding="0,14">
+            <StackPanel>
+                <TextBlock Text="{Binding MovieTitle}" FontSize="26" FontWeight="Bold"
+                       HorizontalAlignment="Center" Foreground="#1D4ED8"/>
+                <TextBlock Text="{Binding ShowDate}" FontSize="12"
+                       HorizontalAlignment="Center" Foreground="#6B7280" Margin="0,5,0,0"/>
+            </StackPanel>
+        </Border>
+
+        <!-- ===== SHOW TIME SELECTOR ===== -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#E5E7EB"
+            BorderThickness="0,0,0,1" Padding="10,14">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <!-- Date box -->
+                <Border BorderBrush="#D1D5DB" BorderThickness="1.5" CornerRadius="6"
+                    Padding="16,10" Margin="0,0,12,0" Background="White">
+                    <StackPanel>
+                        <TextBlock x:Name="daybox"  FontSize="11" HorizontalAlignment="Center"
+                               Foreground="#6B7280" FontWeight="SemiBold"/>
+                        <TextBlock x:Name="Datebox" FontSize="14" FontWeight="Bold"
+                               HorizontalAlignment="Center" Foreground="#111827"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Width="1" Background="#E5E7EB" Margin="0,4"/>
+
+                <!-- Show times list -->
+                <ItemsControl ItemsSource="{Binding ShowTimes}" Margin="12,0,0,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding SelectShowCommand}"
+                                Style="{StaticResource ShowTimeButtonStyle}">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Time}"   FontSize="15"
+                                           FontWeight="Bold" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="{Binding Format}" FontSize="9"
+                                           HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="280"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Diagram — SfDiagram handles its OWN scroll (no outer ScrollViewer) -->
+            <Border Grid.Column="0" Background="White" ClipToBounds="True">
+                <Syncfusion:SfDiagram x:Name="Diagram" Tool="ZoomPan"
+                                  Nodes="{Binding DiagramNodes}"
+                                  Connectors="{Binding DiagramConnectors}" 
+                                  Background="White">
+                    <Syncfusion:SfDiagram.PageSettings>
+                        <Syncfusion:PageSettings ShowPageBreaks="False"
+                                             PageBackground="White"
+                                             PageBorderThickness="0" 
+                                            />
+                    </Syncfusion:SfDiagram.PageSettings>
+                    <Syncfusion:SfDiagram.SnapSettings>
+                        <Syncfusion:SnapSettings SnapConstraints="None"/>
+                    </Syncfusion:SfDiagram.SnapSettings>
+                    <Syncfusion:SfDiagram.ScrollSettings>
+                        <Syncfusion:ScrollSettings ScrollLimit="Diagram"/>
+                    </Syncfusion:SfDiagram.ScrollSettings>
+                </Syncfusion:SfDiagram>
+
+            </Border>
+
+            <!-- ===== RIGHT PANEL ===== -->
+            <Border Grid.Column="1" Background="White" BorderBrush="#E5E7EB"
+                BorderThickness="1,0,0,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
+                    <StackPanel>
+                        <!-- Legend -->
+                        <TextBlock Text="Legend" FontSize="14" FontWeight="Bold"
+                               Margin="0,10,0,12" Foreground="#111827"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Border Width="26" Height="26" BorderBrush="#9CA3AF" BorderThickness="1.5"
+                                CornerRadius="4" Background="Transparent" Margin="0,0,10,0"/>
+                            <TextBlock Text="Available" VerticalAlignment="Center"
+                                   FontSize="14" FontWeight="Bold" Foreground="#374151"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <Border Width="26" Height="26" Background="#15803D"
+                                CornerRadius="4" Margin="0,0,10,0"/>
+                            <TextBlock Text="Selected" VerticalAlignment="Center"
+                                    FontSize="14" FontWeight="Bold" Foreground="#374151"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                            <Border Width="26" Height="26" Background="#E5E7EB"
+                                CornerRadius="4" Margin="0,0,10,0"/>
+                            <TextBlock Text="Booked" VerticalAlignment="Center"
+                                    FontSize="14" FontWeight="Bold" Foreground="#374151"/>
+                        </StackPanel>
+
+                        <Separator Margin="0,0,0,20" Background="#E5E7EB"/>
+
+                        <!-- Price Categories -->
+                        <TextBlock Text="Price Categories" FontSize="14" FontWeight="Bold"
+                               Margin="0,0,0,12" Foreground="#111827"/>
+                        <ItemsControl ItemsSource="{Binding Sections}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"    Width="110"
+                                                Foreground="#374151"/>
+                                        <TextBlock Text="{Binding PriceText}" FontWeight="Bold"
+                                               FontSize="14" Foreground="#15803D"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Separator Margin="0,20,0,20" Background="#E5E7EB"/>
+
+                        <!-- Booking Summary -->
+                        <TextBlock Text="Booking Summary" FontSize="14" FontWeight="Bold"
+                               Margin="0,0,0,12" Foreground="#111827"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock Text="Show Time:" Width="95" FontSize="14" FontWeight="SemiBold" Foreground="#6B7280"/>
+                            <TextBlock Text="{Binding SelectedShowTime.Time}" FontWeight="Bold"
+                                   FontSize="12" Foreground="#111827"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <TextBlock Text="Tickets:" Width="95" FontSize="14" FontWeight="SemiBold" Foreground="#6B7280"/>
+                            <TextBlock Text="{Binding SelectedCount}" FontWeight="Bold"
+                                   FontSize="12" Foreground="#111827"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
+                            <TextBlock Text="Total Price:" Width="95" FontSize="14" FontWeight="SemiBold" Foreground="#6B7280"/>
+                            <TextBlock Text="{Binding TotalPriceText}" FontWeight="Bold"
+                                   FontSize="18" Foreground="#15803D"/>
+                        </StackPanel>
+
+                        <!-- Proceed -->
+                        <Button Content="Proceed" Command="{Binding ProceedCommand}"
+                            Height="46" FontSize="15" FontWeight="Bold"
+                            Foreground="White" BorderThickness="0" Cursor="Hand">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border" CornerRadius="8"
+                                                    Background="#3B5BDB" Padding="20,12">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                  VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#2F4ABF"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsEnabled" Value="False">
+                                                        <Setter TargetName="border" Property="Background" Value="#E5E7EB"/>
+                                                        <Setter Property="Foreground" Value="#9CA3AF"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</democommon:DemoControl>

@@ -1,0 +1,186 @@
+﻿<democommon:DemoControl
+    x:Class="syncfusion.dockingmanagerdemos.wpf.TabbedWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:democommon="clr-namespace:syncfusion.demoscommon.wpf;assembly=syncfusion.demoscommon.wpf"
+    xmlns:local="clr-namespace:syncfusion.dockingmanagerdemos.wpf"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
+    mc:Ignorable="d">
+
+    <democommon:DemoControl.DataContext>
+        <local:TabbedWindowViewModel />
+    </democommon:DemoControl.DataContext>
+
+    <democommon:DemoControl.OptionsSize>
+        <GridLength>250</GridLength>
+    </democommon:DemoControl.OptionsSize>
+
+    <democommon:DemoControl.Options>
+        <ScrollViewer 
+            VerticalScrollBarVisibility="Auto"
+            Margin="-3,0,-6,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock 
+                    Text="DockTabAlignment" 
+                    TextWrapping="Wrap"
+                    Margin="6,5,5,5"
+                    Grid.Row="0"/>
+                <syncfusion:ComboBoxAdv 
+                    x:Name="ComboBoxAdv"
+                    Margin="6,5,7,5"
+                    Height="24"
+                    SelectedItem="{Binding DockTabAlignment}"
+                    ItemsSource="{democommon:EnumValues Type=Dock}"
+                    Grid.Row="1"/>
+
+                <TextBlock 
+                    Text="AutoHideTabsMode" 
+                    TextWrapping="Wrap"
+                    Margin="6,5,5,5"
+                    Grid.Row="2"/>
+                <syncfusion:ComboBoxAdv 
+                    x:Name="ComboBoxAdv1"
+                    Margin="6,5,7,5"
+                    Height="24"
+                    SelectedItem="{Binding AutoHideTabsMode}"
+                    ItemsSource="{democommon:EnumValues Type=syncfusion:AutoHideTabsMode}"
+                    Grid.Row="3"/>
+
+                <TextBlock 
+                    Text="CloseTabs" 
+                    TextWrapping="Wrap"
+                    Margin="6,5,5,5"
+                    Grid.Row="4"/>
+                <syncfusion:ComboBoxAdv 
+                    x:Name="ComboBoxAdv2"
+                    Margin="6,5,7,5"
+                    Height="24"
+                    SelectedItem="{Binding CloseTabs}"
+                    ItemsSource="{democommon:EnumValues Type=syncfusion:CloseTabsMode}"
+                    Grid.Row="5"/>
+            </Grid>
+        </ScrollViewer>
+    </democommon:DemoControl.Options>
+
+    <Grid Name="mygrid">
+        <syncfusion:DockingManager 
+            x:Name="dockingManager"
+            AutoHideTabsMode="{Binding AutoHideTabsMode}"
+            CloseTabs="{Binding CloseTabs}"
+            EnableMouseHoverBackground="False"
+            DockTabAlignment="{Binding DockTabAlignment}" 
+            IsEnableHotTracking="False"
+            IsVS2010DraggingEnabled="True"
+            PersistState="false"
+            ShowShadowOnSidePanel="False"     
+            DockFill="True"
+            UseDocumentContainer="False"
+            Margin="4,4,-4,0">
+            <syncfusion:DockingManager.Icon>
+                <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/icon.png" />
+            </syncfusion:DockingManager.Icon>
+
+            <!--  Tabbed Window area  -->
+            <!--  Dock window For the FindResult  -->
+            <ContentControl
+                Name="autos"
+                syncfusion:DockingManager.DesiredHeightInDockedMode="250"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="350"
+                syncfusion:DockingManager.DesiredWidthInFloatingMode="350"
+                syncfusion:DockingManager.SideInDockedMode="Bottom"
+                syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                syncfusion:DockingManager.Header="Autos">
+                <!--  Customized Header Template  -->
+                <syncfusion:DockingManager.Icon>
+                    <ImageBrush ImageSource="/syncfusion.dockingmanagerdemos.wpf;component/Assets/DockingManager/MDI/Sample.gif" />
+                </syncfusion:DockingManager.Icon>
+            </ContentControl>
+
+            <!--  Dock Window For watch  -->
+            <ContentControl
+                Name="locals"
+                syncfusion:DockingManager.CanDrag="True"
+                syncfusion:DockingManager.Header="Locals"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="autos"/>
+
+            <!--  Dock Window For watch  -->
+            <ContentControl
+                Name="watch"
+                syncfusion:DockingManager.CanDrag="True"
+                syncfusion:DockingManager.Header="Watch 1"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="autos"/>
+
+            <!--Dock window For the CallStack-->
+            <ContentControl
+                Name="CallStack"
+                syncfusion:DockingManager.DesiredHeightInDockedMode="250"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="350"
+                syncfusion:DockingManager.DesiredWidthInFloatingMode="350"
+                syncfusion:DockingManager.Header="Call Stack"
+                syncfusion:DockingManager.TargetNameInDockedMode="autos"
+                syncfusion:DockingManager.SideInDockedMode="Right"/>
+
+            <ContentControl
+                Name="Output"
+                syncfusion:DockingManager.CanDrag="True"
+                syncfusion:DockingManager.Header="Output"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="CallStack"/>
+
+            <!--  Dock Window For Solution Explorer  -->
+            <ContentControl
+                Name="solutionExp"                    
+                syncfusion:DockingManager.ShowAutoHiddenMenuItem="False"                   
+                syncfusion:DockingManager.DesiredWidthInDockedMode="250"
+                syncfusion:DockingManager.Header="Solution Explorer"
+                syncfusion:DockingManager.SideInDockedMode="Right"/>          
+
+            <!--  Dock Window For Solution Explorer  -->
+            <ContentControl
+                Name="properties"                    
+                syncfusion:DockingManager.ShowAutoHiddenMenuItem="False"                   
+                syncfusion:DockingManager.DesiredWidthInDockedMode="250"
+                syncfusion:DockingManager.Header="properties"
+                syncfusion:DockingManager.TargetNameInDockedMode="solutionExp"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"/>
+
+            <!--  Dock Window for Toolbox  -->
+            <ContentControl
+                Name="toolBox"
+                syncfusion:DockingManager.CanDragAutoHidden="False"
+                syncfusion:DockingManager.DesiredHeightInDockedMode="200"
+                syncfusion:DockingManager.DesiredWidthInDockedMode="250"
+                syncfusion:DockingManager.Header="ToolBox"
+                syncfusion:DockingManager.SideInDockedMode="Left"             
+                syncfusion:DocumentContainer.MDIBounds="30,30,300,300"
+                syncfusion:DockingManager.State="Dock"/>
+
+            <!--  Dock Window For watch  -->
+            <ContentControl
+                Name="wPF"
+                syncfusion:DockingManager.CanDrag="True"
+                syncfusion:DockingManager.Header="WPF"
+                syncfusion:DockingManager.SideInDockedMode="Tabbed"
+                syncfusion:DockingManager.TargetNameInDockedMode="toolBox"/>
+
+            <!--  Document Window -->
+            <ContentControl
+                Name="mainWidow"                        
+                syncfusion:DockingManager.DesiredWidthInDockedMode="250"
+                syncfusion:DockingManager.Header="MainWindow.xaml.cs"
+                />
+        </syncfusion:DockingManager>
+    </Grid>
+</democommon:DemoControl>
