@@ -14,7 +14,7 @@ This section guides you to use the Syncfusion WPF samples in your applications.
 ## <a name="requirements-to-run-the-demo"></a>Requirements to run the demo ##
 
 The demos are provided for .NET Framework 4.6.2, .NET Framework 4.7, .NET 8.0, .NET 9.0, and .NET 10.0. 
-* .NET Framework - Requires Visual Studio 2022 or higher to run demos.
+* .NET Framework - Requires Visual Studio (2022/2026).
 * Refer [.NET](https://dotnet.microsoft.com/download/dotnet) requirements for running .NET demos.
 
 ## <a name="how-to-run-the-demos"></a>How to run the demos ##
@@ -329,43 +329,9 @@ To run the Individual Control Demos,
         </td>
         <td></td>
     </tr>
-     <tr>
-        <td colspan="3">
-            <b>FILE FORMAT</b>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="pdf">PDF</a>
-        </td>
-        <td>
-            <a href="xlsio">Excel Library (XlsIO)</a>
-        </td>
-        <td>
-            <a href="docio">Word Library (DocIO)</a>
-        </td>
-    </tr>
-     <tr>
-        <td>
-            <a href="presentation">Presentation</a>
-        </td>
-        <td><a href="markdown">Markdown</a></td>
-        <td></td>
-    </tr>
     <tr>
         <td colspan="3">
             <b>FILE VIEWERS AND EDITORS</b>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <a href="pdfviewer">PDF Viewer</a>
-        </td>
-        <td>
-            <a href="spreadsheet">Spreadsheet</a>
-        </td>
-        <td>
-            <a href="richtextbox">RichTextBox</a>
         </td>
     </tr>
      <tr>
